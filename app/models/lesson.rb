@@ -6,6 +6,7 @@ class Lesson < ApplicationRecord
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: Path::SLUG_FORMAT }
   validates :position, numericality: { greater_than_or_equal_to: 0 }
+  validates :kind, inclusion: { in: %w[lesson practice] }
 
   scope :ordered, -> { order(:position) }
 

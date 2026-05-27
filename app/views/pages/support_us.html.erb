@@ -1,6 +1,6 @@
 <% meta_title(t("support.title")) %>
 <% meta_description(t("support.intro").truncate(160)) %>
-<% canonical_url("https://industrialprofi.com/support_us") %>
+<% canonical_url("#{site_config.url}/support_us") %>
 
 <div id="support-us">
   <%# ── Hero ── %>
@@ -13,7 +13,7 @@
         </p>
 
         <div class="mt-8">
-          <a href="https://pay.cloudtips.ru/p/61fe8ef3" class="btn-primary text-base px-10 py-3.5" target="_blank" rel="noopener">
+          <a href="<%= site_config.donate_url %>" class="btn-primary text-base px-10 py-3.5" target="_blank" rel="noopener">
             <%= t("support.donate_cta") %>
           </a>
         </div>
@@ -61,13 +61,13 @@
           <div>
             <h3 class="text-lg font-semibold text-white"><%= t("support.q_contact") %></h3>
             <p class="mt-3 text-gray-400 leading-relaxed">
-              <%= t("support.a_contact_html") %>
+              <%= t("support.a_contact_html", telegram_url: site_config.telegram_url, contact_email: site_config.contact_email) %>
             </p>
           </div>
         </div>
 
         <div class="mt-14 text-center">
-          <a href="https://pay.cloudtips.ru/p/61fe8ef3" class="btn-primary text-base px-10 py-3.5" target="_blank" rel="noopener">
+          <a href="<%= site_config.donate_url %>" class="btn-primary text-base px-10 py-3.5" target="_blank" rel="noopener">
             <%= t("support.donate_cta") %>
           </a>
         </div>

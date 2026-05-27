@@ -1,14 +1,14 @@
 <% meta_title(@lesson.title) %>
 <% meta_description(@lesson.description.to_s.truncate(160)) %>
-<% canonical_url("https://industrialprofi.com/lessons/#{@lesson.slug}") %>
+<% canonical_url("#{site_config.url}/lessons/#{@lesson.slug}") %>
 
 <% content_for(:head) do %>
   <%= json_ld_tag(learning_resource_json_ld(@lesson)) %>
   <%= json_ld_tag(breadcrumb_json_ld([
-    { title: t("breadcrumbs.home"), url: "https://industrialprofi.com/" },
-    { title: t("paths.title"), url: "https://industrialprofi.com/paths" },
-    { title: @path.title, url: "https://industrialprofi.com/paths/#{@path.slug}" },
-    { title: @lesson.title, url: "https://industrialprofi.com/lessons/#{@lesson.slug}" }
+    { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
+    { title: t("paths.title"), url: "#{site_config.url}/paths" },
+    { title: @path.title, url: "#{site_config.url}/paths/#{@path.slug}" },
+    { title: @lesson.title, url: "#{site_config.url}/lessons/#{@lesson.slug}" }
   ])) %>
 <% end %>
 
@@ -125,7 +125,7 @@
     <p class="mt-4 body-text max-w-lg mx-auto"><%= t("landing.support_subtitle") %></p>
     <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
       <a href="<%= support_us_path %>" class="btn-outline"><%= t("landing.contact_us_short") %></a>
-      <a href="https://pay.cloudtips.ru/p/61fe8ef3" class="btn-primary" target="_blank" rel="noopener"><%= t("landing.donate") %></a>
+      <a href="<%= site_config.donate_url %>" class="btn-primary" target="_blank" rel="noopener"><%= t("landing.donate") %></a>
     </div>
   </div>
 </section>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_27_200002) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_27_205221) do
   create_table "lesson_suggestions", force: :cascade do |t|
     t.string "author_contact"
     t.string "author_name", null: false
@@ -29,6 +29,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_200002) do
     t.text "body"
     t.datetime "created_at", null: false
     t.text "description"
+    t.string "kind", default: "lesson", null: false
     t.integer "path_id", null: false
     t.integer "position", default: 0, null: false
     t.string "slug", null: false

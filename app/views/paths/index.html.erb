@@ -1,6 +1,6 @@
 <% meta_title(t("paths.title")) %>
 <% meta_description(t("paths.subtitle")) %>
-<% canonical_url("https://industrialprofi.com/paths") %>
+<% canonical_url("#{site_config.url}/paths") %>
 
 <section class="section-padded">
   <div class="page-container">
@@ -20,11 +20,8 @@
             <%= path.title %>
           </h2>
           <p class="mt-2 text-sm body-text line-clamp-3"><%= path.description %></p>
-          <div class="mt-4 flex items-center gap-4 text-xs text-gray-500">
+          <div class="mt-4 text-xs text-gray-500">
             <span><%= russian_pluralize(path.lessons_count, :lesson) %></span>
-            <% if path.author_id.nil? %>
-              <span class="badge-gold"><%= t("paths.official_badge") %></span>
-            <% end %>
           </div>
         </a>
       <% end %>

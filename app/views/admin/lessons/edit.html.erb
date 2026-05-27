@@ -15,19 +15,7 @@
       <a href="<%= lesson_path(@lesson) %>" class="nav-link text-xs" target="_blank"><%= t("admin.view_live") %> ↗</a>
     </div>
 
-    <% if @lesson.errors.any? %>
-      <div class="mb-4 p-3 rounded-lg bg-red-900/30 border border-red-500/30 text-sm text-red-400">
-        <% @lesson.errors.full_messages.each do |msg| %>
-          <p><%= msg %></p>
-        <% end %>
-      </div>
-    <% end %>
-
-    <% if flash[:notice] %>
-      <div class="mb-4 p-3 rounded-lg bg-teal-900/30 border border-teal-500/30 text-sm text-teal-400">
-        <%= flash[:notice] %>
-      </div>
-    <% end %>
+    <%= render "admin/shared/form_errors", object: @lesson %>
 
     <%= form_with(model: [:admin, @lesson], url: admin_lesson_path(@lesson), method: :patch,
                   data: { controller: "admin-preview", admin_preview_url_value: admin_preview_path }) do |f| %>
@@ -36,6 +24,13 @@
       <div class="mb-4">
         <label class="block text-sm font-medium text-gray-400 mb-1"><%= t("admin.field_title") %></label>
         <%= f.text_field :title, class: "w-full bg-navy-lighter border border-gray-700/50 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-teal-500/50 transition" %>
+      </div>
+
+      <%# Kind %>
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-400 mb-1"><%= t("admin.field_kind") %></label>
+        <%= f.select :kind, [[t("admin.kind_lesson"), "lesson"], [t("admin.kind_practice"), "practice"]],
+            {}, class: "bg-navy-lighter border border-gray-700/50 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-teal-500/50 transition" %>
       </div>
 
       <%# Description %>

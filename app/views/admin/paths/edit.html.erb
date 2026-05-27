@@ -14,19 +14,7 @@
       <a href="<%= path_path(@path) %>" class="nav-link text-xs" target="_blank"><%= t("admin.view_live") %> ↗</a>
     </div>
 
-    <% if @path.errors.any? %>
-      <div class="mb-4 p-3 rounded-lg bg-red-900/30 border border-red-500/30 text-sm text-red-400">
-        <% @path.errors.full_messages.each do |msg| %>
-          <p><%= msg %></p>
-        <% end %>
-      </div>
-    <% end %>
-
-    <% if flash[:notice] %>
-      <div class="mb-4 p-3 rounded-lg bg-teal-900/30 border border-teal-500/30 text-sm text-teal-400">
-        <%= flash[:notice] %>
-      </div>
-    <% end %>
+    <%= render "admin/shared/form_errors", object: @path %>
 
     <%= form_with(model: [:admin, @path], url: admin_path_path(@path), method: :patch) do |f| %>
       <div class="mb-4">

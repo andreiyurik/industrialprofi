@@ -13,9 +13,13 @@ module ApplicationHelper
     %(<svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">#{svg_path}</svg>).html_safe
   end
 
+  MARKDOWN_TAGS = %w[h1 h2 h3 h4 h5 h6 p ul ol li a strong em code pre blockquote table thead tbody tr th td hr br img].freeze
+  MARKDOWN_ATTRS = %w[href src alt target rel].freeze
+
   def markdown(text)
     return "" if text.blank?
-    Kramdown::Document.new(text, input: "GFM").to_html.html_safe
+    html = Kramdown::Document.new(text, input: "GFM").to_html
+    sanitize(html, tags: MARKDOWN_TAGS, attributes: MARKDOWN_ATTRS)
   end
 
   def russian_pluralize(count, key)

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   root "pages#home"
   get "support_us" => "pages#support_us"
+  get "robots.txt" => "sitemaps#robots", defaults: { format: :text }
   get "sitemap.xml" => "sitemaps#show", defaults: { format: :xml }
 
   resources :paths, only: [ :index, :show ], param: :slug

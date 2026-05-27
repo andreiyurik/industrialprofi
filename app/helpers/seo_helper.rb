@@ -1,6 +1,5 @@
 module SeoHelper
   SITE_NAME = "IndustrialProfi"
-  SITE_URL = "https://industrialprofi.com"
 
   def learning_resource_json_ld(lesson)
     data = {
@@ -11,7 +10,7 @@ module SeoHelper
       provider: { "@type": "Organization", name: SITE_NAME },
       inLanguage: "ru",
       isPartOf: { "@type": "Course", name: lesson.path.title },
-      url: "#{SITE_URL}/lessons/#{lesson.slug}"
+      url: "#{site_url}/lessons/#{lesson.slug}"
     }
     data.to_json
   end
@@ -26,7 +25,7 @@ module SeoHelper
       numberOfLessons: path.lessons_count,
       inLanguage: "ru",
       isAccessibleForFree: true,
-      url: "#{SITE_URL}/paths/#{path.slug}"
+      url: "#{site_url}/paths/#{path.slug}"
     }
     data.to_json
   end
@@ -36,10 +35,16 @@ module SeoHelper
       "@context": "https://schema.org",
       "@type": "WebSite",
       name: SITE_NAME,
-      url: SITE_URL,
+      url: site_url,
       description: I18n.t("site.description")
     }
     data.to_json
+  end
+
+  private
+
+  def site_url
+    Rails.application.config.x.site.url
   end
 
   def breadcrumb_json_ld(crumbs)
@@ -61,6 +66,7 @@ module SeoHelper
   end
 
   def json_ld_tag(json_string)
-    tag.script(json_string.html_safe, type: "application/ld+json")
+    safe = json_string.gsub("</", '<\/')
+    tag.script(safe.html_safe, type: "application/ld+json")
   end
 end

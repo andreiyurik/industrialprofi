@@ -8,8 +8,8 @@ class LessonSuggestionsController < ApplicationController
   end
 
   def create
-    @suggestion = LessonSuggestion.new(suggestion_params)
-    @lesson = @suggestion.lesson
+    @lesson = Lesson.find(params[:lesson_suggestion][:lesson_id])
+    @suggestion = @lesson.lesson_suggestions.new(suggestion_params)
 
     if @suggestion.save
       redirect_to lesson_path(@lesson), notice: I18n.t("flash.suggestion_submitted")
@@ -22,6 +22,6 @@ class LessonSuggestionsController < ApplicationController
   private
 
   def suggestion_params
-    params.require(:lesson_suggestion).permit(:lesson_id, :section, :body_markdown, :author_name, :author_contact)
+    params.require(:lesson_suggestion).permit(:section, :body_markdown, :author_name, :author_contact)
   end
 end

@@ -1,4 +1,4 @@
-<% canonical_url("https://industrialprofi.com/") %>
+<% canonical_url("#{site_config.url}/") %>
 
 <% content_for(:head) do %>
   <%= json_ld_tag(website_json_ld) %>
@@ -123,7 +123,7 @@
     </div>
 
     <div class="mt-10 text-center">
-      <a href="https://t.me/industrialprofi" class="text-sm text-gold-500 hover:text-gold-400 transition" target="_blank" rel="noopener">
+      <a href="<%= site_config.telegram_url %>" class="text-sm text-gold-500 hover:text-gold-400 transition" target="_blank" rel="noopener">
         <%= t("landing.tell_story") %>
       </a>
     </div>
@@ -136,8 +136,8 @@
     <h2 class="section-title"><%= t("landing.support_title") %></h2>
     <p class="mt-4 body-text max-w-lg mx-auto"><%= t("landing.support_subtitle") %></p>
     <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
-      <a href="https://t.me/industrialprofi" class="btn-outline" target="_blank" rel="noopener"><%= t("landing.contact_us") %></a>
-      <a href="https://pay.cloudtips.ru/p/61fe8ef3" class="btn-gold" target="_blank" rel="noopener"><%= t("landing.donate") %></a>
+      <a href="<%= site_config.telegram_url %>" class="btn-outline" target="_blank" rel="noopener"><%= t("landing.contact_us") %></a>
+      <a href="<%= site_config.donate_url %>" class="btn-gold" target="_blank" rel="noopener"><%= t("landing.donate") %></a>
     </div>
   </div>
 </section>
