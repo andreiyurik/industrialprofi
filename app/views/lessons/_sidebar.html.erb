@@ -1,0 +1,38 @@
+<aside class="lesson-sidebar">
+  <div class="sticky top-0 h-screen overflow-y-auto py-6 px-4">
+    <a href="<%= path_path(@path) %>" class="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+      </svg>
+      <%= @path.title %>
+    </a>
+
+    <p class="mt-4 text-xs text-gray-500"><%= russian_pluralize(@path.lessons_count, :lesson) %></p>
+
+    <nav class="mt-4 space-y-3" aria-label="<%= t('lessons.sidebar_title') %>">
+      <% @lessons_by_stage.each do |stage, lessons| %>
+        <details open class="group">
+          <% if stage.present? %>
+            <summary class="flex items-center justify-between cursor-pointer select-none py-1.5">
+              <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider"><%= stage %></span>
+              <svg class="w-4 h-4 text-gray-600 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+              </svg>
+            </summary>
+          <% end %>
+          <ul class="mt-1 space-y-0.5">
+            <% lessons.each do |lesson| %>
+              <li>
+                <a href="<%= lesson_path(lesson) %>"
+                   class="sidebar-lesson-link <%= 'sidebar-lesson-active' if lesson.id == @lesson.id %>"
+                   <%= raw('aria-current="page"') if lesson.id == @lesson.id %>>
+                  <span class="truncate"><%= lesson.title %></span>
+                </a>
+              </li>
+            <% end %>
+          </ul>
+        </details>
+      <% end %>
+    </nav>
+  </div>
+</aside>

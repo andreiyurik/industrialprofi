@@ -1,0 +1,119 @@
+<% content_for(:title) { "#{@lesson.title} — #{t('site.name')}" } %>
+
+<div class="flex min-h-[calc(100vh-4rem)]">
+  <%# ── Left sidebar: curriculum navigation ── %>
+  <%= render "lessons/sidebar" %>
+
+  <%# ── Center + Right ── %>
+  <div class="flex-1 min-w-0 xl:flex xl:gap-x-10">
+
+    <%# ── Main content ── %>
+    <main class="flex-1 min-w-0 py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
+      <div class="lesson-content-width">
+        <header class="mb-8">
+          <h1 class="text-2xl sm:text-3xl font-bold text-white leading-tight"><%= @lesson.title %></h1>
+        </header>
+
+        <article>
+          <%# 1. WHY %>
+          <% if @lesson.description.present? %>
+            <section id="why" class="lesson-intro scroll-mt-6">
+              <p class="text-sm font-medium text-teal-400 mb-1"><%= t("lessons.why_section") %></p>
+              <p class="text-gray-300 leading-relaxed"><%= @lesson.description %></p>
+            </section>
+          <% end %>
+
+          <%# 2. BODY %>
+          <% if @lesson.body.present? %>
+            <section id="study" class="mt-10 scroll-mt-6">
+              <h2 class="lesson-heading"><%= t("lessons.study_section") %></h2>
+              <div class="lesson-body"><%= @lesson.body %></div>
+            </section>
+          <% end %>
+
+          <%# 3. RESOURCES %>
+          <% if @lesson.resources.any? %>
+            <section id="resources" class="mt-10 scroll-mt-6">
+              <h2 class="lesson-heading"><%= t("lessons.resources_section") %></h2>
+              <ul class="mt-4 space-y-3">
+                <% @lesson.resources.required.each do |resource| %>
+                  <li class="flex items-start gap-3">
+                    <span class="text-teal-400 mt-0.5 shrink-0 text-sm">★</span>
+                    <div class="min-w-0">
+                      <a href="<%= resource.url %>" class="text-sm text-gray-200 underline decoration-gray-600 hover:text-white hover:decoration-white transition" target="_blank" rel="noopener">
+                        <%= resource.title %>
+                      </a>
+                      <% if resource.country_code.present? %>
+                        <span class="ml-2 text-xs text-gray-500"><%= resource.country_code %></span>
+                      <% end %>
+                    </div>
+                  </li>
+                <% end %>
+                <% @lesson.resources.optional.each do |resource| %>
+                  <li class="flex items-start gap-3">
+                    <span class="text-gray-500 mt-0.5 shrink-0 text-sm">○</span>
+                    <div class="min-w-0">
+                      <a href="<%= resource.url %>" class="text-sm text-gray-400 underline decoration-gray-700 hover:text-gray-200 hover:decoration-gray-400 transition" target="_blank" rel="noopener">
+                        <%= resource.title %>
+                      </a>
+                      <% if resource.country_code.present? %>
+                        <span class="ml-2 text-xs text-gray-500"><%= resource.country_code %></span>
+                      <% end %>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </section>
+          <% end %>
+
+          <%# 4. TASK %>
+          <% if @lesson.task.present? %>
+            <section id="task" class="mt-10 scroll-mt-6">
+              <h2 class="lesson-heading"><%= t("lessons.task_section") %></h2>
+              <div class="lesson-task">
+                <div class="lesson-body"><%= @lesson.task %></div>
+              </div>
+            </section>
+          <% end %>
+
+          <%# 5. Footer links + Navigation (Odin-style) %>
+          <%= render "lessons/lesson_nav" %>
+        </article>
+      </div>
+    </main>
+
+    <%# ── Right aside: Table of Contents ── %>
+    <aside class="hidden xl:block xl:w-56 xl:shrink-0">
+      <div class="sticky top-0 pt-10 sm:pt-14 pb-20 pr-4">
+        <h4 class="text-sm font-medium text-gray-400 pb-3"><%= t("lessons.toc_title") %></h4>
+        <nav class="flex flex-col gap-1" data-controller="toc">
+          <% if @lesson.description.present? %>
+            <a href="#why" class="toc-link" data-toc-target="link"><%= t("lessons.why_section") %></a>
+          <% end %>
+          <% if @lesson.body.present? %>
+            <a href="#study" class="toc-link" data-toc-target="link"><%= t("lessons.study_section") %></a>
+          <% end %>
+          <% if @lesson.resources.any? %>
+            <a href="#resources" class="toc-link" data-toc-target="link"><%= t("lessons.resources_section") %></a>
+          <% end %>
+          <% if @lesson.task.present? %>
+            <a href="#task" class="toc-link" data-toc-target="link"><%= t("lessons.task_section") %></a>
+          <% end %>
+        </nav>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<%# ── Support section (full-width, below lesson) ── %>
+<section class="border-t border-gray-700/50 bg-navy-light">
+  <div class="page-container py-16 text-center">
+    <h2 class="text-2xl sm:text-3xl font-bold text-white"><%= t("landing.support_title") %></h2>
+    <p class="mt-4 body-text max-w-lg mx-auto"><%= t("landing.support_subtitle") %></p>
+    <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
+      <a href="<%= support_us_path %>" class="btn-outline"><%= t("landing.contact_us_short") %></a>
+      <a href="https://pay.cloudtips.ru/p/61fe8ef3" class="btn-primary" target="_blank" rel="noopener"><%= t("landing.donate") %></a>
+    </div>
+  </div>
+</section>

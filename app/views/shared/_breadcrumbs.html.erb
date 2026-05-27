@@ -1,0 +1,11 @@
+<nav class="breadcrumb" aria-label="<%= t('breadcrumbs.home') %>">
+  <a href="<%= root_path %>" class="breadcrumb-link"><%= t("breadcrumbs.home") %></a>
+  <% crumbs.each do |crumb| %>
+    <span class="breadcrumb-separator">/</span>
+    <% if crumb[:path] %>
+      <a href="<%= crumb[:path] %>" class="breadcrumb-link"><%= crumb[:title] %></a>
+    <% else %>
+      <span class="breadcrumb-current"><%= crumb[:title] %></span>
+    <% end %>
+  <% end %>
+</nav>

@@ -1,0 +1,31 @@
+<% content_for(:title) { t("paths.page_title") } %>
+
+<section class="section-padded">
+  <div class="page-container">
+    <%= render "shared/breadcrumbs", crumbs: [
+      { title: t("paths.title") }
+    ] %>
+
+    <div class="mt-8 text-center">
+      <h1 class="section-title"><%= t("paths.title") %></h1>
+      <p class="mt-4 body-text max-w-2xl mx-auto"><%= t("paths.subtitle") %></p>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <% @paths.each do |path| %>
+        <a href="<%= path_path(path) %>" class="card-dark-hover block group">
+          <h2 class="text-lg font-semibold text-white group-hover:text-gold-400 transition">
+            <%= path.title %>
+          </h2>
+          <p class="mt-2 text-sm body-text line-clamp-3"><%= path.description %></p>
+          <div class="mt-4 flex items-center gap-4 text-xs text-gray-500">
+            <span><%= russian_pluralize(path.lessons_count, :lesson) %></span>
+            <% if path.author_id.nil? %>
+              <span class="badge-gold"><%= t("paths.official_badge") %></span>
+            <% end %>
+          </div>
+        </a>
+      <% end %>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+pteep:
+  path: electrician
+  title: "ПТЭЭП: основы эксплуатации"
+  slug: pteep-osnovy
+  stage: Электробезопасность и допуски
+  description: Основной документ по эксплуатации
+  body: Содержание урока по ПТЭЭП
+  task: Прочитайте главы 1.1–1.4
+  position: 1
+
+gruppy_dopuska:
+  path: electrician
+  title: Группы допуска (II–V)
+  slug: gruppy-dopuska
+  stage: Электробезопасность и допуски
+  description: Система групп допуска
+  body: Содержание урока по группам допуска
+  task: Определите свою группу допуска
+  position: 2
+
+zazemlenie:
+  path: electrician
+  title: "ПУЭ глава 1.7: Заземление"
+  slug: pue-zazemlenie
+  stage: Правила устройства электроустановок
+  description: Системы заземления
+  body: Содержание урока по заземлению
+  task: Нарисуйте схему TN-S
+  position: 3

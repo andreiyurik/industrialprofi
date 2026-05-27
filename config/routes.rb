@@ -10,4 +10,8 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   root "pages#home"
+  get "support_us" => "pages#support_us"
+
+  resources :paths, only: [ :index, :show ], param: :slug
+  resources :lessons, only: [ :show ], param: :slug
 end

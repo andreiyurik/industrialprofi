@@ -64,7 +64,7 @@
   @apply card-dark hover:border-gold-500/40 transition;
 }
 
-/* ── Topic card (icon + title, like Odin's "What you'll explore") ── */
+/* ── Topic card ── */
 
 @utility topic-card {
   @apply bg-navy-light rounded-lg p-6 border border-gray-700/50 text-center hover:border-gold-500/40 transition;
@@ -92,10 +92,6 @@
   @apply btn bg-gold-500 text-navy hover:bg-gold-400 font-semibold;
 }
 
-@utility btn-gold-outline {
-  @apply btn border border-gold-500 text-gold-400 hover:bg-gold-500 hover:text-navy;
-}
-
 /* ── Badge ── */
 
 @utility badge-gold {
@@ -108,7 +104,7 @@
   @apply text-sm text-gray-400 hover:text-white transition;
 }
 
-/* ── Step icon (How it works) ── */
+/* ── Step icon ── */
 
 @utility step-icon {
   @apply w-20 h-20 mx-auto mb-4 flex items-center justify-center text-gold-400;
@@ -124,6 +120,104 @@
 
 @utility support-section {
   @apply bg-navy-light border-y border-gray-700/50;
+}
+
+/* ── Breadcrumb ── */
+
+@utility breadcrumb {
+  @apply flex items-center gap-2 text-sm text-gray-400;
+}
+
+@utility breadcrumb-link {
+  @apply hover:text-white transition;
+}
+
+@utility breadcrumb-separator {
+  @apply text-gray-600 select-none;
+}
+
+@utility breadcrumb-current {
+  @apply text-gray-300;
+}
+
+/* ── Content layout ── */
+
+@utility content-container {
+  @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* ── Lesson page (Odin-style two-column) ── */
+
+@utility lesson-sidebar {
+  @apply hidden xl:block xl:w-72 xl:shrink-0 bg-navy-light border-r border-gray-700/50;
+}
+
+@utility sidebar-lesson-link {
+  @apply block px-3 py-1.5 text-sm rounded-md text-gray-400 hover:text-white hover:bg-navy-lighter/50 transition truncate;
+}
+
+@utility sidebar-lesson-active {
+  @apply bg-navy-lighter text-white font-medium;
+}
+
+@utility lesson-content-width {
+  @apply max-w-[65ch] mx-auto xl:mx-0;
+}
+
+@utility lesson-intro {
+  @apply pl-4 border-l-2 border-teal-500/40 mb-8;
+}
+
+@utility lesson-heading {
+  @apply text-lg font-semibold text-white mb-4;
+}
+
+@utility lesson-body {
+  @apply text-gray-300 text-sm leading-relaxed whitespace-pre-line;
+}
+
+@utility lesson-task {
+  @apply mt-4 pl-4 border-l-2 border-gold-500/40;
+}
+
+@utility lesson-nav-pill {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-600 text-sm text-gray-300 hover:border-white hover:text-white transition;
+}
+
+@utility lesson-nav-cta {
+  @apply inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-teal-700 text-white text-sm font-medium hover:bg-teal-600 transition;
+}
+
+@utility lesson-footer-link {
+  @apply inline-flex items-center gap-1.5 text-sm text-gray-500 underline decoration-gray-700 hover:text-gray-300 hover:decoration-gray-500 transition;
+}
+
+/* ── Table of Contents (right aside) ── */
+
+@utility toc-link {
+  @apply text-sm text-gray-500 hover:text-gray-300 transition py-1 pl-3 border-l-2 border-transparent no-underline;
+}
+
+@utility toc-link-active {
+  @apply text-white border-teal-500;
+}
+
+/* ── Curriculum list (path show) ── */
+
+@utility curriculum-section {
+  @apply border border-gray-700/50 rounded-lg overflow-hidden;
+}
+
+@utility curriculum-header {
+  @apply bg-navy-lighter px-6 py-4 flex items-center justify-between cursor-pointer select-none;
+}
+
+@utility curriculum-item {
+  @apply px-6 py-3 flex items-center gap-3 border-t border-gray-700/30 hover:bg-navy-lighter/50 transition;
+}
+
+@utility curriculum-number {
+  @apply w-7 h-7 rounded-full bg-navy-lighter border border-gray-600 flex items-center justify-center text-xs text-gray-400 shrink-0;
 }
 
 /* ── Footer ── */

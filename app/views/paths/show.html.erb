@@ -1,0 +1,68 @@
+<% content_for(:title) { "#{@path.title} — #{t('site.name')}" } %>
+
+<section class="section-padded">
+  <div class="content-container">
+    <%= render "shared/breadcrumbs", crumbs: [
+      { title: t("paths.title"), path: paths_path },
+      { title: @path.title }
+    ] %>
+
+    <%# ── Header ── %>
+    <div class="mt-8">
+      <h1 class="text-2xl sm:text-3xl font-bold text-white"><%= @path.title %></h1>
+      <p class="mt-3 body-text leading-relaxed"><%= @path.description %></p>
+      <div class="mt-4 flex items-center gap-4">
+        <span class="text-sm text-gray-500"><%= russian_pluralize(@path.lessons_count, :lesson) %></span>
+        <% if @path.author_id.nil? %>
+          <span class="badge-gold"><%= t("paths.official_badge") %></span>
+        <% end %>
+      </div>
+    </div>
+
+    <%# ── Start button ── %>
+    <% if @lessons.any? %>
+      <div class="mt-6">
+        <a href="<%= lesson_path(@lessons.first) %>" class="btn-primary">
+          <%= t("paths.start_learning") %>
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+          </svg>
+        </a>
+      </div>
+    <% end %>
+
+    <%# ── Curriculum ── %>
+    <div class="mt-10 space-y-4">
+      <% lesson_number = 0 %>
+      <% @lessons_by_stage.each do |stage, lessons| %>
+        <details open class="curriculum-section group">
+          <% if stage.present? %>
+            <summary class="curriculum-header">
+              <div class="flex items-center gap-3">
+                <h2 class="text-base font-semibold text-white"><%= stage %></h2>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-xs text-gray-400"><%= russian_pluralize(lessons.size, :lesson) %></span>
+                <svg class="w-4 h-4 text-gray-500 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+                </svg>
+              </div>
+            </summary>
+          <% end %>
+          <% lessons.each do |lesson| %>
+            <% lesson_number += 1 %>
+            <a href="<%= lesson_path(lesson) %>" class="curriculum-item group/item">
+              <span class="curriculum-number"><%= lesson_number %></span>
+              <div class="min-w-0">
+                <span class="text-sm text-gray-300 group-hover/item:text-white transition"><%= lesson.title %></span>
+                <% if lesson.description.present? %>
+                  <p class="text-xs text-gray-500 truncate mt-0.5"><%= lesson.description %></p>
+                <% end %>
+              </div>
+            </a>
+          <% end %>
+        </details>
+      <% end %>
+    </div>
+  </div>
+</section>

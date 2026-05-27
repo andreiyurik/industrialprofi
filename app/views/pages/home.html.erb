@@ -1,177 +1,137 @@
-<%# ═══════════════════════════════════════════
-    1. HERO — Odin style: title, subtitle, CTA, illustration
-    ═══════════════════════════════════════════ %>
+<%# ── 1. HERO ── %>
 <section class="section-padded">
   <div class="page-container text-center">
-    <h1 class="page-title">
-      Твоя карьера в
-      <span class="text-gold-400">промышленности</span><br>
-      начинается здесь
-    </h1>
-    <p class="mt-6 text-lg body-text max-w-xl mx-auto">
-      Бесплатная программа обучения с официальными стандартами,
-      практическими заданиями и поддержкой сообщества.
-    </p>
+    <h1 class="page-title"><%= t("landing.hero_title_html") %></h1>
+    <p class="mt-6 text-lg body-text max-w-xl mx-auto"><%= t("landing.hero_subtitle") %></p>
     <div class="mt-8">
-      <a href="#professions" class="btn-outline">Смотреть профессии</a>
+      <a href="<%= paths_path %>" class="btn-outline"><%= t("landing.browse_professions") %></a>
     </div>
   </div>
 
-  <%# Hero illustration placeholder %>
   <div class="page-container mt-12">
     <div class="rounded-xl bg-navy-light border border-gray-700/50 h-48 sm:h-64 flex items-center justify-center">
       <div class="text-center body-text">
         <svg class="w-16 h-16 mx-auto mb-3 text-gray-600" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
           <path d="M2 12l5-5m0 0l5 5m-5-5v12M22 12l-5 5m0 0l-5-5m5 5V2"/>
         </svg>
-        <p class="text-sm">Иллюстрация — скоро</p>
+        <p class="text-sm"><%= t("landing.illustration_placeholder") %></p>
       </div>
     </div>
   </div>
 </section>
 
-<%# ═══════════════════════════════════════════
-    2. HOW IT WORKS — Odin style: subtitle + 3 icon cards
-    ═══════════════════════════════════════════ %>
+<%# ── 2. HOW IT WORKS ── %>
 <section id="how-it-works" class="section-padded section-divided">
   <div class="page-container">
-    <h2 class="section-title">Как это работает</h2>
-    <p class="mt-4 body-text text-center max-w-2xl mx-auto">
-      Мы собрали лучшие официальные стандарты и практические задания
-      для каждой промышленной профессии и выстроили их в логичном порядке.
-    </p>
+    <h2 class="section-title"><%= t("landing.how_it_works") %></h2>
+    <p class="mt-4 body-text text-center max-w-2xl mx-auto"><%= t("landing.how_it_works_subtitle") %></p>
 
     <div class="mt-14 grid gap-8 sm:grid-cols-3">
-      <%# Learn %>
       <div class="text-center">
         <div class="step-icon">
           <svg class="w-16 h-16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/>
           </svg>
         </div>
-        <h3 class="text-lg font-semibold text-white">Изучай</h3>
-        <p class="mt-2 text-sm body-text max-w-xs mx-auto">
-          Читай официальные стандарты и нормативные документы — те самые, которые требуют на объекте.
-        </p>
+        <h3 class="text-lg font-semibold text-white"><%= t("landing.step_learn") %></h3>
+        <p class="mt-2 text-sm body-text max-w-xs mx-auto"><%= t("landing.step_learn_desc") %></p>
       </div>
 
-      <%# Build %>
       <div class="text-center">
         <div class="step-icon">
           <svg class="w-16 h-16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437"/>
           </svg>
         </div>
-        <h3 class="text-lg font-semibold text-white">Практикуйся</h3>
-        <p class="mt-2 text-sm body-text max-w-xs mx-auto">
-          Выполняй практические задания каждый день — от простых к сложным. Мастерство приходит через повторение.
-        </p>
+        <h3 class="text-lg font-semibold text-white"><%= t("landing.step_practice") %></h3>
+        <p class="mt-2 text-sm body-text max-w-xs mx-auto"><%= t("landing.step_practice_desc") %></p>
       </div>
 
-      <%# Connect %>
       <div class="text-center">
         <div class="step-icon">
           <svg class="w-16 h-16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>
           </svg>
         </div>
-        <h3 class="text-lg font-semibold text-white">Расти</h3>
-        <p class="mt-2 text-sm body-text max-w-xs mx-auto">
-          Отслеживай прогресс, получай обратную связь и двигайся от ученика к мастеру.
-        </p>
+        <h3 class="text-lg font-semibold text-white"><%= t("landing.step_grow") %></h3>
+        <p class="mt-2 text-sm body-text max-w-xs mx-auto"><%= t("landing.step_grow_desc") %></p>
       </div>
     </div>
   </div>
 </section>
 
-<%# ═══════════════════════════════════════════
-    3. WHAT YOU'LL EXPLORE — Odin style: topic grid with icons
-    ═══════════════════════════════════════════ %>
+<%# ── 3. WHAT YOU'LL EXPLORE ── %>
 <section id="professions" class="section-padded section-divided">
   <div class="page-container">
-    <h2 class="section-title">Что ты изучишь</h2>
+    <h2 class="section-title"><%= t("landing.explore_title") %></h2>
 
     <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <%= render "pages/topic_card", icon: "bolt",       title: "Электробезопасность",    subtitle: "Группы допуска 2–5" %>
-      <%= render "pages/topic_card", icon: "fire",       title: "Сварочное производство",  subtitle: "НАКС, ASME, CSWIP" %>
-      <%= render "pages/topic_card", icon: "wrench",     title: "Сантехнические системы",  subtitle: "СНиП, СП 30.13330" %>
-      <%= render "pages/topic_card", icon: "cog",        title: "Монтаж оборудования",     subtitle: "Металлоконструкции, трубопроводы" %>
-      <%= render "pages/topic_card", icon: "thermometer",title: "Климатические системы",   subtitle: "HVAC, вентиляция, кондиционирование" %>
-      <%= render "pages/topic_card", icon: "shield",     title: "Охрана труда",            subtitle: "Техника безопасности, СИЗ" %>
+      <%= render "pages/topic_card", icon: "bolt",        title: t("landing.topic_electrical"),   subtitle: t("landing.topic_electrical_sub") %>
+      <%= render "pages/topic_card", icon: "fire",        title: t("landing.topic_welding"),      subtitle: t("landing.topic_welding_sub") %>
+      <%= render "pages/topic_card", icon: "wrench",      title: t("landing.topic_plumbing"),     subtitle: t("landing.topic_plumbing_sub") %>
+      <%= render "pages/topic_card", icon: "cog",         title: t("landing.topic_installation"), subtitle: t("landing.topic_installation_sub") %>
+      <%= render "pages/topic_card", icon: "thermometer", title: t("landing.topic_hvac"),         subtitle: t("landing.topic_hvac_sub") %>
+      <%= render "pages/topic_card", icon: "shield",      title: t("landing.topic_safety"),       subtitle: t("landing.topic_safety_sub") %>
     </div>
 
     <div class="mt-10 text-center">
-      <a href="#" class="btn-outline">Смотреть все профессии</a>
+      <a href="<%= paths_path %>" class="btn-outline"><%= t("landing.browse_all") %></a>
     </div>
   </div>
 </section>
 
-<%# ═══════════════════════════════════════════
-    4. WHY IT MATTERS — (instead of Success Stories for now)
-    ═══════════════════════════════════════════ %>
+<%# ── 4. WHY IT MATTERS ── %>
 <section class="section-padded section-divided">
   <div class="page-container">
-    <h2 class="section-title">Почему именно эти профессии</h2>
+    <h2 class="section-title"><%= t("landing.why_title") %></h2>
 
     <div class="mt-12 grid gap-6 sm:grid-cols-2">
       <div class="flex gap-4">
         <div class="testimonial-avatar">$</div>
         <div>
-          <h4 class="text-sm font-semibold text-gold-400">Высокая зарплата</h4>
-          <p class="mt-1 text-sm body-text">
-            Сертифицированные электрики и сварщики зарабатывают $60–100/час в развитых странах. В СНГ — выше среднего по рынку.
-          </p>
+          <h4 class="text-sm font-semibold text-gold-400"><%= t("landing.why_salary") %></h4>
+          <p class="mt-1 text-sm body-text"><%= t("landing.why_salary_desc") %></p>
         </div>
       </div>
       <div class="flex gap-4">
         <div class="testimonial-avatar">!</div>
         <div>
-          <h4 class="text-sm font-semibold text-gold-400">Глобальный дефицит</h4>
-          <p class="mt-1 text-sm body-text">
-            BlackRock инвестирует $100M в обучение промышленных специалистов. Только в США не хватает 300,000+ электриков.
-          </p>
+          <h4 class="text-sm font-semibold text-gold-400"><%= t("landing.why_deficit") %></h4>
+          <p class="mt-1 text-sm body-text"><%= t("landing.why_deficit_desc") %></p>
         </div>
       </div>
       <div class="flex gap-4">
         <div class="testimonial-avatar">AI</div>
         <div>
-          <h4 class="text-sm font-semibold text-gold-400">Не заменит ИИ</h4>
-          <p class="mt-1 text-sm body-text">
-            Физическое присутствие, лицензия и ручной опыт — то, что нельзя автоматизировать. Спрос растёт, а не падает.
-          </p>
+          <h4 class="text-sm font-semibold text-gold-400"><%= t("landing.why_ai") %></h4>
+          <p class="mt-1 text-sm body-text"><%= t("landing.why_ai_desc") %></p>
         </div>
       </div>
       <div class="flex gap-4">
         <div class="testimonial-avatar">СНГ</div>
         <div>
-          <h4 class="text-sm font-semibold text-gold-400">Возможности в СНГ</h4>
-          <p class="mt-1 text-sm body-text">
-            Миллионы трудовых мигрантов работают без подтверждённой квалификации. Структурированное обучение открывает карьерный рост.
-          </p>
+          <h4 class="text-sm font-semibold text-gold-400"><%= t("landing.why_cis") %></h4>
+          <p class="mt-1 text-sm body-text"><%= t("landing.why_cis_desc") %></p>
         </div>
       </div>
     </div>
 
     <div class="mt-10 text-center">
       <a href="https://t.me/industrialprofi" class="text-sm text-gold-500 hover:text-gold-400 transition" target="_blank" rel="noopener">
-        Расскажи свою историю →
+        <%= t("landing.tell_story") %>
       </a>
     </div>
   </div>
 </section>
 
-<%# ═══════════════════════════════════════════
-    5. SUPPORT US — Odin style: CTA section
-    ═══════════════════════════════════════════ %>
+<%# ── 5. SUPPORT US ── %>
 <section id="support" class="support-section">
   <div class="page-container section-padded text-center">
-    <h2 class="section-title">Поддержите проект!</h2>
-    <p class="mt-4 body-text max-w-lg mx-auto">
-      IndustrialProfi развивается силами сообщества. Помогите нам создать лучший бесплатный ресурс для промышленных специалистов.
-    </p>
+    <h2 class="section-title"><%= t("landing.support_title") %></h2>
+    <p class="mt-4 body-text max-w-lg mx-auto"><%= t("landing.support_subtitle") %></p>
     <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
-      <a href="https://t.me/industrialprofi" class="btn-outline" target="_blank" rel="noopener">Написать нам</a>
-      <a href="#" class="btn-gold">Поддержать →</a>
+      <a href="https://t.me/industrialprofi" class="btn-outline" target="_blank" rel="noopener"><%= t("landing.contact_us") %></a>
+      <a href="https://pay.cloudtips.ru/p/61fe8ef3" class="btn-gold" target="_blank" rel="noopener"><%= t("landing.donate") %></a>
     </div>
   </div>
 </section>

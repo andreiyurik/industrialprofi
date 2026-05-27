@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="<%= I18n.locale %>" class="scroll-smooth">
   <head>
-    <title><%= content_for(:title) || "IndustrialProfi — Мастерство не автоматизируется" %></title>
+    <title><%= content_for(:title) || "#{t('site.name')} — #{t('site.tagline')}" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="Бесплатные карты развития для промышленных специалистов. Официальные стандарты, практические задания, ежедневный прогресс.">
-    <meta name="application-name" content="IndustrialProfi">
+    <meta name="description" content="<%= t('site.description') %>">
+    <meta name="application-name" content="<%= t('site.name') %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
@@ -22,18 +22,18 @@
   </head>
 
   <body class="bg-navy text-gray-300 min-h-screen flex flex-col antialiased">
-    <%# ── Nav (Odin style: logo left, links center, CTA right) ── %>
+    <%# ── Nav ── %>
     <header class="border-b border-gray-700/50">
       <nav class="page-container flex items-center justify-between h-16">
-        <a href="/" class="text-lg font-bold text-white tracking-tight">
+        <a href="<%= root_path %>" class="text-lg font-bold text-white tracking-tight">
           Industrial<span class="text-gold-500">Profi</span>
         </a>
         <div class="hidden sm:flex items-center gap-6">
-          <a href="#professions" class="nav-link">Профессии</a>
-          <a href="#how-it-works" class="nav-link">О проекте</a>
-          <a href="#support" class="nav-link">Поддержать</a>
+          <a href="<%= paths_path %>" class="nav-link"><%= t("nav.professions") %></a>
+          <a href="<%= root_path %>#how-it-works" class="nav-link"><%= t("nav.about") %></a>
+          <a href="<%= support_us_path %>" class="nav-link"><%= t("nav.support") %></a>
         </div>
-        <a href="#professions" class="btn-primary text-xs sm:text-sm px-4 py-2">Начать</a>
+        <a href="<%= paths_path %>" class="btn-primary text-xs sm:text-sm px-4 py-2"><%= t("nav.start") %></a>
       </nav>
     </header>
 
@@ -41,18 +41,15 @@
       <%= yield %>
     </main>
 
-    <%# ── Footer (Odin style: logo + desc left, link columns right) ── %>
+    <%# ── Footer ── %>
     <footer class="border-t border-gray-700/50 bg-navy">
       <div class="page-container py-12">
         <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-          <%# Logo + description %>
           <div class="lg:col-span-2">
             <div class="text-lg font-bold text-white tracking-tight mb-3">
               Industrial<span class="text-gold-500">Profi</span>
             </div>
-            <p class="text-sm body-text max-w-xs">
-              Бесплатные карты развития для промышленных специалистов, поддерживаемые сообществом.
-            </p>
+            <p class="text-sm body-text max-w-xs"><%= t("footer.description") %></p>
             <div class="flex items-center gap-3 mt-4">
               <a href="https://t.me/industrialprofi" class="text-gray-500 hover:text-white transition" target="_blank" rel="noopener" aria-label="Telegram">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
@@ -63,28 +60,27 @@
             </div>
           </div>
 
-          <%# Link columns %>
           <div>
-            <h4 class="footer-heading">Профессии</h4>
-            <a href="#" class="footer-link">Электрик</a>
-            <a href="#" class="footer-link">Сварщик</a>
-            <a href="#" class="footer-link">Сантехник</a>
+            <h4 class="footer-heading"><%= t("footer.professions") %></h4>
+            <a href="<%= paths_path %>" class="footer-link"><%= t("footer.electrician") %></a>
+            <a href="<%= paths_path %>" class="footer-link"><%= t("footer.welder") %></a>
+            <a href="<%= paths_path %>" class="footer-link"><%= t("footer.plumber") %></a>
           </div>
           <div>
-            <h4 class="footer-heading">Проект</h4>
-            <a href="#" class="footer-link">О проекте</a>
-            <a href="#" class="footer-link">Обратная связь</a>
-            <a href="#" class="footer-link">Поддержать</a>
+            <h4 class="footer-heading"><%= t("footer.project") %></h4>
+            <a href="<%= root_path %>#how-it-works" class="footer-link"><%= t("footer.about") %></a>
+            <a href="https://t.me/industrialprofi" class="footer-link" target="_blank" rel="noopener"><%= t("footer.feedback") %></a>
+            <a href="<%= support_us_path %>" class="footer-link"><%= t("footer.support") %></a>
           </div>
           <div>
-            <h4 class="footer-heading">Ресурсы</h4>
-            <a href="#" class="footer-link">Стандарты</a>
-            <a href="#" class="footer-link">FAQ</a>
+            <h4 class="footer-heading"><%= t("footer.resources") %></h4>
+            <a href="<%= paths_path %>" class="footer-link"><%= t("footer.standards") %></a>
+            <a href="<%= root_path %>#how-it-works" class="footer-link"><%= t("footer.faq") %></a>
           </div>
         </div>
 
         <div class="mt-10 pt-6 border-t border-gray-700/50 text-xs text-gray-500 text-center">
-          © <%= Date.current.year %> IndustrialProfi. Мастерство не автоматизируется.
+          <%= t("footer.copyright", year: Date.current.year) %>
         </div>
       </div>
     </footer>
