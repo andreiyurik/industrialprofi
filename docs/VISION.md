@@ -17,9 +17,16 @@ The context: AI is reshaping the job market. Industrial professions — the ones
 
 ## Solution
 
-A free, open platform for industrial professions. Each profession has a structured roadmap: stages → skills → official documents → practical tasks. Think: **The Odin Project + roadmap.sh — for industrial specialists, not programmers.**
+A free, open platform for industrial professions. Each profession has a structured roadmap: stages → skills → official documents → practical tasks.
 
-Core belief: **read official standards, practice every day.** Not video courses, not AI summaries — real documents that are required on the job site, and real tasks that build muscle memory.
+### Primary References
+
+- **The Odin Project** (theodinproject.com) — the model for everything: content structure (paths → courses → lessons), progress tracking, community-driven content, donation-based business model, design system (dark theme, teal+gold palette, Inter font). What Odin does for web developers, IndustrialProfi does for industrial workers.
+- **roadmap.sh** — the model for career path structure: visual profession maps showing what to learn and in what order. We adapt this as text-based stage→skill hierarchies instead of interactive graphs.
+
+### Core Belief
+
+**Read official standards, practice every day.** Not video courses, not AI summaries — real documents that are required on the job site, and real tasks that build muscle memory. This mirrors The Odin Project's philosophy: read the docs, build the projects, learn by doing.
 
 ## What This Is NOT
 
@@ -30,16 +37,31 @@ Core belief: **read official standards, practice every day.** Not video courses,
 
 It is a **reference + progress tracker**. Content-first, community-driven.
 
-## Target Audience
+## Target Professions
 
-Industrial specialists across all trades — anyone whose profession requires physical skill, official certification, and hands-on practice:
-- Construction (welders, electricians, installers, finishing specialists)
-- Manufacturing (CNC operators, industrial mechanics, toolmakers)
-- Energy (HVAC/R technicians, power plant operators)
-- Automation (PLC/SCADA technicians)
-- Maintenance (equipment repair, diagnostics)
+Focus on professions with proven global demand. BlackRock's $100M Future Builders initiative (March 2026) validated exactly which trades face the sharpest deficit: electricians, plumbers, HVAC technicians, construction workers. We take this signal and adapt it for the CIS market, where the same deficit exists for different reasons — aging workforce, infrastructure boom, labor migration.
 
-Starting broad in scope but narrow in depth: launch with 3-5 thorough roadmaps, expand based on user demand.
+### Priority professions (launch roadmaps):
+
+| Profession | CIS certification | Why priority |
+|---|---|---|
+| **Электрик** (Electrician) | Группы допуска 2-5, ПТЭЭП, ПУЭ | BlackRock's #1 focus; 300K+ shortage globally; mandatory licensing in every country |
+| **Сварщик** (Welder) | НАКС, ASME IX, CSWIP 3.1 | Chronic CIS deficit; highest international mobility; 6+ certification standards |
+| **Сантехник** (Plumber) | СНиП, СП 30.13330 | BlackRock's #2 focus; every construction site needs them; low barrier to entry |
+| **HVAC-техник** (HVAC Technician) | ГОСТ, ПБ 09-592-03 | Growing exponentially with climate change and data center construction |
+| **Монтажник** (Steel/Pipe Fitter) | СНиП, СП, допуски СРО | Construction backbone; high turnover = constant demand for qualified workers |
+
+### Next wave (after launch, based on user demand):
+- PLC/SCADA technicians (automation)
+- CNC operators (manufacturing)
+- Industrial mechanics (maintenance)
+- Power plant operators (energy)
+
+### Target users:
+- Workers in CIS wanting to grow in their profession systematically
+- Labor migrants (Uzbekistan, Tajikistan, Kyrgyzstan → Russia, Kazakhstan) who need to prove skills across borders
+- Career changers entering industrial trades
+- Employers looking for workers with verified, structured knowledge
 
 ## Core Mechanics
 

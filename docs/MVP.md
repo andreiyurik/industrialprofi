@@ -21,10 +21,10 @@ A visitor can browse profession roadmaps. No auth, no interactivity. Pure conten
 - `Resource` (skill_id, title, url, kind: document|video|article)
 - `Task` (skill_id, description)
 
-**Seeded content:**
-- Сварщик НАКС — full roadmap with real ГОСТ links
-- Электрик 3-й группы — full roadmap
-- Монтажник металлоконструкций — full roadmap
+**Seeded content (priority professions aligned with BlackRock Future Builders deficit data):**
+- Электрик (группы допуска 2-5) — full roadmap with ПТЭЭП, ПУЭ links
+- Сварщик НАКС — full roadmap with ГОСТ, ASME links
+- Сантехник — full roadmap with СНиП, СП links
 
 **What does NOT ship:**
 - No user accounts
@@ -32,7 +32,7 @@ A visitor can browse profession roadmaps. No auth, no interactivity. Pure conten
 - No user-generated content
 - No search
 
-**Deploy criteria:** a welder in Omsk can open the site on mobile, read the full roadmap for their profession, and find links to real documents they need.
+**Deploy criteria:** an electrician in Omsk can open the site on mobile, read the full roadmap for their profession, and find links to real documents they need.
 
 ---
 

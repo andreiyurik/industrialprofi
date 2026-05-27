@@ -1,6 +1,10 @@
 # IndustrialProfi
 
-Wiki-style platform for trade professions (welders, electricians, industrial workers). Structured career roadmaps with official documents, practical tasks, and progress tracking. Target market: CIS (Russia, Kazakhstan).
+**The Odin Project + roadmap.sh — for industrial professions.**
+
+Free platform with structured career roadmaps: stages → skills → official standards → practical tasks → progress tracking. Like The Odin Project teaches web development through reading documentation and building projects, IndustrialProfi teaches industrial trades through reading official standards (ГОСТ, ASME, НАКС) and doing real-world practice.
+
+Design, UX, and content structure follow The Odin Project as the primary reference. Target market: CIS (Russia, Kazakhstan).
 
 ## Stack
 
@@ -65,14 +69,21 @@ docs/                      # VISION.md, MVP.md
 - No `before_action` chains longer than 2. Keep auth simple.
 - No concerns until a model exceeds ~200 lines. Premature extraction is worse than duplication.
 
-## UI Conventions
+## UI — The Odin Project Style
 
-- Page content: `max-w-4xl mx-auto px-4`
-- Section spacing: `space-y-6` or `mb-6`
-- Cards: `rounded-xl border bg-card p-4`
-- Buttons/inputs: `rounded-lg`
-- Dark mode: use `dark:` variants for all custom colors
-- Responsive: mobile-first, `sm:`/`md:`/`lg:` breakpoints
+Design system follows The Odin Project (github.com/TheOdinProject/theodinproject):
+
+- **Font:** Inter (Google Fonts, Cyrillic subset)
+- **Colors:** teal-700 for primary actions, custom gold (#CE973E) for accents/highlights, gray for everything else
+- **Dark mode:** `.dark` class on `<html>`, `@custom-variant dark (&:is(.dark, .dark *))`. Every element has explicit `dark:` pair.
+- **Cards:** `bg-white shadow-sm rounded-lg` / `dark:bg-gray-800 dark:ring-1 dark:ring-white/10 dark:ring-inset`
+- **Buttons:** `rounded-md`, primary=`bg-teal-700`, secondary=`border border-gray-300`
+- **Badges:** `ring-1 ring-inset rounded-md` with color variants
+- **Page container:** `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`
+- **Content width:** `max-w-4xl mx-auto` for reading pages
+- **Card padding:** `p-8`
+- **Section padding:** `py-16`
+- **No shadows in dark mode** — use `ring-1 ring-white/10` instead
 
 ## Docs
 
