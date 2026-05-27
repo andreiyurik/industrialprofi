@@ -1,3 +1,9 @@
+<% canonical_url("https://industrialprofi.com/") %>
+
+<% content_for(:head) do %>
+  <%= json_ld_tag(website_json_ld) %>
+<% end %>
+
 <%# ── 1. HERO ── %>
 <section class="section-padded">
   <div class="page-container text-center">

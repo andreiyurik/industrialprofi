@@ -1,10 +1,28 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale %>" class="scroll-smooth">
   <head>
-    <title><%= content_for(:title) || "#{t('site.name')} — #{t('site.tagline')}" %></title>
+    <title><%= content_for?(:title) ? content_for(:title) : "#{t('site.name')} — #{t('site.tagline')}" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="<%= t('site.description') %>">
+    <meta name="description" content="<%= content_for?(:description) ? content_for(:description) : t('site.description') %>">
     <meta name="application-name" content="<%= t('site.name') %>">
+    <meta name="robots" content="index, follow">
+    <% if content_for?(:canonical) %>
+      <link rel="canonical" href="<%= content_for(:canonical) %>">
+    <% end %>
+
+    <%# Open Graph %>
+    <meta property="og:site_name" content="<%= t('site.name') %>">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<%= content_for?(:og_title) ? content_for(:og_title) : "#{t('site.name')} — #{t('site.tagline')}" %>">
+    <meta property="og:description" content="<%= content_for?(:og_description) ? content_for(:og_description) : t('site.description') %>">
+    <meta property="og:url" content="<%= content_for?(:canonical) ? content_for(:canonical) : request.original_url %>">
+
+    <%# Twitter Card %>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="<%= content_for?(:og_title) ? content_for(:og_title) : "#{t('site.name')} — #{t('site.tagline')}" %>">
+    <meta name="twitter:description" content="<%= content_for?(:og_description) ? content_for(:og_description) : t('site.description') %>">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
