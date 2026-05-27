@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_27_213334) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_27_222805) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -52,7 +52,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_213334) do
   create_table "lesson_suggestions", force: :cascade do |t|
     t.string "author_contact"
     t.string "author_name", null: false
-    t.text "body_markdown", null: false
+    t.text "body_markdown"
     t.datetime "created_at", null: false
     t.integer "lesson_id", null: false
     t.text "reviewer_comment"

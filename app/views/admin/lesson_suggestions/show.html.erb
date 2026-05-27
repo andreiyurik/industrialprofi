@@ -44,7 +44,7 @@
       <div>
         <h3 class="text-sm font-medium text-gray-400 mb-2"><%= t("admin.current_content") %></h3>
         <div class="bg-navy-lighter border border-gray-700/50 rounded-lg px-4 py-3 lesson-prose min-h-[16rem] overflow-y-auto">
-          <%= markdown(@lesson.public_send(@suggestion.section)) %>
+          <%= lesson_content(@lesson, @suggestion.section.to_sym) %>
         </div>
       </div>
 
@@ -52,7 +52,11 @@
       <div>
         <h3 class="text-sm font-medium text-teal-400 mb-2"><%= t("admin.proposed_content") %></h3>
         <div class="bg-navy-lighter border border-teal-500/20 rounded-lg px-4 py-3 lesson-prose min-h-[16rem] overflow-y-auto">
-          <%= markdown(@suggestion.body_markdown) %>
+          <% if @suggestion.rich_body.present? %>
+            <%= @suggestion.rich_body %>
+          <% else %>
+            <%= markdown(@suggestion.body_markdown) %>
+          <% end %>
         </div>
       </div>
     </div>

@@ -36,14 +36,12 @@
         ], {}, class: "bg-navy-lighter border border-gray-700/50 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-teal-500/50 transition" %>
       </div>
 
-      <%# Markdown textarea with current content %>
+      <%# Rich text editor %>
       <div class="mt-4">
         <label class="block text-sm font-medium text-gray-400 mb-1"><%= t("suggestions.field_content") %></label>
         <p class="text-xs text-gray-500 mb-2"><%= t("suggestions.field_content_hint") %></p>
-        <%= f.text_area :body_markdown,
-            value: @suggestion.body_markdown.presence || @lesson.public_send(@section),
-            rows: 16,
-            class: "w-full bg-navy-lighter border border-gray-700/50 rounded-lg px-3 py-2 text-sm text-gray-300 font-mono focus:outline-none focus:border-teal-500/50 transition resize-y" %>
+        <%= f.rich_text_area :rich_body, class: "lexxy-content",
+            data: { toolbar: { upload: false }.to_json } %>
       </div>
 
       <%# Author info %>

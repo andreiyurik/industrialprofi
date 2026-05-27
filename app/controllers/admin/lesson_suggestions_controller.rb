@@ -14,7 +14,13 @@ module Admin
       return redirect_to admin_lesson_suggestions_path unless @suggestion.status == "pending"
 
       ActiveRecord::Base.transaction do
-        @suggestion.lesson.update!(@suggestion.section => @suggestion.body_markdown)
+        rich_field = :"rich_#{@suggestion.section}"
+        if @suggestion.rich_body.present?
+          @suggestion.lesson.send(rich_field).body = @suggestion.rich_body.body
+          @suggestion.lesson.save!
+        else
+          @suggestion.lesson.update!(@suggestion.section => @suggestion.body_markdown)
+        end
         @suggestion.update!(status: "approved")
       end
       redirect_to admin_lesson_suggestions_path, notice: I18n.t("flash.suggestion_approved")

@@ -12,10 +12,10 @@ class LessonSuggestionTest < ActiveSupport::TestCase
     assert suggestion.valid?
   end
 
-  test "invalid without body_markdown" do
+  test "invalid without any body content" do
     suggestion = LessonSuggestion.new(lesson: lessons(:pteep), author_name: "Author")
     assert_not suggestion.valid?
-    assert suggestion.errors[:body_markdown].any?
+    assert suggestion.errors[:rich_body].any?
   end
 
   test "invalid without author_name" do

@@ -5,6 +5,7 @@ class LessonSuggestionsController < ApplicationController
     @lesson = Lesson.find_by!(slug: params[:lesson_slug])
     @section = %w[body task description].include?(params[:section]) ? params[:section] : "body"
     @suggestion = LessonSuggestion.new(lesson: @lesson, section: @section)
+    prepopulate_rich_body
   end
 
   def create
@@ -21,7 +22,16 @@ class LessonSuggestionsController < ApplicationController
 
   private
 
+  def prepopulate_rich_body
+    rich_field = :"rich_#{@section}"
+    if @lesson.send(rich_field).present?
+      @suggestion.rich_body = @lesson.send(rich_field).body
+    elsif @lesson.send(@section).present?
+      @suggestion.rich_body.body = helpers.markdown(@lesson.send(@section))
+    end
+  end
+
   def suggestion_params
-    params.require(:lesson_suggestion).permit(:section, :body_markdown, :author_name, :author_contact)
+    params.require(:lesson_suggestion).permit(:section, :body_markdown, :author_name, :author_contact, :rich_body)
   end
 end

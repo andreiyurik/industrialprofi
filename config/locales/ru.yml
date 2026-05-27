@@ -152,7 +152,7 @@ ru:
     section_task: "Задание"
     section_description: "Описание"
     field_content: "Текст (Markdown)"
-    field_content_hint: "Отредактируйте текст ниже. Используйте Markdown-разметку."
+    field_content_hint: "Отредактируйте текст ниже. Используйте панель инструментов для форматирования."
     field_name: "Ваше имя"
     name_placeholder: "Иван Петров"
     field_contact: "Контакт (необязательно)"
