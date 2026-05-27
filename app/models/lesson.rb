@@ -3,6 +3,10 @@ class Lesson < ApplicationRecord
   has_many :resources, -> { order(:position) }, dependent: :destroy
   has_many :lesson_suggestions, dependent: :destroy
 
+  has_rich_text :rich_body
+  has_rich_text :rich_description
+  has_rich_text :rich_task
+
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: Path::SLUG_FORMAT }
   validates :position, numericality: { greater_than_or_equal_to: 0 }

@@ -24,6 +24,15 @@ module ApplicationHelper
     sanitize(html, tags: MARKDOWN_TAGS, attributes: MARKDOWN_ATTRS)
   end
 
+  def lesson_content(lesson, field)
+    rich_field = :"rich_#{field}"
+    if lesson.send(rich_field).present?
+      lesson.send(rich_field)
+    else
+      markdown(lesson.send(field))
+    end
+  end
+
   def russian_pluralize(count, key)
     t("common.#{key}", count: count)
   end

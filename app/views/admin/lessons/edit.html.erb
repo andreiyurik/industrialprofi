@@ -15,8 +15,7 @@
 
     <%= render "admin/shared/form_errors", object: @lesson %>
 
-    <%= form_with(model: [:admin, @lesson], url: admin_lesson_path(@lesson), method: :patch,
-                  data: { controller: "admin-preview", admin_preview_url_value: admin_preview_path }) do |f| %>
+    <%= form_with(model: [:admin, @lesson], url: admin_lesson_path(@lesson), method: :patch) do |f| %>
 
       <%# Title %>
       <div class="mb-4">
@@ -31,46 +30,22 @@
             {}, class: "bg-navy-lighter border border-gray-700/50 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-teal-500/50 transition" %>
       </div>
 
-      <%# Description %>
-      <div class="mb-6" data-admin-preview-target="section">
-        <label class="block text-sm font-medium text-gray-400 mb-1"><%= t("admin.field_description") %></label>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <%= f.text_area :description, rows: 4,
-              class: "w-full bg-navy-lighter border border-gray-700/50 rounded-lg px-3 py-2 text-sm text-gray-300 font-mono focus:outline-none focus:border-teal-500/50 transition resize-y",
-              data: { action: "input->admin-preview#preview", admin_preview_target: "input" } %>
-          <div class="bg-navy-lighter border border-gray-700/50 rounded-lg px-4 py-3 overflow-y-auto lesson-prose min-h-[6rem]"
-               data-admin-preview-target="output">
-            <%= markdown(@lesson.description) %>
-          </div>
-        </div>
+      <%# Description (rich text) %>
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-400 mb-2"><%= t("admin.field_description") %></label>
+        <%= f.rich_text_area :rich_description, class: "lexxy-content" %>
       </div>
 
-      <%# Body (main content) %>
-      <div class="mb-6" data-admin-preview-target="section">
-        <label class="block text-sm font-medium text-gray-400 mb-1"><%= t("admin.field_body") %></label>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <%= f.text_area :body, rows: 20,
-              class: "w-full bg-navy-lighter border border-gray-700/50 rounded-lg px-3 py-2 text-sm text-gray-300 font-mono focus:outline-none focus:border-teal-500/50 transition resize-y",
-              data: { action: "input->admin-preview#preview", admin_preview_target: "input" } %>
-          <div class="bg-navy-lighter border border-gray-700/50 rounded-lg px-4 py-3 overflow-y-auto lesson-prose min-h-[20rem]"
-               data-admin-preview-target="output">
-            <%= markdown(@lesson.body) %>
-          </div>
-        </div>
+      <%# Body (rich text — main content) %>
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-400 mb-2"><%= t("admin.field_body") %></label>
+        <%= f.rich_text_area :rich_body, class: "lexxy-content" %>
       </div>
 
-      <%# Task %>
-      <div class="mb-6" data-admin-preview-target="section">
-        <label class="block text-sm font-medium text-gray-400 mb-1"><%= t("admin.field_task") %></label>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <%= f.text_area :task, rows: 8,
-              class: "w-full bg-navy-lighter border border-gray-700/50 rounded-lg px-3 py-2 text-sm text-gray-300 font-mono focus:outline-none focus:border-teal-500/50 transition resize-y",
-              data: { action: "input->admin-preview#preview", admin_preview_target: "input" } %>
-          <div class="bg-navy-lighter border border-gray-700/50 rounded-lg px-4 py-3 overflow-y-auto lesson-prose min-h-[8rem]"
-               data-admin-preview-target="output">
-            <%= markdown(@lesson.task) %>
-          </div>
-        </div>
+      <%# Task (rich text) %>
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-400 mb-2"><%= t("admin.field_task") %></label>
+        <%= f.rich_text_area :rich_task, class: "lexxy-content" %>
       </div>
 
       <div class="flex items-center gap-3">

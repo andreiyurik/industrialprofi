@@ -38,9 +38,9 @@ class Admin::LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_match lessons(:pteep).title, response.body
   end
 
-  test "edit shows textarea with body" do
+  test "edit shows rich text editor" do
     get edit_admin_lesson_path(lessons(:pteep)), headers: @credentials
-    assert_select "textarea"
+    assert_select "[name='lesson[rich_body]']"
   end
 
   # ── Update ──

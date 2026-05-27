@@ -1,0 +1,41 @@
+/* Lexxy dark theme — matches IndustrialProfi navy palette */
+:root {
+  --lexxy-color-ink: oklch(90% 0 0);
+  --lexxy-color-ink-medium: oklch(70% 0 0);
+  --lexxy-color-ink-light: oklch(50% 0 0);
+  --lexxy-color-ink-lighter: oklch(35% 0 0);
+  --lexxy-color-ink-lightest: oklch(22% 0 0);
+  --lexxy-color-ink-inverted: oklch(15% 0 0);
+
+  --lexxy-color-accent-dark: oklch(65% 0.15 175);
+  --lexxy-color-accent-medium: oklch(70% 0.12 175);
+  --lexxy-color-accent-light: oklch(35% 0.04 175);
+  --lexxy-color-accent-lightest: oklch(25% 0.03 175);
+
+  --lexxy-color-red: oklch(70% 0.15 27);
+  --lexxy-color-green: oklch(70% 0.15 145);
+  --lexxy-color-blue: oklch(70% 0.15 258);
+  --lexxy-color-purple: oklch(70% 0.15 305);
+
+  --lexxy-color-code-token-att: #ff7b72;
+  --lexxy-color-code-token-comment: #8b949e;
+  --lexxy-color-code-token-function: #d2a8ff;
+  --lexxy-color-code-token-operator: #ff7b72;
+  --lexxy-color-code-token-property: #79c0ff;
+  --lexxy-color-code-token-punctuation: #f0f6fc;
+  --lexxy-color-code-token-selector: #7ee787;
+  --lexxy-color-code-token-variable: #ffa657;
+
+  --lexxy-shadow: 0 0 0 1px rgba(100, 100, 100, 0.3);
+}
+
+.lexxy-content {
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+.lexxy-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}

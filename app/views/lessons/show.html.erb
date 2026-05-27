@@ -28,18 +28,18 @@
 
         <article>
           <%# 1. WHY %>
-          <% if @lesson.description.present? %>
+          <% if @lesson.rich_description.present? || @lesson.description.present? %>
             <section id="why" class="lesson-intro scroll-mt-6">
               <p class="text-sm font-medium text-teal-400 mb-1"><%= t("lessons.why_section") %></p>
-              <div class="lesson-prose"><%= markdown(@lesson.description) %></div>
+              <div class="lesson-prose"><%= lesson_content(@lesson, :description) %></div>
             </section>
           <% end %>
 
           <%# 2. BODY %>
-          <% if @lesson.body.present? %>
+          <% if @lesson.rich_body.present? || @lesson.body.present? %>
             <section id="study" class="mt-10 scroll-mt-6">
               <h2 class="lesson-heading"><%= t("lessons.study_section") %></h2>
-              <div class="lesson-prose"><%= markdown(@lesson.body) %></div>
+              <div class="lesson-prose"><%= lesson_content(@lesson, :body) %></div>
             </section>
           <% end %>
 
@@ -79,11 +79,11 @@
           <% end %>
 
           <%# 4. TASK %>
-          <% if @lesson.task.present? %>
+          <% if @lesson.rich_task.present? || @lesson.task.present? %>
             <section id="task" class="mt-10 scroll-mt-6">
               <h2 class="lesson-heading"><%= t("lessons.task_section") %></h2>
               <div class="lesson-task">
-                <div class="lesson-prose"><%= markdown(@lesson.task) %></div>
+                <div class="lesson-prose"><%= lesson_content(@lesson, :task) %></div>
               </div>
             </section>
           <% end %>
@@ -99,16 +99,16 @@
       <div class="sticky top-0 pt-10 sm:pt-14 pb-20 pr-4">
         <h4 class="text-sm font-medium text-gray-400 pb-3"><%= t("lessons.toc_title") %></h4>
         <nav class="flex flex-col gap-1" data-controller="toc">
-          <% if @lesson.description.present? %>
+          <% if @lesson.rich_description.present? || @lesson.description.present? %>
             <a href="#why" class="toc-link" data-toc-target="link"><%= t("lessons.why_section") %></a>
           <% end %>
-          <% if @lesson.body.present? %>
+          <% if @lesson.rich_body.present? || @lesson.body.present? %>
             <a href="#study" class="toc-link" data-toc-target="link"><%= t("lessons.study_section") %></a>
           <% end %>
           <% if @lesson.resources.any? %>
             <a href="#resources" class="toc-link" data-toc-target="link"><%= t("lessons.resources_section") %></a>
           <% end %>
-          <% if @lesson.task.present? %>
+          <% if @lesson.rich_task.present? || @lesson.task.present? %>
             <a href="#task" class="toc-link" data-toc-target="link"><%= t("lessons.task_section") %></a>
           <% end %>
         </nav>
