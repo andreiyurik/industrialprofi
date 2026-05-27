@@ -131,6 +131,27 @@ ru:
     q_contact: "Как с вами связаться?"
     a_contact_html: 'Напишите нам в <a href="https://t.me/industrialprofi" class="text-teal-400 underline hover:text-teal-300 transition" target="_blank" rel="noopener">Telegram</a> или на почту <a href="mailto:hello@industrialprofi.com" class="text-teal-400 underline hover:text-teal-300 transition">hello@industrialprofi.com</a>. Мы отвечаем в течение суток.'
 
+  flash:
+    lesson_updated: "Урок сохранён"
+    path_updated: "Профессия сохранена"
+
+  admin:
+    lessons_title: "Управление уроками"
+    paths_title: "Управление профессиями"
+    manage_paths: "Профессии"
+    manage_lessons: "Уроки"
+    edit_lesson: "Редактирование урока"
+    edit_path: "Редактирование профессии"
+    view_live: "Предпросмотр"
+    save: "Сохранить"
+    cancel: "Отмена"
+    field_title: "Название"
+    field_slug: "Slug"
+    field_description: "Описание"
+    field_body: "Содержание"
+    field_task: "Задание"
+    field_status: "Статус"
+
   common:
     lesson:
       one: "%{count} урок"

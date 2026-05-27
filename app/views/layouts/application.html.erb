@@ -50,6 +50,9 @@
           <a href="<%= paths_path %>" class="nav-link"><%= t("nav.professions") %></a>
           <a href="<%= root_path %>#how-it-works" class="nav-link"><%= t("nav.about") %></a>
           <a href="<%= support_us_path %>" class="nav-link"><%= t("nav.support") %></a>
+          <% if controller.class.module_parent_name == "Admin" %>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-gold-500/20 text-gold-400 font-medium">Admin</span>
+          <% end %>
         </div>
         <a href="<%= paths_path %>" class="btn-primary text-xs sm:text-sm px-4 py-2"><%= t("nav.start") %></a>
       </nav>

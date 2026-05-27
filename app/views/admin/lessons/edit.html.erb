@@ -1,0 +1,89 @@
+<% meta_title("#{t('admin.edit_lesson')} — #{@lesson.title}") %>
+
+<section class="py-6">
+  <div class="page-container">
+    <%# Header %>
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <a href="<%= admin_lessons_path %>" class="text-gray-500 hover:text-white transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
+          </svg>
+        </a>
+        <h1 class="text-xl font-bold text-white truncate"><%= @lesson.title %></h1>
+      </div>
+      <a href="<%= lesson_path(@lesson) %>" class="nav-link text-xs" target="_blank"><%= t("admin.view_live") %> ↗</a>
+    </div>
+
+    <% if @lesson.errors.any? %>
+      <div class="mb-4 p-3 rounded-lg bg-red-900/30 border border-red-500/30 text-sm text-red-400">
+        <% @lesson.errors.full_messages.each do |msg| %>
+          <p><%= msg %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if flash[:notice] %>
+      <div class="mb-4 p-3 rounded-lg bg-teal-900/30 border border-teal-500/30 text-sm text-teal-400">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+
+    <%= form_with(model: [:admin, @lesson], url: admin_lesson_path(@lesson), method: :patch,
+                  data: { controller: "admin-preview", admin_preview_url_value: admin_preview_path }) do |f| %>
+
+      <%# Title %>
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-400 mb-1"><%= t("admin.field_title") %></label>
+        <%= f.text_field :title, class: "w-full bg-navy-lighter border border-gray-700/50 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-teal-500/50 transition" %>
+      </div>
+
+      <%# Description %>
+      <div class="mb-6" data-admin-preview-target="section">
+        <label class="block text-sm font-medium text-gray-400 mb-1"><%= t("admin.field_description") %></label>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <%= f.text_area :description, rows: 4,
+              class: "w-full bg-navy-lighter border border-gray-700/50 rounded-lg px-3 py-2 text-sm text-gray-300 font-mono focus:outline-none focus:border-teal-500/50 transition resize-y",
+              data: { action: "input->admin-preview#preview", admin_preview_target: "input" } %>
+          <div class="bg-navy-lighter border border-gray-700/50 rounded-lg px-4 py-3 overflow-y-auto lesson-prose min-h-[6rem]"
+               data-admin-preview-target="output">
+            <%= markdown(@lesson.description) %>
+          </div>
+        </div>
+      </div>
+
+      <%# Body (main content) %>
+      <div class="mb-6" data-admin-preview-target="section">
+        <label class="block text-sm font-medium text-gray-400 mb-1"><%= t("admin.field_body") %></label>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <%= f.text_area :body, rows: 20,
+              class: "w-full bg-navy-lighter border border-gray-700/50 rounded-lg px-3 py-2 text-sm text-gray-300 font-mono focus:outline-none focus:border-teal-500/50 transition resize-y",
+              data: { action: "input->admin-preview#preview", admin_preview_target: "input" } %>
+          <div class="bg-navy-lighter border border-gray-700/50 rounded-lg px-4 py-3 overflow-y-auto lesson-prose min-h-[20rem]"
+               data-admin-preview-target="output">
+            <%= markdown(@lesson.body) %>
+          </div>
+        </div>
+      </div>
+
+      <%# Task %>
+      <div class="mb-6" data-admin-preview-target="section">
+        <label class="block text-sm font-medium text-gray-400 mb-1"><%= t("admin.field_task") %></label>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <%= f.text_area :task, rows: 8,
+              class: "w-full bg-navy-lighter border border-gray-700/50 rounded-lg px-3 py-2 text-sm text-gray-300 font-mono focus:outline-none focus:border-teal-500/50 transition resize-y",
+              data: { action: "input->admin-preview#preview", admin_preview_target: "input" } %>
+          <div class="bg-navy-lighter border border-gray-700/50 rounded-lg px-4 py-3 overflow-y-auto lesson-prose min-h-[8rem]"
+               data-admin-preview-target="output">
+            <%= markdown(@lesson.task) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <%= f.submit t("admin.save"), class: "btn-primary cursor-pointer" %>
+        <a href="<%= admin_lessons_path %>" class="btn-outline"><%= t("admin.cancel") %></a>
+      </div>
+    <% end %>
+  </div>
+</section>
