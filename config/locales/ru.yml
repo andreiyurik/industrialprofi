@@ -1,4 +1,8 @@
 ru:
+  time:
+    formats:
+      long: "%d %B %Y, %H:%M"
+
   site:
     name: "IndustrialProfi"
     tagline: "Мастерство не автоматизируется"
@@ -134,6 +138,26 @@ ru:
   flash:
     lesson_updated: "Урок сохранён"
     path_updated: "Профессия сохранена"
+    suggestion_submitted: "Спасибо! Ваше предложение отправлено на модерацию."
+    suggestion_approved: "Правка принята и применена"
+    suggestion_rejected: "Правка отклонена"
+
+  suggestions:
+    page_title: "Предложить правку"
+    breadcrumb: "Предложить правку"
+    title: "Предложить правку"
+    subtitle: "Отредактируйте текст урока «%{lesson}» и отправьте на модерацию."
+    field_section: "Раздел"
+    section_body: "Содержание"
+    section_task: "Задание"
+    section_description: "Описание"
+    field_content: "Текст (Markdown)"
+    field_content_hint: "Отредактируйте текст ниже. Используйте Markdown-разметку."
+    field_name: "Ваше имя"
+    name_placeholder: "Иван Петров"
+    field_contact: "Контакт (необязательно)"
+    contact_placeholder: "Email или Telegram"
+    submit: "Отправить предложение"
 
   admin:
     lessons_title: "Управление уроками"
@@ -151,6 +175,22 @@ ru:
     field_body: "Содержание"
     field_task: "Задание"
     field_status: "Статус"
+    suggestions_title: "Предложенные правки"
+    no_suggestions: "Нет правок на модерации"
+    manage_suggestions: "Правки"
+    review_suggestion: "Модерация правки"
+    suggestion_lesson: "Урок"
+    suggestion_section: "Раздел"
+    suggestion_author: "Автор"
+    suggestion_date: "Дата"
+    ago: "назад"
+    current_content: "Текущий текст"
+    proposed_content: "Предложенный текст"
+    approve: "Принять правку"
+    reject: "Отклонить"
+    reject_comment: "Причина отказа"
+    reject_comment_placeholder: "Необязательно"
+    confirm_approve: "Принять правку и обновить урок?"
 
   common:
     lesson:

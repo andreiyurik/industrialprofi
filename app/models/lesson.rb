@@ -1,6 +1,7 @@
 class Lesson < ApplicationRecord
   belongs_to :path, counter_cache: true
   has_many :resources, -> { order(:position) }, dependent: :destroy
+  has_many :lesson_suggestions, dependent: :destroy
 
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: Path::SLUG_FORMAT }

@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_27_200001) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_27_200002) do
+  create_table "lesson_suggestions", force: :cascade do |t|
+    t.string "author_contact"
+    t.string "author_name", null: false
+    t.text "body_markdown", null: false
+    t.datetime "created_at", null: false
+    t.integer "lesson_id", null: false
+    t.text "reviewer_comment"
+    t.string "section", default: "body", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lesson_id"], name: "index_lesson_suggestions_on_lesson_id"
+    t.index ["status"], name: "index_lesson_suggestions_on_status"
+  end
+
   create_table "lessons", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -57,6 +71,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_200001) do
     t.index ["lesson_id"], name: "index_resources_on_lesson_id"
   end
 
+  add_foreign_key "lesson_suggestions", "lessons"
   add_foreign_key "lessons", "paths"
   add_foreign_key "resources", "lessons"
 end

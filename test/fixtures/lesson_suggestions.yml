@@ -1,0 +1,14 @@
+pending_suggestion:
+  lesson: pteep
+  body_markdown: "Предложенное исправление текста"
+  section: body
+  author_name: "Иван Петров"
+  author_contact: "ivan@example.com"
+  status: pending
+
+approved_suggestion:
+  lesson: pteep
+  body_markdown: "Одобренное улучшение"
+  section: description
+  author_name: "Мария Сидорова"
+  status: approved

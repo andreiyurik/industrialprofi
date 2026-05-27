@@ -15,10 +15,17 @@ Rails.application.routes.draw do
 
   resources :paths, only: [ :index, :show ], param: :slug
   resources :lessons, only: [ :show ], param: :slug
+  resources :lesson_suggestions, only: [ :new, :create ]
 
   namespace :admin do
     resources :lessons, only: [ :index, :edit, :update ], param: :slug
     resources :paths, only: [ :index, :edit, :update ], param: :slug
+    resources :lesson_suggestions, only: [ :index, :show ] do
+      member do
+        patch :approve
+        patch :reject
+      end
+    end
     post "preview", to: "preview#create"
   end
 end
