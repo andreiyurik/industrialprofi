@@ -19,7 +19,7 @@
           <% if @lesson.description.present? %>
             <section id="why" class="lesson-intro scroll-mt-6">
               <p class="text-sm font-medium text-teal-400 mb-1"><%= t("lessons.why_section") %></p>
-              <p class="text-gray-300 leading-relaxed"><%= @lesson.description %></p>
+              <div class="lesson-prose"><%= markdown(@lesson.description) %></div>
             </section>
           <% end %>
 
@@ -27,7 +27,7 @@
           <% if @lesson.body.present? %>
             <section id="study" class="mt-10 scroll-mt-6">
               <h2 class="lesson-heading"><%= t("lessons.study_section") %></h2>
-              <div class="lesson-body"><%= @lesson.body %></div>
+              <div class="lesson-prose"><%= markdown(@lesson.body) %></div>
             </section>
           <% end %>
 
@@ -71,7 +71,7 @@
             <section id="task" class="mt-10 scroll-mt-6">
               <h2 class="lesson-heading"><%= t("lessons.task_section") %></h2>
               <div class="lesson-task">
-                <div class="lesson-body"><%= @lesson.task %></div>
+                <div class="lesson-prose"><%= markdown(@lesson.task) %></div>
               </div>
             </section>
           <% end %>

@@ -220,6 +220,76 @@
   @apply w-7 h-7 rounded-full bg-navy-lighter border border-gray-600 flex items-center justify-center text-xs text-gray-400 shrink-0;
 }
 
+/* ── Markdown prose (dark bg) ── */
+
+@utility lesson-prose {
+  @apply text-sm leading-relaxed text-gray-300;
+
+  & h2 {
+    @apply text-xl font-semibold text-white mt-8 mb-3;
+  }
+
+  & h3 {
+    @apply text-lg font-semibold text-white mt-6 mb-2;
+  }
+
+  & h4 {
+    @apply text-base font-medium text-white mt-4 mb-2;
+  }
+
+  & p {
+    @apply text-gray-300 leading-relaxed mb-4;
+  }
+
+  & ul {
+    @apply list-disc pl-6 mb-4 text-gray-300 space-y-1;
+  }
+
+  & ol {
+    @apply list-decimal pl-6 mb-4 text-gray-300 space-y-1;
+  }
+
+  & a {
+    @apply text-teal-400 underline decoration-teal-400/40 hover:text-teal-300 transition;
+  }
+
+  & code {
+    @apply bg-navy-lighter rounded px-1.5 py-0.5 text-sm;
+  }
+
+  & pre > code {
+    @apply block bg-navy-lighter rounded-lg p-4 overflow-x-auto text-sm;
+  }
+
+  & pre {
+    @apply mb-4;
+  }
+
+  & strong {
+    @apply text-white font-semibold;
+  }
+
+  & blockquote {
+    @apply border-l-2 border-teal-500/40 pl-4 text-gray-400 my-4;
+  }
+
+  & table {
+    @apply border-collapse text-sm text-gray-300 w-full mb-4;
+  }
+
+  & th {
+    @apply text-left text-white font-medium px-3 py-2 border-b border-gray-700;
+  }
+
+  & td {
+    @apply px-3 py-2 border-b border-gray-700/50;
+  }
+
+  & hr {
+    @apply border-gray-700/50 my-6;
+  }
+}
+
 /* ── Footer ── */
 
 @utility footer-heading {

@@ -11,4 +11,16 @@ class Lesson < ApplicationRecord
   def to_param
     slug
   end
+
+  def to_markdown
+    sections = []
+    sections << "# #{title}"
+    sections << description if description.present?
+    sections << body if body.present?
+    if task.present?
+      sections << "## Задание"
+      sections << task
+    end
+    sections.join("\n\n")
+  end
 end

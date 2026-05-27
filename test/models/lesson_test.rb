@@ -65,4 +65,37 @@ class LessonTest < ActiveSupport::TestCase
   test "to_param returns slug" do
     assert_equal "pteep-osnovy", lessons(:pteep).to_param
   end
+
+  # to_markdown
+
+  test "to_markdown includes body" do
+    lesson = lessons(:pteep)
+    md = lesson.to_markdown
+    assert_includes md, lesson.body
+  end
+
+  test "to_markdown includes title as heading" do
+    lesson = lessons(:pteep)
+    md = lesson.to_markdown
+    assert_includes md, "# #{lesson.title}"
+  end
+
+  test "to_markdown includes description" do
+    lesson = lessons(:pteep)
+    md = lesson.to_markdown
+    assert_includes md, lesson.description
+  end
+
+  test "to_markdown includes task" do
+    lesson = lessons(:pteep)
+    md = lesson.to_markdown
+    assert_includes md, lesson.task
+  end
+
+  test "to_markdown omits blank sections" do
+    lesson = Lesson.new(path: paths(:electrician), title: "Minimal", slug: "minimal", body: "Content here")
+    md = lesson.to_markdown
+    assert_includes md, "Content here"
+    refute_includes md, "Задание"
+  end
 end

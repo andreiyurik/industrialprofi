@@ -13,6 +13,11 @@ module ApplicationHelper
     %(<svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">#{svg_path}</svg>).html_safe
   end
 
+  def markdown(text)
+    return "" if text.blank?
+    Kramdown::Document.new(text, input: "GFM").to_html.html_safe
+  end
+
   def russian_pluralize(count, key)
     t("common.#{key}", count: count)
   end

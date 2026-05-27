@@ -22,4 +22,17 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_match lessons(:pteep).title, response.body
     assert_match lessons(:zazemlenie).title, response.body
   end
+
+  test "show markdown format returns raw markdown" do
+    get lesson_path(lessons(:pteep), format: :md)
+    assert_response :success
+    assert_match %r{text/markdown}, response.content_type
+    assert_includes response.body, lessons(:pteep).title
+    assert_includes response.body, lessons(:pteep).body
+  end
+
+  test "show renders markdown in html body" do
+    get lesson_path(lessons(:pteep))
+    assert_select "div.lesson-prose"
+  end
 end
