@@ -59,6 +59,46 @@ docs/                      # VISION.md, MVP.md
 
 **Tailwind utilities in ERB.** No custom CSS unless unavoidable. The entry point is `app/assets/tailwind/application.css` with `@import "tailwindcss"`. No `tailwind.config.js` — Tailwind v4 uses CSS-first configuration.
 
+## Content Architecture
+
+Three-level hierarchy adapted from The Odin Project:
+
+```
+Profession → Course → Lesson
+(Электрик)   (Охрана труда)   (ПУЭ: Правила устройства)
+```
+
+**Routes:**
+```ruby
+root "pages#home"
+resources :paths, only: [:index, :show]           # professions
+resources :courses, only: [:show]                  # courses within a profession
+resources :lessons, only: [:show]                  # individual lessons (flat URLs)
+```
+
+**Models:**
+```
+Path (profession)
+  author_id: nil = official, present = community
+  status: draft | pending_review | published
+  → has_many Courses (position-ordered)
+    → has_many Lessons (position-ordered)
+      → has_many Resources (country_code: nullable — nil = universal)
+
+User → has_many LessonCompletions → completed_lessons
+LessonCompletion(user_id, lesson_id) — binary: exists = done
+```
+
+**Lesson content format — every lesson follows this:**
+1. WHY (1-2 sentences — why this matters on the job site)
+2. OFFICIAL DOCUMENTS (curated links, ranked: ★ required, ○ optional)
+3. PRACTICAL TASK (concrete, verifiable assignment)
+4. [✓ Mark as done] button
+
+**UX pattern:** Turbo Frames. Desktop = two-column layout (lesson list left, content right — roadmap.sh sidebar feel). Mobile = standard page navigation. Every lesson has its own URL for SEO.
+
+**Progress:** Binary like Odin. Done / not done. No "in_progress", no "pending_review". Course progress = completed / total.
+
 ## Anti-patterns
 
 - No React, Vue, or SPA. This is a Hotwire app.

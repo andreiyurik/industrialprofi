@@ -63,22 +63,155 @@ Focus on professions with proven global demand. BlackRock's $100M Future Builder
 - Career changers entering industrial trades
 - Employers looking for workers with verified, structured knowledge
 
-## Core Mechanics
+## Core Approach — Why Better Than School
 
-| Mechanic | Inspiration | Implementation |
-|----------|-------------|----------------|
-| Profession catalog with roadmaps | roadmap.sh | Stages → skills hierarchy, ERB pages |
-| Progress tracking per skill | Khan Academy | Checkboxes, completion %, status bar |
-| Official document links per skill | MDN Web Docs | Curated links to standards (ГОСТ, СНиП, ASME, NEC, etc.) |
-| Practical tasks per skill | The Odin Project | Text-based assignments, real-world exercises |
-| Public user profile | GitHub profile | Completed skills, activity history |
-| Community roadmap creation | Wikipedia | Users submit roadmaps, moderation queue |
+Schools give: theory → exam → diploma. The problem: a person gets a diploma but can't work. Employers know this.
+
+**Our advantage — we remove the middleman.** We don't write our own textbooks. We find the best existing resources (like roadmap.sh) and arrange them in the right order (like The Odin Project). This is the librarian model, not the teacher model.
+
+A school gives a 500-page textbook. We give: "read these 3 pages of ПУЭ and do this task." Concrete, practical, no filler.
+
+### What Makes Users Grateful
+
+1. **Saved time** — no need to search for the right ГОСТы and ПУЭ, we already found them
+2. **Clear path** — always visible what's next
+3. **Real-world practice** — tasks from actual job sites, not from textbooks
+4. **Zero filler** — every lesson has a concrete purpose
+
+## Content Architecture
+
+### Hierarchy: Profession → Course → Lesson
+
+Adapted from The Odin Project (Path → Course → Lesson) for industrial professions:
+
+```
+Profession (e.g., Электрик)
+├── Course 1: Охрана труда
+│   ├── Lesson: Правила безопасности
+│   ├── Lesson: Средства защиты
+│   └── Lesson: Пожарная безопасность
+├── Course 2: Электробезопасность
+│   ├── Lesson: Основы электробезопасности
+│   ├── Lesson: ПУЭ — Правила устройства электроустановок
+│   └── Lesson: ПТЭЭП — Правила технической эксплуатации
+└── Course 3: Практические навыки
+    └── ...
+```
+
+### Lesson Structure — The Core Unit
+
+Every lesson follows this format. This is what makes us more effective than school:
+
+```
+1. ЗАЧЕМ (1-2 sentences)
+   "This document is required at every job site for work clearance"
+
+2. OFFICIAL DOCUMENTS (curated links, ranked by importance)
+   ★ Required:  ПУЭ 7th edition, chapters 1.1–1.3
+   ○ Optional:  ГОСТ Р 50571.1-2009
+
+3. PRACTICAL TASK (concrete, verifiable)
+   "Create a workplace inspection checklist before starting work
+    based on section 1.1.13 of ПУЭ"
+
+4. [✓ MARK AS DONE]
+```
+
+The key insight from roadmap.sh: **curated links ARE the content.** We don't write lectures — we find the best official documents and point users to the exact pages they need.
+
+### UX: Roadmap.sh Sidebar Feel + Odin Full Pages
+
+On desktop — two-column layout via Turbo Frames: lesson list on the left, lesson content on the right (like roadmap.sh sidebar). Clicking a lesson loads content without losing the course context.
+
+On mobile — standard page navigation. The sidebar becomes a full page.
+
+One codebase, two presentations. Every lesson has its own URL for SEO and bookmarking.
+
+```
+DESKTOP:
+┌──────────────────────┬─────────────────────────────┐
+│ Электробезопасность  │                             │
+│                      │  ПУЭ: Правила устройства    │
+│ ✓ Основы             │                             │
+│ ✓ Средства защиты    │  Зачем:                     │
+│ ● ПУЭ  ← active     │  Основной документ для      │
+│ ○ ПТЭЭП              │  любого электрика...        │
+│ ○ Допуск             │                             │
+│                      │  📄 Документы:               │
+│                      │  • ПУЭ 7-е изд. (ссылка)   │
+│                      │  • ГОСТ Р 50571 (ссылка)    │
+│                      │                             │
+│                      │  🔧 Задание:                 │
+│                      │  Изучи главы 1.1–1.3...     │
+│                      │                             │
+│                      │  [✓ Выполнено]              │
+└──────────────────────┴─────────────────────────────┘
+
+MOBILE:
+Standard page-to-page navigation
+```
+
+### Progress Tracking
+
+Binary, like The Odin Project: done or not done. No "in progress", no "pending review". One table: `LessonCompletion(user_id, lesson_id)`. Record exists = done.
+
+Course progress = count of completed lessons / total lessons. Displayed as a progress bar on the profession page.
+
+### What We Take From Each Reference
+
+| Source | What we take | Why |
+|---|---|---|
+| roadmap.sh | Curated links as core content | Low creation cost, users get the BEST resources |
+| roadmap.sh | Sidebar feel (don't lose context) | Turbo Frame two-column layout on desktop |
+| The Odin Project | Path → Course → Lesson structure | Proven hierarchy for learning content |
+| The Odin Project | Binary progress (done/not done) | Simplicity, no status management overhead |
+| The Odin Project | Full pages with own URLs | SEO, bookmarking, mobile-friendly |
+| The Odin Project | Design system (dark, teal+gold, Inter) | Professional, proven, Cyrillic-ready |
+| Basecamp/DHH | ERB + Turbo Frames, no React | Simple, fast, one-person maintainable |
+
+### International Support — Multi-Country Resources
+
+The same profession exists in every country, but the official standards differ. Architecture handles this at the Resource level, not the Path level:
+
+```
+Lesson: Правила устройства электроустановок
+├── Resource (country_code: nil)  — universal (physics, theory)
+├── Resource (country_code: "RU") — ПУЭ 7-е издание
+├── Resource (country_code: "KZ") — ПТЭ РК
+├── Resource (country_code: "US") — NEC (NFPA 70)
+└── Resource (country_code: "DE") — VDE 0100
+```
+
+One lesson, one skill, different documents per country. User selects country → sees relevant resources + universal ones. Adding a new country = adding resources, not duplicating lessons.
+
+On MVP: `country_code` field exists on Resource but all values are nil (everything is universal/Russian). When users from Kazakhstan appear — add KZ resources. Zero code changes.
+
+### Official vs Community Content
+
+Two types of roadmaps with clear visual distinction:
+
+**Official** (`author_id: nil`) — created by the platform, verified, shown first. Curated for safety and completeness. These are the core product.
+
+**Community** (`author_id: present`) — created by users, require moderation before publishing. Statuses: `draft → pending_review → published`.
+
+**Safety rule:** In industrial professions, bad advice kills. Community roadmaps MUST be moderated. Users can never edit official roadmaps, but can suggest resources (links) to existing lessons.
+
+```ruby
+Path:
+  author_id   # nil = official, present = community
+  status      # draft | pending_review | published
+```
+
+**Phasing:**
+- v0.1: Official only (seed data)
+- v0.2: Users suggest links to existing lessons (low risk — we moderate links)
+- v0.3: Users create full roadmaps (moderate before publish)
 
 ## Content Strategy — Cold Start
 
 The #1 risk is empty catalog. Solution: **seed 3-5 complete roadmaps before launch.** Not 50 empty ones — 3 thorough ones with real document links and practical tasks.
 
-Each seeded roadmap must have: all stages filled, real standard references, at least one practical task per skill.
+Each seeded roadmap must have: all courses filled, real standard references, at least one practical task per lesson.
 
 ## Business Model
 
