@@ -10,6 +10,22 @@ class LessonSuggestion < ApplicationRecord
 
   scope :pending, -> { where(status: "pending") }
 
+  # The proposed content as HTML, regardless of whether it was submitted via the
+  # rich-text editor or the markdown fallback.
+  def proposed_html
+    if rich_body.present?
+      rich_body.body.to_html
+    else
+      Kramdown::Document.new(body_markdown.to_s, input: "GFM").to_html
+    end
+  end
+
+  # The section moved on since this edit was submitted, so the moderator is
+  # reviewing against a newer base than the author saw.
+  def stale?
+    base_content.present? && !RevisionDiff.new(base_content, lesson.section_html(section)).identical?
+  end
+
   private
 
   def body_content_present

@@ -15,11 +15,17 @@ Rails.application.routes.draw do
   get "sitemap.xml" => "sitemaps#show", defaults: { format: :xml }
 
   resources :paths, only: [ :index, :show ], param: :slug
-  resources :lessons, only: [ :show ], param: :slug
+  resources :lessons, only: [ :show ], param: :slug do
+    resources :revisions, only: [ :index, :show ]
+  end
   resources :lesson_suggestions, only: [ :new, :create ]
 
   namespace :admin do
-    resources :lessons, only: [ :index, :edit, :update ], param: :slug
+    resources :lessons, only: [ :index, :edit, :update ], param: :slug do
+      resources :revisions, only: [ :index ] do
+        member { post :rollback }
+      end
+    end
     resources :paths, only: [ :index, :edit, :update ], param: :slug
     resources :lesson_suggestions, only: [ :index, :show ] do
       member do

@@ -98,4 +98,62 @@ class LessonTest < ActiveSupport::TestCase
     assert_includes md, "Content here"
     refute_includes md, "Задание"
   end
+
+  # Revisions
+
+  test "section_html falls back to rendered markdown" do
+    assert_includes lessons(:pteep).section_html(:body), "Содержание урока по ПТЭЭП"
+  end
+
+  test "revise! applies content and records a revision" do
+    lesson = lessons(:pteep)
+
+    assert_difference -> { lesson.lesson_revisions.count }, 1 do
+      lesson.revise!(section: "body", html: "<p>Свежий текст</p>",
+                     editor_name: "Автор", edit_reason: "почему", source: "suggestion")
+    end
+
+    assert_includes lesson.reload.section_html(:body), "Свежий текст"
+    revision = lesson.lesson_revisions.ordered.first
+    assert_equal 1, revision.version
+    assert_equal "Автор", revision.editor_name
+    assert_equal "почему", revision.edit_reason
+    assert_includes revision.content_after, "Свежий текст"
+  end
+
+  test "revise! increments version numbers" do
+    lesson = lessons(:pteep)
+    lesson.revise!(section: "body", html: "<p>один</p>", editor_name: "A", edit_reason: nil, source: "admin")
+    lesson.revise!(section: "body", html: "<p>два</p>", editor_name: "A", edit_reason: nil, source: "admin")
+    assert_equal [ 1, 2 ], lesson.lesson_revisions.order(:version).map(&:version)
+  end
+
+  test "admin_update_with_revisions! records only changed sections" do
+    lesson = lessons(:pteep)
+
+    assert_difference -> { lesson.lesson_revisions.count }, 1 do
+      lesson.admin_update_with_revisions!(
+        { rich_body: "<p>Совсем новое содержание</p>" }, edit_reason: "правка"
+      )
+    end
+
+    revision = lesson.lesson_revisions.ordered.first
+    assert_equal "body", revision.section
+    assert_equal "admin", revision.source
+  end
+
+  test "admin_update_with_revisions! skips unchanged sections" do
+    lesson = lessons(:pteep)
+    assert_no_difference -> { lesson.lesson_revisions.count } do
+      lesson.admin_update_with_revisions!({ title: "Переименовано" }, edit_reason: nil)
+    end
+    assert_equal "Переименовано", lesson.reload.title
+  end
+
+  test "revised? reflects revision count" do
+    lesson = lessons(:pteep)
+    refute lesson.revised?
+    lesson.revise!(section: "body", html: "<p>x</p>", editor_name: "A", edit_reason: nil, source: "admin")
+    assert lesson.reload.revised?
+  end
 end

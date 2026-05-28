@@ -20,7 +20,16 @@
 
   <header class="lesson__header">
     <h1 class="lesson__title"><%= @lesson.title %></h1>
+    <% if @lesson.revised? %>
+      <%= link_to lesson_revisions_path(@lesson),
+          class: "lesson-updated", data: { turbo_frame: "lesson_history" } do %>
+        <%= heroicon("clock", variant: :outline) %>
+        <span><%= t("revisions.updated_n_times", count: @lesson.lesson_revisions_count) %> · <%= t("revisions.history") %></span>
+      <% end %>
+    <% end %>
   </header>
+
+  <%= turbo_frame_tag "lesson_history" %>
 
   <article>
     <% if @lesson.has_description? %>

@@ -3,7 +3,10 @@ module Admin
     before_action :set_suggestion, only: %i[show approve reject]
 
     def index
-      @suggestions = LessonSuggestion.pending.includes(:lesson).order(created_at: :desc)
+      @order = params[:order] == "asc" ? :asc : :desc
+      @grouped = LessonSuggestion.pending.includes(:lesson)
+                                 .order(created_at: @order)
+                                 .group_by(&:lesson)
     end
 
     def show
@@ -14,13 +17,14 @@ module Admin
       return redirect_to admin_lesson_suggestions_path unless @suggestion.status == "pending"
 
       ActiveRecord::Base.transaction do
-        rich_field = :"rich_#{@suggestion.section}"
-        if @suggestion.rich_body.present?
-          @suggestion.lesson.send(rich_field).body = @suggestion.rich_body.body
-          @suggestion.lesson.save!
-        else
-          @suggestion.lesson.update!(@suggestion.section => @suggestion.body_markdown)
-        end
+        @suggestion.lesson.revise!(
+          section: @suggestion.section,
+          html: @suggestion.proposed_html,
+          editor_name: @suggestion.author_name,
+          edit_reason: @suggestion.edit_reason,
+          source: "suggestion",
+          suggestion: @suggestion
+        )
         @suggestion.update!(status: "approved")
       end
       redirect_to admin_lesson_suggestions_path, notice: I18n.t("flash.suggestion_approved")

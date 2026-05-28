@@ -23,6 +23,21 @@ class LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal I18n.t("flash.suggestion_submitted"), flash[:notice]
   end
 
+  test "create captures the edit reason and a base snapshot" do
+    post lesson_suggestions_path, params: {
+      lesson_suggestion: {
+        lesson_id: lessons(:pteep).id,
+        section: "body",
+        body_markdown: "Improved content here",
+        author_name: "Test User",
+        edit_reason: "Поправил опечатку"
+      }
+    }
+    suggestion = LessonSuggestion.order(:created_at).last
+    assert_equal "Поправил опечатку", suggestion.edit_reason
+    assert_includes suggestion.base_content, "Содержание урока по ПТЭЭП"
+  end
+
   test "create without author_name re-renders form" do
     assert_no_difference "LessonSuggestion.count" do
       post lesson_suggestions_path, params: {

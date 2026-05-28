@@ -1,4 +1,34 @@
 ru:
+  date:
+    month_names:
+      - ~
+      - января
+      - февраля
+      - марта
+      - апреля
+      - мая
+      - июня
+      - июля
+      - августа
+      - сентября
+      - октября
+      - ноября
+      - декабря
+    abbr_month_names:
+      - ~
+      - янв
+      - фев
+      - мар
+      - апр
+      - мая
+      - июн
+      - июл
+      - авг
+      - сен
+      - окт
+      - ноя
+      - дек
+
   time:
     formats:
       long: "%d %B %Y, %H:%M"
@@ -90,6 +120,7 @@ ru:
     suggestion_submitted: "Спасибо! Ваше предложение отправлено на модерацию."
     suggestion_approved: "Правка принята и применена"
     suggestion_rejected: "Правка отклонена"
+    lesson_rolled_back: "Урок откачен к выбранной версии"
 
   suggestions:
     page_title: "Предложить правку"
@@ -138,13 +169,47 @@ ru:
     suggestion_author: "Автор"
     suggestion_date: "Дата"
     ago: "назад"
-    current_content: "Текущий текст"
-    proposed_content: "Предложенный текст"
     approve: "Принять правку"
     reject: "Отклонить"
     reject_comment: "Причина отказа"
     reject_comment_placeholder: "Необязательно"
     confirm_approve: "Принять правку и обновить урок?"
+    paste_markdown: "✎ Вставить Markdown"
+    paste_markdown_hint: "Вставьте текст в Markdown и нажмите «Конвертировать» — он добавится в редактор выше как форматированный текст."
+    paste_markdown_placeholder: "## Заголовок\n\n- пункт списка\n- **жирный** и [ссылка](https://…)"
+    paste_markdown_convert: "Конвертировать в редактор"
+    diff_heading: "Изменения (текущий → предложенный)"
+    sort: "Сортировка"
+    sort_newest: "Сначала свежие"
+    sort_oldest: "Сначала старые"
+
+  revisions:
+    history: "История изменений"
+    updated_n_times:
+      one: "Обновлено %{count} раз"
+      few: "Обновлено %{count} раза"
+      many: "Обновлено %{count} раз"
+    version_n: "Версия %{version}"
+    by_admin: "Администратор"
+    reason: "Причина правки"
+    reason_hint: "Что и почему вы меняете? Это поможет проверяющему."
+    reason_hint_admin: "Необязательно. Сохранится в истории версий."
+    reason_placeholder: "Например: уточнил пункт ПУЭ 1.7.3"
+    rollback_reason: "Откат к версии %{version}"
+    show_more: "Показать ещё"
+    back: "К истории"
+    none: "Пока нет изменений"
+    rollback: "Откатить"
+    confirm_rollback: "Откатить урок к версии %{version}?"
+    stale_warning: "Урок изменился с момента этой правки — diff показан от текущего текста."
+    sections:
+      body: "Содержание"
+      task: "Задание"
+      description: "Описание"
+    source:
+      suggestion: "Правка от читателя"
+      admin: "Правка администратора"
+      rollback: "Откат"
 
   common:
     close: "Закрыть"

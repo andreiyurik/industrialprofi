@@ -1,0 +1,15 @@
+<li class="lesson-history__item">
+  <%= link_to lesson_revision_path(@lesson, revision_row), class: "lesson-history__link" do %>
+    <span class="lesson-history__head">
+      <span class="lesson-history__version"><%= t("revisions.version_n", version: revision_row.version) %></span>
+      <span class="badge badge--marker"><%= t("revisions.sections.#{revision_row.section}") %></span>
+      <span class="lesson-history__source"><%= t("revisions.source.#{revision_row.source}") %></span>
+    </span>
+    <span class="lesson-history__byline">
+      <%= revision_editor(revision_row) %> · <%= l(revision_row.created_at, format: :long) %>
+    </span>
+    <% if revision_row.edit_reason.present? %>
+      <span class="lesson-history__reason"><%= revision_row.edit_reason %></span>
+    <% end %>
+  <% end %>
+</li>

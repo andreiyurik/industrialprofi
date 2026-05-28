@@ -36,23 +36,21 @@
       </div>
     </div>
 
-    <div class="admin-comparison">
-      <div>
-        <h3 class="admin-comparison__heading"><%= t("admin.current_content") %></h3>
-        <div class="admin-comparison__body prose">
-          <%= lesson_content(@lesson, @suggestion.section.to_sym) %>
-        </div>
-      </div>
+    <% if @suggestion.stale? %>
+      <div class="revision-stale">⚠ <%= t("revisions.stale_warning") %></div>
+    <% end %>
 
-      <div>
-        <h3 class="admin-comparison__heading admin-comparison__heading--proposed"><%= t("admin.proposed_content") %></h3>
-        <div class="admin-comparison__body admin-comparison__body--proposed prose">
-          <% if @suggestion.rich_body.present? %>
-            <%= @suggestion.rich_body %>
-          <% else %>
-            <%= markdown(@suggestion.body_markdown) %>
-          <% end %>
-        </div>
+    <% if @suggestion.edit_reason.present? %>
+      <div class="admin-edit-reason">
+        <span class="admin-meta-card__label"><%= t("revisions.reason") %>:</span>
+        <span class="admin-meta-card__value"><%= @suggestion.edit_reason %></span>
+      </div>
+    <% end %>
+
+    <div class="admin-diff">
+      <h3 class="admin-comparison__heading"><%= t("admin.diff_heading") %></h3>
+      <div class="admin-comparison__body revision-diff prose">
+        <%= inline_diff(@lesson.section_html(@suggestion.section), @suggestion.proposed_html) %>
       </div>
     </div>
 

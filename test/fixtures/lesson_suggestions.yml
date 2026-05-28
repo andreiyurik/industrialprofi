@@ -4,6 +4,7 @@ pending_suggestion:
   section: body
   author_name: "Иван Петров"
   author_contact: "ivan@example.com"
+  edit_reason: "Уточнил формулировку"
   status: pending
 
 approved_suggestion:

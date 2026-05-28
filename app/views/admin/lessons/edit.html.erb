@@ -9,7 +9,12 @@
         </a>
         <h1 class="admin-header__title"><%= @lesson.title %></h1>
       </div>
-      <a href="<%= lesson_path(@lesson) %>" class="admin-header__view-live" target="_blank"><%= t("admin.view_live") %> ↗</a>
+      <div class="admin-header__actions">
+        <% if @lesson.revised? %>
+          <a href="<%= admin_lesson_revisions_path(@lesson) %>" class="btn btn--small"><%= t("revisions.history") %> (<%= @lesson.lesson_revisions_count %>)</a>
+        <% end %>
+        <a href="<%= lesson_path(@lesson) %>" class="admin-header__view-live" target="_blank"><%= t("admin.view_live") %> ↗</a>
+      </div>
     </div>
 
     <%= render "admin/shared/form_errors", object: @lesson %>
@@ -26,19 +31,14 @@
             {}, class: "input" %>
       </div>
 
-      <div class="admin-form__field admin-form__field--lg">
-        <label><%= t("admin.field_description") %></label>
-        <%= f.rich_text_area :rich_description, class: "lexxy-content" %>
-      </div>
+      <%= render "admin/lessons/markdown_field", f: f, field: :rich_description, label: t("admin.field_description") %>
+      <%= render "admin/lessons/markdown_field", f: f, field: :rich_body, label: t("admin.field_body") %>
+      <%= render "admin/lessons/markdown_field", f: f, field: :rich_task, label: t("admin.field_task") %>
 
       <div class="admin-form__field admin-form__field--lg">
-        <label><%= t("admin.field_body") %></label>
-        <%= f.rich_text_area :rich_body, class: "lexxy-content" %>
-      </div>
-
-      <div class="admin-form__field admin-form__field--lg">
-        <label><%= t("admin.field_task") %></label>
-        <%= f.rich_text_area :rich_task, class: "lexxy-content" %>
+        <label><%= t("revisions.reason") %></label>
+        <p class="admin-form__hint"><%= t("revisions.reason_hint_admin") %></p>
+        <%= text_field_tag "lesson[edit_reason]", nil, class: "input", placeholder: t("revisions.reason_placeholder") %>
       </div>
 
       <div class="admin-form__actions">

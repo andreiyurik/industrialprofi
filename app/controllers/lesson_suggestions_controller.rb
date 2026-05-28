@@ -18,6 +18,7 @@ class LessonSuggestionsController < ApplicationController
     end
 
     @suggestion = @lesson.lesson_suggestions.new(suggestion_params)
+    capture_base_content
 
     if @suggestion.save
       redirect_to lesson_path(@lesson), notice: I18n.t("flash.suggestion_submitted")
@@ -29,6 +30,14 @@ class LessonSuggestionsController < ApplicationController
 
   private
 
+  # Snapshot the section as it stood when the edit was submitted, so the
+  # moderator can be warned later if the lesson moved on in the meantime.
+  def capture_base_content
+    return unless LessonRevision::SECTIONS.include?(@suggestion.section)
+
+    @suggestion.base_content = @lesson.section_html(@suggestion.section)
+  end
+
   def prepopulate_rich_body
     rich_field = :"rich_#{@section}"
     if @lesson.send(rich_field).present?
@@ -39,6 +48,6 @@ class LessonSuggestionsController < ApplicationController
   end
 
   def suggestion_params
-    params.require(:lesson_suggestion).permit(:section, :body_markdown, :author_name, :author_contact, :rich_body)
+    params.require(:lesson_suggestion).permit(:section, :body_markdown, :author_name, :author_contact, :rich_body, :edit_reason)
   end
 end

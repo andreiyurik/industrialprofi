@@ -65,4 +65,28 @@ class LessonSuggestionTest < ActiveSupport::TestCase
   test "belongs to lesson" do
     assert_equal lessons(:pteep), lesson_suggestions(:pending_suggestion).lesson
   end
+
+  # Staleness
+
+  test "not stale without a base snapshot" do
+    refute lesson_suggestions(:pending_suggestion).stale?
+  end
+
+  test "not stale when section matches the base snapshot" do
+    lesson = lessons(:pteep)
+    suggestion = lesson.lesson_suggestions.create!(
+      body_markdown: "Правка", author_name: "A", section: "body",
+      base_content: lesson.section_html("body")
+    )
+    refute suggestion.stale?
+  end
+
+  test "stale when section changed since submission" do
+    lesson = lessons(:pteep)
+    suggestion = lesson.lesson_suggestions.create!(
+      body_markdown: "Правка", author_name: "A", section: "body",
+      base_content: "<p>Совсем другой исходный текст</p>"
+    )
+    assert suggestion.stale?
+  end
 end

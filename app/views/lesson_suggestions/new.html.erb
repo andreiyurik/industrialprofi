@@ -44,6 +44,14 @@
             data: { toolbar: { upload: false }.to_json } %>
       </div>
 
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("revisions.reason") %></label>
+        <p class="admin-form__hint"><%= t("revisions.reason_hint") %></p>
+        <%= f.text_field :edit_reason,
+            placeholder: t("revisions.reason_placeholder"),
+            class: "input" %>
+      </div>
+
       <div class="admin-form__grid admin-form__field--lg">
         <div class="admin-form__field">
           <label><%= t("suggestions.field_name") %> *</label>

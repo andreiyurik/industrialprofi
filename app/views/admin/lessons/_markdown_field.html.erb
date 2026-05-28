@@ -1,0 +1,17 @@
+<%# locals: f, field, label %>
+<div class="admin-form__field admin-form__field--lg"
+     data-controller="markdown-import"
+     data-markdown-import-url-value="<%= admin_preview_path %>">
+  <label><%= label %></label>
+  <%= f.rich_text_area field, class: "lexxy-content", data: { "markdown-import-target": "editor" } %>
+
+  <details class="markdown-import">
+    <summary class="markdown-import__summary"><%= t("admin.paste_markdown") %></summary>
+    <p class="admin-form__hint"><%= t("admin.paste_markdown_hint") %></p>
+    <textarea class="input input--textarea input--mono" rows="8"
+              data-markdown-import-target="source"
+              placeholder="<%= t("admin.paste_markdown_placeholder") %>"></textarea>
+    <button type="button" class="btn btn--small markdown-import__button"
+            data-action="markdown-import#convert"><%= t("admin.paste_markdown_convert") %></button>
+  </details>
+</div>

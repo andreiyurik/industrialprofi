@@ -11,11 +11,10 @@ module Admin
     end
 
     def update
-      if @lesson.update(lesson_params)
-        redirect_to edit_admin_lesson_path(@lesson), notice: I18n.t("flash.lesson_updated")
-      else
-        render :edit, status: :unprocessable_entity
-      end
+      @lesson.admin_update_with_revisions!(lesson_params, edit_reason: params.dig(:lesson, :edit_reason))
+      redirect_to edit_admin_lesson_path(@lesson), notice: I18n.t("flash.lesson_updated")
+    rescue ActiveRecord::RecordInvalid
+      render :edit, status: :unprocessable_entity
     end
 
     private
