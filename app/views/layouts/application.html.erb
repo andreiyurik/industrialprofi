@@ -47,7 +47,6 @@
         </a>
         <div class="header__links">
           <a href="<%= paths_path %>" class="nav__link"><%= t("nav.professions") %></a>
-          <a href="<%= root_path %>#how-it-works" class="nav__link"><%= t("nav.about") %></a>
           <a href="<%= support_us_path %>" class="nav__link"><%= t("nav.support") %></a>
           <% if controller.class.module_parent_name == "Admin" %>
             <span class="badge badge--marker">Admin</span>
@@ -89,14 +88,12 @@
           </div>
           <div>
             <h4 class="footer__heading"><%= t("footer.project") %></h4>
-            <a href="<%= root_path %>#how-it-works" class="footer__link"><%= t("footer.about") %></a>
             <a href="<%= site_config.telegram_url %>" class="footer__link" target="_blank" rel="noopener"><%= t("footer.feedback") %></a>
             <a href="<%= support_us_path %>" class="footer__link"><%= t("footer.support") %></a>
           </div>
           <div>
             <h4 class="footer__heading"><%= t("footer.resources") %></h4>
             <a href="<%= paths_path %>" class="footer__link"><%= t("footer.standards") %></a>
-            <a href="<%= root_path %>#how-it-works" class="footer__link"><%= t("footer.faq") %></a>
           </div>
         </div>
 

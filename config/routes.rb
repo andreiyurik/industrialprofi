@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  root "pages#home"
+  root "paths#index"
   get "support_us" => "pages#support_us"
   get "robots.txt" => "sitemaps#robots", defaults: { format: :text }
   get "sitemap.xml" => "sitemaps#show", defaults: { format: :xml }

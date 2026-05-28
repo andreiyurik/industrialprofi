@@ -78,6 +78,7 @@
     <orderEntry type="library" scope="PROVIDED" name="kramdown (v2.5.2, mise: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="kramdown-parser-gfm (v1.1.0, mise: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="language_server-protocol (v3.17.0.5, mise: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="lexxy (v0.1.26.beta, mise: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="lint_roller (v1.1.0, mise: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="logger (v1.7.0, mise: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="loofah (v2.25.1, mise: 4.0.5) [gem]" level="application" />
@@ -140,8 +141,6 @@
     <orderEntry type="library" scope="PROVIDED" name="sshkit (v1.25.0, mise: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stimulus-rails (v1.3.4, mise: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stringio (v3.2.0, mise: 4.0.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="tailwindcss-rails (v4.4.0, mise: 4.0.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="tailwindcss-ruby (v4.3.0, mise: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.5.0, mise: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thruster (v0.1.21, mise: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="timeout (v0.6.1, mise: 4.0.5) [gem]" level="application" />

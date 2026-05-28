@@ -1,86 +1,36 @@
-/* Topic cards — profession previews on landing */
-.topic-card {
-  background-color: var(--color-subtle-light);
-  border: 1px solid var(--color-subtle);
-  border-radius: 0.75em;
-  display: block;
-  padding: 1.5rem;
-  text-align: center;
-  text-decoration: none;
-  transition: border-color 200ms ease;
+/* Card grid — multi-col layout for path/profession cards on the catalog page */
+.card-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-block-start: 3rem;
+}
 
-  @media (any-hover: hover) {
-    &:hover {
-      border-color: var(--color-marker);
-    }
+.card-grid--2-col {
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-.topic-card__icon {
-  align-items: center;
-  block-size: 6rem;
-  border: 2px solid oklch(var(--lch-orange) / 0.6);
-  border-radius: 50%;
-  color: var(--color-marker);
-  display: flex;
-  inline-size: 6rem;
-  justify-content: center;
-  margin-block-end: 1rem;
-  margin-inline: auto;
+.card-grid--3-col {
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-  svg, img {
-    height: 3rem;
-    width: 3rem;
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-.topic-card__title {
-  color: var(--color-ink);
-  font-size: 1rem;
-  font-weight: 600;
-  margin-block: 0 0.4em;
-}
-
-.topic-card__subtitle {
+/* Subtitle under a centered section heading (catalog page intro) */
+.section-subtitle {
   color: var(--color-subtle-dark);
-  font-size: 0.85rem;
-  margin-block: 0;
-}
-
-/* Step icons — "how it works" trio on landing */
-.step-icon {
-  align-items: center;
-  block-size: 5rem;
-  color: var(--color-marker);
-  display: flex;
-  inline-size: 5rem;
-  justify-content: center;
-  margin-block-end: 1rem;
+  margin-block: 1rem 0;
   margin-inline: auto;
-
-  svg {
-    height: 4rem;
-    width: 4rem;
-  }
+  max-inline-size: 36rem;
+  text-align: center;
 }
 
-/* Avatars — short letter/symbol badges, e.g. testimonial markers */
-.avatar {
-  align-items: center;
-  background-color: var(--color-subtle);
-  block-size: 2.5rem;
-  border: 1px solid var(--color-subtle);
-  border-radius: 50%;
-  color: var(--color-marker);
-  display: inline-flex;
-  flex-shrink: 0;
-  font-size: 0.85rem;
-  font-weight: 700;
-  inline-size: 2.5rem;
-  justify-content: center;
-}
-
-/* Hero icon for an individual profession page (paths/show) */
+/* Individual profession page (paths/show) */
 .topic-hero-icon {
   align-items: center;
   block-size: 5rem;
@@ -98,151 +48,6 @@
   }
 }
 
-/* Landing grids — multi-col on wider screens */
-.landing-grid {
-  display: grid;
-  gap: 1.5rem;
-  margin-block-start: 3rem;
-}
-
-.landing-grid--gap-lg {
-  gap: 2rem;
-}
-
-.landing-grid--2-col {
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.landing-grid--3-col {
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.landing-grid--cards {
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Hero illustration placeholder block */
-.hero-illustration {
-  align-items: center;
-  background-color: var(--color-subtle-light);
-  block-size: 12rem;
-  border: 1px solid var(--color-subtle);
-  border-radius: 0.75em;
-  color: var(--color-subtle-dark);
-  display: flex;
-  justify-content: center;
-  margin-block-start: 3rem;
-  text-align: center;
-
-  @media (min-width: 640px) {
-    block-size: 16rem;
-  }
-
-  svg {
-    height: 4rem;
-    margin-block-end: 0.75rem;
-    margin-inline: auto;
-    width: 4rem;
-  }
-}
-
-.hero-illustration__caption {
-  font-size: 0.85rem;
-  margin-block: 0;
-}
-
-/* Hero / section copy */
-.lede {
-  color: var(--color-subtle-dark);
-  font-size: 1.15rem;
-  margin-block: 1.5rem 0;
-  margin-inline: auto;
-  max-inline-size: 36rem;
-  text-align: center;
-}
-
-.section-subtitle {
-  color: var(--color-subtle-dark);
-  margin-block: 1rem 0;
-  margin-inline: auto;
-  max-inline-size: 36rem;
-  text-align: center;
-}
-
-.hero-actions {
-  margin-block-start: 2rem;
-  text-align: center;
-}
-
-.cta-row {
-  margin-block-start: 2.5rem;
-  text-align: center;
-}
-
-/* Step (how it works) cards */
-.step {
-  text-align: center;
-}
-
-.step__title {
-  color: var(--color-ink);
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-block: 0 0.5rem;
-}
-
-.step__desc {
-  color: var(--color-subtle-dark);
-  font-size: 0.9rem;
-  margin-block: 0;
-  margin-inline: auto;
-  max-inline-size: 18rem;
-}
-
-/* Why-it-matters items (avatar + heading + copy) */
-.why-item {
-  display: flex;
-  gap: 1rem;
-}
-
-.why-item__title {
-  color: var(--color-marker);
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-block: 0 0.25rem;
-}
-
-.why-item__desc {
-  color: var(--color-subtle-dark);
-  font-size: 0.9rem;
-  margin-block: 0;
-}
-
-/* Subtle marker-colored link (e.g. "tell your story") */
-.subtle-link {
-  color: var(--color-marker);
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: opacity 200ms ease;
-
-  @media (any-hover: hover) {
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-}
-
-/* Individual profession page (paths/show) — hero block */
 .path__title {
   font-size: clamp(1.4rem, 3.5vw, 2rem);
   font-weight: 700;
