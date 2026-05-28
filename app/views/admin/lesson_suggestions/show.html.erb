@@ -65,7 +65,7 @@
     <div class="flex flex-col sm:flex-row gap-4 p-4 rounded-lg bg-subtle border border-subtle">
       <%# Approve %>
       <%= form_with(url: approve_admin_lesson_suggestion_path(@suggestion), method: :patch, class: "inline") do %>
-        <button type="submit" class="btn-primary"
+        <button type="submit" class="btn btn--reversed"
                 onclick="return confirm('<%= t("admin.confirm_approve") %>')">
           <%= t("admin.approve") %>
         </button>
@@ -79,7 +79,7 @@
               placeholder: t("admin.reject_comment_placeholder"),
               class: "w-full bg-canvas border border-subtle rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-negative/50 transition" %>
         </div>
-        <button type="submit" class="mt-2 sm:mt-0 btn-outline border-negative/50 text-negative hover:border-negative hover:text-negative">
+        <button type="submit" class="mt-2 sm:mt-0 btn btn--negative">
           <%= t("admin.reject") %>
         </button>
       <% end %>

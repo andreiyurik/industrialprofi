@@ -10,7 +10,7 @@
     <h1 class="page-title"><%= t("landing.hero_title_html") %></h1>
     <p class="mt-6 text-lg body-text max-w-xl mx-auto"><%= t("landing.hero_subtitle") %></p>
     <div class="mt-8">
-      <a href="<%= paths_path %>" class="btn-outline"><%= t("landing.browse_professions") %></a>
+      <a href="<%= paths_path %>" class="btn"><%= t("landing.browse_professions") %></a>
     </div>
   </div>
 
@@ -73,7 +73,7 @@
     </div>
 
     <div class="mt-10 text-center">
-      <a href="<%= paths_path %>" class="btn-outline"><%= t("landing.browse_all") %></a>
+      <a href="<%= paths_path %>" class="btn"><%= t("landing.browse_all") %></a>
     </div>
   </div>
 </section>
@@ -128,8 +128,8 @@
     <h2 class="section-title"><%= t("landing.support_title") %></h2>
     <p class="mt-4 body-text max-w-lg mx-auto"><%= t("landing.support_subtitle") %></p>
     <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
-      <a href="<%= site_config.telegram_url %>" class="btn-outline" target="_blank" rel="noopener"><%= t("landing.contact_us") %></a>
-      <a href="<%= site_config.donate_url %>" class="btn-gold" target="_blank" rel="noopener"><%= t("landing.donate") %></a>
+      <a href="<%= site_config.telegram_url %>" class="btn" target="_blank" rel="noopener"><%= t("landing.contact_us") %></a>
+      <a href="<%= site_config.donate_url %>" class="btn btn--marker" target="_blank" rel="noopener"><%= t("landing.donate") %></a>
     </div>
   </div>
 </section>

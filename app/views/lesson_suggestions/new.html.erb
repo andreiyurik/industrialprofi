@@ -61,8 +61,8 @@
       </div>
 
       <div class="mt-6 flex items-center gap-3">
-        <%= f.submit t("suggestions.submit"), class: "btn-primary cursor-pointer" %>
-        <a href="<%= lesson_path(@lesson) %>" class="btn-outline"><%= t("admin.cancel") %></a>
+        <%= f.submit t("suggestions.submit"), class: "btn btn--reversed" %>
+        <a href="<%= lesson_path(@lesson) %>" class="btn"><%= t("admin.cancel") %></a>
       </div>
     <% end %>
   </div>

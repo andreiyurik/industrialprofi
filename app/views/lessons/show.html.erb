@@ -65,8 +65,8 @@
     <h2 class="text-2xl sm:text-3xl font-bold text-ink"><%= t("landing.support_title") %></h2>
     <p class="mt-4 body-text max-w-lg mx-auto"><%= t("landing.support_subtitle") %></p>
     <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
-      <%= link_to t("landing.contact_us_short"), support_us_path, class: "btn-outline" %>
-      <a href="<%= site_config.donate_url %>" class="btn-primary" target="_blank" rel="noopener"><%= t("landing.donate") %></a>
+      <%= link_to t("landing.contact_us_short"), support_us_path, class: "btn" %>
+      <a href="<%= site_config.donate_url %>" class="btn btn--reversed" target="_blank" rel="noopener"><%= t("landing.donate") %></a>
     </div>
   </div>
 </section>

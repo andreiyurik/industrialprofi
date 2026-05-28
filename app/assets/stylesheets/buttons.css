@@ -1,0 +1,82 @@
+:root {
+  --btn-size: 2.65em;
+}
+
+.btn {
+  align-items: center;
+  background-color: var(--btn-background, transparent);
+  border-radius: var(--btn-border-radius, 2em);
+  border: var(--btn-border-size, 1px) solid var(--btn-border-color, var(--color-subtle-dark));
+  color: var(--btn-color, var(--color-ink));
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 1em;
+  font-weight: 600;
+  gap: var(--btn-gap, 0.5em);
+  justify-content: center;
+  padding: var(--btn-padding, 0.5em 1.1em);
+  pointer-events: auto;
+  text-decoration: none;
+
+  &:where(:has(img, svg)) {
+    text-align: start;
+
+    img, svg {
+      block-size: var(--btn-icon-size, 1.1em);
+      inline-size: var(--btn-icon-size, 1.1em);
+      max-inline-size: unset;
+    }
+  }
+
+  &[disabled],
+  &:has([disabled]),
+  &[type=submit]:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @media print {
+    display: none;
+  }
+}
+
+/* Variants */
+.btn--reversed {
+  --btn-background: var(--color-ink);
+  --btn-color: var(--color-bg);
+  --outline-color: var(--color-ink);
+}
+
+.btn--marker {
+  --btn-background: var(--color-marker);
+  --btn-color: var(--color-ink-reversed);
+  --outline-color: var(--color-marker);
+}
+
+.btn--negative {
+  --btn-background: var(--color-negative);
+  --btn-color: var(--color-ink-reversed);
+  --outline-color: var(--color-negative);
+}
+
+.btn--positive {
+  --btn-background: var(--color-positive);
+  --btn-color: var(--color-ink-reversed);
+  --outline-color: var(--color-positive);
+}
+
+:is(.btn--reversed, .btn--marker, .btn--negative, .btn--positive) {
+  --btn-border-color: var(--color-bg);
+}
+
+/* Sizes */
+.btn--small {
+  --btn-padding: 0.4em 0.9em;
+  font-size: 0.85em;
+}
+
+.btn--large {
+  --btn-padding: 0.75em 2em;
+  font-size: 1.1em;
+}
