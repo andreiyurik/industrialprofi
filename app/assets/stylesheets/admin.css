@@ -325,6 +325,14 @@
   margin-block: 0 0.5rem;
 }
 
+/* Read-only section context on the suggestion form (replaces the old select) */
+.suggestion-section {
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-block: 0;
+}
+
 /* Inline alert / error block */
 .admin-alert {
   border: 1px solid;

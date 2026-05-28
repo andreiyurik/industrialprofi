@@ -27,6 +27,7 @@
       <section id="why" class="lesson__intro">
         <p class="lesson__intro-label"><%= t("lessons.why_section") %></p>
         <div class="prose"><%= lesson_content(@lesson, :description) %></div>
+        <%= render "lessons/edit_link", section: "description" %>
       </section>
     <% end %>
 
@@ -34,6 +35,7 @@
       <section id="study" class="lesson__section">
         <h2 class="lesson__heading"><%= t("lessons.study_section") %></h2>
         <div class="prose"><%= lesson_content(@lesson, :body) %></div>
+        <%= render "lessons/edit_link", section: "body" %>
       </section>
     <% end %>
 
@@ -53,6 +55,7 @@
         <div class="lesson__task">
           <div class="prose"><%= lesson_content(@lesson, :task) %></div>
         </div>
+        <%= render "lessons/edit_link", section: "task" %>
       </section>
     <% end %>
 

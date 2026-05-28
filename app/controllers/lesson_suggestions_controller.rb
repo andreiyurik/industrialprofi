@@ -10,12 +10,19 @@ class LessonSuggestionsController < ApplicationController
 
   def create
     @lesson = Lesson.find(params[:lesson_suggestion][:lesson_id])
+
+    # Honeypot: bots fill the hidden "company" field — pretend success, save nothing.
+    if params[:company].present?
+      redirect_to lesson_path(@lesson), notice: I18n.t("flash.suggestion_submitted")
+      return
+    end
+
     @suggestion = @lesson.lesson_suggestions.new(suggestion_params)
 
     if @suggestion.save
       redirect_to lesson_path(@lesson), notice: I18n.t("flash.suggestion_submitted")
     else
-      @section = @suggestion.section
+      @section = %w[body task description].include?(@suggestion.section) ? @suggestion.section : "body"
       render :new, status: :unprocessable_entity
     end
   end

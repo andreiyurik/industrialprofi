@@ -48,4 +48,20 @@ class LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :unprocessable_entity
   end
+
+  test "create with filled honeypot is silently dropped" do
+    assert_no_difference "LessonSuggestion.count" do
+      post lesson_suggestions_path, params: {
+        company: "spam-bot",
+        lesson_suggestion: {
+          lesson_id: lessons(:pteep).id,
+          section: "body",
+          body_markdown: "Spam content",
+          author_name: "Bot"
+        }
+      }
+    end
+    assert_redirected_to lesson_path(lessons(:pteep))
+    assert_equal I18n.t("flash.suggestion_submitted"), flash[:notice]
+  end
 end

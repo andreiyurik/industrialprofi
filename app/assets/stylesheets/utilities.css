@@ -103,3 +103,12 @@
   position: absolute;
   white-space: nowrap;
 }
+
+/* Honeypot — visually removed but present in the DOM for bots to fill */
+.honeypot {
+  block-size: 1px;
+  inline-size: 1px;
+  inset-inline-start: -9999px;
+  overflow: hidden;
+  position: absolute;
+}

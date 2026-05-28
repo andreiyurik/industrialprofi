@@ -123,6 +123,17 @@
   margin-block-start: 2.5rem;
 }
 
+/* Per-section "suggest edit" affordance under each editable lesson section */
+.lesson-section-edit {
+  font-size: 0.8rem;
+  margin-block: 1rem 0;
+
+  .lesson-edit-link svg {
+    block-size: 0.9rem;
+    inline-size: 0.9rem;
+  }
+}
+
 .lesson-edit-link {
   align-items: center;
   color: var(--color-subtle-dark);

@@ -24,19 +24,17 @@
 
     <%= form_with(model: @suggestion, url: lesson_suggestions_path) do |f| %>
       <%= f.hidden_field :lesson_id, value: @lesson.id %>
+      <%= f.hidden_field :section %>
+
+      <%# Honeypot — bots fill this hidden field; #create silently drops them %>
+      <div class="honeypot" aria-hidden="true">
+        <label for="suggestion_company"><%= t("suggestions.honeypot_label") %></label>
+        <%= text_field_tag :company, nil, id: "suggestion_company", tabindex: -1, autocomplete: "off" %>
+      </div>
 
       <div class="admin-form__field">
         <label><%= t("suggestions.field_section") %></label>
-        <%= f.select :section, [
-          [t("suggestions.section_body"), "body"],
-          [t("suggestions.section_task"), "task"],
-          [t("suggestions.section_description"), "description"]
-        ], {}, class: "input",
-           data: {
-             controller: "section-reload",
-             "section-reload-url-value": new_lesson_suggestion_path(lesson_slug: @lesson.slug),
-             action: "change->section-reload#navigate"
-           } %>
+        <p class="suggestion-section"><%= t("suggestions.section_#{@section}") %></p>
       </div>
 
       <div class="admin-form__field admin-form__field--lg">
@@ -60,6 +58,8 @@
               class: "input" %>
         </div>
       </div>
+
+      <p class="admin-form__hint admin-form__field--lg"><%= t("suggestions.review_note") %></p>
 
       <div class="admin-form__actions">
         <%= f.submit t("suggestions.submit"), class: "btn btn--reversed" %>

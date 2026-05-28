@@ -106,7 +106,9 @@ ru:
     name_placeholder: "Иван Петров"
     field_contact: "Контакт (необязательно)"
     contact_placeholder: "Email или Telegram"
-    submit: "Отправить предложение"
+    review_note: "Мы прочитаем правку вручную и применим, если она улучшит урок. Обычно это занимает пару дней."
+    honeypot_label: "Не заполняйте это поле"
+    submit: "Отправить на проверку"
 
   admin:
     lessons_title: "Управление уроками"
