@@ -17,23 +17,23 @@
     <%= form_with(model: [:admin, @path], url: admin_path_path(@path), method: :patch) do |f| %>
       <div class="mb-4">
         <label class="block text-sm font-medium text-ink-subtle mb-1"><%= t("admin.field_title") %></label>
-        <%= f.text_field :title, class: "w-full bg-subtle border border-subtle rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-link/50 transition" %>
+        <%= f.text_field :title, class: "input" %>
       </div>
 
       <div class="mb-4">
         <label class="block text-sm font-medium text-ink-subtle mb-1"><%= t("admin.field_slug") %></label>
-        <%= f.text_field :slug, class: "w-full bg-subtle border border-subtle rounded-lg px-3 py-2 text-sm text-ink-subtle font-mono focus:outline-none focus:border-link/50 transition" %>
+        <%= f.text_field :slug, class: "input input--mono" %>
       </div>
 
       <div class="mb-4">
         <label class="block text-sm font-medium text-ink-subtle mb-1"><%= t("admin.field_description") %></label>
-        <%= f.text_area :description, rows: 4, class: "w-full bg-subtle border border-subtle rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-link/50 transition resize-y" %>
+        <%= f.text_area :description, rows: 4, class: "input input--textarea" %>
       </div>
 
       <div class="mb-6">
         <label class="block text-sm font-medium text-ink-subtle mb-1"><%= t("admin.field_status") %></label>
         <%= f.select :status, %w[draft pending_review published],
-            {}, class: "bg-subtle border border-subtle rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-link/50 transition" %>
+            {}, class: "input" %>
       </div>
 
       <div class="flex items-center gap-3">
