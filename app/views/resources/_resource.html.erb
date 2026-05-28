@@ -1,0 +1,11 @@
+<li class="lesson-resource <%= resource.required? ? "lesson-resource--required" : "lesson-resource--optional" %>">
+  <span aria-hidden="true" class="lesson-resource-marker"><%= resource.required? ? "★" : "○" %></span>
+  <div class="min-w-0">
+    <a href="<%= resource.url %>" class="lesson-resource-link" target="_blank" rel="noopener">
+      <%= resource.title %>
+    </a>
+    <% if resource.country_code.present? %>
+      <span class="ml-2 text-xs text-gray-500"><%= resource.country_code %></span>
+    <% end %>
+  </div>
+</li>

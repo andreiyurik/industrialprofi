@@ -1,55 +1,28 @@
-<%# ── Footer links (two columns) ── %>
-<div class="mt-10 pt-6 border-t border-gray-700/30 flex justify-between">
-  <div class="flex flex-col gap-1.5">
-    <a href="<%= site_config.telegram_url %>" class="lesson-footer-link" target="_blank" rel="noopener">
-      <%= t("lessons.report_issue") %>
-      <%= heroicon("arrow-top-right-on-square", variant: :outline, options: { class: "w-3 h-3" }) %>
-    </a>
-    <a href="<%= site_config.telegram_url %>" class="lesson-footer-link" target="_blank" rel="noopener">
-      <%= t("lessons.report_broken_link") %>
-      <%= heroicon("arrow-top-right-on-square", variant: :outline, options: { class: "w-3 h-3" }) %>
-    </a>
-    <a href="<%= new_lesson_suggestion_path(lesson_slug: @lesson.slug) %>" class="lesson-footer-link">
-      <%= t("lessons.suggest_edit") %>
-      <%= heroicon("pencil-square", variant: :outline, options: { class: "w-3 h-3" }) %>
-    </a>
-  </div>
-  <div class="flex flex-col items-end">
-    <a href="<%= site_config.telegram_url %>" class="lesson-footer-link" target="_blank" rel="noopener">
-      <%= t("lessons.see_changelog") %>
-      <%= heroicon("arrow-top-right-on-square", variant: :outline, options: { class: "w-3 h-3" }) %>
-    </a>
-  </div>
-</div>
+<%# Inline edit prompt %>
+<p class="mt-10 text-sm text-gray-500">
+  <%= t("lessons.found_error_question") %>
+  <%= link_to t("lessons.suggest_edit"),
+      new_lesson_suggestion_path(lesson_slug: @lesson.slug),
+      class: "lesson-edit-link" %>
+</p>
 
-<%# ── Navigation buttons (three columns) ── %>
-<div class="mt-10 pt-8 border-t border-gray-700/30">
-  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-    <%# Previous %>
-    <div>
-      <% if @prev_lesson %>
-        <a href="<%= lesson_path(@prev_lesson) %>" class="lesson-nav-pill">
-          <%= heroicon("chevron-left", variant: :outline, options: { class: "w-5 h-5" }) %>
-          <%= t("lessons.previous_lesson") %>
-        </a>
+<%# Lesson-to-lesson navigation %>
+<nav class="mt-6 pt-6 border-t border-gray-700/30">
+  <div class="flex items-center justify-between gap-4">
+    <% if (prev = @lesson.prev_in_path) %>
+      <%= link_to prev, class: "lesson-nav-pill" do %>
+        <%= heroicon("chevron-left", variant: :outline, options: { class: "w-5 h-5" }) %>
+        <%= t("lessons.previous_lesson") %>
       <% end %>
-    </div>
+    <% else %>
+      <span></span>
+    <% end %>
 
-    <%# Complete / Sign in %>
-    <div>
-      <a href="#" class="lesson-nav-cta" onclick="return false;">
-        <%= t("lessons.sign_in_to_track") %>
-      </a>
-    </div>
-
-    <%# Next %>
-    <div>
-      <% if @next_lesson %>
-        <a href="<%= lesson_path(@next_lesson) %>" class="lesson-nav-pill">
-          <%= t("lessons.next_lesson") %>
-          <%= heroicon("chevron-right", variant: :outline, options: { class: "w-5 h-5" }) %>
-        </a>
+    <% if (nxt = @lesson.next_in_path) %>
+      <%= link_to nxt, class: "lesson-nav-pill" do %>
+        <%= t("lessons.next_lesson") %>
+        <%= heroicon("chevron-right", variant: :outline, options: { class: "w-5 h-5" }) %>
       <% end %>
-    </div>
+    <% end %>
   </div>
-</div>
+</nav>

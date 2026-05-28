@@ -33,6 +33,11 @@ module ApplicationHelper
     end
   end
 
+  def stage_label(stage)
+    return "" if stage.blank?
+    t("lessons.stages.#{stage}", default: stage.humanize)
+  end
+
   def russian_pluralize(count, key)
     t("common.#{key}", count: count)
   end

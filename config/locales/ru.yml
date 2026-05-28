@@ -16,6 +16,7 @@ ru:
 
   breadcrumbs:
     home: "Главная"
+    nav_label: "Хлебные крошки"
 
   footer:
     description: "Бесплатные карты развития для промышленных специалистов, поддерживаемые сообществом."
@@ -94,18 +95,10 @@ ru:
     required_label: "Обязательный"
     optional_label: "Дополнительный"
     task_section: "Практическое задание"
-    mark_done: "Отметить как пройденный"
-    mark_done_hint: "Войдите, чтобы отслеживать прогресс"
     previous_lesson: "Предыдущий урок"
     next_lesson: "Следующий урок"
-    back_to_path: "Назад к профессии"
-    sidebar_title: "Содержание курса"
-    toc_title: "Содержание"
-    report_issue: "Сообщить об ошибке"
-    report_broken_link: "Ошибка в материале"
-    suggest_edit: "Предложить улучшение"
-    see_changelog: "История изменений"
-    sign_in_to_track: "Войдите для отслеживания"
+    found_error_question: "Нашли ошибку?"
+    suggest_edit: "Предложить правку"
 
   support:
     page_title: "Поддержать проект — IndustrialProfi"
@@ -133,7 +126,7 @@ ru:
     a_who_created: "Пока что за проектом стою я один. Код, контент, дизайн, ответы в Telegram, разбор багов у конкретных людей — всё это часы после основной работы. Я верю, что промышленные специалисты заслуживают такой же качественной бесплатной программы обучения, какая есть у программистов. Пока я тяну всё сам, но цель — собрать сообщество экспертов, которые помогут проверять и дополнять материалы. Если хотите помочь или просто поговорить — пишите мне напрямую в Telegram."
 
     q_contact: "Как с вами связаться?"
-    a_contact_html: 'Напишите нам в <a href="%{telegram_url}" class="text-teal-400 underline hover:text-teal-300 transition" target="_blank" rel="noopener">Telegram</a> или на почту <a href="mailto:%{contact_email}" class="text-teal-400 underline hover:text-teal-300 transition">%{contact_email}</a>. Мы отвечаем в течение суток.'
+    a_contact_html: 'Напишите мне в <a href="%{telegram_url}" class="text-teal-400 underline hover:text-teal-300 transition" target="_blank" rel="noopener">Telegram</a>. Я отвечаю в течение двух суток.'
 
   flash:
     lesson_updated: "Урок сохранён"
@@ -196,6 +189,7 @@ ru:
     confirm_approve: "Принять правку и обновить урок?"
 
   common:
+    close: "Закрыть"
     lesson:
       one: "%{count} урок"
       few: "%{count} урока"

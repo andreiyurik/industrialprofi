@@ -18,6 +18,19 @@ class Lesson < ApplicationRecord
     slug
   end
 
+  def has_description? = rich_description.present? || description.present?
+  def has_body?        = rich_body.present? || body.present?
+  def has_task?        = rich_task.present? || task.present?
+  def has_resources?   = resources.any?
+
+  def prev_in_path
+    path.lessons.where("position < ?", position).ordered.last
+  end
+
+  def next_in_path
+    path.lessons.where("position > ?", position).ordered.first
+  end
+
   def to_markdown
     sections = []
     sections << "# #{title}"

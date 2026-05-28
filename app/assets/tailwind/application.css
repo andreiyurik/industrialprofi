@@ -125,7 +125,7 @@
 /* ── Breadcrumb ── */
 
 @utility breadcrumb {
-  @apply flex items-center gap-2 text-sm text-gray-400;
+  @apply flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-400;
 }
 
 @utility breadcrumb-link {
@@ -146,23 +146,12 @@
   @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
-/* ── Lesson page (Odin-style two-column) ── */
+/* ── Details/summary marker reset ── */
+summary { list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::marker { display: none; content: ""; }
 
-@utility lesson-sidebar {
-  @apply hidden xl:block xl:w-72 xl:shrink-0 bg-navy-light border-r border-gray-700/50;
-}
-
-@utility sidebar-lesson-link {
-  @apply block px-3 py-1.5 text-sm rounded-md text-gray-400 hover:text-white hover:bg-navy-lighter/50 transition truncate;
-}
-
-@utility sidebar-lesson-active {
-  @apply bg-navy-lighter text-white font-medium;
-}
-
-@utility lesson-content-width {
-  @apply max-w-[65ch] mx-auto xl:mx-0;
-}
+/* ── Lesson page ── */
 
 @utility lesson-intro {
   @apply pl-4 border-l-2 border-teal-500/40 mb-8;
@@ -170,10 +159,6 @@
 
 @utility lesson-heading {
   @apply text-lg font-semibold text-white mb-4;
-}
-
-@utility lesson-body {
-  @apply text-gray-300 text-sm leading-relaxed whitespace-pre-line;
 }
 
 @utility lesson-task {
@@ -184,22 +169,25 @@
   @apply inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-600 text-sm text-gray-300 hover:border-white hover:text-white transition;
 }
 
-@utility lesson-nav-cta {
-  @apply inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-teal-700 text-white text-sm font-medium hover:bg-teal-600 transition;
+@utility lesson-edit-link {
+  @apply inline-flex items-center gap-1 text-gray-300 underline decoration-gray-600 hover:text-white hover:decoration-white transition;
 }
 
-@utility lesson-footer-link {
-  @apply inline-flex items-center gap-1.5 text-sm text-gray-500 underline decoration-gray-700 hover:text-gray-300 hover:decoration-gray-500 transition;
+/* ── Lesson resources list ── */
+
+.lesson-resource { @apply flex items-start gap-3; }
+.lesson-resource-marker { @apply mt-0.5 shrink-0 text-sm; }
+.lesson-resource--required .lesson-resource-marker { @apply text-teal-400; }
+.lesson-resource--optional .lesson-resource-marker { @apply text-gray-500; }
+.lesson-resource-link {
+  @apply text-sm text-gray-200 underline decoration-gray-600 transition;
 }
-
-/* ── Table of Contents (right aside) ── */
-
-@utility toc-link {
-  @apply text-sm text-gray-500 hover:text-gray-300 transition py-1 pl-3 border-l-2 border-transparent no-underline;
+.lesson-resource-link:hover { @apply text-white decoration-white; }
+.lesson-resource--optional .lesson-resource-link {
+  @apply text-gray-400 decoration-gray-700;
 }
-
-@utility toc-link-active {
-  @apply text-white border-teal-500;
+.lesson-resource--optional .lesson-resource-link:hover {
+  @apply text-gray-200 decoration-gray-400;
 }
 
 /* ── Curriculum list (path show) ── */
