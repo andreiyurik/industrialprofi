@@ -1,0 +1,31 @@
+.panel {
+  background-color: var(--panel-background, var(--color-subtle-light));
+  border-radius: var(--panel-border-radius, 0.75em);
+  border: var(--panel-border-size, 1px) solid var(--panel-border-color, var(--color-subtle));
+  color: var(--color-ink);
+  display: block;
+  padding: var(--panel-padding, 1.5em);
+  text-decoration: none;
+}
+
+.panel--hover {
+  transition: border-color 200ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      --panel-border-color: var(--color-marker);
+    }
+
+    &:hover .panel__title {
+      color: var(--color-marker);
+    }
+  }
+}
+
+.panel__title {
+  color: var(--color-ink);
+  font-size: 1.1em;
+  font-weight: 600;
+  margin-block: 0;
+  transition: color 200ms ease;
+}

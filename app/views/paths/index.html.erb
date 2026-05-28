@@ -15,8 +15,8 @@
 
     <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <% @paths.each do |path| %>
-        <a href="<%= path_path(path) %>" class="card-dark-hover block group">
-          <h2 class="text-lg font-semibold text-ink group-hover:text-marker transition">
+        <a href="<%= path_path(path) %>" class="panel panel--hover">
+          <h2 class="panel__title">
             <%= path.title %>
           </h2>
           <p class="mt-2 text-sm body-text line-clamp-3"><%= path.description %></p>
