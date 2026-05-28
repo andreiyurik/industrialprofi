@@ -15,9 +15,9 @@
   </div>
 
   <div class="page-container mt-12">
-    <div class="rounded-xl bg-navy-light border border-gray-700/50 h-48 sm:h-64 flex items-center justify-center">
+    <div class="rounded-xl bg-subtle-light ring-1 ring-subtle h-48 sm:h-64 flex items-center justify-center">
       <div class="text-center body-text">
-        <%= heroicon("arrows-up-down", variant: :outline, options: { class: "w-16 h-16 mx-auto mb-3 text-gray-600" }) %>
+        <%= heroicon("arrows-up-down", variant: :outline, options: { class: "w-16 h-16 mx-auto mb-3 text-ink-subtle/70" }) %>
         <p class="text-sm"><%= t("landing.illustration_placeholder") %></p>
       </div>
     </div>
@@ -35,7 +35,7 @@
         <div class="step-icon">
           <%= heroicon("book-open", variant: :outline, options: { class: "w-16 h-16" }) %>
         </div>
-        <h3 class="text-lg font-semibold text-white"><%= t("landing.step_learn") %></h3>
+        <h3 class="text-lg font-semibold text-ink"><%= t("landing.step_learn") %></h3>
         <p class="mt-2 text-sm body-text max-w-xs mx-auto"><%= t("landing.step_learn_desc") %></p>
       </div>
 
@@ -43,7 +43,7 @@
         <div class="step-icon">
           <%= heroicon("wrench-screwdriver", variant: :outline, options: { class: "w-16 h-16" }) %>
         </div>
-        <h3 class="text-lg font-semibold text-white"><%= t("landing.step_practice") %></h3>
+        <h3 class="text-lg font-semibold text-ink"><%= t("landing.step_practice") %></h3>
         <p class="mt-2 text-sm body-text max-w-xs mx-auto"><%= t("landing.step_practice_desc") %></p>
       </div>
 
@@ -51,7 +51,7 @@
         <div class="step-icon">
           <%= heroicon("user-group", variant: :outline, options: { class: "w-16 h-16" }) %>
         </div>
-        <h3 class="text-lg font-semibold text-white"><%= t("landing.step_grow") %></h3>
+        <h3 class="text-lg font-semibold text-ink"><%= t("landing.step_grow") %></h3>
         <p class="mt-2 text-sm body-text max-w-xs mx-auto"><%= t("landing.step_grow_desc") %></p>
       </div>
     </div>
@@ -87,35 +87,35 @@
       <div class="flex gap-4">
         <div class="testimonial-avatar">$</div>
         <div>
-          <h4 class="text-sm font-semibold text-gold-400"><%= t("landing.why_salary") %></h4>
+          <h4 class="text-sm font-semibold text-marker"><%= t("landing.why_salary") %></h4>
           <p class="mt-1 text-sm body-text"><%= t("landing.why_salary_desc") %></p>
         </div>
       </div>
       <div class="flex gap-4">
         <div class="testimonial-avatar">!</div>
         <div>
-          <h4 class="text-sm font-semibold text-gold-400"><%= t("landing.why_deficit") %></h4>
+          <h4 class="text-sm font-semibold text-marker"><%= t("landing.why_deficit") %></h4>
           <p class="mt-1 text-sm body-text"><%= t("landing.why_deficit_desc") %></p>
         </div>
       </div>
       <div class="flex gap-4">
         <div class="testimonial-avatar">AI</div>
         <div>
-          <h4 class="text-sm font-semibold text-gold-400"><%= t("landing.why_ai") %></h4>
+          <h4 class="text-sm font-semibold text-marker"><%= t("landing.why_ai") %></h4>
           <p class="mt-1 text-sm body-text"><%= t("landing.why_ai_desc") %></p>
         </div>
       </div>
       <div class="flex gap-4">
         <div class="testimonial-avatar">СНГ</div>
         <div>
-          <h4 class="text-sm font-semibold text-gold-400"><%= t("landing.why_cis") %></h4>
+          <h4 class="text-sm font-semibold text-marker"><%= t("landing.why_cis") %></h4>
           <p class="mt-1 text-sm body-text"><%= t("landing.why_cis_desc") %></p>
         </div>
       </div>
     </div>
 
     <div class="mt-10 text-center">
-      <a href="<%= site_config.telegram_url %>" class="text-sm text-gold-500 hover:text-gold-400 transition" target="_blank" rel="noopener">
+      <a href="<%= site_config.telegram_url %>" class="text-sm text-marker hover:text-marker/80 transition" target="_blank" rel="noopener">
         <%= t("landing.tell_story") %>
       </a>
     </div>

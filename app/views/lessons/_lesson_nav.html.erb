@@ -1,5 +1,5 @@
 <%# Inline edit prompt %>
-<p class="mt-10 text-sm text-gray-500">
+<p class="mt-10 text-sm text-ink-subtle">
   <%= t("lessons.found_error_question") %>
   <%= link_to t("lessons.suggest_edit"),
       new_lesson_suggestion_path(lesson_slug: @lesson.slug),
@@ -7,7 +7,7 @@
 </p>
 
 <%# Lesson-to-lesson navigation %>
-<nav class="mt-6 pt-6 border-t border-gray-700/30">
+<nav class="mt-6 pt-6 border-t border-subtle">
   <div class="flex items-center justify-between gap-4">
     <% if (prev = @lesson.prev_in_path) %>
       <%= link_to prev, class: "lesson-nav-pill" do %>

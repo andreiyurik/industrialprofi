@@ -3,7 +3,7 @@
 <section class="section-padded">
   <div class="page-container">
     <div class="flex items-center justify-between mb-8">
-      <h1 class="text-2xl font-bold text-white"><%= t("admin.lessons_title") %></h1>
+      <h1 class="text-2xl font-bold text-ink"><%= t("admin.lessons_title") %></h1>
       <div class="flex gap-3">
         <a href="<%= admin_lesson_suggestions_path %>" class="btn-outline text-xs px-3 py-1.5"><%= t("admin.manage_suggestions") %></a>
         <a href="<%= admin_paths_path %>" class="btn-outline text-xs px-3 py-1.5"><%= t("admin.manage_paths") %></a>
@@ -13,20 +13,20 @@
     <% @paths.each do |path| %>
       <div class="mb-8">
         <div class="flex items-center gap-3 mb-3">
-          <h2 class="text-lg font-semibold text-white"><%= path.title %></h2>
-          <span class="text-xs px-2 py-0.5 rounded-full <%= path.status == 'published' ? 'bg-teal-900/50 text-teal-400' : 'bg-gray-700 text-gray-400' %>">
+          <h2 class="text-lg font-semibold text-ink"><%= path.title %></h2>
+          <span class="text-xs px-2 py-0.5 rounded-full <%= path.status == 'published' ? 'bg-link/20 text-link' : 'bg-subtle text-ink-subtle' %>">
             <%= path.status %>
           </span>
-          <span class="text-xs text-gray-500"><%= russian_pluralize(path.lessons_count, :lesson) %></span>
+          <span class="text-xs text-ink-subtle"><%= russian_pluralize(path.lessons_count, :lesson) %></span>
         </div>
 
         <div class="space-y-1">
           <% path.lessons.ordered.each do |lesson| %>
             <a href="<%= edit_admin_lesson_path(lesson) %>"
-               class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-navy-lighter/50 transition group">
-              <span class="text-xs text-gray-500 w-6 text-right"><%= lesson.position %></span>
-              <span class="text-sm text-gray-300 group-hover:text-white transition truncate"><%= lesson.title %></span>
-              <%= heroicon("pencil-square", variant: :outline, options: { class: "w-4 h-4 text-gray-600 group-hover:text-gray-400 ml-auto shrink-0 transition" }) %>
+               class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-subtle-light transition group">
+              <span class="text-xs text-ink-subtle w-6 text-right"><%= lesson.position %></span>
+              <span class="text-sm text-ink group-hover:text-ink transition truncate"><%= lesson.title %></span>
+              <%= heroicon("pencil-square", variant: :outline, options: { class: "w-4 h-4 text-ink-subtle/70 group-hover:text-ink-subtle ml-auto shrink-0 transition" }) %>
             </a>
           <% end %>
         </div>

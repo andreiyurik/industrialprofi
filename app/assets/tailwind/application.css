@@ -1,10 +1,8 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.dark, .dark *));
-
 /* ─── OKLCH primitives (canonical DHH / Writebook pattern) ────────────────
    Primitives swap with system color scheme; semantic tokens inherit.
-   Reference: /home/pingvinus/dhh-references/writebook/app/assets/stylesheets/colors.css */
+   Reference: dhh-references/writebook/app/assets/stylesheets/colors.css */
 :root {
   --lch-black: 0% 0 0;
   --lch-white: 100% 0 0;
@@ -31,12 +29,10 @@
 }
 
 @theme {
-  /* System fonts — canonical DHH (no Google Fonts fetch) */
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", sans-serif;
   --font-mono: ui-monospace, monospace;
 
-  /* Semantic color tokens — bg-canvas, text-ink, text-link, ...
-     These resolve through OKLCH primitives, so they auto-swap in dark mode. */
+  /* Semantic tokens — bg-canvas, text-ink, text-link, etc. */
   --color-canvas: oklch(var(--lch-white));
   --color-ink: oklch(var(--lch-black));
   --color-ink-subtle: oklch(var(--lch-gray-dark));
@@ -48,29 +44,14 @@
   --color-subtle-light: oklch(var(--lch-gray-light));
 }
 
-@theme inline {
-  /* Legacy TOP-era tokens — Phase 2 migrates views to canonical tokens above. */
-  --color-gold: #CE973E;
-  --color-gold-50: #F3E6D0;
-  --color-gold-100: #EFDDC0;
-  --color-gold-200: #E7CCA0;
-  --color-gold-300: #DFBA7F;
-  --color-gold-400: #D6A95F;
-  --color-gold-500: #CE973E;
-  --color-gold-600: #A9792B;
-  --color-gold-700: #7C5920;
-  --color-gold-800: #503914;
-  --color-gold-900: #231909;
-
-  --color-navy: #1a2332;
-  --color-navy-light: #202d3f;
-  --color-navy-lighter: #2a3a4e;
-}
-
-/* ── Layout ── */
+/* ─── Layout ─── */
 
 @utility page-container {
   @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+@utility content-container {
+  @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
 @utility section-padded {
@@ -78,249 +59,190 @@
 }
 
 @utility section-divided {
-  @apply border-t border-gray-700/50;
+  @apply border-t border-subtle;
 }
 
-/* ── Typography ── */
+/* ─── Typography ─── */
 
 @utility page-title {
-  @apply text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-tight text-center;
+  @apply text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-ink leading-tight text-center;
 }
 
 @utility section-title {
-  @apply text-2xl sm:text-3xl font-bold text-white text-center;
+  @apply text-2xl sm:text-3xl font-bold text-ink text-center;
 }
 
 @utility body-text {
-  @apply text-gray-400;
+  @apply text-ink-subtle;
 }
 
 @utility body-text-light {
-  @apply text-gray-300;
+  @apply text-ink;
 }
 
-/* ── Card ── */
+/* ─── Cards ─── */
 
 @utility card-dark {
-  @apply bg-navy-light rounded-lg p-6 sm:p-8 border border-gray-700/50;
+  @apply bg-subtle-light rounded-lg p-6 sm:p-8 ring-1 ring-subtle;
 }
 
 @utility card-dark-hover {
-  @apply card-dark hover:border-gold-500/40 transition;
+  @apply card-dark hover:ring-marker/40 transition;
 }
 
-/* ── Topic card ── */
-
 @utility topic-card {
-  @apply bg-navy-light rounded-lg p-6 border border-gray-700/50 text-center hover:border-gold-500/40 transition;
+  @apply bg-subtle-light rounded-lg p-6 ring-1 ring-subtle text-center hover:ring-marker/40 transition;
 }
 
 @utility topic-icon {
-  @apply w-24 h-24 mx-auto mb-4 rounded-full border-2 border-gold-500/60 flex items-center justify-center text-gold-400;
+  @apply w-24 h-24 mx-auto mb-4 rounded-full border-2 border-marker/60 flex items-center justify-center text-marker;
 }
 
-/* ── Buttons ── */
+/* ─── Buttons ─── */
 
 @utility btn {
   @apply inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-medium transition;
 }
 
 @utility btn-primary {
-  @apply btn bg-teal-700 text-white hover:bg-teal-600;
+  @apply btn bg-ink text-canvas hover:bg-ink/80;
 }
 
 @utility btn-outline {
-  @apply btn border border-gray-500 text-gray-300 hover:border-white hover:text-white;
+  @apply btn ring-1 ring-subtle text-ink hover:bg-subtle-light;
 }
 
 @utility btn-gold {
-  @apply btn bg-gold-500 text-navy hover:bg-gold-400 font-semibold;
+  @apply btn bg-marker text-canvas hover:bg-marker/90 font-semibold;
 }
 
-/* ── Badge ── */
+/* ─── Badges ─── */
 
 @utility badge-gold {
-  @apply inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset bg-gold-500/10 text-gold-400 ring-gold-500/20;
+  @apply inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset bg-marker/10 text-marker ring-marker/20;
 }
 
-/* ── Navigation ── */
+/* ─── Nav ─── */
 
 @utility nav-link {
-  @apply text-sm text-gray-400 hover:text-white transition;
+  @apply text-sm text-ink-subtle hover:text-ink transition;
 }
 
-/* ── Step icon ── */
+/* ─── Landing accents ─── */
 
 @utility step-icon {
-  @apply w-20 h-20 mx-auto mb-4 flex items-center justify-center text-gold-400;
+  @apply w-20 h-20 mx-auto mb-4 flex items-center justify-center text-marker;
 }
-
-/* ── Testimonial ── */
 
 @utility testimonial-avatar {
-  @apply w-10 h-10 rounded-full bg-navy-lighter border border-gray-600 flex items-center justify-center text-gold-400 text-sm font-bold shrink-0;
+  @apply w-10 h-10 rounded-full bg-subtle ring-1 ring-subtle flex items-center justify-center text-marker text-sm font-bold shrink-0;
 }
-
-/* ── Support section ── */
 
 @utility support-section {
-  @apply bg-navy-light border-y border-gray-700/50;
+  @apply bg-subtle-light border-y border-subtle;
 }
 
-/* ── Breadcrumb ── */
+/* ─── Breadcrumb ─── */
 
 @utility breadcrumb {
-  @apply flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-400;
+  @apply flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink-subtle;
 }
 
 @utility breadcrumb-link {
-  @apply hover:text-white transition;
+  @apply hover:text-ink transition;
 }
 
 @utility breadcrumb-separator {
-  @apply text-gray-600 select-none;
+  @apply text-ink-subtle/70 select-none;
 }
 
 @utility breadcrumb-current {
-  @apply text-gray-300;
+  @apply text-ink;
 }
 
-/* ── Content layout ── */
-
-@utility content-container {
-  @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
-}
-
-/* ── Details/summary marker reset ── */
+/* ─── Details/summary marker reset ─── */
 summary { list-style: none; }
 summary::-webkit-details-marker { display: none; }
 summary::marker { display: none; content: ""; }
 
-/* ── Lesson page ── */
+/* ─── Lesson page ─── */
 
 @utility lesson-intro {
-  @apply pl-4 border-l-2 border-teal-500/40 mb-8;
+  @apply pl-4 border-l-2 border-link/40 mb-8;
 }
 
 @utility lesson-heading {
-  @apply text-lg font-semibold text-white mb-4;
+  @apply text-lg font-semibold text-ink mb-4;
 }
 
 @utility lesson-task {
-  @apply mt-4 pl-4 border-l-2 border-gold-500/40;
+  @apply mt-4 pl-4 border-l-2 border-marker/40;
 }
 
 @utility lesson-nav-pill {
-  @apply inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-600 text-sm text-gray-300 hover:border-white hover:text-white transition;
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-full ring-1 ring-subtle text-sm text-ink hover:ring-ink hover:bg-subtle-light transition;
 }
 
 @utility lesson-edit-link {
-  @apply inline-flex items-center gap-1 text-gray-300 underline decoration-gray-600 hover:text-white hover:decoration-white transition;
+  @apply inline-flex items-center gap-1 text-ink-subtle underline decoration-subtle hover:text-ink hover:decoration-ink transition;
 }
 
-/* ── Lesson resources list ── */
+/* ─── Lesson resources list ─── */
 
 .lesson-resource { @apply flex items-start gap-3; }
 .lesson-resource-marker { @apply mt-0.5 shrink-0 text-sm; }
-.lesson-resource--required .lesson-resource-marker { @apply text-teal-400; }
-.lesson-resource--optional .lesson-resource-marker { @apply text-gray-500; }
+.lesson-resource--required .lesson-resource-marker { @apply text-link; }
+.lesson-resource--optional .lesson-resource-marker { @apply text-ink-subtle; }
 .lesson-resource-link {
-  @apply text-sm text-gray-200 underline decoration-gray-600 transition;
+  @apply text-sm text-ink underline decoration-subtle transition;
 }
-.lesson-resource-link:hover { @apply text-white decoration-white; }
+.lesson-resource-link:hover { @apply decoration-ink; }
 .lesson-resource--optional .lesson-resource-link {
-  @apply text-gray-400 decoration-gray-700;
+  @apply text-ink-subtle;
 }
 .lesson-resource--optional .lesson-resource-link:hover {
-  @apply text-gray-200 decoration-gray-400;
+  @apply text-ink;
 }
 
-/* ── Curriculum list (path show) ── */
+/* ─── Curriculum list (path show) ─── */
 
 @utility curriculum-section {
-  @apply border border-gray-700/50 rounded-lg overflow-hidden;
+  @apply ring-1 ring-subtle rounded-lg overflow-hidden;
 }
 
 @utility curriculum-header {
-  @apply bg-navy-lighter px-6 py-4;
+  @apply bg-subtle px-6 py-4;
 }
 
-/* ── Markdown prose (dark bg) ── */
+/* ─── Markdown prose ─── */
 
 @utility lesson-prose {
-  @apply text-sm leading-relaxed text-gray-300;
+  @apply text-sm leading-relaxed text-ink/85;
 
-  & h2 {
-    @apply text-xl font-semibold text-white mt-8 mb-3;
-  }
-
-  & h3 {
-    @apply text-lg font-semibold text-white mt-6 mb-2;
-  }
-
-  & h4 {
-    @apply text-base font-medium text-white mt-4 mb-2;
-  }
-
-  & p {
-    @apply text-gray-300 leading-relaxed mb-4;
-  }
-
-  & ul {
-    @apply list-disc pl-6 mb-4 text-gray-300 space-y-1;
-  }
-
-  & ol {
-    @apply list-decimal pl-6 mb-4 text-gray-300 space-y-1;
-  }
-
-  & a {
-    @apply text-teal-400 underline decoration-teal-400/40 hover:text-teal-300 transition;
-  }
-
-  & code {
-    @apply bg-navy-lighter rounded px-1.5 py-0.5 text-sm;
-  }
-
-  & pre > code {
-    @apply block bg-navy-lighter rounded-lg p-4 overflow-x-auto text-sm;
-  }
-
-  & pre {
-    @apply mb-4;
-  }
-
-  & strong {
-    @apply text-white font-semibold;
-  }
-
-  & blockquote {
-    @apply border-l-2 border-teal-500/40 pl-4 text-gray-400 my-4;
-  }
-
-  & table {
-    @apply border-collapse text-sm text-gray-300 w-full mb-4;
-  }
-
-  & th {
-    @apply text-left text-white font-medium px-3 py-2 border-b border-gray-700;
-  }
-
-  & td {
-    @apply px-3 py-2 border-b border-gray-700/50;
-  }
-
-  & hr {
-    @apply border-gray-700/50 my-6;
-  }
+  & h2 { @apply text-xl font-semibold text-ink mt-8 mb-3; }
+  & h3 { @apply text-lg font-semibold text-ink mt-6 mb-2; }
+  & h4 { @apply text-base font-medium text-ink mt-4 mb-2; }
+  & p { @apply text-ink/85 leading-relaxed mb-4; }
+  & ul { @apply list-disc pl-6 mb-4 text-ink/85 space-y-1; }
+  & ol { @apply list-decimal pl-6 mb-4 text-ink/85 space-y-1; }
+  & a { @apply text-link underline decoration-link/40 hover:decoration-link transition; }
+  & code { @apply bg-subtle rounded px-1.5 py-0.5 text-sm; }
+  & pre > code { @apply block bg-subtle rounded-lg p-4 overflow-x-auto text-sm; }
+  & pre { @apply mb-4; }
+  & strong { @apply text-ink font-semibold; }
+  & blockquote { @apply border-l-2 border-link/40 pl-4 text-ink-subtle my-4; }
+  & table { @apply border-collapse text-sm text-ink/85 w-full mb-4; }
+  & th { @apply text-left text-ink font-medium px-3 py-2 border-b border-subtle; }
+  & td { @apply px-3 py-2 border-b border-subtle; }
+  & hr { @apply border-subtle my-6; }
 }
 
-/* ── Footer ── */
+/* ─── Footer ─── */
 
 @utility footer-heading {
-  @apply text-sm font-semibold text-white mb-4;
+  @apply text-sm font-semibold text-ink mb-4;
 }
 
 @utility footer-link {
-  @apply text-sm text-gray-400 hover:text-white transition block py-1;
+  @apply text-sm text-ink-subtle hover:text-ink transition block py-1;
 }

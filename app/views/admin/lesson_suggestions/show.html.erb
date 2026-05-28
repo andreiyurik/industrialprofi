@@ -5,35 +5,35 @@
     <%# Header %>
     <div class="flex items-center justify-between mb-6">
       <div class="flex items-center gap-3">
-        <a href="<%= admin_lesson_suggestions_path %>" class="text-gray-500 hover:text-white transition">
+        <a href="<%= admin_lesson_suggestions_path %>" class="text-ink-subtle hover:text-ink transition">
           <%= heroicon("arrow-left", variant: :outline, options: { class: "w-5 h-5" }) %>
         </a>
-        <h1 class="text-xl font-bold text-white"><%= t("admin.review_suggestion") %></h1>
+        <h1 class="text-xl font-bold text-ink"><%= t("admin.review_suggestion") %></h1>
       </div>
       <a href="<%= lesson_path(@lesson) %>" class="nav-link text-xs" target="_blank"><%= t("admin.view_live") %> ↗</a>
     </div>
 
     <%# Meta %>
-    <div class="mb-6 p-4 rounded-lg bg-navy-lighter border border-gray-700/50">
+    <div class="mb-6 p-4 rounded-lg bg-subtle border border-subtle">
       <div class="flex flex-wrap gap-4 text-sm">
         <div>
-          <span class="text-gray-500"><%= t("admin.suggestion_lesson") %>:</span>
-          <span class="text-white"><%= @lesson.title %></span>
+          <span class="text-ink-subtle"><%= t("admin.suggestion_lesson") %>:</span>
+          <span class="text-ink"><%= @lesson.title %></span>
         </div>
         <div>
-          <span class="text-gray-500"><%= t("admin.suggestion_section") %>:</span>
-          <span class="text-gold-400"><%= @suggestion.section %></span>
+          <span class="text-ink-subtle"><%= t("admin.suggestion_section") %>:</span>
+          <span class="text-marker"><%= @suggestion.section %></span>
         </div>
         <div>
-          <span class="text-gray-500"><%= t("admin.suggestion_author") %>:</span>
-          <span class="text-white"><%= @suggestion.author_name %></span>
+          <span class="text-ink-subtle"><%= t("admin.suggestion_author") %>:</span>
+          <span class="text-ink"><%= @suggestion.author_name %></span>
           <% if @suggestion.author_contact.present? %>
-            <span class="text-gray-500">(<%= @suggestion.author_contact %>)</span>
+            <span class="text-ink-subtle">(<%= @suggestion.author_contact %>)</span>
           <% end %>
         </div>
         <div>
-          <span class="text-gray-500"><%= t("admin.suggestion_date") %>:</span>
-          <span class="text-gray-300"><%= l(@suggestion.created_at, format: :long) %></span>
+          <span class="text-ink-subtle"><%= t("admin.suggestion_date") %>:</span>
+          <span class="text-ink"><%= l(@suggestion.created_at, format: :long) %></span>
         </div>
       </div>
     </div>
@@ -42,16 +42,16 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
       <%# Current %>
       <div>
-        <h3 class="text-sm font-medium text-gray-400 mb-2"><%= t("admin.current_content") %></h3>
-        <div class="bg-navy-lighter border border-gray-700/50 rounded-lg px-4 py-3 lesson-prose min-h-[16rem] overflow-y-auto">
+        <h3 class="text-sm font-medium text-ink-subtle mb-2"><%= t("admin.current_content") %></h3>
+        <div class="bg-subtle border border-subtle rounded-lg px-4 py-3 lesson-prose min-h-[16rem] overflow-y-auto">
           <%= lesson_content(@lesson, @suggestion.section.to_sym) %>
         </div>
       </div>
 
       <%# Proposed %>
       <div>
-        <h3 class="text-sm font-medium text-teal-400 mb-2"><%= t("admin.proposed_content") %></h3>
-        <div class="bg-navy-lighter border border-teal-500/20 rounded-lg px-4 py-3 lesson-prose min-h-[16rem] overflow-y-auto">
+        <h3 class="text-sm font-medium text-link mb-2"><%= t("admin.proposed_content") %></h3>
+        <div class="bg-subtle border border-link/20 rounded-lg px-4 py-3 lesson-prose min-h-[16rem] overflow-y-auto">
           <% if @suggestion.rich_body.present? %>
             <%= @suggestion.rich_body %>
           <% else %>
@@ -62,7 +62,7 @@
     </div>
 
     <%# Actions %>
-    <div class="flex flex-col sm:flex-row gap-4 p-4 rounded-lg bg-navy-lighter border border-gray-700/50">
+    <div class="flex flex-col sm:flex-row gap-4 p-4 rounded-lg bg-subtle border border-subtle">
       <%# Approve %>
       <%= form_with(url: approve_admin_lesson_suggestion_path(@suggestion), method: :patch, class: "inline") do %>
         <button type="submit" class="btn-primary"
@@ -74,12 +74,12 @@
       <%# Reject %>
       <%= form_with(url: reject_admin_lesson_suggestion_path(@suggestion), method: :patch, class: "flex-1 sm:flex sm:items-end sm:gap-3") do |f| %>
         <div class="flex-1">
-          <label class="block text-xs text-gray-500 mb-1"><%= t("admin.reject_comment") %></label>
+          <label class="block text-xs text-ink-subtle mb-1"><%= t("admin.reject_comment") %></label>
           <%= f.text_field "lesson_suggestion[reviewer_comment]",
               placeholder: t("admin.reject_comment_placeholder"),
-              class: "w-full bg-navy border border-gray-700/50 rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-red-500/50 transition" %>
+              class: "w-full bg-canvas border border-subtle rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-negative/50 transition" %>
         </div>
-        <button type="submit" class="mt-2 sm:mt-0 btn-outline border-red-500/50 text-red-400 hover:border-red-400 hover:text-red-300">
+        <button type="submit" class="mt-2 sm:mt-0 btn-outline border-negative/50 text-negative hover:border-negative hover:text-negative">
           <%= t("admin.reject") %>
         </button>
       <% end %>

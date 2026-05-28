@@ -19,13 +19,13 @@
   ] %>
 
   <header class="mt-3 mb-8">
-    <h1 class="text-2xl sm:text-3xl font-bold text-white leading-tight"><%= @lesson.title %></h1>
+    <h1 class="text-2xl sm:text-3xl font-bold text-ink leading-tight"><%= @lesson.title %></h1>
   </header>
 
   <article>
     <% if @lesson.has_description? %>
       <section id="why" class="lesson-intro scroll-mt-6">
-        <p class="text-sm font-medium text-teal-400 mb-1"><%= t("lessons.why_section") %></p>
+        <p class="text-sm font-medium text-link mb-1"><%= t("lessons.why_section") %></p>
         <div class="lesson-prose"><%= lesson_content(@lesson, :description) %></div>
       </section>
     <% end %>
@@ -60,9 +60,9 @@
   </article>
 </main>
 
-<section class="border-t border-gray-700/50 bg-navy-light">
+<section class="border-t border-subtle bg-subtle-light">
   <div class="page-container py-16 text-center">
-    <h2 class="text-2xl sm:text-3xl font-bold text-white"><%= t("landing.support_title") %></h2>
+    <h2 class="text-2xl sm:text-3xl font-bold text-ink"><%= t("landing.support_title") %></h2>
     <p class="mt-4 body-text max-w-lg mx-auto"><%= t("landing.support_subtitle") %></p>
     <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
       <%= link_to t("landing.contact_us_short"), support_us_path, class: "btn-outline" %>

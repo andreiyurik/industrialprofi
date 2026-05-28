@@ -14,15 +14,15 @@
 <%# ── Header (centered, Odin-style) ── %>
 <section class="py-12 sm:py-16">
   <div class="content-container text-center">
-    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full border-2 border-gold-500/60 text-gold-400 mb-6">
+    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full border-2 border-marker/60 text-marker mb-6">
       <%= topic_icon_svg(@path.slug == "elektrik" ? "bolt" : @path.slug == "svarshchik" ? "fire" : @path.slug == "santehnik" ? "wrench" : "cog") %>
     </div>
 
-    <h1 class="text-2xl sm:text-3xl font-bold text-white"><%= @path.title %></h1>
+    <h1 class="text-2xl sm:text-3xl font-bold text-ink"><%= @path.title %></h1>
 
     <div class="mt-6 max-w-2xl mx-auto">
-      <h2 class="text-base font-semibold text-gray-300"><%= t("paths.overview") %></h2>
-      <p class="mt-2 text-sm text-gray-400 leading-relaxed"><%= @path.description %></p>
+      <h2 class="text-base font-semibold text-ink"><%= t("paths.overview") %></h2>
+      <p class="mt-2 text-sm text-ink-subtle leading-relaxed"><%= @path.description %></p>
     </div>
   </div>
 </section>
@@ -35,16 +35,16 @@
         <div class="curriculum-section">
           <% if stage.present? %>
             <div class="curriculum-header">
-              <h2 class="text-base font-semibold text-white"><%= stage %></h2>
+              <h2 class="text-base font-semibold text-ink"><%= stage %></h2>
             </div>
           <% end %>
 
-          <div class="divide-y divide-gray-700/30">
+          <div class="divide-y divide-subtle">
             <% lessons.each do |lesson| %>
-              <a href="<%= lesson_path(lesson) %>" class="flex items-center gap-3 px-6 py-3.5 hover:bg-navy-lighter/50 transition group">
+              <a href="<%= lesson_path(lesson) %>" class="flex items-center gap-3 px-6 py-3.5 hover:bg-subtle-light transition group">
                 <%= heroicon(lesson.kind == "practice" ? "wrench-screwdriver" : "book-open",
-                    variant: :outline, options: { class: "w-5 h-5 text-gray-500 shrink-0" }) %>
-                <span class="text-sm text-gray-300 group-hover:text-white transition"><%= lesson.title %></span>
+                    variant: :outline, options: { class: "w-5 h-5 text-ink-subtle shrink-0" }) %>
+                <span class="text-sm text-ink-subtle group-hover:text-ink transition"><%= lesson.title %></span>
               </a>
             <% end %>
           </div>
@@ -55,9 +55,9 @@
 </section>
 
 <%# ── Support CTA (Odin-style) ── %>
-<section class="border-t border-gray-700/50 bg-navy-light">
+<section class="border-t border-subtle bg-subtle-light">
   <div class="page-container py-16 text-center">
-    <h2 class="text-2xl sm:text-3xl font-bold text-white"><%= t("landing.support_title") %></h2>
+    <h2 class="text-2xl sm:text-3xl font-bold text-ink"><%= t("landing.support_title") %></h2>
     <p class="mt-4 body-text max-w-lg mx-auto"><%= t("landing.support_subtitle") %></p>
     <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
       <a href="<%= support_us_path %>" class="btn-outline"><%= t("landing.contact_us_short") %></a>
