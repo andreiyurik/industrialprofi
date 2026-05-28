@@ -1,4 +1,7 @@
 :root {
+  /* Native controls (selects, scrollbars, form widgets) follow the theme */
+  color-scheme: light dark;
+
   /* Named color values */
   --lch-black: 0% 0 0;
   --lch-white: 100% 0 0;

@@ -31,7 +31,12 @@
           [t("suggestions.section_body"), "body"],
           [t("suggestions.section_task"), "task"],
           [t("suggestions.section_description"), "description"]
-        ], {}, class: "input" %>
+        ], {}, class: "input",
+           data: {
+             controller: "section-reload",
+             "section-reload-url-value": new_lesson_suggestion_path(lesson_slug: @lesson.slug),
+             action: "change->section-reload#navigate"
+           } %>
       </div>
 
       <div class="admin-form__field admin-form__field--lg">

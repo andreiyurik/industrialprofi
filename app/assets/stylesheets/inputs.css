@@ -30,6 +30,13 @@
   }
 }
 
+/* Native <select> dropdown: theme the popup so options aren't light-on-white
+   in dark mode (belt-and-suspenders alongside :root color-scheme). */
+select.input option {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+}
+
 .input--mono {
   --input-color: var(--color-subtle-dark);
   font-family: var(--font-mono);
