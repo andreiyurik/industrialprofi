@@ -27,10 +27,6 @@
     <%= csp_meta_tag %>
     <%= yield :head %>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
@@ -59,6 +55,8 @@
         <a href="<%= paths_path %>" class="btn-primary text-xs sm:text-sm px-4 py-2"><%= t("nav.start") %></a>
       </nav>
     </header>
+
+    <%= render "shared/flash" %>
 
     <main class="grow">
       <%= yield %>

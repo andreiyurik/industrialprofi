@@ -4,7 +4,7 @@
 
 Free platform with structured career roadmaps: stages → skills → official standards → practical tasks → progress tracking. Like The Odin Project teaches web development through reading documentation and building projects, IndustrialProfi teaches industrial trades through reading official standards (ГОСТ, ASME, НАКС) and doing real-world practice.
 
-Design, UX, and content structure follow The Odin Project as the primary reference. Target market: CIS (Russia, Kazakhstan).
+Content structure follows The Odin Project (profession → course → lesson, binary completion). UI follows canonical DHH style — same patterns as Basecamp's open-source Rails apps (Writebook, Fizzy, Upright, Once-Campfire). Target market: CIS (Russia, Kazakhstan).
 
 ## Stack
 
@@ -109,21 +109,27 @@ LessonCompletion(user_id, lesson_id) — binary: exists = done
 - No `before_action` chains longer than 2. Keep auth simple.
 - No concerns until a model exceeds ~200 lines. Premature extraction is worse than duplication.
 
-## UI — The Odin Project Style
+## UI — Canonical DHH Style (Basecamp Rails apps)
 
-Design system follows The Odin Project (github.com/TheOdinProject/theodinproject):
+Reference implementations: `basecamp/writebook` (most relevant — content-focused), `basecamp/fizzy`, `basecamp/upright`, `basecamp/once-campfire`. None of them use Tailwind — they ship custom CSS with OKLCH primitives. We bridge that to our stack: **Tailwind 4 utilities in ERB, but with OKLCH semantic tokens defined via `@theme`** so colors auto-swap with `prefers-color-scheme`.
 
-- **Font:** Inter (Google Fonts, Cyrillic subset)
-- **Colors:** teal-700 for primary actions, custom gold (#CE973E) for accents/highlights, gray for everything else
-- **Dark mode:** `.dark` class on `<html>`, `@custom-variant dark (&:is(.dark, .dark *))`. Every element has explicit `dark:` pair.
-- **Cards:** `bg-white shadow-sm rounded-lg` / `dark:bg-gray-800 dark:ring-1 dark:ring-white/10 dark:ring-inset`
-- **Buttons:** `rounded-md`, primary=`bg-teal-700`, secondary=`border border-gray-300`
-- **Badges:** `ring-1 ring-inset rounded-md` with color variants
+- **Fonts:** System stack only (`system-ui`, `-apple-system`, `BlinkMacSystemFont`, "Segoe UI", "Noto Sans"). No Google Fonts, no web fonts, no Inter. Faster, no FOUT, looks native.
+- **Color tokens (use these, not raw hex/Tailwind colors):**
+  - `bg-canvas` / `text-ink` — page background and primary text (swap in dark mode)
+  - `text-link` — links (blue, hue-shifted in dark)
+  - `text-positive` / `text-negative` — success/error
+  - `text-marker` — orange accent for highlights, important callouts
+  - `bg-subtle` / `bg-subtle-light` / `text-ink-subtle` — quiet UI: borders, dividers, secondary text
+- **OKLCH primitives:** Defined in `:root`, swapped at `@media (prefers-color-scheme: dark)`. Semantic tokens reference primitives via `oklch(var(--lch-*))` — change a primitive, every semantic token using it updates. See `app/assets/tailwind/application.css` head.
+- **Light-first.** Default theme is light. Dark mode kicks in automatically via system preference. No `.dark` class on `<html>`, no `dark:` modifiers — color swap happens at the OKLCH primitive level.
 - **Page container:** `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`
-- **Content width:** `max-w-4xl mx-auto` for reading pages
-- **Card padding:** `p-8`
-- **Section padding:** `py-16`
-- **No shadows in dark mode** — use `ring-1 ring-white/10` instead
+- **Reading column:** `max-w-prose mx-auto` (lessons), `max-w-4xl mx-auto` (course pages)
+- **Cards:** `bg-canvas ring-1 ring-subtle rounded-md p-6` (rings instead of shadows — works in both themes)
+- **Buttons:** Tailwind utilities inline. Primary = `bg-ink text-canvas`. Secondary = `ring-1 ring-subtle text-ink`. No `.btn` abstraction until 3+ button shapes appear in the same view.
+- **Icons:** Heroicons (already in the stack) via inline SVG. Apply color via `text-*` on the `<svg>` and `fill="currentColor"` inside.
+- **Layout regions:** Semantic HTML5 (`<header>`, `<main>`, `<aside>`, `<footer>`) — see Writebook `app/views/layouts/application.html.erb` for reference structure with `yield :header`, `yield :sidebar` blocks.
+- **Flash:** `<%= render "shared/flash" %>` renders a Turbo Frame at the top of the layout; `element-removal` Stimulus controller auto-dismisses after 4s.
+- **No CSS utility soup.** Extract a Tailwind `@utility` only when the same set of 6+ classes is repeated in 3+ places. Otherwise inline. (Current `application.css` has legacy `@utility`s — migrate to tokens or inline as views are touched.)
 
 ## Docs
 

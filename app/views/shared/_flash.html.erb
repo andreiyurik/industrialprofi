@@ -1,0 +1,13 @@
+<%# Canonical pattern from basecamp/fizzy app/views/layouts/shared/_flash.html.erb.
+    Rendered as a Turbo Frame so controllers can replace it on demand. %>
+<%= turbo_frame_tag :flash do %>
+  <% if notice = flash[:notice] || flash[:alert] %>
+    <div class="fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-md px-4"
+         data-controller="element-removal"
+         data-element-removal-delay-value="4000">
+      <div class="bg-gray-800 text-white shadow-lg rounded-md px-4 py-3 ring-1 ring-gray-700/50">
+        <%= notice %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
