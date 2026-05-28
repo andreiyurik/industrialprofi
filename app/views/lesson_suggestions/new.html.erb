@@ -1,22 +1,21 @@
 <% meta_title(t("suggestions.page_title")) %>
 
-<section class="section-padded">
-  <div class="content-container">
+<section class="admin-page">
+  <div class="container container--reading">
     <%= render "shared/breadcrumbs", crumbs: [
       { title: @lesson.path.title, path: path_path(@lesson.path) },
       { title: @lesson.title, path: lesson_path(@lesson) },
       { title: t("suggestions.breadcrumb") }
     ] %>
 
-    <div class="mt-8">
-      <h1 class="text-2xl font-bold text-ink"><%= t("suggestions.title") %></h1>
-      <p class="mt-2 text-sm text-ink-subtle">
-        <%= t("suggestions.subtitle", lesson: @lesson.title) %>
-      </p>
-    </div>
+    <header class="admin-header">
+      <h1 class="admin-header__title"><%= t("suggestions.title") %></h1>
+    </header>
+
+    <p class="lesson-edit-prompt"><%= t("suggestions.subtitle", lesson: @lesson.title) %></p>
 
     <% if @suggestion.errors.any? %>
-      <div class="mt-4 p-3 rounded-lg bg-negative/10 border border-negative/30 text-sm text-negative">
+      <div class="admin-alert admin-alert--error">
         <% @suggestion.errors.full_messages.each do |msg| %>
           <p><%= msg %></p>
         <% end %>
@@ -26,9 +25,8 @@
     <%= form_with(model: @suggestion, url: lesson_suggestions_path) do |f| %>
       <%= f.hidden_field :lesson_id, value: @lesson.id %>
 
-      <%# Section selector %>
-      <div class="mt-6">
-        <label class="block text-sm font-medium text-ink-subtle mb-1"><%= t("suggestions.field_section") %></label>
+      <div class="admin-form__field">
+        <label><%= t("suggestions.field_section") %></label>
         <%= f.select :section, [
           [t("suggestions.section_body"), "body"],
           [t("suggestions.section_task"), "task"],
@@ -36,31 +34,29 @@
         ], {}, class: "input" %>
       </div>
 
-      <%# Rich text editor %>
-      <div class="mt-4">
-        <label class="block text-sm font-medium text-ink-subtle mb-1"><%= t("suggestions.field_content") %></label>
-        <p class="text-xs text-ink-subtle mb-2"><%= t("suggestions.field_content_hint") %></p>
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("suggestions.field_content") %></label>
+        <p class="admin-form__hint"><%= t("suggestions.field_content_hint") %></p>
         <%= f.rich_text_area :rich_body, class: "lexxy-content",
             data: { toolbar: { upload: false }.to_json } %>
       </div>
 
-      <%# Author info %>
-      <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-ink-subtle mb-1"><%= t("suggestions.field_name") %> *</label>
+      <div class="admin-form__grid admin-form__field--lg">
+        <div class="admin-form__field">
+          <label><%= t("suggestions.field_name") %> *</label>
           <%= f.text_field :author_name,
               placeholder: t("suggestions.name_placeholder"),
               class: "input" %>
         </div>
-        <div>
-          <label class="block text-sm font-medium text-ink-subtle mb-1"><%= t("suggestions.field_contact") %></label>
+        <div class="admin-form__field">
+          <label><%= t("suggestions.field_contact") %></label>
           <%= f.text_field :author_contact,
               placeholder: t("suggestions.contact_placeholder"),
               class: "input" %>
         </div>
       </div>
 
-      <div class="mt-6 flex items-center gap-3">
+      <div class="admin-form__actions">
         <%= f.submit t("suggestions.submit"), class: "btn btn--reversed" %>
         <a href="<%= lesson_path(@lesson) %>" class="btn"><%= t("admin.cancel") %></a>
       </div>

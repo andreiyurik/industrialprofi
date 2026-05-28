@@ -1,27 +1,31 @@
-<%# Inline edit prompt %>
-<p class="mt-10 text-sm text-ink-subtle">
+<p class="lesson-edit-prompt">
   <%= t("lessons.found_error_question") %>
   <%= link_to t("lessons.suggest_edit"),
       new_lesson_suggestion_path(lesson_slug: @lesson.slug),
       class: "lesson-edit-link" %>
 </p>
 
-<%# Lesson-to-lesson navigation %>
-<nav class="mt-6 pt-6 border-t border-subtle">
-  <div class="flex items-center justify-between gap-4">
+<nav class="lesson-nav">
+  <div class="lesson-nav__row">
     <% if (prev = @lesson.prev_in_path) %>
-      <%= link_to prev, class: "lesson-nav-pill" do %>
-        <%= heroicon("chevron-left", variant: :outline, options: { class: "w-5 h-5" }) %>
-        <%= t("lessons.previous_lesson") %>
+      <%= link_to prev, class: "lesson-nav__pill" do %>
+        <%= heroicon("chevron-left", variant: :outline) %>
+        <span class="lesson-nav__pill-text">
+          <span class="lesson-nav__pill-label"><%= t("lessons.previous_lesson") %></span>
+          <span class="lesson-nav__pill-title"><%= prev.title %></span>
+        </span>
       <% end %>
     <% else %>
       <span></span>
     <% end %>
 
     <% if (nxt = @lesson.next_in_path) %>
-      <%= link_to nxt, class: "lesson-nav-pill" do %>
-        <%= t("lessons.next_lesson") %>
-        <%= heroicon("chevron-right", variant: :outline, options: { class: "w-5 h-5" }) %>
+      <%= link_to nxt, class: "lesson-nav__pill lesson-nav__pill--next" do %>
+        <span class="lesson-nav__pill-text">
+          <span class="lesson-nav__pill-label"><%= t("lessons.next_lesson") %></span>
+          <span class="lesson-nav__pill-title"><%= nxt.title %></span>
+        </span>
+        <%= heroicon("chevron-right", variant: :outline) %>
       <% end %>
     <% end %>
   </div>

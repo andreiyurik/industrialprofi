@@ -33,6 +33,6 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
 
   test "show renders markdown in html body" do
     get lesson_path(lessons(:pteep))
-    assert_select "div.lesson-prose"
+    assert_select "div.prose"
   end
 end

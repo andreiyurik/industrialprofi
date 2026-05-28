@@ -1,54 +1,47 @@
 <% meta_title("#{t('admin.edit_lesson')} — #{@lesson.title}") %>
 
-<section class="py-6">
-  <div class="page-container">
-    <%# Header %>
-    <div class="flex items-center justify-between mb-6">
-      <div class="flex items-center gap-3">
-        <a href="<%= admin_lessons_path %>" class="text-ink-subtle hover:text-ink transition">
-          <%= heroicon("arrow-left", variant: :outline, options: { class: "w-5 h-5" }) %>
+<section class="admin-page">
+  <div class="container">
+    <div class="admin-header">
+      <div class="admin-header__title-group">
+        <a href="<%= admin_lessons_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+          <%= heroicon("arrow-left", variant: :outline) %>
         </a>
-        <h1 class="text-xl font-bold text-ink truncate"><%= @lesson.title %></h1>
+        <h1 class="admin-header__title"><%= @lesson.title %></h1>
       </div>
-      <a href="<%= lesson_path(@lesson) %>" class="nav-link text-xs" target="_blank"><%= t("admin.view_live") %> ↗</a>
+      <a href="<%= lesson_path(@lesson) %>" class="admin-header__view-live" target="_blank"><%= t("admin.view_live") %> ↗</a>
     </div>
 
     <%= render "admin/shared/form_errors", object: @lesson %>
 
     <%= form_with(model: [:admin, @lesson], url: admin_lesson_path(@lesson), method: :patch) do |f| %>
-
-      <%# Title %>
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-ink-subtle mb-1"><%= t("admin.field_title") %></label>
+      <div class="admin-form__field">
+        <label><%= t("admin.field_title") %></label>
         <%= f.text_field :title, class: "input" %>
       </div>
 
-      <%# Kind %>
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-ink-subtle mb-1"><%= t("admin.field_kind") %></label>
+      <div class="admin-form__field">
+        <label><%= t("admin.field_kind") %></label>
         <%= f.select :kind, [[t("admin.kind_lesson"), "lesson"], [t("admin.kind_practice"), "practice"]],
             {}, class: "input" %>
       </div>
 
-      <%# Description (rich text) %>
-      <div class="mb-6">
-        <label class="block text-sm font-medium text-ink-subtle mb-2"><%= t("admin.field_description") %></label>
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("admin.field_description") %></label>
         <%= f.rich_text_area :rich_description, class: "lexxy-content" %>
       </div>
 
-      <%# Body (rich text — main content) %>
-      <div class="mb-6">
-        <label class="block text-sm font-medium text-ink-subtle mb-2"><%= t("admin.field_body") %></label>
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("admin.field_body") %></label>
         <%= f.rich_text_area :rich_body, class: "lexxy-content" %>
       </div>
 
-      <%# Task (rich text) %>
-      <div class="mb-6">
-        <label class="block text-sm font-medium text-ink-subtle mb-2"><%= t("admin.field_task") %></label>
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("admin.field_task") %></label>
         <%= f.rich_text_area :rich_task, class: "lexxy-content" %>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="admin-form__actions">
         <%= f.submit t("admin.save"), class: "btn btn--reversed" %>
         <a href="<%= admin_lessons_path %>" class="btn"><%= t("admin.cancel") %></a>
       </div>

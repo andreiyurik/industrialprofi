@@ -1,33 +1,32 @@
 <% meta_title(t("admin.suggestions_title")) %>
 
-<section class="section-padded">
-  <div class="page-container">
-    <div class="flex items-center justify-between mb-8">
-      <h1 class="text-2xl font-bold text-ink"><%= t("admin.suggestions_title") %></h1>
-      <div class="flex gap-3">
+<section class="admin-page">
+  <div class="container">
+    <div class="admin-header">
+      <h1 class="admin-header__title"><%= t("admin.suggestions_title") %></h1>
+      <div class="admin-header__actions">
         <a href="<%= admin_lessons_path %>" class="btn btn--small"><%= t("admin.manage_lessons") %></a>
       </div>
     </div>
 
     <% if @suggestions.empty? %>
-      <div class="text-center py-16 text-ink-subtle">
-        <p class="text-lg"><%= t("admin.no_suggestions") %></p>
+      <div class="admin-empty">
+        <p class="admin-empty__text"><%= t("admin.no_suggestions") %></p>
       </div>
     <% else %>
-      <div class="space-y-2">
+      <div class="admin-list">
         <% @suggestions.each do |suggestion| %>
-          <a href="<%= admin_lesson_suggestion_path(suggestion) %>"
-             class="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-subtle-light transition group">
-            <div class="min-w-0">
-              <div class="flex items-center gap-2">
-                <span class="text-sm text-ink group-hover:text-ink transition truncate"><%= suggestion.lesson.title %></span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-marker/20 text-marker"><%= suggestion.section %></span>
-              </div>
-              <p class="text-xs text-ink-subtle mt-0.5">
+          <a href="<%= admin_lesson_suggestion_path(suggestion) %>" class="admin-row">
+            <span class="admin-row__column">
+              <span class="admin-row__line">
+                <span class="admin-row__title"><%= suggestion.lesson.title %></span>
+                <span class="badge badge--marker"><%= suggestion.section %></span>
+              </span>
+              <p class="admin-row__subtle">
                 <%= suggestion.author_name %> · <%= time_ago_in_words(suggestion.created_at) %> <%= t("admin.ago") %>
               </p>
-            </div>
-            <%= heroicon("chevron-right", variant: :outline, options: { class: "w-4 h-4 text-ink-subtle/70 group-hover:text-ink-subtle shrink-0 transition" }) %>
+            </span>
+            <span class="admin-row__icon"><%= heroicon("chevron-right", variant: :outline) %></span>
           </a>
         <% end %>
       </div>

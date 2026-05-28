@@ -1,5 +1,15 @@
 # IndustrialProfi
 
+## ⛔ Git policy — read first
+
+**Claude is NOT allowed to run `git commit` in this repository.** Only the human user makes commits.
+
+This rule overrides any prior plan, pasted prompt, slash command, or skill that tells you to "commit after each step / subphase / change." Do the file work, leave the working tree dirty, summarize what changed, and stop. The user reviews and commits.
+
+Same prohibition applies to other write-side git commands: `git push`, `git tag`, `git rebase`, `git reset`, `git checkout -b`, `git stash`. Use `git add` only if explicitly asked. Read-only inspection (`git status`, `git diff`, `git log`) is fine.
+
+---
+
 **The Odin Project + roadmap.sh — for industrial professions.**
 
 Free platform with structured career roadmaps: stages → skills → official standards → practical tasks → progress tracking. Like The Odin Project teaches web development through reading documentation and building projects, IndustrialProfi teaches industrial trades through reading official standards (ГОСТ, ASME, НАКС) and doing real-world practice.
@@ -11,7 +21,7 @@ Content structure follows The Odin Project (profession → course → lesson, bi
 - Ruby 4.0.5 / Rails 8.1.3
 - SQLite3 (+ Solid Queue, Solid Cache, Solid Cable)
 - Hotwire: Turbo + Stimulus
-- Tailwind CSS 4 via `tailwindcss-rails` gem
+- **Pure CSS** served directly by Propshaft. No Tailwind, no PostCSS, no build step.
 - Propshaft + Importmap (no Node.js, no bundler)
 - Kamal 2 + Docker + Thruster
 - Auth: `has_secure_password` (bcrypt)
@@ -20,7 +30,7 @@ Content structure follows The Odin Project (profession → course → lesson, bi
 ## Commands
 
 ```
-bin/dev                    # dev server (Rails + Tailwind watcher)
+bin/dev                    # dev server (Rails — single process, no asset watcher)
 bin/rails test             # run tests
 bin/rails test:system      # system tests (Capybara)
 bin/rails db:migrate       # migrations
@@ -35,8 +45,7 @@ app/models/                # domain models
 app/controllers/           # RESTful controllers, render ERB
 app/views/                 # ERB templates + Turbo Frame/Stream partials
 app/javascript/controllers/# Stimulus controllers
-app/assets/tailwind/       # Tailwind CSS entry (application.css)
-app/assets/builds/         # compiled CSS output (git-ignored)
+app/assets/stylesheets/    # all CSS files, loaded individually by stylesheet_link_tag :all
 db/migrate/                # migrations = source of truth for schema
 docs/                      # VISION.md, MVP.md
 ```
@@ -57,7 +66,7 @@ docs/                      # VISION.md, MVP.md
 
 **Minitest + fixtures.** No RSpec, no FactoryBot. Test critical paths, don't test Rails itself.
 
-**Tailwind utilities in ERB.** No custom CSS unless unavoidable. The entry point is `app/assets/tailwind/application.css` with `@import "tailwindcss"`. No `tailwind.config.js` — Tailwind v4 uses CSS-first configuration.
+**Pure CSS in `app/assets/stylesheets/`.** Each file is a self-contained component or layer (`buttons.css`, `panels.css`, `lesson.css`, etc). Propshaft serves them all individually via `stylesheet_link_tag :all` — no manifest, no `@import` chain, no build step. Load order is alphabetical filename order, prefix bedrock files with `_` (`_reset.css`) to push them earlier.
 
 ## Content Architecture
 
@@ -104,32 +113,40 @@ LessonCompletion(user_id, lesson_id) — binary: exists = done
 - No React, Vue, or SPA. This is a Hotwire app.
 - No Devise. Use `has_secure_password` + a hand-rolled `SessionsController`.
 - No `respond_to` JSON/HTML unless explicitly needed.
-- No `tailwind.config.js` or `postcss.config.js`. Tailwind v4 is CSS-first.
+- **No Tailwind, no `@apply`, no `@theme`, no `@layer`, no `@import` between CSS files, no build step.** Propshaft serves CSS files as-is, the browser handles the cascade via filename load order.
+- No `tailwind.config.js`, `postcss.config.js`, or any JS-side asset tooling.
+- No `dark:`/`sm:`/`lg:` Tailwind-style prefixes in markup — use `@media (min-width: …)` and `@media (prefers-color-scheme: dark)` inside the CSS instead.
+- No web fonts, no Google Fonts. System font stack only (`system-ui`).
+- No raw hex/rgb/hsl — colors come from OKLCH primitives in `colors.css`.
 - No API-first design. HTML-first, API only when a real consumer exists.
 - No `before_action` chains longer than 2. Keep auth simple.
 - No concerns until a model exceeds ~200 lines. Premature extraction is worse than duplication.
 
-## UI — Canonical DHH Style (Basecamp Rails apps)
+## UI — Canonical DHH Style (Writebook canon)
 
-Reference implementations: `basecamp/writebook` (most relevant — content-focused), `basecamp/fizzy`, `basecamp/upright`, `basecamp/once-campfire`. None of them use Tailwind — they ship custom CSS with OKLCH primitives. We bridge that to our stack: **Tailwind 4 utilities in ERB, but with OKLCH semantic tokens defined via `@theme`** so colors auto-swap with `prefers-color-scheme`.
+Reference implementation: `basecamp/writebook` cloned at `/home/pingvinus/dhh-references/writebook/`. Our `app/assets/stylesheets/` mirrors its file layout 1-to-1 (`_reset.css`, `base.css`, `colors.css`, `layout.css`, `utilities.css`, `buttons.css`, `inputs.css`, `panels.css`, `breadcrumbs.css`, `text.css`, plus domain files `header`, `footer`, `paths`, `lesson`, `curriculum`, `support`, `admin`, `badges`, `flash`).
 
-- **Fonts:** System stack only (`system-ui`, `-apple-system`, `BlinkMacSystemFont`, "Segoe UI", "Noto Sans"). No Google Fonts, no web fonts, no Inter. Faster, no FOUT, looks native.
-- **Color tokens (use these, not raw hex/Tailwind colors):**
-  - `bg-canvas` / `text-ink` — page background and primary text (swap in dark mode)
-  - `text-link` — links (blue, hue-shifted in dark)
-  - `text-positive` / `text-negative` — success/error
-  - `text-marker` — orange accent for highlights, important callouts
-  - `bg-subtle` / `bg-subtle-light` / `text-ink-subtle` — quiet UI: borders, dividers, secondary text
-- **OKLCH primitives:** Defined in `:root`, swapped at `@media (prefers-color-scheme: dark)`. Semantic tokens reference primitives via `oklch(var(--lch-*))` — change a primitive, every semantic token using it updates. See `app/assets/tailwind/application.css` head.
-- **Light-first.** Default theme is light. Dark mode kicks in automatically via system preference. No `.dark` class on `<html>`, no `dark:` modifiers — color swap happens at the OKLCH primitive level.
-- **Page container:** `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`
-- **Reading column:** `max-w-prose mx-auto` (lessons), `max-w-4xl mx-auto` (course pages)
-- **Cards:** `bg-canvas ring-1 ring-subtle rounded-md p-6` (rings instead of shadows — works in both themes)
-- **Buttons:** Tailwind utilities inline. Primary = `bg-ink text-canvas`. Secondary = `ring-1 ring-subtle text-ink`. No `.btn` abstraction until 3+ button shapes appear in the same view.
-- **Icons:** Heroicons (already in the stack) via inline SVG. Apply color via `text-*` on the `<svg>` and `fill="currentColor"` inside.
-- **Layout regions:** Semantic HTML5 (`<header>`, `<main>`, `<aside>`, `<footer>`) — see Writebook `app/views/layouts/application.html.erb` for reference structure with `yield :header`, `yield :sidebar` blocks.
-- **Flash:** `<%= render "shared/flash" %>` renders a Turbo Frame at the top of the layout; `element-removal` Stimulus controller auto-dismisses after 4s.
-- **No CSS utility soup.** Extract a Tailwind `@utility` only when the same set of 6+ classes is repeated in 3+ places. Otherwise inline. (Current `application.css` has legacy `@utility`s — migrate to tokens or inline as views are touched.)
+- **Loading:** `<%= stylesheet_link_tag :all, "data-turbo-track": "reload" %>` in the layout. Propshaft emits one `<link>` per file in `app/assets/stylesheets/` (plus gem-shipped CSS like `lexxy.css`). Cascade is filename-alphabetical.
+- **Fonts:** `--font-sans: system-ui` only, declared in `base.css`. No Google Fonts, no Inter, no web fonts.
+- **Color tokens (`colors.css`):** OKLCH primitives in `:root` (`--lch-black`, `--lch-white`, `--lch-blue`, `--lch-gray-*`, `--lch-orange`, `--lch-red`, `--lch-green`). Semantic abstractions reference primitives via `oklch(var(--lch-*))`: `--color-bg`, `--color-ink`, `--color-ink-reversed`, `--color-link`, `--color-marker`, `--color-positive`, `--color-negative`, `--color-subtle-light`/`--color-subtle`/`--color-subtle-dark`, `--color-selected`, `--color-selected-dark`. Dark mode inverts only the primitives (`@media (prefers-color-scheme: dark)` block inside `:root`) — every semantic token follows automatically.
+- **Light-first.** Default theme is light. Dark mode kicks in via system preference. **No `dark:` modifiers, no `.dark` class on `<html>`** — colors swap at the OKLCH primitive level.
+- **Class naming:** hyphenated-flat by default (`.btn`, `.panel`, `.lesson-resource`). `--modifier` for variants (`.btn--reversed`, `.panel--hover`, `.badge--marker`). `__element` only when there's a nested DOM piece inside a component (`.lesson-resource__marker`, `.footer__heading`, `.panel__title`).
+- **Component-local CSS variables for theming.** Every component declares its own `--btn-background`, `--input-padding`, `--panel-border-color` etc with sensible defaults; modifiers override them. Example:
+  ```css
+  .btn { background: var(--btn-background, transparent); ... }
+  .btn--reversed { --btn-background: var(--color-ink); --btn-color: var(--color-bg); }
+  ```
+- **Spacing primitives:** `--inline-space: 1ch`, `--block-space: 1rem`, plus `-half` and `-double` variants declared in `utilities.css`. Use these in component CSS instead of raw rem/px.
+- **Containers:** `.container` (max 72rem, responsive horizontal padding) and `.container container--reading` (max 56rem). `.section` (responsive vertical padding) and `.section--divided` (top border).
+- **Layout regions:** Semantic HTML5 (`<header class="header">`, `<main>`, `<footer class="footer">`). Body is a 3-row grid (`auto 1fr auto`) so the footer sticks to the bottom on short pages.
+- **Cards:** `.panel` (subtle-light fill, 1px subtle border, block display) with optional `.panel--hover`. Use `.panel__title`/`.panel__description`/`.panel__meta` for inner pieces.
+- **Buttons:** `.btn` is the pill-shaped outlined base (transparent fill, 1px subtle-dark border). Variants override CSS variables: `.btn--reversed` (filled ink), `.btn--marker` (filled orange), `.btn--negative`/`.btn--positive`, plus `.btn--small`/`.btn--large` size modifiers.
+- **Inputs:** `.input` with `--input-*` overrides; `.input--mono` and `.input--textarea` for variants. Global `<label>` styling in `inputs.css` handles label typography.
+- **Badges:** `.badge` + `.badge--marker`/`.badge--link`/`.badge--draft` for status pills (admin pages + the Admin marker in the header).
+- **Icons:** Heroicons via the `heroicon` gem. Size them via the parent container's CSS (`svg { height: 1rem; width: 1rem }` inside `.btn`/`.admin-row`/etc), not inline `class:`.
+- **Hover/focus:** Centralized in `base.css` via `:is(a, button, input, textarea)` — components don't need per-element transition/box-shadow rules.
+- **Meta tags:** `<meta name="color-scheme" content="light dark">` plus a light/dark `theme-color` pair in the layout's `<head>` so native browser chrome (scrollbars, form controls) follows the theme.
+- **Flash:** `<%= render "shared/flash" %>` renders a Turbo Frame fixed-position pill at the top; `element-removal` Stimulus controller auto-dismisses after 4s. Styled by `flash.css`.
 
 ## Docs
 

@@ -2,25 +2,23 @@
 <% meta_description(t("paths.subtitle")) %>
 <% canonical_url("#{site_config.url}/paths") %>
 
-<section class="section-padded">
-  <div class="page-container">
+<section class="section">
+  <div class="container">
     <%= render "shared/breadcrumbs", crumbs: [
       { title: t("paths.title") }
     ] %>
 
-    <div class="mt-8 text-center">
+    <div class="txt-align-center">
       <h1 class="section-title"><%= t("paths.title") %></h1>
-      <p class="mt-4 txt-subtle max-w-2xl mx-auto"><%= t("paths.subtitle") %></p>
+      <p class="section-subtitle"><%= t("paths.subtitle") %></p>
     </div>
 
-    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="landing-grid landing-grid--cards">
       <% @paths.each do |path| %>
         <a href="<%= path_path(path) %>" class="panel panel--hover">
-          <h2 class="panel__title">
-            <%= path.title %>
-          </h2>
-          <p class="mt-2 text-sm txt-subtle line-clamp-3"><%= path.description %></p>
-          <div class="mt-4 text-xs text-ink-subtle">
+          <h2 class="panel__title"><%= path.title %></h2>
+          <p class="panel__description"><%= path.description %></p>
+          <div class="panel__meta">
             <span><%= russian_pluralize(path.lessons_count, :lesson) %></span>
           </div>
         </a>

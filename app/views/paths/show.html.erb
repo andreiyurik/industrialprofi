@@ -11,40 +11,37 @@
   ])) %>
 <% end %>
 
-<%# ── Header (centered, Odin-style) ── %>
-<section class="py-12 sm:py-16">
-  <div class="content-container text-center">
-    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full border-2 border-marker/60 text-marker mb-6">
+<section class="section">
+  <div class="container container--reading txt-align-center">
+    <div class="topic-hero-icon">
       <%= topic_icon_svg(@path.slug == "elektrik" ? "bolt" : @path.slug == "svarshchik" ? "fire" : @path.slug == "santehnik" ? "wrench" : "cog") %>
     </div>
 
-    <h1 class="text-2xl sm:text-3xl font-bold text-ink"><%= @path.title %></h1>
+    <h1 class="path__title"><%= @path.title %></h1>
 
-    <div class="mt-6 max-w-2xl mx-auto">
-      <h2 class="text-base font-semibold text-ink"><%= t("paths.overview") %></h2>
-      <p class="mt-2 text-sm text-ink-subtle leading-relaxed"><%= @path.description %></p>
+    <div class="path__overview">
+      <h2 class="path__overview-title"><%= t("paths.overview") %></h2>
+      <p class="path__overview-text"><%= @path.description %></p>
     </div>
   </div>
 </section>
 
-<%# ── Curriculum sections ── %>
-<section class="pb-16">
-  <div class="content-container">
-    <div class="space-y-6">
+<section>
+  <div class="container container--reading">
+    <div class="curriculum">
       <% @lessons_by_stage.each do |stage, lessons| %>
-        <div class="curriculum-section">
+        <div class="curriculum__section">
           <% if stage.present? %>
-            <div class="curriculum-header">
-              <h2 class="text-base font-semibold text-ink"><%= stage %></h2>
+            <div class="curriculum__header">
+              <h2 class="curriculum__header-title"><%= stage %></h2>
             </div>
           <% end %>
 
-          <div class="divide-y divide-subtle">
+          <div class="curriculum__list">
             <% lessons.each do |lesson| %>
-              <a href="<%= lesson_path(lesson) %>" class="flex items-center gap-3 px-6 py-3.5 hover:bg-subtle-light transition group">
-                <%= heroicon(lesson.kind == "practice" ? "wrench-screwdriver" : "book-open",
-                    variant: :outline, options: { class: "w-5 h-5 text-ink-subtle shrink-0" }) %>
-                <span class="text-sm text-ink-subtle group-hover:text-ink transition"><%= lesson.title %></span>
+              <a href="<%= lesson_path(lesson) %>" class="curriculum__lesson">
+                <%= heroicon(lesson.kind == "practice" ? "wrench-screwdriver" : "book-open", variant: :outline) %>
+                <span class="curriculum__lesson-title"><%= lesson.title %></span>
               </a>
             <% end %>
           </div>
@@ -54,12 +51,11 @@
   </div>
 </section>
 
-<%# ── Support CTA (Odin-style) ── %>
-<section class="border-t border-subtle bg-subtle-light">
-  <div class="page-container py-16 text-center">
-    <h2 class="text-2xl sm:text-3xl font-bold text-ink"><%= t("landing.support_title") %></h2>
-    <p class="mt-4 txt-subtle max-w-lg mx-auto"><%= t("landing.support_subtitle") %></p>
-    <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
+<section class="support-cta">
+  <div class="container support-cta__inner">
+    <h2 class="support-cta__title"><%= t("landing.support_title") %></h2>
+    <p class="support-cta__subtitle"><%= t("landing.support_subtitle") %></p>
+    <div class="support-cta__buttons">
       <a href="<%= support_us_path %>" class="btn"><%= t("landing.contact_us_short") %></a>
       <a href="<%= site_config.donate_url %>" class="btn btn--reversed" target="_blank" rel="noopener"><%= t("landing.donate") %></a>
     </div>

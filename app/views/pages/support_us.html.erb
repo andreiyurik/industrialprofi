@@ -2,76 +2,63 @@
 <% meta_description(t("support.intro").truncate(160)) %>
 <% canonical_url("#{site_config.url}/support_us") %>
 
-<div id="support-us">
-  <%# ── Hero ── %>
-  <section class="section-padded">
-    <div class="page-container">
-      <div class="max-w-2xl mx-auto text-center">
-        <h1 class="text-3xl sm:text-4xl font-bold text-ink"><%= t("support.title") %></h1>
-        <p class="mt-6 text-ink-subtle leading-relaxed">
-          <%= t("support.intro") %>
-        </p>
-
-        <div class="mt-8">
-          <a href="<%= site_config.donate_url %>" class="btn btn--reversed btn--large" target="_blank" rel="noopener">
-            <%= t("support.donate_cta") %>
-          </a>
-        </div>
+<section class="section">
+  <div class="container">
+    <div class="support-hero">
+      <h1 class="support-hero__title"><%= t("support.title") %></h1>
+      <p class="support-hero__lede"><%= t("support.intro") %></p>
+      <div class="support-hero__cta">
+        <a href="<%= site_config.donate_url %>" class="btn btn--reversed btn--large" target="_blank" rel="noopener">
+          <%= t("support.donate_cta") %>
+        </a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <%# ── FAQ ── %>
-  <section class="bg-subtle-light">
-    <div class="page-container section-padded">
-      <div class="max-w-2xl mx-auto">
-        <h2 class="text-2xl sm:text-3xl font-bold text-ink text-center mb-14"><%= t("support.faq_title") %></h2>
+<section class="support-faq">
+  <div class="container section">
+    <div class="support-faq__inner">
+      <h2 class="support-faq__title"><%= t("support.faq_title") %></h2>
 
-        <div class="space-y-10">
-          <div>
-            <h3 class="text-lg font-semibold text-ink"><%= t("support.q_how_money") %></h3>
-            <p class="mt-3 text-ink-subtle leading-relaxed"><%= t("support.a_how_money") %></p>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-semibold text-ink"><%= t("support.q_how_donate") %></h3>
-            <p class="mt-3 text-ink-subtle leading-relaxed"><%= t("support.a_how_donate") %></p>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-semibold text-ink"><%= t("support.q_why_free") %></h3>
-            <p class="mt-3 text-ink-subtle leading-relaxed"><%= t("support.a_why_free") %></p>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-semibold text-ink"><%= t("support.q_surplus") %></h3>
-            <p class="mt-3 text-ink-subtle leading-relaxed"><%= t("support.a_surplus") %></p>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-semibold text-ink"><%= t("support.q_other_help") %></h3>
-            <p class="mt-3 text-ink-subtle leading-relaxed"><%= t("support.a_other_help") %></p>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-semibold text-ink"><%= t("support.q_who_created") %></h3>
-            <p class="mt-3 text-ink-subtle leading-relaxed"><%= t("support.a_who_created") %></p>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-semibold text-ink"><%= t("support.q_contact") %></h3>
-            <p class="mt-3 text-ink-subtle leading-relaxed">
-              <%= t("support.a_contact_html", telegram_url: site_config.telegram_url, contact_email: site_config.contact_email) %>
-            </p>
-          </div>
+      <div class="support-faq__list">
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_how_money") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_how_money") %></p>
         </div>
-
-        <div class="mt-14 text-center">
-          <a href="<%= site_config.donate_url %>" class="btn btn--reversed btn--large" target="_blank" rel="noopener">
-            <%= t("support.donate_cta") %>
-          </a>
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_how_donate") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_how_donate") %></p>
+        </div>
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_why_free") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_why_free") %></p>
+        </div>
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_surplus") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_surplus") %></p>
+        </div>
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_other_help") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_other_help") %></p>
+        </div>
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_who_created") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_who_created") %></p>
+        </div>
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_contact") %></h3>
+          <p class="support-faq__answer">
+            <%= t("support.a_contact_html", telegram_url: site_config.telegram_url, contact_email: site_config.contact_email) %>
+          </p>
         </div>
       </div>
+
+      <div class="support-faq__cta">
+        <a href="<%= site_config.donate_url %>" class="btn btn--reversed btn--large" target="_blank" rel="noopener">
+          <%= t("support.donate_cta") %>
+        </a>
+      </div>
     </div>
-  </section>
-</div>
+  </div>
+</section>

@@ -12,35 +12,35 @@
   ])) %>
 <% end %>
 
-<main class="max-w-3xl mx-auto py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
+<main class="lesson">
   <%= render "shared/breadcrumbs", crumbs: [
     { title: @path.title, path: path_path(@path) },
     { title: @lesson.title }
   ] %>
 
-  <header class="mt-3 mb-8">
-    <h1 class="text-2xl sm:text-3xl font-bold text-ink leading-tight"><%= @lesson.title %></h1>
+  <header class="lesson__header">
+    <h1 class="lesson__title"><%= @lesson.title %></h1>
   </header>
 
   <article>
     <% if @lesson.has_description? %>
-      <section id="why" class="lesson-intro scroll-mt-6">
-        <p class="text-sm font-medium text-link mb-1"><%= t("lessons.why_section") %></p>
+      <section id="why" class="lesson__intro">
+        <p class="lesson__intro-label"><%= t("lessons.why_section") %></p>
         <div class="prose"><%= lesson_content(@lesson, :description) %></div>
       </section>
     <% end %>
 
     <% if @lesson.has_body? %>
-      <section id="study" class="mt-10 scroll-mt-6">
-        <h2 class="lesson-heading"><%= t("lessons.study_section") %></h2>
+      <section id="study" class="lesson__section">
+        <h2 class="lesson__heading"><%= t("lessons.study_section") %></h2>
         <div class="prose"><%= lesson_content(@lesson, :body) %></div>
       </section>
     <% end %>
 
     <% if @lesson.has_resources? %>
-      <section id="resources" class="mt-10 scroll-mt-6">
-        <h2 class="lesson-heading"><%= t("lessons.resources_section") %></h2>
-        <ul class="mt-4 space-y-3">
+      <section id="resources" class="lesson__section">
+        <h2 class="lesson__heading"><%= t("lessons.resources_section") %></h2>
+        <ul class="lesson-resources">
           <%= render @lesson.resources.required %>
           <%= render @lesson.resources.optional %>
         </ul>
@@ -48,9 +48,9 @@
     <% end %>
 
     <% if @lesson.has_task? %>
-      <section id="task" class="mt-10 scroll-mt-6">
-        <h2 class="lesson-heading"><%= t("lessons.task_section") %></h2>
-        <div class="lesson-task">
+      <section id="task" class="lesson__section">
+        <h2 class="lesson__heading"><%= t("lessons.task_section") %></h2>
+        <div class="lesson__task">
           <div class="prose"><%= lesson_content(@lesson, :task) %></div>
         </div>
       </section>
@@ -60,11 +60,11 @@
   </article>
 </main>
 
-<section class="border-t border-subtle bg-subtle-light">
-  <div class="page-container py-16 text-center">
-    <h2 class="text-2xl sm:text-3xl font-bold text-ink"><%= t("landing.support_title") %></h2>
-    <p class="mt-4 txt-subtle max-w-lg mx-auto"><%= t("landing.support_subtitle") %></p>
-    <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
+<section class="support-cta">
+  <div class="container support-cta__inner">
+    <h2 class="support-cta__title"><%= t("landing.support_title") %></h2>
+    <p class="support-cta__subtitle"><%= t("landing.support_subtitle") %></p>
+    <div class="support-cta__buttons">
       <%= link_to t("landing.contact_us_short"), support_us_path, class: "btn" %>
       <a href="<%= site_config.donate_url %>" class="btn btn--reversed" target="_blank" rel="noopener"><%= t("landing.donate") %></a>
     </div>

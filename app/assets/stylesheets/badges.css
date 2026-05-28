@@ -1,0 +1,24 @@
+.badge {
+  border-radius: 1em;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.2em 0.7em;
+  white-space: nowrap;
+}
+
+.badge--marker {
+  background-color: oklch(var(--lch-orange) / 0.15);
+  color: var(--color-marker);
+}
+
+.badge--link {
+  background-color: oklch(var(--lch-blue) / 0.2);
+  color: var(--color-link);
+}
+
+.badge--draft {
+  background-color: var(--color-subtle);
+  color: var(--color-subtle-dark);
+}

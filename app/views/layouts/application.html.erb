@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" class="scroll-smooth">
+<html lang="<%= I18n.locale %>">
   <head>
     <title><%= content_for?(:title) ? content_for(:title) : "#{t('site.name')} — #{t('site.tagline')}" %></title>
     <meta charset="UTF-8">
@@ -39,19 +39,18 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-canvas text-ink min-h-screen flex flex-col antialiased">
-    <%# ── Nav ── %>
-    <header class="border-b border-subtle">
-      <nav class="page-container flex items-center justify-between h-16">
-        <a href="<%= root_path %>" class="text-lg font-bold text-ink tracking-tight">
-          Industrial<span class="text-marker">Profi</span>
+  <body>
+    <header class="header">
+      <nav class="container header__nav">
+        <a href="<%= root_path %>" class="brand">
+          Industrial<span class="brand-accent">Profi</span>
         </a>
-        <div class="hidden sm:flex items-center gap-6">
-          <a href="<%= paths_path %>" class="nav-link"><%= t("nav.professions") %></a>
-          <a href="<%= root_path %>#how-it-works" class="nav-link"><%= t("nav.about") %></a>
-          <a href="<%= support_us_path %>" class="nav-link"><%= t("nav.support") %></a>
+        <div class="header__links">
+          <a href="<%= paths_path %>" class="nav__link"><%= t("nav.professions") %></a>
+          <a href="<%= root_path %>#how-it-works" class="nav__link"><%= t("nav.about") %></a>
+          <a href="<%= support_us_path %>" class="nav__link"><%= t("nav.support") %></a>
           <% if controller.class.module_parent_name == "Admin" %>
-            <span class="text-xs px-2 py-0.5 rounded-full bg-marker/10 text-marker font-medium ring-1 ring-marker/20">Admin</span>
+            <span class="badge badge--marker">Admin</span>
           <% end %>
         </div>
         <a href="<%= paths_path %>" class="btn btn--reversed btn--small"><%= t("nav.start") %></a>
@@ -60,49 +59,48 @@
 
     <%= render "shared/flash" %>
 
-    <main class="grow">
+    <main>
       <%= yield %>
     </main>
 
-    <%# ── Footer ── %>
-    <footer class="border-t border-subtle bg-canvas">
-      <div class="page-container py-12">
-        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-          <div class="lg:col-span-2">
-            <div class="text-lg font-bold text-ink tracking-tight mb-3">
-              Industrial<span class="text-marker">Profi</span>
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__grid">
+          <div class="footer__brand-block">
+            <div class="brand">
+              Industrial<span class="brand-accent">Profi</span>
             </div>
-            <p class="text-sm txt-subtle max-w-xs"><%= t("footer.description") %></p>
-            <div class="flex items-center gap-3 mt-4">
-              <a href="<%= site_config.telegram_url %>" class="text-ink-subtle hover:text-ink transition" target="_blank" rel="noopener" aria-label="Telegram">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            <p class="footer__brand-description"><%= t("footer.description") %></p>
+            <div class="footer__socials">
+              <a href="<%= site_config.telegram_url %>" class="footer__social-link" target="_blank" rel="noopener" aria-label="Telegram">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
               </a>
-              <a href="<%= site_config.github_url %>" class="text-ink-subtle hover:text-ink transition" target="_blank" rel="noopener" aria-label="GitHub">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              <a href="<%= site_config.github_url %>" class="footer__social-link" target="_blank" rel="noopener" aria-label="GitHub">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
               </a>
             </div>
           </div>
 
           <div>
-            <h4 class="footer-heading"><%= t("footer.professions") %></h4>
-            <a href="<%= paths_path %>" class="footer-link"><%= t("footer.electrician") %></a>
-            <a href="<%= paths_path %>" class="footer-link"><%= t("footer.welder") %></a>
-            <a href="<%= paths_path %>" class="footer-link"><%= t("footer.plumber") %></a>
+            <h4 class="footer__heading"><%= t("footer.professions") %></h4>
+            <a href="<%= paths_path %>" class="footer__link"><%= t("footer.electrician") %></a>
+            <a href="<%= paths_path %>" class="footer__link"><%= t("footer.welder") %></a>
+            <a href="<%= paths_path %>" class="footer__link"><%= t("footer.plumber") %></a>
           </div>
           <div>
-            <h4 class="footer-heading"><%= t("footer.project") %></h4>
-            <a href="<%= root_path %>#how-it-works" class="footer-link"><%= t("footer.about") %></a>
-            <a href="<%= site_config.telegram_url %>" class="footer-link" target="_blank" rel="noopener"><%= t("footer.feedback") %></a>
-            <a href="<%= support_us_path %>" class="footer-link"><%= t("footer.support") %></a>
+            <h4 class="footer__heading"><%= t("footer.project") %></h4>
+            <a href="<%= root_path %>#how-it-works" class="footer__link"><%= t("footer.about") %></a>
+            <a href="<%= site_config.telegram_url %>" class="footer__link" target="_blank" rel="noopener"><%= t("footer.feedback") %></a>
+            <a href="<%= support_us_path %>" class="footer__link"><%= t("footer.support") %></a>
           </div>
           <div>
-            <h4 class="footer-heading"><%= t("footer.resources") %></h4>
-            <a href="<%= paths_path %>" class="footer-link"><%= t("footer.standards") %></a>
-            <a href="<%= root_path %>#how-it-works" class="footer-link"><%= t("footer.faq") %></a>
+            <h4 class="footer__heading"><%= t("footer.resources") %></h4>
+            <a href="<%= paths_path %>" class="footer__link"><%= t("footer.standards") %></a>
+            <a href="<%= root_path %>#how-it-works" class="footer__link"><%= t("footer.faq") %></a>
           </div>
         </div>
 
-        <div class="mt-10 pt-6 border-t border-subtle text-xs text-ink-subtle text-center">
+        <div class="footer__copy">
           <%= t("footer.copyright", year: Date.current.year) %>
         </div>
       </div>

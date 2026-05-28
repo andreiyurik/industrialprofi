@@ -1,32 +1,31 @@
 <% meta_title(t("admin.lessons_title")) %>
 
-<section class="section-padded">
-  <div class="page-container">
-    <div class="flex items-center justify-between mb-8">
-      <h1 class="text-2xl font-bold text-ink"><%= t("admin.lessons_title") %></h1>
-      <div class="flex gap-3">
+<section class="admin-page">
+  <div class="container">
+    <div class="admin-header">
+      <h1 class="admin-header__title"><%= t("admin.lessons_title") %></h1>
+      <div class="admin-header__actions">
         <a href="<%= admin_lesson_suggestions_path %>" class="btn btn--small"><%= t("admin.manage_suggestions") %></a>
         <a href="<%= admin_paths_path %>" class="btn btn--small"><%= t("admin.manage_paths") %></a>
       </div>
     </div>
 
     <% @paths.each do |path| %>
-      <div class="mb-8">
-        <div class="flex items-center gap-3 mb-3">
-          <h2 class="text-lg font-semibold text-ink"><%= path.title %></h2>
-          <span class="text-xs px-2 py-0.5 rounded-full <%= path.status == 'published' ? 'bg-link/20 text-link' : 'bg-subtle text-ink-subtle' %>">
+      <div class="admin-group">
+        <div class="admin-group__head">
+          <h2 class="admin-group__title"><%= path.title %></h2>
+          <span class="badge <%= path.status == 'published' ? 'badge--link' : 'badge--draft' %>">
             <%= path.status %>
           </span>
-          <span class="text-xs text-ink-subtle"><%= russian_pluralize(path.lessons_count, :lesson) %></span>
+          <span class="admin-group__meta"><%= russian_pluralize(path.lessons_count, :lesson) %></span>
         </div>
 
-        <div class="space-y-1">
+        <div class="admin-list">
           <% path.lessons.ordered.each do |lesson| %>
-            <a href="<%= edit_admin_lesson_path(lesson) %>"
-               class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-subtle-light transition group">
-              <span class="text-xs text-ink-subtle w-6 text-right"><%= lesson.position %></span>
-              <span class="text-sm text-ink group-hover:text-ink transition truncate"><%= lesson.title %></span>
-              <%= heroicon("pencil-square", variant: :outline, options: { class: "w-4 h-4 text-ink-subtle/70 group-hover:text-ink-subtle ml-auto shrink-0 transition" }) %>
+            <a href="<%= edit_admin_lesson_path(lesson) %>" class="admin-row">
+              <span class="admin-row__position"><%= lesson.position %></span>
+              <span class="admin-row__title"><%= lesson.title %></span>
+              <span class="admin-row__icon"><%= heroicon("pencil-square", variant: :outline) %></span>
             </a>
           <% end %>
         </div>

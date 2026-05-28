@@ -1,11 +1,11 @@
 <li class="lesson-resource <%= resource.required? ? "lesson-resource--required" : "lesson-resource--optional" %>">
-  <span aria-hidden="true" class="lesson-resource-marker"><%= resource.required? ? "★" : "○" %></span>
-  <div class="min-w-0">
-    <a href="<%= resource.url %>" class="lesson-resource-link" target="_blank" rel="noopener">
+  <span aria-hidden="true" class="lesson-resource__marker"><%= resource.required? ? "★" : "○" %></span>
+  <div>
+    <a href="<%= resource.url %>" class="lesson-resource__link" target="_blank" rel="noopener">
       <%= resource.title %>
     </a>
     <% if resource.country_code.present? %>
-      <span class="ml-2 text-xs text-ink-subtle"><%= resource.country_code %></span>
+      <span class="lesson-resource__country"><%= resource.country_code %></span>
     <% end %>
   </div>
 </li>

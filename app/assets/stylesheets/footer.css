@@ -1,0 +1,85 @@
+.footer {
+  background-color: var(--color-bg);
+  border-block-start: 1px solid var(--color-subtle);
+  padding-block: 3rem;
+}
+
+.footer__grid {
+  display: grid;
+  gap: 2rem;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 2fr repeat(3, 1fr);
+  }
+}
+
+.footer__brand-block {
+  @media (min-width: 640px) and (max-width: 1023.98px) {
+    grid-column: 1 / -1;
+  }
+}
+
+.footer__brand-description {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block: 0.75rem 0;
+  max-inline-size: 32ch;
+}
+
+.footer__socials {
+  display: flex;
+  gap: 0.75rem;
+  margin-block-start: 1rem;
+}
+
+.footer__social-link {
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  transition: color 200ms ease;
+
+  svg {
+    block-size: 1.25rem;
+    inline-size: 1.25rem;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+.footer__heading {
+  color: var(--color-ink);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-block: 0 1rem;
+}
+
+.footer__link {
+  color: var(--color-subtle-dark);
+  display: block;
+  font-size: 0.85rem;
+  padding-block: 0.25rem;
+  text-decoration: none;
+  transition: color 200ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+.footer__copy {
+  border-block-start: 1px solid var(--color-subtle);
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+  margin-block-start: 2.5rem;
+  padding-block-start: 1.5rem;
+  text-align: center;
+}
