@@ -10,7 +10,7 @@
 
     <div class="mt-8 text-center">
       <h1 class="section-title"><%= t("paths.title") %></h1>
-      <p class="mt-4 body-text max-w-2xl mx-auto"><%= t("paths.subtitle") %></p>
+      <p class="mt-4 txt-subtle max-w-2xl mx-auto"><%= t("paths.subtitle") %></p>
     </div>
 
     <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -19,7 +19,7 @@
           <h2 class="panel__title">
             <%= path.title %>
           </h2>
-          <p class="mt-2 text-sm body-text line-clamp-3"><%= path.description %></p>
+          <p class="mt-2 text-sm txt-subtle line-clamp-3"><%= path.description %></p>
           <div class="mt-4 text-xs text-ink-subtle">
             <span><%= russian_pluralize(path.lessons_count, :lesson) %></span>
           </div>

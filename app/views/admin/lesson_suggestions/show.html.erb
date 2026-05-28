@@ -43,7 +43,7 @@
       <%# Current %>
       <div>
         <h3 class="text-sm font-medium text-ink-subtle mb-2"><%= t("admin.current_content") %></h3>
-        <div class="bg-subtle border border-subtle rounded-lg px-4 py-3 lesson-prose min-h-[16rem] overflow-y-auto">
+        <div class="bg-subtle border border-subtle rounded-lg px-4 py-3 prose min-h-[16rem] overflow-y-auto">
           <%= lesson_content(@lesson, @suggestion.section.to_sym) %>
         </div>
       </div>
@@ -51,7 +51,7 @@
       <%# Proposed %>
       <div>
         <h3 class="text-sm font-medium text-link mb-2"><%= t("admin.proposed_content") %></h3>
-        <div class="bg-subtle border border-link/20 rounded-lg px-4 py-3 lesson-prose min-h-[16rem] overflow-y-auto">
+        <div class="bg-subtle border border-link/20 rounded-lg px-4 py-3 prose min-h-[16rem] overflow-y-auto">
           <% if @suggestion.rich_body.present? %>
             <%= @suggestion.rich_body %>
           <% else %>

@@ -26,14 +26,14 @@
     <% if @lesson.has_description? %>
       <section id="why" class="lesson-intro scroll-mt-6">
         <p class="text-sm font-medium text-link mb-1"><%= t("lessons.why_section") %></p>
-        <div class="lesson-prose"><%= lesson_content(@lesson, :description) %></div>
+        <div class="prose"><%= lesson_content(@lesson, :description) %></div>
       </section>
     <% end %>
 
     <% if @lesson.has_body? %>
       <section id="study" class="mt-10 scroll-mt-6">
         <h2 class="lesson-heading"><%= t("lessons.study_section") %></h2>
-        <div class="lesson-prose"><%= lesson_content(@lesson, :body) %></div>
+        <div class="prose"><%= lesson_content(@lesson, :body) %></div>
       </section>
     <% end %>
 
@@ -51,7 +51,7 @@
       <section id="task" class="mt-10 scroll-mt-6">
         <h2 class="lesson-heading"><%= t("lessons.task_section") %></h2>
         <div class="lesson-task">
-          <div class="lesson-prose"><%= lesson_content(@lesson, :task) %></div>
+          <div class="prose"><%= lesson_content(@lesson, :task) %></div>
         </div>
       </section>
     <% end %>
@@ -63,7 +63,7 @@
 <section class="border-t border-subtle bg-subtle-light">
   <div class="page-container py-16 text-center">
     <h2 class="text-2xl sm:text-3xl font-bold text-ink"><%= t("landing.support_title") %></h2>
-    <p class="mt-4 body-text max-w-lg mx-auto"><%= t("landing.support_subtitle") %></p>
+    <p class="mt-4 txt-subtle max-w-lg mx-auto"><%= t("landing.support_subtitle") %></p>
     <div class="mt-8 flex items-center justify-center gap-4 flex-wrap">
       <%= link_to t("landing.contact_us_short"), support_us_path, class: "btn" %>
       <a href="<%= site_config.donate_url %>" class="btn btn--reversed" target="_blank" rel="noopener"><%= t("landing.donate") %></a>
