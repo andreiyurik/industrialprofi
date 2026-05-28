@@ -2,7 +2,11 @@
 <html lang="<%= I18n.locale %>" class="scroll-smooth">
   <head>
     <title><%= content_for?(:title) ? content_for(:title) : "#{t('site.name')} — #{t('site.tagline')}" %></title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
     <meta name="description" content="<%= content_for?(:description) ? content_for(:description) : t('site.description') %>">
     <meta name="application-name" content="<%= t('site.name') %>">
     <meta name="robots" content="index, follow">
@@ -31,9 +35,7 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "lexxy", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "actiontext", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag :all, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
