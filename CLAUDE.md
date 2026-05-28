@@ -68,6 +68,8 @@ docs/                      # VISION.md, MVP.md
 
 **Pure CSS in `app/assets/stylesheets/`.** Each file is a self-contained component or layer (`buttons.css`, `panels.css`, `lesson.css`, etc). Propshaft serves them all individually via `stylesheet_link_tag :all` — no manifest, no `@import` chain, no build step. Load order is alphabetical filename order, prefix bedrock files with `_` (`_reset.css`) to push them earlier.
 
+CSS-only changes can't break server rendering — verify visually, not with `bin/rails`/render. Re-render or test only when ERB, Ruby, or `.yml` change.
+
 ## Content Architecture
 
 Three-level hierarchy adapted from The Odin Project:

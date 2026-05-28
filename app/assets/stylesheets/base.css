@@ -25,6 +25,10 @@ a:not([class]) {
   color: var(--color-link);
   text-decoration: underline;
   text-decoration-skip-ink: auto;
+
+  &:visited {
+    color: var(--color-link);
+  }
 }
 
 :is(a, button, input, textarea) {

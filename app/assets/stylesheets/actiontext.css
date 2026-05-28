@@ -1,32 +1,38 @@
-/* Lexxy dark theme — matches IndustrialProfi navy palette */
-:root {
-  --lexxy-color-ink: oklch(90% 0 0);
-  --lexxy-color-ink-medium: oklch(70% 0 0);
-  --lexxy-color-ink-light: oklch(50% 0 0);
-  --lexxy-color-ink-lighter: oklch(35% 0 0);
-  --lexxy-color-ink-lightest: oklch(22% 0 0);
-  --lexxy-color-ink-inverted: oklch(15% 0 0);
+/* Make Lexxy (the rich-text editor + rendered ActionText) follow our theme.
+   Lexxy ships a hardcoded light palette in :root; we remap its variables onto
+   our semantic tokens, which already flip with dark mode — so the editor and
+   rendered content theme themselves for free.
 
-  --lexxy-color-accent-dark: oklch(65% 0.15 175);
-  --lexxy-color-accent-medium: oklch(70% 0.12 175);
-  --lexxy-color-accent-light: oklch(35% 0.04 175);
-  --lexxy-color-accent-lightest: oklch(25% 0.03 175);
+   :root:root has specificity (0,2,0), outranking Lexxy's own :root (0,1,0),
+   so this wins regardless of stylesheet load order. */
+:root:root {
+  --lexxy-color-canvas: var(--color-bg);
+  --lexxy-color-ink: var(--color-ink);
+  --lexxy-color-ink-medium: var(--color-subtle-dark);
+  --lexxy-color-ink-light: var(--color-subtle-dark);
+  --lexxy-color-ink-lighter: var(--color-subtle);
+  --lexxy-color-ink-lightest: var(--color-subtle-light);
+  --lexxy-color-ink-inverted: var(--color-bg);
 
-  --lexxy-color-red: oklch(70% 0.15 27);
-  --lexxy-color-green: oklch(70% 0.15 145);
-  --lexxy-color-blue: oklch(70% 0.15 258);
-  --lexxy-color-purple: oklch(70% 0.15 305);
+  --lexxy-color-accent-dark: var(--color-link);
+  --lexxy-color-accent-medium: var(--color-link);
+  --lexxy-color-accent-light: var(--color-selected);
+  --lexxy-color-accent-lightest: var(--color-selected);
 
-  --lexxy-color-code-token-att: #ff7b72;
-  --lexxy-color-code-token-comment: #8b949e;
-  --lexxy-color-code-token-function: #d2a8ff;
-  --lexxy-color-code-token-operator: #ff7b72;
-  --lexxy-color-code-token-property: #79c0ff;
-  --lexxy-color-code-token-punctuation: #f0f6fc;
-  --lexxy-color-code-token-selector: #7ee787;
-  --lexxy-color-code-token-variable: #ffa657;
+  --lexxy-color-selected: var(--color-selected);
+  --lexxy-color-selected-dark: var(--color-selected-dark);
 
-  --lexxy-shadow: 0 0 0 1px rgba(100, 100, 100, 0.3);
+  --lexxy-focus-ring-color: var(--color-selected-dark);
+  --lexxy-radius: 0.5em;
+}
+
+/* Match the editor frame to our .input fields (border color + focus). */
+lexxy-editor {
+  border-color: var(--color-subtle-dark);
+
+  &:focus-within {
+    border-color: var(--color-selected-dark);
+  }
 }
 
 .lexxy-content {

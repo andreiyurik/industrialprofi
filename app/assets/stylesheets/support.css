@@ -1,15 +1,14 @@
 .support-cta {
   background-color: var(--color-subtle-light);
-  border-block: 1px solid var(--color-subtle);
   text-align: center;
 }
 
 .support-cta__inner {
-  padding-block: 4rem;
+  padding-block: 3rem;
 }
 
 .support-cta__title {
-  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
   font-weight: 700;
   margin-block: 0;
 }
@@ -87,9 +86,4 @@
   color: var(--color-subtle-dark);
   line-height: 1.6;
   margin-block: 0.75rem 0;
-}
-
-.support-faq__cta {
-  margin-block-start: 3.5rem;
-  text-align: center;
 }

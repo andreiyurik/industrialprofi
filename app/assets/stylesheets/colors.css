@@ -30,13 +30,14 @@
   --color-always-black: oklch(var(--lch-always-black));
   --color-always-white: oklch(var(--lch-always-white));
 
-  /* Redefine named color values for dark mode */
+  /* Redefine named color values for dark mode — soft neutral dark (not pure black),
+     with layered surfaces so cards/panels read as elevated above the page. */
   @media (prefers-color-scheme: dark) {
-    --lch-black: 100% 0 0;
-    --lch-white: 0% 0 0;
-    --lch-gray-light: 25.2% 0 0;
-    --lch-gray: 30.12% 0 0;
-    --lch-gray-dark: 44.95% 0 0;
+    --lch-black: 95% 0 0;       /* primary text — soft white, not harsh #fff */
+    --lch-white: 18% 0 0;       /* page background — dark gray, not pure black */
+    --lch-gray-light: 24% 0 0;  /* elevated surfaces (cards, panels, headers) */
+    --lch-gray: 32% 0 0;        /* borders + row hover fill */
+    --lch-gray-dark: 68% 0 0;   /* muted / secondary text — readable on dark */
     --lch-blue: 72.25% 0.16 248;
     --lch-blue-light: 28.11% 0.053 248;
     --lch-blue-dark: 42.25% 0.07 248;

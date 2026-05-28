@@ -12,22 +12,18 @@
 <% end %>
 
 <section class="section">
-  <div class="container container--reading txt-align-center">
-    <div class="topic-hero-icon">
-      <%= topic_icon_svg(@path.slug == "elektrik" ? "bolt" : @path.slug == "svarshchik" ? "fire" : @path.slug == "santehnik" ? "wrench" : "cog") %>
+  <div class="container container--reading">
+    <div class="path-hero">
+      <div class="topic-hero-icon">
+        <%= topic_icon_svg(path_icon_token(@path)) %>
+      </div>
+      <h1 class="path__title"><%= @path.title %></h1>
     </div>
-
-    <h1 class="path__title"><%= @path.title %></h1>
 
     <div class="path__overview">
-      <h2 class="path__overview-title"><%= t("paths.overview") %></h2>
       <p class="path__overview-text"><%= @path.description %></p>
     </div>
-  </div>
-</section>
 
-<section>
-  <div class="container container--reading">
     <div class="curriculum">
       <% @lessons_by_stage.each do |stage, lessons| %>
         <div class="curriculum__section">
@@ -39,7 +35,7 @@
 
           <div class="curriculum__list">
             <% lessons.each do |lesson| %>
-              <a href="<%= lesson_path(lesson) %>" class="curriculum__lesson">
+              <a href="<%= lesson_path(lesson) %>" class="curriculum__lesson<%= " curriculum__lesson--practice" if lesson.kind == "practice" %>">
                 <%= heroicon(lesson.kind == "practice" ? "wrench-screwdriver" : "book-open", variant: :outline) %>
                 <span class="curriculum__lesson-title"><%= lesson.title %></span>
               </a>

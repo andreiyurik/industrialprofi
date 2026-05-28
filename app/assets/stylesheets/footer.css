@@ -1,39 +1,55 @@
 .footer {
   background-color: var(--color-bg);
   border-block-start: 1px solid var(--color-subtle);
-  padding-block: 3rem;
+  padding-block: 2.5rem;
 }
 
-.footer__grid {
-  display: grid;
-  gap: 2rem;
-
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: 2fr repeat(3, 1fr);
-  }
+.footer__inner {
+  align-items: center;
+  column-gap: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 1rem;
 }
 
 .footer__brand-block {
-  @media (min-width: 640px) and (max-width: 1023.98px) {
-    grid-column: 1 / -1;
-  }
+  align-items: baseline;
+  column-gap: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.25rem;
 }
 
-.footer__brand-description {
+.footer__tagline {
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
-  margin-block: 0.75rem 0;
-  max-inline-size: 32ch;
+  margin-block: 0;
+}
+
+.footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-inline-start: auto;
+}
+
+.footer__link {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 200ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
 }
 
 .footer__socials {
   display: flex;
-  gap: 0.75rem;
-  margin-block-start: 1rem;
+  gap: 1rem;
 }
 
 .footer__social-link {
@@ -53,33 +69,11 @@
   }
 }
 
-.footer__heading {
-  color: var(--color-ink);
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-block: 0 1rem;
-}
-
-.footer__link {
-  color: var(--color-subtle-dark);
-  display: block;
-  font-size: 0.85rem;
-  padding-block: 0.25rem;
-  text-decoration: none;
-  transition: color 200ms ease;
-
-  @media (any-hover: hover) {
-    &:hover {
-      color: var(--color-ink);
-    }
-  }
-}
-
 .footer__copy {
   border-block-start: 1px solid var(--color-subtle);
   color: var(--color-subtle-dark);
   font-size: 0.75rem;
-  margin-block-start: 2.5rem;
+  margin-block-start: 2rem;
   padding-block-start: 1.5rem;
   text-align: center;
 }

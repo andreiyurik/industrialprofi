@@ -13,11 +13,13 @@
 
     <div class="card-grid card-grid--3-col">
       <% @paths.each do |path| %>
-        <a href="<%= path_path(path) %>" class="panel panel--hover">
-          <h2 class="panel__title"><%= path.title %></h2>
+        <a href="<%= path_path(path) %>" class="panel panel--hover path-card">
+          <span class="path-card__icon"><%= topic_icon_svg(path_icon_token(path)) %></span>
+          <h2 class="panel__title path-card__title"><%= path.title %></h2>
           <p class="panel__description"><%= path.description %></p>
-          <div class="panel__meta">
-            <span><%= russian_pluralize(path.lessons_count, :lesson) %></span>
+          <div class="path-card__footer">
+            <span class="path-card__meta"><%= russian_pluralize(path.lessons_count, :lesson) %></span>
+            <span class="path-card__arrow" aria-hidden="true"><%= heroicon "arrow-right", variant: :outline %></span>
           </div>
         </a>
       <% end %>

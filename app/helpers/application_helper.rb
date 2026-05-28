@@ -15,6 +15,16 @@ module ApplicationHelper
     heroicon(icon, variant: :outline, options: { class: "w-10 h-10" })
   end
 
+  PATH_ICON_TOKENS = {
+    "elektrik" => "bolt",
+    "svarshchik" => "fire",
+    "santehnik" => "wrench"
+  }.freeze
+
+  def path_icon_token(path)
+    PATH_ICON_TOKENS.fetch(path.slug, "cog")
+  end
+
   MARKDOWN_TAGS = %w[h1 h2 h3 h4 h5 h6 p ul ol li a strong em code pre blockquote table thead tbody tr th td hr br img].freeze
   MARKDOWN_ATTRS = %w[href src alt target rel].freeze
 
