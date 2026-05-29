@@ -77,3 +77,17 @@
   padding-block-start: 1.5rem;
   text-align: center;
 }
+
+.footer__author {
+  color: var(--color-subtle-dark);
+  text-decoration: underline;
+  text-decoration-color: var(--color-subtle);
+  transition: color 200ms ease, text-decoration-color 200ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+      text-decoration-color: var(--color-ink);
+    }
+  }
+}

@@ -123,14 +123,32 @@
   margin-block-start: 2.5rem;
 }
 
-/* Per-section "suggest edit" affordance under each editable lesson section */
+/* Per-section "suggest edit" affordance under each editable lesson section.
+   Kept deliberately quiet: faint by default (so touch users can still find it),
+   and on pointer devices it stays hidden until the reader hovers the section
+   or tabs to it — discoverable, but never visual noise. */
 .lesson-section-edit {
   font-size: 0.8rem;
   margin-block: 1rem 0;
+  opacity: 0.4;
+  transition: opacity 200ms ease;
 
   .lesson-edit-link svg {
     block-size: 0.9rem;
     inline-size: 0.9rem;
+  }
+}
+
+@media (any-hover: hover) {
+  .lesson__intro .lesson-section-edit,
+  .lesson__section .lesson-section-edit {
+    opacity: 0;
+  }
+
+  .lesson__intro:hover .lesson-section-edit,
+  .lesson__section:hover .lesson-section-edit,
+  .lesson-section-edit:focus-within {
+    opacity: 1;
   }
 }
 

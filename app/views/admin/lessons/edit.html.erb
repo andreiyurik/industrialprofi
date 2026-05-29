@@ -31,9 +31,22 @@
             {}, class: "input" %>
       </div>
 
-      <%= render "admin/lessons/markdown_field", f: f, field: :rich_description, label: t("admin.field_description") %>
-      <%= render "admin/lessons/markdown_field", f: f, field: :rich_body, label: t("admin.field_body") %>
-      <%= render "admin/lessons/markdown_field", f: f, field: :rich_task, label: t("admin.field_task") %>
+      <p class="admin-form__hint admin-form__field--lg"><%= t("admin.markdown_paste_hint") %></p>
+
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("admin.field_description") %></label>
+        <%= f.rich_text_area :rich_description, class: "lexxy-content" %>
+      </div>
+
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("admin.field_body") %></label>
+        <%= f.rich_text_area :rich_body, class: "lexxy-content" %>
+      </div>
+
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("admin.field_task") %></label>
+        <%= f.rich_text_area :rich_task, class: "lexxy-content" %>
+      </div>
 
       <div class="admin-form__field admin-form__field--lg">
         <label><%= t("revisions.reason") %></label>
