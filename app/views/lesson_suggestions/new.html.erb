@@ -1,0 +1,78 @@
+<% meta_title(t("suggestions.page_title")) %>
+
+<section class="admin-page">
+  <div class="container container--reading">
+    <%= render "shared/breadcrumbs", crumbs: [
+      { title: @lesson.path.title, path: path_path(@lesson.path) },
+      { title: @lesson.title, path: lesson_path(@lesson) },
+      { title: t("suggestions.breadcrumb") }
+    ] %>
+
+    <header class="admin-header">
+      <h1 class="admin-header__title"><%= t("suggestions.title") %></h1>
+    </header>
+
+    <p class="lesson-edit-prompt"><%= t("suggestions.subtitle", lesson: @lesson.title) %></p>
+
+    <% if @suggestion.errors.any? %>
+      <div class="admin-alert admin-alert--error">
+        <% @suggestion.errors.full_messages.each do |msg| %>
+          <p><%= msg %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= form_with(model: @suggestion, url: lesson_suggestions_path) do |f| %>
+      <%= f.hidden_field :lesson_id, value: @lesson.id %>
+      <%= f.hidden_field :section %>
+
+      <%# Honeypot — bots fill this hidden field; #create silently drops them %>
+      <div class="honeypot" aria-hidden="true">
+        <label for="suggestion_company"><%= t("suggestions.honeypot_label") %></label>
+        <%= text_field_tag :company, nil, id: "suggestion_company", tabindex: -1, autocomplete: "off" %>
+      </div>
+
+      <div class="admin-form__field">
+        <label><%= t("suggestions.field_section") %></label>
+        <p class="suggestion-section"><%= t("suggestions.section_#{@section}") %></p>
+      </div>
+
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("suggestions.field_content") %></label>
+        <p class="admin-form__hint"><%= t("suggestions.field_content_hint") %></p>
+        <%= f.rich_text_area :rich_body, class: "lexxy-content",
+            data: { toolbar: { upload: false }.to_json } %>
+      </div>
+
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("revisions.reason") %></label>
+        <p class="admin-form__hint"><%= t("revisions.reason_hint") %></p>
+        <%= f.text_field :edit_reason,
+            placeholder: t("revisions.reason_placeholder"),
+            class: "input" %>
+      </div>
+
+      <div class="admin-form__grid admin-form__field--lg">
+        <div class="admin-form__field">
+          <label><%= t("suggestions.field_name") %> *</label>
+          <%= f.text_field :author_name,
+              placeholder: t("suggestions.name_placeholder"),
+              class: "input" %>
+        </div>
+        <div class="admin-form__field">
+          <label><%= t("suggestions.field_contact") %></label>
+          <%= f.text_field :author_contact,
+              placeholder: t("suggestions.contact_placeholder"),
+              class: "input" %>
+        </div>
+      </div>
+
+      <p class="admin-form__hint admin-form__field--lg"><%= t("suggestions.review_note") %></p>
+
+      <div class="admin-form__actions">
+        <%= f.submit t("suggestions.submit"), class: "btn btn--reversed" %>
+        <a href="<%= lesson_path(@lesson) %>" class="btn"><%= t("admin.cancel") %></a>
+      </div>
+    <% end %>
+  </div>
+</section>

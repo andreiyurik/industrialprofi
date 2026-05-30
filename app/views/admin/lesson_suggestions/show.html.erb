@@ -1,0 +1,78 @@
+<% meta_title(t("admin.review_suggestion")) %>
+
+<section class="admin-page">
+  <div class="container">
+    <div class="admin-header">
+      <div class="admin-header__title-group">
+        <a href="<%= admin_lesson_suggestions_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+          <%= heroicon("arrow-left", variant: :outline) %>
+        </a>
+        <h1 class="admin-header__title"><%= t("admin.review_suggestion") %></h1>
+      </div>
+      <a href="<%= lesson_path(@lesson) %>" class="admin-header__view-live" target="_blank"><%= t("admin.view_live") %> ↗</a>
+    </div>
+
+    <div class="admin-meta-card">
+      <div class="admin-meta-card__row">
+        <div>
+          <span class="admin-meta-card__label"><%= t("admin.suggestion_lesson") %>:</span>
+          <span class="admin-meta-card__value"><%= @lesson.title %></span>
+        </div>
+        <div>
+          <span class="admin-meta-card__label"><%= t("admin.suggestion_section") %>:</span>
+          <span class="admin-meta-card__value admin-meta-card__value--marker"><%= @suggestion.section %></span>
+        </div>
+        <div>
+          <span class="admin-meta-card__label"><%= t("admin.suggestion_author") %>:</span>
+          <span class="admin-meta-card__value"><%= @suggestion.author_name %></span>
+          <% if @suggestion.author_contact.present? %>
+            <span class="admin-meta-card__value--subtle">(<%= @suggestion.author_contact %>)</span>
+          <% end %>
+        </div>
+        <div>
+          <span class="admin-meta-card__label"><%= t("admin.suggestion_date") %>:</span>
+          <span class="admin-meta-card__value"><%= l(@suggestion.created_at, format: :long) %></span>
+        </div>
+      </div>
+    </div>
+
+    <% if @suggestion.stale? %>
+      <div class="revision-stale">⚠ <%= t("revisions.stale_warning") %></div>
+    <% end %>
+
+    <% if @suggestion.edit_reason.present? %>
+      <div class="admin-edit-reason">
+        <span class="admin-meta-card__label"><%= t("revisions.reason") %>:</span>
+        <span class="admin-meta-card__value"><%= @suggestion.edit_reason %></span>
+      </div>
+    <% end %>
+
+    <div class="admin-diff">
+      <h3 class="admin-comparison__heading"><%= t("admin.diff_heading") %></h3>
+      <div class="admin-comparison__body revision-diff prose">
+        <%= inline_diff(@lesson.section_html(@suggestion.section), @suggestion.proposed_html) %>
+      </div>
+    </div>
+
+    <div class="admin-decision">
+      <%= form_with(url: approve_admin_lesson_suggestion_path(@suggestion), method: :patch) do %>
+        <button type="submit" class="btn btn--reversed"
+                onclick="return confirm('<%= t("admin.confirm_approve") %>')">
+          <%= t("admin.approve") %>
+        </button>
+      <% end %>
+
+      <%= form_with(url: reject_admin_lesson_suggestion_path(@suggestion), method: :patch, class: "admin-decision__reject") do |f| %>
+        <div class="admin-decision__reject-field">
+          <label><%= t("admin.reject_comment") %></label>
+          <%= f.text_field "lesson_suggestion[reviewer_comment]",
+              placeholder: t("admin.reject_comment_placeholder"),
+              class: "input" %>
+        </div>
+        <button type="submit" class="btn btn--negative">
+          <%= t("admin.reject") %>
+        </button>
+      <% end %>
+    </div>
+  </div>
+</section>

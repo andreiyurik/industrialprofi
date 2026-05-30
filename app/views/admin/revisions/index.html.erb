@@ -1,0 +1,44 @@
+<% meta_title("#{t('revisions.history')} — #{@lesson.title}") %>
+
+<section class="admin-page">
+  <div class="container">
+    <div class="admin-header">
+      <div class="admin-header__title-group">
+        <a href="<%= edit_admin_lesson_path(@lesson) %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+          <%= heroicon("arrow-left", variant: :outline) %>
+        </a>
+        <h1 class="admin-header__title"><%= t("revisions.history") %> — <%= @lesson.title %></h1>
+      </div>
+      <a href="<%= lesson_path(@lesson) %>" class="admin-header__view-live" target="_blank"><%= t("admin.view_live") %> ↗</a>
+    </div>
+
+    <% if @revisions.empty? %>
+      <div class="admin-empty">
+        <p class="admin-empty__text"><%= t("revisions.none") %></p>
+      </div>
+    <% else %>
+      <div class="admin-list">
+        <% @revisions.each do |rev| %>
+          <div class="admin-row admin-row--static">
+            <span class="admin-row__column">
+              <span class="admin-row__line">
+                <span class="admin-row__title"><%= t("revisions.version_n", version: rev.version) %></span>
+                <span class="badge badge--marker"><%= t("revisions.sections.#{rev.section}") %></span>
+                <span class="admin-row__subtle"><%= t("revisions.source.#{rev.source}") %></span>
+              </span>
+              <p class="admin-row__subtle">
+                <%= revision_editor(rev) %> · <%= l(rev.created_at, format: :long) %>
+                <% if rev.edit_reason.present? %>· <%= rev.edit_reason %><% end %>
+              </p>
+            </span>
+            <%= button_to t("revisions.rollback"),
+                rollback_admin_lesson_revision_path(@lesson, rev),
+                method: :post,
+                class: "btn btn--small",
+                form: { data: { turbo_confirm: t("revisions.confirm_rollback", version: rev.version) } } %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>

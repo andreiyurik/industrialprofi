@@ -9,6 +9,30 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  root "paths#index"
+  get "support_us" => "pages#support_us"
+  get "robots.txt" => "sitemaps#robots", defaults: { format: :text }
+  get "sitemap.xml" => "sitemaps#show", defaults: { format: :xml }
+
+  resources :paths, only: [ :index, :show ], param: :slug
+  resources :lessons, only: [ :show ], param: :slug do
+    resources :revisions, only: [ :index, :show ]
+  end
+  resources :lesson_suggestions, only: [ :new, :create ]
+
+  namespace :admin do
+    resources :lessons, only: [ :index, :edit, :update ], param: :slug do
+      resources :revisions, only: [ :index ] do
+        member { post :rollback }
+      end
+    end
+    resources :paths, only: [ :index, :edit, :update ], param: :slug
+    resources :lesson_suggestions, only: [ :index, :show ] do
+      member do
+        patch :approve
+        patch :reject
+      end
+    end
+    post "preview", to: "preview#create"
+  end
 end

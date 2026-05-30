@@ -1,0 +1,47 @@
+/* Make Lexxy (the rich-text editor + rendered ActionText) follow our theme.
+   Lexxy ships a hardcoded light palette in :root; we remap its variables onto
+   our semantic tokens, which already flip with dark mode — so the editor and
+   rendered content theme themselves for free.
+
+   :root:root has specificity (0,2,0), outranking Lexxy's own :root (0,1,0),
+   so this wins regardless of stylesheet load order. */
+:root:root {
+  --lexxy-color-canvas: var(--color-bg);
+  --lexxy-color-ink: var(--color-ink);
+  --lexxy-color-ink-medium: var(--color-subtle-dark);
+  --lexxy-color-ink-light: var(--color-subtle-dark);
+  --lexxy-color-ink-lighter: var(--color-subtle);
+  --lexxy-color-ink-lightest: var(--color-subtle-light);
+  --lexxy-color-ink-inverted: var(--color-bg);
+
+  --lexxy-color-accent-dark: var(--color-link);
+  --lexxy-color-accent-medium: var(--color-link);
+  --lexxy-color-accent-light: var(--color-selected);
+  --lexxy-color-accent-lightest: var(--color-selected);
+
+  --lexxy-color-selected: var(--color-selected);
+  --lexxy-color-selected-dark: var(--color-selected-dark);
+
+  --lexxy-focus-ring-color: var(--color-selected-dark);
+  --lexxy-radius: 0.5em;
+}
+
+/* Match the editor frame to our .input fields (border color + focus). */
+lexxy-editor {
+  border-color: var(--color-subtle-dark);
+
+  &:focus-within {
+    border-color: var(--color-selected-dark);
+  }
+}
+
+.lexxy-content {
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+.lexxy-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}

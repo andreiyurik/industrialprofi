@@ -1,0 +1,6 @@
+<p class="lesson-section-edit">
+  <%= link_to new_lesson_suggestion_path(lesson_slug: @lesson.slug, section: section), class: "lesson-edit-link" do %>
+    <%= heroicon "pencil-square", variant: :outline %>
+    <span><%= t("lessons.suggest_edit") %></span>
+  <% end %>
+</p>

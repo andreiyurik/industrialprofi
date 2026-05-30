@@ -1,0 +1,28 @@
+<% canonical_url("#{site_config.url}/") %>
+
+<% content_for(:head) do %>
+  <%= json_ld_tag(website_json_ld) %>
+<% end %>
+
+<section class="section">
+  <div class="container">
+    <div class="txt-align-center">
+      <h1 class="section-title"><%= t("paths.title") %></h1>
+      <p class="section-subtitle"><%= t("paths.subtitle") %></p>
+    </div>
+
+    <div class="card-grid card-grid--3-col">
+      <% @paths.each do |path| %>
+        <a href="<%= path_path(path) %>" class="panel panel--hover path-card">
+          <span class="path-card__icon"><%= topic_icon_svg(path_icon_token(path)) %></span>
+          <h2 class="panel__title path-card__title"><%= path.title %></h2>
+          <p class="panel__description"><%= path.description %></p>
+          <div class="path-card__footer">
+            <span class="path-card__meta"><%= russian_pluralize(path.lessons_count, :lesson) %></span>
+            <span class="path-card__arrow" aria-hidden="true"><%= heroicon "arrow-right", variant: :outline %></span>
+          </div>
+        </a>
+      <% end %>
+    </div>
+  </div>
+</section>

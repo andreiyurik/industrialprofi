@@ -1,0 +1,35 @@
+<% meta_title(t("admin.lessons_title")) %>
+
+<section class="admin-page">
+  <div class="container">
+    <div class="admin-header">
+      <h1 class="admin-header__title"><%= t("admin.lessons_title") %></h1>
+      <div class="admin-header__actions">
+        <a href="<%= admin_lesson_suggestions_path %>" class="btn btn--small"><%= t("admin.manage_suggestions") %></a>
+        <a href="<%= admin_paths_path %>" class="btn btn--small"><%= t("admin.manage_paths") %></a>
+      </div>
+    </div>
+
+    <% @paths.each do |path| %>
+      <div class="admin-group">
+        <div class="admin-group__head">
+          <h2 class="admin-group__title"><%= path.title %></h2>
+          <span class="badge <%= path.status == 'published' ? 'badge--link' : 'badge--draft' %>">
+            <%= path.status %>
+          </span>
+          <span class="admin-group__meta"><%= russian_pluralize(path.lessons_count, :lesson) %></span>
+        </div>
+
+        <div class="admin-list">
+          <% path.lessons.ordered.each do |lesson| %>
+            <a href="<%= edit_admin_lesson_path(lesson) %>" class="admin-row">
+              <span class="admin-row__position"><%= lesson.position %></span>
+              <span class="admin-row__title"><%= lesson.title %></span>
+              <span class="admin-row__icon"><%= heroicon("pencil-square", variant: :outline) %></span>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

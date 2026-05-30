@@ -1,0 +1,45 @@
+<% meta_title("#{t('admin.edit_path')} — #{@path.title}") %>
+
+<section class="admin-page">
+  <div class="container container--reading">
+    <div class="admin-header">
+      <div class="admin-header__title-group">
+        <a href="<%= admin_paths_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+          <%= heroicon("arrow-left", variant: :outline) %>
+        </a>
+        <h1 class="admin-header__title"><%= @path.title %></h1>
+      </div>
+      <a href="<%= path_path(@path) %>" class="admin-header__view-live" target="_blank"><%= t("admin.view_live") %> ↗</a>
+    </div>
+
+    <%= render "admin/shared/form_errors", object: @path %>
+
+    <%= form_with(model: [:admin, @path], url: admin_path_path(@path), method: :patch) do |f| %>
+      <div class="admin-form__field">
+        <label><%= t("admin.field_title") %></label>
+        <%= f.text_field :title, class: "input" %>
+      </div>
+
+      <div class="admin-form__field">
+        <label><%= t("admin.field_slug") %></label>
+        <%= f.text_field :slug, class: "input input--mono" %>
+      </div>
+
+      <div class="admin-form__field">
+        <label><%= t("admin.field_description") %></label>
+        <%= f.text_area :description, rows: 4, class: "input input--textarea" %>
+      </div>
+
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("admin.field_status") %></label>
+        <%= f.select :status, %w[draft pending_review published],
+            {}, class: "input" %>
+      </div>
+
+      <div class="admin-form__actions">
+        <%= f.submit t("admin.save"), class: "btn btn--reversed" %>
+        <a href="<%= admin_paths_path %>" class="btn"><%= t("admin.cancel") %></a>
+      </div>
+    <% end %>
+  </div>
+</section>

@@ -1,4 +1,6 @@
 ENV["RAILS_ENV"] ||= "test"
+ENV["ADMIN_NAME"] ||= "admin"
+ENV["ADMIN_PASSWORD"] ||= "secret"
 require_relative "../config/environment"
 require "rails/test_help"
 

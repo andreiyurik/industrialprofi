@@ -1,0 +1,21 @@
+.flash {
+  inset-block-start: 1rem;
+  inset-inline: 0;
+  margin-inline: auto;
+  max-inline-size: 40ch;
+  padding-inline: 1rem;
+  pointer-events: none;
+  position: fixed;
+  z-index: 50;
+}
+
+.flash__inner {
+  background-color: var(--color-ink);
+  border-radius: 0.5em;
+  box-shadow:
+    0 4px 12px -2px oklch(var(--lch-always-black) / 0.18),
+    0 2px 4px -2px oklch(var(--lch-always-black) / 0.12);
+  color: var(--color-bg);
+  padding: 0.7em 1em;
+  pointer-events: auto;
+}

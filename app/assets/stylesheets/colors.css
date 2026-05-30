@@ -1,0 +1,50 @@
+:root {
+  /* Native controls (selects, scrollbars, form widgets) follow the theme */
+  color-scheme: light dark;
+
+  /* Named color values */
+  --lch-black: 0% 0 0;
+  --lch-white: 100% 0 0;
+  --lch-gray-light: 96% 0.005 96;
+  --lch-gray: 92% 0.005 96;
+  --lch-gray-dark: 75% 0.005 96;
+  --lch-blue: 54% 0.15 255;
+  --lch-blue-light: 95% 0.03 255;
+  --lch-blue-dark: 80% 0.08 255;
+  --lch-orange: 70% 0.2 44;
+  --lch-red: 51% 0.2 31;
+  --lch-green: 65.59% 0.234 142.49;
+  --lch-always-black: 0% 0 0;
+  --lch-always-white: 100% 0 0;
+
+  /* Abstractions */
+  --color-bg: oklch(var(--lch-white));
+  --color-ink: oklch(var(--lch-black));
+  --color-ink-reversed: oklch(var(--lch-white));
+  --color-link: oklch(var(--lch-blue));
+  --color-negative: oklch(var(--lch-red));
+  --color-positive: oklch(var(--lch-green));
+  --color-marker: oklch(var(--lch-orange));
+  --color-subtle-light: oklch(var(--lch-gray-light));
+  --color-subtle: oklch(var(--lch-gray));
+  --color-subtle-dark: oklch(var(--lch-gray-dark));
+  --color-selected: oklch(var(--lch-blue-light));
+  --color-selected-dark: oklch(var(--lch-blue-dark));
+  --color-always-black: oklch(var(--lch-always-black));
+  --color-always-white: oklch(var(--lch-always-white));
+
+  /* Redefine named color values for dark mode — soft neutral dark (not pure black),
+     with layered surfaces so cards/panels read as elevated above the page. */
+  @media (prefers-color-scheme: dark) {
+    --lch-black: 95% 0 0;       /* primary text — soft white, not harsh #fff */
+    --lch-white: 18% 0 0;       /* page background — dark gray, not pure black */
+    --lch-gray-light: 24% 0 0;  /* elevated surfaces (cards, panels, headers) */
+    --lch-gray: 32% 0 0;        /* borders + row hover fill */
+    --lch-gray-dark: 68% 0 0;   /* muted / secondary text — readable on dark */
+    --lch-blue: 72.25% 0.16 248;
+    --lch-blue-light: 28.11% 0.053 248;
+    --lch-blue-dark: 42.25% 0.07 248;
+    --lch-red: 73.8% 0.184 29.18;
+    --lch-green: 75% 0.21 141.89;
+  }
+}

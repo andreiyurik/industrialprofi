@@ -1,0 +1,67 @@
+.curriculum {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.curriculum__section {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75em;
+  overflow: hidden;
+}
+
+.curriculum__header {
+  border-block-end: 1px solid var(--color-subtle);
+  padding: 1rem 1.5rem;
+}
+
+.curriculum__header-title {
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-block: 0;
+}
+
+/* Rows separated by spacing (no dividers); inset padding so the hover
+   highlight floats inside the card, Odin-style. */
+.curriculum__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem;
+}
+
+.curriculum__lesson {
+  align-items: center;
+  border-radius: 0.5rem;
+  color: var(--color-subtle-dark);
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  text-decoration: none;
+  transition: background-color 150ms ease;
+
+  svg {
+    flex-shrink: 0;
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  /* Hover: a rounded, inset highlight only — text and icon keep their color */
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: var(--color-subtle);
+    }
+  }
+}
+
+/* Practice lessons read as the section's goal — marked with the accent icon */
+.curriculum__lesson--practice {
+  color: var(--color-marker);
+}
+
+.curriculum__lesson-title {
+  color: var(--color-ink);
+  font-size: 0.95rem;
+}

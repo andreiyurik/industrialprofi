@@ -1,0 +1,21 @@
+electrician:
+  title: Электрик
+  slug: elektrik
+  description: Полный путь электрика
+  position: 1
+  status: published
+
+welder:
+  title: Сварщик
+  slug: svarshchik
+  description: Путь сварщика НАКС
+  position: 2
+  status: published
+
+draft_path:
+  title: Черновик
+  slug: draft-path
+  description: Неопубликованная профессия
+  position: 3
+  status: draft
+  author_id: 999

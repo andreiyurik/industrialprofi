@@ -1,0 +1,59 @@
+<% meta_title(@path.title) %>
+<% meta_description(@path.description.to_s.truncate(160)) %>
+<% canonical_url("#{site_config.url}/paths/#{@path.slug}") %>
+
+<% content_for(:head) do %>
+  <%= json_ld_tag(course_json_ld(@path)) %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+    { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
+    { title: t("paths.title"), url: "#{site_config.url}/paths" },
+    { title: @path.title, url: "#{site_config.url}/paths/#{@path.slug}" }
+  ])) %>
+<% end %>
+
+<section class="section">
+  <div class="container container--reading">
+    <div class="path-hero">
+      <div class="topic-hero-icon">
+        <%= topic_icon_svg(path_icon_token(@path)) %>
+      </div>
+      <h1 class="path__title"><%= @path.title %></h1>
+    </div>
+
+    <div class="path__overview">
+      <p class="path__overview-text"><%= @path.description %></p>
+    </div>
+
+    <div class="curriculum">
+      <% @lessons_by_stage.each do |stage, lessons| %>
+        <div class="curriculum__section">
+          <% if stage.present? %>
+            <div class="curriculum__header">
+              <h2 class="curriculum__header-title"><%= stage %></h2>
+            </div>
+          <% end %>
+
+          <div class="curriculum__list">
+            <% lessons.each do |lesson| %>
+              <a href="<%= lesson_path(lesson) %>" class="curriculum__lesson<%= " curriculum__lesson--practice" if lesson.kind == "practice" %>">
+                <%= heroicon(lesson.kind == "practice" ? "wrench-screwdriver" : "book-open", variant: :outline) %>
+                <span class="curriculum__lesson-title"><%= lesson.title %></span>
+              </a>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<section class="support-cta">
+  <div class="container support-cta__inner">
+    <h2 class="support-cta__title"><%= t("support_cta.title") %></h2>
+    <p class="support-cta__subtitle"><%= t("support_cta.subtitle") %></p>
+    <div class="support-cta__buttons">
+      <a href="<%= support_us_path %>" class="btn"><%= t("support_cta.contact_us") %></a>
+      <a href="<%= site_config.donate_url %>" class="btn btn--reversed" target="_blank" rel="noopener"><%= t("support_cta.donate") %></a>
+    </div>
+  </div>
+</section>

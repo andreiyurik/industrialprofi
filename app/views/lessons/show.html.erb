@@ -1,0 +1,84 @@
+<% meta_title(@lesson.title) %>
+<% meta_description(@lesson.description.to_s.truncate(160)) %>
+<% canonical_url("#{site_config.url}/lessons/#{@lesson.slug}") %>
+
+<% content_for(:head) do %>
+  <%= json_ld_tag(learning_resource_json_ld(@lesson)) %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+    { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
+    { title: t("paths.title"), url: "#{site_config.url}/paths" },
+    { title: @path.title, url: "#{site_config.url}/paths/#{@path.slug}" },
+    { title: @lesson.title, url: "#{site_config.url}/lessons/#{@lesson.slug}" }
+  ])) %>
+<% end %>
+
+<main class="lesson">
+  <%= render "shared/breadcrumbs", crumbs: [
+    { title: @path.title, path: path_path(@path) },
+    { title: @lesson.title }
+  ] %>
+
+  <header class="lesson__header">
+    <h1 class="lesson__title"><%= @lesson.title %></h1>
+    <% if @lesson.revised? %>
+      <%= link_to lesson_revisions_path(@lesson),
+          class: "lesson-updated", data: { turbo_frame: "lesson_history" } do %>
+        <%= heroicon("clock", variant: :outline) %>
+        <span><%= t("revisions.updated_n_times", count: @lesson.lesson_revisions_count) %> · <%= t("revisions.history") %></span>
+      <% end %>
+    <% end %>
+  </header>
+
+  <%= turbo_frame_tag "lesson_history" %>
+
+  <article>
+    <% if @lesson.has_description? %>
+      <section id="why" class="lesson__intro">
+        <p class="lesson__intro-label"><%= t("lessons.why_section") %></p>
+        <div class="prose"><%= lesson_content(@lesson, :description) %></div>
+        <%= render "lessons/edit_link", section: "description" %>
+      </section>
+    <% end %>
+
+    <% if @lesson.has_body? %>
+      <section id="study" class="lesson__section">
+        <h2 class="lesson__heading"><%= t("lessons.study_section") %></h2>
+        <div class="prose"><%= lesson_content(@lesson, :body) %></div>
+        <%= render "lessons/edit_link", section: "body" %>
+      </section>
+    <% end %>
+
+    <% if @lesson.has_resources? %>
+      <section id="resources" class="lesson__section">
+        <h2 class="lesson__heading"><%= t("lessons.resources_section") %></h2>
+        <ul class="lesson-resources">
+          <%= render @lesson.resources.required %>
+          <%= render @lesson.resources.optional %>
+        </ul>
+      </section>
+    <% end %>
+
+    <% if @lesson.has_task? %>
+      <section id="task" class="lesson__section">
+        <h2 class="lesson__heading"><%= t("lessons.task_section") %></h2>
+        <div class="lesson__task">
+          <div class="prose"><%= lesson_content(@lesson, :task) %></div>
+        </div>
+        <%= render "lessons/edit_link", section: "task" %>
+      </section>
+    <% end %>
+
+    <%= render "lessons/lesson_nav" %>
+  </article>
+</main>
+
+<section class="support-cta">
+  <div class="container support-cta__inner">
+    <h2 class="support-cta__title"><%= t("support_cta.title") %></h2>
+    <p class="support-cta__subtitle"><%= t("support_cta.subtitle") %></p>
+    <div class="support-cta__buttons">
+      <%= link_to t("support_cta.contact_us"), support_us_path, class: "btn" %>
+      <a href="<%= site_config.donate_url %>" class="btn btn--reversed" target="_blank" rel="noopener"><%= t("support_cta.donate") %></a>
+    </div>
+  </div>
+</section>

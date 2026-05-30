@@ -1,0 +1,33 @@
+pteep_doc:
+  lesson: pteep
+  title: "ПТЭЭП — полный текст"
+  url: "https://docs.example.com/pteep"
+  kind: document
+  required: true
+  country_code: RU
+  position: 1
+
+pteep_article:
+  lesson: pteep
+  title: Памятка по группам допуска
+  url: "https://docs.example.com/memo"
+  kind: article
+  required: false
+  position: 2
+
+zazemlenie_gost:
+  lesson: zazemlenie
+  title: "ГОСТ Р 50571.5.54-2013"
+  url: "https://docs.example.com/gost"
+  kind: document
+  required: true
+  country_code: RU
+  position: 1
+
+universal_video:
+  lesson: gruppy_dopuska
+  title: Видео по группам допуска
+  url: "https://docs.example.com/video"
+  kind: video
+  required: false
+  position: 1

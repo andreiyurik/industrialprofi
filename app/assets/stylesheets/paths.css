@@ -1,0 +1,141 @@
+/* Card grid — multi-col layout for path/profession cards on the catalog page */
+.card-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-block-start: 3rem;
+}
+
+.card-grid--2-col {
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card-grid--3-col {
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Profession card (catalog page) — icon, body, hairline footer with arrow */
+.path-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.path-card__icon {
+  align-items: center;
+  background-color: var(--color-bg);
+  block-size: 2.75rem;
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.6em;
+  color: var(--color-marker);
+  display: inline-flex;
+  inline-size: 2.75rem;
+  justify-content: center;
+  margin-block-end: 1.25rem;
+  transition: border-color 200ms ease;
+
+  svg {
+    block-size: 1.4rem;
+    inline-size: 1.4rem;
+  }
+}
+
+.path-card__title {
+  font-size: 1.2em;
+}
+
+.path-card .panel__description {
+  flex-grow: 1;
+}
+
+.path-card__footer {
+  align-items: center;
+  border-block-start: 1px solid var(--color-subtle);
+  display: flex;
+  justify-content: space-between;
+  margin-block-start: 1.5rem;
+  padding-block-start: 1rem;
+}
+
+.path-card__meta {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+}
+
+.path-card__arrow {
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  transition: color 200ms ease, transform 200ms ease;
+
+  svg {
+    block-size: 1rem;
+    inline-size: 1rem;
+  }
+}
+
+@media (any-hover: hover) {
+  .path-card:hover .path-card__icon {
+    border-color: var(--color-marker);
+  }
+
+  .path-card:hover .path-card__arrow {
+    color: var(--color-marker);
+    transform: translateX(0.25rem);
+  }
+}
+
+/* Subtitle under a centered section heading (catalog page intro) */
+.section-subtitle {
+  color: var(--color-subtle-dark);
+  margin-block: 1rem 0;
+  margin-inline: auto;
+  max-inline-size: 36rem;
+  text-align: center;
+}
+
+/* Individual profession page (paths/show) */
+.topic-hero-icon {
+  align-items: center;
+  block-size: 5rem;
+  border: 2px solid oklch(var(--lch-orange) / 0.6);
+  border-radius: 50%;
+  color: var(--color-marker);
+  display: inline-flex;
+  inline-size: 5rem;
+  justify-content: center;
+  margin-block-end: 1.5rem;
+
+  svg, img {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+}
+
+/* Profession hero — centered badge + title (the brand moment) */
+.path-hero {
+  text-align: center;
+}
+
+.path__title {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 600;
+  margin-block: 0;
+}
+
+/* Overview block — left-aligned for readability, sits just above the curriculum */
+.path__overview {
+  margin-block: 2.5rem 2rem;
+}
+
+.path__overview-text {
+  color: var(--color-subtle-dark);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-block: 0;
+}

@@ -1,0 +1,13 @@
+<% if object.errors.any? %>
+  <div class="admin-alert admin-alert--error">
+    <% object.errors.full_messages.each do |msg| %>
+      <p><%= msg %></p>
+    <% end %>
+  </div>
+<% end %>
+
+<% if flash[:notice] %>
+  <div class="admin-alert admin-alert--info">
+    <%= flash[:notice] %>
+  </div>
+<% end %>

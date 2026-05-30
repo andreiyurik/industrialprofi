@@ -1,0 +1,58 @@
+<% meta_title(t("support.title")) %>
+<% meta_description(t("support.intro").truncate(160)) %>
+<% canonical_url("#{site_config.url}/support_us") %>
+
+<section class="section">
+  <div class="container">
+    <div class="support-hero">
+      <h1 class="support-hero__title"><%= t("support.title") %></h1>
+      <p class="support-hero__lede"><%= t("support.intro") %></p>
+      <div class="support-hero__cta">
+        <a href="<%= site_config.donate_url %>" class="btn btn--reversed btn--large" target="_blank" rel="noopener">
+          <%= t("support.donate_cta") %>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="support-faq">
+  <div class="container section">
+    <div class="support-faq__inner">
+      <h2 class="support-faq__title"><%= t("support.faq_title") %></h2>
+
+      <div class="support-faq__list">
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_how_money") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_how_money") %></p>
+        </div>
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_how_donate") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_how_donate") %></p>
+        </div>
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_why_free") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_why_free") %></p>
+        </div>
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_surplus") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_surplus") %></p>
+        </div>
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_other_help") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_other_help") %></p>
+        </div>
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_who_created") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_who_created") %></p>
+        </div>
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_contact") %></h3>
+          <p class="support-faq__answer">
+            <%= t("support.a_contact_html", telegram_url: site_config.telegram_url, contact_email: site_config.contact_email) %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
