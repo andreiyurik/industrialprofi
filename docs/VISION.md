@@ -215,11 +215,23 @@ Each seeded roadmap must have: all courses filled, real standard references, at 
 
 ## Business Model
 
-**The platform is free.** Supported by community donations (like The Odin Project, Wikipedia).
+**Open core.** The learning platform is free and open-source (AGPL-3.0) — that's
+the reputation engine and the acquisition funnel. Money is charged for *outcomes*,
+never for *entry*: learning is always free, you only pay for proof that has
+real-world value.
 
-- Donation link in footer — visible but not intrusive
-- Telegram for direct feedback and community building
-- Monetization decisions (employer access, premium features) come after real user data and proven value
+- **Free & open:** all paths, courses, lessons, and progress tracking. Forever.
+- **Donations:** a footer link, like The Odin Project / Wikipedia — a bonus, not
+  the model (donations barely sustain anything in the CIS market — don't count on them).
+- **Paid, hosted, demand-gated (see `docs/MVP.md` v0.4+):** verified completion
+  certificates for employers, and later an employer/candidate board. The hosted
+  issuance + verification registry is the commercial layer; the platform code
+  stays open. Self-hosters run the platform freely but can't issue
+  *IndustrialProfi-verified* credentials — the moat is the registry + brand, not
+  secret code.
+- **Sequencing:** every monetization decision comes *after* real user data and
+  proven value — never a paywall at the door of an unproven, empty platform.
+- Telegram for direct feedback and community building.
 
 ## Principles
 

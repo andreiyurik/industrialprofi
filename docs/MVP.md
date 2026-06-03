@@ -88,17 +88,95 @@ Users contribute roadmaps. Platform becomes self-sustaining.
 
 ---
 
+## v0.4 — Verified Certificates (first paid feature) — DEMAND-GATED, NOT scheduled
+
+> **This phase ships only when reality says so**, not on a timer. The trigger is:
+> there is a real audience, users are *completing* courses, and they are asking
+> "is there a document I can show my employer?". Building this before that signal
+> means polishing a paywall around an empty room. Until then, this section is a
+> recorded decision, not a task.
+
+This is the **first paid feature** and the project's first real monetization.
+It sits squarely inside the open-core model: **the platform stays free and
+open-source under AGPL; the hosted certificate-issuance and verification
+registry is the commercial layer.** Money is charged for the *outcome* (a
+verifiable proof of completion), never for *entry* — learning is always free.
+
+**The honest premise.** The engineering here is the easy 20% — generating a PDF
+and gating it is a day of work. The hard 80% is **trust**: a certificate is
+worth exactly what employers believe it's worth. So this phase is as much a
+distribution/partnership effort as a coding one, and it must be honest about
+what it attests.
+
+- It certifies: *"completed IndustrialProfi's standards-based curriculum for X."*
+- It does **NOT** certify: a state license, НАКС attestation, or a группа допуска.
+  Those are issued by accredited bodies. Conflating the two would be dishonest
+  and dangerous in trades where bad credentials get people hurt.
+
+**What ships:**
+- A user who has completed **every lesson in a course** becomes eligible for a
+  certificate. (Completion stays free and visible on the profile — unchanged.)
+- A one-time payment (~500–1000 ₽) **issues** an official, branded PDF
+  certificate carrying a unique verification token and a QR code.
+- A **public, free** verification page `/verify/:token` — anyone (an employer)
+  can confirm a certificate is genuine. This page is free, indexable, and is
+  both the trust anchor and a marketing surface. Verification never costs money.
+- Payment via a CIS-native provider (**ЮKassa / CloudPayments / Robokassa** —
+  Stripe does not work in Russia). A webhook flips the payment to `paid`.
+
+**Data model additions:**
+- `Certificate` (user_id, course_id, verification_token, issued_at) —
+  `has_secure_token :verification_token`; created on successful payment.
+- `Payment` (user_id, certificate_id, amount_cents, provider, status, paid_at) —
+  the provider webhook sets `status: "paid"`.
+- Course completion is still *derived* from `LessonCompletion` counts; no new
+  status columns, no `in_progress`. Eligibility = all lessons in the course done.
+
+**The single gate** (one line, fat-model, no service object):
+```ruby
+# Free to learn; pay only to issue the proof.
+current_user.can_issue_certificate?(course)  # => all lessons done && payment.paid?
+```
+
+**Open-core boundary:**
+- Open & AGPL: the whole learning platform (paths, courses, lessons, progress).
+- Commercial (future `ee/`, separate license + CLA-protected): hosted
+  certificate issuance and the verification registry. Self-hosters can run the
+  platform freely; they cannot issue *IndustrialProfi-verified* certificates,
+  because the trust registry lives on the canonical hosted instance. The moat
+  is the registry + brand, not the code.
+
+**What does NOT ship in v0.4:**
+- No subscriptions, no employer board, no candidate marketplace (that's a later
+  phase, and only after this one proves people pay for the outcome).
+- No proctored exam — the certificate attests *curriculum completion*, not a
+  supervised assessment.
+
+**Risks & honest mitigations:**
+- *"A certificate nobody recognizes is worthless."* → Keep verification free and
+  public; pursue recognition through учебные центры / employer partnerships; be
+  precise in wording about what it attests. Recognition is earned, not shipped.
+- *Refund/chargeback abuse* → certificate is issued only after the webhook
+  confirms payment; revocation flips a flag and the `/verify` page reflects it.
+
+**Deploy criteria:** a welder finishes the "Сварка: подготовка к аттестации"
+course, pays 500 ₽, downloads a PDF with a QR code. An employer scans it, lands
+on a free `/verify` page, and sees: *"Иван Иванов completed «Сварка: подготовка
+к аттестации», 14.03.2027 — verified by IndustrialProfi."*
+
+---
+
 ## Explicitly Not Building (Until Real Users Ask)
 
 | Feature | Why not now |
 |---------|------------|
 | Visual graph/flowchart | Target audience needs lists, not diagrams |
 | Streak/gamification | Retention optimization before acquisition is premature |
-| Badges/certificates | Needs trust and volume first |
+| Badges/certificates | Needs trust and volume first — planned as paid **v0.4**, demand-gated |
 | Mobile app | Responsive web is enough for years |
 | API | No consumers exist yet |
 | Multi-language | Russian first, English when there's demand |
 | Employer portal | Need 5K+ users with profiles first |
-| Payment system | Free until business model is proven |
+| Payment system | Free until business model is proven — first use is the **v0.4** certificate (pay for the outcome, never for entry) |
 | Comments/discussions | Forum dynamics are hard — add only if users ask |
 | AI features | Distraction from core content value |
