@@ -13,18 +13,14 @@
 .txt-normal { font-weight: 400; font-style: normal; }
 .txt-medium { font-size: 1rem; }
 .txt-large { font-size: 1.25rem; }
-.txt-x-large { font-size: 1.75rem; }
-.txt-xx-large { font-size: 2.4rem; }
 
 .txt-align-center { text-align: center; }
 .txt-align-start { text-align: start; }
 .txt-align-end { text-align: end; }
 
 .txt-ink { color: var(--color-ink); }
-.txt-reversed { color: var(--color-ink-reversed); }
 .txt-subtle { color: var(--color-subtle-dark); }
 .txt-link { color: var(--color-link); }
-.txt-marker { color: var(--color-marker); }
 .txt-positive { color: var(--color-positive); }
 .txt-negative { color: var(--color-negative); }
 .txt-undecorated { text-decoration: none; }
@@ -67,7 +63,6 @@
 
 /* Sizing */
 .full-width { inline-size: 100%; }
-.half-width { inline-size: 50%; }
 .min-width { min-inline-size: 0; }
 .max-width { max-inline-size: 100%; }
 

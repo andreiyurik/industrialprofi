@@ -41,7 +41,7 @@ lexxy-editor {
 }
 
 .lexxy-content img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
+  max-inline-size: 100%;
+  block-size: auto;
+  border-radius: 0.5em;
 }

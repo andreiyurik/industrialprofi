@@ -24,8 +24,8 @@
   transition: color 200ms ease;
 
   svg {
-    height: 1.25rem;
-    width: 1.25rem;
+    block-size: 1.25rem;
+    inline-size: 1.25rem;
   }
 
   @media (any-hover: hover) {
@@ -105,8 +105,8 @@
   gap: 0.75rem;
 
   svg {
-    height: 1rem;
-    width: 1rem;
+    block-size: 1rem;
+    inline-size: 1rem;
   }
 }
 
@@ -131,8 +131,8 @@
   margin-inline-start: auto;
 
   svg {
-    height: 1rem;
-    width: 1rem;
+    block-size: 1rem;
+    inline-size: 1rem;
   }
 }
 
@@ -157,9 +157,9 @@
   margin-block: 0;
 }
 
-/* Path grouping on lessons index */
+/* Path grouping — shared by the lessons index and the moderation queue */
 .admin-group + .admin-group {
-  margin-block-start: 2rem;
+  margin-block-start: 1.5rem;
 }
 
 .admin-group__head {
@@ -171,9 +171,9 @@
 
 .admin-group__title {
   color: var(--color-ink);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-block: 0;
+  margin-block: 0 0.5rem;
 }
 
 .admin-group__meta {
@@ -377,16 +377,6 @@
 .admin-sort__option--active {
   color: var(--color-ink);
   font-weight: 600;
-}
-
-.admin-group + .admin-group {
-  margin-block-start: 1.5rem;
-}
-
-.admin-group__title {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-block: 0 0.5rem;
 }
 
 /* A non-clickable row (e.g. revision history with its own action button) */

@@ -105,7 +105,7 @@
   border-color: var(--color-subtle-dark);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .path-card--featured {
     --panel-padding: 2.75em;
     flex-direction: row;
@@ -157,8 +157,8 @@
   margin-block-end: 1.5rem;
 
   svg, img {
-    height: 2.5rem;
-    width: 2.5rem;
+    block-size: 2.5rem;
+    inline-size: 2.5rem;
   }
 }
 

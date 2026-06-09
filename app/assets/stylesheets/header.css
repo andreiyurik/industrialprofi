@@ -41,10 +41,6 @@
   text-transform: uppercase;
 }
 
-.brand-accent {
-  color: var(--color-marker);
-}
-
 .nav__link {
   color: var(--color-subtle-dark);
   font-size: 0.9rem;

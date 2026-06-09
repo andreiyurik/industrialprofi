@@ -34,14 +34,9 @@ h4 {
   /* hyphens: auto; */
 }
 
-html,
-body {
-  overflow-x: hidden;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+/* NOTE: page-level overflow + scroll-behavior live in base.css.
+   A `overflow-x: hidden` here would clip the sticky header (header.css),
+   so it's deliberately omitted — base.css owns those rules. */
 
 /* Set core body defaults */
 body {
