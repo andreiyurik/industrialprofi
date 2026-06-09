@@ -134,10 +134,12 @@ ins {
   text-transform: uppercase;
 }
 
-/* Long-form prose: markdown-rendered lesson content, etc. */
+/* Long-form prose: markdown-rendered lesson content, etc. Tuned for comfortable
+   long reading — larger type, generous line-height, headings that breathe,
+   callouts and tables that read as what they are. */
 .prose {
-  font-size: 0.95em;
-  line-height: 1.6;
+  font-size: 1.05rem;
+  line-height: 1.7;
 
   > :first-child {
     margin-block-start: 0;
@@ -147,17 +149,82 @@ ins {
     margin-block-end: 0;
   }
 
+  /* In-body headings sit a step below the section heading, with air above and a
+     tight gap below — so each one visibly starts a new block of text. */
+  :is(h2, h3, h4) {
+    line-height: 1.2;
+    margin-block: 1.8em 0.5em;
+    text-wrap: balance;
+  }
+
+  h2 { font-size: 1.25em; }
+  h3 { font-size: 1.1em; }
+  h4 { font-size: 1em; }
+
   ul, ol {
-    padding-inline-start: 2ch;
+    padding-inline-start: 1.5em;
   }
 
   li + li {
-    margin-block-start: 0.3em;
+    margin-block-start: 0.4em;
   }
 
   a {
     color: var(--color-link);
     text-decoration: underline;
     text-decoration-color: oklch(var(--lch-blue) / 0.4);
+  }
+
+  /* Callout — our `> **Важно:** …` safety notes. Stands out via a fill and a
+     warm accent edge, not a heavy box. */
+  blockquote {
+    background-color: var(--color-subtle-light);
+    border-inline-start: 3px solid oklch(var(--lch-yellow));
+    border-radius: 0 0.4em 0.4em 0;
+    font-style: normal;
+    margin: 1.25lh 0;
+    padding: 0.6lh 2ch;
+
+    > :first-child { margin-block-start: 0; }
+    > :last-child { margin-block-end: 0; }
+  }
+
+  /* Figures: images fit the column; the `*Рис. N…*` caption (a lone <em>) sits
+     centred and quiet beneath. */
+  img {
+    block-size: auto;
+    border: 1px solid var(--color-subtle);
+    border-radius: 0.5em;
+    display: block;
+    margin-inline: auto;
+    max-inline-size: 100%;
+  }
+
+  p > em:only-child {
+    color: var(--color-subtle-dark);
+    display: block;
+    font-size: 0.85em;
+    text-align: center;
+  }
+
+  /* Tables: roomier cells and a filled header row so columns read clearly. */
+  th {
+    background-color: var(--color-subtle-light);
+  }
+
+  :where(th, td) {
+    padding: 0.4lh 1.25ch;
+  }
+}
+
+/* Wrapper added around every table by the markdown helper, so wide comparison
+   tables scroll horizontally on phones instead of breaking the layout. */
+.prose-table {
+  margin-block: 1.25lh 0;
+  max-inline-size: 100%;
+  overflow-x: auto;
+
+  > table {
+    margin-block: 0;
   }
 }

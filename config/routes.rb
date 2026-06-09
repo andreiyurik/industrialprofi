@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   root "paths#index"
+  get "about" => "pages#about"
+  get "roadmap" => "pages#roadmap"
   get "support_us" => "pages#support_us"
   get "robots.txt" => "sitemaps#robots", defaults: { format: :text }
   get "sitemap.xml" => "sitemaps#show", defaults: { format: :xml }

@@ -25,10 +25,44 @@ module ApplicationHelper
   MARKDOWN_TAGS = %w[h1 h2 h3 h4 h5 h6 p ul ol li a strong em code pre blockquote table thead tbody tr th td hr br img].freeze
   MARKDOWN_ATTRS = %w[href src alt target rel].freeze
 
+  # Attention blocks (GitHub-style admonitions). Authors write `> [!ВАЖНО] …` in
+  # plain markdown; we turn the blockquote into a coloured callout with a label.
+  # One mechanism, a small fixed set of meanings — accent only where it matters.
+  CALLOUTS = {
+    "ОПАСНО"  => { mod: "danger",    icon: "exclamation-triangle", label: "Опасно" },
+    "ВАЖНО"   => { mod: "important", icon: "information-circle",    label: "Важно" },
+    "СОВЕТ"   => { mod: "tip",       icon: "light-bulb",           label: "Совет" },
+    "ПРИМЕР"  => { mod: "example",   icon: "calculator",           label: "Разобранный пример" },
+    "ПРОВЕРЬ" => { mod: "check",     icon: "check-circle",         label: "Проверь себя" }
+  }.freeze
+
   def markdown(text)
     return "" if text.blank?
     html = Kramdown::Document.new(text, input: "GFM").to_html
-    sanitize(html, tags: MARKDOWN_TAGS, attributes: MARKDOWN_ATTRS)
+    html = sanitize(html, tags: MARKDOWN_TAGS, attributes: MARKDOWN_ATTRS)
+    # Post-sanitize enrichments — our own markup, so the sanitizer needs no <div>
+    # allowance: typed callouts first, then wrap tables for horizontal scroll.
+    html = render_callouts(html)
+    html = wrap_prose_tables(html)
+    html.html_safe
+  end
+
+  def render_callouts(html)
+    html.gsub(%r{<blockquote>(.*?)</blockquote>}m) do
+      inner = Regexp.last_match(1)
+      type = inner[/\[!([А-ЯЁ]+)\]/, 1]
+      cfg = type && CALLOUTS[type]
+      next "<blockquote>#{inner}</blockquote>" unless cfg
+
+      body = inner.sub(/\[!#{type}\]\s*/, "").gsub(%r{<p>\s*</p>}, "")
+      label = %(<p class="callout__label">#{heroicon(cfg[:icon], variant: :outline)}<span>#{cfg[:label]}</span></p>)
+      %(<div class="callout callout--#{cfg[:mod]}">#{label}#{body}</div>)
+    end
+  end
+
+  def wrap_prose_tables(html)
+    html.gsub("<table>", '<div class="prose-table"><table>')
+        .gsub("</table>", "</table></div>")
   end
 
   def lesson_content(lesson, field)

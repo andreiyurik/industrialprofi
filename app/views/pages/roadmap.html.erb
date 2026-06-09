@@ -1,0 +1,52 @@
+<% meta_title(t("roadmap.title")) %>
+<% meta_description(t("roadmap.intro").truncate(160)) %>
+<% canonical_url("#{site_config.url}/roadmap") %>
+
+<%
+  groups = [
+    ["done",     "badge--done"],
+    ["progress", "badge--progress"],
+    ["planned",  "badge--planned"],
+    ["future",   "badge--future"],
+    ["not_now",  "badge--draft"]
+  ]
+%>
+
+<section class="section">
+  <div class="container container--reading">
+    <div class="roadmap">
+      <p class="roadmap__eyebrow"><%= t("roadmap.eyebrow") %></p>
+      <h1 class="roadmap__title"><%= t("roadmap.title") %></h1>
+      <p class="roadmap__intro"><%= t("roadmap.intro") %></p>
+      <p class="roadmap__note"><%= t("roadmap.note") %></p>
+
+      <% groups.each do |key, badge| %>
+        <section class="roadmap-group">
+          <h2 class="roadmap-group__title">
+            <span class="badge <%= badge %>"><%= t("roadmap.groups.#{key}.title") %></span>
+          </h2>
+          <ul class="roadmap-list">
+            <% t("roadmap.groups.#{key}.items").each do |item| %>
+              <li class="roadmap-item">
+                <span class="roadmap-item__title"><%= item[:t] %></span>
+                <span class="roadmap-item__desc"><%= item[:d] %></span>
+              </li>
+            <% end %>
+          </ul>
+        </section>
+      <% end %>
+
+      <div class="roadmap-os panel">
+        <h2 class="roadmap-os__title"><%= t("roadmap.os_title") %></h2>
+        <p class="roadmap-os__text"><%= t("roadmap.os_text") %></p>
+        <h3 class="roadmap-os__title roadmap-os__title--sub"><%= t("roadmap.help_title") %></h3>
+        <p class="roadmap-os__text"><%= t("roadmap.help_text") %></p>
+        <div class="roadmap-os__links">
+          <a href="<%= support_us_path %>" class="btn btn--reversed"><%= t("roadmap.cta_support") %></a>
+          <a href="<%= site_config.telegram_url %>" class="btn" target="_blank" rel="noopener"><%= t("roadmap.cta_telegram") %></a>
+          <a href="<%= about_path %>" class="btn"><%= t("roadmap.cta_about") %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

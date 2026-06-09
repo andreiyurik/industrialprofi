@@ -50,3 +50,25 @@
   background-color: oklch(var(--lch-green) / 0.18);
   color: oklch(var(--lch-green));
 }
+
+/* Roadmap status badges — conventional status colours (done/in-progress/
+   planned/future). "not_now" reuses .badge--draft (muted gray). */
+.badge--done {
+  background-color: oklch(var(--lch-green) / 0.18);
+  color: oklch(var(--lch-green));
+}
+
+.badge--progress {
+  background-color: oklch(var(--lch-blue) / 0.2);
+  color: var(--color-link);
+}
+
+.badge--planned {
+  background-color: var(--color-subtle);
+  color: var(--color-ink);
+}
+
+.badge--future {
+  background-color: oklch(var(--lch-purple) / 0.2);
+  color: oklch(var(--lch-purple));
+}

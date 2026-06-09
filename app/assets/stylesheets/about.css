@@ -1,0 +1,70 @@
+/* "О проекте" — a personal letter from the creator. Narrow, calm reading column,
+   warmer than the marketing pages: body in full ink, generous line height. */
+.about-letter {
+  margin-inline: auto;
+  max-inline-size: 40rem;
+}
+
+.about-letter__eyebrow {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-block: 0;
+  text-transform: uppercase;
+}
+
+.about-letter__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 5vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-block: 0.75rem 2.5rem;
+}
+
+.about-letter__body {
+  color: var(--color-ink);
+  font-size: 1.075rem;
+  line-height: 1.75;
+}
+
+.about-letter__body p {
+  margin-block: 0 1.35rem;
+}
+
+.about-letter__greeting {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.about-letter__signature {
+  margin-block-start: 2.5rem;
+}
+
+.about-letter__sign-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-block: 0;
+}
+
+.about-letter__sign-role {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  margin-block: 0.2rem 0;
+}
+
+.about-letter__contact {
+  border-block-start: 1px solid var(--color-subtle);
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+  margin-block: 2.5rem 0;
+  padding-block-start: 1.5rem;
+}
+
+.about-letter__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-block-start: 2rem;
+}

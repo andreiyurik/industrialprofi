@@ -1,0 +1,37 @@
+<% meta_title(t("about.title")) %>
+<% meta_description(t("about.p1").truncate(160)) %>
+<% canonical_url("#{site_config.url}/about") %>
+
+<section class="section">
+  <div class="container container--reading">
+    <article class="about-letter">
+      <p class="about-letter__eyebrow"><%= t("about.eyebrow") %></p>
+      <h1 class="about-letter__title"><%= t("about.title") %></h1>
+
+      <div class="about-letter__body">
+        <p class="about-letter__greeting"><%= t("about.greeting") %></p>
+        <% (1..9).each do |i| %>
+          <p><%= t("about.p#{i}") %></p>
+        <% end %>
+      </div>
+
+      <div class="about-letter__signature">
+        <p class="about-letter__sign-name"><%= t("about.signature_name") %></p>
+        <p class="about-letter__sign-role"><%= t("about.signature_role") %></p>
+      </div>
+
+      <p class="about-letter__contact">
+        <%= t("about.contact_html", telegram_url: site_config.telegram_url) %>
+      </p>
+
+      <div class="about-letter__cta">
+        <a href="<%= paths_path %>" class="btn btn--reversed btn--large">
+          <%= t("about.cta_explore") %>
+        </a>
+        <a href="<%= support_us_path %>" class="btn btn--large">
+          <%= t("about.cta_support") %>
+        </a>
+      </div>
+    </article>
+  </div>
+</section>

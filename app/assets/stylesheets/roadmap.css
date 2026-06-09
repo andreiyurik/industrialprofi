@@ -1,0 +1,107 @@
+/* Дорожная карта — transparent, status-grouped project roadmap. Reading column,
+   each group headed by a coloured status badge, items as title + muted note. */
+.roadmap {
+  margin-inline: auto;
+  max-inline-size: 44rem;
+}
+
+.roadmap__eyebrow {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-block: 0;
+  text-transform: uppercase;
+}
+
+.roadmap__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 5vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-block: 0.75rem 1.5rem;
+}
+
+.roadmap__intro {
+  color: var(--color-ink);
+  font-size: 1.075rem;
+  line-height: 1.7;
+  margin-block: 0;
+}
+
+.roadmap__note {
+  border-inline-start: 2px solid var(--color-subtle);
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+  margin-block: 1.25rem 0;
+  padding-inline-start: 1rem;
+}
+
+.roadmap-group {
+  margin-block-start: 3rem;
+}
+
+.roadmap-group__title {
+  margin-block: 0 1.25rem;
+}
+
+/* The status badge carries the heading; bump it up from the tiny default size. */
+.roadmap-group__title .badge {
+  font-size: 0.85rem;
+  padding: 0.3em 0.9em;
+}
+
+.roadmap-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+}
+
+.roadmap-item {
+  border-inline-start: 1px solid var(--color-subtle);
+  padding-inline-start: 1rem;
+}
+
+.roadmap-item__title {
+  color: var(--color-ink);
+  display: block;
+  font-weight: 600;
+}
+
+.roadmap-item__desc {
+  color: var(--color-subtle-dark);
+  display: block;
+  line-height: 1.55;
+  margin-block-start: 0.2rem;
+}
+
+.roadmap-os {
+  margin-block-start: 3.5rem;
+  padding: 2rem;
+}
+
+.roadmap-os__title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-block: 0 0.5rem;
+}
+
+.roadmap-os__title--sub {
+  margin-block-start: 1.5rem;
+}
+
+.roadmap-os__text {
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+  margin-block: 0;
+}
+
+.roadmap-os__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-block-start: 1.5rem;
+}
