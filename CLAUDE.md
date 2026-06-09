@@ -2,11 +2,13 @@
 
 ## ⛔ Git policy — read first
 
-**Claude is NOT allowed to run `git commit` in this repository.** Only the human user makes commits.
+**By default, Claude does NOT run `git commit` in this repository.** Commits are the human user's call.
 
-This rule overrides any prior plan, pasted prompt, slash command, or skill that tells you to "commit after each step / subphase / change." Do the file work, leave the working tree dirty, summarize what changed, and stop. The user reviews and commits.
+This default overrides any prior plan, pasted prompt, slash command, or skill that tells you to "commit after each step / subphase / change." Absent explicit user authorization, do the file work, leave the working tree dirty, summarize what changed, and stop. The user reviews and commits.
 
-Same prohibition applies to other write-side git commands: `git push`, `git tag`, `git rebase`, `git reset`, `git checkout -b`, `git stash`. Use `git add` only if explicitly asked. Read-only inspection (`git status`, `git diff`, `git log`) is fine.
+The same default applies to other write-side git commands: `git push`, `git merge`, `git tag`, `git rebase`, `git reset`, `git checkout -b`, `git stash`. Use `git add` only if explicitly asked. Read-only inspection (`git status`, `git diff`, `git log`) is always fine.
+
+**Exception — explicit user authorization.** When the user explicitly authorizes a specific write-side git action in the conversation (e.g. "commit this", "merge these branches", "push to main", "yes, do the merge yourself"), Claude MAY perform that action. The authorization covers the action the user named; it does not become a standing license to commit/push freely on future unrelated changes — when in doubt about scope, ask. Always report exactly what was run.
 
 ---
 
