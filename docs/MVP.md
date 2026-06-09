@@ -2,6 +2,22 @@
 
 Each phase is a deployable, usable product — not a prototype.
 
+> **Implementation status (read before trusting the data-model bullets below).**
+> The phase plans are the original intent; some model names and choices evolved
+> during build. Current reality (source of truth: `db/schema.rb` + `app/models/`):
+> - **Naming evolved:** `Profession → Path`; the `Stage`/`Skill`/`Task` split
+>   collapsed into a single **`Lesson`** (with a `stage` *string* for grouping and
+>   `body`/`task`/`description` rich-text sections); `Tailwind → pure CSS`.
+> - **Shipped (~v0.1):** static published catalog (`Path → Lesson → Resource`),
+>   SEO (sitemap, JSON-LD), markdown/ActionText content, Kamal deploy.
+> - **Shipped ahead of plan:** an admin panel (HTTP Basic) for editing lessons, a
+>   reader **suggestion** flow, and an append-only **revision** history
+>   (`LessonSuggestion`, `LessonRevision`, `RevisionDiff`).
+> - **Not built yet (v0.2):** `User`, `has_secure_password`/sessions, the
+>   `Current` pattern, `LessonCompletion`, progress bars, "mark as done".
+>   When built, follow the `User`/`Session`/`Current` pattern (Writebook), not a
+>   second auth mechanism alongside the admin's HTTP Basic.
+
 ## v0.1 — Static Catalog (Target: 1 week)
 
 A visitor can browse profession roadmaps. No auth, no interactivity. Pure content.

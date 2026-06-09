@@ -22,8 +22,7 @@
       </div>
     <% end %>
 
-    <%= form_with(model: @suggestion, url: lesson_suggestions_path) do |f| %>
-      <%= f.hidden_field :lesson_id, value: @lesson.id %>
+    <%= form_with(model: @suggestion, url: lesson_suggestions_path(@lesson)) do |f| %>
       <%= f.hidden_field :section %>
 
       <%# Honeypot — bots fill this hidden field; #create silently drops them %>

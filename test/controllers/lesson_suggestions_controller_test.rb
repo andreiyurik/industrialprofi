@@ -9,9 +9,8 @@ class LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
 
   test "create with valid data redirects with notice" do
     assert_difference "LessonSuggestion.count", 1 do
-      post lesson_suggestions_path, params: {
+      post lesson_suggestions_path(lessons(:pteep)), params: {
         lesson_suggestion: {
-          lesson_id: lessons(:pteep).id,
           section: "body",
           body_markdown: "Improved content here",
           author_name: "Test User",
@@ -24,9 +23,8 @@ class LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create captures the edit reason and a base snapshot" do
-    post lesson_suggestions_path, params: {
+    post lesson_suggestions_path(lessons(:pteep)), params: {
       lesson_suggestion: {
-        lesson_id: lessons(:pteep).id,
         section: "body",
         body_markdown: "Improved content here",
         author_name: "Test User",
@@ -40,9 +38,8 @@ class LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
 
   test "create without author_name re-renders form" do
     assert_no_difference "LessonSuggestion.count" do
-      post lesson_suggestions_path, params: {
+      post lesson_suggestions_path(lessons(:pteep)), params: {
         lesson_suggestion: {
-          lesson_id: lessons(:pteep).id,
           body_markdown: "Content",
           author_name: ""
         }
@@ -53,9 +50,8 @@ class LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
 
   test "create without body_markdown re-renders form" do
     assert_no_difference "LessonSuggestion.count" do
-      post lesson_suggestions_path, params: {
+      post lesson_suggestions_path(lessons(:pteep)), params: {
         lesson_suggestion: {
-          lesson_id: lessons(:pteep).id,
           body_markdown: "",
           author_name: "Author"
         }
@@ -66,10 +62,9 @@ class LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
 
   test "create with filled honeypot is silently dropped" do
     assert_no_difference "LessonSuggestion.count" do
-      post lesson_suggestions_path, params: {
+      post lesson_suggestions_path(lessons(:pteep)), params: {
         company: "spam-bot",
         lesson_suggestion: {
-          lesson_id: lessons(:pteep).id,
           section: "body",
           body_markdown: "Spam content",
           author_name: "Bot"

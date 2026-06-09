@@ -74,48 +74,67 @@ CSS-only changes can't break server rendering — verify visually, not with `bin
 
 ## Content Architecture
 
-Three-level hierarchy adapted from The Odin Project:
+Two-level hierarchy adapted from The Odin Project. The original "Course" middle
+layer was **flattened into a `stage` string column on Lesson** (migration
+`20260527180001_flatten_courses_into_lessons`) — conceptual compression: a course
+had no behaviour, only a heading, so it became a plain attribute lessons group by
+on the profession page rather than its own model/table/controller.
 
 ```
-Profession → Course → Lesson
-(Электрик)   (Охрана труда)   (ПУЭ: Правила устройства)
+Profession (Path) → Lesson  ·  grouped by Lesson#stage (a string, was "Course")
+(Электрик)          (ПУЭ: Правила устройства)   ("Электробезопасность и допуски")
 ```
 
-**Routes:**
+**Routes (actual — see `config/routes.rb`):**
 ```ruby
-root "pages#home"
-resources :paths, only: [:index, :show]           # professions
-resources :courses, only: [:show]                  # courses within a profession
-resources :lessons, only: [:show]                  # individual lessons (flat URLs)
+root "paths#index"
+resources :paths, only: [:index, :show], param: :slug      # professions
+resources :lessons, only: [:show], param: :slug do         # individual lessons (flat slug URLs)
+  resources :revisions, only: [:index, :show]              # reader-facing change history
+  resources :suggestions, only: [:new, :create],           # reader-submitted edits
+            controller: "lesson_suggestions"
+end
+namespace :admin do ... end                                # HTTP Basic-gated editing
 ```
 
-**Models:**
+**Models (actual — see `app/models/`):**
 ```
 Path (profession)
-  author_id: nil = official, present = community
+  author_id: nil = official, present = community   # (community flow not yet built)
   status: draft | pending_review | published
-  → has_many Courses (position-ordered)
-    → has_many Lessons (position-ordered)
-      → has_many Resources (country_code: nullable — nil = universal)
+  → has_many Lessons (integer position-ordered; grouped in the view by #stage)
+    → has_many Resources (country_code: nullable — nil = universal)
+    → has_many LessonSuggestions  (reader-submitted edits: pending|approved|rejected)
+    → has_many LessonRevisions    (immutable, append-only audit log; counter-cached)
 
-User → has_many LessonCompletions → completed_lessons
-LessonCompletion(user_id, lesson_id) — binary: exists = done
+# Lesson body/description/task are ActionText rich text (has_rich_text), with a
+# plain-text markdown column kept as fallback. RevisionDiff (a PORO, no gem)
+# renders word-level <ins>/<del> diffs between revision snapshots.
 ```
 
 **Lesson content format — every lesson follows this:**
 1. WHY (1-2 sentences — why this matters on the job site)
 2. OFFICIAL DOCUMENTS (curated links, ranked: ★ required, ○ optional)
 3. PRACTICAL TASK (concrete, verifiable assignment)
-4. [✓ Mark as done] button
 
-**UX pattern:** Turbo Frames. Desktop = two-column layout (lesson list left, content right — roadmap.sh sidebar feel). Mobile = standard page navigation. Every lesson has its own URL for SEO.
+**Editing model (built):** there is no public account system yet. Anyone can
+*suggest* an edit to a lesson section (rate-limited + honeypot); an admin
+(HTTP Basic) reviews suggestions, edits lessons directly, and every applied
+change appends an immutable `LessonRevision`. Rollback = a new revision, never a
+rewrite.
 
-**Progress:** Binary like Odin. Done / not done. No "in_progress", no "pending_review". Course progress = completed / total.
+**Not built yet (planned — see `docs/MVP.md` v0.2):** `User`, sessions /
+`has_secure_password`, the `Current` pattern, `LessonCompletion`, progress bars,
+and the "[✓ Mark as done]" button. The desktop two-column Turbo-Frame layout
+(roadmap.sh sidebar feel) is also **not built** — lessons are full-page today,
+with Turbo Frames used only for the lazy revision-history panel and flash. When
+progress lands it will be binary like Odin (done / not done, no `in_progress`),
+course/profession progress derived as completed / total.
 
 ## Anti-patterns
 
 - No React, Vue, or SPA. This is a Hotwire app.
-- No Devise. Use `has_secure_password` + a hand-rolled `SessionsController`.
+- No Devise. Admin editing is gated by `http_basic_authenticate_with` today (single admin, no `User` model). When public accounts land (v0.2), use `has_secure_password` + a hand-rolled `SessionsController` + the `Current`/`Session` pattern (à la Writebook), and fold admin into a role flag — don't keep a second login mechanism.
 - No `respond_to` JSON/HTML unless explicitly needed.
 - **No Tailwind, no `@apply`, no `@theme`, no `@layer`, no `@import` between CSS files, no build step.** Propshaft serves CSS files as-is, the browser handles the cascade via filename load order.
 - No `tailwind.config.js`, `postcss.config.js`, or any JS-side asset tooling.

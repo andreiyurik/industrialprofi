@@ -17,8 +17,8 @@ Rails.application.routes.draw do
   resources :paths, only: [ :index, :show ], param: :slug
   resources :lessons, only: [ :show ], param: :slug do
     resources :revisions, only: [ :index, :show ]
+    resources :suggestions, only: [ :new, :create ], controller: "lesson_suggestions"
   end
-  resources :lesson_suggestions, only: [ :new, :create ]
 
   namespace :admin do
     resources :lessons, only: [ :index, :edit, :update ], param: :slug do

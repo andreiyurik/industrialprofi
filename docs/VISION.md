@@ -80,6 +80,20 @@ A school gives a 500-page textbook. We give: "read these 3 pages of ПУЭ and d
 
 ## Content Architecture
 
+> **Implementation status (keep in sync with code).** This section describes the
+> original product intent. What actually shipped:
+> - The **Course** middle layer was flattened into a `stage` *string* on Lesson
+>   (conceptual compression — it had no behaviour). Hierarchy in code is
+>   **Path → Lesson**, grouped by `Lesson#stage`. No `Course` model/table/route.
+> - The desktop **two-column Turbo-Frame layout is not built yet** — lessons are
+>   full-page; Turbo Frames are used only for the lazy revision-history panel and
+>   flash.
+> - **Progress tracking, `User`, and `LessonCompletion` are not built yet**
+>   (planned for `docs/MVP.md` v0.2). There is no "Mark as done" button today.
+> - **Built ahead of the original plan:** a reader **suggestion** flow + an
+>   admin-reviewed, append-only **revision** history (`LessonSuggestion`,
+>   `LessonRevision`, `RevisionDiff`), with admin editing behind HTTP Basic.
+
 ### Hierarchy: Profession → Course → Lesson
 
 Adapted from The Odin Project (Path → Course → Lesson) for industrial professions:
