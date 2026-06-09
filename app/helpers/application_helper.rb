@@ -48,4 +48,35 @@ module ApplicationHelper
   def russian_pluralize(count, key)
     t("common.#{key}", count: count)
   end
+
+  # Resource-type badge (roadmap.sh-style): a coloured pill with a heroicon and
+  # the kind label, shown before each resource link. One hue per kind.
+  RESOURCE_KIND_BADGES = {
+    "video" => { modifier: "badge--video", icon: "video-camera", label: "video" },
+    "article" => { modifier: "badge--article", icon: "newspaper", label: "article" },
+    "tool" => { modifier: "badge--tool", icon: "wrench-screwdriver", label: "tool" }
+  }.freeze
+
+  # A `document` resource is either an official standard ("Норматив") or a
+  # book/handbook ("Книга"). We can't tell from `kind` alone, so we sniff the
+  # title: anything starting like a Russian regulation is a norm, else a book.
+  NORMATIVE_TITLE = /\A\s*(ГОСТ|ПУЭ|ПТЭЭП|ПТЭ|ПОТ[\s\d]|СП[\s\d]|СНиП|СО[\s\d]|РД[\s\d]|СанПиН|ВСН[\s\d]|ОСТ[\s\d]|Приказ|Федеральн|ФЗ[\s-]|Технический регламент|Правила|Приложение|Инструкция|Типов|Межотраслев|Профессиональн|Профстандарт|ANSI|ASME|EEMUA|ISA[\s-]|IEC[\s\d]|ISO[\s\d]|EN[\s\d]|DIN[\s\d]|API[\s\d]|NFPA|МЭК)/i
+
+  def resource_kind_badge(resource)
+    meta = resource_badge_meta(resource)
+    label = t("lessons.resource_kinds.#{meta[:label]}", default: meta[:label].to_s.humanize)
+    tag.span(class: "badge #{meta[:modifier]} lesson-resource__badge") do
+      safe_join([ heroicon(meta[:icon], variant: :outline), tag.span(label) ])
+    end
+  end
+
+  def resource_badge_meta(resource)
+    return RESOURCE_KIND_BADGES[resource.kind] if RESOURCE_KIND_BADGES.key?(resource.kind)
+
+    if resource.title.to_s.match?(NORMATIVE_TITLE)
+      { modifier: "badge--norm", icon: "document-text", label: "norm" }
+    else
+      { modifier: "badge--book", icon: "book-open", label: "book" }
+    end
+  end
 end

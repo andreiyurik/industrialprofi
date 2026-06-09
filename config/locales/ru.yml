@@ -78,8 +78,15 @@ ru:
     why_section: "Зачем это нужно"
     study_section: "Что изучить"
     resources_section: "Документы и ресурсы"
-    required_label: "Обязательный"
-    optional_label: "Дополнительный"
+    required_label: "Обязательно"
+    optional_label: "Рекомендуется"
+    resource_kinds:
+      norm: "Норматив"
+      book: "Книга"
+      document: "Документ"
+      video: "Видео"
+      article: "Статья"
+      tool: "Инструмент"
     task_section: "Практическое задание"
     previous_lesson: "Предыдущий урок"
     next_lesson: "Следующий урок"
@@ -211,6 +218,6 @@ ru:
   common:
     close: "Закрыть"
     lesson:
-      one: "%{count} урок"
-      few: "%{count} урока"
-      many: "%{count} уроков"
+      one: "%{count} блок"
+      few: "%{count} блока"
+      many: "%{count} блоков"

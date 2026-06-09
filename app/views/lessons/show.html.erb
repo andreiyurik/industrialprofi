@@ -49,12 +49,22 @@
     <% end %>
 
     <% if @lesson.has_resources? %>
+      <% required_resources = @lesson.resources.required %>
+      <% optional_resources = @lesson.resources.optional %>
       <section id="resources" class="lesson__section">
         <h2 class="lesson__heading"><%= t("lessons.resources_section") %></h2>
-        <ul class="lesson-resources">
-          <%= render @lesson.resources.required %>
-          <%= render @lesson.resources.optional %>
-        </ul>
+        <% if required_resources.any? %>
+          <h3 class="lesson-resources__group-title"><%= t("lessons.required_label") %></h3>
+          <ul class="lesson-resources">
+            <%= render required_resources %>
+          </ul>
+        <% end %>
+        <% if optional_resources.any? %>
+          <h3 class="lesson-resources__group-title"><%= t("lessons.optional_label") %></h3>
+          <ul class="lesson-resources">
+            <%= render optional_resources %>
+          </ul>
+        <% end %>
       </section>
     <% end %>
 
