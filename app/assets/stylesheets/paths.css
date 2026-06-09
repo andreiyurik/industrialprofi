@@ -87,11 +87,11 @@
 
 @media (any-hover: hover) {
   .path-card:hover .path-card__icon {
-    border-color: var(--color-marker);
+    border-color: var(--color-subtle-dark);
   }
 
   .path-card:hover .path-card__arrow {
-    color: var(--color-marker);
+    color: var(--color-ink);
     transform: translateX(0.25rem);
   }
 }
@@ -102,7 +102,7 @@
 .path-card--featured {
   --panel-padding: 2em;
   margin-block-start: 3rem;
-  border-color: var(--color-marker);
+  border-color: var(--color-subtle-dark);
 }
 
 @media (min-width: 768px) {
@@ -148,9 +148,9 @@
 .topic-hero-icon {
   align-items: center;
   block-size: 5rem;
-  border: 2px solid oklch(var(--lch-orange) / 0.6);
+  border: 2px solid var(--color-subtle-dark);
   border-radius: 50%;
-  color: var(--color-marker);
+  color: var(--color-ink);
   display: inline-flex;
   inline-size: 5rem;
   justify-content: center;
@@ -168,9 +168,12 @@
 }
 
 .path__title {
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 600;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
   margin-block: 0;
+  text-transform: uppercase;
 }
 
 /* Overview block — left-aligned for readability, sits just above the curriculum */

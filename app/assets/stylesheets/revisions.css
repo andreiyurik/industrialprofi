@@ -118,8 +118,8 @@
 
 /* "⚠ урок изменился с момента этой правки" warning in moderation */
 .revision-stale {
-  background-color: oklch(var(--lch-orange) / 0.12);
-  border: 1px solid oklch(var(--lch-orange) / 0.4);
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle-dark);
   border-radius: 0.5em;
   color: var(--color-ink);
   font-size: 0.9rem;

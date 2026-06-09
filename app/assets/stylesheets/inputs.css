@@ -1,14 +1,14 @@
 .input {
   accent-color: var(--input-accent-color, var(--color-ink));
-  background-color: var(--input-background, transparent);
+  background-color: var(--input-background, var(--color-subtle-light));
   border-radius: var(--input-border-radius, 0.5em);
-  border: var(--input-border-size, 1px) solid var(--input-border-color, var(--color-subtle-dark));
+  border: var(--input-border-size, 1px) solid var(--input-border-color, var(--color-subtle));
   color: var(--input-color, var(--color-ink));
   font-size: max(16px, 1em);
   inline-size: 100%;
   line-height: 1.2;
   max-inline-size: 100%;
-  padding: var(--input-padding, 0.5em 0.8em);
+  padding: var(--input-padding, 0.6em 0.85em);
   resize: none;
 
   &:autofill,
@@ -22,6 +22,7 @@
   &:where(:not(:active)):focus {
     --input-border-color: var(--color-selected-dark);
     --hover-color: var(--color-selected-dark);
+    --hover-size: 0.15rem;
     --outline-size: 0;
     --outline-color: transparent;
 

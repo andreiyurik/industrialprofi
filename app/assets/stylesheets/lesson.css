@@ -19,10 +19,10 @@
 }
 
 .lesson__title {
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  font-weight: 800;
-  letter-spacing: -0.02ch;
-  line-height: 1.1;
+  font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
   margin-block: 0;
 }
 
@@ -51,7 +51,7 @@
 }
 
 .lesson__task {
-  border-inline-start: 2px solid oklch(var(--lch-orange) / 0.4);
+  border-inline-start: 2px solid var(--color-subtle-dark);
   padding-inline-start: 1rem;
 }
 

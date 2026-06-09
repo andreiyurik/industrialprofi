@@ -1,28 +1,25 @@
 module ApplicationHelper
   include Heroicon::Engine.helpers
 
-  TOPIC_ICONS = {
-    "bolt" => "bolt",
-    "fire" => "fire",
-    "wrench" => "wrench",
-    "cog" => "cog-6-tooth",
-    "thermometer" => "beaker",
-    "shield" => "shield-check"
-  }.freeze
+  # Profession icons: self-hosted Tabler (https://tabler.io/icons) line glyphs,
+  # rendered inline so they inherit `currentColor` and the monochrome theme.
+  # Each token maps to a partial in app/views/shared/icons/.
+  TOPIC_ICONS = %w[bolt helmet droplet cpu tool].freeze
 
-  def topic_icon_svg(name)
-    icon = TOPIC_ICONS[name] || TOPIC_ICONS["cog"]
-    heroicon(icon, variant: :outline, options: { class: "w-10 h-10" })
+  def topic_icon_svg(token)
+    token = "tool" unless TOPIC_ICONS.include?(token)
+    render "shared/icons/#{token}"
   end
 
   PATH_ICON_TOKENS = {
-    "elektrik" => "bolt",
-    "svarshchik" => "fire",
-    "santehnik" => "wrench"
+    "elektrik" => "bolt",        # lightning
+    "svarshchik" => "helmet",    # welding mask / PPE
+    "santehnik" => "droplet",    # water / plumbing
+    "inzhener-asu-tp" => "cpu"   # controllers / PLC
   }.freeze
 
   def path_icon_token(path)
-    PATH_ICON_TOKENS.fetch(path.slug, "cog")
+    PATH_ICON_TOKENS.fetch(path.slug, "tool")
   end
 
   MARKDOWN_TAGS = %w[h1 h2 h3 h4 h5 h6 p ul ol li a strong em code pre blockquote table thead tbody tr th td hr br img].freeze

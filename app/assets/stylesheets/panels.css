@@ -9,15 +9,12 @@
 }
 
 .panel--hover {
-  transition: border-color 200ms ease;
+  transition: border-color 200ms ease, background-color 200ms ease;
 
   @media (any-hover: hover) {
     &:hover {
-      --panel-border-color: var(--color-marker);
-    }
-
-    &:hover .panel__title {
-      color: var(--color-marker);
+      --panel-background: var(--color-subtle);
+      --panel-border-color: var(--color-subtle-dark);
     }
   }
 }

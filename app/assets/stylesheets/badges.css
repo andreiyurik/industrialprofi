@@ -9,8 +9,8 @@
 }
 
 .badge--marker {
-  background-color: oklch(var(--lch-orange) / 0.15);
-  color: var(--color-marker);
+  background-color: var(--color-subtle);
+  color: var(--color-ink);
 }
 
 .badge--link {
