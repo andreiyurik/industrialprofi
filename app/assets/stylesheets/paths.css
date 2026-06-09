@@ -46,6 +46,12 @@
   }
 }
 
+.path-card__body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .path-card__title {
   font-size: 1.2em;
 }
@@ -87,6 +93,45 @@
   .path-card:hover .path-card__arrow {
     color: var(--color-marker);
     transform: translateX(0.25rem);
+  }
+}
+
+/* Featured profession — full-width hero card sitting above the catalog grid.
+   On wider screens it lays out horizontally (icon beside the body); on mobile
+   it falls back to the same vertical card as the grid. */
+.path-card--featured {
+  --panel-padding: 2em;
+  margin-block-start: 3rem;
+  border-color: var(--color-marker);
+}
+
+@media (min-width: 768px) {
+  .path-card--featured {
+    --panel-padding: 2.75em;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2.5rem;
+  }
+
+  .path-card--featured .path-card__icon {
+    block-size: 4rem;
+    inline-size: 4rem;
+    flex-shrink: 0;
+    margin-block-end: 0;
+
+    svg {
+      block-size: 2rem;
+      inline-size: 2rem;
+    }
+  }
+
+  .path-card--featured .path-card__title {
+    font-size: 1.7em;
+  }
+
+  .path-card--featured .panel__description {
+    font-size: 1.05rem;
+    max-inline-size: 70ch;
   }
 }
 
