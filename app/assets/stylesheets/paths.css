@@ -86,14 +86,19 @@
 }
 
 @media (any-hover: hover) {
-  .path-card:hover .path-card__icon {
+  .path-card:not(.path-card--soon):hover .path-card__icon {
     border-color: var(--color-subtle-dark);
   }
 
-  .path-card:hover .path-card__arrow {
+  .path-card:not(.path-card--soon):hover .path-card__arrow {
     color: var(--color-ink);
     transform: translateX(0.25rem);
   }
+}
+
+/* Coming-soon profession — dimmed, non-interactive; footer shows a «Скоро» badge */
+.path-card--soon {
+  opacity: 0.5;
 }
 
 /* Featured profession — full-width hero card sitting above the catalog grid.

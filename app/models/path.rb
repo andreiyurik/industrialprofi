@@ -5,13 +5,18 @@ class Path < ApplicationRecord
 
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: SLUG_FORMAT }
-  validates :status, inclusion: { in: %w[draft pending_review published] }
+  validates :status, inclusion: { in: %w[draft pending_review published coming_soon] }
   validates :position, numericality: { greater_than_or_equal_to: 0 }
 
   scope :published, -> { where(status: "published") }
+  scope :listable, -> { where(status: %w[published coming_soon]) }
   scope :official, -> { where(author_id: nil) }
   scope :community, -> { where.not(author_id: nil) }
   scope :ordered, -> { order(:position) }
+
+  def coming_soon?
+    status == "coming_soon"
+  end
 
   def to_param
     slug

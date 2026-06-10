@@ -1,6 +1,6 @@
 class PathsController < ApplicationController
   def index
-    @paths = Path.published.ordered
+    @paths = Path.listable.ordered
   end
 
   def show
