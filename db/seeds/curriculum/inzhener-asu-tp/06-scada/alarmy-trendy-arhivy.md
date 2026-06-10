@@ -3,12 +3,12 @@ title: "Алармы, тренды и архивы в SCADA"
 position: 3
 kind: lesson
 resources:
-  - title: "Статья: «Управление аварийными сообщениями (alarm management) в SCADA — приоритеты и квитирование»"
-    url: "https://example.com/placeholder"
+  - title: "Статья: «События и тревоги в SCADA — приоритеты, квитирование, журнал событий»"
+    url: "https://finestart.school/media/Events_and_alarms_in_SCADA"
     kind: article
     required: false
-  - title: "Видео: «Тренды и архивирование в SCADA — как и зачем хранить историю процесса»"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «Система архивации данных и тренды. Урок 1»"
+    url: "https://www.youtube.com/watch?v=8YVE5a4rDyw"
     kind: video
     required: false
 ---

@@ -8,27 +8,31 @@
   z-index: 40;
 }
 
+/* DHH-canon public header: wordmark anchored left (the home affordance lives
+   where users expect it), navigation right. A single flex row that wraps the
+   nav onto a second line on narrow screens — no hamburger needed for three
+   links. padding-block gives the wrapped state breathing room. */
 .header__nav {
   align-items: center;
-  display: grid;
-  gap: var(--inline-space);
-  grid-template-columns: 1fr auto 1fr;
+  column-gap: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   min-block-size: 4rem;
-}
-
-.header__nav-start {
-  justify-self: start;
+  padding-block: 0.75rem;
+  row-gap: 0.5rem;
 }
 
 .header__brand {
-  justify-self: center;
+  margin-inline-end: auto;
 }
 
-.header__nav-end {
+.header__links {
   align-items: center;
+  column-gap: 1.5rem;
   display: flex;
-  gap: 1rem;
-  justify-self: end;
+  flex-wrap: wrap;
+  row-gap: 0.5rem;
 }
 
 .brand {
@@ -52,4 +56,10 @@
       color: var(--color-ink);
     }
   }
+}
+
+/* "You are here" — quiet cue via weight + brightness, no underline. */
+.nav__link[aria-current="page"] {
+  color: var(--color-ink);
+  font-weight: 600;
 }

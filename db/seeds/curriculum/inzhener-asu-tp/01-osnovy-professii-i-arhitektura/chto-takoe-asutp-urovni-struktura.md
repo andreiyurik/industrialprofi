@@ -4,17 +4,17 @@ position: 2
 kind: lesson
 resources:
   - title: "ГОСТ Р 59853-2021 — Информационные технологии. Комплекс стандартов на АС. Термины и определения"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/403447928/"
     kind: document
     required: true
     country_code: RU
   - title: "ГОСТ 34.003-90 — Автоматизированные системы. Термины и определения"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/187632/"
     kind: document
     required: false
     country_code: RU
-  - title: "Видео: «Уровни АСУ ТП — полевой, контроллерный, верхний» (наглядный разбор архитектуры)"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «Лекция 2.1. Структура АСУ ТП и АСУ П, полевой уровень» (наглядный разбор архитектуры)"
+    url: "https://www.youtube.com/watch?v=J4_Cxh2Q7pM"
     kind: video
     required: false
 ---

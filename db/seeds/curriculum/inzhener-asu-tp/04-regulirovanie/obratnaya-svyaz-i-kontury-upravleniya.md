@@ -3,13 +3,13 @@ title: "Обратная связь и контуры регулирования
 position: 1
 kind: lesson
 resources:
-  - title: "Статья: «Открытый и замкнутый контур управления, обратная связь — на пальцах»"
-    url: "https://example.com/placeholder"
+  - title: "Статья: «ПИД-регулятор — на пальцах»: обратная связь, уставка, ошибка регулирования (AlexGyver)"
+    url: "https://alexgyver.ru/lessons/pid/"
     kind: article
     required: false
-  - title: "Видео: «Что такое обратная связь и контур регулирования в АСУ ТП»"
-    url: "https://example.com/placeholder"
-    kind: video
+  - title: "Энциклопедия АСУ ТП: классический ПИД-регулятор — замкнутый контур, уставка, сигнал рассогласования (RealLab)"
+    url: "https://www.reallab.ru/bookasutp/5-pid-regulyatori/5-2-klassicheskii-pid-regulyator/"
+    kind: article
     required: false
 ---
 Что такое обратная связь и замкнутый контур управления: уставка, измерение, рассогласование. Идея, на которой держится вся автоматика.

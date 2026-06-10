@@ -3,16 +3,16 @@ title: "Датчики давления, расхода и уровня"
 position: 3
 kind: lesson
 resources:
-  - title: "Статья: «Типы расходомеров — электромагнитные, вихревые, ультразвуковые, кориолисовы: плюсы и минусы»"
-    url: "https://example.com/placeholder"
+  - title: "Статья: «Типы расходомеров, область их применения, преимущества и недостатки» (Измеркон)"
+    url: "https://izmerkon.ru/podderzhka/publikaczii/tipi-rashodomerov.html"
     kind: article
     required: false
-  - title: "Видео: «Как измеряют уровень в ёмкостях — радар, ультразвук, гидростатика»"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «Радар против ультразвука: в чём различие принципов измерения уровня» (VEGA talk)"
+    url: "https://www.youtube.com/watch?v=k2vrh2NH5zI"
     kind: video
     required: false
-  - title: "Сибикин Ю.Д. «Технология энергосбережения» / справочник по КИПиА (раздел измерения давления и расхода)"
-    url: "https://example.com/placeholder"
+  - title: "Калиниченко А.В. «Справочник инженера по контрольно-измерительным приборам и автоматике (КИПиА)» (Инфра-Инженерия)"
+    url: "https://znanium.ru/catalog/document?id=86076"
     kind: document
     required: false
     country_code: RU

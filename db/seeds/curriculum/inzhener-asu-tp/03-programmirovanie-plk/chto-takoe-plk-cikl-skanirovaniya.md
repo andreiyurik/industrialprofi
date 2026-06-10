@@ -3,17 +3,17 @@ title: "Что такое ПЛК: цикл сканирования и ввод-
 position: 1
 kind: lesson
 resources:
-  - title: "Руководство по эксплуатации ПЛК ОВЕН (раздел «принцип работы и цикл программы»)"
-    url: "https://example.com/placeholder"
+  - title: "Руководство по эксплуатации ПЛК ОВЕН ПЛК200 (раздел «рабочий цикл прибора»)"
+    url: "https://owen.ru/downloads/re_plk200.pdf"
     kind: document
     required: true
     country_code: RU
-  - title: "Видео: «Как работает ПЛК — цикл сканирования за 7 минут»"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «ПЛК. Что такое ПЛК? История развития. Варианты применения»"
+    url: "https://www.youtube.com/watch?v=eICujKe55BM"
     kind: video
     required: false
   - title: "CODESYS — бесплатная среда разработки со встроенным симулятором ПЛК"
-    url: "https://example.com/placeholder"
+    url: "https://www.codesys.com/ecosystem/services/download/"
     kind: tool
     required: false
 ---

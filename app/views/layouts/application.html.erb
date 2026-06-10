@@ -41,15 +41,14 @@
   <body>
     <header class="header">
       <nav class="container header__nav">
-        <div class="header__nav-start">
-          <a href="<%= paths_path %>" class="nav__link"><%= t("nav.professions") %></a>
-          <a href="<%= about_path %>" class="nav__link"><%= t("nav.about") %></a>
-        </div>
-        <a href="<%= root_path %>" class="brand header__brand">
-          <%= t("site.name") %>
-        </a>
-        <div class="header__nav-end">
-          <a href="<%= support_us_path %>" class="nav__link"><%= t("nav.support") %></a>
+        <%= link_to t("site.name"), root_path, class: "brand header__brand" %>
+        <div class="header__links">
+          <%= link_to t("nav.professions"), paths_path, class: "nav__link",
+                aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } %>
+          <%= link_to t("nav.about"), about_path, class: "nav__link",
+                aria: { current: ("page" if current_page?(about_path)) } %>
+          <%= link_to t("nav.support"), support_us_path, class: "nav__link",
+                aria: { current: ("page" if current_page?(support_us_path)) } %>
           <% if controller.class.module_parent_name == "Admin" %>
             <span class="badge badge--marker">Admin</span>
           <% end %>

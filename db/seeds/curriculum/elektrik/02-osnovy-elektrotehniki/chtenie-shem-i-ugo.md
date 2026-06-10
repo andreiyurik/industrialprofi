@@ -4,17 +4,17 @@ position: 3
 kind: practice
 resources:
   - title: "ГОСТ 2.701-2008 ЕСКД. Схемы. Виды и типы. Общие требования к выполнению"
-    url: "https://docs.cntd.ru/document/1200069439"
+    url: "https://base.garant.ru/6180373/"
     kind: document
     required: true
     country_code: RU
   - title: "ГОСТ 2.710-81 ЕСКД. Обозначения буквенно-цифровые в электрических схемах"
-    url: "https://docs.cntd.ru/document/1200007073"
+    url: "https://base.garant.ru/6177277/"
     kind: document
     required: false
     country_code: RU
-  - title: "Видео: как читать однолинейную схему электрощита (разбор реального проекта)"
-    url: "https://example.com/placeholder"
+  - title: "Видео: однолинейные схемы — как читать и чертить схему щита"
+    url: "https://www.youtube.com/watch?v=o6JdksrVH6A"
     kind: video
     required: false
 ---

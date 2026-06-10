@@ -3,17 +3,17 @@ title: "Ladder Diagram (LD): релейная логика"
 position: 4
 kind: lesson
 resources:
-  - title: "ГОСТ Р МЭК 61131-3-2016 — раздел «Язык релейных диаграмм (LD)»"
-    url: "https://example.com/placeholder"
+  - title: "ГОСТ Р МЭК 61131-3-2016 «Контроллеры программируемые. Часть 3. Языки программирования» — раздел о языке релейных диаграмм (LD)"
+    url: "https://protect.gost.ru/document.aspx?control=7&id=203374"
     kind: document
     required: true
     country_code: RU
-  - title: "OpenPLC — бесплатный софт-ПЛК для практики LD/ST без оборудования"
-    url: "https://example.com/placeholder"
+  - title: "OpenPLC Editor — бесплатный софт-ПЛК для практики LD/ST без оборудования"
+    url: "https://autonomylogic.com/download"
     kind: tool
     required: false
-  - title: "Видео: «Ladder Diagram с нуля — контакты, катушки, самоподхват»"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «Программирование ПЛК. Как понять язык LADDER за 5 минут!»"
+    url: "https://www.youtube.com/watch?v=FyJqWQgDJ6g"
     kind: video
     required: false
 ---

@@ -4,20 +4,24 @@ position: 3
 kind: lesson
 resources:
   - title: "Modbus.org — официальная спецификация протокола (первоисточник, англ.)"
-    url: "https://example.com/placeholder"
+    url: "https://www.modbus.org/modbus-specifications"
     kind: document
     required: true
-  - title: "Modbus Poll / qModMaster — программы-опросчики Modbus (де-факто стандарт для чтения и отладки регистров)"
-    url: "https://example.com/placeholder"
+  - title: "Modbus Poll — программа-опросчик Modbus (де-факто стандарт для чтения и отладки регистров; есть демо)"
+    url: "https://www.modbustools.com/modbus_poll.html"
     kind: tool
     required: false
-  - title: "SimplyModbus — лучший разбор типов регистров и функций для новичка (углублённое изучение)"
-    url: "https://example.com/placeholder"
+  - title: "qModMaster — бесплатный опросчик Modbus RTU/TCP с открытым исходным кодом"
+    url: "https://sourceforge.net/projects/qmodmaster/"
+    kind: tool
+    required: false
+  - title: "SimplyModbus — лучший разбор типов регистров и функций для новичка (углублённое изучение, англ.)"
+    url: "https://www.simplymodbus.ca/FAQ.htm"
     kind: article
     required: false
-  - title: "Видео: «Modbus RTU и Modbus TCP с нуля — регистры, функции, опрос на практике»"
-    url: "https://example.com/placeholder"
-    kind: video
+  - title: "Просто о Modbus RTU — подробное описание протокола с примерами (регистры, функции, адресация), рус."
+    url: "https://ipc2u.ru/articles/prostye-resheniya/modbus-rtu/"
+    kind: article
     required: false
 ---
 Протокол Modbus: четыре типа регистров, адресация и ловушка «номер минус один». Must для инженера АСУ ТП — его понимают почти все приборы.

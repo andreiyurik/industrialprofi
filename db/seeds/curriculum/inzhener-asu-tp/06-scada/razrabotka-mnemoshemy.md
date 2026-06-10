@@ -3,8 +3,8 @@ title: "Практика: разработка мнемосхемы узла"
 position: 4
 kind: practice
 resources:
-  - title: "Учебная/демо-версия любой SCADA (TRACE MODE, MasterSCADA и др.) — для сборки мнемосхемы"
-    url: "https://example.com/placeholder"
+  - title: "SCADA TRACE MODE — бесплатная базовая версия (до 32 каналов) для сборки мнемосхемы"
+    url: "http://www.adastra.ru/products/dev/scada/"
     kind: tool
     required: false
     country_code: RU

@@ -3,8 +3,8 @@ title: "Проверка знаний в Ростехнадзоре (ЕПТ) и 
 position: 3
 kind: lesson
 resources:
-  - title: "Правила работы с персоналом и проверки знаний в сфере электроэнергетики (Минэнерго) — порядок аттестации по электробезопасности"
-    url: "https://example.com/placeholder"
+  - title: "Правила работы с персоналом в организациях электроэнергетики (Приказ Минэнерго № 796 от 22.09.2020) — порядок проверки знаний и аттестации по электробезопасности"
+    url: "https://base.garant.ru/400205330/"
     kind: document
     required: true
     country_code: RU
@@ -13,8 +13,8 @@ resources:
     kind: tool
     required: false
     country_code: RU
-  - title: "Видео: как проходит проверка знаний по электробезопасности в Ростехнадзоре (ЕПТ)"
-    url: "https://example.com/placeholder"
+  - title: "Видео: проверка знаний норм и правил по электробезопасности"
+    url: "https://www.youtube.com/watch?v=G_0WfkHLLsA"
     kind: video
     required: false
 ---

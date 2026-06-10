@@ -4,7 +4,7 @@ position: 4
 kind: practice
 resources:
   - title: "ПУЭ 7-е изд., гл. 1.7 — нормы сопротивления заземляющих устройств"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://base.garant.ru/3923497/527e9918c43708943f2731cd1ab5367a/"
     kind: document
     required: true
     country_code: RU
@@ -13,8 +13,8 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Видео: измерение сопротивления заземления методом трёх электродов"
-    url: "https://example.com/placeholder"
+  - title: "Видео: измерение сопротивления контура заземления (метод трёх электродов, прибор ИС-10)"
+    url: "https://www.youtube.com/watch?v=-Uiap-ZY9G0"
     kind: video
     required: false
 ---

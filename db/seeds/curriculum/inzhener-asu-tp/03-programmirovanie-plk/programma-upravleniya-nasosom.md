@@ -3,8 +3,8 @@ title: "Практика: программа управления насосом
 position: 7
 kind: practice
 resources:
-  - title: "OpenPLC или CODESYS Simulation — запусти и проверь свою программу без контроллера"
-    url: "https://example.com/placeholder"
+  - title: "OpenPLC Editor — бесплатная среда МЭК 61131-3, запусти и проверь программу без контроллера"
+    url: "https://autonomylogic.com/download"
     kind: tool
     required: false
 ---

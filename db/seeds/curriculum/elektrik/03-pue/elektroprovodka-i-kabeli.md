@@ -8,13 +8,13 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ 31996-2012 — Кабели силовые с пластмассовой изоляцией на номинальное напряжение до 3 кВ"
-    url: "https://docs.cntd.ru/document/1200101059"
+  - title: "ГОСТ 31996-2012 — Кабели силовые с пластмассовой изоляцией на 0,66/1/3 кВ (марки, сечения)"
+    url: "https://base.garant.ru/70625118/"
     kind: document
     required: false
     country_code: RU
-  - title: "Сибикин Ю.Д. «Справочник электромонтажника» — марки проводов и кабелей, способы прокладки"
-    url: "https://example.com/placeholder"
+  - title: "Сибикин Ю.Д. «Справочник электромонтажника» (ИНФРА-М, СПО) — марки проводов и кабелей, способы прокладки"
+    url: "https://znanium.ru/catalog/product/1574101"
     kind: document
     required: false
     country_code: RU

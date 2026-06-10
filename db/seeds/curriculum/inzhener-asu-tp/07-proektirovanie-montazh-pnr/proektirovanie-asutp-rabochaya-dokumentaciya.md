@@ -4,17 +4,17 @@ position: 1
 kind: lesson
 resources:
   - title: "ГОСТ 21.408-2013 — СПДС. Правила выполнения рабочей документации автоматизации технологических процессов"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/71100738/"
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ 21.208-2013 — Обозначения условные приборов и средств автоматизации в схемах"
-    url: "https://example.com/placeholder"
+  - title: "ГОСТ 21.208-2013 — СПДС. Обозначения условные приборов и средств автоматизации в схемах"
+    url: "https://base.garant.ru/71153708/"
     kind: document
     required: false
     country_code: RU
-  - title: "Статья: «Состав рабочей документации раздела АТХ/автоматизация — что входит и зачем»"
-    url: "https://example.com/placeholder"
+  - title: "Статья: «Особенности разработки раздела „Автоматизация технологических процессов“ в рабочей документации»"
+    url: "https://nomitech.ru/articles-and-blog/osobennosti_vypolneniya_razrabotki_razdela_avtomatizatsiya_tekhnologicheskikh_protsessov_pri_razrabo/"
     kind: article
     required: false
 ---

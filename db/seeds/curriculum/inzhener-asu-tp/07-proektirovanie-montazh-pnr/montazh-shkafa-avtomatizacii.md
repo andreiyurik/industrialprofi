@@ -3,12 +3,12 @@ title: "Монтаж шкафа автоматизации"
 position: 2
 kind: lesson
 resources:
-  - title: "Видео: «Сборка шкафа автоматики / АСУ ТП — компоновка, клеммы, маркировка»"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «Как собрать щит автоматизации на базе ПЛК» — компоновка, монтаж, клеммы, маркировка"
+    url: "https://www.youtube.com/watch?v=J-czdBXkPHI"
     kind: video
     required: false
   - title: "ПУЭ, 7-е изд., гл. 1.7 — Заземление и защитные меры электробезопасности (в части шкафов автоматики)"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/3923497/89300effb84a59912210b23abe10a68f/"
     kind: document
     required: false
     country_code: RU

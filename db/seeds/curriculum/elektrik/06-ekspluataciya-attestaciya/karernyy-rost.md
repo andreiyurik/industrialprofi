@@ -3,13 +3,13 @@ title: "Карьерный рост: от группы II до V и дальше
 position: 4
 kind: lesson
 resources:
-  - title: "Приложение № 1 к Правилам по охране труда (приказ Минтруда РФ № 903н) — условия присвоения групп и стаж"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/61e0f091360ef276b216e99b00e4449169246c5c/"
+  - title: "Приложение № 1 к Правилам по охране труда при эксплуатации электроустановок (приказ Минтруда № 903н) — группы по электробезопасности и условия их присвоения"
+    url: "https://base.garant.ru/400164786/b89690251be5277812a78962f6302560/"
     kind: document
     required: true
     country_code: RU
-  - title: "Профессиональные стандарты в электроэнергетике (реестр Минтруда) — требования к квалификации электромонтёра"
-    url: "https://example.com/placeholder"
+  - title: "Профессиональный стандарт «Слесарь-электрик» (40.048, приказ Минтруда № 660н) — требования к квалификации"
+    url: "https://fgosvo.ru/uploadfiles/profstandart/40.048.pdf"
     kind: document
     required: false
     country_code: RU

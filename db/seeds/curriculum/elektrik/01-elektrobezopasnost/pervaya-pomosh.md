@@ -3,13 +3,13 @@ title: "Первая помощь при поражении электричес
 position: 5
 kind: practice
 resources:
-  - title: "Межотраслевая инструкция по оказанию первой помощи при несчастных случаях на производстве"
-    url: "https://docs.cntd.ru/document/1200066315"
+  - title: "Приказ Минздрава России № 220н от 03.05.2024 «Об утверждении Порядка оказания первой помощи» (действует с 01.08.2024)"
+    url: "https://base.garant.ru/409112510/"
     kind: document
     required: true
     country_code: RU
-  - title: "Видео: освобождение пострадавшего от действия тока и сердечно-лёгочная реанимация (учебный ролик)"
-    url: "https://example.com/placeholder"
+  - title: "Видео: Алгоритм оказания первой помощи. Сердечно-лёгочная реанимация"
+    url: "https://www.youtube.com/watch?v=ZctrfJpEGtU"
     kind: video
     required: false
 ---

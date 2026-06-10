@@ -3,18 +3,18 @@ title: "Функциональная безопасность: ПАЗ, SIS и SI
 position: 1
 kind: lesson
 resources:
-  - title: "ГОСТ Р МЭК 61511-1-2018 — Безопасность функциональная. Системы безопасности приборные для промышленных процессов"
-    url: "https://example.com/placeholder"
+  - title: "ГОСТ Р МЭК 61511-1-2018 — Безопасность функциональная. Системы безопасности приборные для промышленных процессов. Часть 1"
+    url: "https://base.garant.ru/72244882/"
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ Р МЭК 61508-1-2012 — Функциональная безопасность систем электрических, электронных, программируемых электронных, связанных с безопасностью"
-    url: "https://example.com/placeholder"
+  - title: "ГОСТ Р МЭК 61508-1-2012 — Функциональная безопасность систем электрических, электронных, программируемых электронных, связанных с безопасностью. Часть 1. Общие требования"
+    url: "https://base.garant.ru/71171726/"
     kind: document
     required: false
     country_code: RU
-  - title: "Статья: «Система ПАЗ — что такое SIS и SIL простыми словами»"
-    url: "https://example.com/placeholder"
+  - title: "Статья: «ПАЗ: противоаварийная защита, SIS, SIL, логика отключения»"
+    url: "https://inner.su/articles/sistema-paz-protivoavariynaya/"
     kind: article
     required: false
 ---

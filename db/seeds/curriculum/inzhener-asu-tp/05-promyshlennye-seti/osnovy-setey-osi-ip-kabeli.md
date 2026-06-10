@@ -3,16 +3,16 @@ title: "Основы сетей: модель OSI, IP-адреса и кабел
 position: 1
 kind: lesson
 resources:
-  - title: "Статья: «Модель OSI и стек TCP/IP простыми словами для инженера»"
-    url: "https://example.com/placeholder"
+  - title: "Статья: «Сложно о простом. Модель OSI и TCP/IP» (Хабр)"
+    url: "https://habr.com/ru/articles/820419/"
     kind: article
     required: false
-  - title: "Видео: «IP-адрес, маска подсети и шлюз — как это работает»"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «Настройка IP-адреса: понятие адрес, маска, шлюз, DNS-сервер»"
+    url: "https://www.youtube.com/watch?v=_lUCpW0fPT8"
     kind: video
     required: false
   - title: "Wireshark — анализатор сетевого трафика (де-факто стандарт диагностики Ethernet-сетей)"
-    url: "https://example.com/placeholder"
+    url: "https://www.wireshark.org/download.html"
     kind: tool
     required: false
 ---

@@ -8,13 +8,13 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ 31996-2012 — Кабели силовые с пластмассовой изоляцией (марки и сечения)"
-    url: "https://docs.cntd.ru/document/1200101059"
+  - title: "ГОСТ 31996-2012 — Кабели силовые с пластмассовой изоляцией на 0,66/1/3 кВ (марки, сечения, длительно допустимые токи)"
+    url: "https://base.garant.ru/70625118/"
     kind: document
     required: false
     country_code: RU
-  - title: "Онлайн-калькулятор сечения кабеля по току и длине (для самопроверки расчёта)"
-    url: "https://example.com/placeholder"
+  - title: "Калькулятор сечения кабеля по току/мощности, длине и потере напряжения (Элек.ру) — для самопроверки расчёта"
+    url: "https://www.elec.ru/calculators/cable-section/"
     kind: tool
     required: false
 ---

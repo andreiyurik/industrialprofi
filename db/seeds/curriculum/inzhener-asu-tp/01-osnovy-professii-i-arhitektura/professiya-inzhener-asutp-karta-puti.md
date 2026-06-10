@@ -4,17 +4,17 @@ position: 1
 kind: lesson
 resources:
   - title: "Профессиональный стандарт «Специалист по проектированию автоматизированных систем управления технологическими процессами» (Приказ Минтруда России № 723н от 12.10.2021)"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/403041170/"
     kind: document
     required: true
     country_code: RU
   - title: "Учебный центр ОВЕН — бесплатные вводные курсы по CODESYS и АСУ ТП"
-    url: "https://example.com/placeholder"
+    url: "https://owen.ru/edu"
     kind: tool
     required: false
     country_code: RU
   - title: "Видео: «Кто такой инженер АСУ ТП и чем он реально занимается» — обзор профессии"
-    url: "https://example.com/placeholder"
+    url: "https://www.youtube.com/watch?v=F2i1MqAGu-w"
     kind: video
     required: false
 ---

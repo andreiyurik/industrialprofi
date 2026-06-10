@@ -4,17 +4,17 @@ position: 2
 kind: lesson
 resources:
   - title: "ГОСТ 6651-2009 — ГСИ. Термопреобразователи сопротивления из платины, меди и никеля. Общие технические требования и методы испытаний"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/57969380/"
     kind: document
     required: true
     country_code: RU
   - title: "ГОСТ Р 8.585-2001 — ГСИ. Термопары. Номинальные статические характеристики преобразования"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/5369769/"
     kind: document
     required: true
     country_code: RU
-  - title: "Видео: «Термопара или термосопротивление — что выбрать» (разбор отличий и подключения)"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «Сравнение термосопротивления и термопары. Основы измерения температуры» (Emerson)"
+    url: "https://www.youtube.com/watch?v=uLI_Je6YVzM"
     kind: video
     required: false
 ---

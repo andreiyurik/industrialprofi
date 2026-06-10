@@ -4,17 +4,17 @@ position: 3
 kind: lesson
 resources:
   - title: "Профессиональный стандарт «Специалист по проектированию АСУ ТП» (Приказ Минтруда России № 723н от 12.10.2021)"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/403041170/"
     kind: document
     required: true
     country_code: RU
   - title: "Приказ Ростехнадзора от 09.08.2023 № 285 — Перечень областей аттестации по промышленной безопасности"
-    url: "https://example.com/placeholder"
+    url: "http://publication.pravo.gov.ru/document/0001202309080006"
     kind: document
     required: false
     country_code: RU
   - title: "Правила по охране труда при эксплуатации электроустановок (Приказ Минтруда России № 903н от 15.12.2020) — группы по электробезопасности"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/400164786/"
     kind: document
     required: false
     country_code: RU

@@ -91,6 +91,8 @@ ru:
       article: "Статья"
       tool: "Инструмент"
     task_section: "Практическое задание"
+    copy_link: "Скопировать ссылку"
+    link_copied: "Скопировано"
     previous_lesson: "Предыдущий урок"
     next_lesson: "Следующий урок"
     found_error_question: "Нашли ошибку?"

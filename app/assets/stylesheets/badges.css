@@ -1,4 +1,5 @@
 .badge {
+  align-items: center;
   border-radius: 1em;
   display: inline-flex;
   flex-shrink: 0;

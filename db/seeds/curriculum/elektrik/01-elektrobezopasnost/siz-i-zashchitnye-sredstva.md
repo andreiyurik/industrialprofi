@@ -4,7 +4,7 @@ position: 4
 kind: lesson
 resources:
   - title: "Инструкция по применению и испытанию средств защиты, используемых в электроустановках (СО 153-34.03.603-2003)"
-    url: "https://docs.cntd.ru/document/1200034369"
+    url: "https://base.safework.ru/win/law?doc=&nd=33305578&nh=0&ssect=1"
     kind: document
     required: true
     country_code: RU
@@ -13,8 +13,8 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Видео-обзор: основные и дополнительные электрозащитные средства, как проверять перед работой"
-    url: "https://example.com/placeholder"
+  - title: "Видео: основные и дополнительные изолирующие электрозащитные средства в электроустановках до и выше 1000 В"
+    url: "https://www.youtube.com/watch?v=FtnzqL-Szc0"
     kind: video
     required: false
 ---

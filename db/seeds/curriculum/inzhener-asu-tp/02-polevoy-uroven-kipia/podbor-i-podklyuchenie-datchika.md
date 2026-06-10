@@ -4,7 +4,7 @@ position: 6
 kind: practice
 resources:
   - title: "Каталог датчиков ОВЕН — реальные паспорта и datasheet для тренировки подбора"
-    url: "https://example.com/placeholder"
+    url: "https://owen.ru/catalog/datchiki"
     kind: tool
     required: false
     country_code: RU

@@ -3,12 +3,12 @@ title: "Промышленные сети: RS-485 и master/slave"
 position: 2
 kind: lesson
 resources:
-  - title: "Статья: «Интерфейс RS-485 — физика, топология, почему витая пара» (учебный портал по КИПиА)"
-    url: "https://example.com/placeholder"
+  - title: "RS-485: физическое подключение — топология шины, витая пара, терминаторы (вики Wiren Board)"
+    url: "https://wiki.wirenboard.com/wiki/RS-485:_Wiring_and_Connection"
     kind: article
     required: false
-  - title: "Видео: «Промышленные сети для начинающих — RS-485 и принцип master/slave»"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «Лекция 256. Интерфейс RS-485» — обзор интерфейса промышленных линий передачи"
+    url: "https://www.youtube.com/watch?v=ySMSrO7MXYA"
     kind: video
     required: false
 ---

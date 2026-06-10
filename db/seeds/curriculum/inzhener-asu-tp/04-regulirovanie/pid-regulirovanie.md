@@ -3,13 +3,13 @@ title: "ПИД-регулятор: принцип работы"
 position: 2
 kind: lesson
 resources:
-  - title: "Видео ОВЕН: «ПИД-регулятор — принцип работы» (наглядно про П, И, Д)"
-    url: "https://example.com/placeholder"
+  - title: "Видео ОВЕН: «ПИД регулятор — принцип работы» (наглядно про П, И, Д)"
+    url: "https://owen.ru/media/video/pid_princip_raboty"
     kind: video
     required: false
     country_code: RU
-  - title: "Статья: «ПИД-регулятор для практиков — что делают пропорциональная, интегральная и дифференциальная составляющие»"
-    url: "https://example.com/placeholder"
+  - title: "Статья: «ПИД-регуляторы — для чайников-практиков» (что делают пропорциональная, интегральная и дифференциальная составляющие)"
+    url: "http://we.easyelectronics.ru/Theory/pid-regulyatory--dlya-chaynikov-praktikov.html"
     kind: article
     required: false
 ---

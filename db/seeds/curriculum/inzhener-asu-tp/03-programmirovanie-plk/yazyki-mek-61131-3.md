@@ -4,17 +4,17 @@ position: 3
 kind: lesson
 resources:
   - title: "ГОСТ Р МЭК 61131-3-2016 — Контроллеры программируемые. Часть 3. Языки программирования"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/71938790/"
     kind: document
     required: true
     country_code: RU
-  - title: "CODESYS Online Help — справка по языкам LD, FBD, ST, SFC (документация вендора)"
-    url: "https://example.com/placeholder"
+  - title: "CODESYS Online Help — Programming Languages and Editors (справка вендора по LD, FBD, ST, SFC)"
+    url: "https://content.helpme-codesys.com/en/CODESYS%20Development%20System/_cds_struct_reference_programming_languages_and_editors.html"
     kind: tool
     required: false
-  - title: "Видео: «5 языков МЭК 61131-3 — обзор и когда какой применять»"
-    url: "https://example.com/placeholder"
-    kind: video
+  - title: "Светофор на ПЛК — все языки МЭК 61131-3 на одном примере (Habr)"
+    url: "https://habr.com/ru/post/209290/"
+    kind: article
     required: false
 ---
 Пять языков программирования ПЛК по стандарту МЭК 61131-3 (LD, FBD, ST, IL, SFC): чем отличаются и какой учить первым. Навык переносится между вендорами.

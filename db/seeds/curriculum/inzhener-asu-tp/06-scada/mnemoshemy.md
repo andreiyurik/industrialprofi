@@ -3,12 +3,12 @@ title: "Мнемосхемы в SCADA: визуализация процесса
 position: 2
 kind: lesson
 resources:
-  - title: "Статья: «Принципы хорошей мнемосхемы оператора — что показывать и как» (эргономика HMI)"
-    url: "https://example.com/placeholder"
+  - title: "Статья: «Мнемосхемы: искусство бесконечной эффективности» — принципы и эргономика HMI (Хабр)"
+    url: "https://habr.com/ru/companies/zyfra/articles/966468/"
     kind: article
     required: false
-  - title: "Видео: «Создание мнемосхемы в SCADA — привязка графики к тегам»"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «Создание мнемосхем» в SCADA Simp Light — привязка графики к тегам"
+    url: "https://www.youtube.com/watch?v=x8dPfMxVuME"
     kind: video
     required: false
 ---

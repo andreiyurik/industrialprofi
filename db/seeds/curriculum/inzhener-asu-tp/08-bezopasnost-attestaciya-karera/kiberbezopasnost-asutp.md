@@ -4,22 +4,22 @@ position: 2
 kind: lesson
 resources:
   - title: "Федеральный закон от 26.07.2017 № 187-ФЗ «О безопасности критической информационной инфраструктуры Российской Федерации»"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/71730198/"
     kind: document
     required: true
     country_code: RU
   - title: "Приказ ФСТЭК России от 14.03.2014 № 31 — Требования к защите информации в АСУ производственными и технологическими процессами"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/70690918/"
     kind: document
     required: true
     country_code: RU
   - title: "ГОСТ Р МЭК 62443-3-3-2016 — Требования к системной безопасности и уровни безопасности (SL)"
-    url: "https://example.com/placeholder"
+    url: "https://protect.gost.ru/gost/details/13affc54-24ab-4783-af69-7797b406f709"
     kind: document
     required: false
     country_code: RU
-  - title: "Видео: «Кибербезопасность АСУ ТП — чем она отличается от защиты в IT»"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «Защита АСУ ТП. Безопасность критической информационной инфраструктуры»"
+    url: "https://www.youtube.com/watch?v=f-A-Fyy2Zbw"
     kind: video
     required: false
 ---

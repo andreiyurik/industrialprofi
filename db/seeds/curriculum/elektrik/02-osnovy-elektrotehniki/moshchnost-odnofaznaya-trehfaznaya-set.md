@@ -8,8 +8,8 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "Сибикин Ю.Д. «Справочник электромонтажника» — однофазные и трёхфазные сети"
-    url: "https://example.com/placeholder"
+  - title: "Сибикин Ю.Д. «Справочник электромонтажника» (ИНФРА-М, СПО) — однофазные и трёхфазные сети"
+    url: "https://znanium.ru/catalog/product/1574101"
     kind: document
     required: false
     country_code: RU

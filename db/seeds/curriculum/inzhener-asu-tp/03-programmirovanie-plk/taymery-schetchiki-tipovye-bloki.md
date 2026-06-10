@@ -4,16 +4,16 @@ position: 6
 kind: lesson
 resources:
   - title: "ГОСТ Р МЭК 61131-3-2016 — стандартные функциональные блоки (TON, TOF, TP, CTU, CTD)"
-    url: "https://example.com/placeholder"
+    url: "https://allgosts.ru/25/040/gost_r_mek_61131-3-2016"
     kind: document
     required: true
     country_code: RU
   - title: "CODESYS Online Help — стандартная библиотека: таймеры и счётчики"
-    url: "https://example.com/placeholder"
+    url: "https://content.helpme-codesys.com/en/libs/Standard/Current/index.html"
     kind: tool
     required: false
-  - title: "Видео: «Таймеры ПЛК TON, TOF, TP — отличия и применение с диаграммами»"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «Программирование ПЛК на FBD с нуля. Урок 3. Таймеры»"
+    url: "https://www.youtube.com/watch?v=l4N1MZ3SgrI"
     kind: video
     required: false
 ---

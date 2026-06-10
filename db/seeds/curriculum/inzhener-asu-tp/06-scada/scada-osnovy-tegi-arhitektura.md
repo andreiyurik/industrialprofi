@@ -3,12 +3,12 @@ title: "Основы SCADA: теги и архитектура"
 position: 1
 kind: lesson
 resources:
-  - title: "Статья: «Что такое SCADA — архитектура, теги, связь с ПЛК» (обзорный разбор)"
-    url: "https://example.com/placeholder"
+  - title: "Статья: «Немного про SCADA» (обзор архитектуры АСУ ТП и связи SCADA с ПЛК, Хабр)"
+    url: "https://habr.com/ru/articles/698724/"
     kind: article
     required: false
-  - title: "Видео: «SCADA для начинающих — из чего состоит и как связана с контроллером»"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «SCADA Урок 1. Tesla SCADA для начинающих — система вентиляции, сервер Modbus и теги»"
+    url: "https://www.youtube.com/watch?v=AGpO7HdqpiU"
     kind: video
     required: false
 ---

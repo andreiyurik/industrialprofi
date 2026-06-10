@@ -4,18 +4,18 @@ position: 4
 kind: lesson
 resources:
   - title: "ГОСТ 21.208-2013 — СПДС. Автоматизация технологических процессов. Обозначения условные приборов и средств автоматизации в схемах"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/71153708/"
     kind: document
     required: true
     country_code: RU
   - title: "ГОСТ 21.408-2013 — СПДС. Правила выполнения рабочей документации автоматизации технологических процессов"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/71100738/"
     kind: document
     required: false
     country_code: RU
-  - title: "Видео: «Как читать функциональную схему автоматизации (ФСА)» — разбор обозначений КИПиА по шагам"
-    url: "https://example.com/placeholder"
-    kind: video
+  - title: "P&ID и обозначения КИПиА: как читать приборы на технологической схеме — инженерный справочник DPVA"
+    url: "https://dpva.ru/Guide/GuideTechnologyDrawings/DrawingsSigns/PIDdiagramm/"
+    kind: article
     required: false
 ---
 Как читать функциональную схему автоматизации (ФСА) и обозначения приборов КИПиА. Без этого не примешь проект и не найдёшь прибор на объекте.

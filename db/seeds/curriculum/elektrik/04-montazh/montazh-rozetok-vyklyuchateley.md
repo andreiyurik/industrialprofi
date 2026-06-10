@@ -4,12 +4,12 @@ position: 3
 kind: practice
 resources:
   - title: "ПУЭ 7-е изд., гл. 6.6 и 7.1 — установочные аппараты, светильники, электроустановки зданий"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://base.garant.ru/3922923/"
     kind: document
     required: true
     country_code: RU
   - title: "Видео: подключение проходного и перекрёстного выключателя (управление светом из двух мест)"
-    url: "https://example.com/placeholder"
+    url: "https://www.youtube.com/watch?v=G8srQDropEw"
     kind: video
     required: false
 ---

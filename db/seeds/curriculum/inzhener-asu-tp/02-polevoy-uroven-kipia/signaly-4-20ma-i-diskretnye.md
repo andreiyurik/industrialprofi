@@ -4,17 +4,17 @@ position: 1
 kind: lesson
 resources:
   - title: "ГОСТ 26.011-80 — Средства измерений и автоматизации. Сигналы тока и напряжения электрические непрерывные входные и выходные"
-    url: "https://example.com/placeholder"
+    url: "https://base.garant.ru/71358858/"
     kind: document
     required: true
     country_code: RU
-  - title: "Статья: «Токовая петля 4–20 мА — как работает и почему ток, а не напряжение»"
-    url: "https://example.com/placeholder"
+  - title: "Статья: «Как работает токовая петля 4–20 мА» — почему ток, а не напряжение, и как ловит обрыв"
+    url: "https://electricalschool.info/automation/2248-kak-rabotaet-tokovaya-petlya-4-20-ma.html"
     kind: article
     required: false
-  - title: "Видео: «HART-протокол поверх 4–20 мА за 10 минут» — наглядно про цифру на аналоговой петле"
-    url: "https://example.com/placeholder"
-    kind: video
+  - title: "Статья: «Что это такое, как работает и где используется протокол HART?» — цифра поверх аналоговой петли 4–20 мА"
+    url: "https://electricalschool.info/automation/2550-kak-rabotaet-protokol-hart.html"
+    kind: article
     required: false
 ---
 Токовая петля 4–20 мА: почему ток, а не напряжение, что такое «живой ноль» и чем аналоговый сигнал отличается от дискретного. Основа КИПиА.

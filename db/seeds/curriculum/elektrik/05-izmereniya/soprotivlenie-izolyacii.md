@@ -9,12 +9,12 @@ resources:
     required: true
     country_code: RU
   - title: "ГОСТ Р 50571.16-2019 (МЭК 60364-6) — методика измерения сопротивления изоляции"
-    url: "https://docs.cntd.ru/document/gost-r-50571-16-2007"
+    url: "https://base.garant.ru/73194656/"
     kind: document
     required: false
     country_code: RU
   - title: "Видео: как пользоваться мегаомметром и читать результат измерения изоляции"
-    url: "https://example.com/placeholder"
+    url: "https://www.youtube.com/watch?v=Lr4b3VVoJSQ"
     kind: video
     required: false
 ---

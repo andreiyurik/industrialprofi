@@ -3,20 +3,20 @@ title: "Profibus, Profinet и OPC UA"
 position: 4
 kind: lesson
 resources:
-  - title: "OPC Foundation — что такое OPC UA: архитектура, информационная модель, безопасность (первоисточник)"
-    url: "https://example.com/placeholder"
+  - title: "OPC Foundation — Unified Architecture (OPC UA): архитектура, информационная модель, безопасность (первоисточник)"
+    url: "https://opcfoundation.org/about/opc-technologies/opc-ua/"
     kind: document
     required: true
-  - title: "Статья: «OPC UA простыми словами — зачем он нужен и чем отличается от полевых протоколов»"
-    url: "https://example.com/placeholder"
+  - title: "Статья: «Просто о стандартах OPC DA и OPC UA» — что это, зачем нужен и чем отличается от классики и полевых протоколов (IPC2U)"
+    url: "https://ipc2u.ru/articles/prostye-resheniya/prosto-o-standartakh-opc-da-i-opc-ua/"
     kind: article
     required: false
-  - title: "Видео: «Profinet vs Profibus и место OPC UA в современной АСУ ТП»"
-    url: "https://example.com/placeholder"
-    kind: video
+  - title: "Статья: «Проблема «зоопарка» протоколов в одной АСУ ТП» — Modbus, Profibus, Profinet и место OPC UA (Хабр)"
+    url: "https://habr.com/ru/companies/otus/articles/1013976/"
+    kind: article
     required: false
   - title: "UaExpert (Unified Automation) — бесплатный OPC UA-клиент, де-факто стандарт для подключения и диагностики OPC UA-серверов"
-    url: "https://example.com/placeholder"
+    url: "https://www.unified-automation.com/products/development-tools/uaexpert.html"
     kind: tool
     required: false
 ---

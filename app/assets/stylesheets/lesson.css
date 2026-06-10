@@ -26,6 +26,46 @@
   margin-block: 0;
 }
 
+/* Compact secondary meta row under the title — quiet, never competing with the
+   heading. Currently holds the single "copy link" action. */
+.lesson__meta {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  margin-block-start: 0.75rem;
+}
+
+/* A bare text button — a quiet tertiary action, not a primary .btn. */
+.lesson__copy {
+  align-items: center;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  gap: var(--inline-space-half);
+  padding: 0;
+  transition: color 200ms ease;
+
+  svg {
+    block-size: 0.95em;
+    inline-size: 0.95em;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+.lesson__copy--copied {
+  color: var(--color-positive);
+}
+
 .lesson__intro {
   border-inline-start: 2px solid var(--color-subtle-dark);
   margin-block-end: 2rem;
@@ -103,8 +143,9 @@
 }
 
 .lesson-resource__badge svg {
-  height: 0.95em;
-  width: 0.95em;
+  block-size: 0.95em;
+  flex-shrink: 0;
+  inline-size: 0.95em;
 }
 
 .lesson-resource__link {

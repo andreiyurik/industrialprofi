@@ -20,6 +20,22 @@
 
   <header class="lesson__header">
     <h1 class="lesson__title"><%= @lesson.title %></h1>
+
+    <%# Hidden by default; the Stimulus controller reveals it on connect, so
+        without JS (or without clipboard support) there's no dead button. %>
+    <div class="lesson__meta" hidden
+         data-controller="copy-link"
+         data-copy-link-url-value="<%= "#{site_config.url}/lessons/#{@lesson.slug}" %>"
+         data-copy-link-label-value="<%= t("lessons.copy_link") %>"
+         data-copy-link-copied-value="<%= t("lessons.link_copied") %>">
+      <button type="button" class="lesson__copy"
+              data-copy-link-target="button"
+              data-action="copy-link#copy">
+        <%= heroicon "link", variant: :outline %>
+        <span data-copy-link-target="label"><%= t("lessons.copy_link") %></span>
+      </button>
+    </div>
+
     <% if @lesson.revised? %>
       <%= link_to lesson_revisions_path(@lesson),
           class: "lesson-updated", data: { turbo_frame: "lesson_history" } do %>

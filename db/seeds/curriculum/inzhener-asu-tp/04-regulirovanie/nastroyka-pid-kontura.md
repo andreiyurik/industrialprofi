@@ -4,11 +4,11 @@ position: 3
 kind: practice
 resources:
   - title: "Онлайн-симулятор ПИД-регулятора (интерактивная настройка P, I, D на модели объекта)"
-    url: "https://example.com/placeholder"
+    url: "https://isense.su/tools/pid.html"
     kind: tool
     required: false
-  - title: "Видео: «Ручная настройка ПИД методом подбора — пошагово»"
-    url: "https://example.com/placeholder"
+  - title: "Видео: «Ручная настройка ПИД-регулятора на примере ТРМ101 (пошагово)»"
+    url: "https://www.youtube.com/watch?v=1rpsh72itoc"
     kind: video
     required: false
 ---
