@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 420" role="img" aria-label="Схема защиты группы: линия фаза и ноль проходят через автомат и УЗО; показаны утечка через тело человека (реагирует УЗО) и короткое замыкание (реагирует автомат)">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .blue{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .danger{fill:#241110;stroke:#f25a4e;stroke-width:1.75}
+    .wire{stroke:#7d7d7d;stroke-width:2;fill:none}
+    .wireL{stroke:#a1a1a1;stroke-width:2;fill:none;stroke-dasharray:5 4}
+    .ttl{font-size:14px;font-weight:700;text-anchor:middle}
+    .sub{fill:#a1a1a1;font-size:11px;text-anchor:middle}
+    .lbl{fill:#a1a1a1;font-size:11px}
+    .red{fill:#f25a4e;font-size:11px;font-weight:600}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+    <marker id="ahr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#f25a4e"/></marker>
+  </defs>
+
+  <!-- source -->
+  <rect class="box" x="20" y="120" width="92" height="70" rx="10"/>
+  <text class="ttl" x="66" y="150">Сеть</text>
+  <text class="sub" x="66" y="170">фаза / ноль</text>
+
+  <!-- phase & neutral lines from source -->
+  <text class="lbl" x="120" y="138">L (фаза)</text>
+  <text class="lbl" x="120" y="190">N (ноль)</text>
+  <path class="wire" d="M112 143 H180"/>
+  <path class="wire" d="M112 178 H180"/>
+
+  <!-- breaker QF -->
+  <rect class="box" x="180" y="110" width="120" height="90" rx="10"/>
+  <text class="ttl" x="240" y="138">Автомат QF</text>
+  <text class="sub" x="240" y="158">защита провода</text>
+  <text class="sub" x="240" y="174">от сверхтока</text>
+  <text class="sub" x="240" y="190">(перегрузка, КЗ)</text>
+
+  <path class="wire" d="M300 143 H360"/>
+  <path class="wire" d="M300 178 H360"/>
+
+  <!-- UZO -->
+  <rect class="blue" x="360" y="110" width="120" height="90" rx="10"/>
+  <text class="ttl" x="420" y="138">УЗО</text>
+  <text class="sub" x="420" y="158">контроль баланса</text>
+  <text class="sub" x="420" y="174">токов L / N</text>
+  <text class="sub" x="420" y="190">(защита человека)</text>
+
+  <path class="wire" d="M480 143 H560"/>
+  <path class="wire" d="M480 178 H560"/>
+
+  <!-- load / outlet -->
+  <rect class="box" x="560" y="120" width="110" height="70" rx="10"/>
+  <text class="ttl" x="615" y="150">Нагрузка</text>
+  <text class="sub" x="615" y="170">розетка / прибор</text>
+
+  <!-- short circuit between L and N after load -->
+  <path class="danger" d="M615 190 V250 M560 245 H670" fill="none"/>
+  <circle cx="615" cy="245" r="5" fill="#f25a4e"/>
+  <text class="red" x="685" y="240">Короткое</text>
+  <text class="red" x="685" y="254">замыкание</text>
+  <text class="red" x="685" y="268">(КЗ)</text>
+  <path class="wireL" stroke="#f25a4e" d="M615 248 C540 320 360 300 300 200" marker-end="url(#ahr)"/>
+  <text class="red" x="300" y="225" text-anchor="middle">срабатывает автомат</text>
+
+  <!-- human leakage -->
+  <circle class="box" cx="615" cy="330" r="14"/>
+  <line class="box" x1="615" y1="344" x2="615" y2="372"/>
+  <line class="box" x1="615" y1="354" x2="600" y2="368"/>
+  <line class="box" x1="615" y1="354" x2="630" y2="368"/>
+  <line class="box" x1="615" y1="372" x2="603" y2="388"/>
+  <line class="box" x1="615" y1="372" x2="627" y2="388"/>
+  <text class="sub" x="615" y="404">человек</text>
+  <path class="wireL" stroke="#f25a4e" d="M615 143 C660 200 660 280 627 320"/>
+  <text class="red" x="700" y="320">ток утечки</text>
+  <text class="red" x="700" y="334">через тело</text>
+
+  <!-- UZO reacts to leakage -->
+  <path class="wireL" stroke="#3d9bff" d="M603 360 C470 380 430 280 420 200" marker-end="url(#ah)"/>
+  <text class="lbl" x="420" y="300" text-anchor="middle" fill="#3d9bff">реагирует УЗО</text>
+
+  <!-- caption blocks -->
+  <text class="lbl" x="240" y="80" text-anchor="middle">сверхток → провод</text>
+  <text class="lbl" x="420" y="80" text-anchor="middle" fill="#3d9bff">утечка → человек</text>
+</svg>

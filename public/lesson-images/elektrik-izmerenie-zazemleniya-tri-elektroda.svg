@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 420" role="img" aria-label="Схема измерения заземления методом трёх электродов: прибор подключён к измеряемому заземлителю, потенциальному и токовому электродам, вынесенным в линию; показаны зоны растекания и полка стабильного значения">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .wire{stroke:#3d9bff;stroke-width:1.75;fill:none}
+    .ground{stroke:#2e2e2e;stroke-width:1.5;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .lbl{font-size:12px;font-weight:600}
+    .rod{fill:#a1a1a1}
+    .zone{fill:#3d9bff;opacity:0.07;stroke:#3d9bff;stroke-width:1;stroke-dasharray:4 4}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- ground surface line -->
+  <line class="ground" x1="20" y1="180" x2="840" y2="180"/>
+  <text class="sub" x="28" y="172">поверхность грунта</text>
+
+  <!-- instrument box -->
+  <rect class="box" x="40" y="40" width="180" height="84" rx="10"/>
+  <text class="ttl" x="130" y="72" text-anchor="middle">Прибор</text>
+  <text class="sub" x="130" y="92" text-anchor="middle">измеритель</text>
+  <text class="sub" x="130" y="108" text-anchor="middle">сопротивления (Ом)</text>
+
+  <!-- electrodes in line: E (earth) at left, P (potential) middle, C (current) right -->
+  <!-- positions: E x=130, P x=440, C x=760 -->
+
+  <!-- wires from instrument to electrodes -->
+  <path class="wire" d="M90 124 V160 H130 V184"/>
+  <path class="wire" d="M150 124 V148 H440 V184"/>
+  <path class="wire" d="M180 124 V140 H760 V184"/>
+
+  <!-- Earth electrode (measured) -->
+  <rect class="rod" x="126" y="184" width="8" height="90"/>
+  <text class="lbl" x="130" y="300" text-anchor="middle">Заземлитель</text>
+  <text class="sub" x="130" y="316" text-anchor="middle">(измеряемый)</text>
+
+  <!-- Potential electrode -->
+  <rect class="rod" x="436" y="184" width="8" height="64"/>
+  <text class="lbl" x="440" y="300" text-anchor="middle">Потенциальный</text>
+  <text class="sub" x="440" y="316" text-anchor="middle">штырь (П)</text>
+
+  <!-- Current electrode -->
+  <rect class="rod" x="756" y="184" width="8" height="64"/>
+  <text class="lbl" x="760" y="300" text-anchor="middle">Токовый</text>
+  <text class="sub" x="760" y="316" text-anchor="middle">штырь (Т)</text>
+
+  <!-- zones of current spreading -->
+  <ellipse class="zone" cx="130" cy="222" rx="70" ry="32"/>
+  <ellipse class="zone" cx="760" cy="222" rx="70" ry="32"/>
+  <text class="sub" x="130" y="262" text-anchor="middle">зона растекания</text>
+  <text class="sub" x="760" y="262" text-anchor="middle">зона растекания</text>
+
+  <!-- distance arrows -->
+  <path class="edge" d="M130 350 H440" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <text class="sub" x="285" y="368" text-anchor="middle">~0,5–0,6 расстояния до токового</text>
+
+  <path class="edge" d="M130 392 H760" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <text class="sub" x="445" y="410" text-anchor="middle">вынос токового электрода в линию</text>
+
+  <!-- stable plateau note -->
+  <rect class="box" x="560" y="40" width="260" height="84" rx="10"/>
+  <text class="ttl" x="690" y="68" text-anchor="middle">Проверка достоверности</text>
+  <text class="sub" x="690" y="90" text-anchor="middle">смещай П — ищи «полку»</text>
+  <text class="sub" x="690" y="106" text-anchor="middle">(зону стабильного значения)</text>
+</svg>

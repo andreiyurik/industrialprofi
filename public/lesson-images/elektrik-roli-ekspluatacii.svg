@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" role="img" aria-label="Структура ответственности за эксплуатацию электроустановок: руководитель организации, ответственный за электрохозяйство, три ветви персонала и привлечённая организация по договору">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .key{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .dash{stroke:#7d7d7d;stroke-width:1.75;fill:none;stroke-dasharray:5 4}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .small{fill:#a1a1a1;font-size:10.5px;font-style:italic}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- Руководитель организации -->
+  <rect class="box" x="270" y="18" width="320" height="56" rx="10"/>
+  <text class="ttl" x="430" y="42" text-anchor="middle">Руководитель организации</text>
+  <text class="sub" x="430" y="61" text-anchor="middle">несёт общую ответственность за электрохозяйство</text>
+
+  <path class="edge" d="M430 74 V108" marker-end="url(#ah)"/>
+
+  <!-- Ответственный за электрохозяйство -->
+  <rect class="key" x="250" y="110" width="360" height="58" rx="10"/>
+  <text class="ttl" x="430" y="135" text-anchor="middle">Ответственный за электрохозяйство</text>
+  <text class="sub" x="430" y="154" text-anchor="middle">назначается приказом, имеет нужную группу допуска</text>
+
+  <!-- vertical down to branch bus -->
+  <path class="edge" d="M430 168 V206"/>
+  <!-- horizontal bus -->
+  <path class="edge" d="M150 206 H710"/>
+  <!-- drops -->
+  <path class="edge" d="M150 206 V240" marker-end="url(#ah)"/>
+  <path class="edge" d="M430 206 V240" marker-end="url(#ah)"/>
+  <path class="edge" d="M710 206 V240" marker-end="url(#ah)"/>
+
+  <!-- Оперативный персонал -->
+  <rect class="box" x="30" y="242" width="240" height="64" rx="10"/>
+  <text class="ttl" x="150" y="268" text-anchor="middle">Оперативный персонал</text>
+  <text class="sub" x="150" y="288" text-anchor="middle">осмотры, переключения,</text>
+  <text class="sub" x="150" y="302" text-anchor="middle">допуск бригад</text>
+
+  <!-- Ремонтный персонал -->
+  <rect class="box" x="310" y="242" width="240" height="64" rx="10"/>
+  <text class="ttl" x="430" y="268" text-anchor="middle">Ремонтный персонал</text>
+  <text class="sub" x="430" y="288" text-anchor="middle">техобслуживание,</text>
+  <text class="sub" x="430" y="302" text-anchor="middle">ремонт оборудования</text>
+
+  <!-- Оперативно-ремонтный персонал -->
+  <rect class="box" x="590" y="242" width="240" height="64" rx="10"/>
+  <text class="ttl" x="710" y="268" text-anchor="middle">Оперативно-ремонтный</text>
+  <text class="sub" x="710" y="288" text-anchor="middle">совмещает оперативные</text>
+  <text class="sub" x="710" y="302" text-anchor="middle">и ремонтные функции</text>
+
+  <!-- Привлечённая организация по договору (сбоку) -->
+  <rect class="box" x="595" y="110" width="235" height="58" rx="10"/>
+  <text class="ttl" x="712" y="135" text-anchor="middle">Эксплуатирующая</text>
+  <text class="ttl" x="712" y="153" text-anchor="middle">организация</text>
+  <path class="dash" d="M610 139 H570" marker-end="url(#ah)"/>
+  <text class="small" x="712" y="186" text-anchor="middle">по договору — для мелких потребителей</text>
+
+  <text class="small" x="430" y="350" text-anchor="middle">Категории электротехнического персонала</text>
+</svg>

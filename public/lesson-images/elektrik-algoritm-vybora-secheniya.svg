@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 520" role="img" aria-label="Алгоритм выбора сечения провода: ток нагрузки, сечение по нагреву, проверка потери напряжения, ветвление по норме">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .ok{fill:#102019;stroke:#34c759;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .elbl{fill:#a1a1a1;font-size:11px}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- Block 1 -->
+  <rect class="box" x="150" y="16" width="320" height="58" rx="10"/>
+  <text class="ttl" x="310" y="40" text-anchor="middle">1. Определить ток нагрузки</text>
+  <text class="sub" x="310" y="60" text-anchor="middle">I = P / (U · cosφ)</text>
+  <path class="edge" d="M310 74 V104" marker-end="url(#ah)"/>
+
+  <!-- Block 2 -->
+  <rect class="box" x="150" y="106" width="320" height="62" rx="10"/>
+  <text class="ttl" x="310" y="132" text-anchor="middle">2. Выбрать сечение по нагреву</text>
+  <text class="sub" x="310" y="152" text-anchor="middle">таблица допустимых токов (ПУЭ 1.3)</text>
+  <path class="edge" d="M310 168 V198" marker-end="url(#ah)"/>
+
+  <!-- Block 3 -->
+  <rect class="box" x="150" y="200" width="320" height="62" rx="10"/>
+  <text class="ttl" x="310" y="226" text-anchor="middle">3. Проверить потерю напряжения</text>
+  <text class="sub" x="310" y="246" text-anchor="middle">на длине линии — ΔU%</text>
+  <path class="edge" d="M310 262 V292" marker-end="url(#ah)"/>
+
+  <!-- Decision -->
+  <path class="dec" d="M310 296 L450 348 L310 400 L170 348 Z"/>
+  <text class="ttl" x="310" y="344" text-anchor="middle">ΔU в норме?</text>
+  <text class="sub" x="310" y="362" text-anchor="middle">(≤ 5%)</text>
+
+  <!-- Yes branch -->
+  <path class="edge" d="M450 348 H548 V440" marker-end="url(#ah)"/>
+  <text class="elbl" x="468" y="340" text-anchor="start">да</text>
+  <rect class="ok" x="468" y="442" width="120" height="50" rx="10"/>
+  <text class="ttl" x="528" y="472" text-anchor="middle">Готово</text>
+
+  <!-- No branch -->
+  <path class="edge" d="M170 348 H72 V442" marker-end="url(#ah)"/>
+  <text class="elbl" x="152" y="340" text-anchor="end">нет</text>
+  <rect class="box" x="12" y="442" width="120" height="50" rx="10"/>
+  <text class="ttl" x="72" y="466" text-anchor="middle">Увеличить</text>
+  <text class="ttl" x="72" y="483" text-anchor="middle">сечение</text>
+
+  <!-- loop back from "увеличить" to block 3 -->
+  <path class="edge" d="M72 442 V231 H150" marker-end="url(#ah)"/>
+</svg>

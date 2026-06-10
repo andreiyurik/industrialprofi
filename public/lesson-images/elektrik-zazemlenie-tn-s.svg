@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 380" role="img" aria-label="Система TN-S: трансформатор с заземлённой нейтралью, отдельные проводники PE и N до щита и потребителя, корпус прибора соединён с PE, повторное заземление">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .lbl{font-size:12px;font-weight:600}
+    .wL{stroke:#a1a1a1;stroke-width:2;fill:none}
+    .wN{stroke:#3d9bff;stroke-width:2;fill:none}
+    .wPE{stroke:#34c759;stroke-width:2;fill:none}
+    .gnd{stroke:#34c759;stroke-width:2;fill:none}
+  </style>
+  <!-- Transformer / source -->
+  <rect class="box" x="24" y="120" width="150" height="120" rx="10"/>
+  <text class="ttl" x="99" y="150" text-anchor="middle">Трансформатор</text>
+  <text class="sub" x="99" y="170" text-anchor="middle">источник питания</text>
+  <text class="sub" x="99" y="186" text-anchor="middle">нейтраль заземлена</text>
+  <!-- source neutral to ground -->
+  <path class="gnd" d="M99 240 V285"/>
+  <line class="gnd" x1="79" y1="285" x2="119" y2="285"/>
+  <line class="gnd" x1="86" y1="293" x2="112" y2="293"/>
+  <line class="gnd" x1="92" y1="301" x2="106" y2="301"/>
+  <text class="sub" x="99" y="320" text-anchor="middle">заземление нейтрали</text>
+
+  <!-- Conductors L, N, PE separate to panel -->
+  <path class="wL" d="M174 150 H470"/>
+  <text class="lbl" x="300" y="142" text-anchor="middle" fill="#a1a1a1">L (фаза)</text>
+  <path class="wN" d="M174 180 H470"/>
+  <text class="lbl" x="300" y="208" text-anchor="middle" fill="#3d9bff">N (рабочий ноль)</text>
+  <path class="wPE" d="M174 210 H470"/>
+  <text class="lbl" x="300" y="238" text-anchor="middle" fill="#34c759">PE (защитный)</text>
+
+  <!-- Panel -->
+  <rect class="box" x="470" y="120" width="120" height="120" rx="10"/>
+  <text class="ttl" x="530" y="150" text-anchor="middle">Щит</text>
+  <text class="sub" x="530" y="170" text-anchor="middle">PE и N</text>
+  <text class="sub" x="530" y="185" text-anchor="middle">раздельны</text>
+
+  <!-- repeated grounding at panel -->
+  <path class="gnd" d="M530 240 V275"/>
+  <line class="gnd" x1="514" y1="275" x2="546" y2="275"/>
+  <line class="gnd" x1="520" y1="282" x2="540" y2="282"/>
+  <line class="gnd" x1="525" y1="289" x2="535" y2="289"/>
+  <text class="sub" x="530" y="312" text-anchor="middle">повторное</text>
+  <text class="sub" x="530" y="326" text-anchor="middle">заземление</text>
+
+  <!-- Conductors panel to consumer -->
+  <path class="wL" d="M590 150 H740"/>
+  <path class="wN" d="M590 180 H740"/>
+  <path class="wPE" d="M590 210 H700 V240"/>
+
+  <!-- Consumer / appliance -->
+  <rect class="box" x="740" y="120" width="96" height="80" rx="10"/>
+  <text class="ttl" x="788" y="155" text-anchor="middle">Прибор</text>
+  <text class="sub" x="788" y="173" text-anchor="middle">корпус</text>
+
+  <!-- PE to appliance body -->
+  <path class="wPE" d="M700 240 H788 V200"/>
+  <text class="sub" x="700" y="262" text-anchor="middle">корпус соединён с PE</text>
+</svg>

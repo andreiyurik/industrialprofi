@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 380" role="img" aria-label="Схема подключения мегаомметра при измерении сопротивления изоляции: прибор с двумя щупами, один на жилу, второй на PE, нагрузка отключена, цепь обесточена, рядом шкала с зоной нормы не менее 0,5 МОм">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .ok{fill:#102019;stroke:#34c759;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .wire{stroke:#3d9bff;stroke-width:2.5;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .lbl{font-size:12px;font-weight:600}
+    .scaletxt{font-size:11px;fill:#a1a1a1}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- Megaohmmeter -->
+  <rect class="box" x="30" y="120" width="190" height="140" rx="10"/>
+  <text class="ttl" x="125" y="150" text-anchor="middle">Мегаомметр</text>
+  <text class="sub" x="125" y="170" text-anchor="middle">испытательное</text>
+  <text class="sub" x="125" y="185" text-anchor="middle">напряжение 500 В</text>
+  <!-- display -->
+  <rect x="60" y="200" width="130" height="40" rx="6" fill="#11161c" stroke="#3d9bff" stroke-width="1.5"/>
+  <text x="125" y="226" text-anchor="middle" style="font-size:16px;font-weight:700;fill:#3d9bff">МΩ</text>
+  <!-- terminals -->
+  <circle cx="220" cy="155" r="5" fill="#3d9bff"/>
+  <text class="sub" x="206" y="142" text-anchor="end">L (линия)</text>
+  <circle cx="220" cy="225" r="5" fill="#3d9bff"/>
+  <text class="sub" x="206" y="248" text-anchor="end">E (земля)</text>
+
+  <!-- Probe 1 to conductor -->
+  <path class="wire" d="M220 155 H320 V90 H470"/>
+  <text class="lbl" x="340" y="80" text-anchor="middle" style="fill:#3d9bff">щуп 1</text>
+
+  <!-- Probe 2 to PE -->
+  <path class="wire" d="M220 225 H320 V300 H470"/>
+  <text class="lbl" x="340" y="320" text-anchor="middle" style="fill:#3d9bff">щуп 2</text>
+
+  <!-- Conductor (жила) -->
+  <rect class="box" x="470" y="62" width="180" height="56" rx="8"/>
+  <text class="ttl" x="560" y="86" text-anchor="middle">Испытуемая жила</text>
+  <text class="sub" x="560" y="104" text-anchor="middle">L или N</text>
+
+  <!-- PE / corpus -->
+  <rect class="box" x="470" y="272" width="180" height="56" rx="8"/>
+  <text class="ttl" x="560" y="296" text-anchor="middle">PE / корпус</text>
+  <text class="sub" x="560" y="314" text-anchor="middle">«земля»</text>
+
+  <!-- isolation between -->
+  <text class="sub" x="560" y="185" text-anchor="middle">изоляция</text>
+  <text class="sub" x="560" y="200" text-anchor="middle">(проверяемая «стенка»)</text>
+  <path d="M560 116 V270" stroke="#2e2e2e" stroke-width="1.5" stroke-dasharray="5 5"/>
+
+  <!-- load off note -->
+  <rect class="box" x="470" y="135" width="180" height="40" rx="8"/>
+  <text class="lbl" x="560" y="160" text-anchor="middle">Нагрузка отключена</text>
+
+  <!-- de-energized banner -->
+  <rect class="box" x="30" y="40" width="280" height="40" rx="8"/>
+  <text class="lbl" x="170" y="65" text-anchor="middle">Цепь обесточена · напряжение снято</text>
+
+  <!-- Scale -->
+  <text class="ttl" x="780" y="56" text-anchor="middle">Шкала</text>
+  <!-- scale track -->
+  <rect x="730" y="80" width="22" height="240" rx="6" fill="#161616" stroke="#2e2e2e" stroke-width="1.5"/>
+  <!-- norm zone -->
+  <rect x="730" y="80" width="22" height="160" rx="6" fill="#102019" stroke="#34c759" stroke-width="1.75"/>
+  <!-- pointer at good value -->
+  <path d="M755 130 L775 130" stroke="#3d9bff" stroke-width="2.5"/>
+  <circle cx="755" cy="130" r="4" fill="#3d9bff"/>
+  <text class="scaletxt" x="765" y="92" text-anchor="start">∞</text>
+  <text class="lbl" x="765" y="246" text-anchor="start" style="fill:#34c759">0,5 МОм</text>
+  <text class="scaletxt" x="765" y="316" text-anchor="start">0</text>
+  <text class="scaletxt" x="780" y="150" text-anchor="middle">норма</text>
+  <text class="scaletxt" x="780" y="164" text-anchor="middle">≥ 0,5 МОм</text>
+</svg>

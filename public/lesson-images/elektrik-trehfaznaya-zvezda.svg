@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" role="img" aria-label="Схема трёхфазной сети «звезда»: обмотки L1, L2, L3 сходятся в нейтрали N, фазное напряжение 220 В и линейное 380 В; справа векторная диаграмма со сдвигом 120°">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .coil{fill:none;stroke:#ededed;stroke-width:2}
+    .line{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .neutral{stroke:#a1a1a1;stroke-width:1.75;fill:none;stroke-dasharray:5 4}
+    .vphase{stroke:#3d9bff;stroke-width:2;fill:none}
+    .vlin{stroke:#a1a1a1;stroke-width:1.75;fill:none;stroke-dasharray:5 4}
+    .node{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .ttl{font-size:14px;font-weight:700}
+    .lbl{font-size:13px;font-weight:600}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .blue{fill:#3d9bff}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+    <marker id="ahb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3d9bff"/></marker>
+    <marker id="ahg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#a1a1a1"/></marker>
+  </defs>
+
+  <!-- Title -->
+  <text class="ttl" x="220" y="30" text-anchor="middle">Соединение «звезда»</text>
+  <text class="ttl" x="680" y="30" text-anchor="middle">Векторная диаграмма</text>
+
+  <!-- ===== Star connection ===== -->
+  <!-- Neutral point -->
+  <circle class="node" cx="220" cy="230" r="7"/>
+  <text class="lbl" x="238" y="252">N</text>
+  <text class="sub" x="238" y="267">нейтраль</text>
+
+  <!-- L1 coil (up) -->
+  <path class="coil" d="M220 223 V150 q-12 -8 0 -16 q12 -8 0 -16 q-12 -8 0 -16 q12 -8 0 -16"/>
+  <line class="line" x1="220" y1="70" x2="220" y2="42" marker-end="url(#ah)"/>
+  <circle class="node" cx="220" cy="42" r="6"/>
+  <text class="lbl" x="220" y="32" text-anchor="middle">L1</text>
+
+  <!-- L2 coil (lower-left) -->
+  <path class="coil" d="M214 234 L150 305 q-14 0 -22 9 q-9 9 -18 -2 q-8 -10 -18 0 q-9 9 -17 1"/>
+  <line class="line" x1="62" y1="318" x2="40" y2="342" marker-end="url(#ah)"/>
+  <circle class="node" cx="40" cy="342" r="6"/>
+  <text class="lbl" x="26" y="358" text-anchor="middle">L2</text>
+
+  <!-- L3 coil (lower-right) -->
+  <path class="coil" d="M226 234 L290 305 q14 0 22 9 q9 9 18 -2 q8 -10 18 0 q9 9 17 1"/>
+  <line class="line" x1="378" y1="318" x2="400" y2="342" marker-end="url(#ah)"/>
+  <circle class="node" cx="400" cy="342" r="6"/>
+  <text class="lbl" x="414" y="358" text-anchor="middle">L3</text>
+
+  <!-- Phase voltage callout (L1 - N) -->
+  <line class="vphase" x1="270" y1="42" x2="270" y2="230" marker-start="url(#ahb)" marker-end="url(#ahb)"/>
+  <rect x="282" y="116" width="118" height="44" rx="8" fill="#11161c" stroke="#3d9bff" stroke-width="1.5"/>
+  <text class="lbl blue" x="341" y="135" text-anchor="middle">Фазное</text>
+  <text class="lbl blue" x="341" y="152" text-anchor="middle">220 В (фаза–N)</text>
+
+  <!-- Line voltage callout (L2 - L3) -->
+  <line class="vlin" x1="40" y1="385" x2="400" y2="385" marker-start="url(#ahg)" marker-end="url(#ahg)"/>
+  <rect x="160" y="398" width="120" height="34" rx="8" class="node"/>
+  <text class="lbl" x="220" y="420" text-anchor="middle">Линейное 380 В</text>
+  <text class="sub" x="220" y="372" text-anchor="middle">фаза–фаза</text>
+
+  <!-- ===== Vector diagram ===== -->
+  <!-- Center -->
+  <circle cx="680" cy="240" r="3" fill="#a1a1a1"/>
+  <text class="sub" x="690" y="256">0</text>
+
+  <!-- Phase vectors at 90, 210, 330 deg (120 apart), length 110 -->
+  <!-- U1 (up) -->
+  <line class="vphase" x1="680" y1="240" x2="680" y2="130" marker-end="url(#ahb)"/>
+  <text class="lbl blue" x="680" y="118" text-anchor="middle">U1 (220 В)</text>
+  <!-- U2 (lower-left, 210deg) -->
+  <line class="vphase" x1="680" y1="240" x2="585" y2="295" marker-end="url(#ahb)"/>
+  <text class="lbl blue" x="556" y="305" text-anchor="middle">U2</text>
+  <!-- U3 (lower-right, 330deg) -->
+  <line class="vphase" x1="680" y1="240" x2="775" y2="295" marker-end="url(#ahb)"/>
+  <text class="lbl blue" x="804" y="305" text-anchor="middle">U3</text>
+
+  <!-- Linear voltage U1-U2 between tips -->
+  <line class="vlin" x1="680" y1="130" x2="585" y2="295"/>
+  <line class="vlin" x1="585" y1="295" x2="775" y2="295"/>
+  <line class="vlin" x1="775" y1="295" x2="680" y2="130"/>
+  <text class="sub" x="730" y="200" text-anchor="middle">380 В</text>
+  <text class="sub" x="680" y="318" text-anchor="middle">линейное (между вершинами)</text>
+
+  <!-- 120 deg annotation -->
+  <path d="M680 195 A45 45 0 0 1 642 262" class="line" stroke-dasharray="3 3" marker-end="url(#ah)"/>
+  <text class="sub" x="640" y="200" text-anchor="middle">120°</text>
+</svg>

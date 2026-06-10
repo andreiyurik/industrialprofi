@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" role="img" aria-label="Четыре измерения в электроустановке до 1000 В: изоляция, петля фаза-ноль, заземление, непрерывность PE — прибор и что подтверждает">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .head{fill:#11161c;stroke:#3d9bff;stroke-width:1.5}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .col{fill:#3d9bff;font-size:12px;font-weight:600}
+    .icon{stroke:#3d9bff;stroke-width:1.6;fill:none}
+    .iccap{fill:#a1a1a1;font-size:9.5px}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- column headers -->
+  <text class="col" x="30" y="34">Измерение</text>
+  <text class="col" x="300" y="34">Прибор</text>
+  <text class="col" x="560" y="34">Что подтверждает</text>
+  <path d="M20 44 H840" stroke="#2e2e2e" stroke-width="1"/>
+
+  <!-- ROW 1: изоляция -->
+  <rect class="box" x="20" y="58" width="250" height="68" rx="9"/>
+  <text class="ttl" x="38" y="88">Сопротивление</text>
+  <text class="ttl" x="38" y="106">изоляции</text>
+
+  <rect class="head" x="296" y="58" width="200" height="68" rx="9"/>
+  <!-- megaohmmeter icon: meter dial -->
+  <circle class="icon" cx="330" cy="92" r="16"/>
+  <path class="icon" d="M330 92 L341 84"/>
+  <text class="iccap" x="330" y="118" text-anchor="middle">мегаомметр</text>
+  <text class="sub" x="370" y="89">тип и поверка</text>
+  <text class="sub" x="370" y="104">прибора</text>
+
+  <rect class="box" x="522" y="58" width="318" height="68" rx="9"/>
+  <text class="sub" x="540" y="89">изоляция цела между</text>
+  <text class="sub" x="540" y="104">проводниками и на землю</text>
+
+  <path class="edge" d="M270 92 H296" stroke="#7d7d7d" stroke-width="1.75" fill="none" marker-end="url(#ah)"/>
+  <path class="edge" d="M496 92 H522" stroke="#7d7d7d" stroke-width="1.75" fill="none" marker-end="url(#ah)"/>
+
+  <!-- ROW 2: петля фаза-ноль -->
+  <rect class="box" x="20" y="142" width="250" height="68" rx="9"/>
+  <text class="ttl" x="38" y="172">Петля</text>
+  <text class="ttl" x="38" y="190">«фаза-ноль»</text>
+
+  <rect class="head" x="296" y="142" width="200" height="68" rx="9"/>
+  <!-- loop meter icon: loop -->
+  <path class="icon" d="M318 188 a14 14 0 1 1 18 0"/>
+  <path class="icon" d="M327 168 v18 M323 174 l4 -4 l4 4"/>
+  <text class="iccap" x="330" y="202" text-anchor="middle">измеритель петли</text>
+  <text class="sub" x="370" y="173">тип и поверка</text>
+  <text class="sub" x="370" y="188">прибора</text>
+
+  <rect class="box" x="522" y="142" width="318" height="68" rx="9"/>
+  <text class="sub" x="540" y="173">защита сработает при КЗ</text>
+  <text class="sub" x="540" y="188">за нужное время</text>
+
+  <path class="edge" d="M270 176 H296" stroke="#7d7d7d" stroke-width="1.75" fill="none" marker-end="url(#ah)"/>
+  <path class="edge" d="M496 176 H522" stroke="#7d7d7d" stroke-width="1.75" fill="none" marker-end="url(#ah)"/>
+
+  <!-- ROW 3: заземление -->
+  <rect class="box" x="20" y="226" width="250" height="68" rx="9"/>
+  <text class="ttl" x="38" y="256">Сопротивление</text>
+  <text class="ttl" x="38" y="274">заземления</text>
+
+  <rect class="head" x="296" y="226" width="200" height="68" rx="9"/>
+  <!-- ground symbol icon -->
+  <path class="icon" d="M330 244 v14"/>
+  <path class="icon" d="M318 258 H342 M322 264 H338 M326 270 H334"/>
+  <text class="iccap" x="330" y="287" text-anchor="middle">измеритель заземления</text>
+  <text class="sub" x="370" y="257">тип и поверка</text>
+  <text class="sub" x="370" y="272">прибора</text>
+
+  <rect class="box" x="522" y="226" width="318" height="68" rx="9"/>
+  <text class="sub" x="540" y="257">ток замыкания уйдёт</text>
+  <text class="sub" x="540" y="272">в землю</text>
+
+  <path class="edge" d="M270 260 H296" stroke="#7d7d7d" stroke-width="1.75" fill="none" marker-end="url(#ah)"/>
+  <path class="edge" d="M496 260 H522" stroke="#7d7d7d" stroke-width="1.75" fill="none" marker-end="url(#ah)"/>
+
+  <!-- ROW 4: непрерывность PE -->
+  <rect class="box" x="20" y="310" width="250" height="68" rx="9"/>
+  <text class="ttl" x="38" y="340">Непрерывность</text>
+  <text class="ttl" x="38" y="358">проводников PE</text>
+
+  <rect class="head" x="296" y="310" width="200" height="68" rx="9"/>
+  <!-- continuity icon: ohm meter / connection -->
+  <circle class="icon" cx="324" cy="344" r="5"/>
+  <circle class="icon" cx="346" cy="344" r="5"/>
+  <path class="icon" d="M329 344 H341"/>
+  <text class="iccap" x="330" y="370" text-anchor="middle">измеритель / омметр</text>
+  <text class="sub" x="370" y="341">тип и поверка</text>
+  <text class="sub" x="370" y="356">прибора</text>
+
+  <rect class="box" x="522" y="310" width="318" height="68" rx="9"/>
+  <text class="sub" x="540" y="341">PE и проводники</text>
+  <text class="sub" x="540" y="356">уравнивания целы</text>
+
+  <path class="edge" d="M270 344 H296" stroke="#7d7d7d" stroke-width="1.75" fill="none" marker-end="url(#ah)"/>
+  <path class="edge" d="M496 344 H522" stroke="#7d7d7d" stroke-width="1.75" fill="none" marker-end="url(#ah)"/>
+
+  <!-- footer note -->
+  <path d="M20 404 H840" stroke="#2e2e2e" stroke-width="1"/>
+  <text class="sub" x="430" y="432" text-anchor="middle">Результат каждого измерения сравнивают с нормой и заносят в протокол</text>
+  <text class="sub" x="430" y="452" text-anchor="middle">(вывод: соответствует / не соответствует)</text>
+</svg>

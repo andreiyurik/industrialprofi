@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 560" role="img" aria-label="Однолинейная схема квартирного щита: ввод (двухполюсный автомат QF1 C25), счётчик, вводное УЗО 300 мА, шина, от неё параллельно группы — розетки комнат, розетки кухни, освещение, ванная, каждая со своим автоматом и УЗО">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .blue{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:13px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .bus{stroke:#3d9bff;stroke-width:3;fill:none}
+    .buslbl{fill:#3d9bff;font-size:11px;font-weight:700}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- INPUT CHAIN (top, left to right) -->
+  <rect class="box" x="20" y="30" width="120" height="56" rx="10"/>
+  <text class="ttl" x="80" y="54" text-anchor="middle">Ввод QF1</text>
+  <text class="sub" x="80" y="72" text-anchor="middle">2-полюсный · C25</text>
+  <path class="edge" d="M140 58 H180" marker-end="url(#ah)"/>
+
+  <rect class="box" x="180" y="30" width="120" height="56" rx="10"/>
+  <text class="ttl" x="240" y="54" text-anchor="middle">Счётчик</text>
+  <text class="sub" x="240" y="72" text-anchor="middle">узел учёта</text>
+  <path class="edge" d="M300 58 H340" marker-end="url(#ah)"/>
+
+  <rect class="box" x="340" y="30" width="150" height="56" rx="10"/>
+  <text class="ttl" x="415" y="54" text-anchor="middle">УЗО 300 мА</text>
+  <text class="sub" x="415" y="72" text-anchor="middle">противопожарное</text>
+
+  <!-- drop to bus -->
+  <path class="edge" d="M415 86 V120" marker-end="url(#ah)"/>
+
+  <!-- BUS BAR -->
+  <line class="bus" x1="90" y1="132" x2="790" y2="132"/>
+  <text class="buslbl" x="500" y="124">Шина (общая точка групп)</text>
+
+  <!-- vertical taps to each group -->
+  <path class="edge" d="M125 132 V180" marker-end="url(#ah)"/>
+  <path class="edge" d="M300 132 V180" marker-end="url(#ah)"/>
+  <path class="edge" d="M480 132 V180" marker-end="url(#ah)"/>
+  <path class="edge" d="M680 132 V180" marker-end="url(#ah)"/>
+
+  <!-- GROUP 1: розетки комнат -->
+  <rect class="box" x="65" y="182" width="120" height="50" rx="10"/>
+  <text class="ttl" x="125" y="205" text-anchor="middle">QF2 · C16</text>
+  <text class="sub" x="125" y="222" text-anchor="middle">розетки комнат</text>
+  <path class="edge" d="M125 232 V268" marker-end="url(#ah)"/>
+  <rect class="box" x="65" y="270" width="120" height="44" rx="10"/>
+  <text class="ttl" x="125" y="290" text-anchor="middle">УЗО 30 мА</text>
+  <text class="sub" x="125" y="306" text-anchor="middle">защита от удара</text>
+  <path class="edge" d="M125 314 V350" marker-end="url(#ah)"/>
+  <rect class="box" x="80" y="352" width="90" height="40" rx="10"/>
+  <text class="ttl" x="125" y="377" text-anchor="middle">Розетки</text>
+
+  <!-- GROUP 2: розетки кухни -->
+  <rect class="box" x="240" y="182" width="120" height="50" rx="10"/>
+  <text class="ttl" x="300" y="205" text-anchor="middle">QF3 · C16</text>
+  <text class="sub" x="300" y="222" text-anchor="middle">розетки кухни</text>
+  <path class="edge" d="M300 232 V268" marker-end="url(#ah)"/>
+  <rect class="box" x="240" y="270" width="120" height="44" rx="10"/>
+  <text class="ttl" x="300" y="290" text-anchor="middle">УЗО 30 мА</text>
+  <text class="sub" x="300" y="306" text-anchor="middle">отдельное</text>
+  <path class="edge" d="M300 314 V350" marker-end="url(#ah)"/>
+  <rect class="box" x="255" y="352" width="90" height="40" rx="10"/>
+  <text class="ttl" x="300" y="377" text-anchor="middle">Кухня</text>
+
+  <!-- GROUP 3: освещение -->
+  <rect class="box" x="420" y="182" width="120" height="50" rx="10"/>
+  <text class="ttl" x="480" y="205" text-anchor="middle">QF4 · C10</text>
+  <text class="sub" x="480" y="222" text-anchor="middle">освещение</text>
+  <path class="edge" d="M480 232 V350" marker-end="url(#ah)"/>
+  <text class="sub" x="492" y="295">без УЗО</text>
+  <rect class="box" x="435" y="352" width="90" height="40" rx="10"/>
+  <text class="ttl" x="480" y="377" text-anchor="middle">Свет</text>
+
+  <!-- GROUP 4: ванная -->
+  <rect class="blue" x="620" y="182" width="120" height="50" rx="10"/>
+  <text class="ttl" x="680" y="205" text-anchor="middle">QF5 · C16</text>
+  <text class="sub" x="680" y="222" text-anchor="middle">ванная</text>
+  <path class="edge" d="M680 232 V268" marker-end="url(#ah)"/>
+  <rect class="blue" x="620" y="270" width="120" height="44" rx="10"/>
+  <text class="ttl" x="680" y="290" text-anchor="middle">УЗО 10 мА</text>
+  <text class="sub" x="680" y="306" text-anchor="middle">самое строгое</text>
+  <path class="edge" d="M680 314 V350" marker-end="url(#ah)"/>
+  <rect class="box" x="635" y="352" width="90" height="40" rx="10"/>
+  <text class="ttl" x="680" y="377" text-anchor="middle">Ванная</text>
+
+  <!-- legend -->
+  <text class="sub" x="20" y="430">Питание течёт слева направо: ввод → учёт → общая защита → шина → параллельные группы.</text>
+</svg>

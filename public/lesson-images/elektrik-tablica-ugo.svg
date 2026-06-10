@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 580" role="img" aria-label="Таблица УГО: автомат, УЗО, дифавтомат, розетка, выключатель, лампа, заземление, нулевая шина — символ, название и буквенно-цифровое обозначение">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .sym{stroke:#ededed;stroke-width:1.75;fill:none}
+    .name{font-size:14px;font-weight:700}
+    .des{fill:#a1a1a1;font-size:12px}
+    .hdr{fill:#a1a1a1;font-size:11px;font-weight:700;letter-spacing:.06em}
+    .grid{stroke:#2e2e2e;stroke-width:1}
+  </style>
+  <!-- header -->
+  <text class="hdr" x="80" y="24" text-anchor="middle">СИМВОЛ</text>
+  <text class="hdr" x="300" y="24">НАЗВАНИЕ</text>
+  <text class="hdr" x="600" y="24">ОБОЗНАЧЕНИЕ</text>
+  <line class="grid" x1="20" y1="34" x2="740" y2="34"/>
+
+  <!-- rows: each 64px tall, starting y=42 -->
+  <!-- Row 1: Автомат -->
+  <g>
+    <rect class="box" x="40" y="46" width="80" height="48" rx="8"/>
+    <path class="sym" d="M62 70 H98"/>
+    <path class="sym" d="M62 70 L84 56"/>
+    <rect class="sym" x="84" y="64" width="14" height="12" rx="2"/>
+    <text class="name" x="160" y="66">Автоматический выключатель</text>
+    <text class="des" x="160" y="84">защита линии от перегруза и КЗ</text>
+    <text class="name" x="600" y="74">QF · C16</text>
+  </g>
+  <line class="grid" x1="20" y1="106" x2="740" y2="106"/>
+
+  <!-- Row 2: УЗО -->
+  <g>
+    <rect class="box" x="40" y="116" width="80" height="48" rx="8"/>
+    <rect class="sym" x="62" y="128" width="36" height="24" rx="3"/>
+    <path class="sym" d="M68 140 q6 -8 12 0 t12 0"/>
+    <text class="name" x="160" y="136">УЗО</text>
+    <text class="des" x="160" y="154">отключает при токе утечки</text>
+    <text class="name" x="600" y="144">QD · 30 мА</text>
+  </g>
+  <line class="grid" x1="20" y1="176" x2="740" y2="176"/>
+
+  <!-- Row 3: Дифавтомат -->
+  <g>
+    <rect class="box" x="40" y="186" width="80" height="48" rx="8"/>
+    <path class="sym" d="M52 210 L62 202"/>
+    <rect class="sym" x="62" y="200" width="10" height="20" rx="2"/>
+    <path class="sym" d="M84 210 q5 -7 10 0 t10 0"/>
+    <text class="name" x="160" y="206">Дифавтомат</text>
+    <text class="des" x="160" y="224">автомат + УЗО в одном корпусе</text>
+    <text class="name" x="600" y="214">QFD</text>
+  </g>
+  <line class="grid" x1="20" y1="246" x2="740" y2="246"/>
+
+  <!-- Row 4: Розетка -->
+  <g>
+    <rect class="box" x="40" y="256" width="80" height="48" rx="8"/>
+    <path class="sym" d="M62 286 a18 18 0 0 1 36 0"/>
+    <path class="sym" d="M62 286 H56"/>
+    <path class="sym" d="M98 286 H104"/>
+    <text class="name" x="160" y="276">Розетка</text>
+    <text class="des" x="160" y="294">полукруг с двумя выводами</text>
+    <text class="name" x="600" y="284">XS</text>
+  </g>
+  <line class="grid" x1="20" y1="316" x2="740" y2="316"/>
+
+  <!-- Row 5: Выключатель -->
+  <g>
+    <rect class="box" x="40" y="326" width="80" height="48" rx="8"/>
+    <path class="sym" d="M58 350 H72"/>
+    <path class="sym" d="M72 350 L92 338"/>
+    <path class="sym" d="M92 350 H102"/>
+    <circle class="sym" cx="72" cy="350" r="2.5"/>
+    <text class="name" x="160" y="346">Выключатель освещения</text>
+    <text class="des" x="160" y="364">размыкающий контакт</text>
+    <text class="name" x="600" y="354">SA</text>
+  </g>
+  <line class="grid" x1="20" y1="386" x2="740" y2="386"/>
+
+  <!-- Row 6: Лампа -->
+  <g>
+    <rect class="box" x="40" y="396" width="80" height="48" rx="8"/>
+    <circle class="sym" cx="80" cy="420" r="14"/>
+    <path class="sym" d="M70 410 L90 430"/>
+    <path class="sym" d="M90 410 L70 430"/>
+    <text class="name" x="160" y="416">Лампа / светильник</text>
+    <text class="des" x="160" y="434">кружок с крестом внутри</text>
+    <text class="name" x="600" y="424">EL</text>
+  </g>
+  <line class="grid" x1="20" y1="456" x2="740" y2="456"/>
+
+  <!-- Row 7: Заземление -->
+  <g>
+    <rect class="box" x="40" y="466" width="80" height="48" rx="8"/>
+    <path class="sym" d="M80 478 V488"/>
+    <path class="sym" d="M64 488 H96"/>
+    <path class="sym" d="M69 494 H91"/>
+    <path class="sym" d="M74 500 H86"/>
+    <text class="name" x="160" y="486">Заземление</text>
+    <text class="des" x="160" y="504">три штриха убывающей длины</text>
+    <text class="name" x="600" y="494">PE</text>
+  </g>
+  <line class="grid" x1="20" y1="516" x2="740" y2="516"/>
+
+  <!-- Row 8: Нулевая шина -->
+  <g>
+    <rect class="box" x="40" y="526" width="80" height="48" rx="8"/>
+    <line class="sym" x1="58" y1="550" x2="102" y2="550"/>
+    <circle class="sym" cx="68" cy="550" r="2.5"/>
+    <circle class="sym" cx="80" cy="550" r="2.5"/>
+    <circle class="sym" cx="92" cy="550" r="2.5"/>
+    <text class="name" x="160" y="546">Нулевая шина</text>
+    <text class="des" x="160" y="564">общая точка соединения нулей</text>
+    <text class="name" x="600" y="554">N</text>
+  </g>
+</svg>

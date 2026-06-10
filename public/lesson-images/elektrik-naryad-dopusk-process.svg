@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 760" role="img" aria-label="Процесс работы по наряду-допуску: оформление наряда, подготовка рабочего места, допуск бригады, работа под надзором, оформление окончания и снятие заземлений">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .step{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .num{font-size:13px;font-weight:700;fill:#3d9bff}
+    .sub{fill:#a1a1a1;font-size:11px}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- 1. Оформление наряда -->
+  <rect class="step" x="220" y="16" width="320" height="52" rx="10"/>
+  <text class="num" x="380" y="38" text-anchor="middle">1. Оформление наряда-допуска</text>
+  <text class="sub" x="380" y="56" text-anchor="middle">письменное задание: кто, где, меры безопасности</text>
+  <path class="edge" d="M380 68 V92" marker-end="url(#ah)"/>
+
+  <!-- 2. Подготовка рабочего места (container) -->
+  <rect class="box" x="120" y="94" width="520" height="282" rx="10"/>
+  <text class="num" x="380" y="118" text-anchor="middle">2. Подготовка рабочего места</text>
+
+  <rect class="step" x="150" y="132" width="460" height="40" rx="8"/>
+  <text class="ttl" x="380" y="157" text-anchor="middle">Отключить установку, меры против включения</text>
+
+  <rect class="step" x="150" y="180" width="460" height="40" rx="8"/>
+  <text class="ttl" x="380" y="205" text-anchor="middle">Вывесить запрещающие плакаты</text>
+
+  <rect class="step" x="150" y="228" width="460" height="40" rx="8"/>
+  <text class="ttl" x="380" y="253" text-anchor="middle">Проверить отсутствие напряжения</text>
+
+  <rect class="step" x="150" y="276" width="460" height="40" rx="8"/>
+  <text class="ttl" x="380" y="301" text-anchor="middle">Наложить переносное заземление</text>
+
+  <rect class="step" x="150" y="324" width="460" height="40" rx="8"/>
+  <text class="ttl" x="380" y="349" text-anchor="middle">Оградить место, указательные плакаты</text>
+
+  <path class="edge" d="M380 376 V400" marker-end="url(#ah)"/>
+
+  <!-- 3. Допуск бригады -->
+  <rect class="step" x="220" y="402" width="320" height="52" rx="10"/>
+  <text class="num" x="380" y="424" text-anchor="middle">3. Допуск бригады</text>
+  <text class="sub" x="380" y="442" text-anchor="middle">проверка на месте, что меры выполнены</text>
+  <path class="edge" d="M380 454 V478" marker-end="url(#ah)"/>
+
+  <!-- 4. Работа под надзором -->
+  <rect class="step" x="220" y="480" width="320" height="52" rx="10"/>
+  <text class="num" x="380" y="502" text-anchor="middle">4. Работа под надзором</text>
+  <text class="sub" x="380" y="520" text-anchor="middle">контроль соблюдения мер безопасности</text>
+  <path class="edge" d="M380 532 V556" marker-end="url(#ah)"/>
+
+  <!-- 5. Оформление окончания и снятие заземлений -->
+  <rect class="step" x="160" y="558" width="440" height="60" rx="10"/>
+  <text class="num" x="380" y="582" text-anchor="middle">5. Оформление окончания работ</text>
+  <text class="sub" x="380" y="602" text-anchor="middle">снятие заземлений, плакатов, закрытие наряда</text>
+
+  <text class="sub" x="380" y="650" text-anchor="middle">Каждый шаг фиксируется в оперативной документации</text>
+</svg>

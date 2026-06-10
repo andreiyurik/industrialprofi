@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 408" role="img" aria-label="Трёхуровневая модель АСУ ТП: нижний полевой уровень (датчики, клапаны, насосы), средний уровень управления (ПЛК, модули ввода-вывода), верхний уровень SCADA/HMI; между уровнями протоколы — снизу 4-20 мА/HART, в середине Modbus/Profinet, сверху OPC UA; измерения идут вверх, команды вниз">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .tier{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .ttl{font-size:15px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .chip{fill:#11161c;stroke:#3d9bff;stroke-width:1.4}
+    .chipt{fill:#cfe3ff;font-size:11.5px;font-weight:600}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .axis{fill:#a1a1a1;font-size:11px;font-weight:600}
+  </style>
+  <defs>
+    <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/>
+    </marker>
+  </defs>
+
+  <!-- top tier: SCADA/HMI -->
+  <polygon class="tier" points="220,24 420,24 452,96 188,96"/>
+  <text class="ttl" x="320" y="58" text-anchor="middle">Верхний уровень — SCADA / HMI</text>
+  <text class="sub" x="320" y="78" text-anchor="middle">АРМ оператора · сервер · мнемосхема</text>
+
+  <!-- mid tier: control -->
+  <polygon class="tier" points="170,116 470,116 502,188 138,188"/>
+  <text class="ttl" x="320" y="150" text-anchor="middle">Уровень управления</text>
+  <text class="sub" x="320" y="170" text-anchor="middle">ПЛК · модули ввода-вывода</text>
+
+  <!-- bottom tier: field -->
+  <polygon class="tier" points="120,208 520,208 552,280 88,280"/>
+  <text class="ttl" x="320" y="242" text-anchor="middle">Полевой уровень</text>
+  <text class="sub" x="320" y="262" text-anchor="middle">датчики (T, P, уровень) · клапаны, насосы, ЧРП</text>
+
+  <!-- protocol chips between tiers -->
+  <rect class="chip" x="282" y="96" width="76" height="22" rx="11"/>
+  <text class="chipt" x="320" y="111" text-anchor="middle">OPC UA</text>
+
+  <rect class="chip" x="244" y="188" width="152" height="22" rx="11"/>
+  <text class="chipt" x="320" y="203" text-anchor="middle">Modbus / Profinet</text>
+
+  <rect class="chip" x="250" y="296" width="140" height="22" rx="11"/>
+  <text class="chipt" x="320" y="311" text-anchor="middle">4–20 мА / HART</text>
+
+  <!-- side axes: up = measurements, down = commands -->
+  <path class="edge" d="M52 286 V40" marker-end="url(#ah2)"/>
+  <text class="axis" x="40" y="170" text-anchor="middle" transform="rotate(-90 40 170)">измерения ▲</text>
+
+  <path class="edge" d="M588 40 V286" marker-end="url(#ah2)"/>
+  <text class="axis" x="600" y="170" text-anchor="middle" transform="rotate(90 600 170)">команды ▼</text>
+</svg>

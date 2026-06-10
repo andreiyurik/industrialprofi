@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" role="img" aria-label="Карта роста электрика: вертикальная ось групп допуска II-III-IV-V и горизонтальная ось специализаций, на пересечении примеры должностей">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .acc{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .axis{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .lvl{font-size:15px;font-weight:700;fill:#3d9bff}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .axttl{font-size:12px;font-weight:700;fill:#a1a1a1;letter-spacing:.5px}
+    .spec{font-size:11px;font-weight:600}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- Vertical axis: groups of access -->
+  <path class="axis" d="M70 520 V40" marker-end="url(#ah)"/>
+  <text class="axttl" x="58" y="30" text-anchor="middle" transform="rotate(0)">ГРУППА ДОПУСКА</text>
+  <!-- correct rotated axis title -->
+  <text class="axttl" x="22" y="290" text-anchor="middle" transform="rotate(-90 22 290)">ВЕРТИКАЛЬ — ГРУППА ДОПУСКА И ОТВЕТСТВЕННОСТЬ</text>
+
+  <!-- Horizontal axis: specializations -->
+  <path class="axis" d="M70 520 H850" marker-end="url(#ah)"/>
+  <text class="axttl" x="460" y="552" text-anchor="middle">ГОРИЗОНТАЛЬ — СПЕЦИАЛИЗАЦИИ (ТИПЫ ОБЪЕКТОВ И ОБОРУДОВАНИЯ)</text>
+
+  <!-- Group level boxes on the vertical axis -->
+  <g>
+    <rect class="acc" x="92" y="420" width="186" height="64" rx="9"/>
+    <text class="lvl" x="108" y="445">II</text>
+    <text class="ttl" x="132" y="446">Член бригады</text>
+    <text class="sub" x="108" y="467">работа в составе бригады,</text>
+    <text class="sub" x="108" y="480">под надзором</text>
+  </g>
+  <g>
+    <rect class="acc" x="92" y="316" width="186" height="64" rx="9"/>
+    <text class="lvl" x="108" y="341">III</text>
+    <text class="ttl" x="134" y="342">Электромонтёр</text>
+    <text class="sub" x="108" y="363">самостоятельная работа</text>
+    <text class="sub" x="108" y="376">до 1000 В</text>
+  </g>
+  <g>
+    <rect class="acc" x="92" y="212" width="186" height="64" rx="9"/>
+    <text class="lvl" x="108" y="237">IV</text>
+    <text class="ttl" x="130" y="238">Ответственное лицо</text>
+    <text class="sub" x="108" y="259">выдаёт наряды,</text>
+    <text class="sub" x="108" y="272">допуски до 1000 В</text>
+  </g>
+  <g>
+    <rect class="acc" x="92" y="100" width="186" height="68" rx="9"/>
+    <text class="lvl" x="108" y="125">V</text>
+    <text class="ttl" x="126" y="126">Отв. руководитель</text>
+    <text class="sub" x="108" y="147">работы выше 1000 В,</text>
+    <text class="sub" x="108" y="160">отв. за электрохозяйство</text>
+  </g>
+
+  <!-- Specialization branch labels along the horizontal axis -->
+  <g>
+    <rect class="box" x="300" y="466" width="120" height="42" rx="8"/>
+    <text class="spec" x="360" y="484" text-anchor="middle">Бытовая и</text>
+    <text class="spec" x="360" y="499" text-anchor="middle">коммерч. электрика</text>
+  </g>
+  <g>
+    <rect class="box" x="430" y="466" width="120" height="42" rx="8"/>
+    <text class="spec" x="490" y="484" text-anchor="middle">Промышленное</text>
+    <text class="spec" x="490" y="499" text-anchor="middle">электрооборуд.</text>
+  </g>
+  <g>
+    <rect class="box" x="560" y="466" width="100" height="42" rx="8"/>
+    <text class="spec" x="610" y="484" text-anchor="middle">ВЛ и КЛ</text>
+    <text class="spec" x="610" y="499" text-anchor="middle">(линии)</text>
+  </g>
+  <g>
+    <rect class="box" x="670" y="466" width="80" height="42" rx="8"/>
+    <text class="spec" x="710" y="491" text-anchor="middle">Подстанции,</text>
+    <text class="spec" x="710" y="491" text-anchor="middle" dy="0"> </text>
+    <text class="spec" x="710" y="484" text-anchor="middle">Подстанции</text>
+    <text class="spec" x="710" y="499" text-anchor="middle">и РУ</text>
+  </g>
+  <g>
+    <rect class="box" x="300" y="20" width="120" height="42" rx="8"/>
+    <text class="spec" x="360" y="38" text-anchor="middle">КИПиА /</text>
+    <text class="spec" x="360" y="53" text-anchor="middle">автоматика</text>
+  </g>
+  <g>
+    <rect class="box" x="430" y="20" width="120" height="42" rx="8"/>
+    <text class="spec" x="490" y="38" text-anchor="middle">Проектирование</text>
+    <text class="spec" x="490" y="53" text-anchor="middle">схем эл.снабжения</text>
+  </g>
+
+  <!-- Intersection examples (positions) -->
+  <g>
+    <rect class="box" x="430" y="316" width="150" height="50" rx="8"/>
+    <text class="sub" x="505" y="336" text-anchor="middle" fill="#ededed" font-weight="600" font-size="11">Цеховой</text>
+    <text class="sub" x="505" y="351" text-anchor="middle" fill="#ededed" font-weight="600" font-size="11">электромонтёр</text>
+  </g>
+  <g>
+    <rect class="box" x="620" y="116" width="160" height="50" rx="8"/>
+    <text class="sub" x="700" y="136" text-anchor="middle" fill="#ededed" font-weight="600" font-size="11">Электромонтёр ПС,</text>
+    <text class="sub" x="700" y="151" text-anchor="middle" fill="#ededed" font-weight="600" font-size="11">сети 6-110 кВ</text>
+  </g>
+  <g>
+    <rect class="box" x="300" y="116" width="160" height="50" rx="8"/>
+    <text class="sub" x="380" y="136" text-anchor="middle" fill="#ededed" font-weight="600" font-size="11">Инженер АСУ ТП /</text>
+    <text class="sub" x="380" y="151" text-anchor="middle" fill="#ededed" font-weight="600" font-size="11">проектировщик</text>
+  </g>
+
+  <!-- connecting dashed guide showing pairing of axes -->
+  <path d="M278 350 H430" stroke="#2e2e2e" stroke-width="1.25" stroke-dasharray="4 4" fill="none"/>
+  <path d="M700 466 V166" stroke="#2e2e2e" stroke-width="1.25" stroke-dasharray="4 4" fill="none"/>
+  <path d="M380 466 V166" stroke="#2e2e2e" stroke-width="1.25" stroke-dasharray="4 4" fill="none"/>
+</svg>

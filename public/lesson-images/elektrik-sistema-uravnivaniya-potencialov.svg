@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" role="img" aria-label="Схема системы уравнивания потенциалов: ГЗШ в центре, лучами PE от ВРУ, заземлитель, трубы воды, отопления, газа, металлоконструкции; отдельно ДСУП санузла с коробкой КУП">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .hub{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .hub-ttl{font-size:15px;font-weight:700;fill:#3d9bff}
+    .grp{fill:#a1a1a1;font-size:12px;font-weight:600;letter-spacing:.04em}
+    .dash{stroke:#3d9bff;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- ГЗШ hub -->
+  <rect class="hub" x="340" y="232" width="170" height="60" rx="10"/>
+  <text class="hub-ttl" x="425" y="258" text-anchor="middle">ГЗШ</text>
+  <text class="sub" x="425" y="278" text-anchor="middle">главная заземляющая шина</text>
+
+  <!-- ОСУП group label -->
+  <text class="grp" x="30" y="28">ОСУП — основная система</text>
+
+  <!-- Left column boxes feeding the hub -->
+  <rect class="box" x="30" y="48" width="200" height="48" rx="9"/>
+  <text class="ttl" x="130" y="70" text-anchor="middle">PE от ВРУ</text>
+  <text class="sub" x="130" y="87" text-anchor="middle">защитный проводник ввода</text>
+  <path class="edge" d="M230 78 C300 100 320 200 340 248" marker-end="url(#ah)"/>
+
+  <rect class="box" x="30" y="112" width="200" height="48" rx="9"/>
+  <text class="ttl" x="130" y="134" text-anchor="middle">Заземлитель</text>
+  <text class="sub" x="130" y="151" text-anchor="middle">контур заземления</text>
+  <path class="edge" d="M230 140 C300 165 320 215 340 252" marker-end="url(#ah)"/>
+
+  <rect class="box" x="30" y="176" width="200" height="48" rx="9"/>
+  <text class="ttl" x="130" y="198" text-anchor="middle">Труба водопровода</text>
+  <text class="sub" x="130" y="215" text-anchor="middle">металлическая магистраль</text>
+  <path class="edge" d="M230 204 C290 220 310 240 340 258" marker-end="url(#ah)"/>
+
+  <rect class="box" x="30" y="240" width="200" height="48" rx="9"/>
+  <text class="ttl" x="130" y="262" text-anchor="middle">Труба отопления</text>
+  <text class="sub" x="130" y="279" text-anchor="middle">металлическая магистраль</text>
+  <path class="edge" d="M230 264 H340" marker-end="url(#ah)"/>
+
+  <rect class="box" x="30" y="304" width="200" height="48" rx="9"/>
+  <text class="ttl" x="130" y="326" text-anchor="middle">Труба газа</text>
+  <text class="sub" x="130" y="343" text-anchor="middle">по спец. требованиям</text>
+  <path class="edge" d="M230 328 C290 312 310 285 340 270" marker-end="url(#ah)"/>
+
+  <rect class="box" x="30" y="368" width="200" height="48" rx="9"/>
+  <text class="ttl" x="130" y="390" text-anchor="middle">Металлоконструкции</text>
+  <text class="sub" x="130" y="407" text-anchor="middle">каркас, молниезащита</text>
+  <path class="edge" d="M230 392 C290 350 310 300 340 278" marker-end="url(#ah)"/>
+
+  <!-- Connection from hub to ДСУП КУП -->
+  <path class="dash" d="M510 270 C600 300 640 360 690 392"/>
+  <text class="sub" x="600" y="312" text-anchor="middle">в санузел</text>
+
+  <!-- ДСУП group -->
+  <text class="grp" x="560" y="360">ДСУП — санузел</text>
+
+  <!-- КУП box -->
+  <rect class="hub" x="640" y="368" width="110" height="48" rx="9"/>
+  <text class="ttl" x="695" y="390" text-anchor="middle">КУП</text>
+  <text class="sub" x="695" y="407" text-anchor="middle">коробка уравнив.</text>
+
+  <!-- ДСУП element boxes around КУП -->
+  <rect class="box" x="560" y="448" width="120" height="44" rx="9"/>
+  <text class="ttl" x="620" y="475" text-anchor="middle">PE</text>
+  <path class="edge" d="M680 414 C660 430 640 440 630 448" marker-end="url(#ah)"/>
+
+  <rect class="box" x="700" y="448" width="120" height="44" rx="9"/>
+  <text class="ttl" x="760" y="475" text-anchor="middle">Ванна</text>
+  <path class="edge" d="M715 414 C725 430 735 440 745 448" marker-end="url(#ah)"/>
+
+  <rect class="box" x="560" y="504" width="120" height="44" rx="9"/>
+  <text class="ttl" x="620" y="531" text-anchor="middle">Трубы</text>
+  <path class="edge" d="M670 416 C645 450 635 480 628 504" marker-end="url(#ah)"/>
+
+  <rect class="box" x="700" y="504" width="120" height="44" rx="9"/>
+  <text class="ttl" x="760" y="525" text-anchor="middle">Корпуса,</text>
+  <text class="ttl" x="760" y="541" text-anchor="middle">полотенцесушитель</text>
+  <path class="edge" d="M720 416 C745 450 752 480 758 504" marker-end="url(#ah)"/>
+</svg>

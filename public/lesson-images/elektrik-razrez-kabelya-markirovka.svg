@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 430" role="img" aria-label="Разрез кабеля ВВГнг-LS: три медные жилы в цветной ПВХ-изоляции (коричневая L, синяя N, жёлто-зелёная PE) под общей оболочкой; рядом таблица расшифровки маркировки">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .lbl{font-size:12px}
+    .cu{fill:#c87a3a;stroke:#2e2e2e;stroke-width:1.25}
+    .ins-l{fill:#7a4a2a}
+    .ins-n{fill:#2d6fb0}
+    .ins-pe-g{fill:#34c759}
+    .ins-pe-y{fill:#d8c93a}
+    .sheath{fill:#1c1c1c;stroke:#5a5a5a;stroke-width:2}
+    .hdr{font-size:12px;font-weight:700}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <text class="ttl" x="200" y="28" text-anchor="middle">Разрез кабеля ВВГнг(А)-LS 3×2,5</text>
+
+  <!-- Common sheath (outer) -->
+  <circle class="sheath" cx="200" cy="180" r="118"/>
+  <!-- inner filler boundary -->
+  <circle cx="200" cy="180" r="100" fill="#161616" stroke="#2e2e2e" stroke-width="1.25"/>
+
+  <!-- Phase L conductor: top -->
+  <circle class="ins-l" cx="200" cy="120" r="42"/>
+  <circle class="cu" cx="200" cy="120" r="22"/>
+  <!-- Neutral N conductor: bottom-left -->
+  <circle class="ins-n" cx="148" cy="225" r="42"/>
+  <circle class="cu" cx="148" cy="225" r="22"/>
+  <!-- PE conductor: bottom-right, yellow-green stripes -->
+  <circle class="ins-pe-y" cx="252" cy="225" r="42"/>
+  <path class="ins-pe-g" d="M252 183 a42 42 0 0 1 0 84 z"/>
+  <circle class="cu" cx="252" cy="225" r="22"/>
+
+  <!-- callout: sheath -->
+  <path class="edge" d="M300 96 H355" marker-end="url(#ah)"/>
+  <line x1="288" y1="100" x2="300" y2="96" stroke="#7d7d7d" stroke-width="1.75"/>
+  <text class="lbl" x="360" y="92">Общая оболочка (ПВХ)</text>
+  <text class="sub" x="360" y="108">защита от влаги и механики</text>
+
+  <!-- callout: insulation L -->
+  <path class="edge" d="M242 102 H355" marker-end="url(#ah)"/>
+  <text class="lbl" x="360" y="138">Изоляция жилы (ПВХ)</text>
+  <text class="sub" x="360" y="154">не даёт жилам коротить</text>
+
+  <!-- callout: copper conductor -->
+  <path class="edge" d="M222 120 H355" marker-end="url(#ah)"/>
+  <text class="lbl" x="360" y="184">Медная жила</text>
+  <text class="sub" x="360" y="200">проводник тока</text>
+
+  <!-- callout: L colour -->
+  <path class="edge" d="M225 145 L355 230" marker-end="url(#ah)"/>
+  <rect x="360" y="222" width="14" height="14" rx="2" fill="#7a4a2a"/>
+  <text class="lbl" x="382" y="234">Коричневая — фаза (L)</text>
+
+  <!-- callout: N colour -->
+  <path class="edge" d="M190 248 L355 262" marker-end="url(#ah)"/>
+  <rect x="360" y="254" width="14" height="14" rx="2" fill="#2d6fb0"/>
+  <text class="lbl" x="382" y="266">Синяя — рабочий ноль (N)</text>
+
+  <!-- callout: PE colour -->
+  <path class="edge" d="M280 250 L355 294" marker-end="url(#ah)"/>
+  <rect x="360" y="286" width="7" height="14" rx="1" fill="#d8c93a"/>
+  <rect x="367" y="286" width="7" height="14" rx="1" fill="#34c759"/>
+  <text class="lbl" x="382" y="298">Жёлто-зелёная — защитный (PE)</text>
+
+  <!-- decode table -->
+  <text class="ttl" x="620" y="28" text-anchor="middle">Расшифровка маркировки</text>
+  <rect class="box" x="552" y="44" width="288" height="340" rx="10"/>
+  <line x1="552" y1="76" x2="840" y2="76" stroke="#2e2e2e" stroke-width="1.25"/>
+  <line x1="612" y1="44" x2="612" y2="384" stroke="#2e2e2e" stroke-width="1.25"/>
+  <text class="hdr" x="582" y="65" text-anchor="middle">Знак</text>
+  <text class="hdr" x="726" y="65" text-anchor="middle">Что означает</text>
+
+  <text class="ttl" x="582" y="102" text-anchor="middle">В</text>
+  <text class="lbl" x="624" y="102">изоляция жил — ПВХ</text>
+  <line x1="552" y1="116" x2="840" y2="116" stroke="#2e2e2e" stroke-width="1"/>
+
+  <text class="ttl" x="582" y="140" text-anchor="middle">В</text>
+  <text class="lbl" x="624" y="140">оболочка — ПВХ</text>
+  <line x1="552" y1="154" x2="840" y2="154" stroke="#2e2e2e" stroke-width="1"/>
+
+  <text class="ttl" x="582" y="178" text-anchor="middle">Г</text>
+  <text class="lbl" x="624" y="178">«голый» — без брони</text>
+  <line x1="552" y1="192" x2="840" y2="192" stroke="#2e2e2e" stroke-width="1"/>
+
+  <text class="ttl" x="582" y="216" text-anchor="middle">нг(А)</text>
+  <text class="lbl" x="624" y="210">не распространяет</text>
+  <text class="lbl" x="624" y="226">горение (категория А)</text>
+  <line x1="552" y1="240" x2="840" y2="240" stroke="#2e2e2e" stroke-width="1"/>
+
+  <text class="ttl" x="582" y="264" text-anchor="middle">LS</text>
+  <text class="lbl" x="624" y="258">low smoke —</text>
+  <text class="lbl" x="624" y="274">пониженное дымовыделение</text>
+  <line x1="552" y1="288" x2="840" y2="288" stroke="#2e2e2e" stroke-width="1"/>
+
+  <text class="ttl" x="582" y="312" text-anchor="middle">3×2,5</text>
+  <text class="lbl" x="624" y="312">3 жилы по 2,5 мм²</text>
+  <line x1="552" y1="326" x2="840" y2="326" stroke="#2e2e2e" stroke-width="1"/>
+
+  <text class="ttl" x="582" y="354" text-anchor="middle">А…</text>
+  <text class="lbl" x="624" y="348">префикс А — жилы</text>
+  <text class="lbl" x="624" y="364">алюминиевые (АВВГ)</text>
+</svg>
