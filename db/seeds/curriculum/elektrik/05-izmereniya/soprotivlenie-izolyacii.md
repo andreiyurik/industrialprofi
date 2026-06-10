@@ -9,7 +9,7 @@ resources:
     required: true
     country_code: RU
   - title: "ГОСТ Р 50571.16-2019 (МЭК 60364-6) — методика измерения сопротивления изоляции"
-    url: "https://base.garant.ru/73194656/"
+    url: "https://protect.gost.ru/document1.aspx?control=31&baseC=6&id=243937"
     kind: document
     required: false
     country_code: RU

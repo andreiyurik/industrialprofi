@@ -4,7 +4,7 @@ position: 2
 kind: practice
 resources:
   - title: "ПУЭ 6-е изд., гл. 2.1 — Электропроводки (требования к соединениям и ответвлениям)"
-    url: "https://base.garant.ru/3923095/6a3eaa02cea3fe2db1e9b04e275d1439/"
+    url: "https://www.consultant.ru/document/cons_doc_LAW_91911/77918dfd035d2d547fc303ba7ac062c9fe58379b/"
     kind: document
     required: true
     country_code: RU

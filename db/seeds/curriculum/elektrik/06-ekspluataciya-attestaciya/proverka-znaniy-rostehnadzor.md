@@ -4,7 +4,7 @@ position: 3
 kind: lesson
 resources:
   - title: "Правила работы с персоналом в организациях электроэнергетики (Приказ Минэнерго № 796 от 22.09.2020) — порядок проверки знаний и аттестации по электробезопасности"
-    url: "https://base.garant.ru/400205330/"
+    url: "https://www.consultant.ru/document/cons_doc_LAW_374368/"
     kind: document
     required: true
     country_code: RU

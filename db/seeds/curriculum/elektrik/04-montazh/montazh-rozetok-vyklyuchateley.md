@@ -4,7 +4,7 @@ position: 3
 kind: practice
 resources:
   - title: "ПУЭ 7-е изд., гл. 6.6 и 7.1 — установочные аппараты, светильники, электроустановки зданий"
-    url: "https://base.garant.ru/3922923/"
+    url: "https://www.consultant.ru/document/cons_doc_LAW_91546/"
     kind: document
     required: true
     country_code: RU

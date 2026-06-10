@@ -4,7 +4,7 @@ position: 1
 kind: lesson
 resources:
   - title: "ГОСТ 26.011-80 — Средства измерений и автоматизации. Сигналы тока и напряжения электрические непрерывные входные и выходные"
-    url: "https://base.garant.ru/71358858/"
+    url: "https://protect.gost.ru/document.aspx?control=7&id=149675"
     kind: document
     required: true
     country_code: RU

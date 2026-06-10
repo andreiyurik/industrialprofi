@@ -4,12 +4,12 @@ position: 2
 kind: lesson
 resources:
   - title: "ГОСТ Р 59853-2021 — Информационные технологии. Комплекс стандартов на АС. Термины и определения"
-    url: "https://base.garant.ru/403447928/"
+    url: "https://protect.gost.ru/document1.aspx?control=31&id=242079"
     kind: document
     required: true
     country_code: RU
   - title: "ГОСТ 34.003-90 — Автоматизированные системы. Термины и определения"
-    url: "https://base.garant.ru/187632/"
+    url: "https://docs.cntd.ru/document/1200006979"
     kind: document
     required: false
     country_code: RU

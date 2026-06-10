@@ -9,7 +9,7 @@ resources:
     required: true
     country_code: RU
   - title: "ГОСТ 31996-2012 — Кабели силовые с пластмассовой изоляцией на 0,66/1/3 кВ (марки, сечения, длительно допустимые токи)"
-    url: "https://base.garant.ru/70625118/"
+    url: "https://protect.gost.ru/document.aspx?control=7&id=183323"
     kind: document
     required: false
     country_code: RU

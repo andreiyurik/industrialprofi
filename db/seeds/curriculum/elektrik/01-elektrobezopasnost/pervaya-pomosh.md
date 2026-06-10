@@ -3,8 +3,8 @@ title: "Первая помощь при поражении электричес
 position: 5
 kind: practice
 resources:
-  - title: "Приказ Минздрава России № 220н от 03.05.2024 «Об утверждении Порядка оказания первой помощи» (действует с 01.08.2024)"
-    url: "https://base.garant.ru/409112510/"
+  - title: "Приказ Минздрава России № 220н от 03.05.2024 «Об утверждении Порядка оказания первой помощи» (действует с 01.09.2024)"
+    url: "https://www.consultant.ru/document/cons_doc_LAW_477698/"
     kind: document
     required: true
     country_code: RU

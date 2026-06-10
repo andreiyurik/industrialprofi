@@ -4,12 +4,12 @@ position: 3
 kind: practice
 resources:
   - title: "ГОСТ Р 50571.16-2019 (МЭК 60364-6) — проверка защиты автоматическим отключением питания"
-    url: "https://base.garant.ru/73194656/"
+    url: "https://protect.gost.ru/document.aspx?control=7&id=232703"
     kind: document
     required: true
     country_code: RU
   - title: "ПУЭ 7-е изд., гл. 1.7 — условия срабатывания защиты при замыкании на корпус"
-    url: "https://base.garant.ru/3923095/527e9918c43708943f2731cd1ab5367a/"
+    url: "https://www.consultant.ru/document/cons_doc_LAW_91542/ab7c1cf635bf724118579930c99b9db6d0eda10b/"
     kind: document
     required: false
     country_code: RU

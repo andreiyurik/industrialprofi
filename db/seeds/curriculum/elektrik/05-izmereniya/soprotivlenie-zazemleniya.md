@@ -4,7 +4,7 @@ position: 4
 kind: practice
 resources:
   - title: "ПУЭ 7-е изд., гл. 1.7 — нормы сопротивления заземляющих устройств"
-    url: "https://base.garant.ru/3923497/527e9918c43708943f2731cd1ab5367a/"
+    url: "https://www.consultant.ru/document/cons_doc_LAW_91542/ab7c1cf635bf724118579930c99b9db6d0eda10b/"
     kind: document
     required: true
     country_code: RU

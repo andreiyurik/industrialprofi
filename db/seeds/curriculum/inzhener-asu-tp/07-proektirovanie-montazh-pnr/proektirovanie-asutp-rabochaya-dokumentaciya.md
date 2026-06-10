@@ -4,12 +4,12 @@ position: 1
 kind: lesson
 resources:
   - title: "ГОСТ 21.408-2013 — СПДС. Правила выполнения рабочей документации автоматизации технологических процессов"
-    url: "https://base.garant.ru/71100738/"
+    url: "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=STR&n=18254"
     kind: document
     required: true
     country_code: RU
   - title: "ГОСТ 21.208-2013 — СПДС. Обозначения условные приборов и средств автоматизации в схемах"
-    url: "https://base.garant.ru/71153708/"
+    url: "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=STR&n=18231"
     kind: document
     required: false
     country_code: RU

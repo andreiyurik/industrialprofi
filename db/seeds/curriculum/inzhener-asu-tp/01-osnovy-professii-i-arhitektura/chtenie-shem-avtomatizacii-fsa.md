@@ -4,12 +4,12 @@ position: 4
 kind: lesson
 resources:
   - title: "ГОСТ 21.208-2013 — СПДС. Автоматизация технологических процессов. Обозначения условные приборов и средств автоматизации в схемах"
-    url: "https://base.garant.ru/71153708/"
+    url: "https://docs.cntd.ru/document/1200108003"
     kind: document
     required: true
     country_code: RU
   - title: "ГОСТ 21.408-2013 — СПДС. Правила выполнения рабочей документации автоматизации технологических процессов"
-    url: "https://base.garant.ru/71100738/"
+    url: "https://protect.gost.ru/gost/details/ad7aee01-bcb3-495e-a46f-6393783f864c"
     kind: document
     required: false
     country_code: RU

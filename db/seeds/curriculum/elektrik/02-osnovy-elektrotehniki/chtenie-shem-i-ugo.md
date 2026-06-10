@@ -4,12 +4,12 @@ position: 3
 kind: practice
 resources:
   - title: "ГОСТ 2.701-2008 ЕСКД. Схемы. Виды и типы. Общие требования к выполнению"
-    url: "https://base.garant.ru/6180373/"
+    url: "https://protect.gost.ru/gost/details/87f1f382-a055-48b7-ae80-f359ff5e1f4e"
     kind: document
     required: true
     country_code: RU
   - title: "ГОСТ 2.710-81 ЕСКД. Обозначения буквенно-цифровые в электрических схемах"
-    url: "https://base.garant.ru/6177277/"
+    url: "https://protect.gost.ru/gost/details/6fecf975-2fad-4d4e-ac72-176c00caa188"
     kind: document
     required: false
     country_code: RU

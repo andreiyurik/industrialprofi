@@ -4,12 +4,12 @@ position: 2
 kind: lesson
 resources:
   - title: "Федеральный закон от 26.07.2017 № 187-ФЗ «О безопасности критической информационной инфраструктуры Российской Федерации»"
-    url: "https://base.garant.ru/71730198/"
+    url: "https://www.consultant.ru/document/cons_doc_LAW_220885/"
     kind: document
     required: true
     country_code: RU
   - title: "Приказ ФСТЭК России от 14.03.2014 № 31 — Требования к защите информации в АСУ производственными и технологическими процессами"
-    url: "https://base.garant.ru/70690918/"
+    url: "https://www.consultant.ru/document/cons_doc_LAW_165503/"
     kind: document
     required: true
     country_code: RU

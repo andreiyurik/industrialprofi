@@ -4,7 +4,7 @@ position: 3
 kind: lesson
 resources:
   - title: "ГОСТ Р МЭК 61131-3-2016 — Контроллеры программируемые. Часть 3. Языки программирования"
-    url: "https://base.garant.ru/71938790/"
+    url: "https://protect.gost.ru/document.aspx?control=7&id=203374"
     kind: document
     required: true
     country_code: RU

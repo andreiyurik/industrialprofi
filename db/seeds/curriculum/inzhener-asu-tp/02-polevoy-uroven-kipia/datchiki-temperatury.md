@@ -4,12 +4,12 @@ position: 2
 kind: lesson
 resources:
   - title: "ГОСТ 6651-2009 — ГСИ. Термопреобразователи сопротивления из платины, меди и никеля. Общие технические требования и методы испытаний"
-    url: "https://base.garant.ru/57969380/"
+    url: "https://protect.gost.ru/gost/details/be8115ed-4f6b-4512-bfad-7466e873be7d"
     kind: document
     required: true
     country_code: RU
   - title: "ГОСТ Р 8.585-2001 — ГСИ. Термопары. Номинальные статические характеристики преобразования"
-    url: "https://base.garant.ru/5369769/"
+    url: "https://protect.gost.ru/document.aspx?control=7&id=131096"
     kind: document
     required: true
     country_code: RU

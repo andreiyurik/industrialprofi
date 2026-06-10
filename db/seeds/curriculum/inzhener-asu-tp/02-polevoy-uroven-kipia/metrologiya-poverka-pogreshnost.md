@@ -4,7 +4,7 @@ position: 5
 kind: lesson
 resources:
   - title: "Федеральный закон от 26.06.2008 № 102-ФЗ «Об обеспечении единства измерений»"
-    url: "https://base.garant.ru/12161093/"
+    url: "https://www.consultant.ru/document/cons_doc_LAW_77904/"
     kind: document
     required: true
     country_code: RU

@@ -4,12 +4,12 @@ position: 1
 kind: lesson
 resources:
   - title: "ГОСТ Р МЭК 61511-1-2018 — Безопасность функциональная. Системы безопасности приборные для промышленных процессов. Часть 1"
-    url: "https://base.garant.ru/72244882/"
+    url: "https://meganorm.ru/Data/695/69577.pdf"
     kind: document
     required: true
     country_code: RU
   - title: "ГОСТ Р МЭК 61508-1-2012 — Функциональная безопасность систем электрических, электронных, программируемых электронных, связанных с безопасностью. Часть 1. Общие требования"
-    url: "https://base.garant.ru/71171726/"
+    url: "https://meganorm.ru/Data/545/54554.pdf"
     kind: document
     required: false
     country_code: RU

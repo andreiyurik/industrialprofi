@@ -4,17 +4,17 @@ position: 3
 kind: lesson
 resources:
   - title: "ГОСТ 34.602-2020 — Техническое задание на создание автоматизированной системы"
-    url: "https://base.garant.ru/403255670/"
+    url: "https://protect.gost.ru/document1.aspx?control=31&id=241754"
     kind: document
     required: true
     country_code: RU
   - title: "ГОСТ Р 59793-2021 — Комплекс стандартов на АС. Стадии создания автоматизированной системы (взамен ГОСТ 34.601-90)"
-    url: "https://base.garant.ru/404733099/"
+    url: "https://protect.gost.ru/document1.aspx?control=31&id=241692"
     kind: document
     required: true
     country_code: RU
   - title: "ГОСТ Р 59795-2021 — Требования к содержанию документов (взамен РД 50-34.698-90)"
-    url: "https://base.garant.ru/403358611/"
+    url: "https://protect.gost.ru/document1.aspx?control=31&id=241757"
     kind: document
     required: false
     country_code: RU
