@@ -1,6 +1,6 @@
 module MetaTagsHelper
   def meta_title(text)
-    full = "#{text} — IndustrialProfi"
+    full = "#{text} — industrialprofi.com"
     content_for(:title, full)
     content_for(:og_title, full)
   end

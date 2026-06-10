@@ -10,6 +10,7 @@ the way real craftsmen actually learn: by reading official standards
 
 [![CI](https://github.com/yurik2718/industrialprofi/actions/workflows/ci.yml/badge.svg)](https://github.com/yurik2718/industrialprofi/actions/workflows/ci.yml)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
+[![Content: CC BY-SA 4.0](https://img.shields.io/badge/Content-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE-CONTENT)
 [![Ruby 4.0](https://img.shields.io/badge/Ruby-4.0-CC342D.svg)](.ruby-version)
 [![Rails 8.1](https://img.shields.io/badge/Rails-8.1-D30001.svg)](Gemfile)
 
@@ -130,13 +131,18 @@ project keeps the freedom to sustain itself; details in `CONTRIBUTING.md`.
 
 ## License
 
-Licensed under the **GNU Affero General Public License v3.0** — see
-[LICENSE](LICENSE).
+IndustrialProfi is **dual-licensed**:
 
-In plain terms: you're free to use, study, share and modify the code. If you
-run a modified version as a network service, you must make your source
-available too. This keeps the platform open for everyone and protects it from
-being closed-sourced into a competing service.
+- **Code** — [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0).
+- **Content** — the curriculum and lessons are licensed under
+  [Creative Commons Attribution-ShareAlike 4.0](LICENSE-CONTENT) (CC BY-SA 4.0).
+
+In plain terms: you're free to use, study, share and modify the **code** — and
+if you run a modified version as a network service, you must make your source
+available too. The **learning content** you're free to share and adapt (even
+commercially), as long as you credit IndustrialProfi and keep it under the same
+license. Third-party standards (ГОСТ, ASME, НАКС…) are only linked or cited and
+remain their publishers' property.
 
 ## Acknowledgements
 

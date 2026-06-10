@@ -10,6 +10,7 @@
 
 [![CI](https://github.com/yurik2718/industrialprofi/actions/workflows/ci.yml/badge.svg)](https://github.com/yurik2718/industrialprofi/actions/workflows/ci.yml)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
+[![Content: CC BY-SA 4.0](https://img.shields.io/badge/Content-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE-CONTENT)
 [![Ruby 4.0](https://img.shields.io/badge/Ruby-4.0-CC342D.svg)](.ruby-version)
 [![Rails 8.1](https://img.shields.io/badge/Rails-8.1-D30001.svg)](Gemfile)
 
@@ -131,12 +132,18 @@ IndustrialProfi выходит фазами — см. [docs/MVP.md](docs/MVP.md)
 
 ## Лицензия
 
-Под **GNU Affero General Public License v3.0** — см. [LICENSE](LICENSE).
+Проект под **двойной лицензией**:
+
+- **Код** — [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0).
+- **Контент** — программа обучения и уроки под
+  [Creative Commons Attribution-ShareAlike 4.0](LICENSE-CONTENT) (CC BY-SA 4.0).
 
 Простыми словами: ты свободен использовать, изучать, распространять и изменять
-код. Если ты запускаешь изменённую версию как сетевой сервис — ты обязан тоже
-открыть свой исходный код. Это держит платформу открытой для всех и защищает её
-от превращения в закрытый конкурирующий сервис.
+**код** — а если запускаешь изменённую версию как сетевой сервис, обязан тоже
+открыть свой исходный код. **Учебный контент** ты можешь свободно распространять
+и адаптировать (в том числе коммерчески) — при условии указания авторства
+IndustrialProfi и сохранения той же лицензии. Сторонние стандарты (ГОСТ, ASME,
+НАКС…) мы только цитируем и на них ссылаемся — они принадлежат своим издателям.
 
 ## Благодарности
 
