@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 660" role="img" aria-label="Карта пути инженер АСУ ТП: 8 этапов снизу вверх — от основ и архитектуры до безопасности и аттестации, слева новичок, справа вверху уверенный специалист">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .top{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:13.5px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .num{font-size:15px;font-weight:800;fill:#3d9bff}
+    .stage{fill:#a1a1a1;font-size:11px;font-style:italic}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- уверенный специалист (вверху) -->
+  <text class="stage" x="544" y="24" text-anchor="end">уверенный специалист ↑</text>
+
+  <!-- Этап 8 -->
+  <rect class="top" x="150" y="32" width="300" height="50" rx="10"/>
+  <text class="num" x="170" y="63" text-anchor="middle">8</text>
+  <text class="ttl" x="300" y="55" text-anchor="middle">Безопасность и аттестация</text>
+  <text class="sub" x="300" y="72" text-anchor="middle">ПАЗ, кибербезопасность, допуски, карьера</text>
+
+  <!-- Этап 7 -->
+  <rect class="box" x="150" y="106" width="300" height="50" rx="10"/>
+  <text class="num" x="170" y="137" text-anchor="middle">7</text>
+  <text class="ttl" x="300" y="129" text-anchor="middle">Проектирование и ПНР</text>
+  <text class="sub" x="300" y="146" text-anchor="middle">документация, сборка шкафа, пусконаладка</text>
+
+  <!-- Этап 6 -->
+  <rect class="box" x="150" y="180" width="300" height="50" rx="10"/>
+  <text class="num" x="170" y="211" text-anchor="middle">6</text>
+  <text class="ttl" x="300" y="203" text-anchor="middle">SCADA</text>
+  <text class="sub" x="300" y="220" text-anchor="middle">теги, мнемосхемы, тренды, алармы</text>
+
+  <!-- Этап 5 -->
+  <rect class="box" x="150" y="254" width="300" height="50" rx="10"/>
+  <text class="num" x="170" y="285" text-anchor="middle">5</text>
+  <text class="ttl" x="300" y="277" text-anchor="middle">Промышленные сети</text>
+  <text class="sub" x="300" y="294" text-anchor="middle">RS-485, Modbus, Profinet, OPC UA</text>
+
+  <!-- Этап 4 -->
+  <rect class="box" x="150" y="328" width="300" height="50" rx="10"/>
+  <text class="num" x="170" y="359" text-anchor="middle">4</text>
+  <text class="ttl" x="300" y="351" text-anchor="middle">Регулирование</text>
+  <text class="sub" x="300" y="368" text-anchor="middle">обратная связь, ПИД, настройка контуров</text>
+
+  <!-- Этап 3 -->
+  <rect class="box" x="150" y="402" width="300" height="50" rx="10"/>
+  <text class="num" x="170" y="433" text-anchor="middle">3</text>
+  <text class="ttl" x="300" y="425" text-anchor="middle">Программирование ПЛК</text>
+  <text class="sub" x="300" y="442" text-anchor="middle">цикл сканирования, МЭК 61131-3, LD и ST</text>
+
+  <!-- Этап 2 -->
+  <rect class="box" x="150" y="476" width="300" height="50" rx="10"/>
+  <text class="num" x="170" y="507" text-anchor="middle">2</text>
+  <text class="ttl" x="300" y="499" text-anchor="middle">Полевой уровень (КИПиА)</text>
+  <text class="sub" x="300" y="516" text-anchor="middle">датчики, 4–20 мА, ИМ, метрология</text>
+
+  <!-- Этап 1 -->
+  <rect class="box" x="150" y="550" width="300" height="50" rx="10"/>
+  <text class="num" x="170" y="581" text-anchor="middle">1</text>
+  <text class="ttl" x="300" y="573" text-anchor="middle">Основы и архитектура</text>
+  <text class="sub" x="300" y="590" text-anchor="middle">уровни АСУ ТП, документация, схемы</text>
+
+  <!-- новичок (внизу) -->
+  <text class="stage" x="16" y="623">↓ новичок</text>
+
+  <!-- стрелки снизу вверх (в зазорах между этапами) -->
+  <path class="edge" d="M500 550 V526" marker-end="url(#ah)"/>
+  <path class="edge" d="M500 476 V452" marker-end="url(#ah)"/>
+  <path class="edge" d="M500 402 V378" marker-end="url(#ah)"/>
+  <path class="edge" d="M500 328 V304" marker-end="url(#ah)"/>
+  <path class="edge" d="M500 254 V230" marker-end="url(#ah)"/>
+  <path class="edge" d="M500 180 V156" marker-end="url(#ah)"/>
+  <path class="edge" d="M500 106 V82" marker-end="url(#ah)"/>
+</svg>

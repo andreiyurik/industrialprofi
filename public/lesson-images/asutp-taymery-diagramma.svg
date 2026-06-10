@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" role="img" aria-label="Временная диаграмма таймеров TON, TOF и TP по МЭК 61131-3. Сверху общий вход IN. Ниже выходы Q: TON поднимается через время PT после фронта входа, TOF держится PT после спада входа, TP выдаёт импульс длиной PT.">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .lbl{font-size:13px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .pt{fill:#3d9bff;font-size:11px;font-weight:600}
+    .axis{stroke:#2e2e2e;stroke-width:1}
+    .sig{stroke:#ededed;stroke-width:2;fill:none}
+    .out{stroke:#3d9bff;stroke-width:2.25;fill:none}
+    .guide{stroke:#3d9bff;stroke-width:1;stroke-dasharray:3 3;fill:none}
+    .dim{stroke:#3d9bff;stroke-width:1;fill:none}
+  </style>
+  <defs>
+    <marker id="dl" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0 L0 5 L10 10 z" fill="#3d9bff"/></marker>
+    <marker id="dr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#3d9bff"/></marker>
+  </defs>
+
+  <!-- input rises at x=190, falls at x=470 -->
+
+  <!-- IN row -->
+  <text class="lbl" x="14" y="42">IN</text>
+  <text class="sub" x="14" y="58">вход</text>
+  <line class="axis" x1="150" y1="70" x2="700" y2="70"/>
+  <path class="sig" d="M150 60 H190 V20 H470 V60 H700"/>
+  <text class="sub" x="232" y="14">сигнал на входе</text>
+
+  <!-- guide lines for input edges -->
+  <line class="guide" x1="190" y1="20" x2="190" y2="420"/>
+  <line class="guide" x1="470" y1="20" x2="470" y2="420"/>
+
+  <!-- TON row: rises PT after input rise (PT spans 190->270), falls with input -->
+  <text class="lbl" x="14" y="142">TON Q</text>
+  <text class="sub" x="14" y="158">задержка ВКЛ</text>
+  <line class="axis" x1="150" y1="170" x2="700" y2="170"/>
+  <path class="out" d="M150 160 H270 V120 H470 V160 H700"/>
+  <line class="guide" x1="270" y1="120" x2="270" y2="170"/>
+  <line class="dim" x1="190" y1="135" x2="270" y2="135" marker-start="url(#dl)" marker-end="url(#dr)"/>
+  <text class="pt" x="230" y="131" text-anchor="middle">PT</text>
+
+  <!-- TOF row: rises with input, falls PT after input fall (470->550) -->
+  <text class="lbl" x="14" y="242">TOF Q</text>
+  <text class="sub" x="14" y="258">задержка ВЫКЛ</text>
+  <line class="axis" x1="150" y1="270" x2="700" y2="270"/>
+  <path class="out" d="M150 260 H190 V220 H550 V260 H700"/>
+  <line class="guide" x1="550" y1="220" x2="550" y2="270"/>
+  <line class="dim" x1="470" y1="235" x2="550" y2="235" marker-start="url(#dl)" marker-end="url(#dr)"/>
+  <text class="pt" x="510" y="231" text-anchor="middle">PT</text>
+
+  <!-- TP row: rises with input, pulse of length PT (190->270), independent of input fall -->
+  <text class="lbl" x="14" y="342">TP Q</text>
+  <text class="sub" x="14" y="358">импульс PT</text>
+  <line class="axis" x1="150" y1="370" x2="700" y2="370"/>
+  <path class="out" d="M150 360 H190 V320 H270 V360 H700"/>
+  <line class="guide" x1="270" y1="320" x2="270" y2="370"/>
+  <line class="dim" x1="190" y1="335" x2="270" y2="335" marker-start="url(#dl)" marker-end="url(#dr)"/>
+  <text class="pt" x="230" y="331" text-anchor="middle">PT</text>
+
+  <!-- time axis -->
+  <text class="sub" x="690" y="410" text-anchor="end">время t →</text>
+  <text class="pt" x="190" y="410" text-anchor="middle">фронт ↑</text>
+  <text class="pt" x="470" y="410" text-anchor="middle">спад ↓</text>
+</svg>

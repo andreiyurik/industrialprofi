@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" role="img" aria-label="Сравнение термопары и термосопротивления Pt100: принципы, подключение и диапазоны измерения">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .wire{stroke:#a1a1a1;stroke-width:2;fill:none}
+    .blue{stroke:#3d9bff;stroke-width:2;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .lbl{font-size:12px;font-weight:600}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .hl{fill:#3d9bff;font-size:11px;font-weight:600}
+    .div{stroke:#2e2e2e;stroke-width:1.5}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- left panel: thermocouple -->
+  <text class="ttl" x="200" y="28" text-anchor="middle">Термопара (ТП)</text>
+  <text class="sub" x="200" y="46" text-anchor="middle">два разнородных металла</text>
+
+  <!-- two dissimilar wires to a hot junction -->
+  <path class="wire" d="M150 70 L240 110" stroke="#ededed"/>
+  <path class="wire" d="M150 150 L240 110" stroke="#a1a1a1"/>
+  <circle cx="240" cy="110" r="7" fill="#f25a4e" stroke="#241110" stroke-width="1.5"/>
+  <text class="sub" x="258" y="114">горячий спай</text>
+  <text class="lbl" x="130" y="74" text-anchor="end">металл A</text>
+  <text class="lbl" x="130" y="154" text-anchor="end">металл B</text>
+
+  <!-- mV box -->
+  <rect class="box" x="60" y="92" width="60" height="36" rx="8"/>
+  <text class="lbl" x="90" y="115" text-anchor="middle">мВ</text>
+
+  <text class="hl" x="200" y="178" text-anchor="middle">генерирует мВ — питание не нужно</text>
+  <text class="hl" x="200" y="196" text-anchor="middle">нужна компенсация холодного спая</text>
+
+  <!-- divider -->
+  <line class="div" x1="430" y1="20" x2="430" y2="300"/>
+
+  <!-- right panel: RTD Pt100 -->
+  <text class="ttl" x="650" y="28" text-anchor="middle">Термосопротивление Pt100 (ТС)</text>
+  <text class="sub" x="650" y="46" text-anchor="middle">платина, 100 Ом при 0 °C</text>
+
+  <!-- sensing element -->
+  <rect class="dec" x="560" y="84" width="80" height="48" rx="8"/>
+  <text class="lbl" x="600" y="106" text-anchor="middle">Pt100</text>
+  <text class="sub" x="600" y="123" text-anchor="middle">R растёт с T</text>
+
+  <!-- three wires to meter -->
+  <rect class="box" x="720" y="80" width="80" height="56" rx="8"/>
+  <text class="lbl" x="760" y="104" text-anchor="middle">Измери-</text>
+  <text class="lbl" x="760" y="120" text-anchor="middle">тель</text>
+
+  <path class="wire" d="M640 96 H720"/>
+  <path class="blue" d="M640 108 H720"/>
+  <path class="wire" d="M640 120 H720"/>
+  <text class="hl" x="680" y="142" text-anchor="middle">3-й провод</text>
+
+  <text class="hl" x="650" y="178" text-anchor="middle">меняет сопротивление (Ом)</text>
+  <text class="hl" x="650" y="196" text-anchor="middle">3 провода компенсируют сопротивление линии</text>
+
+  <!-- bottom: range scale -->
+  <text class="lbl" x="430" y="250" text-anchor="middle">Диапазоны измерения</text>
+
+  <!-- axis -->
+  <line class="edge" x1="80" y1="360" x2="800" y2="360" marker-end="url(#ah)"/>
+  <!-- ticks: -200 at x=120, 0 at x=200, 850 at x=520, 1800 at x=780 -->
+  <line class="div" x1="120" y1="354" x2="120" y2="366"/>
+  <line class="div" x1="200" y1="354" x2="200" y2="366"/>
+  <line class="div" x1="520" y1="354" x2="520" y2="366"/>
+  <line class="div" x1="780" y1="354" x2="780" y2="366"/>
+  <text class="sub" x="120" y="382" text-anchor="middle">−200</text>
+  <text class="sub" x="200" y="382" text-anchor="middle">0</text>
+  <text class="sub" x="520" y="382" text-anchor="middle">+850</text>
+  <text class="sub" x="780" y="382" text-anchor="middle">+1800</text>
+  <text class="sub" x="808" y="364">°C</text>
+
+  <!-- TS range bar -->
+  <rect class="dec" x="120" y="300" width="400" height="22" rx="6"/>
+  <text class="lbl" x="320" y="316" text-anchor="middle">ТС (Pt100): −200…+850 °C</text>
+
+  <!-- TP range bar -->
+  <rect class="box" x="200" y="328" width="580" height="22" rx="6" stroke="#f25a4e"/>
+  <text class="lbl" x="490" y="344" text-anchor="middle">ТП: до +1800 °C</text>
+
+  <!-- footnote -->
+  <text class="sub" x="430" y="420" text-anchor="middle">ТС — точнее и стабильнее в технологическом диапазоне; ТП — шире, для печей и котлов.</text>
+</svg>

@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" role="img" aria-label="Компоновка квартирного щита: ввод, учёт, противопожарное УЗО, групповые автоматы, отдельные шины N и PE">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .rail{fill:#1c1c1c;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .nbus{fill:#11161c;stroke:#3d9bff;stroke-width:2}
+    .pebus{fill:#13180e;stroke:#34c759;stroke-width:2}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .lbl{font-size:12px;font-weight:600}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .tiny{fill:#a1a1a1;font-size:10px}
+    .nlbl{fill:#3d9bff;font-size:11px;font-weight:700}
+    .pelbl{fill:#34c759;font-size:11px;font-weight:700}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- ток течёт сверху вниз -->
+  <text class="sub" x="20" y="30">Ток течёт сверху вниз →</text>
+  <path class="edge" d="M30 40 V430" marker-end="url(#ah)"/>
+
+  <!-- 1. Ввод -->
+  <rect class="rail" x="70" y="40" width="430" height="58" rx="8"/>
+  <rect class="dec" x="86" y="52" width="150" height="34" rx="6"/>
+  <text class="lbl" x="161" y="68" text-anchor="middle">Вводной автомат</text>
+  <text class="tiny" x="161" y="82" text-anchor="middle">2P, отключает весь щит</text>
+  <rect class="box" x="300" y="52" width="186" height="34" rx="6"/>
+  <text class="lbl" x="393" y="68" text-anchor="middle">Счётчик (учёт)</text>
+  <text class="tiny" x="393" y="82" text-anchor="middle">пломба энергосбыта</text>
+  <text class="sub" x="60" y="74" text-anchor="end">1</text>
+  <text class="ttl" x="555" y="58">Ввод и учёт</text>
+  <text class="sub" x="555" y="74">DIN-рейка 1</text>
+
+  <path class="edge" d="M161 98 V120" marker-end="url(#ah)"/>
+
+  <!-- 2. Общая защита: УЗО -->
+  <rect class="rail" x="70" y="122" width="430" height="52" rx="8"/>
+  <rect class="dec" x="86" y="132" width="220" height="32" rx="6"/>
+  <text class="lbl" x="196" y="147" text-anchor="middle">Противопожарное УЗО</text>
+  <text class="tiny" x="196" y="161" text-anchor="middle">100–300 мА, на весь объект</text>
+  <text class="sub" x="60" y="151" text-anchor="end">2</text>
+  <text class="ttl" x="555" y="140">Общая защита</text>
+  <text class="sub" x="555" y="156">DIN-рейка 2</text>
+
+  <path class="edge" d="M196 174 V196" marker-end="url(#ah)"/>
+
+  <!-- 3. Групповые автоматы -->
+  <rect class="rail" x="70" y="198" width="430" height="120" rx="8"/>
+  <text class="sub" x="60" y="262" text-anchor="end">3</text>
+  <text class="ttl" x="555" y="216">Группы</text>
+  <text class="sub" x="555" y="232">DIN-рейка 3</text>
+  <text class="sub" x="555" y="246">автоматы и</text>
+  <text class="sub" x="555" y="260">дифавтоматы</text>
+
+  <!-- group breakers -->
+  <rect class="box" x="86" y="214" width="94" height="40" rx="6"/>
+  <text class="lbl" x="133" y="232" text-anchor="middle">Автомат</text>
+  <text class="tiny" x="133" y="246" text-anchor="middle">Освещение</text>
+
+  <rect class="box" x="190" y="214" width="94" height="40" rx="6"/>
+  <text class="lbl" x="237" y="232" text-anchor="middle">Автомат</text>
+  <text class="tiny" x="237" y="246" text-anchor="middle">Розетки</text>
+
+  <rect class="dec" x="294" y="214" width="94" height="40" rx="6"/>
+  <text class="lbl" x="341" y="232" text-anchor="middle">Дифавтомат</text>
+  <text class="tiny" x="341" y="246" text-anchor="middle">Влажная зона</text>
+
+  <rect class="box" x="398" y="214" width="88" height="40" rx="6"/>
+  <text class="lbl" x="442" y="232" text-anchor="middle">Автомат</text>
+  <text class="tiny" x="442" y="246" text-anchor="middle">Мощный</text>
+
+  <text class="sub" x="286" y="300" text-anchor="middle">Каждый автомат подписан, сечение кабеля ≥ номинала</text>
+
+  <!-- Buses on the right -->
+  <!-- N bus -->
+  <rect class="nbus" x="640" y="290" width="100" height="130" rx="8"/>
+  <text class="nlbl" x="690" y="312" text-anchor="middle">N-шина</text>
+  <text class="tiny" x="690" y="328" text-anchor="middle">синий</text>
+  <text class="tiny" x="690" y="345" text-anchor="middle">нулевая</text>
+  <text class="tiny" x="690" y="360" text-anchor="middle">один винт —</text>
+  <text class="tiny" x="690" y="373" text-anchor="middle">один провод</text>
+  <circle cx="660" cy="395" r="4" fill="#3d9bff"/>
+  <circle cx="678" cy="395" r="4" fill="#3d9bff"/>
+  <circle cx="696" cy="395" r="4" fill="#3d9bff"/>
+  <circle cx="714" cy="395" r="4" fill="#3d9bff"/>
+
+  <!-- PE bus -->
+  <rect class="pebus" x="640" y="40" width="100" height="130" rx="8"/>
+  <text class="pelbl" x="690" y="62" text-anchor="middle">PE-шина</text>
+  <text class="tiny" x="690" y="78" text-anchor="middle">жёлто-зелёный</text>
+  <text class="tiny" x="690" y="95" text-anchor="middle">защитная</text>
+  <text class="tiny" x="690" y="110" text-anchor="middle">земля корпусов</text>
+  <circle cx="660" cy="135" r="4" fill="#34c759"/>
+  <circle cx="678" cy="135" r="4" fill="#34c759"/>
+  <circle cx="696" cy="135" r="4" fill="#34c759"/>
+  <circle cx="714" cy="135" r="4" fill="#34c759"/>
+
+  <!-- N and PE separated note -->
+  <text class="sub" x="690" y="200" text-anchor="middle">TN-C-S: PEN</text>
+  <text class="sub" x="690" y="216" text-anchor="middle">делится здесь</text>
+  <text class="danger" x="690" y="234" text-anchor="middle" style="fill:#f25a4e;font-size:11px;font-weight:700">N и PE — раздельно</text>
+  <text class="tiny" x="690" y="250" text-anchor="middle">обратно не соединять</text>
+
+  <!-- connections to buses -->
+  <path class="edge" d="M500 244 H560 V395 H636"/>
+  <path class="edge" d="M560 395 V110 H636"/>
+  <text class="nlbl" x="585" y="390">N</text>
+  <text class="pelbl" x="585" y="124">PE</text>
+</svg>

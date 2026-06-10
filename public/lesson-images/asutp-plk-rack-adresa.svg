@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" role="img" aria-label="Корзина ПЛК: блок питания, CPU и модули DI, DO, AI, AO в слотах с адресами каналов; путь сигнала 4-20 мА от датчика через канал модуля к адресу, переменной и тегу SCADA">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .sig{stroke:#3d9bff;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .mod{font-size:13px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .addr{fill:#3d9bff;font-size:10.5px}
+    .slot{fill:#a1a1a1;font-size:10px}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+    <marker id="ahb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3d9bff"/></marker>
+  </defs>
+
+  <text class="ttl" x="20" y="26">Корзина (рейка) ПЛК — вид спереди</text>
+
+  <!-- rail backplate -->
+  <rect class="box" x="18" y="40" width="844" height="150" rx="10"/>
+
+  <!-- PSU -->
+  <rect class="box" x="34" y="56" width="84" height="118" rx="8"/>
+  <text class="slot" x="76" y="74" text-anchor="middle">PS</text>
+  <text class="mod" x="76" y="118" text-anchor="middle">Блок</text>
+  <text class="mod" x="76" y="134" text-anchor="middle">питания</text>
+
+  <!-- CPU -->
+  <rect class="box" x="126" y="56" width="84" height="118" rx="8"/>
+  <text class="slot" x="168" y="74" text-anchor="middle">CPU</text>
+  <text class="mod" x="168" y="126" text-anchor="middle">Процессор</text>
+
+  <!-- DI slot 1 -->
+  <rect class="box" x="218" y="56" width="148" height="118" rx="8"/>
+  <text class="slot" x="292" y="74" text-anchor="middle">Слот 1</text>
+  <text class="mod" x="292" y="92" text-anchor="middle">DI · дискр. вход</text>
+  <text class="addr" x="292" y="116" text-anchor="middle">%I0.0  %I0.1  %I0.2</text>
+  <text class="addr" x="292" y="134" text-anchor="middle">%I0.3 … %I0.7</text>
+
+  <!-- DO slot 2 -->
+  <rect class="box" x="374" y="56" width="148" height="118" rx="8"/>
+  <text class="slot" x="448" y="74" text-anchor="middle">Слот 2</text>
+  <text class="mod" x="448" y="92" text-anchor="middle">DO · дискр. выход</text>
+  <text class="addr" x="448" y="116" text-anchor="middle">%Q0.0  %Q0.1  %Q0.2</text>
+  <text class="addr" x="448" y="134" text-anchor="middle">%Q0.3 … %Q0.7</text>
+
+  <!-- AI slot 3 (highlighted) -->
+  <rect class="dec" x="530" y="56" width="148" height="118" rx="8"/>
+  <text class="slot" x="604" y="74" text-anchor="middle">Слот 3</text>
+  <text class="mod" x="604" y="92" text-anchor="middle">AI · аналог. вход</text>
+  <text class="addr" x="604" y="116" text-anchor="middle">%IW32  %IW34</text>
+  <text class="addr" x="604" y="134" text-anchor="middle">%IW36  %IW38</text>
+  <text class="sub" x="604" y="156" text-anchor="middle">канал 2 → %IW34</text>
+
+  <!-- AO slot 4 -->
+  <rect class="box" x="686" y="56" width="160" height="118" rx="8"/>
+  <text class="slot" x="766" y="74" text-anchor="middle">Слот 4</text>
+  <text class="mod" x="766" y="92" text-anchor="middle">AO · аналог. выход</text>
+  <text class="addr" x="766" y="116" text-anchor="middle">%QW48  %QW50</text>
+  <text class="addr" x="766" y="134" text-anchor="middle">%QW52  %QW54</text>
+
+  <!-- field sensor -->
+  <rect class="box" x="530" y="236" width="148" height="58" rx="8"/>
+  <text class="mod" x="604" y="262" text-anchor="middle">Датчик уровня</text>
+  <text class="sub" x="604" y="280" text-anchor="middle">4–20 мА (по петле 24 В)</text>
+
+  <!-- signal arrow sensor -> AI channel 2 -->
+  <path class="sig" d="M604 236 V178" marker-end="url(#ahb)"/>
+  <text class="addr" x="616" y="212">4–20 мА → канал 2</text>
+
+  <!-- signal chain (vynoska) -->
+  <text class="ttl" x="20" y="262">Путь сигнала «в железе»</text>
+
+  <rect class="box" x="20" y="280" width="120" height="46" rx="8"/>
+  <text class="sub" x="80" y="300" text-anchor="middle">клемма →</text>
+  <text class="sub" x="80" y="316" text-anchor="middle">канал модуля</text>
+
+  <path class="edge" d="M140 303 H168" marker-end="url(#ah)"/>
+  <rect class="dec" x="168" y="280" width="120" height="46" rx="8"/>
+  <text class="addr" x="228" y="300" text-anchor="middle">адрес</text>
+  <text class="addr" x="228" y="316" text-anchor="middle">%IW34</text>
+
+  <path class="edge" d="M288 303 H316" marker-end="url(#ah)"/>
+  <rect class="box" x="316" y="280" width="140" height="46" rx="8"/>
+  <text class="sub" x="386" y="300" text-anchor="middle">переменная</text>
+  <text class="sub" x="386" y="316" text-anchor="middle">level_raw</text>
+
+  <path class="edge" d="M456 303 H484" marker-end="url(#ah)"/>
+  <rect class="box" x="484" y="280" width="140" height="46" rx="8"/>
+  <text class="sub" x="554" y="300" text-anchor="middle">тег SCADA</text>
+  <text class="sub" x="554" y="316" text-anchor="middle">LT-101</text>
+
+  <text class="sub" x="20" y="372">Каждый канал модуля имеет свой адрес — он связывает физику (провод в шкафу) с числом в программе.</text>
+</svg>

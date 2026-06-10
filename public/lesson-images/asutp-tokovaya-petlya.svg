@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 360" role="img" aria-label="Двухпроводная токовая петля 4-20 мА: источник 24 В, последовательно датчик-передатчик, длинный кабель и аналоговый вход ПЛК с резистором 250 Ом. Ток одинаков во всех точках петли: 4 мА = 0%, 20 мА = 100%, обрыв = 0 мА.">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .loop{stroke:#3d9bff;stroke-width:2.5;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .lbl{font-size:11px;fill:#a1a1a1}
+    .cur{font-size:12px;font-weight:700;fill:#3d9bff}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+    <marker id="ahb" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3d9bff"/></marker>
+  </defs>
+
+  <!-- Power supply 24 V -->
+  <rect class="box" x="40" y="120" width="120" height="70" rx="10"/>
+  <text class="ttl" x="100" y="150" text-anchor="middle">Питание</text>
+  <text class="cur" x="100" y="172" text-anchor="middle" fill="#ededed">= 24 В</text>
+
+  <!-- Transmitter / sensor -->
+  <rect class="dec" x="270" y="116" width="150" height="78" rx="10"/>
+  <text class="ttl" x="345" y="146" text-anchor="middle">Датчик-</text>
+  <text class="ttl" x="345" y="164" text-anchor="middle">передатчик</text>
+  <text class="sub" x="345" y="184" text-anchor="middle">2 провода</text>
+
+  <!-- PLC analog input + 250 ohm -->
+  <rect class="box" x="640" y="116" width="180" height="78" rx="10"/>
+  <text class="ttl" x="730" y="144" text-anchor="middle">Аналоговый</text>
+  <text class="ttl" x="730" y="162" text-anchor="middle">вход ПЛК (AI)</text>
+  <text class="sub" x="730" y="183" text-anchor="middle">резистор 250 Ом</text>
+
+  <!-- Loop wiring: top wire (+) -->
+  <path class="loop" d="M100 120 V70 H730 V116"/>
+  <!-- bottom path: PS to transmitter (- supply) -->
+  <path class="loop" d="M160 155 H270"/>
+  <!-- transmitter to PLC (long cable, signal) -->
+  <path class="loop" d="M420 155 H640"/>
+
+  <!-- current-direction arrows along the loop -->
+  <path class="loop" d="M340 70 H346" marker-end="url(#ahb)"/>
+  <path class="loop" d="M210 155 H216" marker-end="url(#ahb)"/>
+  <path class="loop" d="M520 155 H526" marker-end="url(#ahb)"/>
+
+  <!-- long cable bracket -->
+  <path class="edge" d="M420 218 H640"/>
+  <path class="edge" d="M420 213 V223"/>
+  <path class="edge" d="M640 213 V223"/>
+  <text class="lbl" x="530" y="240" text-anchor="middle">длинный кабель</text>
+
+  <!-- "I одинаков" callouts -->
+  <text class="cur" x="205" y="105" text-anchor="middle">I</text>
+  <text class="cur" x="450" y="105" text-anchor="middle">I</text>
+  <text class="cur" x="600" y="105" text-anchor="middle">I</text>
+  <text class="lbl" x="345" y="56" text-anchor="middle">ток одинаков во всех точках петли</text>
+
+  <!-- scale legend -->
+  <line x1="40" y1="278" x2="40" y2="278" stroke="none"/>
+  <circle cx="60" cy="284" r="5" fill="#3d9bff"/>
+  <text class="lbl" x="74" y="288" text-anchor="start" fill="#ededed" font-weight="700">4 мА = 0%</text>
+  <text class="lbl" x="74" y="288" text-anchor="start" transform="translate(110,0)">начало диапазона</text>
+
+  <circle cx="60" cy="308" r="5" fill="#3d9bff"/>
+  <text class="lbl" x="74" y="312" text-anchor="start" fill="#ededed" font-weight="700">20 мА = 100%</text>
+  <text class="lbl" x="74" y="312" text-anchor="start" transform="translate(122,0)">конец диапазона</text>
+
+  <circle cx="60" cy="332" r="5" fill="#f25a4e"/>
+  <text class="lbl" x="74" y="336" text-anchor="start" fill="#ededed" font-weight="700">0 мА = обрыв</text>
+  <text class="lbl" x="74" y="336" text-anchor="start" transform="translate(118,0)">или дохлый датчик (авария)</text>
+
+  <!-- caption -->
+  <text class="sub" x="640" y="312" text-anchor="middle" font-size="12">Питание и сигнал — в одной паре проводов.</text>
+  <text class="sub" x="640" y="332" text-anchor="middle">Датчик задаёт ток; сигнал не «худеет» на длинной линии.</text>
+</svg>

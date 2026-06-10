@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 360" role="img" aria-label="Аналогия вода в трубе: бак с водой на высоте — напряжение, сужение трубы с краном — сопротивление, поток через колесо — ток; рядом эквивалентная электрическая цепь: источник, резистор, замкнутый контур со стрелкой тока">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .pipe{stroke:#2e2e2e;stroke-width:2;fill:none}
+    .water{stroke:#3d9bff;stroke-width:2.5;fill:none}
+    .wirefill{fill:#161616;stroke:#a1a1a1;stroke-width:1.75}
+    .wire{stroke:#a1a1a1;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .lbl{font-size:12px;font-weight:600}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .accent{fill:#3d9bff;font-size:11px;font-weight:600}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3d9bff"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#a1a1a1"/></marker>
+  </defs>
+
+  <!-- ===== LEFT: water analogy ===== -->
+  <text class="ttl" x="210" y="24" text-anchor="middle">Водопровод (аналогия)</text>
+
+  <!-- water tank on a stand (давление = напряжение) -->
+  <rect class="box" x="40" y="44" width="120" height="70" rx="8"/>
+  <path class="water" d="M48 70 H152" stroke-dasharray="6 5"/>
+  <path class="water" d="M48 82 H152" stroke-dasharray="6 5" opacity="0.7"/>
+  <text class="lbl" x="100" y="100" text-anchor="middle">Бак</text>
+  <!-- stand showing height -->
+  <path class="pipe" d="M55 114 V250 M145 114 V200"/>
+  <text class="accent" x="100" y="138" text-anchor="middle">высота = давление</text>
+  <text class="lbl" x="100" y="156" text-anchor="middle">Напряжение U</text>
+
+  <!-- outlet pipe down then right -->
+  <path class="pipe" d="M100 114 V200 H230"/>
+  <!-- narrowing (сопротивление) -->
+  <path class="pipe" d="M230 188 L262 196 L230 196 Z"/>
+  <path class="pipe" d="M230 212 L262 204 L230 204 Z"/>
+  <path class="pipe" d="M262 196 H300"/>
+  <path class="pipe" d="M262 204 H300"/>
+  <text class="lbl" x="246" y="234" text-anchor="middle">сужение + кран</text>
+  <text class="lbl" x="246" y="250" text-anchor="middle">Сопротивление R</text>
+
+  <!-- water wheel (поток = ток) -->
+  <circle class="dec" cx="340" cy="200" r="30"/>
+  <path class="water" d="M340 172 V228 M312 200 H368 M321 181 L359 219 M359 181 L321 219"/>
+  <path class="water" d="M300 200 H310" marker-end="url(#ah)"/>
+  <text class="accent" x="340" y="246" text-anchor="middle">поток = ток I</text>
+  <text class="lbl" x="340" y="262" text-anchor="middle">колесо (нагрузка)</text>
+
+  <!-- return pipe back to tank base (замкнутый контур) -->
+  <path class="pipe" d="M370 200 H390 V310 H55 V250"/>
+  <path class="water" d="M205 310 H140" marker-end="url(#ah)"/>
+  <text class="sub" x="220" y="328" text-anchor="middle">замкнутый контур — вода течёт по кругу</text>
+
+  <!-- divider -->
+  <path class="pipe" d="M430 40 V330" stroke-dasharray="4 6"/>
+
+  <!-- ===== RIGHT: electrical circuit ===== -->
+  <text class="ttl" x="660" y="24" text-anchor="middle">Электрическая цепь</text>
+
+  <!-- circuit rectangle -->
+  <!-- left side: source (battery symbol) -->
+  <!-- top wire -->
+  <path class="wire" d="M520 90 H660"/>
+  <path class="wire" d="M660 90 H800"/>
+  <!-- right wire down -->
+  <path class="wire" d="M800 90 V270"/>
+  <!-- bottom wire -->
+  <path class="wire" d="M800 270 H520"/>
+  <!-- left wire up to source -->
+  <path class="wire" d="M520 270 V200"/>
+  <path class="wire" d="M520 160 V90"/>
+
+  <!-- source (источник напряжения) battery -->
+  <path class="wire" d="M500 160 H540"/>
+  <path class="wire" d="M508 172 H532"/>
+  <path class="wire" d="M500 184 H540"/>
+  <path class="wire" d="M512 196 H528"/>
+  <text class="lbl" x="476" y="166" text-anchor="middle" transform="rotate(-90 476 178)">Источник U</text>
+
+  <!-- resistor (сопротивление R) on top wire -->
+  <rect class="dec" x="615" y="78" width="90" height="24" rx="6"/>
+  <text class="lbl" x="660" y="71" text-anchor="middle">Резистор R</text>
+  <text class="sub" x="660" y="118" text-anchor="middle">нагрузка</text>
+
+  <!-- current arrows (ток I) -->
+  <path class="wire" d="M560 90 H590" marker-end="url(#ag)" stroke="#3d9bff"/>
+  <path class="wire" d="M770 90 H740" marker-end="url(#ag)" stroke="#3d9bff" transform="rotate(180 755 90)"/>
+  <path class="wire" d="M800 200 V230" marker-end="url(#ag)" stroke="#3d9bff"/>
+  <text class="accent" x="815" y="218" text-anchor="start">I</text>
+  <path class="wire" d="M700 270 H670" marker-end="url(#ag)" stroke="#3d9bff"/>
+  <text class="accent" x="685" y="290" text-anchor="middle">ток I — по замкнутому контуру</text>
+
+  <!-- U = I x R -->
+  <text class="accent" x="660" y="332" text-anchor="middle">U = I &#215; R</text>
+</svg>

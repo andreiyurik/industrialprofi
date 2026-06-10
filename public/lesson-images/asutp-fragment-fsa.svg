@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 470" role="img" aria-label="Фрагмент ФСА узла ёмкости: датчик уровня LE на ёмкости, регулятор LIC в рамке щита, регулирующий клапан на притоке, датчики температуры TE и давления PT на трубе">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .pipe{fill:none;stroke:#7d7d7d;stroke-width:6}
+    .inst{fill:#161616;stroke:#ededed;stroke-width:1.75}
+    .sig{stroke:#7d7d7d;stroke-width:1.5;fill:none}
+    .sigd{stroke:#3d9bff;stroke-width:1.75;fill:none}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .tag{font-size:13px;font-weight:700;text-anchor:middle}
+    .pos{font-size:11px;fill:#a1a1a1;text-anchor:middle}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .lbl{font-size:11px;fill:#a1a1a1;text-anchor:middle}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+    <marker id="ahb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3d9bff"/></marker>
+  </defs>
+
+  <text class="ttl" x="20" y="28">Фрагмент ФСА: узел ёмкости</text>
+
+  <!-- inlet pipe (top), into vessel -->
+  <path class="pipe" d="M40 150 H120"/>
+  <path class="pipe" d="M150 150 H240"/>
+  <text class="lbl" x="60" y="138">приток</text>
+
+  <!-- control valve on inlet -->
+  <path d="M120 150 L150 134 L150 166 Z" fill="#161616" stroke="#ededed" stroke-width="1.75"/>
+  <path d="M150 150 L120 134 L120 166 Z" fill="#161616" stroke="#ededed" stroke-width="1.75"/>
+  <!-- valve actuator -->
+  <path class="inst" d="M127 134 q8 -14 16 0 Z"/>
+  <text class="lbl" x="135" y="118">клапан</text>
+
+  <!-- vessel: horizontal cylinder -->
+  <rect class="box" x="240" y="120" width="240" height="110" rx="55"/>
+  <!-- liquid level -->
+  <path d="M250 188 q110 14 220 0 v32 q-110 14 -220 0 Z" fill="#11161c" stroke="none" opacity="0.9"/>
+  <line x1="250" y1="188" x2="470" y2="188" stroke="#3d9bff" stroke-width="1.4"/>
+  <text class="lbl" x="360" y="150">ёмкость (жидкость)</text>
+
+  <!-- LE level element on vessel -->
+  <line class="sig" x1="360" y1="120" x2="360" y2="86"/>
+  <circle class="inst" cx="360" cy="68" r="22"/>
+  <line x1="338" y1="68" x2="382" y2="68" stroke="#ededed" stroke-width="1"/>
+  <text class="tag" x="360" y="64">LE</text>
+  <text class="pos" x="360" y="82">3-1</text>
+
+  <!-- TE temperature on vessel/pipe right -->
+  <path class="pipe" d="M480 175 H560"/>
+  <line class="sig" x1="520" y1="175" x2="520" y2="120"/>
+  <circle class="inst" cx="520" cy="98" r="22"/>
+  <line x1="498" y1="98" x2="542" y2="98" stroke="#ededed" stroke-width="1"/>
+  <text class="tag" x="520" y="94">TE</text>
+  <text class="pos" x="520" y="112">1-1</text>
+
+  <!-- PT pressure further right -->
+  <line class="sig" x1="600" y1="175" x2="600" y2="120"/>
+  <path class="pipe" d="M560 175 H640"/>
+  <circle class="inst" cx="600" cy="98" r="22"/>
+  <line x1="578" y1="98" x2="622" y2="98" stroke="#ededed" stroke-width="1"/>
+  <text class="tag" x="600" y="94">PT</text>
+  <text class="pos" x="600" y="112">2-1</text>
+  <text class="lbl" x="640" y="138">отбор</text>
+
+  <!-- panel frame (щит) at bottom -->
+  <rect x="40" y="320" width="740" height="120" rx="4" fill="none" stroke="#2e2e2e" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text class="sub" x="52" y="340">Щит / АРМ оператора</text>
+
+  <!-- LIC controller in panel -->
+  <circle class="dec" cx="360" cy="385" r="24"/>
+  <line x1="336" y1="385" x2="384" y2="385" stroke="#3d9bff" stroke-width="1"/>
+  <text class="tag" x="360" y="381" fill="#3d9bff">LIC</text>
+  <text class="pos" x="360" y="400">3-2</text>
+
+  <!-- signal LE -> LIC (level PV) -->
+  <path class="sigd" d="M360 90 V300 q0 18 0 30 V361" marker-end="url(#ahb)"/>
+  <text class="lbl" x="394" y="240" text-anchor="start" fill="#3d9bff">ПВ (уровень)</text>
+
+  <!-- command LIC -> valve -->
+  <path class="sigd" d="M336 385 H160 q-25 0 -25 -25 V170" marker-end="url(#ahb)"/>
+  <text class="lbl" x="200" y="375" text-anchor="start" fill="#3d9bff">упр. клапаном</text>
+
+  <!-- TE and PT signals to panel (to indicators, simplified) -->
+  <path class="sig" d="M520 120 V320" marker-end="url(#ah)"/>
+  <path class="sig" d="M600 120 V320" marker-end="url(#ah)"/>
+  <circle class="inst" cx="520" cy="385" r="22"/>
+  <line x1="498" y1="385" x2="542" y2="385" stroke="#ededed" stroke-width="1"/>
+  <text class="tag" x="520" y="381">TI</text>
+  <text class="pos" x="520" y="399">1-2</text>
+  <circle class="inst" cx="600" cy="385" r="22"/>
+  <line x1="578" y1="385" x2="622" y2="385" stroke="#ededed" stroke-width="1"/>
+  <text class="tag" x="600" y="381">PI</text>
+  <text class="pos" x="600" y="399">2-2</text>
+
+  <!-- callout: circle anatomy -->
+  <line class="sig" x1="382" y1="58" x2="700" y2="40" stroke-dasharray="4 4"/>
+  <circle class="inst" cx="720" cy="70" r="30"/>
+  <line x1="690" y1="70" x2="750" y2="70" stroke="#ededed" stroke-width="1"/>
+  <text class="tag" x="720" y="65" font-size="14px">LE</text>
+  <text class="pos" x="720" y="86" font-size="12px">3-1</text>
+  <text class="sub" x="762" y="60" text-anchor="start">верх кружка =</text>
+  <text class="sub" x="762" y="74" text-anchor="start">буквенное обозн.</text>
+  <text class="sub" x="762" y="90" text-anchor="start">низ = номер</text>
+  <text class="sub" x="762" y="104" text-anchor="start">позиции</text>
+</svg>

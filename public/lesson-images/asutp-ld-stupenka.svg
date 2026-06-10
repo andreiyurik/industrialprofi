@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" role="img" aria-label="Ступенька LD: NO-контакт ПУСК с параллельным контактом самоподхвата Насос, последовательно NC-контакт СТОП, затем катушка Насос между левой и правой шинами питания.">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .rail{stroke:#a1a1a1;stroke-width:2.5}
+    .wire{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .lbl{font-size:12px;font-weight:600;text-anchor:middle}
+    .tag{font-size:11px;text-anchor:middle;fill:#a1a1a1}
+    .call{fill:#3d9bff;font-size:11px;font-weight:600}
+    .callln{stroke:#3d9bff;stroke-width:1;fill:none}
+    .ttl{font-size:14px;font-weight:700;text-anchor:middle}
+    .coil{fill:none;stroke:#ededed;stroke-width:2.5}
+    .cont{stroke:#ededed;stroke-width:2.5;fill:none}
+  </style>
+
+  <text class="ttl" x="380" y="22">Ступенька (rung) LD: пуск / стоп / самоподхват</text>
+
+  <!-- left power rail -->
+  <line class="rail" x1="70" y1="60" x2="70" y2="240"/>
+  <text class="tag" x="70" y="258">шина питания (L)</text>
+  <!-- right power rail -->
+  <line class="rail" x1="690" y1="60" x2="690" y2="240"/>
+  <text class="tag" x="690" y="258">шина (N)</text>
+
+  <!-- main horizontal wire y=110 -->
+  <!-- from left rail to PUSK contact -->
+  <path class="wire" d="M70 110 H190"/>
+  <!-- NO contact PUSK: two vertical bars with gap -->
+  <line class="cont" x1="190" y1="92" x2="190" y2="128"/>
+  <line class="cont" x1="230" y1="92" x2="230" y2="128"/>
+  <text class="lbl" x="210" y="84">ПУСК</text>
+  <text class="tag" x="210" y="148">NO-контакт</text>
+
+  <!-- wire after PUSK to junction node A -->
+  <path class="wire" d="M230 110 H330"/>
+  <!-- NC contact STOP: two vertical bars with diagonal slash -->
+  <line class="cont" x1="380" y1="92" x2="380" y2="128"/>
+  <line class="cont" x1="420" y1="92" x2="420" y2="128"/>
+  <line class="cont" x1="376" y1="128" x2="424" y2="92"/>
+  <text class="lbl" x="400" y="84">СТОП</text>
+  <text class="tag" x="400" y="148">NC-контакт</text>
+  <path class="wire" d="M330 110 H380"/>
+
+  <!-- wire after STOP to coil -->
+  <path class="wire" d="M420 110 H560"/>
+  <!-- coil Nasos: two arcs forming parentheses ( ) -->
+  <path class="coil" d="M566 92 A24 24 0 0 0 566 128"/>
+  <path class="coil" d="M608 92 A24 24 0 0 1 608 128"/>
+  <text class="lbl" x="587" y="84">Насос</text>
+  <text class="tag" x="587" y="148">катушка (выход)</text>
+  <!-- coil to right rail -->
+  <path class="wire" d="M608 110 H690"/>
+
+  <!-- self-hold branch: parallel to PUSK contact, node before PUSK (x=130) to node after PUSK (x=300) -->
+  <!-- branch down on left at x=130, across at y=190, up at x=300 -->
+  <path class="wire" d="M130 110 V190 H260"/>
+  <path class="wire" d="M300 190 H330 V110"/>
+  <!-- NO contact Nasos (self-hold) on branch -->
+  <line class="cont" x1="260" y1="172" x2="260" y2="208"/>
+  <line class="cont" x1="300" y1="172" x2="300" y2="208"/>
+  <text class="lbl" x="280" y="232">Насос</text>
+
+  <!-- callout for self-hold -->
+  <line class="callln" x1="280" y1="208" x2="280" y2="262"/>
+  <text class="call" x="280" y="278" text-anchor="middle">цепь самоподхвата</text>
+  <text class="tag" x="280" y="294">(NO-контакт «Насос» параллельно ПУСК)</text>
+</svg>

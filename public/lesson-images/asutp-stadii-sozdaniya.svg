@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 200" role="img" aria-label="Линейная диаграмма стадий создания АСУ ТП слева направо: Формирование требований и ТЗ, Эскизный и технический проект, Рабочая документация, Монтаж и ПНР, Ввод в действие. Под каждым блоком главный документ стадии.">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:13px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:10.5px}
+    .doc{fill:#3d9bff;font-size:10.5px;font-weight:600}
+    .docsub{fill:#a1a1a1;font-size:10px}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- Stage 1 -->
+  <rect class="dec" x="8" y="40" width="152" height="56" rx="9"/>
+  <text class="ttl" x="84" y="62" text-anchor="middle">Формирование</text>
+  <text class="ttl" x="84" y="78" text-anchor="middle">требований и ТЗ</text>
+  <path class="edge" d="M84 96 V128" marker-end="url(#ah)"/>
+  <text class="doc" x="84" y="146" text-anchor="middle">Техническое</text>
+  <text class="doc" x="84" y="160" text-anchor="middle">задание (ТЗ)</text>
+
+  <path class="edge" d="M160 68 H172" marker-end="url(#ah)"/>
+
+  <!-- Stage 2 -->
+  <rect class="box" x="172" y="40" width="152" height="56" rx="9"/>
+  <text class="ttl" x="248" y="62" text-anchor="middle">Эскизный /</text>
+  <text class="ttl" x="248" y="78" text-anchor="middle">технический проект</text>
+  <path class="edge" d="M248 96 V128" marker-end="url(#ah)"/>
+  <text class="docsub" x="248" y="146" text-anchor="middle">Технический</text>
+  <text class="docsub" x="248" y="160" text-anchor="middle">проект</text>
+
+  <path class="edge" d="M324 68 H336" marker-end="url(#ah)"/>
+
+  <!-- Stage 3 -->
+  <rect class="box" x="336" y="40" width="152" height="56" rx="9"/>
+  <text class="ttl" x="412" y="62" text-anchor="middle">Рабочая</text>
+  <text class="ttl" x="412" y="78" text-anchor="middle">документация</text>
+  <path class="edge" d="M412 96 V128" marker-end="url(#ah)"/>
+  <text class="docsub" x="412" y="146" text-anchor="middle">Комплект рабочей</text>
+  <text class="docsub" x="412" y="160" text-anchor="middle">документации</text>
+
+  <path class="edge" d="M488 68 H500" marker-end="url(#ah)"/>
+
+  <!-- Stage 4 -->
+  <rect class="box" x="500" y="40" width="152" height="56" rx="9"/>
+  <text class="ttl" x="576" y="62" text-anchor="middle">Монтаж и ПНР</text>
+  <text class="sub" x="576" y="80" text-anchor="middle">сборка · подключение</text>
+  <path class="edge" d="M576 96 V128" marker-end="url(#ah)"/>
+  <text class="docsub" x="576" y="146" text-anchor="middle">Протоколы</text>
+  <text class="docsub" x="576" y="160" text-anchor="middle">ПНР</text>
+
+  <path class="edge" d="M652 68 H664" marker-end="url(#ah)"/>
+
+  <!-- Stage 5 -->
+  <rect class="box" x="664" y="40" width="152" height="56" rx="9"/>
+  <text class="ttl" x="740" y="62" text-anchor="middle">Ввод в действие</text>
+  <text class="sub" x="740" y="80" text-anchor="middle">испытания · передача</text>
+  <path class="edge" d="M740 96 V128" marker-end="url(#ah)"/>
+  <text class="docsub" x="740" y="146" text-anchor="middle">Акт ввода в</text>
+  <text class="docsub" x="740" y="160" text-anchor="middle">эксплуатацию</text>
+
+  <text class="sub" x="8" y="22">Стадии следуют строго по порядку — пропустить нельзя</text>
+</svg>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 470" role="img" aria-label="Регулирующий клапан с пневмоприводом и позиционером: сигнал 4-20 мА в позиционер, через I/P в привод, привод двигает шток, обратная связь по положению замыкает локальный контур">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .sig{stroke:#3d9bff;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .lbl{font-size:12px;font-weight:600}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .blue{fill:#3d9bff;font-size:11px;font-weight:600}
+    .pipe{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+    <marker id="ahb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3d9bff"/></marker>
+  </defs>
+
+  <!-- Command source -->
+  <rect class="box" x="24" y="40" width="150" height="50" rx="10"/>
+  <text class="ttl" x="99" y="63" text-anchor="middle">ПЛК / контур</text>
+  <text class="sub" x="99" y="80" text-anchor="middle">команда уставки</text>
+
+  <!-- 4-20 mA signal into positioner -->
+  <path class="sig" d="M174 65 H252" marker-end="url(#ahb)"/>
+  <text class="blue" x="213" y="56" text-anchor="middle">4–20 мА</text>
+
+  <!-- Positioner -->
+  <rect class="dec" x="254" y="34" width="180" height="62" rx="10"/>
+  <text class="ttl" x="344" y="58" text-anchor="middle">Позиционер</text>
+  <text class="sub" x="344" y="76" text-anchor="middle">локальный регулятор</text>
+  <text class="sub" x="344" y="90" text-anchor="middle">на клапане</text>
+
+  <!-- I/P converter -->
+  <path class="sig" d="M344 96 V124" marker-end="url(#ahb)"/>
+  <text class="blue" x="396" y="115" text-anchor="middle">эл. сигнал</text>
+  <rect class="dec" x="254" y="126" width="180" height="48" rx="10"/>
+  <text class="lbl" x="344" y="147" text-anchor="middle">I/P-преобразователь</text>
+  <text class="sub" x="344" y="164" text-anchor="middle">ток → давление воздуха</text>
+
+  <!-- air to actuator -->
+  <path class="edge" d="M344 174 V204" marker-end="url(#ah)"/>
+  <text class="sub" x="408" y="193" text-anchor="middle">воздух</text>
+
+  <!-- Pneumatic actuator (diaphragm) -->
+  <rect class="box" x="266" y="206" width="156" height="58" rx="10"/>
+  <text class="ttl" x="344" y="229" text-anchor="middle">Пневмопривод</text>
+  <text class="sub" x="344" y="246" text-anchor="middle">мембрана + пружина</text>
+  <text class="sub" x="344" y="260" text-anchor="middle">двигает шток</text>
+
+  <!-- stem down to valve -->
+  <rect class="pipe" x="340" y="264" width="8" height="46"/>
+  <text class="sub" x="392" y="291" text-anchor="middle">шток</text>
+
+  <!-- Valve body -->
+  <rect class="box" x="246" y="310" width="196" height="62" rx="10"/>
+  <text class="ttl" x="344" y="334" text-anchor="middle">Регулирующий клапан</text>
+  <text class="sub" x="344" y="352" text-anchor="middle">дросселирует поток</text>
+  <text class="sub" x="344" y="366" text-anchor="middle">положение = % открытия</text>
+
+  <!-- process pipe -->
+  <path class="edge" d="M150 341 H246"/>
+  <path class="edge" d="M442 341 H560" marker-end="url(#ah)"/>
+  <text class="sub" x="100" y="335" text-anchor="middle">поток</text>
+  <text class="sub" x="500" y="335" text-anchor="middle">поток</text>
+
+  <!-- Position feedback loop: from valve/stem back to positioner -->
+  <path class="sig" d="M442 330 H540 V65 H434" marker-end="url(#ahb)"/>
+  <text class="blue" x="600" y="190" text-anchor="middle">обратная связь</text>
+  <text class="blue" x="600" y="206" text-anchor="middle">по положению</text>
+  <text class="sub" x="600" y="222" text-anchor="middle">штока</text>
+
+  <!-- caption note -->
+  <rect class="box" x="24" y="412" width="652" height="42" rx="8"/>
+  <text class="sub" x="350" y="438" text-anchor="middle">Позиционер замыкает локальный контур — шток точно отслеживает команду 4–20 мА.</text>
+</svg>

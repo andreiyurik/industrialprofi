@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" role="img" aria-label="Замкнутый контур регулирования: уставка SP, сумматор рассогласования, регулятор ПЛК, клапан, объект, датчик и обратная связь PV.">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .fb{stroke:#3d9bff;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .lbl{font-size:11px;fill:#a1a1a1}
+    .blbl{font-size:11px;fill:#3d9bff;font-weight:600}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+    <marker id="ahb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3d9bff"/></marker>
+  </defs>
+
+  <!-- SP box -->
+  <rect class="box" x="16" y="64" width="120" height="52" rx="10"/>
+  <text class="ttl" x="76" y="86" text-anchor="middle">Уставка</text>
+  <text class="sub" x="76" y="104" text-anchor="middle">SP — чего хотим</text>
+
+  <!-- SP -> summator -->
+  <path class="edge" d="M136 90 H192" marker-end="url(#ah)"/>
+  <text class="lbl" x="164" y="82" text-anchor="middle">SP</text>
+  <text class="sub" x="206" y="84" text-anchor="middle">+</text>
+
+  <!-- Summator -->
+  <circle class="dec" cx="220" cy="90" r="24"/>
+  <text class="ttl" x="220" y="96" text-anchor="middle">&#931;</text>
+  <text class="sub" x="204" y="120" text-anchor="middle">&#8722;</text>
+
+  <!-- error label -->
+  <path class="edge" d="M244 90 H300" marker-end="url(#ah)"/>
+  <text class="blbl" x="272" y="82" text-anchor="middle">рассогласование</text>
+  <text class="blbl" x="272" y="110" text-anchor="middle">e = SP &#8722; PV</text>
+
+  <!-- Regulator -->
+  <rect class="box" x="300" y="64" width="140" height="52" rx="10"/>
+  <text class="ttl" x="370" y="86" text-anchor="middle">Регулятор (ПЛК)</text>
+  <text class="sub" x="370" y="104" text-anchor="middle">алгоритм ПИД</text>
+
+  <!-- Regulator -> valve -->
+  <path class="edge" d="M440 90 H520" marker-end="url(#ah)"/>
+  <text class="lbl" x="480" y="82" text-anchor="middle">воздействие</text>
+  <text class="sub" x="480" y="104" text-anchor="middle">AO &#183; 4&#8211;20 мА</text>
+
+  <!-- Valve / actuator -->
+  <rect class="box" x="520" y="64" width="140" height="52" rx="10"/>
+  <text class="ttl" x="590" y="83" text-anchor="middle">Исполнительный</text>
+  <text class="ttl" x="590" y="99" text-anchor="middle">механизм (клапан)</text>
+
+  <!-- valve -> object (down then to object box) -->
+  <path class="edge" d="M590 116 V160 H470" marker-end="url(#ah)"/>
+
+  <!-- Object -->
+  <rect class="box" x="290" y="160" width="180" height="56" rx="10"/>
+  <text class="ttl" x="380" y="184" text-anchor="middle">Объект (процесс)</text>
+  <text class="sub" x="380" y="202" text-anchor="middle">температура, давление, уровень</text>
+
+  <!-- object -> sensor -->
+  <path class="edge" d="M290 188 H180" marker-end="url(#ah)"/>
+
+  <!-- Sensor -->
+  <rect class="box" x="40" y="160" width="140" height="56" rx="10"/>
+  <text class="ttl" x="110" y="184" text-anchor="middle">Датчик</text>
+  <text class="sub" x="110" y="202" text-anchor="middle">измеряет факт</text>
+
+  <!-- feedback PV back up to summator (minus input) -->
+  <path class="fb" d="M110 160 V90 H196" marker-end="url(#ahb)"/>
+  <text class="blbl" x="110" y="146" text-anchor="middle">PV</text>
+  <text class="blbl" x="148" y="132" text-anchor="middle">обратная связь</text>
+  <text class="sub" x="110" y="240" text-anchor="middle" fill="#3d9bff">измеренное значение возвращается на вход</text>
+
+  <!-- caption strip -->
+  <text class="sub" x="380" y="300" text-anchor="middle">Сигнал замкнут в кольцо: измерение сравнивается с уставкой, регулятор</text>
+  <text class="sub" x="380" y="318" text-anchor="middle">отрабатывает рассогласование, пока PV не сойдётся с SP.</text>
+</svg>
