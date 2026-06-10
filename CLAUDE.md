@@ -113,9 +113,11 @@ Path (profession)
 ```
 
 **Lesson content format — every lesson follows this:**
-1. WHY (1-2 sentences — why this matters on the job site)
+1. WHY — the lesson's `description` field, which is also rendered as the page's `<meta name="description">` (truncated at 160 chars). Write it as **one self-contained sentence ≤155 chars** that (a) honestly answers the learner's *"why am I spending time on this / what will I get"* — without a why, the lesson goes unread — and (b) opens with the topic in natural search phrasing (how people actually google it). It does double duty: human motivation **and** SEO snippet. Don't keyword-stuff — keep it alive.
 2. OFFICIAL DOCUMENTS (curated links, ranked: ★ required, ○ optional)
 3. PRACTICAL TASK (concrete, verifiable assignment)
+
+**Name de-facto-standard tools.** When a specific program has become the industry standard for a recurring task in the trade (e.g. Modbus Poll/qModMaster for polling Modbus, UaExpert for OPC UA, Wireshark for network diagnostics, the canonical PLC IDE), name it explicitly and briefly explain what it's used for and why — don't hide behind "use a suitable tool." A concrete tool is a step the learner can take today; abstraction leaves them stranded. Add it both as a `tool` resource and as a mention in the body (often in a `> [!СОВЕТ]` block). This is about the standard *tool for the task*, not lock-in to a hardware vendor.
 
 **Editing model (built):** there is no public account system yet. Anyone can
 *suggest* an edit to a lesson section (rate-limited + honeypot); an admin
