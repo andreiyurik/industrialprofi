@@ -9,3 +9,9 @@ member:
   email_address: ivan@example.com
   password_digest: <%= BCrypt::Password.create("password", cost: 4) %>
   role: member
+
+editor:
+  name: Эксперт
+  email_address: expert@example.com
+  password_digest: <%= BCrypt::Password.create("password", cost: 4) %>
+  role: editor

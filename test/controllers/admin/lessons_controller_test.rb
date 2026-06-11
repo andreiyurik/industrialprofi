@@ -20,6 +20,13 @@ class Admin::LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
   end
 
+  test "index as an editor is allowed" do
+    sign_out
+    sign_in_as users(:editor)
+    get admin_lessons_path
+    assert_response :success
+  end
+
   test "edit without auth redirects to sign-in" do
     sign_out
     get edit_admin_lesson_path(lessons(:pteep))

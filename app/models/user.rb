@@ -8,7 +8,9 @@ class User < ApplicationRecord
   has_many :bookmarked_lessons, through: :lesson_bookmarks, source: :lesson
   has_many :journal_entries, dependent: :destroy
 
-  enum :role, { member: "member", administrator: "administrator" }, default: "member"
+  # The trust ladder: member → editor («Эксперт» — reviews suggestions, edits
+  # content) → administrator (everything, incl. users and roles).
+  enum :role, { member: "member", editor: "editor", administrator: "administrator" }, default: "member"
 
   normalizes :email_address, with: ->(email) { email.strip.downcase }
   # The learner's own "why" — shown on the dashboard on every visit (TOP's
@@ -28,6 +30,8 @@ class User < ApplicationRecord
   validates :learning_goal, length: { maximum: 200 }
 
   def can_administer? = administrator?
+
+  def can_edit_content? = editor? || administrator?
 
   def completed?(lesson)
     lesson_completions.exists?(lesson: lesson)

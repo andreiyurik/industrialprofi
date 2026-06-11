@@ -123,12 +123,13 @@ resources :lessons, only: [:show], param: :slug do         # individual lessons 
   resources :suggestions, only: [:new, :create],           # reader-submitted edits
             controller: "lesson_suggestions"
 end
-namespace :admin do ... end                                # gated by User#can_administer? (role flag)
+namespace :admin do ... end                                # content pages gated by User#can_edit_content?
+                                                            # (editor|administrator); /admin/users by can_administer?
 ```
 
 **Models (actual — see `app/models/`):**
 ```
-User (has_secure_password; role: member | administrator; progress helpers:
+User (has_secure_password; role: member | editor | administrator; progress helpers:
       completed?, completed_lesson_ids_for(path), started_paths, next_lesson_in(path))
   → has_many Sessions          (has_secure_token; signed permanent cookie)
   → has_many LessonCompletions (unique per user+lesson — binary progress, Odin-style)
@@ -178,11 +179,17 @@ remaining pre-format practices get converted as they're touched.
 **Name de-facto-standard tools.** When a specific program has become the industry standard for a recurring task in the trade (e.g. Modbus Poll/qModMaster for polling Modbus, UaExpert for OPC UA, Wireshark for network diagnostics, the canonical PLC IDE), name it explicitly and briefly explain what it's used for and why — don't hide behind "use a suitable tool." A concrete tool is a step the learner can take today; abstraction leaves them stranded. Add it both as a `tool` resource and as a mention in the body (often in a `> [!СОВЕТ]` block). This is about the standard *tool for the task*, not lock-in to a hardware vendor.
 
 **Editing model (built):** anyone can *suggest* an edit to a lesson section
-(rate-limited + honeypot, no account needed); an admin (a `User` with
-`role: administrator`) reviews suggestions, edits lessons directly, and every
-applied change appends an immutable `LessonRevision`. Rollback = a new revision,
-never a rewrite. The first admin is created by `db/seeds.rb` from
-`ADMIN_EMAIL`/`ADMIN_PASSWORD` env vars (or via console).
+(rate-limited + honeypot, no account needed); a content editor reviews
+suggestions, edits lessons directly, and every applied change appends an
+immutable `LessonRevision`. Rollback = a new revision, never a rewrite.
+**Roles are a trust ladder** (`User.role`, string enum — the delegation seam so
+the platform can grow without the founder): `member` → `editor` (UI label
+«Эксперт»: full content admin — lessons, paths, courses, suggestions, rollback;
+gated by `can_edit_content?`) → `administrator` (everything, plus `/admin/users`
+— list/search users, assign roles; gated by `can_administer?`; can't change own
+role, so the last admin can't lock himself out). The first admin is created by
+`db/seeds.rb` from `ADMIN_EMAIL`/`ADMIN_PASSWORD` env vars (or via console);
+further editors/admins are appointed on /admin/users.
 
 **Progress & accounts (built — the v0.2 milestone):** registration/login
 (`has_secure_password`, hand-rolled `SessionsController`, `Current`/`Session`
@@ -236,7 +243,7 @@ roadmaps, public user profiles, search, project submissions (portfolio uploads).
 ## Anti-patterns
 
 - No React, Vue, or SPA. This is a Hotwire app.
-- No Devise. Auth is `has_secure_password` + a hand-rolled `SessionsController` + the `Current`/`Session` pattern (à la Writebook), built in `app/controllers/concerns/authentication.rb`. Admin is a role flag on `User` (`can_administer?`) — there is no second login mechanism, and HTTP Basic is gone.
+- No Devise. Auth is `has_secure_password` + a hand-rolled `SessionsController` + the `Current`/`Session` pattern (à la Writebook), built in `app/controllers/concerns/authentication.rb`. Admin is a role enum on `User` (`member|editor|administrator`; `can_edit_content?` / `can_administer?`) — there is no second login mechanism, and HTTP Basic is gone.
 - No `respond_to` JSON/HTML unless explicitly needed.
 - **No Tailwind, no `@apply`, no `@theme`, no `@layer`, no `@import` between CSS files, no build step.** Propshaft serves CSS files as-is, the browser handles the cascade via filename load order.
 - No `tailwind.config.js`, `postcss.config.js`, or any JS-side asset tooling.

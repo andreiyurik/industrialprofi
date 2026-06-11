@@ -389,3 +389,22 @@
     }
   }
 }
+
+/* ── Users & roles ── */
+
+.admin-users-search {
+  display: flex;
+  gap: var(--inline-space);
+  margin-block-end: var(--block-space);
+
+  .input {
+    max-inline-size: 24rem;
+  }
+}
+
+.admin-role-form {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--inline-space);
+}

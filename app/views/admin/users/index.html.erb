@@ -1,0 +1,54 @@
+<% meta_title(t("admin.users_title")) %>
+
+<section class="admin-page">
+  <div class="container">
+    <div class="admin-header">
+      <h1 class="admin-header__title"><%= t("admin.users_title") %></h1>
+      <div class="admin-header__actions">
+        <a href="<%= admin_lessons_path %>" class="btn btn--small"><%= t("admin.manage_lessons") %></a>
+        <a href="<%= admin_lesson_suggestions_path %>" class="btn btn--small"><%= t("admin.manage_suggestions") %></a>
+      </div>
+    </div>
+
+    <%= form_with url: admin_users_path, method: :get, class: "admin-users-search" do %>
+      <%= text_field_tag :q, params[:q], class: "input",
+            placeholder: t("admin.users_search_placeholder") %>
+      <%= submit_tag t("admin.users_search"), class: "btn" %>
+    <% end %>
+
+    <% if @users.empty? %>
+      <div class="admin-empty">
+        <p class="admin-empty__text"><%= t("admin.users_none") %></p>
+      </div>
+    <% else %>
+      <div class="admin-list">
+        <% @users.each do |user| %>
+          <div class="admin-row admin-row--static">
+            <span class="admin-row__column">
+              <span class="admin-row__line">
+                <span class="admin-row__title"><%= user.name %></span>
+                <% unless user.member? %>
+                  <span class="badge badge--marker"><%= t("admin.roles.#{user.role}") %></span>
+                <% end %>
+              </span>
+              <p class="admin-row__subtle">
+                <%= user.email_address %> · <%= l(user.created_at, format: :long) %>
+              </p>
+            </span>
+
+            <% if user == Current.user %>
+              <span class="admin-row__subtle"><%= t("admin.users_you") %></span>
+            <% else %>
+              <%= form_with url: admin_user_path(user), method: :patch, class: "admin-role-form" do %>
+                <%= select_tag "user[role]",
+                      options_for_select(User.roles.keys.map { |r| [ t("admin.roles.#{r}"), r ] }, user.role),
+                      class: "input" %>
+                <%= submit_tag t("admin.save"), class: "btn btn--small" %>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>

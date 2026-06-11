@@ -53,6 +53,7 @@ Rails.application.routes.draw do
     end
     resources :paths, only: [ :index, :edit, :update ], param: :slug
     resources :courses, only: [ :index, :edit, :update ], param: :slug
+    resources :users, only: [ :index, :update ]
     resources :lesson_suggestions, only: [ :index, :show ] do
       member do
         patch :approve

@@ -82,7 +82,7 @@
                   <%= heroicon "user-circle", variant: :outline %>
                   <%= t("nav.account") %>
                 <% end %>
-                <% if Current.user.can_administer? %>
+                <% if Current.user.can_edit_content? %>
                   <%= link_to admin_lessons_path, class: "account-menu__link" do %>
                     <%= heroicon "cog-6-tooth", variant: :outline %>
                     Admin
