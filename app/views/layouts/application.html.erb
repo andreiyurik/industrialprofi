@@ -56,14 +56,41 @@
           <% end %>
 
           <% if signed_in? %>
-            <%= link_to t("nav.dashboard"), dashboard_path, class: "nav__link",
-                  aria: { current: ("page" if current_page?(dashboard_path)) } %>
-            <%= link_to t("nav.journal"), journal_entries_path, class: "nav__link",
-                  aria: { current: ("page" if controller_name == "journal_entries") } %>
-            <% if Current.user.can_administer? && controller.class.module_parent_name != "Admin" %>
-              <%= link_to "Admin", admin_lessons_path, class: "badge badge--marker" %>
-            <% end %>
-            <%= button_to t("auth.sign_out"), session_path, method: :delete, class: "header__signout" %>
+            <%# Fizzy-style account hub: everything personal lives behind one
+                name button. Native popover — light-dismiss, zero JS. %>
+            <button type="button" class="account-menu-button" popovertarget="account-menu">
+              <%= Current.user.name %>
+              <%= heroicon "chevron-down", variant: :outline %>
+            </button>
+
+            <div id="account-menu" class="account-menu" popover>
+              <p class="account-menu__header">
+                <span class="account-menu__name"><%= Current.user.name %></span>
+                <span class="account-menu__email"><%= Current.user.email_address %></span>
+              </p>
+
+              <nav class="account-menu__nav">
+                <%= link_to dashboard_path, class: "account-menu__link" do %>
+                  <%= heroicon "home", variant: :outline %>
+                  <%= t("nav.dashboard") %>
+                <% end %>
+                <%= link_to journal_entries_path, class: "account-menu__link" do %>
+                  <%= heroicon "pencil-square", variant: :outline %>
+                  <%= t("nav.journal") %>
+                <% end %>
+                <% if Current.user.can_administer? %>
+                  <%= link_to admin_lessons_path, class: "account-menu__link" do %>
+                    <%= heroicon "cog-6-tooth", variant: :outline %>
+                    Admin
+                  <% end %>
+                <% end %>
+              </nav>
+
+              <%= button_to session_path, method: :delete, class: "account-menu__link account-menu__signout" do %>
+                <%= heroicon "arrow-right-on-rectangle", variant: :outline %>
+                <%= t("auth.sign_out") %>
+              <% end %>
+            </div>
           <% else %>
             <%= link_to t("auth.sign_in"), new_session_path, class: "nav__link",
                   aria: { current: ("page" if current_page?(new_session_path)) } %>

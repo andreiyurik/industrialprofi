@@ -64,20 +64,116 @@
   font-weight: 600;
 }
 
-/* Sign-out is a button_to form; style the button as a quiet nav link. */
-.header__signout {
+/* ── Account menu (Fizzy-style hub): one name button, one popover ────── */
+.account-menu-button {
+  align-items: center;
   background: none;
-  border: 0;
-  color: var(--color-subtle-dark);
+  border: 1px solid var(--color-subtle);
+  border-radius: 999px;
+  color: var(--color-ink);
   cursor: pointer;
+  display: inline-flex;
   font: inherit;
-  font-size: 0.9rem;
-  padding: 0;
-  transition: color 200ms ease;
+  font-size: 0.85rem;
+  font-weight: 600;
+  gap: 0.35em;
+  padding: 0.35em 0.9em;
+  transition: border-color 150ms ease, background-color 150ms ease;
+
+  svg {
+    block-size: 0.9em;
+    color: var(--color-subtle-dark);
+    inline-size: 0.9em;
+  }
 
   @media (any-hover: hover) {
     &:hover {
+      background-color: var(--color-subtle-light);
+      border-color: var(--color-subtle-dark);
+    }
+  }
+}
+
+/* Native popover: anchored under the header's right edge, dark panel,
+   grouped rows — the Fizzy hub feel on our tokens. */
+.account-menu {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75em;
+  box-shadow:
+    0 12px 32px -8px oklch(var(--lch-always-black) / 0.5),
+    0 4px 8px -4px oklch(var(--lch-always-black) / 0.4);
+  color: var(--color-ink);
+  inset: 3.9rem 0.75rem auto auto;
+  margin: 0;
+  min-inline-size: 15rem;
+  padding: 0.5rem;
+  position: fixed;
+}
+
+.account-menu__header {
+  border-block-end: 1px solid var(--color-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin-block: 0 0.5rem;
+  padding: 0.5rem 0.6rem 0.75rem;
+}
+
+.account-menu__name {
+  font-weight: 600;
+}
+
+.account-menu__email {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+}
+
+.account-menu__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.account-menu__link {
+  align-items: center;
+  background: none;
+  border: 0;
+  border-radius: 0.5em;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  font-size: 0.9rem;
+  gap: 0.6rem;
+  inline-size: 100%;
+  padding: 0.5rem 0.6rem;
+  text-align: start;
+  text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease;
+
+  svg {
+    block-size: 1.05rem;
+    inline-size: 1.05rem;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: var(--color-subtle);
       color: var(--color-ink);
     }
   }
+}
+
+/* button_to wraps the sign-out button in a form — let it fill the row. */
+.account-menu .button_to {
+  display: block;
+}
+
+/* Sign-out sits after a hairline, like Fizzy's bottom row. */
+.account-menu__signout {
+  border-block-start: 1px solid var(--color-subtle);
+  border-radius: 0 0 0.5em 0.5em;
+  margin-block-start: 0.5rem;
+  padding-block-start: 0.75rem;
 }

@@ -239,6 +239,7 @@ Our `app/assets/stylesheets/` mirrors Writebook's file layout 1-to-1 (`_reset.cs
 - **Hover/focus:** Centralized in `base.css` via `:is(a, button, input, textarea)` — components don't need per-element transition/box-shadow rules.
 - **Meta tags:** `<meta name="color-scheme" content="light dark">` plus a light/dark `theme-color` pair in the layout's `<head>` so native browser chrome (scrollbars, form controls) follows the theme.
 - **Flash:** `<%= render "shared/flash" %>` renders a Turbo Frame fixed-position pill at the top; `element-removal` Stimulus controller auto-dismisses after 4s. Styled by `flash.css`.
+- **Account menu:** signed-in header shows one name button opening a native `popover` hub (`.account-menu` in `header.css`, zero JS): dashboard, journal, admin (role-gated), sign out. Public nav links stay in the header. **Recorded decision:** a Fizzy-style command palette (search + jump) is deferred until search ships (v0.3) — the palette is search's UI, not a nav replacement.
 
 ## Docs
 

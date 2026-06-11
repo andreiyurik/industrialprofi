@@ -65,6 +65,14 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_match "heatmap__cell--l1", response.body
   end
 
+  test "header shows the account menu for signed-in users" do
+    sign_in_as users(:member)
+    get dashboard_path
+    assert_select "button.account-menu-button", text: /#{users(:member).name}/
+    assert_select "div#account-menu[popover]"
+    assert_select "#account-menu form[action=?]", session_path
+  end
+
   test "shows stage milestone chips" do
     users(:member).lesson_completions.create!(lesson: lessons(:pteep))
 
