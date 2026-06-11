@@ -2,6 +2,7 @@
 title: "Первая помощь при поражении электрическим током"
 position: 5
 kind: practice
+difficulty: beginner
 resources:
   - title: "Приказ Минздрава России № 220н от 03.05.2024 «Об утверждении Порядка оказания первой помощи» (действует с 01.09.2024)"
     url: "https://www.consultant.ru/document/cons_doc_LAW_477698/"

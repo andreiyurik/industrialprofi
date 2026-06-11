@@ -53,6 +53,18 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h2#poryadok-dopuska-k-rabotam"
   end
 
+  test "practice lesson shows the journal CTA under the task for signed-in users" do
+    get lesson_path(lessons(:praktika_shchitok))
+    assert_select ".lesson-task-journal", false # signed out — no dead CTA
+
+    sign_in_as users(:member)
+    get lesson_path(lessons(:praktika_shchitok))
+    assert_select ".lesson-task-journal"
+
+    get lesson_path(lessons(:pteep)) # theory lesson — task, but no journal CTA
+    assert_select ".lesson-task-journal", false
+  end
+
   test "reading mode cookie renders the stripped layout server-side" do
     get lesson_path(lessons(:pteep))
     assert_select "div.lesson-layout--reading", false

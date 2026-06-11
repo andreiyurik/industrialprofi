@@ -2,6 +2,7 @@
 title: "Практика: пусконаладка и проверка контуров"
 position: 3
 kind: practice
+difficulty: advanced
 resources:
   - title: "Статья: «Пусконаладочные работы АСУ ТП: этапы, программа и требования»"
     url: "https://asutp.kxtech.ru/article-pnr-asutp.html"

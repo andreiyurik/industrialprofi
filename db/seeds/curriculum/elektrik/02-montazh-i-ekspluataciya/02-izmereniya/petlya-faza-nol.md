@@ -2,6 +2,7 @@
 title: "Петля «фаза-ноль» и проверка срабатывания защиты"
 position: 3
 kind: practice
+difficulty: advanced
 resources:
   - title: "ГОСТ Р 50571.16-2019 (МЭК 60364-6) — проверка защиты автоматическим отключением питания"
     url: "https://protect.gost.ru/document.aspx?control=7&id=243937"

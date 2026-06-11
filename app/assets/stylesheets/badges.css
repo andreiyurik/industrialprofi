@@ -52,6 +52,23 @@
   color: oklch(var(--lch-green));
 }
 
+/* Practice difficulty badges (/projects cards) — the conventional traffic
+   light: green = новичок, yellow = практик, red = челлендж. */
+.badge--diff-beginner {
+  background-color: oklch(var(--lch-green) / 0.18);
+  color: oklch(var(--lch-green));
+}
+
+.badge--diff-intermediate {
+  background-color: oklch(var(--lch-yellow) / 0.18);
+  color: oklch(var(--lch-yellow));
+}
+
+.badge--diff-advanced {
+  background-color: oklch(var(--lch-red) / 0.18);
+  color: oklch(var(--lch-red));
+}
+
 /* Roadmap status badges — conventional status colours (done/in-progress/
    planned/future). "not_now" reuses .badge--draft (muted gray). */
 .badge--done {

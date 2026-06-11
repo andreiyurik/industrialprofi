@@ -2,6 +2,7 @@
 title: "Выбор сечения провода по току и потере напряжения"
 position: 4
 kind: practice
+difficulty: beginner
 resources:
   - title: "ПУЭ 7-е изд., гл. 1.3 — Выбор сечений проводников по нагреву (таблицы допустимых длительных токов)"
     url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"

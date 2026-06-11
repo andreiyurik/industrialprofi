@@ -74,7 +74,8 @@ Dir.glob(CURRICULUM_DIR.join("*/path.yml")).sort.each do |path_yml|
           course: course, path: path, stage: stage,
           title: lesson_data["title"], description: lesson_data["description"],
           body: lesson_data["body"], task: lesson_data["task"],
-          position: position, kind: lesson_data["kind"] || "lesson"
+          position: position, kind: lesson_data["kind"] || "lesson",
+          difficulty: lesson_data["difficulty"] || (lesson_data["kind"] == "practice" ? "beginner" : nil)
         )
         lesson.save! if lesson.changed?
 

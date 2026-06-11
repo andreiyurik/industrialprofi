@@ -19,8 +19,16 @@ class Lesson < ApplicationRecord
   validates :slug, presence: true, uniqueness: true, format: { with: Path::SLUG_FORMAT }
   validates :position, numericality: { greater_than_or_equal_to: 0 }
   validates :kind, inclusion: { in: %w[lesson practice] }
+  # Difficulty grades the practice ladder (/projects filters); theory lessons
+  # don't carry one.
+  validates :difficulty, inclusion: { in: DIFFICULTIES = %w[beginner intermediate advanced] },
+                         if: :practice?
+  validates :difficulty, absence: true, unless: :practice?
 
   scope :ordered, -> { order(:position) }
+  scope :practice, -> { where(kind: "practice") }
+
+  def practice? = kind == "practice"
 
   def to_param
     slug

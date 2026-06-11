@@ -54,8 +54,22 @@ praktika_shchitok:
   stage: Правила устройства электроустановок
   description: Реальная сборка по однолинейной схеме
   body: Текст практического задания
+  task: Соберите щит на 4 группы по чек-листу
   kind: practice
+  difficulty: advanced
   position: 4
+
+praktika_svarka:
+  path: welder
+  course: welding_basics
+  title: "Практика: первый сварной шов"
+  slug: praktika-svarnoy-shov
+  stage: Основы сварки
+  description: Первый шов на пластине под наблюдением наставника
+  body: Текст задания по сварке
+  kind: practice
+  difficulty: beginner
+  position: 2
 
 svarka_intro:
   path: welder

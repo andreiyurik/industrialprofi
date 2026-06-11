@@ -2,6 +2,7 @@
 title: "Измерение сопротивления заземляющего устройства"
 position: 4
 kind: practice
+difficulty: advanced
 resources:
   - title: "ПУЭ 7-е изд., гл. 1.7 — нормы сопротивления заземляющих устройств"
     url: "https://www.consultant.ru/document/cons_doc_LAW_91542/ab7c1cf635bf724118579930c99b9db6d0eda10b/"

@@ -2,6 +2,7 @@
 title: "Заземление и уравнивание потенциалов"
 position: 4
 kind: practice
+difficulty: intermediate
 resources:
   - title: "ПУЭ 7-е изд., гл. 1.7 — заземляющие устройства, главная заземляющая шина, система уравнивания потенциалов"
     url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"

@@ -2,6 +2,7 @@
 title: "Практика: настройка ПИД-контура"
 position: 3
 kind: practice
+difficulty: advanced
 resources:
   - title: "Онлайн-симулятор ПИД-регулятора (интерактивная настройка P, I, D на модели объекта)"
     url: "https://isense.su/tools/pid.html"

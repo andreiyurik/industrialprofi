@@ -109,6 +109,16 @@
   padding-inline-start: 1rem;
 }
 
+/* Practice submission: photograph the work, log it to the journal. */
+.lesson-task-journal {
+  margin-block-start: 1.25rem;
+
+  svg {
+    block-size: 1.1rem;
+    inline-size: 1.1rem;
+  }
+}
+
 /* Resources list */
 .lesson-resources {
   list-style: none;

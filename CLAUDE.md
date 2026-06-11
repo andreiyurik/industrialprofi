@@ -162,6 +162,19 @@ Path (profession)
 2. OFFICIAL DOCUMENTS (curated links, ranked: ★ required, ○ optional)
 3. PRACTICAL TASK (concrete, verifiable assignment)
 
+**Practice lessons (`kind: practice`) additionally carry a difficulty and a brief-format task.**
+`difficulty:` in the frontmatter (`beginner` = paper/bench work, safe and near-free;
+`intermediate` = real installation/measurement work with tools; `advanced` = capstone
+challenges) — it drives the /projects card grid and its filters. The «## Задание»
+section follows the brief format (эталоны: `chtenie-shem-i-ugo.md`,
+`soedinenie-provodov.md`, `sborka-shchita.md`): **Цель** (one sentence — what's in
+your hands at the end) → **Понадобится** (honest materials list with prices/free
+alternatives) → `> [!ОПАСНО]` safety block where the work touches anything live →
+**Шаги** (numbered) → **Что сдать** (photos/notes → journal entry; the journal is the
+submission and the future portfolio) → **Самопроверка** (verifiable yes/no criteria,
+referencing the official standard). New practice content MUST use this format; the
+remaining pre-format practices get converted as they're touched.
+
 **Name de-facto-standard tools.** When a specific program has become the industry standard for a recurring task in the trade (e.g. Modbus Poll/qModMaster for polling Modbus, UaExpert for OPC UA, Wireshark for network diagnostics, the canonical PLC IDE), name it explicitly and briefly explain what it's used for and why — don't hide behind "use a suitable tool." A concrete tool is a step the learner can take today; abstraction leaves them stranded. Add it both as a `tool` resource and as a mention in the body (often in a `> [!СОВЕТ]` block). This is about the standard *tool for the task*, not lock-in to a hardware vendor.
 
 **Editing model (built):** anyone can *suggest* an edit to a lesson section

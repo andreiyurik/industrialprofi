@@ -2,6 +2,7 @@
 title: "Практика: программа управления насосом"
 position: 7
 kind: practice
+difficulty: intermediate
 resources:
   - title: "OpenPLC Editor — бесплатная среда МЭК 61131-3, запусти и проверь программу без контроллера"
     url: "https://autonomylogic.com/download"

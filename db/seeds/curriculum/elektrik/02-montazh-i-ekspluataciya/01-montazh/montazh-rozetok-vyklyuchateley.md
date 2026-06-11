@@ -2,6 +2,7 @@
 title: "Монтаж розеток, выключателей и светильников"
 position: 3
 kind: practice
+difficulty: intermediate
 resources:
   - title: "ПУЭ 7-е изд., гл. 6.6 и 7.1 — установочные аппараты, светильники, электроустановки зданий"
     url: "https://www.consultant.ru/document/cons_doc_LAW_91546/"

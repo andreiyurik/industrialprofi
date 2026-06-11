@@ -2,6 +2,7 @@
 title: "Практика: подбор и подключение датчика"
 position: 6
 kind: practice
+difficulty: beginner
 resources:
   - title: "Каталог датчиков ОВЕН — реальные паспорта и datasheet для тренировки подбора"
     url: "https://owen.ru/catalog/datchiki"

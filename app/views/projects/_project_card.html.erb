@@ -1,0 +1,20 @@
+<%# locals: (lesson:, done: false) -%>
+<a href="<%= lesson_path(lesson) %>" class="panel panel--hover project-card">
+  <div class="project-card__top">
+    <span class="badge badge--diff-<%= lesson.difficulty %>"><%= t("lessons.difficulty.#{lesson.difficulty}") %></span>
+    <% if done %>
+      <span class="project-card__done" title="<%= t("projects.done") %>">
+        <%= heroicon "check-circle", variant: :solid %>
+      </span>
+    <% end %>
+  </div>
+  <h2 class="panel__title project-card__title"><%= lesson.title %></h2>
+  <p class="panel__description project-card__description"><%= lesson.description %></p>
+  <div class="project-card__footer">
+    <span class="project-card__path">
+      <%= topic_icon_svg(path_icon_token(lesson.path)) %>
+      <%= lesson.path.title %>
+    </span>
+    <span class="path-card__arrow" aria-hidden="true"><%= heroicon "arrow-right", variant: :outline %></span>
+  </div>
+</a>

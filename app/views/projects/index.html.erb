@@ -3,46 +3,45 @@
 <% canonical_url("#{site_config.url}/projects") %>
 
 <section class="section">
-  <div class="container container--reading">
+  <div class="container">
     <div class="txt-align-center">
       <h1 class="section-title"><%= t("projects.title") %></h1>
       <p class="section-subtitle"><%= t("projects.subtitle") %></p>
     </div>
 
-    <% if @lessons_by_path.any? %>
-      <div class="curriculum curriculum--plain">
-        <% @lessons_by_path.each do |path, lessons| %>
-          <div class="curriculum__section">
-            <div class="curriculum__header">
-              <h2 class="curriculum__header-title">
-                <%= link_to path.title, path_path(path), class: "curriculum__header-link" %>
-                <% if path == @focus_path %>
-                  <span class="badge badge--marker"><%= t("projects.focus_badge") %></span>
-                <% end %>
-              </h2>
-              <% if signed_in? %>
-                <span class="curriculum__header-count">
-                  <%= lessons.count { |lesson| @completed_ids.include?(lesson.id) } %>/<%= lessons.size %>
-                </span>
-              <% end %>
-            </div>
-
-            <div class="curriculum__list">
-              <% lessons.each do |lesson| %>
-                <% done = @completed_ids.include?(lesson.id) %>
-                <a href="<%= lesson_path(lesson) %>" class="curriculum__lesson curriculum__lesson--practice<%= " curriculum__lesson--done" if done %>">
-                  <% if done %>
-                    <%= heroicon "check-circle", variant: :solid %>
-                  <% else %>
-                    <%= heroicon "wrench-screwdriver", variant: :outline %>
-                  <% end %>
-                  <span class="curriculum__lesson-title"><%= lesson.title %></span>
-                </a>
-              <% end %>
-            </div>
-          </div>
+    <nav class="project-filters" aria-label="<%= t("projects.filters_label") %>">
+      <div class="project-filters__group">
+        <%= link_to t("projects.all_paths"), projects_path(difficulty: @selected_difficulty),
+                    class: "filter-chip", "aria-current": @selected_path.nil? || nil %>
+        <% @paths.each do |path| %>
+          <%= link_to path.title, projects_path(path: path.slug, difficulty: @selected_difficulty),
+                      class: "filter-chip", "aria-current": (@selected_path == path) || nil %>
         <% end %>
       </div>
+      <div class="project-filters__group">
+        <%= link_to t("projects.any_difficulty"), projects_path(path: @selected_path&.slug),
+                    class: "filter-chip", "aria-current": @selected_difficulty.nil? || nil %>
+        <% Lesson::DIFFICULTIES.each do |difficulty| %>
+          <%= link_to t("lessons.difficulty.#{difficulty}"),
+                      projects_path(path: @selected_path&.slug, difficulty: difficulty),
+                      class: "filter-chip filter-chip--#{difficulty}",
+                      "aria-current": (@selected_difficulty == difficulty) || nil %>
+        <% end %>
+      </div>
+      <p class="project-filters__count"><%= t("projects.found", count: @lessons.size) %></p>
+    </nav>
+
+    <% if @lessons.any? %>
+      <div class="project-grid">
+        <% @lessons.each do |lesson| %>
+          <%= render "project_card", lesson: lesson, done: @completed_ids.include?(lesson.id) %>
+        <% end %>
+      </div>
+    <% elsif @selected_path || @selected_difficulty %>
+      <p class="projects__empty">
+        <%= t("projects.empty_filtered") %>
+        <%= link_to t("projects.reset_filters"), projects_path %>
+      </p>
     <% else %>
       <p class="projects__empty"><%= t("projects.empty") %></p>
     <% end %>

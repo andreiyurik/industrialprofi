@@ -121,6 +121,14 @@
         <h2 class="lesson__heading"><%= t("lessons.task_section") %></h2>
         <div class="lesson__task">
           <div class="prose"><%= lesson_content(@lesson, :task) %></div>
+          <%# The practice loop: did it → photograph it → log it. The journal
+              entry is the "submission" (and the future v0.3 portfolio). %>
+          <% if @lesson.practice? && signed_in? %>
+            <%= link_to new_journal_entry_path(lesson_id: @lesson.id), class: "btn lesson-task-journal" do %>
+              <%= heroicon "camera", variant: :outline %>
+              <%= t("lessons.log_result") %>
+            <% end %>
+          <% end %>
         </div>
         <%= render "lessons/edit_link", section: "task" %>
       </section>

@@ -2,6 +2,7 @@
 title: "Практика: разработка мнемосхемы узла"
 position: 4
 kind: practice
+difficulty: intermediate
 resources:
   - title: "SCADA TRACE MODE — бесплатная базовая версия (до 32 каналов) для сборки мнемосхемы"
     url: "http://www.adastra.ru/products/dev/scada/"

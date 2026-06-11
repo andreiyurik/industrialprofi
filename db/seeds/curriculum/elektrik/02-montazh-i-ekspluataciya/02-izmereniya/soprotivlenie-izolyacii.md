@@ -2,6 +2,7 @@
 title: "Измерение сопротивления изоляции (мегаомметр)"
 position: 2
 kind: practice
+difficulty: intermediate
 resources:
   - title: "ПТЭЭП (приказ Минэнерго РФ № 811 от 12.08.2022) — нормы сопротивления изоляции и периодичность"
     url: "http://publication.pravo.gov.ru/Document/View/0001202210070065"
