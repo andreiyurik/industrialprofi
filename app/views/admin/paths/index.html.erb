@@ -2,12 +2,10 @@
 
 <section class="admin-page">
   <div class="container">
+    <%= render "admin/shared/nav" %>
+
     <div class="admin-header">
       <h1 class="admin-header__title"><%= t("admin.paths_title") %></h1>
-      <div class="admin-header__actions">
-        <a href="<%= admin_courses_path %>" class="btn btn--small"><%= t("admin.manage_courses") %></a>
-        <a href="<%= admin_lessons_path %>" class="btn btn--small"><%= t("admin.manage_lessons") %></a>
-      </div>
     </div>
 
     <div class="admin-list">

@@ -83,7 +83,8 @@
                   <%= t("nav.account") %>
                 <% end %>
                 <% if Current.user.can_edit_content? %>
-                  <%= link_to admin_lessons_path, class: "account-menu__link" do %>
+                  <%# Admins land on the overview; editors on their main job — the moderation queue. %>
+                  <%= link_to (Current.user.can_administer? ? admin_root_path : admin_lesson_suggestions_path), class: "account-menu__link" do %>
                     <%= heroicon "cog-6-tooth", variant: :outline %>
                     Admin
                   <% end %>

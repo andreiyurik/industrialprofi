@@ -35,6 +35,65 @@ ru:
     formats:
       long: "%d %B %Y, %H:%M"
 
+  datetime:
+    distance_in_words:
+      half_a_minute: "полминуты"
+      less_than_x_seconds:
+        one: "меньше %{count} секунды"
+        few: "меньше %{count} секунд"
+        many: "меньше %{count} секунд"
+        other: "меньше %{count} секунды"
+      x_seconds:
+        one: "%{count} секунда"
+        few: "%{count} секунды"
+        many: "%{count} секунд"
+        other: "%{count} секунды"
+      less_than_x_minutes:
+        one: "меньше минуты"
+        few: "меньше %{count} минут"
+        many: "меньше %{count} минут"
+        other: "меньше %{count} минуты"
+      x_minutes:
+        one: "%{count} минута"
+        few: "%{count} минуты"
+        many: "%{count} минут"
+        other: "%{count} минуты"
+      about_x_hours:
+        one: "около %{count} часа"
+        few: "около %{count} часов"
+        many: "около %{count} часов"
+        other: "около %{count} часа"
+      x_days:
+        one: "%{count} день"
+        few: "%{count} дня"
+        many: "%{count} дней"
+        other: "%{count} дня"
+      about_x_months:
+        one: "около %{count} месяца"
+        few: "около %{count} месяцев"
+        many: "около %{count} месяцев"
+        other: "около %{count} месяца"
+      x_months:
+        one: "%{count} месяц"
+        few: "%{count} месяца"
+        many: "%{count} месяцев"
+        other: "%{count} месяца"
+      about_x_years:
+        one: "около %{count} года"
+        few: "около %{count} лет"
+        many: "около %{count} лет"
+        other: "около %{count} года"
+      over_x_years:
+        one: "больше %{count} года"
+        few: "больше %{count} лет"
+        many: "больше %{count} лет"
+        other: "больше %{count} года"
+      almost_x_years:
+        one: "почти %{count} год"
+        few: "почти %{count} года"
+        many: "почти %{count} лет"
+        other: "почти %{count} года"
+
   activerecord:
     attributes:
       user:
@@ -511,6 +570,7 @@ ru:
     manage_courses: "Курсы"
     manage_lessons: "Уроки"
     manage_users: "Пользователи"
+    nav_label: "Разделы админки"
     users_search_placeholder: "Имя или email"
     users_search: "Найти"
     users_none: "Никого не найдено"
@@ -522,6 +582,33 @@ ru:
     users:
       role_updated: "Роль обновлена: %{name} — %{role}"
       cannot_change_own_role: "Свою роль изменить нельзя"
+    dashboard:
+      title: "Обзор"
+      pending_suggestions:
+        one: "%{count} правка ждёт модерации"
+        few: "%{count} правки ждут модерации"
+        many: "%{count} правок ждут модерации"
+        other: "%{count} правки ждут модерации"
+      review_now: "Проверить"
+      users_total: "Пользователей"
+      users_week: "+%{count} за 7 дней"
+      users_month: "+%{count} за 30 дней"
+      active_week: "Активны за неделю"
+      active_week_hint: "проходили уроки или вели журнал"
+      completions: "Завершений уроков"
+      completions_week: "+%{count} за 7 дней"
+      journal_entries: "Записей в журнале"
+      storage: "Фото в журналах: %{size}"
+      signups_chart: "Регистрации по неделям"
+      signups_chart_period: "последние %{weeks} недель"
+      signups_week_title: "Неделя с %{date}: %{count}"
+      content: "Контент"
+      content_paths: "Профессии"
+      content_courses: "Курсы"
+      content_lessons: "Уроки"
+      published_of_total: "%{published} из %{total} опубликовано"
+      recent_users: "Последние регистрации"
+      all_users: "Все пользователи"
     edit_lesson: "Редактирование урока"
     edit_path: "Редактирование профессии"
     edit_course: "Редактирование курса"

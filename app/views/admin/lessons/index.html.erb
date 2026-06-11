@@ -2,16 +2,10 @@
 
 <section class="admin-page">
   <div class="container">
+    <%= render "admin/shared/nav" %>
+
     <div class="admin-header">
       <h1 class="admin-header__title"><%= t("admin.lessons_title") %></h1>
-      <div class="admin-header__actions">
-        <a href="<%= admin_lesson_suggestions_path %>" class="btn btn--small"><%= t("admin.manage_suggestions") %></a>
-        <a href="<%= admin_paths_path %>" class="btn btn--small"><%= t("admin.manage_paths") %></a>
-        <a href="<%= admin_courses_path %>" class="btn btn--small"><%= t("admin.manage_courses") %></a>
-        <% if Current.user.can_administer? %>
-          <a href="<%= admin_users_path %>" class="btn btn--small"><%= t("admin.manage_users") %></a>
-        <% end %>
-      </div>
     </div>
 
     <% @paths.each do |path| %>

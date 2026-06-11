@@ -2,12 +2,10 @@
 
 <section class="admin-page">
   <div class="container">
+    <%= render "admin/shared/nav" %>
+
     <div class="admin-header">
       <h1 class="admin-header__title"><%= t("admin.users_title") %></h1>
-      <div class="admin-header__actions">
-        <a href="<%= admin_lessons_path %>" class="btn btn--small"><%= t("admin.manage_lessons") %></a>
-        <a href="<%= admin_lesson_suggestions_path %>" class="btn btn--small"><%= t("admin.manage_suggestions") %></a>
-      </div>
     </div>
 
     <%= form_with url: admin_users_path, method: :get, class: "admin-users-search" do %>

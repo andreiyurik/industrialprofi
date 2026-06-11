@@ -189,7 +189,14 @@ gated by `can_edit_content?`) → `administrator` (everything, plus `/admin/user
 — list/search users, assign roles; gated by `can_administer?`; can't change own
 role, so the last admin can't lock himself out). The first admin is created by
 `db/seeds.rb` from `ADMIN_EMAIL`/`ADMIN_PASSWORD` env vars (or via console);
-further editors/admins are appointed on /admin/users.
+further editors/admins are appointed on /admin/users. **`/admin` (admin-only)
+is the founder's overview dashboard**: signups (totals + 12-week CSS-bar chart),
+active-this-week (completions/journal — same definition as the user heatmap),
+pending-suggestions callout, completions, journal volume + Active Storage disk
+usage (SQLite disk safety), content health, recent signups. Plain group/count
+queries in `Admin::DashboardController`, server-rendered, no charting JS, no
+admin gems — the scaling seam is `Rails.cache.fetch` (Solid Cache), not a
+stats table.
 
 **Progress & accounts (built — the v0.2 milestone):** registration/login
 (`has_secure_password`, hand-rolled `SessionsController`, `Current`/`Session`
