@@ -135,5 +135,26 @@
         </div>
       <% end %>
     <% end %>
+
+    <% if @bookmarked_lessons.any? %>
+      <section id="dashboard_bookmarks" class="dashboard__bookmarks">
+        <h2 class="dashboard__others-title"><%= t("dashboard.bookmarks_title") %></h2>
+        <p class="dashboard__courses-hint"><%= t("dashboard.bookmarks_hint") %></p>
+        <div class="panel dashboard-bookmarks">
+          <% @bookmarked_lessons.each do |lesson| %>
+            <div class="dashboard-bookmark" id="<%= dom_id(lesson, :bookmark_row) %>">
+              <span class="badge badge--diff-<%= lesson.difficulty %>"><%= t("lessons.difficulty.#{lesson.difficulty}") %></span>
+              <%= link_to lesson.title, lesson, class: "dashboard-bookmark__title" %>
+              <span class="dashboard-bookmark__path"><%= lesson.path.title %></span>
+              <%= button_to lesson_bookmark_path(lesson), method: :delete,
+                    class: "dashboard-bookmark__remove",
+                    title: t("bookmarks.remove"), "aria-label": t("bookmarks.remove") do %>
+                <%= heroicon "x-mark", variant: :outline %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
   </div>
 </section>

@@ -3,6 +3,8 @@ class LessonCompletionsController < ApplicationController
 
   def create
     Current.user.lesson_completions.create_or_find_by!(lesson: @lesson)
+    # Done means no longer "saved for later".
+    Current.user.lesson_bookmarks.destroy_by(lesson: @lesson)
     load_progress
     @celebration = celebration_message
     respond

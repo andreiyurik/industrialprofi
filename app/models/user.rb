@@ -4,6 +4,8 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :lesson_completions, dependent: :destroy
   has_many :completed_lessons, through: :lesson_completions, source: :lesson
+  has_many :lesson_bookmarks, dependent: :destroy
+  has_many :bookmarked_lessons, through: :lesson_bookmarks, source: :lesson
   has_many :journal_entries, dependent: :destroy
 
   enum :role, { member: "member", administrator: "administrator" }, default: "member"

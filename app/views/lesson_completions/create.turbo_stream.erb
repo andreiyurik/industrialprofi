@@ -12,3 +12,9 @@
     <%= render "shared/flash_message", message: @celebration %>
   <% end %>
 <% end %>
+
+<%# Completing un-bookmarks (done ≠ saved for later); refresh the toggle if
+    it's on the page — Turbo skips missing targets. %>
+<%= turbo_stream.replace dom_id(@lesson, :bookmark) do %>
+  <%= render "lessons/bookmark_button", lesson: @lesson, bookmarked: false %>
+<% end %>

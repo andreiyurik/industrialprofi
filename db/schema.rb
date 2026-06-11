@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_11_203437) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_11_205557) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -73,6 +73,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_203437) do
     t.index ["lesson_id"], name: "index_journal_entries_on_lesson_id"
     t.index ["user_id", "created_at"], name: "index_journal_entries_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_journal_entries_on_user_id"
+  end
+
+  create_table "lesson_bookmarks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "lesson_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["lesson_id"], name: "index_lesson_bookmarks_on_lesson_id"
+    t.index ["user_id", "lesson_id"], name: "index_lesson_bookmarks_on_user_id_and_lesson_id", unique: true
+    t.index ["user_id"], name: "index_lesson_bookmarks_on_user_id"
   end
 
   create_table "lesson_completions", force: :cascade do |t|
@@ -201,6 +211,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_203437) do
   add_foreign_key "courses", "paths"
   add_foreign_key "journal_entries", "lessons"
   add_foreign_key "journal_entries", "users"
+  add_foreign_key "lesson_bookmarks", "lessons"
+  add_foreign_key "lesson_bookmarks", "users"
   add_foreign_key "lesson_completions", "lessons"
   add_foreign_key "lesson_completions", "users"
   add_foreign_key "lesson_revisions", "lesson_suggestions"

@@ -57,6 +57,38 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
                     :<, response.body.index(lessons(:praktika_shchitok).title)
   end
 
+  test "bookmark toggles appear only for signed-in users" do
+    get projects_path
+    assert_select ".bookmark-btn", false
+
+    sign_in_as users(:member)
+    get projects_path
+    assert_select ".project-card-wrap .bookmark-btn", 2
+    assert_match I18n.t("projects.saved_filter"), response.body
+  end
+
+  test "saved filter shows only bookmarked tasks" do
+    users(:member).lesson_bookmarks.create!(lesson: lessons(:praktika_shchitok))
+    sign_in_as users(:member)
+
+    get projects_path(saved: "1")
+    assert_select ".project-card", 1
+    assert_match lessons(:praktika_shchitok).title, response.body
+    assert_select ".bookmark-btn--on"
+  end
+
+  test "saved filter with no bookmarks explains itself" do
+    sign_in_as users(:member)
+    get projects_path(saved: "1")
+    assert_select ".project-card", 0
+    assert_match I18n.t("projects.empty_saved"), response.body
+  end
+
+  test "saved filter is ignored for signed-out visitors" do
+    get projects_path(saved: "1")
+    assert_select ".project-card", 2
+  end
+
   test "index shows completion marks for signed-in users" do
     users(:member).lesson_completions.create!(lesson: lessons(:praktika_shchitok))
     sign_in_as users(:member)

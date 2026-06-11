@@ -2,6 +2,8 @@
 <% meta_description(t("projects.subtitle")) %>
 <% canonical_url("#{site_config.url}/projects") %>
 
+<% saved_param = @saved_only ? "1" : nil %>
+
 <section class="section">
   <div class="container">
     <div class="txt-align-center">
@@ -11,33 +13,50 @@
 
     <nav class="project-filters" aria-label="<%= t("projects.filters_label") %>">
       <div class="project-filters__group">
-        <%= link_to t("projects.all_paths"), projects_path(difficulty: @selected_difficulty),
+        <%= link_to t("projects.all_paths"), projects_path(difficulty: @selected_difficulty, saved: saved_param),
                     class: "filter-chip", "aria-current": @selected_path.nil? || nil %>
         <% @paths.each do |path| %>
-          <%= link_to path.title, projects_path(path: path.slug, difficulty: @selected_difficulty),
+          <%= link_to path.title, projects_path(path: path.slug, difficulty: @selected_difficulty, saved: saved_param),
                       class: "filter-chip", "aria-current": (@selected_path == path) || nil %>
         <% end %>
       </div>
       <div class="project-filters__group">
-        <%= link_to t("projects.any_difficulty"), projects_path(path: @selected_path&.slug),
+        <%= link_to t("projects.any_difficulty"), projects_path(path: @selected_path&.slug, saved: saved_param),
                     class: "filter-chip", "aria-current": @selected_difficulty.nil? || nil %>
         <% Lesson::DIFFICULTIES.each do |difficulty| %>
           <%= link_to t("lessons.difficulty.#{difficulty}"),
-                      projects_path(path: @selected_path&.slug, difficulty: difficulty),
+                      projects_path(path: @selected_path&.slug, difficulty: difficulty, saved: saved_param),
                       class: "filter-chip filter-chip--#{difficulty}",
                       "aria-current": (@selected_difficulty == difficulty) || nil %>
         <% end %>
       </div>
+      <% if signed_in? %>
+        <div class="project-filters__group">
+          <%= link_to projects_path(path: @selected_path&.slug, difficulty: @selected_difficulty,
+                                    saved: @saved_only ? nil : "1"),
+                      class: "filter-chip filter-chip--saved", "aria-current": @saved_only || nil do %>
+            <%= heroicon "bookmark", variant: @saved_only ? :solid : :outline %>
+            <%= t("projects.saved_filter") %>
+          <% end %>
+        </div>
+      <% end %>
       <p class="project-filters__count"><%= t("projects.found", count: @lessons.size) %></p>
     </nav>
 
     <% if @lessons.any? %>
       <div class="project-grid">
         <% @lessons.each do |lesson| %>
-          <%= render "project_card", lesson: lesson, done: @completed_ids.include?(lesson.id) %>
+          <%= render "project_card", lesson: lesson,
+                done: @completed_ids.include?(lesson.id),
+                bookmarked: @bookmarked_ids.include?(lesson.id) %>
         <% end %>
       </div>
-    <% elsif @selected_path || @selected_difficulty %>
+    <% elsif @saved_only && @selected_path.nil? && @selected_difficulty.nil? %>
+      <p class="projects__empty">
+        <%= t("projects.empty_saved") %>
+        <%= link_to t("projects.reset_filters"), projects_path %>
+      </p>
+    <% elsif @selected_path || @selected_difficulty || @saved_only %>
       <p class="projects__empty">
         <%= t("projects.empty_filtered") %>
         <%= link_to t("projects.reset_filters"), projects_path %>

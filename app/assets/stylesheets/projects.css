@@ -52,6 +52,18 @@
   font-weight: 600;
 }
 
+/* The «Сохранённые» chip carries a bookmark glyph. */
+.filter-chip--saved {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.4em;
+
+  svg {
+    block-size: 1em;
+    inline-size: 1em;
+  }
+}
+
 .project-filters__count {
   color: var(--color-subtle-dark);
   flex-basis: 100%;
@@ -68,9 +80,33 @@
   margin-block-start: 2rem;
 }
 
+/* The card is one big <a>; the bookmark button is its SIBLING (a button can't
+   live inside a link), absolutely positioned over the top-right corner. */
+.project-card-wrap {
+  display: flex; /* the inner card stretches to the grid row height */
+  position: relative;
+}
+
+.project-card-wrap .bookmark-toggle {
+  inset-block-start: 1.1em;
+  inset-inline-end: 1.25em;
+  position: absolute;
+}
+
+/* Card corner: icon only — the label would fight the difficulty badge. */
+.project-card-wrap .bookmark-btn__label {
+  display: none;
+}
+
+.project-card-wrap .bookmark-btn svg {
+  block-size: 1.2rem;
+  inline-size: 1.2rem;
+}
+
 .project-card {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .project-card__top {
@@ -78,6 +114,8 @@
   display: flex;
   justify-content: space-between;
   margin-block-end: 0.9rem;
+  /* keep the done check clear of the corner bookmark */
+  padding-inline-end: 1.9rem;
 }
 
 .project-card__done {

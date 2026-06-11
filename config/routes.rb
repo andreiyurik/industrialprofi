@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   resources :courses, only: [ :show ], param: :slug
   resources :lessons, only: [ :show ], param: :slug do
     resource :completion, only: [ :create, :destroy ], controller: "lesson_completions"
+    resource :bookmark, only: [ :create, :destroy ], controller: "lesson_bookmarks"
     resources :revisions, only: [ :index, :show ]
     resources :suggestions, only: [ :new, :create ], controller: "lesson_suggestions"
   end

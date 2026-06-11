@@ -1,0 +1,3 @@
+<%= turbo_stream.replace dom_id(@lesson, :bookmark) do %>
+  <%= render "lessons/bookmark_button", lesson: @lesson, bookmarked: true %>
+<% end %>

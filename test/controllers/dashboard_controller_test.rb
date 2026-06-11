@@ -25,6 +25,24 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_match I18n.t("dashboard.browse_paths"), response.body
   end
 
+  test "lists bookmarked tasks with remove buttons" do
+    users(:member).lesson_bookmarks.create!(lesson: lessons(:praktika_shchitok))
+    sign_in_as users(:member)
+
+    get dashboard_path
+    assert_select "#dashboard_bookmarks" do
+      assert_select ".dashboard-bookmark", 1
+      assert_select ".dashboard-bookmark__remove"
+    end
+    assert_match lessons(:praktika_shchitok).title, response.body
+  end
+
+  test "hides the bookmarks section when there are none" do
+    sign_in_as users(:member)
+    get dashboard_path
+    assert_select "#dashboard_bookmarks", false
+  end
+
   test "shows started path with continue link to next lesson" do
     users(:member).lesson_completions.create!(lesson: lessons(:pteep))
 

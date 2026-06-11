@@ -13,5 +13,12 @@ class DashboardController < ApplicationController
     # empty cells would only demotivate a newcomer.
     @activity_since = 15.weeks.ago.to_date.beginning_of_week
     @activity = Current.user.activity_by_day(since: @activity_since)
+
+    # Save-for-later queue, newest first (a practice task often waits for
+    # tools or materials).
+    @bookmarked_lessons = Current.user.lesson_bookmarks
+                                 .includes(lesson: :path)
+                                 .order(created_at: :desc)
+                                 .map(&:lesson)
   end
 end

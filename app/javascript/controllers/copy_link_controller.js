@@ -3,8 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 // Copies the lesson's canonical URL to the clipboard and briefly swaps the
 // button label to confirm ("Скопировано"), then restores it.
 //
-// Progressive enhancement: the element is rendered with `hidden`, and only this
-// controller reveals it on connect — so without JS there is no dead button.
+// Progressive enhancement: the copy button is rendered with `hidden`, and only
+// this controller reveals it on connect — so without JS there is no dead button.
 export default class extends Controller {
   static targets = ["button", "label"]
   static values = {
@@ -15,7 +15,7 @@ export default class extends Controller {
   }
 
   connect() {
-    this.element.hidden = false
+    this.buttonTarget.hidden = false
   }
 
   async copy() {

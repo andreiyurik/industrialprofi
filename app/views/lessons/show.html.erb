@@ -40,14 +40,15 @@
   <header class="lesson__header">
     <h1 class="lesson__title"><%= @lesson.title %></h1>
 
-    <%# Hidden by default; the Stimulus controller reveals it on connect, so
-        without JS (or without clipboard support) there's no dead button. %>
-    <div class="lesson__meta" hidden
+    <%# JS-dependent buttons (copy, reading mode) are rendered `hidden` and
+        revealed by their controllers on connect — no dead buttons without JS.
+        The bookmark toggle is a plain form, so the row itself stays visible. %>
+    <div class="lesson__meta"
          data-controller="copy-link"
          data-copy-link-url-value="<%= "#{site_config.url}/lessons/#{@lesson.slug}" %>"
          data-copy-link-label-value="<%= t("lessons.copy_link") %>"
          data-copy-link-copied-value="<%= t("lessons.link_copied") %>">
-      <button type="button" class="lesson__copy"
+      <button type="button" class="lesson__copy" hidden
               data-copy-link-target="button"
               data-action="copy-link#copy">
         <%= heroicon "link", variant: :outline %>
@@ -66,6 +67,12 @@
           <span><%= t("lessons.reading_mode_exit") %></span>
         </span>
       </button>
+
+      <%# Save-for-later: a practice task often waits for tools/materials. %>
+      <% if @lesson.practice? && signed_in? %>
+        <%= render "lessons/bookmark_button", lesson: @lesson,
+              bookmarked: Current.user.lesson_bookmarks.exists?(lesson: @lesson) %>
+      <% end %>
     </div>
 
     <% if @lesson.revised? %>

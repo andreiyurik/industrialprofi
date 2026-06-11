@@ -426,3 +426,74 @@
   font-size: 0.9rem;
   margin-block: 0;
 }
+
+/* ── «Отложенные задания» — the saved-practice queue ─────────────────
+   Compact rows; the remove ✕ unbookmarks via Turbo Stream (row disappears,
+   whole section goes with the last row). */
+.dashboard__bookmarks {
+  margin-block-start: 3rem;
+}
+
+.dashboard-bookmarks {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-bookmark {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  padding-block: 0.65rem;
+}
+
+.dashboard-bookmark + .dashboard-bookmark {
+  border-block-start: 1px solid var(--color-subtle);
+}
+
+.dashboard-bookmark__title {
+  color: var(--color-ink);
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 500;
+  min-inline-size: 0;
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.dashboard-bookmark__path {
+  color: var(--color-subtle-dark);
+  flex-shrink: 0;
+  font-size: 0.8rem;
+}
+
+.dashboard-bookmark__remove {
+  background: none;
+  border: 0;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  display: inline-flex;
+  padding: 0.25rem;
+  transition: color 150ms ease;
+
+  svg {
+    block-size: 1.1rem;
+    inline-size: 1.1rem;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+@media (max-width: 639.98px) {
+  .dashboard-bookmark__path {
+    display: none; /* keep rows one-line on phones */
+  }
+}
