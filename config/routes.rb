@@ -17,8 +17,8 @@ Rails.application.routes.draw do
   get "sitemap.xml" => "sitemaps#show", defaults: { format: :xml }
 
   resource :account, only: [ :show, :update ], controller: "account"
+  patch "account/password", to: "account#update_password", as: :account_password
   scope module: :account_settings, path: "account", as: :account do
-    resource :password, only: [ :edit, :update ]
     resource :email, only: [ :edit, :create ]
     resource :email_verification, only: [ :new, :create ]
     resource :deletion, only: [ :new, :create ]

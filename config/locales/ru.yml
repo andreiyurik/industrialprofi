@@ -523,6 +523,9 @@ ru:
 
   account:
     title: "Настройки аккаунта"
+    nav_profile: "Профиль"
+    nav_password: "Пароль"
+    profile_subtitle: "Информация об аккаунте."
     name_section: "Имя"
     email_section: "Email"
     password_section: "Пароль"
@@ -543,6 +546,7 @@ ru:
     password_invalid_for_deletion: "Неверный пароль."
     current_password: "Текущий пароль"
     new_email_placeholder: "Новый email"
+    new_password: "Новый пароль"
     password_hint_text: "Минимум 8 символов."
     save_password: "Сохранить пароль"
     send_code: "Отправить код"
