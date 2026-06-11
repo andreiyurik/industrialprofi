@@ -1,5 +1,7 @@
 /* Course-contents sidebar, TOP-style. Two presentations of one element:
-   ≥1100px — a sticky second column (roadmap.sh feel, always visible);
+   ≥1100px — a full-height rail docked to the viewport's left edge (the layout
+   is full-bleed, NOT inside .container — exactly like theodinproject.com: the
+   rail owns the screen edge, the lesson column centers in the remaining space);
    <1100px — an off-canvas drawer opened by the "Содержание курса" button.
    Stages are native <details> accordions: the current one starts open. */
 .lesson-layout {
@@ -10,23 +12,23 @@
   .lesson-layout {
     align-items: start;
     display: grid;
-    gap: 1rem;
-    grid-template-columns: 19rem minmax(0, 1fr);
+    grid-template-columns: 20rem minmax(0, 1fr);
   }
 
   .lesson-sidebar {
+    /* block-size (not max-) keeps the divider running the full viewport
+       height even on short stages — the rail reads as a dock, not a card. */
+    block-size: calc(100dvh - 4rem);
     border-inline-end: 1px solid var(--color-subtle);
     inset-block-start: 4rem; /* clears the sticky header */
-    max-block-size: calc(100dvh - 4rem);
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding-block: 2rem;
-    padding-inline-end: 1.25rem;
+    padding-block: 1.5rem 2rem;
+    padding-inline: 1.5rem 1.25rem;
     position: sticky;
   }
 
   /* Drawer chrome is mobile-only. */
-  .lesson-contents-toggle,
   .lesson-sidebar__close,
   .lesson-sidebar-backdrop {
     display: none;
@@ -99,6 +101,13 @@
       border-color: var(--color-subtle-dark);
       color: var(--color-ink);
     }
+  }
+
+  /* Desktop always shows the rail, so the toggle disappears. Lives HERE, after
+     the base rule — an earlier `display: none` would lose the same-specificity
+     cascade to the base `display: inline-flex` below it. */
+  @media (min-width: 1100px) {
+    display: none;
   }
 }
 

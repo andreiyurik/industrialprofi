@@ -1,0 +1,75 @@
+/* Rouge syntax highlighting for fenced code blocks in markdown lessons.
+   Rendered server-side by kramdown + rouge (no JS, no build step). The block
+   chrome (background, border, padding, scroll) comes from the generic pre/code
+   rules in text.css — this file only colors the tokens. Palette follows The
+   Odin Project's dark Prism theme, mapped onto our OKLCH primitives:
+   keywords purple, strings green, numbers orange, functions blue, tags rose,
+   operators teal, comments muted gray. */
+.highlight {
+  /* comments */
+  .c, .c1, .cm, .cs, .cd {
+    color: var(--color-subtle-dark);
+    font-style: italic;
+  }
+
+  /* keywords (if, def, class, return…) */
+  .k, .kd, .kn, .kp, .kr, .kv {
+    color: oklch(var(--lch-purple));
+  }
+
+  /* types, class/module names, constants */
+  .kt, .nc, .nn, .no, .vc {
+    color: oklch(var(--lch-yellow));
+  }
+
+  /* literal keywords: true / false / nil / None */
+  .kc {
+    color: oklch(var(--lch-orange));
+  }
+
+  /* strings, symbols, escapes */
+  .s, .s1, .s2, .sb, .sh, .sx, .sr, .ss, .se, .si, .sa, .dl {
+    color: oklch(var(--lch-green));
+  }
+
+  /* numbers */
+  .m, .mi, .mf, .mh, .mo, .mb, .il {
+    color: oklch(var(--lch-orange));
+  }
+
+  /* function / method names */
+  .nf, .fm {
+    color: oklch(var(--lch-blue));
+  }
+
+  /* builtins, variables, operators */
+  .nb, .bp, .nv, .vi, .vg, .o, .ow {
+    color: oklch(var(--lch-teal));
+  }
+
+  /* markup tags + attribute names (HTML/XML, ladder/ST vendors' XML exports) */
+  .nt, .na {
+    color: oklch(var(--lch-rose));
+  }
+
+  /* lexer errors render as plain ink — never alarm-red over a typo in prose */
+  .err {
+    color: var(--color-ink);
+  }
+
+  /* diff blocks */
+  .gd {
+    background-color: oklch(var(--lch-red) / 0.12);
+    color: var(--color-negative);
+  }
+
+  .gi {
+    background-color: oklch(var(--lch-green) / 0.12);
+    color: var(--color-positive);
+  }
+
+  .gh, .gu {
+    color: var(--color-subtle-dark);
+    font-weight: 700;
+  }
+}

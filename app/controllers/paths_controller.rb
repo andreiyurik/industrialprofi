@@ -26,6 +26,8 @@ class PathsController < ApplicationController
     else
       {}
     end
+    # [course_id, kind] => count, for the lesson/practice counters on each card.
+    @kind_counts = @path.lessons.group(:course_id, :kind).count
     @completed_ids = signed_in? ? Current.user.completed_lesson_ids_for(@path) : Set.new
     @continue_lesson = signed_in? ? Current.user.next_lesson_in(@path) : @path.lessons.ordered.first
   end

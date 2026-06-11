@@ -94,8 +94,11 @@
   }
 }
 
-/* Native popover: anchored under the header's right edge, dark panel,
-   grouped rows — the Fizzy hub feel on our tokens. */
+/* Native popover: the top layer ignores ancestors, so it positions against
+   the viewport — but the button sits at the right edge of the centered 72rem
+   .container, not of the viewport. Mirror the container math
+   ((100vw - max-width) / 2 + its padding per breakpoint) so the menu hangs
+   under the button at any window width. */
 .account-menu {
   background-color: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);
@@ -104,11 +107,19 @@
     0 12px 32px -8px oklch(var(--lch-always-black) / 0.5),
     0 4px 8px -4px oklch(var(--lch-always-black) / 0.4);
   color: var(--color-ink);
-  inset: 3.9rem 0.75rem auto auto;
+  inset: 3.9rem max(1rem, calc((100vw - 72rem) / 2 + 1rem)) auto auto;
   margin: 0;
   min-inline-size: 15rem;
   padding: 0.5rem;
   position: fixed;
+
+  @media (min-width: 640px) {
+    inset-inline-end: max(1.5rem, calc((100vw - 72rem) / 2 + 1.5rem));
+  }
+
+  @media (min-width: 1024px) {
+    inset-inline-end: max(2rem, calc((100vw - 72rem) / 2 + 2rem));
+  }
 }
 
 .account-menu__header {

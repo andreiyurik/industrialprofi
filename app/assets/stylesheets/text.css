@@ -56,6 +56,18 @@ code {
   padding: 0.1em 0.3em;
 }
 
+/* Keyboard keys (`<kbd>Ctrl</kbd>` in lesson bodies) — a keycap look: same
+   chrome as inline code plus a thicker bottom edge. */
+kbd {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-block-end-width: 2px;
+  border-radius: 0.3em;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  padding: 0.1em 0.4em;
+}
+
 :is(pre, .pre) {
   border-radius: 0.5em;
   padding: 0.5lh 2ch;
@@ -167,6 +179,11 @@ ins {
 
   li + li {
     margin-block-start: 0.4em;
+  }
+
+  /* Quiet bullets/numbers — the text carries the emphasis, not the marker. */
+  li::marker {
+    color: var(--color-subtle-dark);
   }
 
   a {

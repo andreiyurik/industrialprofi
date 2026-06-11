@@ -30,3 +30,77 @@
 .progress--done .progress__label {
   color: var(--color-positive);
 }
+
+/* Circular course progress — design copied from The Odin Project's
+   ProgressCircle component (viewBox 20, 1.3 track / 1.4 rounded arc). The
+   content sits on an opaque disc stacked over the always-rendered percent
+   label; hovering the circle fades the disc out, revealing "N% пройдено". */
+.progress-ring {
+  block-size: 100%;
+  display: inline-grid;
+  /* One explicit full-size track: without it the auto track shrinks to the
+     widest stacked item (the percent label) and the 100%-sized SVG collapses
+     with it. */
+  grid-template: 100% / 100%;
+  inline-size: 100%;
+  place-items: center;
+
+  > * {
+    grid-area: 1 / 1;
+  }
+}
+
+.progress-ring__svg {
+  block-size: 100%;
+  fill: none;
+  inline-size: 100%;
+  /* The arc is thicker than the track and pokes past the viewBox edge —
+     let it render instead of clipping (TOP does the same). */
+  overflow: visible;
+  transform: rotate(-90deg);
+}
+
+.progress-ring__track {
+  stroke: var(--progress-ring-track-color, var(--color-subtle));
+  stroke-width: 1.3;
+}
+
+.progress-ring__arc {
+  stroke: var(--progress-ring-color, var(--color-positive));
+  stroke-linecap: round;
+  stroke-width: 1;
+}
+
+.progress-ring__percent {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: center;
+
+  small {
+    font-size: 0.75rem;
+  }
+}
+
+/* The disc hiding the label: opaque, slightly smaller than the ring (the
+   gap TOP leaves between artwork and ring). Background must match the
+   surface the circle sits on — override per context. */
+.progress-ring__body {
+  align-items: center;
+  background-color: var(--progress-ring-body-bg, var(--color-bg));
+  block-size: 84%;
+  border-radius: 50%;
+  display: inline-flex;
+  inline-size: 84%;
+  justify-content: center;
+  transition: opacity 200ms ease;
+}
+
+.progress-ring:hover .progress-ring__body {
+  opacity: 0;
+}

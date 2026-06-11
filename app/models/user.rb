@@ -9,6 +9,9 @@ class User < ApplicationRecord
   enum :role, { member: "member", administrator: "administrator" }, default: "member"
 
   normalizes :email_address, with: ->(email) { email.strip.downcase }
+  # The learner's own "why" — shown on the dashboard on every visit (TOP's
+  # "learning goal"). Blank saves as nil so presence checks stay simple.
+  normalizes :learning_goal, with: ->(goal) { goal.strip.presence }
 
   # Single-use by construction: the token embeds part of the password salt,
   # so changing the password invalidates every outstanding reset link.
@@ -20,6 +23,7 @@ class User < ApplicationRecord
   validates :email_address, presence: true, uniqueness: true,
             format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: 8 }, allow_nil: true
+  validates :learning_goal, length: { maximum: 200 }
 
   def can_administer? = administrator?
 

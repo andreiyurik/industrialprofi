@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   end
   resources :passwords, param: :token, only: [ :new, :create, :edit, :update ]
   get "dashboard" => "dashboard#show"
+  resource :learning_goal, only: [ :edit, :update ]
   get "projects" => "projects#index"
   resources :journal_entries, path: "journal", except: [ :show ]
 

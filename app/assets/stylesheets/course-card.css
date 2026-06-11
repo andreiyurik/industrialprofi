@@ -1,0 +1,145 @@
+/* Course cards on the profession page — layout copied from The Odin Project's
+   course card: big progress badge + title with lesson/practice counts + open
+   button in the header row, divider, description below. Stacks centered on
+   small screens, becomes a row from 48em (same breakpoint behaviour as TOP). */
+.course-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.course-card {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75em;
+  overflow: hidden;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.course-card--soon {
+  opacity: 0.6;
+}
+
+/* Full-width strip across the card top once every lesson is done
+   (TOP's "Completed" banner). */
+.course-card__completed {
+  align-items: center;
+  background-color: oklch(var(--lch-green) / 0.18);
+  color: var(--color-positive);
+  display: flex;
+  font-size: 0.85rem;
+  font-weight: 600;
+  gap: 0.35rem;
+  inset-block-start: 0;
+  inset-inline: 0;
+  justify-content: center;
+  padding-block: 0.3rem;
+  position: absolute;
+
+  svg {
+    block-size: 1.1rem;
+    inline-size: 1.1rem;
+  }
+}
+
+.course-card--done {
+  padding-block-start: 3.25rem;
+}
+
+.course-card__header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  text-align: center;
+}
+
+/* The big circle: progress ring (signed-in) or a plain bordered disc. */
+.course-card__badge {
+  --progress-ring-body-bg: var(--color-subtle-light);
+
+  block-size: 6rem;
+  color: var(--color-ink);
+  flex-shrink: 0;
+  inline-size: 6rem;
+
+  /* Only the topic icon itself — never the ring SVGs around it. */
+  .topic-badge > svg:not(.topic-badge__ring) {
+    block-size: 2.25rem;
+    inline-size: 2.25rem;
+  }
+}
+
+.course-card__badge--plain {
+  border: 2px solid var(--color-subtle);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.course-card__heading {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-inline-size: 0;
+}
+
+.course-card__title {
+  font-size: 1.25rem;
+  margin-block: 0;
+}
+
+.course-card__title-link {
+  color: var(--color-ink);
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.course-card__meta {
+  color: var(--color-subtle-dark);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  gap: 0.4rem 1.25rem;
+  justify-content: center;
+}
+
+.course-card__meta-item {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.4rem;
+
+  svg {
+    block-size: 1.1rem;
+    inline-size: 1.1rem;
+  }
+}
+
+.course-card__desc {
+  border-block-start: 1px solid var(--color-subtle);
+  color: var(--color-subtle-dark);
+  margin-block: 1.25rem 0;
+  padding-block-start: 1.25rem;
+}
+
+@media (min-width: 48em) {
+  .course-card__header {
+    flex-direction: row;
+    text-align: start;
+  }
+
+  .course-card__heading {
+    align-items: flex-start;
+  }
+
+  .course-card__meta {
+    justify-content: flex-start;
+  }
+}

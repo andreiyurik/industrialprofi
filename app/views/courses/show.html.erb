@@ -20,8 +20,15 @@
     ] %>
 
     <div class="path-hero">
-      <div class="topic-hero-icon">
-        <%= topic_icon_svg(path_icon_token(@path)) %>
+      <% show_ring = signed_in? && @course.lessons_count.positive? %>
+      <div class="topic-hero-icon<%= " topic-hero-icon--ring" if show_ring %>">
+        <% if show_ring %>
+          <%= render layout: "shared/progress_ring", locals: { completed: @completed_ids.size, total: @course.lessons_count } do %>
+            <%= render "shared/topic_badge", token: course_icon_token(@course) %>
+          <% end %>
+        <% else %>
+          <%= render "shared/topic_badge", token: course_icon_token(@course) %>
+        <% end %>
       </div>
       <h1 class="path__title"><%= @course.title %></h1>
     </div>
@@ -32,7 +39,6 @@
 
     <div class="path__start">
       <% if signed_in? && @completed_ids.any? %>
-        <%= render "shared/progress_bar", completed: @completed_ids.size, total: @course.lessons_count %>
         <% if @continue_lesson %>
           <%= link_to @continue_lesson, class: "btn btn--reversed btn--large" do %>
             <%= t("paths.continue_learning") %>

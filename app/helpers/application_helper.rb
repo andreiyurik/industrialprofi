@@ -4,7 +4,8 @@ module ApplicationHelper
   # Profession icons: self-hosted Tabler (https://tabler.io/icons) line glyphs,
   # rendered inline so they inherit `currentColor` and the monochrome theme.
   # Each token maps to a partial in app/views/shared/icons/.
-  TOPIC_ICONS = %w[bolt helmet droplet cpu tool].freeze
+  TOPIC_ICONS = %w[bolt helmet droplet cpu tool
+                   shield_bolt tools gauge adjustments network device_analytics clipboard_check].freeze
 
   def topic_icon_svg(token)
     token = "tool" unless TOPIC_ICONS.include?(token)
@@ -22,8 +23,28 @@ module ApplicationHelper
     PATH_ICON_TOKENS.fetch(path.slug, "tool")
   end
 
-  MARKDOWN_TAGS = %w[h1 h2 h3 h4 h5 h6 p ul ol li a strong em code pre blockquote table thead tbody tr th td hr br img].freeze
-  MARKDOWN_ATTRS = %w[href src alt target rel].freeze
+  # Per-course topic icons (Tabler, same line style as the path set).
+  # A course without its own icon falls back to its profession's.
+  COURSE_ICON_TOKENS = {
+    "elektrik-osnovy-i-bezopasnost" => "shield_bolt",
+    "elektrik-montazh-i-ekspluataciya" => "tools",
+    "asutp-osnovy-i-kipia" => "gauge",
+    "asutp-plk-i-regulirovanie" => "adjustments",
+    "asutp-promyshlennye-seti" => "network",
+    "asutp-scada" => "device_analytics",
+    "asutp-proektirovanie-pnr" => "clipboard_check"
+  }.freeze
+
+  def course_icon_token(course)
+    COURSE_ICON_TOKENS.fetch(course.slug) { path_icon_token(course.path) }
+  end
+
+  # div/span + class survive sanitization so rouge's highlighted output
+  # (<div class="highlight"><pre><code><span class="k">…) keeps its token
+  # classes. Worst case a class smuggles a cosmetic style — content is
+  # admin-curated and suggestions are reviewed, so that's acceptable.
+  MARKDOWN_TAGS = %w[h1 h2 h3 h4 h5 h6 p ul ol li a strong em code pre kbd blockquote table thead tbody tr th td hr br img div span].freeze
+  MARKDOWN_ATTRS = %w[href src alt target rel class].freeze
 
   # Attention blocks (GitHub-style admonitions). Authors write `> [!ВАЖНО] …` in
   # plain markdown; we turn the blockquote into a coloured callout with a label.
@@ -36,9 +57,27 @@ module ApplicationHelper
     "ПРОВЕРЬ" => { mod: "check",     icon: "check-circle",         label: "Проверь себя" }
   }.freeze
 
+  # Kramdown's default rouge formatter (HTMLLegacy) is deprecated and warns on
+  # every render. Same <pre class="highlight"><code> block wrapper, no warning;
+  # kramdown's span mode passes wrap: false and gets bare token spans.
+  class RougeFormatter < ::Rouge::Formatters::HTML
+    def initialize(opts = {})
+      super
+      @wrap = opts.fetch(:wrap, true)
+    end
+
+    def stream(tokens, &block)
+      yield %(<pre class="highlight"><code>) if @wrap
+      super
+      yield "</code></pre>" if @wrap
+    end
+  end
+
   def markdown(text)
     return "" if text.blank?
-    html = Kramdown::Document.new(text, input: "GFM").to_html
+    html = Kramdown::Document.new(text, input: "GFM",
+      syntax_highlighter: "rouge",
+      syntax_highlighter_opts: { formatter: RougeFormatter }).to_html
     html = sanitize(html, tags: MARKDOWN_TAGS, attributes: MARKDOWN_ATTRS)
     # Post-sanitize enrichments — our own markup, so the sanitizer needs no <div>
     # allowance: typed callouts first, then wrap tables for horizontal scroll.

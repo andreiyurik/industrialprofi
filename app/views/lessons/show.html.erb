@@ -13,7 +13,7 @@
   ])) %>
 <% end %>
 
-<div class="container lesson-layout" data-controller="lesson-sidebar"
+<div class="lesson-layout" data-controller="lesson-sidebar"
      data-lesson-sidebar-open-class="lesson-layout--sidebar-open"
      data-action="keydown.esc@window->lesson-sidebar#close">
   <%= render "lessons/sidebar", course: @course, current_lesson: @lesson,

@@ -149,6 +149,34 @@
   text-align: center;
 }
 
+/* The unified topic badge: a thin dotted ring framing the line icon — one
+   quiet house style for every course/path circle (our take on TOP's badge
+   artwork). Fills whatever disc it sits in; the outer circle comes from the
+   context (progress ring, bordered badge, hero circle). */
+.topic-badge {
+  block-size: 100%;
+  display: inline-grid;
+  /* One explicit full-size track, same reason as .progress-ring: keep the
+     percentage-sized dotted ring tied to the disc, not to the icon's width. */
+  grid-template: 100% / 100%;
+  inline-size: 100%;
+  place-items: center;
+
+  > * {
+    grid-area: 1 / 1;
+  }
+}
+
+.topic-badge .topic-badge__ring {
+  block-size: 88%;
+  fill: none;
+  inline-size: 88%;
+  opacity: 0.7;
+  stroke: var(--color-subtle-dark);
+  stroke-linecap: round;
+  stroke-width: 1;
+}
+
 /* Individual profession page (paths/show) */
 .topic-hero-icon {
   align-items: center;
@@ -161,9 +189,28 @@
   justify-content: center;
   margin-block-end: 1.5rem;
 
-  svg, img {
+  .topic-badge > :is(svg, img):not(.topic-badge__ring) {
     block-size: 2.5rem;
     inline-size: 2.5rem;
+  }
+}
+
+/* Hero icon wrapped in a course-progress ring (course page, signed-in):
+   bigger than the plain hero badge — TOP renders its course-page circle at
+   7rem. The ring's track replaces the static border. */
+.topic-hero-icon--ring {
+  block-size: 7rem;
+  border: none;
+  inline-size: 7rem;
+
+  .progress-ring__svg {
+    block-size: 100%;
+    inline-size: 100%;
+  }
+
+  .progress-ring__body .topic-badge > :is(svg, img):not(.topic-badge__ring) {
+    block-size: 3.25rem;
+    inline-size: 3.25rem;
   }
 }
 

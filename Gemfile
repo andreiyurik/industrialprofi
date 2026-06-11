@@ -41,6 +41,9 @@ gem "image_processing", "~> 2.0"
 # Markdown rendering (GFM)
 gem "kramdown"
 gem "kramdown-parser-gfm"
+# Server-side syntax highlighting for lesson code blocks (kramdown's built-in
+# rouge integration — no JS, no build step; styled by code.css)
+gem "rouge"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

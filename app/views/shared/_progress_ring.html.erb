@@ -1,0 +1,19 @@
+<%# locals: (completed:, total:) -%>
+<%# Design copied from The Odin Project's ProgressCircle component: thin gray
+    track + green arc, content on an opaque disc that fades out on hover to
+    reveal the "N% пройдено" label underneath. Arc math is server-side via
+    pathLength=100 — no JS. %>
+<% percent = total.zero? ? 0 : (completed * 100.0 / total).round %>
+<span class="progress-ring" role="progressbar" aria-valuenow="<%= percent %>" aria-valuemin="0" aria-valuemax="100" aria-label="<%= t("progress.label", completed: completed, total: total, percent: percent) %>">
+  <svg class="progress-ring__svg" viewBox="0 0 20 20" aria-hidden="true">
+    <circle class="progress-ring__track" cx="10" cy="10" r="9.3"></circle>
+    <% if percent.positive? %>
+      <circle class="progress-ring__arc" cx="10" cy="10" r="9.3" pathLength="100" stroke-dasharray="100 200" stroke-dashoffset="<%= 100 - percent %>"></circle>
+    <% end %>
+  </svg>
+  <span class="progress-ring__percent" aria-hidden="true">
+    <%= percent %>%
+    <small><%= t("progress.complete_word") %></small>
+  </span>
+  <span class="progress-ring__body"><%= yield %></span>
+</span>

@@ -41,7 +41,7 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
 
     sign_in_as users(:member)
     get dashboard_path
-    assert_match "dashboard-path--focus", response.body
+    assert_match "dashboard-hero", response.body
     assert_match I18n.t("dashboard.focus_title"), response.body
     assert_match I18n.t("dashboard.other_paths"), response.body
   end
@@ -73,12 +73,13 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_select "#account-menu form[action=?]", session_path
   end
 
-  test "shows course milestone chips on the focus path" do
+  test "shows per-course progress rows for the focus path" do
     users(:member).lesson_completions.create!(lesson: lessons(:pteep))
 
     sign_in_as users(:member)
     get dashboard_path
-    assert_match "stage-chip", response.body
+    assert_match "dashboard-course", response.body
+    assert_match I18n.t("dashboard.courses_title"), response.body
     assert_match courses(:el_basics).title, response.body
   end
 end

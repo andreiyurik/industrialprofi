@@ -1,7 +1,7 @@
-/* "Моё обучение" — the signed-in home. One panel per started path:
-   identity left, progress under the title, continue action right. */
-.dashboard__greeting {
-  text-align: start;
+/* "Моё обучение" — the signed-in home, TOP-style: identity card (direction +
+   personal goal + ONE next action), then per-course progress rows. */
+.dashboard .dashboard__greeting {
+  margin-block-end: 2rem;
 }
 
 .dashboard__subtitle {
@@ -91,20 +91,190 @@
   gap: 1rem;
 }
 
-.dashboard-path {
+/* The identity card (TOP-style): direction + personal goal, ONE next action.
+   Brighter border than anything else on the page — attention goes here. */
+.dashboard-hero {
+  border-color: var(--color-subtle-dark);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-block-end: 2.5rem;
+  padding: 1.5rem;
+}
+
+.dashboard-hero__identity {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: space-between;
+  gap: 1.25rem;
 }
 
-/* The focus hero: the one direction the learner is on. Brighter border and
-   roomier padding than anything else on the page — attention goes here. */
-.dashboard-path--focus {
-  border-color: var(--color-subtle-dark);
-  margin-block-end: 2rem;
-  padding: 1.5rem;
+.dashboard-hero__badge {
+  block-size: 4.5rem;
+  border: 2px solid var(--color-subtle);
+  border-radius: 50%;
+  color: var(--color-ink);
+  display: inline-block;
+  flex-shrink: 0;
+  inline-size: 4.5rem;
+
+  .topic-badge > svg:not(.topic-badge__ring) {
+    block-size: 2rem;
+    inline-size: 2rem;
+  }
+}
+
+.dashboard-hero__info {
+  display: flex;
+  flex: 1 1 18rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-inline-size: 0;
+}
+
+.dashboard-hero__title {
+  font-size: 1.35rem;
+  margin-block: 0;
+}
+
+.dashboard-hero__title-link {
+  color: var(--color-ink);
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* The learner's own goal, TOP-style: to the right of the identity. */
+.dashboard-hero__goal {
+  flex: 1 1 16rem;
+  max-inline-size: 24rem;
+}
+
+.dashboard-hero__action {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dashboard-hero__next {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block: 0;
+}
+
+.dashboard-hero__finished {
+  align-items: center;
+  color: var(--color-positive);
+  display: inline-flex;
+  font-weight: 600;
+  gap: 0.4rem;
+  margin-block: 0;
+
+  svg {
+    block-size: 1.25rem;
+    inline-size: 1.25rem;
+  }
+}
+
+/* Per-course progress (TOP's "Skills Progress"): centered heading, then one
+   quiet row per course — ring with the percent always visible. */
+.dashboard__courses-title {
+  font-size: 1.5rem;
+  margin-block: 0;
+  text-align: center;
+}
+
+.dashboard__courses-hint {
+  color: var(--color-subtle-dark);
+  margin-block: 0.5rem 1.5rem;
+  text-align: center;
+}
+
+.dashboard-courses {
+  margin-block-end: 2.5rem;
+  padding: 0.25rem 1.5rem;
+}
+
+.dashboard-course {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  padding-block: 1.25rem;
+}
+
+.dashboard-course + .dashboard-course {
+  border-block-start: 1px solid var(--color-subtle);
+}
+
+.dashboard-course--soon {
+  opacity: 0.6;
+}
+
+/* Ring with no icon disc — the percent shows by default (TOP's dashboard). */
+.dashboard-course__ring {
+  block-size: 5rem;
+  flex-shrink: 0;
+  inline-size: 5rem;
+
+  .progress-ring__body {
+    display: none;
+  }
+}
+
+.dashboard-course__ring--soon {
+  align-items: center;
+  border: 2px solid var(--color-subtle);
+  border-radius: 50%;
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  justify-content: center;
+
+  svg {
+    block-size: 1.5rem;
+    inline-size: 1.5rem;
+  }
+}
+
+.dashboard-course__info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-inline-size: 12rem;
+}
+
+.dashboard-course__title {
+  font-size: 1.05rem;
+  margin-block: 0;
+}
+
+.dashboard-course__title-link {
+  color: var(--color-ink);
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.dashboard-course__done {
+  align-items: center;
+  color: var(--color-positive);
+  display: inline-flex;
+  font-weight: 600;
+  gap: 0.4rem;
+
+  svg {
+    block-size: 1.2rem;
+    inline-size: 1.2rem;
+  }
 }
 
 .dashboard__eyebrow {
@@ -178,90 +348,6 @@
   }
 }
 
-.dashboard-path__main {
-  align-items: center;
-  display: flex;
-  flex: 1 1 18rem;
-  gap: 1rem;
-  min-inline-size: 0;
-}
-
-.dashboard-path__info {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 0.5rem;
-  min-inline-size: 0;
-}
-
-.dashboard-path__title-link {
-  color: var(--color-ink);
-  text-decoration: none;
-
-  @media (any-hover: hover) {
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-/* Stage milestones: one quiet chip per stage, turning green when every lesson
-   in it is done. Derived purely from completions — no badge tables. */
-.dashboard-path__stages {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-block-start: 0.25rem;
-}
-
-.stage-chip {
-  align-items: center;
-  border: 1px solid var(--color-subtle);
-  border-radius: 999px;
-  color: var(--color-subtle-dark);
-  display: inline-flex;
-  font-size: 0.75rem;
-  gap: 0.3em;
-  padding: 0.2em 0.7em;
-
-  svg {
-    block-size: 0.95em;
-    inline-size: 0.95em;
-  }
-}
-
-.stage-chip--done {
-  border-color: oklch(var(--lch-green) / 0.4);
-  color: var(--color-positive);
-}
-
-.dashboard-path__action {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.dashboard-path__next {
-  color: var(--color-subtle-dark);
-  font-size: 0.8rem;
-  margin-block: 0;
-  max-inline-size: 16rem;
-}
-
-.dashboard-path__finished {
-  align-items: center;
-  color: var(--color-positive);
-  display: inline-flex;
-  font-weight: 600;
-  gap: 0.4rem;
-  margin-block: 0;
-
-  svg {
-    block-size: 1.25rem;
-    inline-size: 1.25rem;
-  }
-}
-
 .dashboard__empty {
   align-items: center;
   border: 1px dashed var(--color-subtle);
@@ -287,4 +373,56 @@
 .dashboard__suggested-title {
   font-size: 1.2rem;
   margin-block: 0 1rem;
+}
+
+/* Personal learning goal (TOP's "What's your learning goal?") — the
+   learner's own words inside the hero card. The whole block lives in a
+   Turbo Frame and swaps for the inline form on edit. */
+.learning-goal {
+  color: var(--color-subtle-dark);
+  margin-block: 0;
+}
+
+.learning-goal__text {
+  color: var(--color-ink);
+  font-style: italic;
+}
+
+.learning-goal__edit {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-inline-start: 0.5ch;
+}
+
+.learning-goal__prompt {
+  color: var(--color-subtle-dark);
+}
+
+.learning-goal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-inline-size: 36rem;
+}
+
+/* Standalone goal block on the empty dashboard (no hero card yet). */
+.dashboard__goal {
+  margin-block-end: 2rem;
+  text-align: center;
+
+  .learning-goal-form {
+    margin-inline: auto;
+    text-align: start;
+  }
+}
+
+.learning-goal-form__actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.learning-goal-form__error {
+  color: var(--color-negative);
+  font-size: 0.9rem;
+  margin-block: 0;
 }

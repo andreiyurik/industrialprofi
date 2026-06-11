@@ -198,9 +198,20 @@ ru:
     empty: "Вы пока не начали ни одной профессии. Выберите карту — прогресс будет сохраняться здесь."
     browse_paths: "Выбрать профессию"
     suggested: "Начните новое направление"
+    courses_title: "Прогресс по курсам"
+    courses_hint: "Курсы лучше проходить по порядку."
+    start: "Начать"
+    course_done: "Пройден"
+    goal:
+      prompt: "Какая у вас цель обучения?"
+      edit: "изменить"
+      save: "Сохранить"
+      cancel: "Отмена"
+      placeholder: "Например: за год освоить монтаж и сменить работу"
 
   progress:
     label: "Пройдено %{completed} из %{total} · %{percent}%"
+    complete_word: "пройдено"
 
   lesson_completions:
     create:
@@ -255,6 +266,17 @@ ru:
   courses:
     coming_soon: "В разработке"
     open: "Перейти к курсу"
+    completed: "Курс пройден"
+    lessons_count:
+      one: "%{count} урок"
+      few: "%{count} урока"
+      many: "%{count} уроков"
+      other: "%{count} урока"
+    practice_count:
+      one: "%{count} практика"
+      few: "%{count} практики"
+      many: "%{count} практик"
+      other: "%{count} практики"
 
   lessons:
     why_section: "Зачем это нужно"
