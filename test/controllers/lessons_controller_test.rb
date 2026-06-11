@@ -52,4 +52,13 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     # the in-body heading itself carries the matching anchor
     assert_select "h2#poryadok-dopuska-k-rabotam"
   end
+
+  test "reading mode cookie renders the stripped layout server-side" do
+    get lesson_path(lessons(:pteep))
+    assert_select "div.lesson-layout--reading", false
+
+    cookies[:reading_mode] = "1"
+    get lesson_path(lessons(:pteep))
+    assert_select "div.lesson-layout--reading"
+  end
 end

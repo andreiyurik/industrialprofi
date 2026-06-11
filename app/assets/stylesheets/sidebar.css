@@ -378,3 +378,58 @@
   color: var(--color-ink);
   font-weight: 600;
 }
+
+/* ── Reading mode ──────────────────────────────────────────────────────
+   The quietest possible page: chrome off, words on. Toggled by the
+   reading-mode Stimulus controller, persisted in a cookie so the server
+   renders the next lesson already stripped. These rules live at the END of
+   this file ON PURPOSE — `.lesson-layout--reading { display: block }` must
+   out-cascade the same-specificity grid rules above (source order wins). */
+body:has(.lesson-layout--reading) :is(.header, .support-cta) {
+  display: none;
+}
+
+.lesson-layout--reading {
+  display: block;
+
+  .lesson-sidebar,
+  .lesson-sidebar-backdrop,
+  .lesson-contents-toggle,
+  .lesson-toc,
+  .breadcrumbs,
+  .lesson-section-edit {
+    display: none;
+  }
+}
+
+/* The mode toggle: a quiet meta-row button normally; once reading, it becomes
+   a fixed pill in the corner so leaving the mode never requires scrolling. */
+.lesson-reading-toggle__enter,
+.lesson-reading-toggle__exit {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--inline-space-half);
+}
+
+.lesson-reading-toggle__exit {
+  display: none;
+}
+
+.lesson-layout--reading .lesson-reading-toggle__enter {
+  display: none;
+}
+
+.lesson-layout--reading .lesson-reading-toggle__exit {
+  display: inline-flex;
+}
+
+.lesson-layout--reading .lesson-reading-toggle {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-subtle);
+  border-radius: 2em;
+  inset-block-start: 1rem;
+  inset-inline-end: 1.5rem;
+  padding: 0.5em 1em;
+  position: fixed;
+  z-index: 40;
+}

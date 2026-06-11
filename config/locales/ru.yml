@@ -293,6 +293,8 @@ ru:
       tool: "Инструмент"
     task_section: "Практическое задание"
     copy_link: "Скопировать ссылку"
+    reading_mode: "Режим чтения"
+    reading_mode_exit: "Выйти из режима чтения"
     link_copied: "Скопировано"
     completed: "Урок пройден"
     not_completed: "Урок не пройден"

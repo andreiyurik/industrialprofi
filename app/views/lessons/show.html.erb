@@ -13,9 +13,13 @@
   ])) %>
 <% end %>
 
-<div class="lesson-layout" data-controller="lesson-sidebar"
+<%# reading_mode cookie → the server renders the stripped layout directly,
+    so flipping between lessons inside reading mode never flashes the chrome. %>
+<div class="lesson-layout<%= " lesson-layout--reading" if cookies[:reading_mode] == "1" %>"
+     data-controller="lesson-sidebar reading-mode"
      data-lesson-sidebar-open-class="lesson-layout--sidebar-open"
-     data-action="keydown.esc@window->lesson-sidebar#close">
+     data-reading-mode-active-class="lesson-layout--reading"
+     data-action="keydown.esc@window->lesson-sidebar#close keydown.esc@window->reading-mode#exit">
   <%= render "lessons/sidebar", course: @course, current_lesson: @lesson,
         lessons_by_stage: @lessons_by_stage, completed_ids: @completed_ids %>
 
@@ -48,6 +52,19 @@
               data-action="copy-link#copy">
         <%= heroicon "link", variant: :outline %>
         <span data-copy-link-target="label"><%= t("lessons.copy_link") %></span>
+      </button>
+
+      <button type="button" class="lesson__copy lesson-reading-toggle" hidden
+              data-reading-mode-target="toggle"
+              data-action="reading-mode#toggle">
+        <span class="lesson-reading-toggle__enter">
+          <%= heroicon "arrows-pointing-out", variant: :outline %>
+          <span><%= t("lessons.reading_mode") %></span>
+        </span>
+        <span class="lesson-reading-toggle__exit">
+          <%= heroicon "arrows-pointing-in", variant: :outline %>
+          <span><%= t("lessons.reading_mode_exit") %></span>
+        </span>
       </button>
     </div>
 
