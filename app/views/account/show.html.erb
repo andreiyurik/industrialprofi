@@ -33,6 +33,24 @@
         </div>
       </div>
 
+      <%# Письма %>
+      <div class="panel account-settings__card">
+        <%= form_with url: account_path, method: :patch do |f| %>
+          <div class="account-settings__field">
+            <span class="account-settings__label"><%= t("account.emails_section") %></span>
+            <label class="account-settings__checkbox">
+              <%= hidden_field_tag "user[reminder_emails]", "0", id: nil %>
+              <%= check_box_tag "user[reminder_emails]", "1", Current.user.reminder_emails? %>
+              <%= t("account.reminder_emails_label") %>
+            </label>
+            <p class="account-settings__hint"><%= t("account.reminder_emails_hint") %></p>
+          </div>
+          <div class="account-settings__actions">
+            <%= f.submit t("account.save"), class: "btn btn--reversed btn--small" %>
+          </div>
+        <% end %>
+      </div>
+
       <%# Пароль %>
       <div class="panel account-settings__card">
         <% if @password_errors.any? %>

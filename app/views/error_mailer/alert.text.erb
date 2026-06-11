@@ -1,0 +1,13 @@
+<%= @severity.upcase %> — <%= @error_class %>
+
+<%= @message %>
+
+Source:  <%= @source.presence || "n/a" %>
+Context: <%= @context %>
+
+Backtrace:
+<% @backtrace.each do |line| -%>
+  <%= line %>
+<% end -%>
+
+(Повторные такие же ошибки не присылаются ближайшие 30 минут — смотри логи: bin/kamal logs)

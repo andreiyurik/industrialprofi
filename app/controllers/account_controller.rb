@@ -5,8 +5,8 @@ class AccountController < ApplicationController
   end
 
   def update
-    if Current.user.update(name_params)
-      redirect_to account_path, notice: t("account.name_updated")
+    if Current.user.update(account_params)
+      redirect_to account_path, notice: t("account.updated")
     else
       @name_errors = Current.user.errors.full_messages
       render :show, status: :unprocessable_entity
@@ -35,8 +35,8 @@ class AccountController < ApplicationController
       @password_errors = []
     end
 
-    def name_params
-      params.expect(user: [ :name ])
+    def account_params
+      params.expect(user: [ :name, :reminder_emails ])
     end
 
     def password_params

@@ -21,7 +21,7 @@ A free, open platform for industrial professions. Each profession has a structur
 
 ### Primary References
 
-- **The Odin Project** (theodinproject.com) — the model for everything: content structure (paths → courses → lessons), progress tracking, community-driven content, donation-based business model, design system (dark theme, teal+gold palette, Inter font). What Odin does for web developers, IndustrialProfi does for industrial workers.
+- **The Odin Project** (theodinproject.com) — the model for everything: content structure (paths → courses → lessons), progress tracking, community-driven content, donation-based business model. What Odin does for web developers, IndustrialProfi does for industrial workers. (Visually we follow Basecamp's open-source apps, not Odin's palette.)
 - **roadmap.sh** — the model for career path structure: visual profession maps showing what to learn and in what order. We adapt this as text-based stage→skill hierarchies instead of interactive graphs.
 
 ### Core Belief
@@ -80,24 +80,10 @@ A school gives a 500-page textbook. We give: "read these 3 pages of ПУЭ and d
 
 ## Content Architecture
 
-> **Implementation status (keep in sync with code).** This section describes the
-> original product intent. What actually shipped:
-> - The **Course** middle layer was flattened into a `stage` *string* on Lesson
->   (conceptual compression — it had no behaviour). Hierarchy in code is
->   **Path → Lesson**, grouped by `Lesson#stage`. No `Course` model/table/route.
-> - **Accounts + progress are built (the v0.2 milestone):** registration/login
->   (`has_secure_password`, `Current`/`Session` pattern), binary
->   `LessonCompletion` with the "Отметить пройденным" button (Turbo Stream),
->   per-stage/per-path progress bars, and `/dashboard` with continue links.
->   Signed-in users landing on "/" are redirected to the dashboard (TOP-style).
-> - The desktop **two-column lesson layout is built** — a sticky curriculum
->   sidebar with completion marks (roadmap.sh feel) on ≥1100px screens; lessons
->   stay full-page on mobile. Navigation is plain Turbo Drive page visits (fast,
->   SEO-clean URLs), not frame swaps.
-> - **Built ahead of the original plan:** a reader **suggestion** flow + an
->   admin-reviewed, append-only **revision** history (`LessonSuggestion`,
->   `LessonRevision`, `RevisionDiff`). Admin editing is gated by a role flag on
->   `User` (`administrator`) — HTTP Basic is gone.
+> **This document is the product intent, not a status ledger.** What has
+> actually shipped (and how naming evolved during the build) is tracked in one
+> place: the status note at the top of `docs/MVP.md`. The codebase conventions
+> live in `CLAUDE.md`.
 
 ### Hierarchy: Profession → Course → Lesson
 
@@ -234,22 +220,32 @@ Each seeded roadmap must have: all courses filled, real standard references, at 
 
 ## Business Model
 
-**Open core.** The learning platform is free and open-source (AGPL-3.0) — that's
-the reputation engine and the acquisition funnel. Money is charged for *outcomes*,
-never for *entry*: learning is always free, you only pay for proof that has
-real-world value.
+**Open core, monetization deliberately deferred (founder decision, June 2026).**
+The learning platform is free and open-source (AGPL-3.0) — that's the reputation
+engine and the acquisition funnel. Two principles are fixed; everything else is
+an option to be validated against real users:
 
-- **Free & open:** all paths, courses, lessons, and progress tracking. Forever.
-- **Donations:** a footer link, like The Odin Project / Wikipedia — a bonus, not
-  the model (donations barely sustain anything in the CIS market — don't count on them).
-- **Paid, hosted, demand-gated (see `docs/MVP.md` v0.4+):** verified completion
-  certificates for employers, and later an employer/candidate board. The hosted
-  issuance + verification registry is the commercial layer; the platform code
-  stays open. Self-hosters run the platform freely but can't issue
-  *IndustrialProfi-verified* credentials — the moat is the registry + brand, not
-  secret code.
-- **Sequencing:** every monetization decision comes *after* real user data and
-  proven value — never a paywall at the door of an unproven, empty platform.
+1. **The materials are free and open. Forever.** All paths, courses, lessons,
+   progress tracking. Never a paywall at the door — money, if any, is charged
+   for *outcomes and services around* the content, never for *entry*.
+2. **Retention and user satisfaction come before revenue.** The near-term
+   metrics that matter are: do people come back, do they complete lessons, do
+   they recommend it. A trusted platform can be monetized later; a monetized
+   but untrusted one cannot be fixed.
+
+Candidate revenue paths, in rough order of fit (none scheduled — all
+demand-gated, see `docs/MVP.md`):
+
+- **B2B — training centers and employers.** Учебные центры use the platform as
+  their structured learning environment; предприятия get cohort tracking for
+  their own workers (corporate training budgets exist and are mandated by
+  labor law). This is where real money in this niche lives. The content the
+  companies' workers learn from stays public.
+- **Verified completion certificates** (the original v0.4 plan — kept as a
+  recorded design, deferred): pay to *issue* a verifiable document, learning
+  and verification stay free.
+- **Donations:** a footer link, like The Odin Project / Wikipedia — a bonus,
+  not the model (donations barely sustain anything in the CIS market).
 - Telegram for direct feedback and community building.
 
 ## Principles

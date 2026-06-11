@@ -218,11 +218,26 @@ After signup, `flash[:welcome_letter]` renders the founder's one-shot
 in development the code is also printed to the log.
 
 **Also built:** password reset (`generates_token_for :password_reset`,
-`PasswordsController` + `PasswordsMailer`; dev logs the mail, production needs
-SMTP creds in `config/environments/production.rb`); `/projects` — an aggregator
-of all `kind: practice` lessons across published paths; stage-milestone chips
-on the dashboard and a stage/path completion flash celebration (Turbo Stream
-updates the `:flash` frame); the numbered "journey rail" on the path page.
+`PasswordsController` + `PasswordsMailer`; dev logs the mail, production reads
+SMTP creds from `credentials` — see `docs/DEPLOY.md`); `/projects` — an
+aggregator of all `kind: practice` lessons across published paths;
+stage-milestone chips on the dashboard and a stage/path completion flash
+celebration (Turbo Stream updates the `:flash` frame); the numbered "journey
+rail" on the path page.
+
+**Error monitoring (built, hand-rolled — keep it gem-free):**
+`lib/error_subscriber.rb` subscribes to `Rails.error` in production
+(`config/initializers/error_reporting.rb`) and emails administrators via
+`ErrorMailer` on every unhandled exception (web + Solid Queue), throttled to
+one email per error class+message per 30 min via `Rails.cache` (Solid Cache).
+Recipients default to all `administrator` users; `ERROR_ALERTS_TO` env
+overrides. No Sentry/Honeybadger — this plus an external uptime ping on `/up`
+(UptimeRobot) is the whole monitoring story.
+
+**Monetization (recorded decision, June 2026):** v0.4 certificates are
+DEFERRED; materials stay free/open forever; retention & satisfaction before
+revenue. Candidate paths (all demand-gated) in `docs/VISION.md` → Business
+Model — B2B (training centers / employers) is the most promising.
 
 **Focus direction (built):** the product deliberately keeps attention on ONE
 profession — `User#focus_path` (derived from the latest completion, no stored
@@ -296,5 +311,8 @@ Our `app/assets/stylesheets/` mirrors Writebook's file layout 1-to-1 (`_reset.cs
 
 ## Docs
 
-- `docs/VISION.md` — what we're building, for whom, why
-- `docs/MVP.md` — phased rollout: v0.1 (static catalog) → v0.2 (auth + progress) → v0.3 (community content)
+- `docs/VISION.md` — what we're building, for whom, why (incl. Business Model)
+- `docs/MVP.md` — phased rollout + the canonical "what shipped" status note at the top
+- `docs/DEPLOY.md` — first-deploy runbook (Kamal, SMTP, backups, monitoring)
+- `docs/CONTENT_PROMPT.md` / `LESSON_DEEPEN_PROMPT.md` / `IMAGE_PROMPT.md` — reusable prompts for authoring content
+- The public roadmap is the `/roadmap` page (`ru.yml` → `roadmap:`) — update it when shipping user-visible features

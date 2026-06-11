@@ -66,8 +66,9 @@ Hotwire, no Node.js anywhere in sight.
 - Auth via `has_secure_password` (bcrypt) — no Devise
 - **Kamal 2** + Docker + Thruster for deploys
 - **Minitest** + fixtures + Capybara
-- System font stack only, OKLCH color tokens, light-first with automatic dark
-  mode — UI patterns mirror Basecamp's open-source apps (Writebook, Fizzy).
+- Self-hosted Inter / Inter Tight via `@font-face`, OKLCH color tokens, a
+  single black-first dark theme — UI patterns mirror Basecamp's open-source
+  apps (Writebook, Fizzy).
 
 ## Getting started
 
@@ -98,7 +99,7 @@ app/views/                  # ERB templates + Turbo Frame/Stream partials
 app/javascript/controllers/ # Stimulus controllers
 app/assets/stylesheets/     # all CSS — one self-contained file per component
 db/migrate/                 # migrations = source of truth for schema
-docs/                       # VISION.md, MVP.md, design notes
+docs/                       # VISION.md, MVP.md, DEPLOY.md, content-authoring prompts
 ```
 
 Content hierarchy:
@@ -112,9 +113,13 @@ User  →  LessonCompletion  (binary: the row exists = the lesson is done)
 
 IndustrialProfi ships in phases — see [docs/MVP.md](docs/MVP.md):
 
-- **v0.1** — static catalog (professions → courses → lessons, public, SEO-first)
-- **v0.2** — accounts + binary progress tracking
-- **v0.3** — community-authored content (draft → review → published)
+- **v0.1 — shipped:** static catalog (professions → courses → lessons, public, SEO-first)
+- **v0.2 — shipped:** accounts, binary progress, dashboard, practice journal,
+  activity heatmap, reader suggestions + revision history, admin panel with roles
+- **v0.3 — next:** community-authored content (draft → review → published),
+  search, public profiles
+
+The user-facing roadmap lives at `/roadmap` on the site itself.
 
 The full product thinking lives in [docs/VISION.md](docs/VISION.md).
 

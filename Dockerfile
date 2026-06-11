@@ -2,8 +2,8 @@
 # check=error=true
 
 # This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
-# docker build -t industrialprofi_dhh .
-# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name industrialprofi_dhh industrialprofi_dhh
+# docker build -t industrialprofi .
+# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name industrialprofi industrialprofi
 
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
 

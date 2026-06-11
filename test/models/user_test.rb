@@ -88,4 +88,40 @@ class UserTest < ActiveSupport::TestCase
 
     assert_empty user.activity_by_day(since: 1.week.ago.to_date)
   end
+
+  test "needs_learning_reminder? only after a week of silence" do
+    user = users(:member)
+    assert_not user.needs_learning_reminder?, "no activity at all — nothing to continue"
+
+    completion = user.lesson_completions.create!(lesson: lessons(:pteep), created_at: 1.day.ago)
+    assert_not user.needs_learning_reminder?, "recently active"
+
+    completion.update!(created_at: 10.days.ago)
+    assert user.needs_learning_reminder?
+  end
+
+  test "needs_learning_reminder? nudges once per stall, again after a new stall" do
+    user = users(:member)
+    user.lesson_completions.create!(lesson: lessons(:pteep), created_at: 20.days.ago)
+
+    user.update!(reminded_at: 15.days.ago)
+    assert_not user.needs_learning_reminder?, "already nudged for this stall"
+
+    user.lesson_completions.create!(lesson: lessons(:gruppy_dopuska), created_at: 8.days.ago)
+    assert user.needs_learning_reminder?, "worked again after the nudge, then stalled anew"
+  end
+
+  test "needs_learning_reminder? respects the opt-out and a finished path" do
+    user = users(:member)
+    user.lesson_completions.create!(lesson: lessons(:pteep), created_at: 10.days.ago)
+
+    user.update!(reminder_emails: false)
+    assert_not user.needs_learning_reminder?
+
+    user.update!(reminder_emails: true)
+    paths(:electrician).lessons.find_each do |lesson|
+      user.lesson_completions.find_or_create_by!(lesson: lesson) { |c| c.created_at = 10.days.ago }
+    end
+    assert_not user.needs_learning_reminder?, "nothing left to continue in the focus path"
+  end
 end

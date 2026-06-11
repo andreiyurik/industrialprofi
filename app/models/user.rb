@@ -23,6 +23,10 @@ class User < ApplicationRecord
     password_salt&.last(10)
   end
 
+  # One-click unsubscribe links in reminder emails. No expiry on purpose —
+  # an unsubscribe link must keep working however old the email is.
+  generates_token_for :email_unsubscribe
+
   validates :name, presence: true
   validates :email_address, presence: true, uniqueness: true,
             format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -63,6 +67,27 @@ class User < ApplicationRecord
   # The first not-yet-completed lesson — where "Continue" should land.
   def next_lesson_in(path)
     path.lessons.ordered.where.not(id: lesson_completions.select(:lesson_id)).first
+  end
+
+  # ── Learning reminder (the one retention email) ──
+  # A learner counts as stalled after this much silence.
+  REMINDER_AFTER = 7.days
+
+  # When the user last did real work (a completion or a journal entry) —
+  # logins don't count, same definition as the heatmap.
+  def last_active_at
+    [ lesson_completions.maximum(:created_at), journal_entries.maximum(:created_at) ].compact.max
+  end
+
+  # ONE quiet nudge per stall, never a drip campaign: eligible only when the
+  # user opted in, has somewhere to continue, went silent for REMINDER_AFTER,
+  # and hasn't already been nudged since their last activity.
+  def needs_learning_reminder?
+    return false unless reminder_emails?
+    last = last_active_at
+    return false if last.nil? || last > REMINDER_AFTER.ago
+    return false if reminded_at && reminded_at > last
+    focus_path.present? && next_lesson_in(focus_path).present?
   end
 
   # Activity per calendar day (lesson completions + journal entries) — feeds

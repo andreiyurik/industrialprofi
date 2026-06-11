@@ -27,9 +27,15 @@ Each phase is a deployable, usable product — not a prototype.
 >   photos with hard limits — 5 photos/entry, 10 MB/file, 250 MB/user quota),
 >   and the GitHub-style **activity heatmap** on the dashboard (16 weeks,
 >   completions + journal entries).
-> - **Not built yet:** v0.2's profile page (name/profession/city); all of v0.3
->   (community roadmaps, search, public profiles, publishing journal entries
->   as a moderated public portfolio).
+> - **Shipped June 2026:** the **role trust ladder** (`member` → `editor`
+>   «Эксперт» → `administrator`) with `/admin/users` role management; the
+>   **founder's admin dashboard** at `/admin` (signups, weekly activity,
+>   pending suggestions, content health, disk usage); **account settings**
+>   (name, password, email change with verification, account deletion);
+>   lesson **bookmarks**; the focused **reading mode**; the dashboard
+>   **learning goal**.
+> - **Not built yet:** all of v0.3 (community roadmaps, search, public
+>   profiles, publishing journal entries as a moderated public portfolio).
 
 ## v0.1 — Static Catalog (Target: 1 week)
 
@@ -117,13 +123,17 @@ Users contribute roadmaps. Platform becomes self-sustaining.
 
 ---
 
-## v0.4 — Verified Certificates (first paid feature) — DEMAND-GATED, NOT scheduled
+## v0.4 — Verified Certificates (first paid feature) — DEFERRED, NOT scheduled
 
-> **This phase ships only when reality says so**, not on a timer. The trigger is:
-> there is a real audience, users are *completing* courses, and they are asking
-> "is there a document I can show my employer?". Building this before that signal
-> means polishing a paywall around an empty room. Until then, this section is a
-> recorded decision, not a task.
+> **Founder decision (June 2026): certificates are explicitly deferred**, and
+> monetization as a whole is being rethought with two fixed constraints — the
+> materials stay free and open forever, and retention/satisfaction come before
+> revenue (see `docs/VISION.md` → Business Model, including the B2B direction:
+> training centers and employers). This section is kept as a recorded design so
+> the thinking isn't lost. The original trigger still applies if it ever ships:
+> a real audience, users *completing* courses, and users asking "is there a
+> document I can show my employer?". Building before that signal means polishing
+> a paywall around an empty room.
 
 This is the **first paid feature** and the project's first real monetization.
 It sits squarely inside the open-core model: **the platform stays free and

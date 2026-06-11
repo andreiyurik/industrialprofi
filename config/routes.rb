@@ -31,6 +31,9 @@ Rails.application.routes.draw do
     resource :completion, only: [ :new, :create ]
   end
   resources :passwords, param: :token, only: [ :new, :create, :edit, :update ]
+  # Reminder-email opt-out (link + RFC 8058 one-click POST from mail clients).
+  get "unsubscribe/:token" => "unsubscribes#show", as: :unsubscribe
+  post "unsubscribe/:token" => "unsubscribes#create"
   get "dashboard" => "dashboard#show"
   resource :learning_goal, only: [ :edit, :update ]
   get "projects" => "projects#index"
