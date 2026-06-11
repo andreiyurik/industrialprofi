@@ -8,6 +8,12 @@ class PathsController < ApplicationController
 
     @paths = Path.listable.localized.ordered
     @completed_counts = signed_in? ? Current.user.lesson_completions.joins(:lesson).group("lessons.path_id").count : {}
+
+    # A learner browsing the catalog mid-path gets a way back to their
+    # direction before anything new competes for attention.
+    if signed_in? && (@focus_path = Current.user.focus_path)
+      @focus_next_lesson = Current.user.next_lesson_in(@focus_path)
+    end
   end
 
   def show

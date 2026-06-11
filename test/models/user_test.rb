@@ -60,4 +60,32 @@ class UserTest < ActiveSupport::TestCase
     user.lesson_completions.create!(lesson: lessons(:pteep))
     assert_equal [ paths(:electrician) ], user.started_paths
   end
+
+  test "focus_path is the path of the most recent completion" do
+    user = users(:member)
+    assert_nil user.focus_path
+
+    user.lesson_completions.create!(lesson: lessons(:pteep), created_at: 2.days.ago)
+    assert_equal paths(:electrician), user.focus_path
+
+    user.lesson_completions.create!(lesson: lessons(:svarka_intro), created_at: 1.hour.ago)
+    assert_equal paths(:welder), user.focus_path
+  end
+
+  test "activity_by_day merges completions and journal entries" do
+    user = users(:member)
+    user.lesson_completions.create!(lesson: lessons(:pteep))
+    user.lesson_completions.create!(lesson: lessons(:zazemlenie))
+    user.journal_entries.create!(body: "Запись в дневнике")
+
+    activity = user.activity_by_day(since: 1.week.ago.to_date)
+    assert_equal 3, activity[Date.current]
+  end
+
+  test "activity_by_day ignores actions before the window" do
+    user = users(:member)
+    user.lesson_completions.create!(lesson: lessons(:pteep), created_at: 1.year.ago)
+
+    assert_empty user.activity_by_day(since: 1.week.ago.to_date)
+  end
 end

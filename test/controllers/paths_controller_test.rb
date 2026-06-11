@@ -21,6 +21,20 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/English Electrician/, response.body)
   end
 
+  test "index shows a focus banner to a learner mid-path" do
+    users(:member).lesson_completions.create!(lesson: lessons(:pteep))
+
+    sign_in_as users(:member)
+    get paths_path
+    assert_match "focus-banner", response.body
+    assert_match paths(:electrician).title, response.body
+  end
+
+  test "index shows no focus banner to visitors" do
+    get paths_path
+    assert_no_match(/focus-banner/, response.body)
+  end
+
   test "show returns success for published path" do
     get path_path(paths(:electrician))
     assert_response :success

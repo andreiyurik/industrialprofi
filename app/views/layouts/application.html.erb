@@ -58,6 +58,8 @@
           <% if signed_in? %>
             <%= link_to t("nav.dashboard"), dashboard_path, class: "nav__link",
                   aria: { current: ("page" if current_page?(dashboard_path)) } %>
+            <%= link_to t("nav.journal"), journal_entries_path, class: "nav__link",
+                  aria: { current: ("page" if controller_name == "journal_entries") } %>
             <% if Current.user.can_administer? && controller.class.module_parent_name != "Admin" %>
               <%= link_to "Admin", admin_lessons_path, class: "badge badge--marker" %>
             <% end %>

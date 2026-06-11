@@ -4,65 +4,87 @@
   <div class="container dashboard">
     <h1 class="section-title dashboard__greeting"><%= t("dashboard.greeting", name: Current.user.name) %></h1>
 
-    <% if @started_paths.any? %>
-      <p class="section-subtitle dashboard__subtitle"><%= t("dashboard.subtitle") %></p>
+    <% if @focus_path %>
+      <% completed_ids = @completed_ids_by_path[@focus_path] %>
+      <% next_lesson = @focus_path.lessons.detect { |lesson| !completed_ids.include?(lesson.id) } %>
 
-      <div class="dashboard__paths">
-        <% @started_paths.each do |path| %>
-          <% completed_ids = @completed_ids_by_path[path] %>
-          <% next_lesson = path.lessons.detect { |lesson| !completed_ids.include?(lesson.id) } %>
-          <div class="panel dashboard-path">
-            <div class="dashboard-path__main">
-              <span class="path-card__icon"><%= topic_icon_svg(path_icon_token(path)) %></span>
-              <div class="dashboard-path__info">
-                <h2 class="panel__title"><%= link_to path.title, path_path(path), class: "dashboard-path__title-link" %></h2>
-                <%= render "shared/progress_bar", completed: completed_ids.size, total: path.lessons_count %>
-                <div class="dashboard-path__stages">
-                  <% path.lessons.group_by(&:stage).each do |stage, stage_lessons| %>
-                    <% next if stage.blank? %>
-                    <% done = stage_lessons.all? { |lesson| completed_ids.include?(lesson.id) } %>
-                    <span class="stage-chip<%= " stage-chip--done" if done %>">
-                      <% if done %><%= heroicon "check-circle", variant: :solid %><% end %>
-                      <%= stage %>
-                    </span>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-
-            <div class="dashboard-path__action">
-              <% if next_lesson %>
-                <%= link_to next_lesson, class: "btn btn--reversed" do %>
-                  <%= t("dashboard.continue") %>
-                  <%= heroicon "arrow-right", variant: :outline %>
-                <% end %>
-                <p class="dashboard-path__next"><%= t("paths.next_up", title: next_lesson.title) %></p>
-              <% else %>
-                <p class="dashboard-path__finished">
-                  <%= heroicon "check-circle", variant: :solid %>
-                  <%= t("dashboard.path_completed") %>
-                </p>
+      <%# The single most important block on the page: ONE direction, ONE next
+          action. Everything else on the dashboard is quieter than this. %>
+      <section class="panel dashboard-path dashboard-path--focus">
+        <p class="dashboard__eyebrow"><%= t("dashboard.focus_title") %></p>
+        <div class="dashboard-path__main">
+          <span class="path-card__icon"><%= topic_icon_svg(path_icon_token(@focus_path)) %></span>
+          <div class="dashboard-path__info">
+            <h2 class="panel__title"><%= link_to @focus_path.title, path_path(@focus_path), class: "dashboard-path__title-link" %></h2>
+            <%= render "shared/progress_bar", completed: completed_ids.size, total: @focus_path.lessons_count %>
+            <div class="dashboard-path__stages">
+              <% @focus_path.lessons.group_by(&:stage).each do |stage, stage_lessons| %>
+                <% next if stage.blank? %>
+                <% done = stage_lessons.all? { |lesson| completed_ids.include?(lesson.id) } %>
+                <span class="stage-chip<%= " stage-chip--done" if done %>">
+                  <% if done %><%= heroicon "check-circle", variant: :solid %><% end %>
+                  <%= stage %>
+                </span>
               <% end %>
             </div>
           </div>
-        <% end %>
-      </div>
+        </div>
+
+        <div class="dashboard-path__action">
+          <% if next_lesson %>
+            <%= link_to next_lesson, class: "btn btn--reversed btn--large" do %>
+              <%= t("dashboard.continue") %>
+              <%= heroicon "arrow-right", variant: :outline %>
+            <% end %>
+            <p class="dashboard-path__next"><%= t("paths.next_up", title: next_lesson.title) %></p>
+          <% else %>
+            <p class="dashboard-path__finished">
+              <%= heroicon "check-circle", variant: :solid %>
+              <%= t("dashboard.path_completed") %>
+            </p>
+          <% end %>
+        </div>
+      </section>
+
+      <% if @activity.any? %>
+        <%= render "heatmap", activity: @activity, since: @activity_since %>
+      <% end %>
+
+      <% if @other_paths.any? %>
+        <h2 class="dashboard__others-title"><%= t("dashboard.other_paths") %></h2>
+        <div class="dashboard__others">
+          <% @other_paths.each do |path| %>
+            <% ids = @completed_ids_by_path[path] %>
+            <% nxt = path.lessons.detect { |lesson| !ids.include?(lesson.id) } %>
+            <div class="panel dashboard-other">
+              <span class="dashboard-other__icon"><%= topic_icon_svg(path_icon_token(path)) %></span>
+              <%= link_to path.title, path_path(path), class: "dashboard-other__title" %>
+              <div class="dashboard-other__progress">
+                <%= render "shared/progress_bar", completed: ids.size, total: path.lessons_count %>
+              </div>
+              <% if nxt %>
+                <%= link_to t("dashboard.continue"), nxt, class: "dashboard-other__continue" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
     <% else %>
       <div class="dashboard__empty">
         <p class="dashboard__empty-text"><%= t("dashboard.empty") %></p>
         <%= link_to t("dashboard.browse_paths"), paths_path, class: "btn btn--reversed btn--large" %>
       </div>
-    <% end %>
 
-    <% if @suggested_paths.any? %>
-      <div class="dashboard__suggested">
-        <h2 class="dashboard__suggested-title"><%= t("dashboard.suggested") %></h2>
-        <div class="card-grid card-grid--3-col">
-          <% @suggested_paths.each do |path| %>
-            <%= render "paths/path_card", path: path %>
-          <% end %>
+      <% if @suggested_paths.any? %>
+        <div class="dashboard__suggested">
+          <h2 class="dashboard__suggested-title"><%= t("dashboard.suggested") %></h2>
+          <div class="card-grid card-grid--3-col">
+            <% @suggested_paths.each do |path| %>
+              <%= render "paths/path_card", path: path %>
+            <% end %>
+          </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
 </section>

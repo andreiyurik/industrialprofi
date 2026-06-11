@@ -9,6 +9,82 @@
   margin-block: 0.5rem 2rem;
 }
 
+/* Activity heatmap (GitHub-style): columns = weeks, rows = weekdays.
+   Pure server-rendered divs; green intensity = real actions that day. */
+.heatmap {
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75em;
+  margin-block-end: 2rem;
+  overflow-x: auto;
+  padding: 1rem 1.25rem;
+}
+
+.heatmap__header {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin-block-end: 0.75rem;
+}
+
+.heatmap__title {
+  font-size: 0.95rem;
+  margin-block: 0;
+}
+
+.heatmap__summary {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+}
+
+.heatmap__grid {
+  display: grid;
+  gap: 3px;
+  grid-auto-columns: 0.72rem;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 0.72rem);
+  inline-size: max-content;
+}
+
+.heatmap__cell {
+  background-color: var(--color-subtle-light);
+  border-radius: 2px;
+}
+
+.heatmap__cell--void {
+  background-color: transparent;
+}
+
+.heatmap__cell--l1 { background-color: oklch(var(--lch-green) / 0.25); }
+.heatmap__cell--l2 { background-color: oklch(var(--lch-green) / 0.45); }
+.heatmap__cell--l3 { background-color: oklch(var(--lch-green) / 0.7); }
+.heatmap__cell--l4 { background-color: oklch(var(--lch-green)); }
+
+.heatmap__legend {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  display: flex;
+  font-size: 0.7rem;
+  gap: 3px;
+  justify-content: flex-end;
+  margin-block-start: 0.6rem;
+
+  .heatmap__cell {
+    block-size: 0.72rem;
+    display: inline-block;
+    inline-size: 0.72rem;
+  }
+
+  span:first-child {
+    margin-inline-end: 0.3rem;
+  }
+
+  span:last-child {
+    margin-inline-start: 0.3rem;
+  }
+}
+
 .dashboard__paths {
   display: flex;
   flex-direction: column;
@@ -21,6 +97,85 @@
   flex-wrap: wrap;
   gap: 1.5rem;
   justify-content: space-between;
+}
+
+/* The focus hero: the one direction the learner is on. Brighter border and
+   roomier padding than anything else on the page — attention goes here. */
+.dashboard-path--focus {
+  border-color: var(--color-subtle-dark);
+  margin-block-end: 2rem;
+  padding: 1.5rem;
+}
+
+.dashboard__eyebrow {
+  color: var(--color-subtle-dark);
+  flex-basis: 100%;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-block: 0;
+  text-transform: uppercase;
+}
+
+/* Other started paths: present but quiet — one compact row each. */
+.dashboard__others-title {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-block: 2rem 0.75rem;
+}
+
+.dashboard__others {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dashboard-other {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dashboard-other__icon {
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+
+  svg {
+    block-size: 1.4rem;
+    inline-size: 1.4rem;
+  }
+}
+
+.dashboard-other__title {
+  color: var(--color-ink);
+  font-weight: 600;
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.dashboard-other__progress {
+  flex: 1 1 10rem;
+}
+
+.dashboard-other__continue {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-decoration-color: var(--color-subtle);
+  transition: color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
 }
 
 .dashboard-path__main {

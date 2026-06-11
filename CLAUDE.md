@@ -161,6 +161,26 @@ of all `kind: practice` lessons across published paths; stage-milestone chips
 on the dashboard and a stage/path completion flash celebration (Turbo Stream
 updates the `:flash` frame); the numbered "journey rail" on the path page.
 
+**Focus direction (built):** the product deliberately keeps attention on ONE
+profession — `User#focus_path` (derived from the latest completion, no stored
+setting: switching focus = doing a lesson elsewhere). The dashboard renders the
+focus path as the hero with a single "Продолжить" action; other started paths
+are quiet compact rows; **new-path suggestions are shown only to users with
+zero started paths**; the catalog shows a focus banner ("лучше закончить
+начатое") and `/projects` sorts the focus path's group first. Defaults, not
+walls: nothing is locked.
+
+**Practice journal + activity heatmap (built):** `JournalEntry` (`/journal`) —
+the reader's **private** work log: rich-text body, optional lesson link, photos
+via Active Storage. Hard safety rails (a full disk kills SQLite → the site):
+max 5 photos/entry, 10 MB/file, images only, 250 MB per-user quota
+(constants on the model), upload rate limit. Thumbnails use libvips (in the
+production Docker image; on dev boxes without it `photo_thumb_source` serves
+originals). The dashboard heatmap (GitHub-style, 16 weeks, server-rendered
+divs) counts real actions only — completions + journal entries via
+`User#activity_by_day`. Publishing entries to a public portfolio = future v0.3
+moderated flow; until then everything stays private and unmoderated by design.
+
 **Not built yet (planned — see `docs/MVP.md` v0.3):** community-authored
 roadmaps, public user profiles, search, project submissions (portfolio uploads).
 

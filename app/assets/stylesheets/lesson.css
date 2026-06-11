@@ -275,3 +275,25 @@
     color: var(--color-link);
   }
 }
+
+.lesson-complete__side {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Quiet companion action: log what you built into the practice journal. */
+.lesson-complete__journal {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-decoration-color: var(--color-subtle);
+  transition: color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}

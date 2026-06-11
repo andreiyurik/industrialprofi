@@ -22,9 +22,14 @@ Each phase is a deployable, usable product — not a prototype.
 >   `ADMIN_EMAIL`/`ADMIN_PASSWORD` env at seed time or console).
 > - **Also shipped:** password reset (token + mailer; production needs SMTP),
 >   `/projects` (aggregated practice lessons), stage-milestone chips +
->   completion celebrations, and the numbered journey rail on path pages.
+>   completion celebrations, the numbered journey rail on path pages, the
+>   **private practice journal** (`JournalEntry`, `/journal`: rich text +
+>   photos with hard limits — 5 photos/entry, 10 MB/file, 250 MB/user quota),
+>   and the GitHub-style **activity heatmap** on the dashboard (16 weeks,
+>   completions + journal entries).
 > - **Not built yet:** v0.2's profile page (name/profession/city); all of v0.3
->   (community roadmaps, search, public profiles, project submissions).
+>   (community roadmaps, search, public profiles, publishing journal entries
+>   as a moderated public portfolio).
 
 ## v0.1 — Static Catalog (Target: 1 week)
 

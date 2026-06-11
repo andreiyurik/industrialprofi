@@ -1,0 +1,42 @@
+<%# locals: (entry:) -%>
+<%= form_with model: entry, class: "journal-form" do |form| %>
+  <% if entry.errors.any? %>
+    <div class="auth__errors" role="alert">
+      <ul>
+        <% entry.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="journal-form__field">
+    <%= form.label :title, t("journal.field_title") %>
+    <%= form.text_field :title, class: "input", autofocus: true %>
+  </div>
+
+  <div class="journal-form__field">
+    <%= form.label :lesson_id, t("journal.field_lesson") %>
+    <%= form.grouped_collection_select :lesson_id,
+          Path.published.localized.ordered, :lessons, :title, :id, :title,
+          { include_blank: t("journal.lesson_none") }, { class: "input" } %>
+  </div>
+
+  <div class="journal-form__field">
+    <%= form.label :body, t("journal.field_body") %>
+    <%= form.rich_text_area :body, class: "lexxy-content" %>
+  </div>
+
+  <div class="journal-form__field">
+    <%= form.label :photos, t("journal.field_photos") %>
+    <%= form.file_field :photos, multiple: true, accept: "image/*", class: "input" %>
+    <p class="auth__hint"><%= t("journal.photos_hint",
+          max_photos: JournalEntry::MAX_PHOTOS,
+          max_size: JournalEntry::MAX_PHOTO_SIZE / 1.megabyte) %></p>
+  </div>
+
+  <div class="journal-form__actions">
+    <%= form.submit t("journal.save"), class: "btn btn--reversed btn--large" %>
+    <%= link_to t("admin.cancel"), journal_entries_path, class: "btn btn--large" %>
+  </div>
+<% end %>

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :passwords, param: :token, only: [ :new, :create, :edit, :update ]
   get "dashboard" => "dashboard#show"
   get "projects" => "projects#index"
+  resources :journal_entries, path: "journal", except: [ :show ]
 
   resources :paths, only: [ :index, :show ], param: :slug
   resources :lessons, only: [ :show ], param: :slug do

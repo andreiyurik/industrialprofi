@@ -16,6 +16,9 @@
             <div class="curriculum__header">
               <h2 class="curriculum__header-title">
                 <%= link_to path.title, path_path(path), class: "curriculum__header-link" %>
+                <% if path == @focus_path %>
+                  <span class="badge badge--marker"><%= t("projects.focus_badge") %></span>
+                <% end %>
               </h2>
               <% if signed_in? %>
                 <span class="curriculum__header-count">

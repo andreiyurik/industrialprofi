@@ -46,3 +46,12 @@ praktika_shchitok:
   body: Текст практического задания
   kind: practice
   position: 4
+
+svarka_intro:
+  path: welder
+  title: "Введение в сварку"
+  slug: svarka-vvedenie
+  stage: Основы сварки
+  description: Стартовый урок сварщика
+  body: Текст урока сварщика
+  position: 1

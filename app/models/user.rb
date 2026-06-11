@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :lesson_completions, dependent: :destroy
   has_many :completed_lessons, through: :lesson_completions, source: :lesson
+  has_many :journal_entries, dependent: :destroy
 
   enum :role, { member: "member", administrator: "administrator" }, default: "member"
 
@@ -36,8 +37,25 @@ class User < ApplicationRecord
     Path.published.where(id: lesson_completions.joins(:lesson).select("lessons.path_id")).ordered
   end
 
+  # The ONE direction the learner is currently working on — the path of their
+  # most recent completion. Derived, not stored: switching focus is simply
+  # doing a lesson elsewhere, no settings to manage.
+  def focus_path
+    path_id = lesson_completions.joins(:lesson).order(created_at: :desc).limit(1).pick("lessons.path_id")
+    Path.published.find_by(id: path_id) if path_id
+  end
+
   # The first not-yet-completed lesson — where "Continue" should land.
   def next_lesson_in(path)
     path.lessons.ordered.where.not(id: lesson_completions.select(:lesson_id)).first
+  end
+
+  # Activity per calendar day (lesson completions + journal entries) — feeds
+  # the dashboard heatmap. Counts real work, not logins.
+  def activity_by_day(since:)
+    [ lesson_completions, journal_entries ].map { |scope|
+      scope.where(created_at: since.to_date.beginning_of_day..).group("DATE(created_at)").count
+    }.reduce { |a, b| a.merge(b) { |_, x, y| x + y } }
+     .transform_keys { |day| Date.parse(day.to_s) }
   end
 end

@@ -27,15 +27,21 @@
     </p>
   <% end %>
 
-  <% if (nxt = lesson.next_in_path) %>
-    <%= link_to nxt, class: "btn btn--large lesson-complete__next" do %>
-      <%= t("lessons.go_next") %>
-      <%= heroicon "arrow-right", variant: :outline %>
+  <div class="lesson-complete__side">
+    <% if signed_in? %>
+      <%= link_to t("journal.write_in_journal"), new_journal_entry_path(lesson_id: lesson.id),
+            class: "lesson-complete__journal" %>
     <% end %>
-  <% else %>
-    <%= link_to path_path(lesson.path), class: "btn btn--large lesson-complete__next" do %>
-      <%= t("lessons.back_to_path") %>
-      <%= heroicon "arrow-right", variant: :outline %>
+    <% if (nxt = lesson.next_in_path) %>
+      <%= link_to nxt, class: "btn btn--large lesson-complete__next" do %>
+        <%= t("lessons.go_next") %>
+        <%= heroicon "arrow-right", variant: :outline %>
+      <% end %>
+    <% else %>
+      <%= link_to path_path(lesson.path), class: "btn btn--large lesson-complete__next" do %>
+        <%= t("lessons.back_to_path") %>
+        <%= heroicon "arrow-right", variant: :outline %>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 </div>

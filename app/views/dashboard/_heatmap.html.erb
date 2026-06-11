@@ -1,0 +1,31 @@
+<%# locals: (activity:, since:) -%>
+<%# GitHub-style activity grid: columns are weeks, rows are weekdays. It only
+    mirrors real work (completions + journal entries) — gaps are visible but
+    nothing "burns down", unlike streaks. %>
+<section class="heatmap" aria-label="<%= t("dashboard.heatmap_title") %>">
+  <header class="heatmap__header">
+    <h2 class="heatmap__title"><%= t("dashboard.heatmap_title") %></h2>
+    <span class="heatmap__summary"><%= t("dashboard.heatmap_summary", count: activity.size) %></span>
+  </header>
+
+  <div class="heatmap__grid">
+    <% (since..since + 16.weeks - 1.day).each do |day| %>
+      <% if day > Date.current %>
+        <span class="heatmap__cell heatmap__cell--void"></span>
+      <% else %>
+        <% count = activity.fetch(day, 0) %>
+        <% level = [ count, 4 ].min %>
+        <span class="heatmap__cell heatmap__cell--l<%= level %>"
+              title="<%= l(day) %> · <%= t("dashboard.heatmap_count", count: count) %>"></span>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="heatmap__legend" aria-hidden="true">
+    <span><%= t("dashboard.heatmap_less") %></span>
+    <% (0..4).each do |level| %>
+      <span class="heatmap__cell heatmap__cell--l<%= level %>"></span>
+    <% end %>
+    <span><%= t("dashboard.heatmap_more") %></span>
+  </div>
+</section>
