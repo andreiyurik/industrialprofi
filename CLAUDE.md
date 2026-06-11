@@ -234,6 +234,18 @@ Recipients default to all `administrator` users; `ERROR_ALERTS_TO` env
 overrides. No Sentry/Honeybadger — this plus an external uptime ping on `/up`
 (UptimeRobot) is the whole monitoring story.
 
+**Learning reminder (built — the ONE retention email, keep it that way):**
+`LearningReminderJob` (daily via Solid Queue recurring, `config/recurring.yml`)
+emails stalled learners through `RemindersMailer.continue_learning` — "you
+stopped at lesson X, continue here". **One nudge per stall by design**
+(`User#needs_learning_reminder?`: opted in + ≥7 days silent + not yet nudged
+since last activity + has a next lesson), never a drip campaign. Opt-out:
+checkbox on /account + tokenized one-click unsubscribe
+(`UnsubscribesController`, RFC 8058 List-Unsubscribe headers,
+`generates_token_for :email_unsubscribe`). Columns: `users.reminder_emails`,
+`users.reminded_at`. Do not add more marketing/lifecycle emails without an
+explicit founder decision.
+
 **Monetization (recorded decision, June 2026):** v0.4 certificates are
 DEFERRED; materials stay free/open forever; retention & satisfaction before
 revenue. Candidate paths (all demand-gated) in `docs/VISION.md` → Business

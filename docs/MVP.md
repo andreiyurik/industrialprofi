@@ -33,7 +33,9 @@ Each phase is a deployable, usable product — not a prototype.
 >   pending suggestions, content health, disk usage); **account settings**
 >   (name, password, email change with verification, account deletion);
 >   lesson **bookmarks**; the focused **reading mode**; the dashboard
->   **learning goal**.
+>   **learning goal**; the quiet **learning-reminder email** (one nudge per
+>   stall, daily `LearningReminderJob` via Solid Queue recurring, one-click
+>   unsubscribe) and hand-rolled **error-alert emails** (`ErrorSubscriber`).
 > - **Not built yet:** all of v0.3 (community roadmaps, search, public
 >   profiles, publishing journal entries as a moderated public portfolio).
 
