@@ -1,0 +1,44 @@
+<% meta_title(t("account.title")) %>
+
+<section class="section">
+  <div class="container">
+    <div class="account-settings">
+      <h1 class="account-settings__heading"><%= t("account.title") %></h1>
+
+      <%# Name %>
+      <div class="panel account-settings__panel">
+        <h2 class="account-settings__section-title"><%= t("account.name_section") %></h2>
+        <%= form_with url: account_path, method: :patch, class: "account-settings__form" do |f| %>
+          <% if current_page?(account_path) && flash.now[:alert].present? %>
+          <% end %>
+          <%= f.label :name, t("account.name_label"), class: "account-settings__label" %>
+          <%= f.text_field :name, value: Current.user.name, required: true,
+                autocomplete: "name", class: "input account-settings__input",
+                name: "user[name]" %>
+          <%= f.submit t("account.save"), class: "btn btn--reversed btn--small" %>
+        <% end %>
+      </div>
+
+      <%# Email %>
+      <div class="panel account-settings__panel">
+        <h2 class="account-settings__section-title"><%= t("account.email_section") %></h2>
+        <p class="account-settings__current-value"><%= Current.user.email_address %></p>
+        <%= link_to t("account.change_email"), edit_account_email_path, class: "btn btn--small" %>
+      </div>
+
+      <%# Password %>
+      <div class="panel account-settings__panel">
+        <h2 class="account-settings__section-title"><%= t("account.password_section") %></h2>
+        <p class="account-settings__hint"><%= t("account.password_hint_text") %></p>
+        <%= link_to t("account.change_password"), edit_account_password_path, class: "btn btn--small" %>
+      </div>
+
+      <%# Danger zone %>
+      <div class="panel account-settings__panel account-settings__panel--danger">
+        <h2 class="account-settings__section-title account-settings__section-title--danger"><%= t("account.danger_zone") %></h2>
+        <p class="account-settings__hint"><%= t("account.delete_warning") %></p>
+        <%= link_to t("account.delete_account"), new_account_deletion_path, class: "btn btn--negative btn--small" %>
+      </div>
+    </div>
+  </div>
+</section>

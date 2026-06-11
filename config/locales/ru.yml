@@ -28,14 +28,12 @@ ru:
       - окт
       - ноя
       - дек
+    formats:
+      default: "%-d %B %Y"
 
   time:
     formats:
       long: "%d %B %Y, %H:%M"
-
-  date:
-    formats:
-      default: "%-d %B %Y"
 
   activerecord:
     attributes:
@@ -81,6 +79,7 @@ ru:
     projects: "Практика"
     dashboard: "Моё обучение"
     journal: "Дневник"
+    account: "Настройки"
 
   journal:
     title: "Дневник практики"
@@ -521,3 +520,47 @@ ru:
       one: "%{count} блок"
       few: "%{count} блока"
       many: "%{count} блоков"
+
+  account:
+    title: "Настройки аккаунта"
+    name_section: "Имя"
+    email_section: "Email"
+    password_section: "Пароль"
+    danger_zone: "Опасная зона"
+    save: "Сохранить"
+    name_label: "Отображаемое имя"
+    name_updated: "Имя обновлено."
+    email_updated: "Email обновлён."
+    password_updated: "Пароль изменён."
+    password_current_invalid: "Неверный текущий пароль."
+    email_same: "Это уже ваш текущий email."
+    email_taken: "Этот email уже занят."
+    change_email: "Изменить email"
+    change_password: "Изменить пароль"
+    delete_account: "Удалить аккаунт"
+    delete_warning: "Удаление необратимо: аккаунт, прогресс, дневник и все фото исчезнут навсегда."
+    deleted: "Аккаунт удалён."
+    password_invalid_for_deletion: "Неверный пароль."
+    current_password: "Текущий пароль"
+    new_email_placeholder: "Новый email"
+    password_hint_text: "Минимум 8 символов."
+    save_password: "Сохранить пароль"
+    send_code: "Отправить код"
+    verify_code: "Подтвердить"
+    back: "← Назад к настройкам"
+    password_change_title: "Смена пароля"
+    email_change_title: "Смена email"
+    email_change_hint: "Введите новый email — пришлём код подтверждения."
+    verify_email_title: "Подтвердите новый email"
+    verify_email_hint_html: "Мы отправили код на %{email}. Введите его ниже."
+    delete_confirm_title: "Удаление аккаунта"
+    delete_confirm_hint: "Введите пароль для подтверждения. Это действие необратимо — все данные будут удалены."
+    confirm_delete: "Удалить аккаунт безвозвратно"
+
+  account_mailer:
+    email_change_code:
+      subject: "[%{code}] Подтверждение нового email — industrialprofi.com"
+      greeting: "Добрый день!"
+      body: "Вы запросили смену email на industrialprofi.com. Введите код подтверждения:"
+      expires: "Код действителен 15 минут."
+      ignore: "Если вы не запрашивали смену email — просто проигнорируйте это письмо."

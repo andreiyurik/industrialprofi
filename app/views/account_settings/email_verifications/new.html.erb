@@ -1,0 +1,25 @@
+<% meta_title(t("account.verify_email_title")) %>
+
+<section class="section">
+  <div class="container">
+    <div class="auth">
+      <h1 class="auth__title"><%= t("account.verify_email_title") %></h1>
+      <p class="auth__subtitle"><%= t("account.verify_email_hint_html", email: content_tag(:strong, email_change.email_address)) %></p>
+
+      <%= form_with url: account_email_verification_path, class: "auth__form" do |f| %>
+        <%= f.label :code, t("account.verify_email_title"), class: "for-screen-reader" %>
+        <%= f.text_field :code, class: "input auth__code", required: true, autofocus: true,
+              maxlength: EmailChange::CODE_LENGTH, autocomplete: "one-time-code",
+              autocapitalize: "characters", spellcheck: false %>
+
+        <%= f.submit t("account.verify_code"), class: "btn btn--reversed btn--large auth__submit" %>
+      <% end %>
+
+      <p class="auth__alt">
+        <%= button_to t("signup.resend"), account_email_path,
+              params: { email_address: email_change.email_address },
+              class: "auth__resend" %>
+      </p>
+    </div>
+  </div>
+</section>

@@ -78,6 +78,10 @@
                   <%= heroicon "pencil-square", variant: :outline %>
                   <%= t("nav.journal") %>
                 <% end %>
+                <%= link_to account_path, class: "account-menu__link" do %>
+                  <%= heroicon "user-circle", variant: :outline %>
+                  <%= t("nav.account") %>
+                <% end %>
                 <% if Current.user.can_administer? %>
                   <%= link_to admin_lessons_path, class: "account-menu__link" do %>
                     <%= heroicon "cog-6-tooth", variant: :outline %>

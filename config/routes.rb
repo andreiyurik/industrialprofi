@@ -16,6 +16,14 @@ Rails.application.routes.draw do
   get "robots.txt" => "sitemaps#robots", defaults: { format: :text }
   get "sitemap.xml" => "sitemaps#show", defaults: { format: :xml }
 
+  resource :account, only: [ :show, :update ], controller: "account"
+  scope module: :account_settings, path: "account", as: :account do
+    resource :password, only: [ :edit, :update ]
+    resource :email, only: [ :edit, :create ]
+    resource :email_verification, only: [ :new, :create ]
+    resource :deletion, only: [ :new, :create ]
+  end
+
   resource :session, only: [ :new, :create, :destroy ]
   resource :signup, only: [ :new, :create ], controller: "signups"
   scope module: :signups, path: "signup", as: :signup do

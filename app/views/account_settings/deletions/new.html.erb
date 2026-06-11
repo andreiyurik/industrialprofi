@@ -1,0 +1,21 @@
+<% meta_title(t("account.delete_confirm_title")) %>
+
+<section class="section">
+  <div class="container">
+    <div class="auth">
+      <h1 class="auth__title"><%= t("account.delete_confirm_title") %></h1>
+      <p class="auth__subtitle"><%= t("account.delete_confirm_hint") %></p>
+
+      <%= form_with url: account_deletion_path, class: "auth__form" do |f| %>
+        <%= f.label :password, t("auth.password"), class: "for-screen-reader" %>
+        <%= f.password_field :password, required: true, autofocus: true,
+              autocomplete: "current-password",
+              placeholder: t("auth.password"), class: "input" %>
+
+        <%= f.submit t("account.confirm_delete"), class: "btn btn--negative btn--large auth__submit" %>
+      <% end %>
+
+      <p class="auth__alt"><%= link_to t("account.back"), account_path %></p>
+    </div>
+  </div>
+</section>
