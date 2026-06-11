@@ -24,19 +24,48 @@
       <p class="path__overview-text"><%= @path.description %></p>
     </div>
 
+    <div class="path__start">
+      <% if signed_in? && @completed_ids.any? %>
+        <%= render "shared/progress_bar", completed: @completed_ids.size, total: @lessons.size %>
+        <% if @continue_lesson %>
+          <%= link_to @continue_lesson, class: "btn btn--reversed btn--large" do %>
+            <%= t("paths.continue_learning") %>
+            <%= heroicon "arrow-right", variant: :outline %>
+          <% end %>
+          <p class="path__continue-hint"><%= t("paths.next_up", title: @continue_lesson.title) %></p>
+        <% end %>
+      <% elsif @continue_lesson %>
+        <%= link_to @continue_lesson, class: "btn btn--reversed btn--large" do %>
+          <%= t("paths.start_learning") %>
+          <%= heroicon "arrow-right", variant: :outline %>
+        <% end %>
+      <% end %>
+    </div>
+
     <div class="curriculum">
       <% @lessons_by_stage.each do |stage, lessons| %>
         <div class="curriculum__section">
+          <% stage_completed = lessons.count { |lesson| @completed_ids.include?(lesson.id) } %>
           <% if stage.present? %>
             <div class="curriculum__header">
               <h2 class="curriculum__header-title"><%= stage %></h2>
+              <% if signed_in? %>
+                <span class="curriculum__header-count<%= " curriculum__header-count--done" if stage_completed == lessons.size %>">
+                  <%= stage_completed %>/<%= lessons.size %>
+                </span>
+              <% end %>
             </div>
           <% end %>
 
           <div class="curriculum__list">
             <% lessons.each do |lesson| %>
-              <a href="<%= lesson_path(lesson) %>" class="curriculum__lesson<%= " curriculum__lesson--practice" if lesson.kind == "practice" %>">
-                <%= heroicon(lesson.kind == "practice" ? "wrench-screwdriver" : "book-open", variant: :outline) %>
+              <% done = @completed_ids.include?(lesson.id) %>
+              <a href="<%= lesson_path(lesson) %>" class="curriculum__lesson<%= " curriculum__lesson--practice" if lesson.kind == "practice" %><%= " curriculum__lesson--done" if done %>">
+                <% if done %>
+                  <%= heroicon "check-circle", variant: :solid %>
+                <% else %>
+                  <%= heroicon(lesson.kind == "practice" ? "wrench-screwdriver" : "book-open", variant: :outline) %>
+                <% end %>
                 <span class="curriculum__lesson-title"><%= lesson.title %></span>
               </a>
             <% end %>

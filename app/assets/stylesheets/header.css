@@ -63,3 +63,21 @@
   color: var(--color-ink);
   font-weight: 600;
 }
+
+/* Sign-out is a button_to form; style the button as a quiet nav link. */
+.header__signout {
+  background: none;
+  border: 0;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0;
+  transition: color 200ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}

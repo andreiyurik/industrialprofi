@@ -1,0 +1,28 @@
+<% meta_title(t("auth.sign_in_title")) %>
+
+<section class="section">
+  <div class="container auth">
+    <h1 class="auth__title"><%= t("auth.sign_in_title") %></h1>
+    <p class="auth__subtitle"><%= t("auth.sign_in_subtitle") %></p>
+
+    <%= form_with url: session_path, class: "auth__form" do |form| %>
+      <div class="auth__field">
+        <%= form.label :email_address, t("auth.email") %>
+        <%= form.email_field :email_address, value: params[:email_address], required: true, autofocus: true,
+              autocomplete: "email", class: "input" %>
+      </div>
+
+      <div class="auth__field">
+        <%= form.label :password, t("auth.password") %>
+        <%= form.password_field :password, required: true, autocomplete: "current-password", class: "input" %>
+      </div>
+
+      <%= form.submit t("auth.sign_in"), class: "btn btn--reversed btn--large auth__submit" %>
+    <% end %>
+
+    <p class="auth__alt">
+      <%= t("auth.no_account") %>
+      <%= link_to t("auth.sign_up"), new_user_path %>
+    </p>
+  </div>
+</section>

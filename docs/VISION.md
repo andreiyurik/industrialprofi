@@ -85,14 +85,19 @@ A school gives a 500-page textbook. We give: "read these 3 pages of ПУЭ and d
 > - The **Course** middle layer was flattened into a `stage` *string* on Lesson
 >   (conceptual compression — it had no behaviour). Hierarchy in code is
 >   **Path → Lesson**, grouped by `Lesson#stage`. No `Course` model/table/route.
-> - The desktop **two-column Turbo-Frame layout is not built yet** — lessons are
->   full-page; Turbo Frames are used only for the lazy revision-history panel and
->   flash.
-> - **Progress tracking, `User`, and `LessonCompletion` are not built yet**
->   (planned for `docs/MVP.md` v0.2). There is no "Mark as done" button today.
+> - **Accounts + progress are built (the v0.2 milestone):** registration/login
+>   (`has_secure_password`, `Current`/`Session` pattern), binary
+>   `LessonCompletion` with the "Отметить пройденным" button (Turbo Stream),
+>   per-stage/per-path progress bars, and `/dashboard` with continue links.
+>   Signed-in users landing on "/" are redirected to the dashboard (TOP-style).
+> - The desktop **two-column lesson layout is built** — a sticky curriculum
+>   sidebar with completion marks (roadmap.sh feel) on ≥1100px screens; lessons
+>   stay full-page on mobile. Navigation is plain Turbo Drive page visits (fast,
+>   SEO-clean URLs), not frame swaps.
 > - **Built ahead of the original plan:** a reader **suggestion** flow + an
 >   admin-reviewed, append-only **revision** history (`LessonSuggestion`,
->   `LessonRevision`, `RevisionDiff`), with admin editing behind HTTP Basic.
+>   `LessonRevision`, `RevisionDiff`). Admin editing is gated by a role flag on
+>   `User` (`administrator`) — HTTP Basic is gone.
 
 ### Hierarchy: Profession → Course → Lesson
 

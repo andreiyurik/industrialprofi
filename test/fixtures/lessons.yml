@@ -27,3 +27,12 @@ zazemlenie:
   body: Содержание урока по заземлению
   task: Нарисуйте схему TN-S
   position: 3
+
+draft_lesson:
+  path: draft_path
+  title: Урок в черновике
+  slug: draft-lesson
+  stage: Черновой этап
+  description: Урок неопубликованной профессии
+  body: Текст
+  position: 1

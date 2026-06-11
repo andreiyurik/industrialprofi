@@ -1,4 +1,6 @@
 class SitemapsController < ApplicationController
+  allow_unauthenticated_access
+
   def robots
     expires_in 1.day, public: true
     render plain: "User-agent: *\nAllow: /\nSitemap: #{Rails.application.config.x.site.url}/sitemap.xml\n"

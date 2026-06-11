@@ -77,3 +77,47 @@ end
 
 puts "Seed complete. Created: #{created_paths} paths, #{created_lessons} lessons, #{created_resources} resources. " \
      "Total: #{Path.count} paths, #{Lesson.count} lessons, #{Resource.count} resources."
+
+# First administrator — admin pages are gated by User#can_administer? now, not
+# HTTP Basic. Idempotent: only runs when no administrator exists yet.
+if User.administrator.none? && ENV["ADMIN_EMAIL"].present? && ENV["ADMIN_PASSWORD"].present?
+  User.create!(
+    name: ENV.fetch("ADMIN_NAME", "Admin"),
+    email_address: ENV["ADMIN_EMAIL"],
+    password: ENV["ADMIN_PASSWORD"],
+    role: "administrator"
+  )
+  puts "Administrator #{ENV["ADMIN_EMAIL"]} created."
+end
+
+# Development-only logins, one per role, with fixed well-known credentials.
+# Never runs in production: real accounts there come from ENV (above) or console.
+if Rails.env.development?
+  dev_users = [
+    { name: "Dev Админ",        email_address: "admin@example.com", role: "administrator" },
+    { name: "Dev Пользователь", email_address: "user@example.com",  role: "member" }
+  ]
+
+  dev_users.each do |attrs|
+    User.find_or_create_by!(email_address: attrs[:email_address]) do |user|
+      user.name = attrs[:name]
+      user.role = attrs[:role]
+      user.password = "password"
+    end
+  end
+
+  # Give the member a little progress so dashboards and progress bars have
+  # something to show right after `db:seed`.
+  member = User.find_by!(email_address: "user@example.com")
+  if member.lesson_completions.none?
+    Lesson.joins(:path).where(paths: { status: "published" }).order(:path_id, :position).limit(2).each do |lesson|
+      member.lesson_completions.find_or_create_by!(lesson: lesson)
+    end
+  end
+
+  puts <<~LOGINS
+    Dev logins (password for both: "password"):
+      admin@example.com  — administrator (/admin)
+      user@example.com   — member (#{member.lesson_completions.count} lessons completed)
+  LOGINS
+end

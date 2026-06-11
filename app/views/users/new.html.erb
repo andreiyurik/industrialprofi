@@ -1,0 +1,51 @@
+<% meta_title(t("auth.sign_up_title")) %>
+
+<section class="section">
+  <div class="container auth">
+    <h1 class="auth__title"><%= t("auth.sign_up_title") %></h1>
+    <p class="auth__subtitle"><%= t("auth.sign_up_subtitle") %></p>
+
+    <%= form_with model: @user, class: "auth__form" do |form| %>
+      <% if @user.errors.any? %>
+        <div class="auth__errors" role="alert">
+          <ul>
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="auth__field">
+        <%= form.label :name, t("auth.name") %>
+        <%= form.text_field :name, required: true, autofocus: true, autocomplete: "name",
+              placeholder: t("auth.name_placeholder"), class: "input" %>
+      </div>
+
+      <div class="auth__field">
+        <%= form.label :email_address, t("auth.email") %>
+        <%= form.email_field :email_address, required: true, autocomplete: "email", class: "input" %>
+      </div>
+
+      <div class="auth__field">
+        <%= form.label :password, t("auth.password") %>
+        <%= form.password_field :password, required: true, minlength: 8,
+              autocomplete: "new-password", class: "input" %>
+        <p class="auth__hint"><%= t("auth.password_hint") %></p>
+      </div>
+
+      <div class="auth__field">
+        <%= form.label :password_confirmation, t("auth.password_confirmation") %>
+        <%= form.password_field :password_confirmation, required: true, minlength: 8,
+              autocomplete: "new-password", class: "input" %>
+      </div>
+
+      <%= form.submit t("auth.sign_up"), class: "btn btn--reversed btn--large auth__submit" %>
+    <% end %>
+
+    <p class="auth__alt">
+      <%= t("auth.have_account") %>
+      <%= link_to t("auth.sign_in"), new_session_path %>
+    </p>
+  </div>
+</section>

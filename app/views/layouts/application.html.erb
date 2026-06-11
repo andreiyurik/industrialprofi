@@ -52,6 +52,19 @@
           <% if controller.class.module_parent_name == "Admin" %>
             <span class="badge badge--marker">Admin</span>
           <% end %>
+
+          <% if signed_in? %>
+            <%= link_to t("nav.dashboard"), dashboard_path, class: "nav__link",
+                  aria: { current: ("page" if current_page?(dashboard_path)) } %>
+            <% if Current.user.can_administer? && controller.class.module_parent_name != "Admin" %>
+              <%= link_to "Admin", admin_lessons_path, class: "badge badge--marker" %>
+            <% end %>
+            <%= button_to t("auth.sign_out"), session_path, method: :delete, class: "header__signout" %>
+          <% else %>
+            <%= link_to t("auth.sign_in"), new_session_path, class: "nav__link",
+                  aria: { current: ("page" if current_page?(new_session_path)) } %>
+            <%= link_to t("auth.sign_up"), new_user_path, class: "btn btn--small btn--reversed" %>
+          <% end %>
         </div>
       </nav>
     </header>

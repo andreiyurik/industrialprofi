@@ -87,21 +87,40 @@ Profession (Path) → Lesson  ·  grouped by Lesson#stage (a string, was "Course
 
 **Routes (actual — see `config/routes.rb`):**
 ```ruby
-root "paths#index"
+root "paths#index"                                          # signed-in users on "/" are redirected to /dashboard (TOP-style)
+resource :session, only: [:new, :create, :destroy]          # login (hand-rolled, Writebook pattern)
+resources :users, only: [:new, :create]                     # registration
+get "dashboard" => "dashboard#show"                         # "Моё обучение" — started paths + continue links
 resources :paths, only: [:index, :show], param: :slug      # professions
 resources :lessons, only: [:show], param: :slug do         # individual lessons (flat slug URLs)
+  resource :completion, only: [:create, :destroy],         # binary "mark as done" (Turbo Stream)
+           controller: "lesson_completions"
   resources :revisions, only: [:index, :show]              # reader-facing change history
   resources :suggestions, only: [:new, :create],           # reader-submitted edits
             controller: "lesson_suggestions"
 end
-namespace :admin do ... end                                # HTTP Basic-gated editing
+namespace :admin do ... end                                # gated by User#can_administer? (role flag)
 ```
 
 **Models (actual — see `app/models/`):**
 ```
+User (has_secure_password; role: member | administrator; progress helpers:
+      completed?, completed_lesson_ids_for(path), started_paths, next_lesson_in(path))
+  → has_many Sessions          (has_secure_token; signed permanent cookie)
+  → has_many LessonCompletions (unique per user+lesson — binary progress, Odin-style)
+Current (CurrentAttributes: session, delegates user) + Authentication concern in
+  ApplicationController: require_authentication by default, public controllers
+  opt out via allow_unauthenticated_access (which still restores Current.user).
+
 Path (profession)
   author_id: nil = official, present = community   # (community flow not yet built)
   status: draft | pending_review | published
+  locale: "ru" default — each language market gets its OWN paths/lessons (TOP
+          model, not synced translations); catalog/dashboard list only the
+          current I18n.locale. If lesson translation sync is ever needed, the
+          planned seam is source_lesson_id + translated_from_version on Lesson,
+          reusing LessonRevision/RevisionDiff for staleness — do NOT build
+          translated columns or a translation gem.
   → has_many Lessons (integer position-ordered; grouped in the view by #stage)
     → has_many Resources (country_code: nullable — nil = universal)
     → has_many LessonSuggestions  (reader-submitted edits: pending|approved|rejected)
@@ -119,24 +138,29 @@ Path (profession)
 
 **Name de-facto-standard tools.** When a specific program has become the industry standard for a recurring task in the trade (e.g. Modbus Poll/qModMaster for polling Modbus, UaExpert for OPC UA, Wireshark for network diagnostics, the canonical PLC IDE), name it explicitly and briefly explain what it's used for and why — don't hide behind "use a suitable tool." A concrete tool is a step the learner can take today; abstraction leaves them stranded. Add it both as a `tool` resource and as a mention in the body (often in a `> [!СОВЕТ]` block). This is about the standard *tool for the task*, not lock-in to a hardware vendor.
 
-**Editing model (built):** there is no public account system yet. Anyone can
-*suggest* an edit to a lesson section (rate-limited + honeypot); an admin
-(HTTP Basic) reviews suggestions, edits lessons directly, and every applied
-change appends an immutable `LessonRevision`. Rollback = a new revision, never a
-rewrite.
+**Editing model (built):** anyone can *suggest* an edit to a lesson section
+(rate-limited + honeypot, no account needed); an admin (a `User` with
+`role: administrator`) reviews suggestions, edits lessons directly, and every
+applied change appends an immutable `LessonRevision`. Rollback = a new revision,
+never a rewrite. The first admin is created by `db/seeds.rb` from
+`ADMIN_EMAIL`/`ADMIN_PASSWORD` env vars (or via console).
 
-**Not built yet (planned — see `docs/MVP.md` v0.2):** `User`, sessions /
-`has_secure_password`, the `Current` pattern, `LessonCompletion`, progress bars,
-and the "[✓ Mark as done]" button. The desktop two-column Turbo-Frame layout
-(roadmap.sh sidebar feel) is also **not built** — lessons are full-page today,
-with Turbo Frames used only for the lazy revision-history panel and flash. When
-progress lands it will be binary like Odin (done / not done, no `in_progress`),
-course/profession progress derived as completed / total.
+**Progress & accounts (built — the v0.2 milestone):** registration/login
+(`has_secure_password`, hand-rolled `SessionsController`, `Current`/`Session`
+pattern), binary `LessonCompletion` exactly like Odin (done / not done, no
+`in_progress`), the "Отметить пройденным" button (Turbo Stream updates button,
+sidebar and progress bar in place), per-stage and per-path progress derived as
+completed / total, `/dashboard` with continue-where-you-left-off links, and the
+desktop two-column lesson layout (sticky curriculum sidebar, roadmap.sh feel;
+a Stimulus controller centers the current lesson in the sidebar's scroll area).
+
+**Not built yet (planned — see `docs/MVP.md` v0.3):** community-authored
+roadmaps, public user profiles, search, password reset (no mailer configured).
 
 ## Anti-patterns
 
 - No React, Vue, or SPA. This is a Hotwire app.
-- No Devise. Admin editing is gated by `http_basic_authenticate_with` today (single admin, no `User` model). When public accounts land (v0.2), use `has_secure_password` + a hand-rolled `SessionsController` + the `Current`/`Session` pattern (à la Writebook), and fold admin into a role flag — don't keep a second login mechanism.
+- No Devise. Auth is `has_secure_password` + a hand-rolled `SessionsController` + the `Current`/`Session` pattern (à la Writebook), built in `app/controllers/concerns/authentication.rb`. Admin is a role flag on `User` (`can_administer?`) — there is no second login mechanism, and HTTP Basic is gone.
 - No `respond_to` JSON/HTML unless explicitly needed.
 - **No Tailwind, no `@apply`, no `@theme`, no `@layer`, no `@import` between CSS files, no build step.** Propshaft serves CSS files as-is, the browser handles the cascade via filename load order.
 - No `tailwind.config.js`, `postcss.config.js`, or any JS-side asset tooling.

@@ -12,11 +12,14 @@
     </div>
 
     <% if @paths.any? %>
-      <%= render "path_card", path: @paths.first, featured: true %>
+      <%= render "path_card", path: @paths.first, featured: true,
+            completed_count: @completed_counts.fetch(@paths.first.id, 0) %>
 
       <% if @paths.size > 1 %>
         <div class="card-grid card-grid--3-col">
-          <%= render partial: "path_card", collection: @paths.drop(1), as: :path %>
+          <% @paths.drop(1).each do |path| %>
+            <%= render "path_card", path: path, completed_count: @completed_counts.fetch(path.id, 0) %>
+          <% end %>
         </div>
       <% end %>
     <% end %>

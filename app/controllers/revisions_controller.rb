@@ -1,4 +1,6 @@
 class RevisionsController < ApplicationController
+  allow_unauthenticated_access
+
   PER_PAGE = 10
 
   before_action :set_lesson

@@ -16,8 +16,13 @@ Rails.application.routes.draw do
   get "robots.txt" => "sitemaps#robots", defaults: { format: :text }
   get "sitemap.xml" => "sitemaps#show", defaults: { format: :xml }
 
+  resource :session, only: [ :new, :create, :destroy ]
+  resources :users, only: [ :new, :create ]
+  get "dashboard" => "dashboard#show"
+
   resources :paths, only: [ :index, :show ], param: :slug
   resources :lessons, only: [ :show ], param: :slug do
+    resource :completion, only: [ :create, :destroy ], controller: "lesson_completions"
     resources :revisions, only: [ :index, :show ]
     resources :suggestions, only: [ :new, :create ], controller: "lesson_suggestions"
   end

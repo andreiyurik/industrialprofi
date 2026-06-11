@@ -13,6 +13,14 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/Черновик/, response.body)
   end
 
+  test "index shows only paths in the current locale" do
+    Path.create!(title: "English Electrician", slug: "english-electrician",
+                 description: "US market path", locale: "en", position: 9, status: "published")
+
+    get paths_path
+    assert_no_match(/English Electrician/, response.body)
+  end
+
   test "show returns success for published path" do
     get path_path(paths(:electrician))
     assert_response :success

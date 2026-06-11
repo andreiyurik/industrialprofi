@@ -221,72 +221,57 @@
   }
 }
 
-.lesson-nav {
-  border-block-start: 1px solid var(--color-subtle);
-  margin-block-start: 1.5rem;
-  padding-block-start: 1.5rem;
-}
-
-.lesson-nav__row {
+/* TOP-style end-of-lesson bar: the completion toggle on the left, "next
+   lesson" always available on the right — marking done is encouraged, never
+   required to move on. The toggle is one button that flips between
+   "Отметить пройденным" (primary) and a green "Урок пройден" (click = undo). */
+.lesson-complete {
   align-items: center;
+  border-block-start: 1px solid var(--color-subtle);
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   justify-content: space-between;
+  margin-block-start: 3rem;
+  padding-block-start: 2rem;
+
+  .btn svg {
+    block-size: 1.1rem;
+    inline-size: 1.1rem;
+  }
 }
 
-.lesson-nav__pill {
-  align-items: center;
-  border: 1px solid var(--color-subtle);
-  border-radius: 0.75em;
-  color: var(--color-ink);
-  display: inline-flex;
-  gap: 0.75rem;
-  max-inline-size: 18rem;
-  min-inline-size: 0;
-  padding: 0.6em 1em;
-  text-decoration: none;
-  transition: border-color 200ms ease, background-color 200ms ease;
-
+/* Turbo sets aria-busy on the form while the request is in flight — swap the
+   button's icon for a CSS spinner, no JS needed (TOP shows the same moment). */
+.lesson-complete__form[aria-busy] .lesson-complete__toggle {
   svg {
-    flex-shrink: 0;
-    block-size: 1.25rem;
-    inline-size: 1.25rem;
+    display: none;
   }
 
-  @media (any-hover: hover) {
-    &:hover {
-      background-color: var(--color-subtle-light);
-      border-color: var(--color-ink);
-    }
+  &::before {
+    animation: lesson-complete-spin 600ms linear infinite;
+    block-size: 1em;
+    border: 2px solid currentColor;
+    border-inline-end-color: transparent;
+    border-radius: 50%;
+    content: "";
+    inline-size: 1em;
   }
 }
 
-.lesson-nav__pill--next {
-  text-align: end;
+@keyframes lesson-complete-spin {
+  to {
+    transform: rotate(1turn);
+  }
 }
 
-.lesson-nav__pill--next .lesson-nav__pill-text {
-  align-items: flex-end;
-}
-
-.lesson-nav__pill-text {
-  display: flex;
-  flex-direction: column;
-  min-inline-size: 0;
-}
-
-.lesson-nav__pill-label {
+.lesson-complete__signin {
   color: var(--color-subtle-dark);
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
+  font-size: 0.95rem;
+  margin-block: 0;
+  max-inline-size: 28rem;
 
-.lesson-nav__pill-title {
-  color: var(--color-ink);
-  display: -webkit-box;
-  font-size: 0.9rem;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
+  a {
+    color: var(--color-link);
+  }
 }

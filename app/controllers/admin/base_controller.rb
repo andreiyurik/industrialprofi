@@ -1,8 +1,10 @@
 module Admin
   class BaseController < ApplicationController
-    http_basic_authenticate_with(
-      name: Rails.application.credentials.dig(:admin_name) || ENV.fetch("ADMIN_NAME", "admin"),
-      password: Rails.application.credentials.dig(:admin_password) || ENV.fetch("ADMIN_PASSWORD", "secret")
-    )
+    before_action :ensure_can_administer
+
+    private
+      def ensure_can_administer
+        redirect_to root_path, alert: t("auth.not_authorized") unless Current.user.can_administer?
+      end
   end
 end

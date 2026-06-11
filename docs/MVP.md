@@ -10,13 +10,19 @@ Each phase is a deployable, usable product — not a prototype.
 >   `body`/`task`/`description` rich-text sections); `Tailwind → pure CSS`.
 > - **Shipped (~v0.1):** static published catalog (`Path → Lesson → Resource`),
 >   SEO (sitemap, JSON-LD), markdown/ActionText content, Kamal deploy.
-> - **Shipped ahead of plan:** an admin panel (HTTP Basic) for editing lessons, a
->   reader **suggestion** flow, and an append-only **revision** history
+> - **Shipped ahead of plan:** an admin panel for editing lessons, a reader
+>   **suggestion** flow, and an append-only **revision** history
 >   (`LessonSuggestion`, `LessonRevision`, `RevisionDiff`).
-> - **Not built yet (v0.2):** `User`, `has_secure_password`/sessions, the
->   `Current` pattern, `LessonCompletion`, progress bars, "mark as done".
->   When built, follow the `User`/`Session`/`Current` pattern (Writebook), not a
->   second auth mechanism alongside the admin's HTTP Basic.
+> - **Shipped (v0.2):** `User` + `Session` + `Current` (Writebook pattern,
+>   `has_secure_password`), binary `LessonCompletion` ("mark as done" via Turbo
+>   Stream — no `UserProgress` statuses, no `UserRoadmap`: "started" is derived
+>   from having ≥1 completion), per-stage/per-path progress bars, `/dashboard`
+>   with continue links, the desktop two-column lesson sidebar, and admin folded
+>   into a `role` flag on `User` (HTTP Basic removed; first admin via
+>   `ADMIN_EMAIL`/`ADMIN_PASSWORD` env at seed time or console).
+> - **Not built yet:** v0.2's profile page (name/profession/city) and password
+>   reset (needs a mailer); all of v0.3 (community roadmaps, search, public
+>   profiles).
 
 ## v0.1 — Static Catalog (Target: 1 week)
 

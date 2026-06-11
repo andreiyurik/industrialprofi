@@ -1,0 +1,60 @@
+/* Sign-in / sign-up pages: one narrow centered column, the same quiet
+   panel language as the rest of the app. */
+.auth {
+  margin-inline: auto;
+  max-inline-size: 24rem;
+}
+
+.auth__title {
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  margin-block: 0 0.5rem;
+  text-align: center;
+}
+
+.auth__subtitle {
+  color: var(--color-subtle-dark);
+  margin-block: 0 2rem;
+  text-align: center;
+}
+
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.auth__hint {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  margin-block: 0.35rem 0;
+}
+
+.auth__submit {
+  inline-size: 100%;
+  margin-block-start: 0.5rem;
+}
+
+.auth__errors {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-negative);
+  border-radius: 0.5em;
+  color: var(--color-negative);
+  font-size: 0.9rem;
+  padding: 0.75rem 1rem;
+
+  ul {
+    margin-block: 0;
+    padding-inline-start: 1.1em;
+  }
+}
+
+.auth__alt {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  margin-block-start: 1.5rem;
+  text-align: center;
+
+  a {
+    color: var(--color-link);
+  }
+}

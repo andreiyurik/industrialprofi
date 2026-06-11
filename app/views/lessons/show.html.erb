@@ -12,7 +12,20 @@
   ])) %>
 <% end %>
 
-<main class="lesson">
+<div class="container lesson-layout" data-controller="lesson-sidebar"
+     data-lesson-sidebar-open-class="lesson-layout--sidebar-open"
+     data-action="keydown.esc@window->lesson-sidebar#close">
+  <%= render "lessons/sidebar", path: @path, current_lesson: @lesson,
+        lessons_by_stage: @lessons_by_stage, completed_ids: @completed_ids %>
+
+  <div class="lesson-sidebar-backdrop" data-action="click->lesson-sidebar#close" aria-hidden="true"></div>
+
+  <div class="lesson">
+  <button type="button" class="lesson-contents-toggle" data-action="lesson-sidebar#open">
+    <%= heroicon "bars-3", variant: :outline %>
+    <%= t("lessons.contents") %>
+  </button>
+
   <%= render "shared/breadcrumbs", crumbs: [
     { title: @path.title, path: path_path(@path) },
     { title: @lesson.title }
@@ -94,9 +107,10 @@
       </section>
     <% end %>
 
-    <%= render "lessons/lesson_nav" %>
+    <%= render "lessons/completion", lesson: @lesson, completed: @completed_ids.include?(@lesson.id) %>
   </article>
-</main>
+  </div>
+</div>
 
 <section class="support-cta">
   <div class="container support-cta__inner">

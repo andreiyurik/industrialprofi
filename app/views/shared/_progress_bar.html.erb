@@ -1,0 +1,10 @@
+<%# locals: (completed:, total:, label: true) -%>
+<% percent = total.zero? ? 0 : (completed * 100.0 / total).round %>
+<div class="progress<%= " progress--done" if total.positive? && completed >= total %>">
+  <div class="progress__track" role="progressbar" aria-valuenow="<%= percent %>" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress__fill" style="inline-size: <%= percent %>%"></div>
+  </div>
+  <% if label %>
+    <span class="progress__label"><%= t("progress.label", completed: completed, total: total, percent: percent) %></span>
+  <% end %>
+</div>
