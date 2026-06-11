@@ -36,3 +36,13 @@ draft_lesson:
   description: Урок неопубликованной профессии
   body: Текст
   position: 1
+
+praktika_shchitok:
+  path: electrician
+  title: "Практика: сборка распределительного щитка"
+  slug: praktika-shchitok
+  stage: Правила устройства электроустановок
+  description: Реальная сборка по однолинейной схеме
+  body: Текст практического задания
+  kind: practice
+  position: 4

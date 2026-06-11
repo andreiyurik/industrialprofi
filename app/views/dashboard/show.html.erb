@@ -17,6 +17,16 @@
               <div class="dashboard-path__info">
                 <h2 class="panel__title"><%= link_to path.title, path_path(path), class: "dashboard-path__title-link" %></h2>
                 <%= render "shared/progress_bar", completed: completed_ids.size, total: path.lessons_count %>
+                <div class="dashboard-path__stages">
+                  <% path.lessons.group_by(&:stage).each do |stage, stage_lessons| %>
+                    <% next if stage.blank? %>
+                    <% done = stage_lessons.all? { |lesson| completed_ids.include?(lesson.id) } %>
+                    <span class="stage-chip<%= " stage-chip--done" if done %>">
+                      <% if done %><%= heroicon "check-circle", variant: :solid %><% end %>
+                      <%= stage %>
+                    </span>
+                  <% end %>
+                </div>
               </div>
             </div>
 

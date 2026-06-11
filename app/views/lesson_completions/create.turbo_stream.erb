@@ -6,3 +6,9 @@
   <%= render "lessons/sidebar", path: @path, current_lesson: @lesson,
         lessons_by_stage: @lessons_by_stage, completed_ids: @completed_ids %>
 <% end %>
+
+<% if @celebration %>
+  <%= turbo_stream.update :flash do %>
+    <%= render "shared/flash_message", message: @celebration %>
+  <% end %>
+<% end %>

@@ -154,8 +154,15 @@ completed / total, `/dashboard` with continue-where-you-left-off links, and the
 desktop two-column lesson layout (sticky curriculum sidebar, roadmap.sh feel;
 a Stimulus controller centers the current lesson in the sidebar's scroll area).
 
+**Also built:** password reset (`generates_token_for :password_reset`,
+`PasswordsController` + `PasswordsMailer`; dev logs the mail, production needs
+SMTP creds in `config/environments/production.rb`); `/projects` — an aggregator
+of all `kind: practice` lessons across published paths; stage-milestone chips
+on the dashboard and a stage/path completion flash celebration (Turbo Stream
+updates the `:flash` frame); the numbered "journey rail" on the path page.
+
 **Not built yet (planned — see `docs/MVP.md` v0.3):** community-authored
-roadmaps, public user profiles, search, password reset (no mailer configured).
+roadmaps, public user profiles, search, project submissions (portfolio uploads).
 
 ## Anti-patterns
 
@@ -173,7 +180,12 @@ roadmaps, public user profiles, search, password reset (no mailer configured).
 
 ## UI — Canonical DHH Style (Writebook canon)
 
-Reference implementation: `basecamp/writebook` cloned at `/home/pingvinus/dhh-references/writebook/`. Our `app/assets/stylesheets/` mirrors its file layout 1-to-1 (`_reset.css`, `base.css`, `colors.css`, `layout.css`, `utilities.css`, `buttons.css`, `inputs.css`, `panels.css`, `breadcrumbs.css`, `text.css`, plus domain files `header`, `footer`, `paths`, `lesson`, `curriculum`, `support`, `admin`, `badges`, `flash`).
+Three reference codebases, each for a different layer — don't mix their roles:
+- **Writebook** (`/home/pingvinus/dhh-references/writebook/`) — the **CSS/auth canon**: stylesheet file layout, tokens, component-local variables, the `Session`/`Current` pattern. Its simplicity is the point.
+- **Fizzy** (`/home/pingvinus/dhh-references/fizzy/`) — the **bigger-app Rails/Hotwire reference**: richer Turbo Stream patterns, filters, larger domain models. Consult it when Writebook has no example at the needed scale.
+- **The Odin Project** (github.com/TheOdinProject/theodinproject, fetch raw files as needed) — the **product-mechanics reference**: lesson completion, sidebar, dashboard, project submissions. Copy mechanics from it, not Rails style (it uses ViewComponents/Tailwind — we don't).
+
+Our `app/assets/stylesheets/` mirrors Writebook's file layout 1-to-1 (`_reset.css`, `base.css`, `colors.css`, `layout.css`, `utilities.css`, `buttons.css`, `inputs.css`, `panels.css`, `breadcrumbs.css`, `text.css`, plus domain files `header`, `footer`, `paths`, `lesson`, `curriculum`, `support`, `admin`, `badges`, `flash`).
 
 - **Loading:** `<%= stylesheet_link_tag :all, "data-turbo-track": "reload" %>` in the layout. Propshaft emits one `<link>` per file in `app/assets/stylesheets/` (plus gem-shipped CSS like `lexxy.css`). Cascade is filename-alphabetical.
 - **Fonts:** self-hosted via `@font-face` in `_fonts.css`, served by Propshaft from `app/assets/fonts/`. `--font-sans: "Inter", system-ui, …` for body/UI; `--font-display: "Inter Tight", "Inter", …` for headings (declared in `base.css`). All `:where(h1…h6)` and the big title classes (`.page-title`, `.section-title`, `.path__title`, `.brand`) use the display face; the largest titles are `font-weight: 800` + `text-transform: uppercase`. Inter ships 400/500/600/700, Inter Tight 600/700/800. No Google Fonts, no CDN.

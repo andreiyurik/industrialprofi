@@ -9,6 +9,12 @@ class User < ApplicationRecord
 
   normalizes :email_address, with: ->(email) { email.strip.downcase }
 
+  # Single-use by construction: the token embeds part of the password salt,
+  # so changing the password invalidates every outstanding reset link.
+  generates_token_for :password_reset, expires_in: 1.hour do
+    password_salt&.last(10)
+  end
+
   validates :name, presence: true
   validates :email_address, presence: true, uniqueness: true,
             format: { with: URI::MailTo::EMAIL_REGEXP }

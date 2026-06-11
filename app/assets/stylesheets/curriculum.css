@@ -2,6 +2,80 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  position: relative;
+}
+
+/* The "path" line: a vertical rail running through the stage markers, so the
+   list reads as a journey (roadmap feel) without any generated graphs. */
+.curriculum::before {
+  background-color: var(--color-subtle);
+  content: "";
+  inline-size: 2px;
+  inset-block: 1.5rem 2.5rem;
+  inset-inline-start: calc(1.25rem - 1px);
+  position: absolute;
+}
+
+.curriculum__stage-row {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+}
+
+/* Numbered milestone on the rail; turns into a green check once the reader
+   finishes every lesson in the stage. Page-bg fill masks the line behind it. */
+.curriculum__marker {
+  align-items: center;
+  background-color: var(--color-bg);
+  border: 2px solid var(--color-subtle);
+  border-radius: 50%;
+  block-size: 2.5rem;
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  inline-size: 2.5rem;
+  justify-content: center;
+  margin-block-start: 0.5rem;
+  position: relative;
+
+  svg {
+    block-size: 1.2rem;
+    inline-size: 1.2rem;
+  }
+}
+
+.curriculum__marker--done {
+  border-color: oklch(var(--lch-green) / 0.55);
+  color: var(--color-positive);
+}
+
+.curriculum__stage-row .curriculum__section {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+/* Plain card list without the journey rail — used by the /projects catalog. */
+.curriculum--plain::before {
+  content: none;
+}
+
+.curriculum__header-link {
+  color: var(--color-ink);
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.projects__empty {
+  color: var(--color-subtle-dark);
+  text-align: center;
 }
 
 .curriculum__section {

@@ -20,9 +20,11 @@ Each phase is a deployable, usable product — not a prototype.
 >   with continue links, the desktop two-column lesson sidebar, and admin folded
 >   into a `role` flag on `User` (HTTP Basic removed; first admin via
 >   `ADMIN_EMAIL`/`ADMIN_PASSWORD` env at seed time or console).
-> - **Not built yet:** v0.2's profile page (name/profession/city) and password
->   reset (needs a mailer); all of v0.3 (community roadmaps, search, public
->   profiles).
+> - **Also shipped:** password reset (token + mailer; production needs SMTP),
+>   `/projects` (aggregated practice lessons), stage-milestone chips +
+>   completion celebrations, and the numbered journey rail on path pages.
+> - **Not built yet:** v0.2's profile page (name/profession/city); all of v0.3
+>   (community roadmaps, search, public profiles, project submissions).
 
 ## v0.1 — Static Catalog (Target: 1 week)
 

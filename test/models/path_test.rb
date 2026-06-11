@@ -82,11 +82,11 @@ class PathTest < ActiveSupport::TestCase
   # Associations
 
   test "has many lessons" do
-    assert_equal 3, paths(:electrician).lessons.count
+    assert_equal 4, paths(:electrician).lessons.count
   end
 
   test "destroying path destroys lessons" do
-    assert_difference "Lesson.count", -3 do
+    assert_difference "Lesson.count", -4 do
       paths(:electrician).destroy
     end
   end

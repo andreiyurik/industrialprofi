@@ -18,7 +18,9 @@ Rails.application.routes.draw do
 
   resource :session, only: [ :new, :create, :destroy ]
   resources :users, only: [ :new, :create ]
+  resources :passwords, param: :token, only: [ :new, :create, :edit, :update ]
   get "dashboard" => "dashboard#show"
+  get "projects" => "projects#index"
 
   resources :paths, only: [ :index, :show ], param: :slug
   resources :lessons, only: [ :show ], param: :slug do

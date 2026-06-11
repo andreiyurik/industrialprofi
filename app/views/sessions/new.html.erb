@@ -15,6 +15,7 @@
       <div class="auth__field">
         <%= form.label :password, t("auth.password") %>
         <%= form.password_field :password, required: true, autocomplete: "current-password", class: "input" %>
+        <p class="auth__hint"><%= link_to t("auth.forgot_password"), new_password_path %></p>
       </div>
 
       <%= form.submit t("auth.sign_in"), class: "btn btn--reversed btn--large auth__submit" %>

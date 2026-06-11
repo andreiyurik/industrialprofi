@@ -1,0 +1,47 @@
+<% meta_title(t("projects.title")) %>
+<% meta_description(t("projects.subtitle")) %>
+<% canonical_url("#{site_config.url}/projects") %>
+
+<section class="section">
+  <div class="container container--reading">
+    <div class="txt-align-center">
+      <h1 class="section-title"><%= t("projects.title") %></h1>
+      <p class="section-subtitle"><%= t("projects.subtitle") %></p>
+    </div>
+
+    <% if @lessons_by_path.any? %>
+      <div class="curriculum curriculum--plain">
+        <% @lessons_by_path.each do |path, lessons| %>
+          <div class="curriculum__section">
+            <div class="curriculum__header">
+              <h2 class="curriculum__header-title">
+                <%= link_to path.title, path_path(path), class: "curriculum__header-link" %>
+              </h2>
+              <% if signed_in? %>
+                <span class="curriculum__header-count">
+                  <%= lessons.count { |lesson| @completed_ids.include?(lesson.id) } %>/<%= lessons.size %>
+                </span>
+              <% end %>
+            </div>
+
+            <div class="curriculum__list">
+              <% lessons.each do |lesson| %>
+                <% done = @completed_ids.include?(lesson.id) %>
+                <a href="<%= lesson_path(lesson) %>" class="curriculum__lesson curriculum__lesson--practice<%= " curriculum__lesson--done" if done %>">
+                  <% if done %>
+                    <%= heroicon "check-circle", variant: :solid %>
+                  <% else %>
+                    <%= heroicon "wrench-screwdriver", variant: :outline %>
+                  <% end %>
+                  <span class="curriculum__lesson-title"><%= lesson.title %></span>
+                </a>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="projects__empty"><%= t("projects.empty") %></p>
+    <% end %>
+  </div>
+</section>

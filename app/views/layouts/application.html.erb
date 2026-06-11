@@ -45,6 +45,8 @@
         <div class="header__links">
           <%= link_to t("nav.professions"), paths_path, class: "nav__link",
                 aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } %>
+          <%= link_to t("nav.projects"), projects_path, class: "nav__link",
+                aria: { current: ("page" if current_page?(projects_path)) } %>
           <%= link_to t("nav.about"), about_path, class: "nav__link",
                 aria: { current: ("page" if current_page?(about_path)) } %>
           <%= link_to t("nav.support"), support_us_path, class: "nav__link",
@@ -86,6 +88,7 @@
 
         <nav class="footer__nav">
           <a href="<%= paths_path %>" class="footer__link"><%= t("nav.professions") %></a>
+          <a href="<%= projects_path %>" class="footer__link"><%= t("nav.projects") %></a>
           <a href="<%= about_path %>" class="footer__link"><%= t("nav.about") %></a>
           <a href="<%= roadmap_path %>" class="footer__link"><%= t("nav.roadmap") %></a>
           <a href="<%= support_us_path %>" class="footer__link"><%= t("nav.support") %></a>

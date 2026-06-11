@@ -1,11 +1,5 @@
 <%= turbo_frame_tag :flash do %>
-  <% if notice = flash[:notice] || flash[:alert] %>
-    <div class="flash"
-         data-controller="element-removal"
-         data-element-removal-delay-value="4000">
-      <div class="flash__inner">
-        <%= notice %>
-      </div>
-    </div>
+  <% if message = flash[:notice] || flash[:alert] %>
+    <%= render "shared/flash_message", message: message %>
   <% end %>
 <% end %>
