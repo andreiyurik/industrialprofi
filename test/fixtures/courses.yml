@@ -1,0 +1,39 @@
+el_basics:
+  path: electrician
+  title: Основы и электробезопасность
+  slug: elektrik-osnovy
+  description: Базовый курс электрика
+  position: 1
+  status: published
+
+el_pue:
+  path: electrician
+  title: Устройство электроустановок
+  slug: elektrik-pue
+  description: Правила устройства электроустановок
+  position: 2
+  status: published
+
+el_relay_soon:
+  path: electrician
+  title: Релейная защита
+  slug: elektrik-relay
+  description: Курс в подготовке
+  position: 3
+  status: coming_soon
+
+welding_basics:
+  path: welder
+  title: Основы сварки
+  slug: svarka-osnovy
+  description: Базовый курс сварщика
+  position: 1
+  status: published
+
+draft_course:
+  path: draft_path
+  title: Черновой курс
+  slug: draft-course
+  description: Курс неопубликованной профессии
+  position: 1
+  status: draft

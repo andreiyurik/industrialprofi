@@ -1,0 +1,55 @@
+<% meta_title("#{@course.title} — #{@path.title}") %>
+<% meta_description(@course.description.to_s.truncate(160)) %>
+<% canonical_url("#{site_config.url}/courses/#{@course.slug}") %>
+
+<% content_for(:head) do %>
+  <%= json_ld_tag(course_page_json_ld(@course)) %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+    { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
+    { title: t("paths.title"), url: "#{site_config.url}/paths" },
+    { title: @path.title, url: "#{site_config.url}/paths/#{@path.slug}" },
+    { title: @course.title, url: "#{site_config.url}/courses/#{@course.slug}" }
+  ])) %>
+<% end %>
+
+<section class="section">
+  <div class="container container--reading">
+    <%= render "shared/breadcrumbs", crumbs: [
+      { title: @path.title, path: path_path(@path) },
+      { title: @course.title }
+    ] %>
+
+    <div class="path-hero">
+      <div class="topic-hero-icon">
+        <%= topic_icon_svg(path_icon_token(@path)) %>
+      </div>
+      <h1 class="path__title"><%= @course.title %></h1>
+    </div>
+
+    <div class="path__overview">
+      <p class="path__overview-text"><%= @course.description %></p>
+    </div>
+
+    <div class="path__start">
+      <% if signed_in? && @completed_ids.any? %>
+        <%= render "shared/progress_bar", completed: @completed_ids.size, total: @course.lessons_count %>
+        <% if @continue_lesson %>
+          <%= link_to @continue_lesson, class: "btn btn--reversed btn--large" do %>
+            <%= t("paths.continue_learning") %>
+            <%= heroicon "arrow-right", variant: :outline %>
+          <% end %>
+          <p class="path__continue-hint"><%= t("paths.next_up", title: @continue_lesson.title) %></p>
+        <% end %>
+      <% elsif @continue_lesson %>
+        <%= link_to @continue_lesson, class: "btn btn--reversed btn--large" do %>
+          <%= t("paths.start_learning") %>
+          <%= heroicon "arrow-right", variant: :outline %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= render "shared/stage_curriculum", lessons_by_stage: @lessons_by_stage, completed_ids: @completed_ids %>
+  </div>
+</section>
+
+<%= render "shared/support_cta" %>

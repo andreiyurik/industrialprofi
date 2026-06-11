@@ -18,9 +18,15 @@ class PathsController < ApplicationController
 
   def show
     @path = Path.published.find_by!(slug: params[:slug])
-    @lessons = @path.lessons.to_a
-    @lessons_by_stage = @lessons.group_by(&:stage)
+    @courses = @path.courses.listable.ordered.to_a
+    # course_id => completed-lessons count, for each course's progress bar.
+    @completed_by_course = if signed_in?
+      Current.user.lesson_completions.joins(:lesson)
+             .where(lessons: { path_id: @path.id }).group("lessons.course_id").count
+    else
+      {}
+    end
     @completed_ids = signed_in? ? Current.user.completed_lesson_ids_for(@path) : Set.new
-    @continue_lesson = signed_in? ? Current.user.next_lesson_in(@path) : @lessons.first
+    @continue_lesson = signed_in? ? Current.user.next_lesson_in(@path) : @path.lessons.ordered.first
   end
 end

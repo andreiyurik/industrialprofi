@@ -24,59 +24,81 @@ def parse_lesson(file_path)
   meta.merge("description" => description, "body" => body_text, "task" => task)
 end
 
-created_paths = 0
-created_lessons = 0
-created_resources = 0
+created = Hash.new(0)
 
+# Curriculum tree (4 levels):
+#   <path>/path.yml
+#   <path>/<NN>-<course>/course.yml
+#   <path>/<NN>-<course>/<MM>-<section>/section.yml  (title → lesson.stage)
+#   <path>/<NN>-<course>/<MM>-<section>/<lesson>.md
+# All records are upserted (find_or_initialize + save-if-changed) so re-seeding
+# is idempotent AND backfills new columns (e.g. course_id) on existing rows.
 Dir.glob(CURRICULUM_DIR.join("*/path.yml")).sort.each do |path_yml|
   path_dir = File.dirname(path_yml)
-  path_slug = File.basename(path_dir)
   path_meta = YAML.safe_load_file(path_yml)
 
-  path = Path.find_or_create_by!(slug: path_slug) do |p|
-    p.title = path_meta["title"]
-    p.description = path_meta["description"]
-    p.position = path_meta["position"]
-    p.status = path_meta["status"]
-    created_paths += 1
-  end
+  path = Path.find_or_initialize_by(slug: File.basename(path_dir))
+  created[:paths] += 1 if path.new_record?
+  path.assign_attributes(
+    title: path_meta["title"], description: path_meta["description"],
+    position: path_meta["position"], status: path_meta["status"]
+  )
+  path.save! if path.changed?
 
-  Dir.glob(File.join(path_dir, "*/section.yml")).sort.each do |section_yml|
-    section_dir = File.dirname(section_yml)
-    section_meta = YAML.safe_load_file(section_yml)
-    stage = section_meta["title"]
+  position = 0 # lesson position is GLOBAL within the path (continuous prev/next)
 
-    Dir.glob(File.join(section_dir, "*.md")).sort.each do |md_file|
-      slug = File.basename(md_file, ".md")
-      lesson_data = parse_lesson(md_file)
+  Dir.glob(File.join(path_dir, "*/course.yml")).sort.each do |course_yml|
+    course_dir = File.dirname(course_yml)
+    course_meta = YAML.safe_load_file(course_yml)
 
-      lesson = path.lessons.find_or_create_by!(slug: slug) do |l|
-        l.title = lesson_data["title"]
-        l.stage = stage
-        l.description = lesson_data["description"]
-        l.body = lesson_data["body"]
-        l.task = lesson_data["task"]
-        l.position = lesson_data["position"]
-        l.kind = lesson_data["kind"] || "lesson"
-        created_lessons += 1
-      end
+    course = Course.find_or_initialize_by(slug: course_meta["slug"])
+    created[:courses] += 1 if course.new_record?
+    course.assign_attributes(
+      path: path, title: course_meta["title"], description: course_meta["description"],
+      position: course_meta["position"], status: course_meta["status"] || "published"
+    )
+    course.save! if course.changed?
 
-      (lesson_data["resources"] || []).each_with_index do |res, i|
-        lesson.resources.find_or_create_by!(title: res["title"]) do |r|
-          r.url = res["url"]
-          r.kind = res["kind"]
-          r.required = res.fetch("required", false)
-          r.country_code = res["country_code"]
-          r.position = i + 1
-          created_resources += 1
+    Dir.glob(File.join(course_dir, "*/section.yml")).sort.each do |section_yml|
+      section_dir = File.dirname(section_yml)
+      stage = YAML.safe_load_file(section_yml)["title"]
+
+      Dir.glob(File.join(section_dir, "*.md")).sort.each do |md_file|
+        slug = File.basename(md_file, ".md")
+        lesson_data = parse_lesson(md_file)
+        position += 1
+
+        lesson = Lesson.find_or_initialize_by(slug: slug)
+        created[:lessons] += 1 if lesson.new_record?
+        lesson.assign_attributes(
+          course: course, path: path, stage: stage,
+          title: lesson_data["title"], description: lesson_data["description"],
+          body: lesson_data["body"], task: lesson_data["task"],
+          position: position, kind: lesson_data["kind"] || "lesson"
+        )
+        lesson.save! if lesson.changed?
+
+        (lesson_data["resources"] || []).each_with_index do |res, i|
+          resource = lesson.resources.find_or_initialize_by(title: res["title"])
+          created[:resources] += 1 if resource.new_record?
+          resource.assign_attributes(
+            url: res["url"], kind: res["kind"], required: res.fetch("required", false),
+            country_code: res["country_code"], position: i + 1
+          )
+          resource.save! if resource.changed?
         end
       end
     end
   end
 end
 
-puts "Seed complete. Created: #{created_paths} paths, #{created_lessons} lessons, #{created_resources} resources. " \
-     "Total: #{Path.count} paths, #{Lesson.count} lessons, #{Resource.count} resources."
+# Guarantee counter caches are exact regardless of create/update mix above.
+Course.find_each { |c| Course.reset_counters(c.id, :lessons) }
+Path.find_each   { |p| Path.reset_counters(p.id, :courses, :lessons) }
+
+puts "Seed complete. Created: #{created[:paths]} paths, #{created[:courses]} courses, " \
+     "#{created[:lessons]} lessons, #{created[:resources]} resources. " \
+     "Total: #{Path.count} paths, #{Course.count} courses, #{Lesson.count} lessons, #{Resource.count} resources."
 
 # First administrator — admin pages are gated by User#can_administer? now, not
 # HTTP Basic. Idempotent: only runs when no administrator exists yet.

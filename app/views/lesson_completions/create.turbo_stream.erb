@@ -3,7 +3,7 @@
 <% end %>
 
 <%= turbo_stream.replace "lesson_sidebar" do %>
-  <%= render "lessons/sidebar", path: @path, current_lesson: @lesson,
+  <%= render "lessons/sidebar", course: @course, current_lesson: @lesson,
         lessons_by_stage: @lessons_by_stage, completed_ids: @completed_ids %>
 <% end %>
 

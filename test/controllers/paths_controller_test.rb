@@ -51,9 +51,15 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  test "show displays lessons grouped by stage" do
+  test "show lists the path's courses, including coming-soon stubs" do
     get path_path(paths(:electrician))
-    assert_match lessons(:pteep).title, response.body
-    assert_match lessons(:zazemlenie).title, response.body
+    assert_match courses(:el_basics).title, response.body
+    assert_match courses(:el_pue).title, response.body
+    assert_match courses(:el_relay_soon).title, response.body
+  end
+
+  test "show links each published course to its page" do
+    get path_path(paths(:electrician))
+    assert_match course_path(courses(:el_basics)), response.body
   end
 end

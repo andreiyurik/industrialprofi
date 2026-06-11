@@ -1,7 +1,11 @@
 class Path < ApplicationRecord
   SLUG_FORMAT = /\A[a-z0-9]+(-[a-z0-9]+)*\z/
 
-  has_many :lessons, -> { order(:position) }, dependent: :destroy
+  has_many :courses, -> { order(:position) }, dependent: :destroy
+  # NO dependent: :destroy here on purpose — Course owns the lesson destroy chain
+  # (path → courses → lessons). Adding it back would destroy each lesson twice.
+  # This association stays for total counts / catalog-wide lesson queries.
+  has_many :lessons, -> { order(:position) }
 
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: SLUG_FORMAT }

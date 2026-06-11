@@ -23,6 +23,14 @@
     <priority>0.8</priority>
   </url>
   <% end %>
+  <% @courses.each do |course| %>
+  <url>
+    <loc><%= site_config.url %>/courses/<%= course.slug %></loc>
+    <lastmod><%= course.updated_at.strftime("%Y-%m-%d") %></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <% end %>
   <% @lessons.each do |lesson| %>
   <url>
     <loc><%= site_config.url %>/lessons/<%= lesson.slug %></loc>

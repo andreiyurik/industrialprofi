@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   resources :journal_entries, path: "journal", except: [ :show ]
 
   resources :paths, only: [ :index, :show ], param: :slug
+  resources :courses, only: [ :show ], param: :slug
   resources :lessons, only: [ :show ], param: :slug do
     resource :completion, only: [ :create, :destroy ], controller: "lesson_completions"
     resources :revisions, only: [ :index, :show ]
@@ -49,6 +50,7 @@ Rails.application.routes.draw do
       end
     end
     resources :paths, only: [ :index, :edit, :update ], param: :slug
+    resources :courses, only: [ :index, :edit, :update ], param: :slug
     resources :lesson_suggestions, only: [ :index, :show ] do
       member do
         patch :approve

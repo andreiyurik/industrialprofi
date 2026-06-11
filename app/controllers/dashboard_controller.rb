@@ -1,7 +1,7 @@
 class DashboardController < ApplicationController
   def show
     @focus_path = Current.user.focus_path
-    @started_paths = Current.user.started_paths.includes(:lessons)
+    @started_paths = Current.user.started_paths.includes(:lessons, :courses)
     @other_paths = @started_paths.reject { |path| path == @focus_path }
     @completed_ids_by_path = @started_paths.index_with { |path| Current.user.completed_lesson_ids_for(path) }
 

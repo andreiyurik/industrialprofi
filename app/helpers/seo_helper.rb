@@ -9,12 +9,13 @@ module SeoHelper
       description: lesson.description.to_s.truncate(160),
       provider: { "@type": "Organization", name: SITE_NAME },
       inLanguage: "ru",
-      isPartOf: { "@type": "Course", name: lesson.path.title },
+      isPartOf: { "@type": "Course", name: lesson.course.title },
       url: "#{site_url}/lessons/#{lesson.slug}"
     }
     data.to_json
   end
 
+  # Profession landing page (a program made of courses).
   def course_json_ld(path)
     data = {
       "@context": "https://schema.org",
@@ -26,6 +27,22 @@ module SeoHelper
       inLanguage: "ru",
       isAccessibleForFree: true,
       url: "#{site_url}/paths/#{path.slug}"
+    }
+    data.to_json
+  end
+
+  # A single course page.
+  def course_page_json_ld(course)
+    data = {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      name: course.title,
+      description: course.description.to_s.truncate(160),
+      provider: { "@type": "Organization", name: SITE_NAME },
+      numberOfLessons: course.lessons_count,
+      inLanguage: "ru",
+      isAccessibleForFree: true,
+      url: "#{site_url}/courses/#{course.slug}"
     }
     data.to_json
   end

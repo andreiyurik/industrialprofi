@@ -74,16 +74,39 @@ CSS-only changes can't break server rendering — verify visually, not with `bin
 
 ## Content Architecture
 
-Two-level hierarchy adapted from The Odin Project. The original "Course" middle
-layer was **flattened into a `stage` string column on Lesson** (migration
-`20260527180001_flatten_courses_into_lessons`) — conceptual compression: a course
-had no behaviour, only a heading, so it became a plain attribute lessons group by
-on the profession page rather than its own model/table/controller.
+**Four-level hierarchy, exact parity with The Odin Project**
+(`Профессия → Курс → Раздел → Урок`):
 
 ```
-Profession (Path) → Lesson  ·  grouped by Lesson#stage (a string, was "Course")
-(Электрик)          (ПУЭ: Правила устройства)   ("Электробезопасность и допуски")
+Path (profession)   → Course (курс)        → Lesson#stage (раздел)        → Lesson (урок)
+(Электрик)            (Электромонтаж)         ("Правила устройства")          (ПУЭ глава 1.7)
+/paths/:slug          /courses/:slug          (a string heading, no model)    /lessons/:slug
 ```
+
+`Course` is a real navigable model (its own page = the "big block": hero +
+description + curriculum grouped by `stage`). The profession page lists its
+courses. A course can be `status: coming_soon` (a specialization stub shown
+"в разработке" before its content exists).
+
+History: a `Course` model existed early, was **flattened into `Lesson#stage`**
+(migration `20260527180001`), then **re-introduced as a behaviour-bearing model**
+(`20260611160000_recreate_courses`) once professions needed real depth — `stage`
+survives as the in-course section heading.
+
+Key model decisions (don't "fix" these):
+- **`lessons.path_id` is a denormalized FK** (= `course.path`), kept in sync by
+  `Lesson`'s `before_validation`. Many hot queries join `lessons.path_id`
+  directly; lessons never change course, so it can't drift. Not a `has_many
+  :through`.
+- **`lesson.position` is global within the profession** (not per-course) — keeps
+  `prev_in_path`/`next_in_path` and "Продолжить" flowing seamlessly ACROSS course
+  boundaries while the lesson sidebar is scoped to the current course.
+- **Destroy chain: Course owns lessons.** `Path → courses → lessons` are
+  `dependent: :destroy`; `Path has_many :lessons` carries NO dependent option
+  (else lessons destroy twice). Both `belongs_to` (path + course) counter_cache.
+- Seed loader walks `<path>/path.yml` → `<NN>-<course>/course.yml` →
+  `<MM>-<section>/section.yml` (title → `stage`) → `<lesson>.md`; upserts
+  idempotently and assigns the global lesson position by walk order.
 
 **Routes (actual — see `config/routes.rb`):**
 ```ruby
@@ -91,7 +114,8 @@ root "paths#index"                                          # signed-in users on
 resource :session, only: [:new, :create, :destroy]          # login (hand-rolled, Writebook pattern)
 resources :users, only: [:new, :create]                     # registration
 get "dashboard" => "dashboard#show"                         # "Моё обучение" — started paths + continue links
-resources :paths, only: [:index, :show], param: :slug      # professions
+resources :paths, only: [:index, :show], param: :slug      # professions (show lists courses)
+resources :courses, only: [:show], param: :slug            # course page (curriculum by stage)
 resources :lessons, only: [:show], param: :slug do         # individual lessons (flat slug URLs)
   resource :completion, only: [:create, :destroy],         # binary "mark as done" (Turbo Stream)
            controller: "lesson_completions"
@@ -121,10 +145,12 @@ Path (profession)
           planned seam is source_lesson_id + translated_from_version on Lesson,
           reusing LessonRevision/RevisionDiff for staleness — do NOT build
           translated columns or a translation gem.
-  → has_many Lessons (integer position-ordered; grouped in the view by #stage)
-    → has_many Resources (country_code: nullable — nil = universal)
-    → has_many LessonSuggestions  (reader-submitted edits: pending|approved|rejected)
-    → has_many LessonRevisions    (immutable, append-only audit log; counter-cached)
+  → has_many Courses (status: draft|pending_review|published|coming_soon; own /courses/:slug page)
+    → has_many Lessons (position global within the path; grouped in the course view by #stage)
+      → has_many Resources (country_code: nullable — nil = universal)
+      → has_many LessonSuggestions  (reader-submitted edits: pending|approved|rejected)
+      → has_many LessonRevisions    (immutable, append-only audit log; counter-cached)
+  → has_many Lessons (denormalized path_id, for catalog-wide queries / total counts)
 
 # Lesson body/description/task are ActionText rich text (has_rich_text), with a
 # plain-text markdown column kept as fallback. RevisionDiff (a PORO, no gem)

@@ -1,5 +1,6 @@
 pteep:
   path: electrician
+  course: el_basics
   title: "ПТЭЭП: основы эксплуатации"
   slug: pteep-osnovy
   stage: Электробезопасность и допуски
@@ -10,6 +11,7 @@ pteep:
 
 gruppy_dopuska:
   path: electrician
+  course: el_basics
   title: Группы допуска (II–V)
   slug: gruppy-dopuska
   stage: Электробезопасность и допуски
@@ -20,6 +22,7 @@ gruppy_dopuska:
 
 zazemlenie:
   path: electrician
+  course: el_pue
   title: "ПУЭ глава 1.7: Заземление"
   slug: pue-zazemlenie
   stage: Правила устройства электроустановок
@@ -30,6 +33,7 @@ zazemlenie:
 
 draft_lesson:
   path: draft_path
+  course: draft_course
   title: Урок в черновике
   slug: draft-lesson
   stage: Черновой этап
@@ -39,6 +43,7 @@ draft_lesson:
 
 praktika_shchitok:
   path: electrician
+  course: el_pue
   title: "Практика: сборка распределительного щитка"
   slug: praktika-shchitok
   stage: Правила устройства электроустановок
@@ -49,6 +54,7 @@ praktika_shchitok:
 
 svarka_intro:
   path: welder
+  course: welding_basics
   title: "Введение в сварку"
   slug: svarka-vvedenie
   stage: Основы сварки

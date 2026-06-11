@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_11_150000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_11_160000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -47,6 +47,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_150000) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.integer "lessons_count", default: 0, null: false
+    t.integer "path_id", null: false
+    t.integer "position", default: 0, null: false
+    t.string "slug", null: false
+    t.string "status", default: "published", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path_id"], name: "index_courses_on_path_id"
+    t.index ["slug"], name: "index_courses_on_slug", unique: true
+    t.index ["status"], name: "index_courses_on_status"
   end
 
   create_table "journal_entries", force: :cascade do |t|
@@ -105,6 +120,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_150000) do
 
   create_table "lessons", force: :cascade do |t|
     t.text "body"
+    t.integer "course_id"
     t.datetime "created_at", null: false
     t.text "description"
     t.string "kind", default: "lesson", null: false
@@ -116,6 +132,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_150000) do
     t.text "task"
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.index ["course_id", "position"], name: "index_lessons_on_course_id_and_position"
+    t.index ["course_id"], name: "index_lessons_on_course_id"
     t.index ["path_id", "position"], name: "index_lessons_on_path_id_and_position"
     t.index ["path_id"], name: "index_lessons_on_path_id"
     t.index ["slug"], name: "index_lessons_on_slug", unique: true
@@ -123,6 +141,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_150000) do
 
   create_table "paths", force: :cascade do |t|
     t.integer "author_id"
+    t.integer "courses_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.text "description"
     t.integer "lessons_count", default: 0, null: false
@@ -177,6 +196,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_150000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "courses", "paths"
   add_foreign_key "journal_entries", "lessons"
   add_foreign_key "journal_entries", "users"
   add_foreign_key "lesson_completions", "lessons"
@@ -184,6 +204,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_150000) do
   add_foreign_key "lesson_revisions", "lesson_suggestions"
   add_foreign_key "lesson_revisions", "lessons"
   add_foreign_key "lesson_suggestions", "lessons"
+  add_foreign_key "lessons", "courses"
   add_foreign_key "lessons", "paths"
   add_foreign_key "resources", "lessons"
   add_foreign_key "sessions", "users"

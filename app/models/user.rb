@@ -32,6 +32,11 @@ class User < ApplicationRecord
     lesson_completions.joins(:lesson).where(lessons: { path_id: path.id }).pluck(:lesson_id).to_set
   end
 
+  # Same, scoped to a single course — drives course-level progress bars.
+  def completed_lesson_ids_for_course(course)
+    lesson_completions.joins(:lesson).where(lessons: { course_id: course.id }).pluck(:lesson_id).to_set
+  end
+
   # Paths the user has at least one completion in, in catalog order.
   def started_paths
     Path.published.where(id: lesson_completions.joins(:lesson).select("lessons.path_id")).ordered

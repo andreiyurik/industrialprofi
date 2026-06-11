@@ -18,13 +18,14 @@
             <h2 class="panel__title"><%= link_to @focus_path.title, path_path(@focus_path), class: "dashboard-path__title-link" %></h2>
             <%= render "shared/progress_bar", completed: completed_ids.size, total: @focus_path.lessons_count %>
             <div class="dashboard-path__stages">
-              <% @focus_path.lessons.group_by(&:stage).each do |stage, stage_lessons| %>
-                <% next if stage.blank? %>
-                <% done = stage_lessons.all? { |lesson| completed_ids.include?(lesson.id) } %>
-                <span class="stage-chip<%= " stage-chip--done" if done %>">
+              <% @focus_path.courses.each do |course| %>
+                <% next if course.coming_soon? %>
+                <% course_lessons = @focus_path.lessons.select { |lesson| lesson.course_id == course.id } %>
+                <% done = course_lessons.any? && course_lessons.all? { |lesson| completed_ids.include?(lesson.id) } %>
+                <%= link_to course_path(course), class: "stage-chip#{" stage-chip--done" if done}" do %>
                   <% if done %><%= heroicon "check-circle", variant: :solid %><% end %>
-                  <%= stage %>
-                </span>
+                  <%= course.title %>
+                <% end %>
               <% end %>
             </div>
           </div>

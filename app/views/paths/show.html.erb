@@ -26,7 +26,7 @@
 
     <div class="path__start">
       <% if signed_in? && @completed_ids.any? %>
-        <%= render "shared/progress_bar", completed: @completed_ids.size, total: @lessons.size %>
+        <%= render "shared/progress_bar", completed: @completed_ids.size, total: @path.lessons_count %>
         <% if @continue_lesson %>
           <%= link_to @continue_lesson, class: "btn btn--reversed btn--large" do %>
             <%= t("paths.continue_learning") %>
@@ -43,56 +43,52 @@
     </div>
 
     <div class="curriculum">
-      <% @lessons_by_stage.each_with_index do |(stage, lessons), index| %>
-        <% stage_completed = lessons.count { |lesson| @completed_ids.include?(lesson.id) } %>
-        <% stage_done = signed_in? && stage_completed == lessons.size %>
+      <% @courses.each_with_index do |course, index| %>
+        <% completed = @completed_by_course[course.id] || 0 %>
+        <% total = course.lessons_count %>
+        <% course_done = signed_in? && total.positive? && completed == total %>
         <div class="curriculum__stage-row">
-        <span class="curriculum__marker<%= " curriculum__marker--done" if stage_done %>" aria-hidden="true">
-          <% if stage_done %>
-            <%= heroicon "check", variant: :outline %>
-          <% else %>
-            <%= index + 1 %>
-          <% end %>
-        </span>
-        <div class="curriculum__section">
-          <% if stage.present? %>
-            <div class="curriculum__header">
-              <h2 class="curriculum__header-title"><%= stage %></h2>
-              <% if signed_in? %>
-                <span class="curriculum__header-count<%= " curriculum__header-count--done" if stage_completed == lessons.size %>">
-                  <%= stage_completed %>/<%= lessons.size %>
-                </span>
+          <span class="curriculum__marker<%= " curriculum__marker--done" if course_done %>" aria-hidden="true">
+            <% if course_done %>
+              <%= heroicon "check", variant: :outline %>
+            <% elsif course.coming_soon? %>
+              <%= heroicon "lock-closed", variant: :outline %>
+            <% else %>
+              <%= index + 1 %>
+            <% end %>
+          </span>
+
+          <% if course.coming_soon? %>
+            <div class="curriculum__section curriculum__course curriculum__course--soon">
+              <div class="curriculum__header">
+                <h2 class="curriculum__header-title"><%= course.title %></h2>
+                <span class="badge badge--draft"><%= t("courses.coming_soon") %></span>
+              </div>
+              <% if course.description.present? %>
+                <p class="curriculum__course-desc"><%= course.description %></p>
               <% end %>
             </div>
-          <% end %>
-
-          <div class="curriculum__list">
-            <% lessons.each do |lesson| %>
-              <% done = @completed_ids.include?(lesson.id) %>
-              <a href="<%= lesson_path(lesson) %>" class="curriculum__lesson<%= " curriculum__lesson--practice" if lesson.kind == "practice" %><%= " curriculum__lesson--done" if done %>">
-                <% if done %>
-                  <%= heroicon "check-circle", variant: :solid %>
-                <% else %>
-                  <%= heroicon(lesson.kind == "practice" ? "wrench-screwdriver" : "book-open", variant: :outline) %>
+          <% else %>
+            <%= link_to course_path(course), class: "curriculum__section curriculum__course" do %>
+              <div class="curriculum__header">
+                <h2 class="curriculum__header-title"><%= course.title %></h2>
+                <% if signed_in? && total.positive? %>
+                  <span class="curriculum__header-count<%= " curriculum__header-count--done" if course_done %>"><%= completed %>/<%= total %></span>
                 <% end %>
-                <span class="curriculum__lesson-title"><%= lesson.title %></span>
-              </a>
+              </div>
+              <% if course.description.present? %>
+                <p class="curriculum__course-desc"><%= course.description %></p>
+              <% end %>
+              <span class="curriculum__course-cta">
+                <%= t("courses.open") %>
+                <%= heroicon "arrow-right", variant: :outline %>
+              </span>
             <% end %>
-          </div>
-        </div>
+          <% end %>
         </div>
       <% end %>
     </div>
   </div>
 </section>
 
-<section class="support-cta">
-  <div class="container support-cta__inner">
-    <h2 class="support-cta__title"><%= t("support_cta.title") %></h2>
-    <p class="support-cta__subtitle"><%= t("support_cta.subtitle") %></p>
-    <div class="support-cta__buttons">
-      <a href="<%= support_us_path %>" class="btn"><%= t("support_cta.contact_us") %></a>
-      <a href="<%= site_config.donate_url %>" class="btn btn--reversed" target="_blank" rel="noopener"><%= t("support_cta.donate") %></a>
-    </div>
-  </div>
-</section>
+<%= render "shared/support_cta" %>

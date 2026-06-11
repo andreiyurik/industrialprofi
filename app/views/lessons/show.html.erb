@@ -8,6 +8,7 @@
     { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
     { title: t("paths.title"), url: "#{site_config.url}/paths" },
     { title: @path.title, url: "#{site_config.url}/paths/#{@path.slug}" },
+    { title: @course.title, url: "#{site_config.url}/courses/#{@course.slug}" },
     { title: @lesson.title, url: "#{site_config.url}/lessons/#{@lesson.slug}" }
   ])) %>
 <% end %>
@@ -15,7 +16,7 @@
 <div class="container lesson-layout" data-controller="lesson-sidebar"
      data-lesson-sidebar-open-class="lesson-layout--sidebar-open"
      data-action="keydown.esc@window->lesson-sidebar#close">
-  <%= render "lessons/sidebar", path: @path, current_lesson: @lesson,
+  <%= render "lessons/sidebar", course: @course, current_lesson: @lesson,
         lessons_by_stage: @lessons_by_stage, completed_ids: @completed_ids %>
 
   <div class="lesson-sidebar-backdrop" data-action="click->lesson-sidebar#close" aria-hidden="true"></div>
@@ -28,6 +29,7 @@
 
   <%= render "shared/breadcrumbs", crumbs: [
     { title: @path.title, path: path_path(@path) },
+    { title: @course.title, path: course_path(@course) },
     { title: @lesson.title }
   ] %>
 

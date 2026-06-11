@@ -16,22 +16,28 @@ class LessonCompletionsController < ApplicationController
 
   private
     def set_lesson
-      @lesson = Lesson.joins(:path)
-                      .where(paths: { status: "published" })
+      @lesson = Lesson.joins(course: :path)
+                      .where(courses: { status: "published" }, paths: { status: "published" })
                       .find_by!(slug: params[:lesson_slug])
+      @course = @lesson.course
       @path = @lesson.path
     end
 
     def load_progress
-      @lessons_by_stage = @path.lessons.group_by(&:stage)
-      @completed_ids = Current.user.completed_lesson_ids_for(@path)
+      # Course-scoped, matching the lesson-page sidebar it re-renders.
+      @lessons_by_stage = @course.lessons.group_by(&:stage)
+      @completed_ids = Current.user.completed_lesson_ids_for_course(@course)
     end
 
-    # The milestone moment: completing the last lesson of a stage (or the whole
-    # path) deserves a louder cheer than a silent checkmark.
+    # The milestone moment: finishing the last lesson of a section, course, or
+    # the whole profession deserves a louder cheer than a silent checkmark.
+    # Ordered most-significant first.
     def celebration_message
-      if @path.lessons.all? { |lesson| @completed_ids.include?(lesson.id) }
+      path_completed_ids = Current.user.completed_lesson_ids_for(@path)
+      if @path.lessons.all? { |lesson| path_completed_ids.include?(lesson.id) }
         t(".path_completed", title: @path.title)
+      elsif @course.lessons.all? { |lesson| @completed_ids.include?(lesson.id) }
+        t(".course_completed", title: @course.title)
       elsif @lesson.stage.present? && @lessons_by_stage[@lesson.stage].all? { |lesson| @completed_ids.include?(lesson.id) }
         t(".stage_completed", stage: @lesson.stage)
       end

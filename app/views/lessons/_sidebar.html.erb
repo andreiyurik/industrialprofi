@@ -1,17 +1,17 @@
-<%# locals: (path:, current_lesson:, lessons_by_stage:, completed_ids:) -%>
+<%# locals: (course:, current_lesson:, lessons_by_stage:, completed_ids:) -%>
 <%# TOP-style course-contents sidebar: back link + title + progress up top,
-    then a native <details> accordion per stage — the current lesson's stage
-    starts open, the rest stay folded so long paths scan well. %>
+    then a native <details> accordion per section — the current lesson's section
+    starts open, the rest stay folded so long courses scan well. %>
 <aside id="lesson_sidebar" class="lesson-sidebar" data-lesson-sidebar-target="panel"
        aria-label="<%= t("lessons.sidebar_label") %>">
   <header class="lesson-sidebar__head">
-    <%= link_to path_path(path), class: "lesson-sidebar__back" do %>
+    <%= link_to course_path(course), class: "lesson-sidebar__back" do %>
       <%= heroicon "chevron-left", variant: :outline %>
-      <%= t("lessons.back_to_path") %>
+      <%= t("lessons.back_to_course") %>
     <% end %>
-    <%= link_to path.title, path_path(path), class: "lesson-sidebar__path" %>
+    <%= link_to course.title, course_path(course), class: "lesson-sidebar__path" %>
     <% if signed_in? %>
-      <%= render "shared/progress_bar", completed: completed_ids.size, total: path.lessons_count %>
+      <%= render "shared/progress_bar", completed: completed_ids.size, total: course.lessons_count %>
     <% end %>
     <button type="button" class="lesson-sidebar__close"
             data-action="lesson-sidebar#close" aria-label="<%= t("common.close") %>">

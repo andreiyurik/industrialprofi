@@ -17,10 +17,16 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_match resources(:pteep_doc).title, response.body
   end
 
-  test "show displays prev/next navigation" do
+  test "sidebar shows the current course's contents" do
     get lesson_path(lessons(:gruppy_dopuska))
-    assert_match lessons(:pteep).title, response.body
-    assert_match lessons(:zazemlenie).title, response.body
+    assert_match courses(:el_basics).title, response.body  # sidebar header = course
+    assert_match lessons(:pteep).title, response.body      # sibling lesson in same course
+  end
+
+  test "next link flows across course boundaries within the profession" do
+    # gruppy_dopuska is the last lesson of el_basics; next is the first of el_pue.
+    get lesson_path(lessons(:gruppy_dopuska))
+    assert_match lesson_path(lessons(:zazemlenie)), response.body
   end
 
   test "show markdown format returns raw markdown" do

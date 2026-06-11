@@ -8,7 +8,10 @@ class SitemapsController < ApplicationController
 
   def show
     @paths = Path.published.ordered
-    @lessons = Lesson.joins(:path).where(paths: { status: "published" }).order(:id)
+    @courses = Course.published.joins(:path).where(paths: { status: "published" }).order(:id)
+    @lessons = Lesson.joins(course: :path)
+                     .where(courses: { status: "published" }, paths: { status: "published" })
+                     .order(:id)
 
     expires_in 1.hour, public: true
 

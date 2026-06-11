@@ -204,7 +204,8 @@ ru:
 
   lesson_completions:
     create:
-      stage_completed: "🎉 Этап «%{stage}» пройден!"
+      stage_completed: "🎉 Раздел «%{stage}» пройден!"
+      course_completed: "🎯 Курс «%{title}» пройден!"
       path_completed: "🏆 Поздравляем — профессия «%{title}» пройдена целиком!"
 
   passwords_mailer:
@@ -251,6 +252,10 @@ ru:
     next_up: "Далее: %{title}"
     lessons_in_section: "в разделе"
 
+  courses:
+    coming_soon: "В разработке"
+    open: "Перейти к курсу"
+
   lessons:
     why_section: "Зачем это нужно"
     study_section: "Что изучить"
@@ -274,7 +279,8 @@ ru:
     uncomplete: "Снять отметку"
     go_next: "Следующий урок"
     back_to_path: "К карте профессии"
-    sidebar_label: "Уроки профессии"
+    back_to_course: "К курсу"
+    sidebar_label: "Содержание курса"
     sign_in_to_track_html: "%{sign_up_link}, чтобы отмечать пройденные уроки и видеть прогресс. Уже есть аккаунт — %{sign_in_link}."
     previous_lesson: "Предыдущий урок"
     next_lesson: "Следующий урок"
@@ -423,6 +429,7 @@ ru:
   flash:
     lesson_updated: "Урок сохранён"
     path_updated: "Профессия сохранена"
+    course_updated: "Курс сохранён"
     suggestion_submitted: "Спасибо! Ваше предложение отправлено на модерацию."
     suggestion_approved: "Правка принята и применена"
     suggestion_rejected: "Правка отклонена"
@@ -450,10 +457,14 @@ ru:
   admin:
     lessons_title: "Управление уроками"
     paths_title: "Управление профессиями"
+    courses_title: "Управление курсами"
     manage_paths: "Профессии"
+    manage_courses: "Курсы"
     manage_lessons: "Уроки"
     edit_lesson: "Редактирование урока"
     edit_path: "Редактирование профессии"
+    edit_course: "Редактирование курса"
+    field_position: "Позиция"
     view_live: "Предпросмотр"
     save: "Сохранить"
     cancel: "Отмена"
@@ -520,6 +531,10 @@ ru:
       one: "%{count} блок"
       few: "%{count} блока"
       many: "%{count} блоков"
+    course:
+      one: "%{count} курс"
+      few: "%{count} курса"
+      many: "%{count} курсов"
 
   account:
     title: "Настройки аккаунта"
