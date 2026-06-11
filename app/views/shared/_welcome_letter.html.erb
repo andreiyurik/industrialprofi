@@ -1,0 +1,36 @@
+<%#
+  ═══════════════════════════════════════════════════════════════════
+  ✏️  ПРИВЕТСТВЕННОЕ ПИСЬМО ОСНОВАТЕЛЯ — редактируется прямо здесь.
+  Показывается один раз, сразу после регистрации (Fizzy-паттерн:
+  flash[:welcome_letter] живёт ровно один запрос).
+  Меняйте текст между <p>…</p> как угодно — это обычный HTML.
+  ═══════════════════════════════════════════════════════════════════
+%>
+<div data-controller="dialog">
+  <dialog class="welcome-letter" data-dialog-target="dialog" data-action="click->dialog#backdropClose">
+    <button type="button" class="welcome-letter__close" data-action="dialog#close"
+            aria-label="<%= t("common.close") %>">
+      <%= heroicon "x-mark", variant: :outline %>
+    </button>
+
+    <span class="welcome-letter__avatar" aria-hidden="true">АЮ</span>
+
+    <h2 class="welcome-letter__title">Добро пожаловать — и спасибо, что присоединились!</h2>
+
+    <p>Меня зовут Андрей, я делаю IndustrialProfi. Этот проект — о том, чтобы путь в рабочую профессию был ясным: официальные документы, ежедневная практика и видимый прогресс.</p>
+
+    <p>С чего начать: выберите профессию и пройдите первый урок прямо сегодня — путь складывается из ежедневной практики. Выполняете задание — запишите результат в дневник с фото: так постепенно соберётся настоящее портфолио.</p>
+
+    <p>Нужна помощь или совет — напишите мне в <a href="<%= site_config.telegram_url %>" target="_blank" rel="noopener">Telegram</a>, отвечаю каждому.</p>
+
+    <p class="welcome-letter__signature">
+      <strong>Андрей Юрик</strong><br>
+      <em>основатель IndustrialProfi</em>
+    </p>
+
+    <div class="welcome-letter__actions">
+      <%= link_to "Выбрать профессию", paths_path, class: "btn btn--reversed" %>
+      <button type="button" class="btn" data-action="dialog#close"><%= t("common.close") %></button>
+    </div>
+  </dialog>
+</div>

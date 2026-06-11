@@ -67,13 +67,14 @@
           <% else %>
             <%= link_to t("auth.sign_in"), new_session_path, class: "nav__link",
                   aria: { current: ("page" if current_page?(new_session_path)) } %>
-            <%= link_to t("auth.sign_up"), new_user_path, class: "btn btn--small btn--reversed" %>
+            <%= link_to t("auth.sign_up"), new_signup_path, class: "btn btn--small btn--reversed" %>
           <% end %>
         </div>
       </nav>
     </header>
 
     <%= render "shared/flash" %>
+    <%= render "shared/welcome_letter" if flash[:welcome_letter] %>
 
     <main>
       <%= yield %>

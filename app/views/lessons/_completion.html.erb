@@ -22,7 +22,7 @@
   <% else %>
     <p class="lesson-complete__signin">
       <%= t("lessons.sign_in_to_track_html",
-            sign_up_link: link_to(t("auth.sign_up_action"), new_user_path),
+            sign_up_link: link_to(t("auth.sign_up_action"), new_signup_path),
             sign_in_link: link_to(t("auth.sign_in_action"), new_session_path)) %>
     </p>
   <% end %>

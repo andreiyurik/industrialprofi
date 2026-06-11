@@ -1,29 +1,32 @@
 <% meta_title(t("auth.sign_in_title")) %>
 
 <section class="section">
-  <div class="container auth">
-    <h1 class="auth__title"><%= t("auth.sign_in_title") %></h1>
-    <p class="auth__subtitle"><%= t("auth.sign_in_subtitle") %></p>
+  <div class="container">
+    <div class="auth">
+      <h1 class="auth__title"><%= t("auth.sign_in_title") %></h1>
+      <p class="auth__subtitle"><%= t("auth.sign_in_subtitle") %></p>
 
-    <%= form_with url: session_path, class: "auth__form" do |form| %>
-      <div class="auth__field">
-        <%= form.label :email_address, t("auth.email") %>
+      <%= form_with url: session_path, class: "auth__form" do |form| %>
+        <%= form.label :email_address, t("auth.email"), class: "for-screen-reader" %>
         <%= form.email_field :email_address, value: params[:email_address], required: true, autofocus: true,
-              autocomplete: "email", class: "input" %>
-      </div>
+              autocomplete: "email", placeholder: t("auth.email"), class: "input" %>
 
-      <div class="auth__field">
-        <%= form.label :password, t("auth.password") %>
-        <%= form.password_field :password, required: true, autocomplete: "current-password", class: "input" %>
+        <%= form.label :password, t("auth.password"), class: "for-screen-reader" %>
+        <%= form.password_field :password, required: true, autocomplete: "current-password",
+              placeholder: t("auth.password"), class: "input" %>
+
         <p class="auth__hint"><%= link_to t("auth.forgot_password"), new_password_path %></p>
-      </div>
 
-      <%= form.submit t("auth.sign_in"), class: "btn btn--reversed btn--large auth__submit" %>
-    <% end %>
+        <%= form.button class: "btn btn--reversed btn--large auth__submit" do %>
+          <%= t("auth.sign_in") %>
+          <%= heroicon "arrow-right", variant: :outline %>
+        <% end %>
+      <% end %>
 
-    <p class="auth__alt">
-      <%= t("auth.no_account") %>
-      <%= link_to t("auth.sign_up"), new_user_path %>
-    </p>
+      <p class="auth__alt">
+        <%= t("auth.no_account") %>
+        <%= link_to t("auth.sign_up"), new_signup_path %>
+      </p>
+    </div>
   </div>
 </section>

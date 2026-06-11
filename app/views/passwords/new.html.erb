@@ -1,22 +1,25 @@
 <% meta_title(t("auth.forgot_password_title")) %>
 
 <section class="section">
-  <div class="container auth">
-    <h1 class="auth__title"><%= t("auth.forgot_password_title") %></h1>
-    <p class="auth__subtitle"><%= t("auth.forgot_password_subtitle") %></p>
+  <div class="container">
+    <div class="auth">
+      <h1 class="auth__title"><%= t("auth.forgot_password_title") %></h1>
+      <p class="auth__subtitle"><%= t("auth.forgot_password_subtitle") %></p>
 
-    <%= form_with url: passwords_path, class: "auth__form" do |form| %>
-      <div class="auth__field">
-        <%= form.label :email_address, t("auth.email") %>
+      <%= form_with url: passwords_path, class: "auth__form" do |form| %>
+        <%= form.label :email_address, t("auth.email"), class: "for-screen-reader" %>
         <%= form.email_field :email_address, required: true, autofocus: true,
-              autocomplete: "email", class: "input" %>
-      </div>
+              autocomplete: "email", placeholder: t("auth.email"), class: "input" %>
 
-      <%= form.submit t("auth.send_reset_link"), class: "btn btn--reversed btn--large auth__submit" %>
-    <% end %>
+        <%= form.button class: "btn btn--reversed btn--large auth__submit" do %>
+          <%= t("auth.send_reset_link") %>
+          <%= heroicon "arrow-right", variant: :outline %>
+        <% end %>
+      <% end %>
 
-    <p class="auth__alt">
-      <%= link_to t("auth.back_to_sign_in"), new_session_path %>
-    </p>
+      <p class="auth__alt">
+        <%= link_to t("auth.back_to_sign_in"), new_session_path %>
+      </p>
+    </div>
   </div>
 </section>

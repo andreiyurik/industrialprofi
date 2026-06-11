@@ -17,7 +17,11 @@ Rails.application.routes.draw do
   get "sitemap.xml" => "sitemaps#show", defaults: { format: :xml }
 
   resource :session, only: [ :new, :create, :destroy ]
-  resources :users, only: [ :new, :create ]
+  resource :signup, only: [ :new, :create ], controller: "signups"
+  scope module: :signups, path: "signup", as: :signup do
+    resource :verification, only: [ :new, :create ]
+    resource :completion, only: [ :new, :create ]
+  end
   resources :passwords, param: :token, only: [ :new, :create, :edit, :update ]
   get "dashboard" => "dashboard#show"
   get "projects" => "projects#index"

@@ -154,6 +154,16 @@ completed / total, `/dashboard` with continue-where-you-left-off links, and the
 desktop two-column lesson layout (sticky curriculum sidebar, roadmap.sh feel;
 a Stimulus controller centers the current lesson in the sidebar's scroll area).
 
+**Signup (built — Fizzy pattern, hybrid):** step-by-step registration:
+email → 6-char emailed code (15 min TTL) → name + password. State lives in the
+encrypted session (`Signup` PORO, no table; `SignupFlow` controller concern);
+the User is created only at the final step, with a verified email. Login stays
+password-based on purpose — don't make every sign-in depend on email delivery.
+After signup, `flash[:welcome_letter]` renders the founder's one-shot
+`<dialog>` letter (`shared/_welcome_letter`, `dialog` Stimulus controller).
+**Production signup REQUIRES working SMTP** (the code email is a hard step);
+in development the code is also printed to the log.
+
 **Also built:** password reset (`generates_token_for :password_reset`,
 `PasswordsController` + `PasswordsMailer`; dev logs the mail, production needs
 SMTP creds in `config/environments/production.rb`); `/projects` — an aggregator

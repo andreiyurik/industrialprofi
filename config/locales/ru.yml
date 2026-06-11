@@ -127,6 +127,7 @@ ru:
     sign_up_action: "Создайте бесплатный аккаунт"
     email: "Email"
     password: "Пароль"
+    password_placeholder: "Пароль (минимум 8 символов)"
     password_confirmation: "Пароль ещё раз"
     password_hint: "Минимум 8 символов."
     name: "Имя"
@@ -149,6 +150,31 @@ ru:
     not_authorized: "Недостаточно прав."
     signed_out: "Вы вышли из аккаунта."
     welcome: "Добро пожаловать, %{name}! Выберите профессию и начните обучение."
+
+  signup:
+    email_hint: "Укажите email — пришлём код подтверждения. Бесплатно и навсегда."
+    email_placeholder: "you@example.com"
+    lets_go: "Получить код"
+    invalid_email: "Похоже, в email опечатка — проверьте адрес."
+    already_registered: "Этот email уже зарегистрирован — войдите."
+    verification_title: "Проверьте почту"
+    verification_hint: "Мы отправили письмо с кодом подтверждения. Введите его ниже:"
+    code_sent_to_html: "Код отправлен на %{email} и действует 15 минут."
+    verify: "Подтвердить"
+    resend: "Отправить код ещё раз"
+    code_invalid: "Неверный код. Проверьте письмо или запросите новый."
+    expired: "Код устарел — запросите новый."
+    completion_title: "Завершите регистрацию"
+    completion_hint: "Email подтверждён. Остался один шаг — имя и пароль."
+    create_account: "Создать аккаунт"
+
+  signups_mailer:
+    verification_code:
+      subject: "Ваш код IndustrialProfi: %{code}"
+      greeting: "Добро пожаловать в IndustrialProfi!"
+      body: "Введите этот код, чтобы завершить создание аккаунта:"
+      expires: "Код действует 15 минут."
+      ignore: "Если вы не создавали аккаунт — просто проигнорируйте это письмо."
 
   dashboard:
     title: "Моё обучение"
