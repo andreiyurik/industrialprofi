@@ -1,0 +1,26 @@
+<%# TOP-style "Lesson contents" rail: the lesson's fixed sections plus its own
+    ## headings, deep-linked. Wide screens only (hidden below 1360px in CSS);
+    the lesson-toc Stimulus controller smooth-scrolls clicks and marks the
+    entry being read. %>
+<aside class="lesson-toc" data-controller="lesson-toc" aria-label="<%= t("lessons.toc_label") %>">
+  <nav>
+    <p class="lesson-toc__title"><%= t("lessons.toc_label") %></p>
+    <ul class="lesson-toc__list">
+      <% if lesson.has_description? %>
+        <li><a class="lesson-toc__link" href="#why" data-lesson-toc-target="link" data-action="lesson-toc#jump"><%= t("lessons.why_section") %></a></li>
+      <% end %>
+      <% if lesson.has_body? %>
+        <li><a class="lesson-toc__link" href="#study" data-lesson-toc-target="link" data-action="lesson-toc#jump"><%= t("lessons.study_section") %></a></li>
+        <% lesson_toc(lesson).each do |item| %>
+          <li><a class="lesson-toc__link lesson-toc__link--sub" href="#<%= item[:anchor] %>" data-lesson-toc-target="link" data-action="lesson-toc#jump"><%= item[:title] %></a></li>
+        <% end %>
+      <% end %>
+      <% if lesson.has_resources? %>
+        <li><a class="lesson-toc__link" href="#resources" data-lesson-toc-target="link" data-action="lesson-toc#jump"><%= t("lessons.resources_section") %></a></li>
+      <% end %>
+      <% if lesson.has_task? %>
+        <li><a class="lesson-toc__link" href="#task" data-lesson-toc-target="link" data-action="lesson-toc#jump"><%= t("lessons.task_section") %></a></li>
+      <% end %>
+    </ul>
+  </nav>
+</aside>

@@ -112,6 +112,8 @@
     <%= render "lessons/completion", lesson: @lesson, completed: @completed_ids.include?(@lesson.id) %>
   </article>
   </div>
+
+  <%= render "lessons/toc", lesson: @lesson %>
 </div>
 
 <section class="support-cta">

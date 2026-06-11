@@ -18,6 +18,11 @@
   margin-block: 0.75rem 2rem;
 }
 
+/* TOC anchors (sections + ## headings) must land below the sticky header. */
+.lesson :is(section[id], h2[id]) {
+  scroll-margin-block-start: 5rem;
+}
+
 .lesson__title {
   font-size: clamp(1.75rem, 4.5vw, 2.5rem);
   font-weight: 700;

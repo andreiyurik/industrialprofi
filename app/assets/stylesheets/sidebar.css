@@ -35,6 +35,13 @@
   }
 }
 
+/* Room for the right TOC rail ("В этом уроке") on wide screens. */
+@media (min-width: 1360px) {
+  .lesson-layout {
+    grid-template-columns: 20rem minmax(0, 1fr) 15rem;
+  }
+}
+
 @media (max-width: 1099.98px) {
   .lesson-sidebar {
     background-color: var(--color-bg);
@@ -304,4 +311,70 @@
 
 .lesson-sidebar__item--done .lesson-sidebar__status {
   color: var(--color-positive);
+}
+
+/* ── Right rail: "В этом уроке" (TOP's "Lesson contents") ──────────────
+   The lesson's own table of contents — fixed sections + its ## headings.
+   Wide screens only; sticky, with a left border rail and the current entry
+   marked by the lesson-toc Stimulus controller (aria-current). */
+.lesson-toc {
+  display: none;
+}
+
+@media (min-width: 1360px) {
+  .lesson-toc {
+    display: block;
+    font-size: 0.85rem;
+    inset-block-start: 4rem; /* clears the sticky header */
+    max-block-size: calc(100dvh - 4rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-block: 2.5rem;
+    padding-inline: 0.5rem 1.5rem;
+    position: sticky;
+  }
+}
+
+.lesson-toc__title {
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-block: 0 0.75rem;
+  text-transform: uppercase;
+}
+
+.lesson-toc__list {
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+}
+
+.lesson-toc__link {
+  border-inline-start: 2px solid var(--color-subtle);
+  color: var(--color-subtle-dark);
+  display: block;
+  line-height: 1.35;
+  padding: 0.3rem 0 0.3rem 0.85rem;
+  text-decoration: none;
+  transition: border-color 150ms ease, color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+/* In-body ## headings sit one step in, under "Что изучить". */
+.lesson-toc__link--sub {
+  padding-inline-start: 1.85rem;
+}
+
+/* "You are reading this" — ink text + ink rail segment, same brightness
+   hierarchy as the course sidebar's current item. */
+.lesson-toc__link[aria-current] {
+  border-inline-start-color: var(--color-ink);
+  color: var(--color-ink);
+  font-weight: 600;
 }

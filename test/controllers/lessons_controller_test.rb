@@ -41,4 +41,15 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     get lesson_path(lessons(:pteep))
     assert_select "div.prose"
   end
+
+  test "show renders the lesson toc with anchored body headings" do
+    get lesson_path(lessons(:pteep))
+    assert_select "aside.lesson-toc" do
+      assert_select ".lesson-toc__link[href='#study']"
+      # anchors are transliterated to ASCII (Turbo can't scroll to Cyrillic fragments)
+      assert_select ".lesson-toc__link--sub[href='#poryadok-dopuska-k-rabotam']", text: "Порядок допуска к работам"
+    end
+    # the in-body heading itself carries the matching anchor
+    assert_select "h2#poryadok-dopuska-k-rabotam"
+  end
 end

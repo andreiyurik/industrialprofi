@@ -297,6 +297,7 @@ ru:
     completed: "Урок пройден"
     not_completed: "Урок не пройден"
     contents: "Содержание курса"
+    toc_label: "В этом уроке"
     mark_complete: "Отметить пройденным"
     uncomplete: "Снять отметку"
     go_next: "Следующий урок"

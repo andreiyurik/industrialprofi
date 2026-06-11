@@ -73,7 +73,7 @@ module ApplicationHelper
     end
   end
 
-  def markdown(text)
+  def markdown(text, anchor_headings: false)
     return "" if text.blank?
     html = Kramdown::Document.new(text, input: "GFM",
       syntax_highlighter: "rouge",
@@ -83,7 +83,39 @@ module ApplicationHelper
     # allowance: typed callouts first, then wrap tables for horizontal scroll.
     html = render_callouts(html)
     html = wrap_prose_tables(html)
+    html = anchor_prose_headings(html) if anchor_headings
     html.html_safe
+  end
+
+  # IDs for the in-body ## headings so the lesson TOC can deep-link them.
+  # Runs AFTER sanitization (it's our own markup). Anchors are transliterated
+  # to ASCII like every slug on the site — Cyrillic fragments break Turbo's
+  # scroll-to-anchor (it looks the element up by the percent-encoded hash)
+  # and turn copied URLs into percent-soup.
+  RU_TRANSLIT = {
+    "а" => "a", "б" => "b", "в" => "v", "г" => "g", "д" => "d", "е" => "e",
+    "ё" => "e", "ж" => "zh", "з" => "z", "и" => "i", "й" => "y", "к" => "k",
+    "л" => "l", "м" => "m", "н" => "n", "о" => "o", "п" => "p", "р" => "r",
+    "с" => "s", "т" => "t", "у" => "u", "ф" => "f", "х" => "h", "ц" => "c",
+    "ч" => "ch", "ш" => "sh", "щ" => "shch", "ъ" => "", "ы" => "y", "ь" => "",
+    "э" => "e", "ю" => "yu", "я" => "ya"
+  }.freeze
+
+  def heading_anchor(text)
+    slug = text.downcase.gsub(/[а-яё]/) { RU_TRANSLIT[it] }
+               .gsub(/[^a-z0-9]+/, "-").delete_prefix("-").delete_suffix("-")
+    slug.empty? ? "section" : slug
+  end
+
+  def anchor_prose_headings(html)
+    doc = Nokogiri::HTML5.fragment(html)
+    used = Hash.new(0)
+    doc.css("h2").each do |heading|
+      base = heading_anchor(heading.text)
+      count = (used[base] += 1)
+      heading["id"] = count > 1 ? "#{base}-#{count}" : base
+    end
+    doc.to_html
   end
 
   def render_callouts(html)
@@ -105,12 +137,22 @@ module ApplicationHelper
   end
 
   def lesson_content(lesson, field)
-    rich_field = :"rich_#{field}"
-    if lesson.send(rich_field).present?
-      lesson.send(rich_field)
-    else
-      markdown(lesson.send(field))
-    end
+    rich = lesson.send(:"rich_#{field}")
+    return rich if rich.present?
+
+    # Memoized per request: the TOC re-reads the rendered body for its anchors.
+    @lesson_markdown ||= {}
+    @lesson_markdown[[ lesson.id, field ]] ||=
+      markdown(lesson.send(field), anchor_headings: field == :body)
+  end
+
+  # Entries for the right-rail "В этом уроке" TOC: the body's ## headings.
+  # Markdown lessons only — rich_body carries no anchors, so there the rail
+  # degrades to just the fixed section links.
+  def lesson_toc(lesson)
+    return [] if lesson.rich_body.present? || lesson.body.blank?
+    Nokogiri::HTML5.fragment(lesson_content(lesson, :body).to_s).css("h2[id]")
+      .map { |heading| { title: heading.text, anchor: heading["id"] } }
   end
 
   def stage_label(stage)
