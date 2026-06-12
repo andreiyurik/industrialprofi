@@ -57,6 +57,25 @@ Focus on professions with proven global demand. BlackRock's $100M Future Builder
 - Industrial mechanics (maintenance)
 - Power plant operators (energy)
 
+### Positioning decision (June 2026): narrow wedge, wide ceiling
+
+- **Wedge (today):** industrial trades only. The homepage, tagline and catalog
+  speak strictly about what actually exists — a "platform for everything" with
+  three maps reads as an empty catalog and burns trust.
+- **Ceiling (the vision):** any in-demand profession where hands-on practice
+  decides — builders, farmers, mechanics, beyond. The architecture is already
+  profession-agnostic (Path/Course/Lesson, expert roles, standards + practice +
+  journal carry no "industrial" assumptions).
+- **Expansion mechanism: expert-driven, not founder-driven.** The founder
+  builds well only what he has worked in (АСУ ТП, industrial). A new profession
+  arrives when a real practitioner co-authors its map (trust ladder: suggest
+  edits → editor → author, first maps co-built through seeds). The wide vision
+  is stated where future co-authors read — the founder letter (/about), the FAQ
+  expert item, the public roadmap — NOT in the marketing copy.
+- **No renaming.** The IndustrialProfi name may eventually feel narrow for,
+  say, farmers — that's a problem for the day a real non-industrial expert
+  shows up, not before.
+
 ### Target users:
 - Workers in CIS wanting to grow in their profession systematically
 - Labor migrants (Uzbekistan, Tajikistan, Kyrgyzstan → Russia, Kazakhstan) who need to prove skills across borders

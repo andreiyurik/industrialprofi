@@ -262,6 +262,14 @@ DEFERRED; materials stay free/open forever; retention & satisfaction before
 revenue. Candidate paths (all demand-gated) in `docs/VISION.md` → Business
 Model — B2B (training centers / employers) is the most promising.
 
+**Positioning (recorded decision, June 2026): narrow wedge, wide ceiling.**
+Marketing copy (homepage, tagline, catalog) speaks ONLY about industrial
+trades that actually exist; the wider "any hands-on in-demand profession —
+builders, farmers" vision lives in the founder letter, FAQ expert item, and
+/roadmap, where future co-authors read it. Expansion is expert-driven (a real
+practitioner co-authors a new profession), never founder-driven breadth. No
+renaming. Details: `docs/VISION.md` → "Positioning decision".
+
 **Focus direction (built):** the product deliberately keeps attention on ONE
 profession — `User#focus_path` (derived from the latest completion, no stored
 setting: switching focus = doing a lesson elsewhere). The dashboard renders the
