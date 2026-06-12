@@ -1,0 +1,9 @@
+unread_message:
+  user: member
+  body: "Спасибо за проект! В уроке про ПУЭ не открывается вторая ссылка."
+  page_url: "http://localhost/lessons/pteep-osnovy"
+
+read_message:
+  user: editor
+  body: "Хочу помочь с проверкой материалов по сварке."
+  read_at: <%= 2.days.ago %>

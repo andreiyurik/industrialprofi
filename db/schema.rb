@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_11_230143) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_12_123652) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -62,6 +62,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_230143) do
     t.index ["path_id"], name: "index_courses_on_path_id"
     t.index ["slug"], name: "index_courses_on_slug", unique: true
     t.index ["status"], name: "index_courses_on_status"
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.string "page_url"
+    t.datetime "read_at"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_feedbacks_on_user_id"
   end
 
   create_table "journal_entries", force: :cascade do |t|
@@ -211,6 +221,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_230143) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "courses", "paths"
+  add_foreign_key "feedbacks", "users"
   add_foreign_key "journal_entries", "lessons"
   add_foreign_key "journal_entries", "users"
   add_foreign_key "lesson_bookmarks", "lessons"

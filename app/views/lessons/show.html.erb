@@ -96,8 +96,10 @@
     <% end %>
 
     <% if @lesson.has_body? %>
+      <%# No "Что изучить" heading on purpose: lesson bodies open with their own
+          ## heading, so a label here read as a duplicate. The id stays — the
+          sidebar TOC anchors to it. %>
       <section id="study" class="lesson__section">
-        <h2 class="lesson__heading"><%= t("lessons.study_section") %></h2>
         <div class="prose"><%= lesson_content(@lesson, :body) %></div>
         <%= render "lessons/edit_link", section: "body" %>
       </section>

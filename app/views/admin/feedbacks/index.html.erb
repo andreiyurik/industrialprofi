@@ -1,0 +1,42 @@
+<% meta_title(t("admin.manage_feedbacks")) %>
+
+<section class="admin-page">
+  <div class="container">
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-header">
+      <div class="admin-header__title-group">
+        <h1 class="admin-header__title"><%= t("admin.manage_feedbacks") %></h1>
+      </div>
+    </div>
+
+    <% if @feedbacks.none? %>
+      <div class="admin-empty">
+        <p class="admin-empty__text"><%= t("admin.feedbacks_none") %></p>
+      </div>
+    <% else %>
+      <div class="admin-list">
+        <% @feedbacks.each do |feedback| %>
+          <div class="admin-row admin-row--static">
+            <div class="admin-row__column">
+              <div class="admin-row__line">
+                <span class="admin-row__title"><%= feedback.user.name %></span>
+                <span class="admin-row__subtle"><%= feedback.user.email_address %></span>
+                <span class="admin-row__subtle"><%= l(feedback.created_at, format: :long) %></span>
+              </div>
+              <p class="admin-feedback__body"><%= simple_format(feedback.body) %></p>
+              <% if feedback.page_url.present? %>
+                <p class="admin-row__subtle"><%= t("admin.feedback_from_page") %>: <%= link_to feedback.page_url, feedback.page_url, class: "admin-feedback__page" %></p>
+              <% end %>
+            </div>
+            <div class="admin-row__meta">
+              <a href="mailto:<%= feedback.user.email_address %>?subject=<%= u t('admin.feedback_reply_subject') %>" class="btn btn--small">
+                <%= t("admin.feedback_reply") %>
+              </a>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>

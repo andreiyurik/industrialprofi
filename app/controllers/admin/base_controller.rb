@@ -6,11 +6,15 @@ module Admin
 
     # The moderation-queue size shown in the persistent admin nav (and the
     # dashboard callout) — one cheap COUNT per admin page render.
-    helper_method :pending_suggestions_count
+    helper_method :pending_suggestions_count, :unread_feedbacks_count
 
     private
       def pending_suggestions_count
         @pending_suggestions_count ||= LessonSuggestion.pending.count
+      end
+
+      def unread_feedbacks_count
+        @unread_feedbacks_count ||= Feedback.unread.count
       end
 
       def ensure_can_edit_content

@@ -93,6 +93,12 @@
   padding-block-start: 2.5rem;
 }
 
+/* The body section has no own heading (the prose opens with its first ##),
+   so the prose must sit flush under the section divider. */
+.lesson__section .prose > :first-child {
+  margin-block-start: 0;
+}
+
 /* Section heading — the strongest landmark in the body, a step above the
    in-prose ## subheadings. */
 .lesson__heading {

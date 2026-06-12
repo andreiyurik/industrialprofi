@@ -482,6 +482,16 @@
   text-align: center;
 }
 
+/* ── Founder inbox (admin/feedbacks) ── */
+
+.admin-feedback__body {
+  margin-block: 0.25rem 0;
+
+  p {
+    margin-block: 0.25em;
+  }
+}
+
 /* ── Persistent section nav (tabs) ── */
 
 .admin-nav {

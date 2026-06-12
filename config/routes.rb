@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   resource :learning_goal, only: [ :edit, :update ]
   get "projects" => "projects#index"
   resources :journal_entries, path: "journal", except: [ :show ]
+  resources :feedbacks, only: [ :new, :create ]
 
   resources :paths, only: [ :index, :show ], param: :slug
   resources :courses, only: [ :show ], param: :slug
@@ -58,6 +59,7 @@ Rails.application.routes.draw do
     resources :paths, only: [ :index, :edit, :update ], param: :slug
     resources :courses, only: [ :index, :edit, :update ], param: :slug
     resources :users, only: [ :index, :update ]
+    resources :feedbacks, only: [ :index ]
     resources :lesson_suggestions, only: [ :index, :show ] do
       member do
         patch :approve

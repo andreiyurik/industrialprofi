@@ -1,0 +1,10 @@
+<%= t("feedback_mailer.new_message.from") %>: <%= @user.name %> (<%= @user.email_address %>)
+<% if @feedback.page_url.present? -%>
+<%= t("feedback_mailer.new_message.page") %>: <%= @feedback.page_url %>
+<% end -%>
+
+<%= @feedback.body %>
+
+---
+<%= t("feedback_mailer.new_message.reply_hint") %>
+<%= admin_feedbacks_url %>

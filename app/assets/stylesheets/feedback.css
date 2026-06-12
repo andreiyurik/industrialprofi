@@ -1,0 +1,11 @@
+/* «Написать автору» — the in-app feedback form */
+.feedbacks__intro {
+  color: var(--color-subtle-dark);
+  margin-block: 0 var(--block-space);
+}
+
+.feedbacks__promise {
+  color: var(--color-subtle-dark);
+  font-size: 0.875rem;
+  margin-block-start: var(--block-space);
+}

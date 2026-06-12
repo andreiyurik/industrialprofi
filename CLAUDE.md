@@ -246,6 +246,17 @@ checkbox on /account + tokenized one-click unsubscribe
 `users.reminded_at`. Do not add more marketing/lifecycle emails without an
 explicit founder decision.
 
+**Feedback line (built — async by design, NOT a chat):** «Написать автору» —
+signed-in users message the founder via a plain form (`Feedback` model,
+`/feedbacks/new`; entry points: account menu, footer for signed-in, welcome
+letter, reminder email). Founder reads them at `/admin/feedbacks`
+(administrator-only, unread badge in the admin nav; opening the page marks all
+read) and gets an email per message (`FeedbackMailer`, reply-to = the sender).
+Rate-limited 5/hour. **Recorded decision:** no realtime chat / no floating
+widget — a solo founder can't honor chat expectations, async + honest reply
+SLA wins (see Campfire discussion). `MAIL_REPLY_TO` env sets the founder's
+reply-to on all outgoing mail.
+
 **Monetization (recorded decision, June 2026):** v0.4 certificates are
 DEFERRED; materials stay free/open forever; retention & satisfaction before
 revenue. Candidate paths (all demand-gated) in `docs/VISION.md` → Business

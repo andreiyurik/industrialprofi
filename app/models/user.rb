@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :lesson_bookmarks, dependent: :destroy
   has_many :bookmarked_lessons, through: :lesson_bookmarks, source: :lesson
   has_many :journal_entries, dependent: :destroy
+  has_many :feedbacks, dependent: :destroy
 
   # The trust ladder: member → editor («Эксперт» — reviews suggestions, edits
   # content) → administrator (everything, incl. users and roles).
