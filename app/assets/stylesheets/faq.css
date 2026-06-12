@@ -1,0 +1,92 @@
+/* /faq — native <details> accordion, zero JS */
+
+.faq__eyebrow {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin-block: 0 0.5rem;
+  text-transform: uppercase;
+}
+
+.faq__title {
+  margin-block: 0 0.75rem;
+}
+
+.faq__intro {
+  color: var(--color-subtle-dark);
+  margin-block: 0 var(--block-space-double);
+}
+
+.faq-list {
+  border-block-start: 1px solid var(--color-subtle);
+}
+
+.faq-item {
+  border-block-end: 1px solid var(--color-subtle);
+}
+
+.faq-item__question {
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--inline-space);
+  padding-block: 1.1rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  list-style: none;
+  transition: color 200ms ease;
+
+  /* Custom +/− marker instead of the triangle */
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &::after {
+    content: "+";
+    color: var(--color-subtle-dark);
+    flex-shrink: 0;
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-link);
+    }
+  }
+}
+
+.faq-item[open] .faq-item__question::after {
+  content: "−";
+}
+
+.faq-item__answer {
+  color: var(--color-ink);
+  padding-block-end: 1.25rem;
+  max-inline-size: 60ch;
+
+  p {
+    margin-block: 0 0.75em;
+  }
+}
+
+/* "Didn't find your question?" closing panel */
+.faq-more {
+  margin-block-start: var(--block-space-double);
+  padding: 1.25rem;
+}
+
+.faq-more__text {
+  font-weight: 600;
+  margin-block: 0 0.75rem;
+}
+
+.faq-more__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--inline-space);
+}

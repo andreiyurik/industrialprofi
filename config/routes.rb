@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   root "paths#index"
   get "about" => "pages#about"
+  get "faq" => "pages#faq"
   get "roadmap" => "pages#roadmap"
   get "support_us" => "pages#support_us"
   get "robots.txt" => "sitemaps#robots", defaults: { format: :text }

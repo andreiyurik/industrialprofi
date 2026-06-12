@@ -1,5 +1,5 @@
 <% meta_title(t("about.title")) %>
-<% meta_description(t("about.p1").truncate(160)) %>
+<% meta_description(t("about.intro1").truncate(160)) %>
 <% canonical_url("#{site_config.url}/about") %>
 
 <section class="section">
@@ -10,17 +10,28 @@
 
       <div class="about-letter__body">
         <p class="about-letter__greeting"><%= t("about.greeting") %></p>
-        <% (1..4).each do |i| %>
-          <p><%= t("about.p#{i}") %></p>
-        <% end %>
-        <p><%= t("about.p_global1_html") %></p>
-        <p><%= t("about.p_global2_html") %></p>
-        <p><%= t("about.p5") %></p>
-        <p><%= t("about.p_practice_html") %></p>
-        <p><%= t("about.p6") %></p>
-        <p><%= t("about.p7") %></p>
-        <p><%= t("about.p8_html", github_url: site_config.github_url) %></p>
-        <p><%= t("about.p9") %></p>
+        <p><%= t("about.intro1") %></p>
+        <p><%= t("about.intro2") %></p>
+
+        <h2 class="about-letter__heading"><%= t("about.problem_title") %></h2>
+        <p><%= t("about.problem1") %></p>
+        <p><%= t("about.problem2_html") %></p>
+        <p class="about-letter__highlight"><%= t("about.highlight_deficit") %></p>
+
+        <h2 class="about-letter__heading"><%= t("about.chance_title") %></h2>
+        <p><%= t("about.chance1") %></p>
+        <p class="about-letter__highlight"><%= t("about.highlight_chance") %></p>
+        <p><%= t("about.chance2_html") %></p>
+
+        <h2 class="about-letter__heading"><%= t("about.how_title") %></h2>
+        <p><%= t("about.how1") %></p>
+        <p><%= t("about.how2") %></p>
+
+        <h2 class="about-letter__heading"><%= t("about.vision_title") %></h2>
+        <p><%= t("about.vision1_html", github_url: site_config.github_url) %></p>
+        <p class="about-letter__highlight"><%= t("about.highlight_world") %></p>
+        <p><%= t("about.invite") %></p>
+        <p><%= t("about.closing") %></p>
       </div>
 
       <div class="about-letter__signature">

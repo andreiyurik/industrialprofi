@@ -6,7 +6,11 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1.about-letter__title", text: I18n.t("about.title")
     assert_select ".about-letter__sign-name", text: I18n.t("about.signature_name")
-    assert_includes @response.body, I18n.t("about.p1")
+    assert_includes @response.body, I18n.t("about.intro1")
+    # the letter's structure: section subheads + pulled-out key thoughts
+    assert_select "h2.about-letter__heading", count: 4
+    assert_select "p.about-letter__highlight", count: 3
+    assert_includes @response.body, "экспертом мирового уровня"
   end
 
   test "about page links to professions and support" do
@@ -41,5 +45,20 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "footer exposes the roadmap link on every page" do
     get root_path
     assert_select "footer.footer a[href=?]", roadmap_path, text: I18n.t("nav.roadmap")
+  end
+
+  test "faq page renders every question with FAQPage structured data" do
+    get faq_path
+
+    assert_response :success
+    assert_select ".faq-item__question", count: I18n.t("faq.items").size
+    # the honest "no certificates" answer must be there
+    assert_match "аттестации НАКС выдают только аккредитованные", response.body
+    assert_select "script[type='application/ld+json']", text: /FAQPage/
+  end
+
+  test "footer exposes the faq link on every page" do
+    get root_path
+    assert_select "footer.footer a[href=?]", faq_path, text: I18n.t("nav.faq")
   end
 end

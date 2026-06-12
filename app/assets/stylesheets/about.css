@@ -37,6 +37,28 @@
   font-weight: 600;
 }
 
+/* Section subheads inside the letter — uppercase display type carries the
+   emphasis, so the text itself never has to shout. */
+.about-letter__heading {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin-block: 2.75rem 1.1rem;
+  text-transform: uppercase;
+}
+
+/* A key thought pulled out of the flow — ink rail, larger and bolder. */
+.about-letter__highlight {
+  border-inline-start: 3px solid var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-block: 1.9rem;
+  padding-inline-start: 1.1rem;
+}
+
 .about-letter__signature {
   margin-block-start: 2.5rem;
 }

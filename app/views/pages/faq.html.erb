@@ -1,0 +1,53 @@
+<% meta_title(t("faq.title")) %>
+<% meta_description(t("faq.intro").truncate(160)) %>
+<% canonical_url("#{site_config.url}/faq") %>
+
+<%# FAQPage structured data — the Q&A below is exactly what people google. %>
+<% content_for :head do %>
+  <script type="application/ld+json">
+    <%= {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: t("faq.items").map { |item|
+        {
+          "@type": "Question",
+          name: item[:q],
+          acceptedAnswer: { "@type": "Answer", text: strip_tags(item[:a_html]) }
+        }
+      }
+    }.to_json.html_safe %>
+  </script>
+<% end %>
+
+<section class="section">
+  <div class="container container--reading">
+    <div class="faq">
+      <p class="faq__eyebrow"><%= t("faq.eyebrow") %></p>
+      <h1 class="faq__title"><%= t("faq.title") %></h1>
+      <p class="faq__intro"><%= t("faq.intro") %></p>
+
+      <div class="faq-list">
+        <% t("faq.items").each do |item| %>
+          <details class="faq-item">
+            <summary class="faq-item__question"><%= item[:q] %></summary>
+            <div class="faq-item__answer">
+              <%= sanitize item[:a_html], tags: %w[a strong em p br], attributes: %w[href target rel] %>
+            </div>
+          </details>
+        <% end %>
+      </div>
+
+      <div class="faq-more panel">
+        <p class="faq-more__text"><%= t("faq.more_text") %></p>
+        <div class="faq-more__links">
+          <% if signed_in? %>
+            <%= link_to t("faq.more_write"), new_feedback_path, class: "btn btn--reversed" %>
+          <% else %>
+            <%= link_to t("faq.more_telegram"), site_config.telegram_url, class: "btn btn--reversed", target: "_blank", rel: "noopener" %>
+          <% end %>
+          <%= link_to t("faq.more_about"), about_path, class: "btn" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
