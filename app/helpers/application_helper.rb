@@ -15,8 +15,8 @@ module ApplicationHelper
   PATH_ICON_TOKENS = {
     "elektrik" => "bolt",        # lightning
     "svarshchik" => "helmet",    # welding mask / PPE
-    "santehnik" => "droplet",    # water / plumbing
-    "inzhener-asu-tp" => "cpu"   # controllers / PLC
+    "inzhener-asu-tp" => "cpu",   # controllers / PLC
+    "kipia-aes" => "gauge"        # instrumentation / КИП gauge
   }.freeze
 
   def path_icon_token(path)
