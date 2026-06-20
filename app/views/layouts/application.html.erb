@@ -41,7 +41,10 @@
   <body>
     <header class="header">
       <nav class="container header__nav">
-        <%= link_to t("site.name"), root_path, class: "brand header__brand" %>
+        <%= link_to root_path, class: "brand header__brand" do %>
+          <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", aria: { hidden: "true" } %>
+          <span class="brand__text"><%= t("site.name") %></span>
+        <% end %>
         <div class="header__links">
           <%= link_to t("nav.professions"), paths_path, class: "nav__link",
                 aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } %>
@@ -120,7 +123,8 @@
       <div class="container footer__inner">
         <div class="footer__brand-block">
           <a href="<%= root_path %>" class="brand">
-            <%= t("site.name") %>
+            <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", aria: { hidden: "true" } %>
+            <span class="brand__text"><%= t("site.name") %></span>
           </a>
           <p class="footer__tagline"><%= t("site.tagline") %></p>
         </div>

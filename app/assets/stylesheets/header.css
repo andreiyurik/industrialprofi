@@ -36,13 +36,26 @@
 }
 
 .brand {
+  --brand-mark-height: 1.3em;
+  align-items: center;
   color: var(--color-ink);
+  column-gap: 0.5rem;
+  display: inline-flex;
   font-family: var(--font-display);
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   text-decoration: none;
   text-transform: none;
+}
+
+/* Brand lockup: the RJ45 mark "plugs into" the wordmark. The mark scales with
+   the wordmark via an em-based height; the source PNG is far larger than any
+   render size, so it stays crisp on hi-dpi. */
+.brand__mark {
+  display: block;
+  height: var(--brand-mark-height);
+  width: auto;
 }
 
 .nav__link {
