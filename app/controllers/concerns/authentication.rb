@@ -42,7 +42,7 @@ module Authentication
     end
 
     def request_authentication
-      session[:return_to_after_authenticating] = request.url if request.get?
+      session[:return_to_after_authenticating] = request.url if request.get? || request.head?
       redirect_to new_session_path, alert: t("auth.sign_in_required")
     end
 
