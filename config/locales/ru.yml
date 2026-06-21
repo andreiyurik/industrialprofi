@@ -176,6 +176,8 @@ ru:
     empty_filtered: "По выбранным фильтрам ничего не нашлось."
     reset_filters: "Сбросить фильтры"
     filters_label: "Фильтры проектов"
+    path_filter_label: "Профессия"
+    apply_filter: "Показать"
     all_paths: "Все профессии"
     any_difficulty: "Любая сложность"
     done: "Выполнено"
@@ -321,7 +323,7 @@ ru:
     support: "Поддержать"
     resources: "Ресурсы"
     standards: "Стандарты"
-    copyright_html: '© %{year} industrialprofi.com · Создано <a href="%{author_url}" class="footer__author" target="_blank" rel="noopener">Андреем Юриком</a>'
+    copyright_html: '© %{year} industrialprofi.com · Создано <a href="%{author_url}" class="link-quiet link-quiet--underline" target="_blank" rel="noopener">Андреем Юриком</a>'
 
   support_cta:
     title: "Поддержи проект!"

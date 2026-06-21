@@ -1,5 +1,7 @@
-/* /projects — the practice catalog: filter chips + a roadmap.sh-style grid of
-   square-ish project cards. Filters are plain GET links, server-rendered. */
+/* /projects — the practice catalog: a filter bar + a roadmap.sh-style grid of
+   square-ish project cards. The profession axis is a native <select> (scales to
+   any number of paths, real picker on mobile); difficulty + "saved" stay as
+   chips. Server-rendered GET, the select auto-submits. */
 
 .project-filters {
   align-items: center;
@@ -10,6 +12,7 @@
   margin-block-start: 2.5rem;
 }
 
+.project-filters__paths,
 .project-filters__group {
   display: flex;
   flex-wrap: wrap;
@@ -17,13 +20,44 @@
   justify-content: center;
 }
 
-/* Second group (difficulty) gets a hairline divider on wide screens so the two
-   filter axes read as separate controls. */
+.project-filters__paths {
+  flex-wrap: nowrap;
+}
+
+/* The axes after the first get a hairline divider on wide screens so each reads
+   as a separate control. */
 @media (min-width: 640px) {
+  .project-filters__paths + .project-filters__group,
   .project-filters__group + .project-filters__group {
     border-inline-start: 1px solid var(--color-subtle);
     padding-inline-start: 1.75rem;
   }
+}
+
+/* Profession picker — a pill that matches the chip row but carries the native
+   dropdown arrow (themed by color-scheme: dark) as its "more options" affordance. */
+.filter-select {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 2em;
+  color: var(--color-ink);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  max-inline-size: 100%;
+  padding: 0.4em 0.9em;
+  transition: border-color 150ms ease, background-color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      border-color: var(--color-subtle-dark);
+    }
+  }
+}
+
+.filter-select option {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
 }
 
 .filter-chip {

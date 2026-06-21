@@ -12,14 +12,24 @@
     </div>
 
     <nav class="project-filters" aria-label="<%= t("projects.filters_label") %>">
-      <div class="project-filters__group">
-        <%= link_to t("projects.all_paths"), projects_path(difficulty: @selected_difficulty, saved: saved_param),
-                    class: "filter-chip", "aria-current": @selected_path.nil? || nil %>
-        <% @paths.each do |path| %>
-          <%= link_to path.title, projects_path(path: path.slug, difficulty: @selected_difficulty, saved: saved_param),
-                      class: "filter-chip", "aria-current": (@selected_path == path) || nil %>
-        <% end %>
-      </div>
+      <%# Profession is the dimension that grows — a native <select> scales to
+          any number of paths and gives a real picker on mobile. Auto-submits on
+          change; the <noscript> button keeps it working without JS. Difficulty
+          and "saved" ride along as hidden fields so changing path keeps them. %>
+      <%= form_with url: projects_path, method: :get, class: "project-filters__paths",
+                    data: { controller: "auto-submit" } do %>
+        <label class="for-screen-reader" for="project-path"><%= t("projects.path_filter_label") %></label>
+        <select id="project-path" name="path" class="filter-select"
+                data-action="auto-submit#submit">
+          <option value=""><%= t("projects.all_paths") %></option>
+          <% @paths.each do |path| %>
+            <option value="<%= path.slug %>" <%= "selected" if @selected_path == path %>><%= path.title %></option>
+          <% end %>
+        </select>
+        <% if @selected_difficulty %><%= hidden_field_tag :difficulty, @selected_difficulty %><% end %>
+        <% if @saved_only %><%= hidden_field_tag :saved, "1" %><% end %>
+        <noscript><button type="submit" class="btn btn--small"><%= t("projects.apply_filter") %></button></noscript>
+      <% end %>
       <div class="project-filters__group">
         <%= link_to t("projects.any_difficulty"), projects_path(path: @selected_path&.slug, saved: saved_param),
                     class: "filter-chip", "aria-current": @selected_difficulty.nil? || nil %>

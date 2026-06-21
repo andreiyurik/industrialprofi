@@ -16,7 +16,9 @@ module ApplicationHelper
     "elektrik" => "bolt",        # lightning
     "svarshchik" => "helmet",    # welding mask / PPE
     "inzhener-asu-tp" => "cpu",   # controllers / PLC
-    "kipia-aes" => "gauge"        # instrumentation / КИП gauge
+    "kipia-aes" => "gauge",       # instrumentation / КИП gauge
+    "setevoy-inzhener" => "network",        # industrial / OT networks
+    "bezopasnost-asu-tp" => "shield_bolt"   # ICS / OT security
   }.freeze
 
   def path_icon_token(path)

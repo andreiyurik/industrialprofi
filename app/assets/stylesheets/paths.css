@@ -219,6 +219,9 @@
   font-size: 0.95rem;
   line-height: 1.6;
   margin-block: 0;
+  margin-inline: auto;
+  max-inline-size: 60ch;
+  text-align: center;
 }
 
 /* Catalog attention guard: a learner mid-path sees their direction (and one
@@ -258,7 +261,7 @@
   margin-block-end: 2.5rem;
 
   .btn {
-    align-self: flex-start;
+    align-self: center;
 
     svg {
       block-size: 1rem;
@@ -271,4 +274,5 @@
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
   margin-block: -0.5rem 0;
+  text-align: center;
 }
