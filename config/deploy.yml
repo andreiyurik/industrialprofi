@@ -37,6 +37,12 @@ env:
     MAIL_FROM: "IndustrialProfi <no-reply@industrialprofi.com>"
     # MAIL_REPLY_TO: "you@industrialprofi.com"   # TODO: set to a mailbox you read
 
+    # Search-engine ownership verification (optional, public codes — NOT secret).
+    # Get them from Google Search Console / Яндекс.Вебмастер, paste here, redeploy;
+    # then submit https://industrialprofi.com/sitemap.xml in each console.
+    # GOOGLE_SITE_VERIFICATION: "..."
+    # YANDEX_VERIFICATION: "..."
+
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
 

@@ -29,6 +29,20 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "privacy policy page renders all sections" do
+    get privacy_path
+    assert_response :success
+    assert_select "h1.legal__title", text: I18n.t("privacy.title")
+    assert_select "h2.legal__heading", count: 10
+    # The rights section links to account settings (the data-deletion path).
+    assert_select ".legal a[href=?]", account_path
+  end
+
+  test "footer links to the privacy policy on every page" do
+    get root_path
+    assert_select "footer a[href=?]", privacy_path, text: I18n.t("nav.privacy")
+  end
+
   test "roadmap page renders status groups and items" do
     get roadmap_path
     assert_response :success

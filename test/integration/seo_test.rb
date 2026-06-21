@@ -36,6 +36,11 @@ class SeoTest < ActionDispatch::IntegrationTest
     assert_includes response.body, '"@type":"WebSite"'
   end
 
+  test "home page has JSON-LD Organization for brand recognition" do
+    get root_path
+    assert_includes response.body, '"@type":"EducationalOrganization"'
+  end
+
   test "path page has canonical link" do
     get path_path(paths(:electrician))
     assert_select 'link[rel="canonical"]'

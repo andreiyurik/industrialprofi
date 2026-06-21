@@ -9,6 +9,12 @@
     <meta name="description" content="<%= content_for?(:description) ? content_for(:description) : t('site.description') %>">
     <meta name="application-name" content="<%= t('site.name') %>">
     <meta name="robots" content="index, follow">
+    <% if site_config.google_site_verification.present? %>
+      <meta name="google-site-verification" content="<%= site_config.google_site_verification %>">
+    <% end %>
+    <% if site_config.yandex_verification.present? %>
+      <meta name="yandex-verification" content="<%= site_config.yandex_verification %>">
+    <% end %>
     <% if content_for?(:canonical) %>
       <link rel="canonical" href="<%= content_for(:canonical) %>">
     <% end %>
@@ -142,6 +148,7 @@
           <% else %>
             <a href="<%= site_config.telegram_url %>" class="footer__link link-quiet" target="_blank" rel="noopener"><%= t("footer.feedback") %></a>
           <% end %>
+          <a href="<%= privacy_path %>" class="footer__link link-quiet"><%= t("nav.privacy") %></a>
         </nav>
 
         <div class="footer__socials">

@@ -58,6 +58,22 @@ module SeoHelper
     data.to_json
   end
 
+  # Brand entity for the SERP/knowledge graph — ties the name, logo and official
+  # channels together so Google/Yandex recognise "IndustrialProfi" as one org.
+  def organization_json_ld
+    site = Rails.application.config.x.site
+    data = {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      name: SITE_NAME,
+      url: site_url,
+      logo: "#{site_url}/icon.png",
+      description: I18n.t("site.description"),
+      sameAs: [ site.telegram_url, site.github_url ].compact
+    }
+    data.to_json
+  end
+
   private
 
   def site_url

@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get "faq" => "pages#faq"
   get "roadmap" => "pages#roadmap"
   get "support_us" => "pages#support_us"
+  get "privacy" => "pages#privacy"
   get "robots.txt" => "sitemaps#robots", defaults: { format: :text }
   get "sitemap.xml" => "sitemaps#show", defaults: { format: :xml }
 

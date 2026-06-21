@@ -12,4 +12,7 @@ class PagesController < ApplicationController
 
   def support_us
   end
+
+  def privacy
+  end
 end

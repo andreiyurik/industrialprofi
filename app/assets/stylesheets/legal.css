@@ -1,0 +1,46 @@
+/* Long-form legal/prose pages (privacy policy, future terms). Self-contained,
+   reading-width, token-driven — same look as the rest of the site. */
+.legal__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-subtle-dark);
+}
+
+.legal__title {
+  margin-block: var(--block-space-half) var(--block-space);
+}
+
+.legal__updated {
+  margin-bottom: var(--block-space-double);
+  font-size: 0.9rem;
+  color: var(--color-subtle-dark);
+}
+
+.legal__intro {
+  font-size: 1.05rem;
+}
+
+.legal__heading {
+  margin-top: var(--block-space-double);
+  margin-bottom: var(--block-space-half);
+  font-size: 1.25rem;
+}
+
+.legal p {
+  margin-bottom: var(--block-space);
+}
+
+.legal ul {
+  margin-bottom: var(--block-space);
+  padding-left: 1.5em;
+  list-style: disc;
+  display: grid;
+  gap: var(--block-space-half);
+}
+
+.legal a {
+  color: var(--color-link);
+  text-decoration: underline;
+}
