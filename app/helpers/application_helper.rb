@@ -18,7 +18,8 @@ module ApplicationHelper
     "inzhener-asu-tp" => "cpu",   # controllers / PLC
     "kipia-aes" => "gauge",       # instrumentation / КИП gauge
     "setevoy-inzhener" => "network",        # industrial / OT networks
-    "bezopasnost-asu-tp" => "shield_bolt"   # ICS / OT security
+    "bezopasnost-asu-tp" => "shield_bolt",  # ICS / OT security
+    "sysadmin-linux" => "terminal"          # Linux CLI / servers
   }.freeze
 
   def path_icon_token(path)
