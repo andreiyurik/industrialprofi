@@ -11,12 +11,29 @@
       <p class="section-subtitle"><%= t("paths.subtitle") %></p>
     </div>
 
+    <% if @focus_path %>
+      <div class="panel focus-banner">
+        <span class="focus-banner__text">
+          <%= t("paths.focus_banner_html", title: link_to(@focus_path.title, path_path(@focus_path), class: "focus-banner__link")) %>
+        </span>
+        <% if @focus_next_lesson %>
+          <%= link_to @focus_next_lesson, class: "btn btn--small btn--reversed" do %>
+            <%= t("dashboard.continue") %>
+            <%= heroicon "arrow-right", variant: :outline %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
     <% if @paths.any? %>
-      <%= render "path_card", path: @paths.first, featured: true %>
+      <%= render "path_card", path: @paths.first, featured: true,
+            completed_count: @completed_counts.fetch(@paths.first.id, 0) %>
 
       <% if @paths.size > 1 %>
         <div class="card-grid card-grid--3-col">
-          <%= render partial: "path_card", collection: @paths.drop(1), as: :path %>
+          <% @paths.drop(1).each do |path| %>
+            <%= render "path_card", path: path, completed_count: @completed_counts.fetch(path.id, 0) %>
+          <% end %>
         </div>
       <% end %>
     <% end %>

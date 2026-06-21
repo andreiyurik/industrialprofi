@@ -1,0 +1,11 @@
+<%# Targets that aren't on the current page are silently skipped by Turbo, so
+    one response serves both the toggle button and the dashboard row. %>
+<%= turbo_stream.replace dom_id(@lesson, :bookmark) do %>
+  <%= render "lessons/bookmark_button", lesson: @lesson, bookmarked: false %>
+<% end %>
+
+<%= turbo_stream.remove dom_id(@lesson, :bookmark_row) %>
+
+<% if @remaining.zero? %>
+  <%= turbo_stream.remove "dashboard_bookmarks" %>
+<% end %>

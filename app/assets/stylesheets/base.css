@@ -1,10 +1,15 @@
 html, body {
-  --font-sans: system-ui;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Inter Tight", "Inter", system-ui, sans-serif;
   --font-serif: ui-serif, serif;
-  --font-mono: ui-monospace, monospace;
-  --hover-color: var(--color-subtle-dark);
-  --hover-size: 0.15rem;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  --font-technical: "GOST type B", ui-monospace, "SF Mono", Menlo, monospace;
+  --hover-color: var(--color-subtle);
+  --hover-size: 0;
   --hover-filter: brightness(1);
+
+  /* Sticky-header height — the sidebar/TOC rails offset themselves by this. */
+  --header-height: 4rem;
 
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -12,7 +17,9 @@ html, body {
   background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  line-height: 1.4;
+  font-feature-settings: "liga" 1, "calt" 1, "cv05" 1, "cv08" 1;
+  font-optical-sizing: auto;
+  line-height: 1.5;
   overflow: unset;
   scroll-behavior: auto;
   text-rendering: optimizeLegibility;

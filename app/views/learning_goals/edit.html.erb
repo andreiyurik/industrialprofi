@@ -1,0 +1,23 @@
+<% meta_title(t("dashboard.goal.prompt")) %>
+
+<section class="section">
+  <div class="container dashboard">
+    <%= turbo_frame_tag "learning_goal" do %>
+      <%= form_with model: Current.user, url: learning_goal_path, class: "learning-goal-form" do |form| %>
+        <% if Current.user.errors.any? %>
+          <p class="learning-goal-form__error"><%= Current.user.errors.full_messages.to_sentence %></p>
+        <% end %>
+        <%= form.text_area :learning_goal,
+              rows: 2,
+              maxlength: 200,
+              autofocus: true,
+              placeholder: t("dashboard.goal.placeholder"),
+              class: "input input--textarea" %>
+        <div class="learning-goal-form__actions">
+          <%= form.submit t("dashboard.goal.save"), class: "btn btn--reversed" %>
+          <%= link_to t("dashboard.goal.cancel"), dashboard_path, class: "btn" %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</section>

@@ -1,0 +1,24 @@
+<% meta_title(t("feedbacks.title")) %>
+
+<section class="section">
+  <div class="container container--reading">
+    <h1 class="page-title"><%= t("feedbacks.title") %></h1>
+    <p class="feedbacks__intro"><%= t("feedbacks.intro") %></p>
+
+    <%= render "admin/shared/form_errors", object: @feedback %>
+
+    <%= form_with model: @feedback do |f| %>
+      <%= f.hidden_field :page_url %>
+      <div class="admin-form__field admin-form__field--lg">
+        <%= f.label :body, t("feedbacks.body_label") %>
+        <%= f.text_area :body, rows: 8, required: true, maxlength: 5_000,
+              placeholder: t("feedbacks.body_placeholder"), class: "input input--textarea" %>
+      </div>
+      <div class="admin-form__actions">
+        <%= f.submit t("feedbacks.send"), class: "btn btn--reversed" %>
+      </div>
+    <% end %>
+
+    <p class="feedbacks__promise"><%= t("feedbacks.promise") %></p>
+  </div>
+</section>

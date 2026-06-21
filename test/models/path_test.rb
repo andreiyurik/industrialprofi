@@ -82,11 +82,21 @@ class PathTest < ActiveSupport::TestCase
   # Associations
 
   test "has many lessons" do
-    assert_equal 3, paths(:electrician).lessons.count
+    assert_equal 4, paths(:electrician).lessons.count
+  end
+
+  test "has many courses" do
+    assert_equal 3, paths(:electrician).courses.count
   end
 
   test "destroying path destroys lessons" do
-    assert_difference "Lesson.count", -3 do
+    assert_difference "Lesson.count", -4 do
+      paths(:electrician).destroy
+    end
+  end
+
+  test "destroying path destroys courses" do
+    assert_difference "Course.count", -3 do
       paths(:electrician).destroy
     end
   end
@@ -96,8 +106,16 @@ class PathTest < ActiveSupport::TestCase
   test "lessons_count tracks lesson creation" do
     path = Path.create!(title: "Тест", slug: "test-cc", status: "published")
     assert_equal 0, path.lessons_count
-    path.lessons.create!(title: "Урок 1", slug: "cc-1", position: 1)
+    course = path.courses.create!(title: "Курс", slug: "test-cc-course", position: 1)
+    course.lessons.create!(title: "Урок 1", slug: "cc-1", position: 1)
     assert_equal 1, path.reload.lessons_count
+  end
+
+  test "courses_count tracks course creation" do
+    path = Path.create!(title: "Тест2", slug: "test-cc2", status: "published")
+    assert_equal 0, path.courses_count
+    path.courses.create!(title: "Курс", slug: "test-cc2-course", position: 1)
+    assert_equal 1, path.reload.courses_count
   end
 
   # to_param

@@ -1,0 +1,37 @@
+<% meta_title(t("admin.courses_title")) %>
+
+<section class="admin-page">
+  <div class="container">
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-header">
+      <h1 class="admin-header__title"><%= t("admin.courses_title") %></h1>
+    </div>
+
+    <% @paths.each do |path| %>
+      <div class="admin-group">
+        <div class="admin-group__head">
+          <h2 class="admin-group__title"><%= path.title %></h2>
+          <span class="admin-group__meta"><%= russian_pluralize(path.courses_count, :course) %></span>
+        </div>
+        <div class="admin-list">
+          <% path.courses.each do |course| %>
+          <a href="<%= edit_admin_course_path(course) %>" class="admin-row">
+            <span class="admin-row__lead">
+              <span class="admin-row__position"><%= course.position %></span>
+              <span class="admin-row__title"><%= course.title %></span>
+              <span class="badge <%= course.status == 'published' ? 'badge--link' : 'badge--draft' %>">
+                <%= course.status %>
+              </span>
+            </span>
+            <span class="admin-row__meta">
+              <span><%= russian_pluralize(course.lessons_count, :lesson) %></span>
+              <%= heroicon("pencil-square", variant: :outline) %>
+            </span>
+          </a>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

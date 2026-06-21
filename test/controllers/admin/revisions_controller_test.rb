@@ -2,19 +2,20 @@ require "test_helper"
 
 class Admin::RevisionsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @credentials = { "HTTP_AUTHORIZATION" => ActionController::HttpAuthentication::Basic.encode_credentials("admin", "secret") }
+    sign_in_as users(:admin)
     @lesson = lessons(:pteep)
     @lesson.revise!(section: "body", html: "<p>Первая версия</p>", editor_name: "A", edit_reason: nil, source: "admin")
     @lesson.revise!(section: "body", html: "<p>Вторая версия</p>", editor_name: "A", edit_reason: nil, source: "admin")
   end
 
   test "index requires auth" do
+    sign_out
     get admin_lesson_revisions_path(@lesson)
-    assert_response :unauthorized
+    assert_redirected_to new_session_path
   end
 
   test "index lists revisions" do
-    get admin_lesson_revisions_path(@lesson), headers: @credentials
+    get admin_lesson_revisions_path(@lesson)
     assert_response :success
     assert_match I18n.t("revisions.rollback"), response.body
   end
@@ -23,7 +24,7 @@ class Admin::RevisionsControllerTest < ActionDispatch::IntegrationTest
     target = @lesson.lesson_revisions.find_by(version: 1)
 
     assert_difference -> { @lesson.lesson_revisions.count }, 1 do
-      post rollback_admin_lesson_revision_path(@lesson, target), headers: @credentials
+      post rollback_admin_lesson_revision_path(@lesson, target)
     end
 
     assert_includes @lesson.reload.section_html(:body), "Первая версия"

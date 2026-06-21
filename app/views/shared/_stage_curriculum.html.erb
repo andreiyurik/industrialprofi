@@ -1,0 +1,44 @@
+<%# locals: (lessons_by_stage:, completed_ids:) -%>
+<%# The "big block": sections (stages) on a vertical journey rail, each holding
+    its lessons. Shared by the course page. %>
+<div class="curriculum">
+  <% lessons_by_stage.each_with_index do |(stage, lessons), index| %>
+    <% stage_completed = lessons.count { |lesson| completed_ids.include?(lesson.id) } %>
+    <% stage_done = signed_in? && stage_completed == lessons.size %>
+    <div class="curriculum__stage-row">
+    <span class="curriculum__marker<%= " curriculum__marker--done" if stage_done %>" aria-hidden="true">
+      <% if stage_done %>
+        <%= heroicon "check", variant: :outline %>
+      <% else %>
+        <%= index + 1 %>
+      <% end %>
+    </span>
+    <div class="curriculum__section">
+      <% if stage.present? %>
+        <div class="curriculum__header">
+          <h2 class="curriculum__header-title"><%= stage %></h2>
+          <% if signed_in? %>
+            <span class="curriculum__header-count<%= " curriculum__header-count--done" if stage_completed == lessons.size %>">
+              <%= stage_completed %>/<%= lessons.size %>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="curriculum__list">
+        <% lessons.each do |lesson| %>
+          <% done = completed_ids.include?(lesson.id) %>
+          <a href="<%= lesson_path(lesson) %>" class="curriculum__lesson<%= " curriculum__lesson--practice" if lesson.kind == "practice" %><%= " curriculum__lesson--done" if done %>">
+            <% if done %>
+              <%= heroicon "check-circle", variant: :solid %>
+            <% else %>
+              <%= heroicon(lesson.kind == "practice" ? "wrench-screwdriver" : "book-open", variant: :outline) %>
+            <% end %>
+            <span class="curriculum__lesson-title"><%= lesson.title %></span>
+          </a>
+        <% end %>
+      </div>
+    </div>
+    </div>
+  <% end %>
+</div>

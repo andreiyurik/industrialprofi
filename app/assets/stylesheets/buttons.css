@@ -1,22 +1,28 @@
-:root {
-  --btn-size: 2.65em;
-}
-
 .btn {
   align-items: center;
   background-color: var(--btn-background, transparent);
-  border-radius: var(--btn-border-radius, 2em);
-  border: var(--btn-border-size, 1px) solid var(--btn-border-color, var(--color-subtle-dark));
+  border-radius: var(--btn-border-radius, 0.5em);
+  border: var(--btn-border-size, 1px) solid var(--btn-border-color, var(--color-subtle));
   color: var(--btn-color, var(--color-ink));
   cursor: pointer;
   display: inline-flex;
-  font-size: 1em;
-  font-weight: 600;
+  font-size: 0.95em;
+  font-weight: 500;
   gap: var(--btn-gap, 0.5em);
   justify-content: center;
-  padding: var(--btn-padding, 0.5em 1.1em);
+  letter-spacing: -0.01em;
+  padding: var(--btn-padding, 0.55em 1.1em);
   pointer-events: auto;
   text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, opacity 150ms ease;
+
+  /* Outlined (default) button: hover lifts the fill + brightens the border. */
+  @media (any-hover: hover) {
+    &:where(:not([disabled]):hover) {
+      background-color: var(--btn-hover-background, var(--color-subtle-light));
+      border-color: var(--btn-hover-border, var(--color-subtle-dark));
+    }
+  }
 
   &:where(:has(img, svg)) {
     text-align: start;
@@ -48,12 +54,6 @@
   --outline-color: var(--color-ink);
 }
 
-.btn--marker {
-  --btn-background: var(--color-marker);
-  --btn-color: var(--color-ink-reversed);
-  --outline-color: var(--color-marker);
-}
-
 .btn--negative {
   --btn-background: var(--color-negative);
   --btn-color: var(--color-ink-reversed);
@@ -66,8 +66,17 @@
   --outline-color: var(--color-positive);
 }
 
-:is(.btn--reversed, .btn--marker, .btn--negative, .btn--positive) {
-  --btn-border-color: var(--color-bg);
+:is(.btn--reversed, .btn--negative, .btn--positive) {
+  --btn-border-color: var(--btn-background);
+
+  /* Filled buttons keep their fill and just dim slightly on hover. */
+  @media (any-hover: hover) {
+    &:where(:not([disabled]):hover) {
+      --btn-hover-background: var(--btn-background);
+      --btn-hover-border: var(--btn-background);
+      opacity: 0.85;
+    }
+  }
 }
 
 /* Sizes */

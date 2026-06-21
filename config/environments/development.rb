@@ -34,6 +34,10 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
+  # No SMTP in development — the full mail (with the password-reset link)
+  # is printed to the log instead.
+  config.action_mailer.delivery_method = :test
+
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
 

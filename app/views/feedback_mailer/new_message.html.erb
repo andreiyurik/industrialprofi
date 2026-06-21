@@ -1,0 +1,9 @@
+<p><strong><%= t("feedback_mailer.new_message.from") %>:</strong> <%= @user.name %> (<%= @user.email_address %>)</p>
+<% if @feedback.page_url.present? %>
+  <p><strong><%= t("feedback_mailer.new_message.page") %>:</strong> <%= link_to @feedback.page_url, @feedback.page_url %></p>
+<% end %>
+
+<%= simple_format(@feedback.body) %>
+
+<hr>
+<p><%= t("feedback_mailer.new_message.reply_hint") %> <%= link_to t("admin.manage_feedbacks"), admin_feedbacks_url %></p>

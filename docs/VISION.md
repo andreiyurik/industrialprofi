@@ -21,7 +21,7 @@ A free, open platform for industrial professions. Each profession has a structur
 
 ### Primary References
 
-- **The Odin Project** (theodinproject.com) — the model for everything: content structure (paths → courses → lessons), progress tracking, community-driven content, donation-based business model, design system (dark theme, teal+gold palette, Inter font). What Odin does for web developers, IndustrialProfi does for industrial workers.
+- **The Odin Project** (theodinproject.com) — the model for everything: content structure (paths → courses → lessons), progress tracking, community-driven content, donation-based business model. What Odin does for web developers, IndustrialProfi does for industrial workers. (Visually we follow Basecamp's open-source apps, not Odin's palette.)
 - **roadmap.sh** — the model for career path structure: visual profession maps showing what to learn and in what order. We adapt this as text-based stage→skill hierarchies instead of interactive graphs.
 
 ### Core Belief
@@ -57,6 +57,25 @@ Focus on professions with proven global demand. BlackRock's $100M Future Builder
 - Industrial mechanics (maintenance)
 - Power plant operators (energy)
 
+### Positioning decision (June 2026): narrow wedge, wide ceiling
+
+- **Wedge (today):** industrial trades only. The homepage, tagline and catalog
+  speak strictly about what actually exists — a "platform for everything" with
+  three maps reads as an empty catalog and burns trust.
+- **Ceiling (the vision):** any in-demand profession where hands-on practice
+  decides — builders, farmers, mechanics, beyond. The architecture is already
+  profession-agnostic (Path/Course/Lesson, expert roles, standards + practice +
+  journal carry no "industrial" assumptions).
+- **Expansion mechanism: expert-driven, not founder-driven.** The founder
+  builds well only what he has worked in (АСУ ТП, industrial). A new profession
+  arrives when a real practitioner co-authors its map (trust ladder: suggest
+  edits → editor → author, first maps co-built through seeds). The wide vision
+  is stated where future co-authors read — the founder letter (/about), the FAQ
+  expert item, the public roadmap — NOT in the marketing copy.
+- **No renaming.** The IndustrialProfi name may eventually feel narrow for,
+  say, farmers — that's a problem for the day a real non-industrial expert
+  shows up, not before.
+
 ### Target users:
 - Workers in CIS wanting to grow in their profession systematically
 - Labor migrants (Uzbekistan, Tajikistan, Kyrgyzstan → Russia, Kazakhstan) who need to prove skills across borders
@@ -79,6 +98,11 @@ A school gives a 500-page textbook. We give: "read these 3 pages of ПУЭ and d
 4. **Zero filler** — every lesson has a concrete purpose
 
 ## Content Architecture
+
+> **This document is the product intent, not a status ledger.** What has
+> actually shipped (and how naming evolved during the build) is tracked in one
+> place: the status note at the top of `docs/MVP.md`. The codebase conventions
+> live in `CLAUDE.md`.
 
 ### Hierarchy: Profession → Course → Lesson
 
@@ -215,22 +239,32 @@ Each seeded roadmap must have: all courses filled, real standard references, at 
 
 ## Business Model
 
-**Open core.** The learning platform is free and open-source (AGPL-3.0) — that's
-the reputation engine and the acquisition funnel. Money is charged for *outcomes*,
-never for *entry*: learning is always free, you only pay for proof that has
-real-world value.
+**Open core, monetization deliberately deferred (founder decision, June 2026).**
+The learning platform is free and open-source (AGPL-3.0) — that's the reputation
+engine and the acquisition funnel. Two principles are fixed; everything else is
+an option to be validated against real users:
 
-- **Free & open:** all paths, courses, lessons, and progress tracking. Forever.
-- **Donations:** a footer link, like The Odin Project / Wikipedia — a bonus, not
-  the model (donations barely sustain anything in the CIS market — don't count on them).
-- **Paid, hosted, demand-gated (see `docs/MVP.md` v0.4+):** verified completion
-  certificates for employers, and later an employer/candidate board. The hosted
-  issuance + verification registry is the commercial layer; the platform code
-  stays open. Self-hosters run the platform freely but can't issue
-  *IndustrialProfi-verified* credentials — the moat is the registry + brand, not
-  secret code.
-- **Sequencing:** every monetization decision comes *after* real user data and
-  proven value — never a paywall at the door of an unproven, empty platform.
+1. **The materials are free and open. Forever.** All paths, courses, lessons,
+   progress tracking. Never a paywall at the door — money, if any, is charged
+   for *outcomes and services around* the content, never for *entry*.
+2. **Retention and user satisfaction come before revenue.** The near-term
+   metrics that matter are: do people come back, do they complete lessons, do
+   they recommend it. A trusted platform can be monetized later; a monetized
+   but untrusted one cannot be fixed.
+
+Candidate revenue paths, in rough order of fit (none scheduled — all
+demand-gated, see `docs/MVP.md`):
+
+- **B2B — training centers and employers.** Учебные центры use the platform as
+  their structured learning environment; предприятия get cohort tracking for
+  their own workers (corporate training budgets exist and are mandated by
+  labor law). This is where real money in this niche lives. The content the
+  companies' workers learn from stays public.
+- **Verified completion certificates** (the original v0.4 plan — kept as a
+  recorded design, deferred): pay to *issue* a verifiable document, learning
+  and verification stay free.
+- **Donations:** a footer link, like The Odin Project / Wikipedia — a bonus,
+  not the model (donations barely sustain anything in the CIS market).
 - Telegram for direct feedback and community building.
 
 ## Principles

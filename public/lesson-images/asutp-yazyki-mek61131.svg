@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 360" role="img" aria-label="Пять языков МЭК 61131-3: LD (контакты и катушка), FBD (блоки со связями), ST (текст с IF/THEN), IL (ассемблер-подобный, устарел), SFC (шаги и переходы), у каждого подпись когда применять">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .preview{fill:#0e0e0e;stroke:#2e2e2e;stroke-width:1.25}
+    .wire{stroke:#7d7d7d;stroke-width:1.5;fill:none}
+    .rail{stroke:#a1a1a1;stroke-width:1.75;fill:none}
+    .acc{stroke:#3d9bff;stroke-width:1.5;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .lng{font-size:13px;font-weight:700;fill:#3d9bff}
+    .sub{fill:#a1a1a1;font-size:10.5px}
+    .mono{font-family:'Segoe UI',monospace;font-size:9px;fill:#a1a1a1}
+    .dep{font-size:9px;font-weight:700;fill:#f25a4e}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <text class="ttl" x="430" y="22" text-anchor="middle">МЭК 61131-3 — пять языков программирования ПЛК</text>
+
+  <!-- ===== LD ===== -->
+  <rect class="box" x="14" y="40" width="155" height="300" rx="10"/>
+  <text class="lng" x="91.5" y="62" text-anchor="middle">LD</text>
+  <text class="sub" x="91.5" y="78" text-anchor="middle">Ladder Diagram</text>
+  <text class="sub" x="91.5" y="92" text-anchor="middle">релейная схема</text>
+  <rect class="preview" x="28" y="104" width="127" height="86" rx="6"/>
+  <!-- two power rails -->
+  <path class="rail" d="M44 116 V178"/>
+  <path class="rail" d="M139 116 V178"/>
+  <!-- rung with NO + NC contacts and a coil -->
+  <path class="wire" d="M44 138 H62"/>
+  <path class="wire" d="M75 138 H92"/>
+  <path class="wire" d="M105 138 H125"/>
+  <!-- NO contact -->
+  <path class="wire" d="M62 130 V146"/>
+  <path class="wire" d="M75 130 V146"/>
+  <!-- NC contact (with slash) -->
+  <path class="wire" d="M92 130 V146"/>
+  <path class="wire" d="M105 130 V146"/>
+  <path class="acc" d="M93 146 L104 130"/>
+  <!-- coil -->
+  <circle cx="132" cy="138" r="7" fill="none" stroke="#3d9bff" stroke-width="1.5"/>
+  <text class="sub" x="91.5" y="210" text-anchor="middle">когда применять:</text>
+  <text class="sub" x="91.5" y="225" text-anchor="middle">булева логика,</text>
+  <text class="sub" x="91.5" y="239" text-anchor="middle">блокировки,</text>
+  <text class="sub" x="91.5" y="253" text-anchor="middle">простое</text>
+  <text class="sub" x="91.5" y="267" text-anchor="middle">управление</text>
+
+  <!-- ===== FBD ===== -->
+  <rect class="box" x="183" y="40" width="155" height="300" rx="10"/>
+  <text class="lng" x="260.5" y="62" text-anchor="middle">FBD</text>
+  <text class="sub" x="260.5" y="78" text-anchor="middle">Function Block</text>
+  <text class="sub" x="260.5" y="92" text-anchor="middle">функц. схема</text>
+  <rect class="preview" x="197" y="104" width="127" height="86" rx="6"/>
+  <!-- two blocks connected -->
+  <rect x="208" y="124" width="38" height="30" rx="3" fill="#161616" stroke="#3d9bff" stroke-width="1.5"/>
+  <rect x="276" y="134" width="38" height="30" rx="3" fill="#161616" stroke="#3d9bff" stroke-width="1.5"/>
+  <path class="wire" d="M196 132 H208"/>
+  <path class="wire" d="M196 146 H208"/>
+  <path class="wire" d="M246 139 H276" marker-end="url(#ah)"/>
+  <path class="wire" d="M314 149 H326"/>
+  <text class="sub" x="260.5" y="210" text-anchor="middle">когда применять:</text>
+  <text class="sub" x="260.5" y="225" text-anchor="middle">обработка</text>
+  <text class="sub" x="260.5" y="239" text-anchor="middle">сигналов,</text>
+  <text class="sub" x="260.5" y="253" text-anchor="middle">регулирование,</text>
+  <text class="sub" x="260.5" y="267" text-anchor="middle">наглядные алг.</text>
+
+  <!-- ===== ST ===== -->
+  <rect class="box" x="352" y="40" width="155" height="300" rx="10"/>
+  <text class="lng" x="429.5" y="62" text-anchor="middle">ST</text>
+  <text class="sub" x="429.5" y="78" text-anchor="middle">Structured Text</text>
+  <text class="sub" x="429.5" y="92" text-anchor="middle">как Pascal</text>
+  <rect class="preview" x="366" y="104" width="127" height="86" rx="6"/>
+  <text class="mono" x="376" y="124">IF x &gt; 4.0 THEN</text>
+  <text class="mono" x="376" y="138">  y := k * x;</text>
+  <text class="mono" x="376" y="152">END_IF;</text>
+  <text class="mono" x="376" y="170">FOR i:=0 TO n DO</text>
+  <text class="mono" x="376" y="184">  s := s + a[i];</text>
+  <text class="sub" x="429.5" y="210" text-anchor="middle">когда применять:</text>
+  <text class="sub" x="429.5" y="225" text-anchor="middle">вычисления,</text>
+  <text class="sub" x="429.5" y="239" text-anchor="middle">циклы,</text>
+  <text class="sub" x="429.5" y="253" text-anchor="middle">сложная</text>
+  <text class="sub" x="429.5" y="267" text-anchor="middle">логика</text>
+
+  <!-- ===== IL ===== -->
+  <rect class="box" x="521" y="40" width="155" height="300" rx="10"/>
+  <text class="lng" x="598.5" y="62" text-anchor="middle">IL</text>
+  <text class="sub" x="598.5" y="78" text-anchor="middle">Instruction List</text>
+  <text class="dep" x="598.5" y="92" text-anchor="middle">устарел</text>
+  <rect class="preview" x="535" y="104" width="127" height="86" rx="6"/>
+  <text class="mono" x="545" y="124">LD   x</text>
+  <text class="mono" x="545" y="138">GT   4.0</text>
+  <text class="mono" x="545" y="152">JMPC end</text>
+  <text class="mono" x="545" y="166">MUL  k</text>
+  <text class="mono" x="545" y="180">ST   y</text>
+  <text class="sub" x="598.5" y="210" text-anchor="middle">когда применять:</text>
+  <text class="dep" x="598.5" y="227" text-anchor="middle">не использовать</text>
+  <text class="sub" x="598.5" y="241" text-anchor="middle">в новых</text>
+  <text class="sub" x="598.5" y="255" text-anchor="middle">проектах —</text>
+  <text class="sub" x="598.5" y="269" text-anchor="middle">заменён ST</text>
+
+  <!-- ===== SFC ===== -->
+  <rect class="box" x="690" y="40" width="156" height="300" rx="10"/>
+  <text class="lng" x="768" y="62" text-anchor="middle">SFC</text>
+  <text class="sub" x="768" y="78" text-anchor="middle">Sequential FC</text>
+  <text class="sub" x="768" y="92" text-anchor="middle">как блок-схема</text>
+  <rect class="preview" x="704" y="104" width="128" height="86" rx="6"/>
+  <!-- step - transition - step chain -->
+  <rect x="748" y="112" width="40" height="16" rx="2" fill="#161616" stroke="#3d9bff" stroke-width="1.5"/>
+  <path class="wire" d="M768 128 V138"/>
+  <path class="acc" d="M760 138 H776"/>
+  <path class="wire" d="M768 138 V150"/>
+  <rect x="748" y="150" width="40" height="16" rx="2" fill="#161616" stroke="#3d9bff" stroke-width="1.5"/>
+  <path class="wire" d="M768 166 V174"/>
+  <path class="acc" d="M760 174 H776"/>
+  <path class="wire" d="M768 174 V182" marker-end="url(#ah)"/>
+  <text class="sub" x="768" y="210" text-anchor="middle">когда применять:</text>
+  <text class="sub" x="768" y="225" text-anchor="middle">пошаговые</text>
+  <text class="sub" x="768" y="239" text-anchor="middle">процессы,</text>
+  <text class="sub" x="768" y="253" text-anchor="middle">запуск установки</text>
+  <text class="sub" x="768" y="267" text-anchor="middle">по этапам</text>
+
+  <text class="sub" x="430" y="320" text-anchor="middle">Два текстовых (ST, IL), два графических (LD, FBD) и один для последовательностей (SFC) — навык переносится между вендорами</text>
+</svg>

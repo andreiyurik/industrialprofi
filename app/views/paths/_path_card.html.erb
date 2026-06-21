@@ -1,12 +1,28 @@
-<%# locals: (path:, featured: false) -%>
-<a href="<%= path_path(path) %>" class="panel panel--hover path-card<%= " path-card--featured" if featured %>">
-  <span class="path-card__icon"><%= topic_icon_svg(path_icon_token(path)) %></span>
-  <div class="path-card__body">
-    <h2 class="panel__title path-card__title"><%= path.title %></h2>
-    <p class="panel__description"><%= path.description %></p>
-    <div class="path-card__footer">
-      <span class="path-card__meta"><%= russian_pluralize(path.lessons_count, :lesson) %></span>
-      <span class="path-card__arrow" aria-hidden="true"><%= heroicon "arrow-right", variant: :outline %></span>
+<%# locals: (path:, featured: false, completed_count: 0) -%>
+<% if path.coming_soon? %>
+  <div class="panel path-card path-card--soon<%= " path-card--featured" if featured %>" aria-disabled="true">
+    <span class="path-card__icon"><%= topic_icon_svg(path_icon_token(path)) %></span>
+    <div class="path-card__body">
+      <h2 class="panel__title path-card__title"><%= path.title %></h2>
+      <p class="panel__description"><%= path.description %></p>
+      <div class="path-card__footer">
+        <span class="badge badge--draft"><%= t("paths.coming_soon") %></span>
+      </div>
     </div>
   </div>
-</a>
+<% else %>
+  <a href="<%= path_path(path) %>" class="panel panel--hover path-card<%= " path-card--featured" if featured %>">
+    <span class="path-card__icon"><%= topic_icon_svg(path_icon_token(path)) %></span>
+    <div class="path-card__body">
+      <h2 class="panel__title path-card__title"><%= path.title %></h2>
+      <p class="panel__description"><%= path.description %></p>
+      <% if completed_count.positive? %>
+        <%= render "shared/progress_bar", completed: completed_count, total: path.lessons_count %>
+      <% end %>
+      <div class="path-card__footer">
+        <span class="path-card__meta"><%= russian_pluralize(path.lessons_count, :lesson) %></span>
+        <span class="path-card__arrow" aria-hidden="true"><%= heroicon "arrow-right", variant: :outline %></span>
+      </div>
+    </div>
+  </a>
+<% end %>

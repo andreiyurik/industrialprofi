@@ -1,0 +1,198 @@
+/* /projects — the practice catalog: a filter bar + a roadmap.sh-style grid of
+   square-ish project cards. The profession axis is a native <select> (scales to
+   any number of paths, real picker on mobile); difficulty + "saved" stay as
+   chips. Server-rendered GET, the select auto-submits. */
+
+.project-filters {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.75rem;
+  justify-content: center;
+  margin-block-start: 2.5rem;
+}
+
+.project-filters__paths,
+.project-filters__group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.project-filters__paths {
+  flex-wrap: nowrap;
+}
+
+/* The axes after the first get a hairline divider on wide screens so each reads
+   as a separate control. */
+@media (min-width: 640px) {
+  .project-filters__paths + .project-filters__group,
+  .project-filters__group + .project-filters__group {
+    border-inline-start: 1px solid var(--color-subtle);
+    padding-inline-start: 1.75rem;
+  }
+}
+
+/* Profession picker — a pill that matches the chip row but carries the native
+   dropdown arrow (themed by color-scheme: dark) as its "more options" affordance. */
+.filter-select {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 2em;
+  color: var(--color-ink);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  max-inline-size: 100%;
+  padding: 0.4em 0.9em;
+  transition: border-color 150ms ease, background-color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      border-color: var(--color-subtle-dark);
+    }
+  }
+}
+
+.filter-select option {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+}
+
+.filter-chip {
+  border: 1px solid var(--color-subtle);
+  border-radius: 2em;
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  padding: 0.35em 1em;
+  text-decoration: none;
+  transition: border-color 150ms ease, color 150ms ease, background-color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      border-color: var(--color-subtle-dark);
+      color: var(--color-ink);
+    }
+  }
+}
+
+/* Selected filter — filled ink, same state language as the course sidebar's
+   current row. */
+.filter-chip[aria-current] {
+  background-color: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-bg);
+  font-weight: 600;
+}
+
+/* The «Сохранённые» chip carries a bookmark glyph. */
+.filter-chip--saved {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.4em;
+
+  svg {
+    block-size: 1em;
+    inline-size: 1em;
+  }
+}
+
+.project-filters__count {
+  color: var(--color-subtle-dark);
+  flex-basis: 100%;
+  font-size: 0.85rem;
+  margin-block: 0;
+  text-align: center;
+}
+
+/* ── The grid ──────────────────────────────────────────────────────── */
+.project-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  margin-block-start: 2rem;
+}
+
+/* The card is one big <a>; the bookmark button is its SIBLING (a button can't
+   live inside a link), absolutely positioned over the top-right corner. */
+.project-card-wrap {
+  display: flex; /* the inner card stretches to the grid row height */
+  position: relative;
+}
+
+.project-card-wrap .bookmark-toggle {
+  inset-block-start: 1.1em;
+  inset-inline-end: 1.25em;
+  position: absolute;
+}
+
+/* Card corner: icon only — the label would fight the difficulty badge. */
+.project-card-wrap .bookmark-btn__label {
+  display: none;
+}
+
+.project-card-wrap .bookmark-btn svg {
+  block-size: 1.2rem;
+  inline-size: 1.2rem;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.project-card__top {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-block-end: 0.9rem;
+  /* keep the done check clear of the corner bookmark */
+  padding-inline-end: 1.9rem;
+}
+
+.project-card__done {
+  color: var(--color-positive);
+  display: inline-flex;
+
+  svg {
+    block-size: 1.3rem;
+    inline-size: 1.3rem;
+  }
+}
+
+.project-card__title {
+  font-size: 1.05em;
+}
+
+/* Keep cards near-square: clamp the WHY sentence to three lines. */
+.project-card__description {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  flex-grow: 1;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.project-card__footer {
+  align-items: center;
+  border-block-start: 1px solid var(--color-subtle);
+  display: flex;
+  justify-content: space-between;
+  margin-block-start: 1.25rem;
+  padding-block-start: 0.9rem;
+}
+
+.project-card__path {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  font-size: 0.8rem;
+  gap: 0.45em;
+
+  svg {
+    block-size: 1rem;
+    inline-size: 1rem;
+  }
+}

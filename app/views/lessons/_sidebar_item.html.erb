@@ -1,0 +1,17 @@
+<%# locals: (lesson:, current_lesson:, completed_ids:) -%>
+<% done = completed_ids.include?(lesson.id) %>
+<li>
+  <%= link_to lesson_path(lesson),
+        class: "lesson-sidebar__item#{" lesson-sidebar__item--done" if done}",
+        aria: { current: ("page" if lesson.id == current_lesson.id) } do %>
+    <span class="lesson-sidebar__kind" aria-hidden="true">
+      <%= heroicon(lesson.kind == "practice" ? "wrench-screwdriver" : "book-open", variant: :outline) %>
+    </span>
+    <span class="lesson-sidebar__item-title"><%= lesson.title %></span>
+    <% if signed_in? %>
+      <span class="lesson-sidebar__status" title="<%= done ? t("lessons.completed") : t("lessons.not_completed") %>">
+        <%= heroicon "check-circle", variant: :solid %>
+      </span>
+    <% end %>
+  <% end %>
+</li>

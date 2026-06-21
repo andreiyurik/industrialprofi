@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 488" role="img" aria-label="Зонирование сети АСУ ТП: три зоны — полевая (ПЛК, датчики), технологическая (SCADA), корпоративная (офис, ERP, интернет); между зонами межсетевые экраны и однонаправленный дата-диод, прямого пути из интернета к ПЛК нет">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .danger{fill:#241110;stroke:#f25a4e;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .zttl{font-size:13px;font-weight:700;fill:#a1a1a1}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .small{font-size:10px;fill:#ededed}
+    .nope{fill:#f25a4e;font-size:11px;font-weight:700}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+    <marker id="ahb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3d9bff"/></marker>
+  </defs>
+
+  <!-- Zone 3: Corporate (top) -->
+  <rect class="box" x="20" y="20" width="660" height="92" rx="10"/>
+  <text class="zttl" x="40" y="42">КОРПОРАТИВНАЯ ЗОНА</text>
+  <text class="sub" x="40" y="58">офис · ERP · интернет</text>
+  <rect class="box" x="320" y="56" width="100" height="40" rx="8"/>
+  <text class="small" x="370" y="80" text-anchor="middle">Офис / ERP</text>
+  <rect class="box" x="440" y="56" width="100" height="40" rx="8"/>
+  <text class="small" x="490" y="80" text-anchor="middle">Интернет</text>
+
+  <!-- Firewall 1 between corporate and technological -->
+  <rect class="dec" x="40" y="128" width="120" height="34" rx="8"/>
+  <text class="ttl" x="100" y="150" text-anchor="middle" fill="#3d9bff">МЭ</text>
+  <text class="sub" x="180" y="143">Межсетевой экран</text>
+  <text class="sub" x="180" y="157">фильтрация трафика</text>
+
+  <!-- Data diode -->
+  <rect class="dec" x="470" y="128" width="170" height="34" rx="8"/>
+  <text class="ttl" x="555" y="150" text-anchor="middle" fill="#3d9bff">Дата-диод (однонаправленный)</text>
+
+  <!-- Zone 2: Technological (middle) -->
+  <rect class="box" x="20" y="178" width="660" height="92" rx="10"/>
+  <text class="zttl" x="40" y="200">ТЕХНОЛОГИЧЕСКАЯ ЗОНА</text>
+  <text class="sub" x="40" y="216">SCADA · АРМ оператора · серверы</text>
+  <rect class="box" x="320" y="214" width="120" height="40" rx="8"/>
+  <text class="small" x="380" y="231" text-anchor="middle">SCADA-сервер</text>
+  <text class="sub" x="380" y="246" text-anchor="middle">мнемосхема</text>
+  <rect class="box" x="460" y="214" width="100" height="40" rx="8"/>
+  <text class="small" x="510" y="238" text-anchor="middle">АРМ оператора</text>
+
+  <!-- Firewall 2 between technological and field -->
+  <rect class="dec" x="40" y="286" width="120" height="34" rx="8"/>
+  <text class="ttl" x="100" y="308" text-anchor="middle" fill="#3d9bff">МЭ</text>
+  <text class="sub" x="180" y="301">Межсетевой экран</text>
+  <text class="sub" x="180" y="315">контроль доступа</text>
+
+  <!-- Zone 1: Field/Controller (bottom) -->
+  <rect class="box" x="20" y="336" width="660" height="96" rx="10"/>
+  <text class="zttl" x="40" y="358">ПОЛЕВАЯ / КОНТРОЛЛЕРНАЯ ЗОНА</text>
+  <text class="sub" x="40" y="374">ПЛК · датчики · исполнительные механизмы</text>
+  <rect class="box" x="320" y="382" width="80" height="40" rx="8"/>
+  <text class="small" x="360" y="406" text-anchor="middle">ПЛК</text>
+  <rect class="box" x="412" y="382" width="90" height="40" rx="8"/>
+  <text class="small" x="457" y="406" text-anchor="middle">Датчики</text>
+  <rect class="box" x="514" y="382" width="80" height="40" rx="8"/>
+  <text class="small" x="554" y="400" text-anchor="middle">ИМ /</text>
+  <text class="small" x="554" y="414" text-anchor="middle">клапан</text>
+
+  <!-- Controlled vertical link corporate<->technological through firewall -->
+  <path class="edge" d="M100 162 V178"/>
+  <path class="edge" d="M100 270 V286"/>
+  <path class="edge" d="M100 320 V336"/>
+
+  <!-- Diode one-way: technological -> corporate only (data up, no command down) -->
+  <path class="edge" stroke="#3d9bff" d="M555 178 V162" marker-end="url(#ahb)"/>
+  <text class="sub" x="555" y="120" text-anchor="middle" fill="#3d9bff">данные вверх →</text>
+
+  <!-- No direct path internet -> PLC -->
+  <text class="nope" x="360" y="466" text-anchor="middle">Прямого пути «Интернет → ПЛК» НЕТ</text>
+  <text class="sub" x="360" y="482" text-anchor="middle">трафик строго контролируется на каждой границе зон</text>
+</svg>

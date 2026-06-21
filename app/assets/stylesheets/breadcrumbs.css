@@ -5,25 +5,13 @@
   flex-wrap: wrap;
   font-size: 0.85em;
   gap: var(--inline-space-half);
-  min-width: 0;
+  min-inline-size: 0;
 
   > * {
     flex-shrink: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-}
-
-.breadcrumbs__link {
-  color: var(--color-subtle-dark);
-  text-decoration: none;
-  transition: color 200ms ease;
-
-  @media (any-hover: hover) {
-    &:hover {
-      color: var(--color-ink);
-    }
   }
 }
 

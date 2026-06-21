@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" role="img" aria-label="Карта пути электрика: шесть этапов обучения, шкала роста группы допуска II–V сверху и ответвления-специализации снизу">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .acc{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .road{stroke:#2e2e2e;stroke-width:1.5;fill:none}
+    .ttl{font-size:13px;font-weight:700}
+    .num{font-size:13px;font-weight:700;fill:#3d9bff}
+    .sub{fill:#a1a1a1;font-size:10.5px}
+    .hd{fill:#a1a1a1;font-size:11px;font-weight:700;letter-spacing:.05em}
+    .grp{font-size:13px;font-weight:700;fill:#3d9bff}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- Top: группа допуска scale -->
+  <text class="hd" x="30" y="28">РОСТ ГРУППЫ ДОПУСКА</text>
+  <path class="edge" d="M30 56 H850" marker-end="url(#ah)"/>
+  <g text-anchor="middle">
+    <circle class="acc" cx="120" cy="56" r="15"/><text class="grp" x="120" y="60">II</text>
+    <circle class="acc" cx="360" cy="56" r="15"/><text class="grp" x="360" y="60">III</text>
+    <circle class="acc" cx="600" cy="56" r="15"/><text class="grp" x="600" y="60">IV</text>
+    <circle class="acc" cx="800" cy="56" r="15"/><text class="grp" x="800" y="60">V</text>
+  </g>
+
+  <!-- Road of 6 stages -->
+  <path class="road" d="M30 175 H850"/>
+  <g text-anchor="middle">
+    <!-- stage 1 -->
+    <rect class="box" x="30" y="148" width="124" height="56" rx="9"/>
+    <text class="num" x="44" y="165" text-anchor="start">1</text>
+    <text class="ttl" x="92" y="172">Электро-</text>
+    <text class="ttl" x="92" y="187">безопасность</text>
+    <!-- stage 2 -->
+    <rect class="box" x="168" y="148" width="124" height="56" rx="9"/>
+    <text class="num" x="182" y="165" text-anchor="start">2</text>
+    <text class="ttl" x="230" y="172">Основы</text>
+    <text class="ttl" x="230" y="187">электротехники</text>
+    <!-- stage 3 -->
+    <rect class="box" x="306" y="148" width="124" height="56" rx="9"/>
+    <text class="num" x="320" y="165" text-anchor="start">3</text>
+    <text class="ttl" x="368" y="180">ПУЭ</text>
+    <!-- stage 4 -->
+    <rect class="box" x="444" y="148" width="124" height="56" rx="9"/>
+    <text class="num" x="458" y="165" text-anchor="start">4</text>
+    <text class="ttl" x="506" y="180">Монтаж</text>
+    <!-- stage 5 -->
+    <rect class="box" x="582" y="148" width="124" height="56" rx="9"/>
+    <text class="num" x="596" y="165" text-anchor="start">5</text>
+    <text class="ttl" x="644" y="172">Измерения</text>
+    <text class="ttl" x="644" y="187">и испытания</text>
+    <!-- stage 6 -->
+    <rect class="box" x="720" y="148" width="130" height="56" rx="9"/>
+    <text class="num" x="734" y="165" text-anchor="start">6</text>
+    <text class="ttl" x="785" y="172">Эксплуатация</text>
+    <text class="ttl" x="785" y="187">и аттестация</text>
+  </g>
+
+  <!-- connecting arrows between stages -->
+  <g>
+    <path class="edge" d="M154 176 H166" marker-end="url(#ah)"/>
+    <path class="edge" d="M292 176 H304" marker-end="url(#ah)"/>
+    <path class="edge" d="M430 176 H442" marker-end="url(#ah)"/>
+    <path class="edge" d="M568 176 H580" marker-end="url(#ah)"/>
+    <path class="edge" d="M706 176 H718" marker-end="url(#ah)"/>
+  </g>
+
+  <!-- Bottom: специализации branches -->
+  <text class="hd" x="30" y="288">СПЕЦИАЛИЗАЦИИ</text>
+  <path class="edge" d="M440 204 V250 H140" marker-end="url(#ah)"/>
+  <path class="edge" d="M440 204 V250 H360" marker-end="url(#ah)"/>
+  <path class="edge" d="M440 250 H600" marker-end="url(#ah)"/>
+  <path class="edge" d="M440 250 H770" marker-end="url(#ah)"/>
+
+  <g text-anchor="middle">
+    <rect class="box" x="56" y="320" width="148" height="48" rx="9"/>
+    <text class="ttl" x="130" y="349">Бытовая электрика</text>
+    <rect class="box" x="290" y="320" width="148" height="48" rx="9"/>
+    <text class="ttl" x="364" y="349">Промышленность</text>
+    <rect class="box" x="524" y="320" width="148" height="48" rx="9"/>
+    <text class="ttl" x="598" y="349">ВЛ / подстанции</text>
+    <rect class="box" x="694" y="320" width="148" height="48" rx="9"/>
+    <text class="ttl" x="768" y="349">КИПиА</text>
+  </g>
+  <g>
+    <path class="edge" d="M140 250 V318" marker-end="url(#ah)"/>
+    <path class="edge" d="M360 250 V318" marker-end="url(#ah)"/>
+    <path class="edge" d="M600 250 V318" marker-end="url(#ah)"/>
+    <path class="edge" d="M770 250 V318" marker-end="url(#ah)"/>
+  </g>
+</svg>

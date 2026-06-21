@@ -1,15 +1,22 @@
 pteep:
   path: electrician
+  course: el_basics
   title: "ПТЭЭП: основы эксплуатации"
   slug: pteep-osnovy
   stage: Электробезопасность и допуски
   description: Основной документ по эксплуатации
-  body: Содержание урока по ПТЭЭП
+  body: |
+    Содержание урока по ПТЭЭП
+
+    ## Порядок допуска к работам
+
+    Кто и как допускается к обслуживанию электроустановок.
   task: Прочитайте главы 1.1–1.4
   position: 1
 
 gruppy_dopuska:
   path: electrician
+  course: el_basics
   title: Группы допуска (II–V)
   slug: gruppy-dopuska
   stage: Электробезопасность и допуски
@@ -20,6 +27,7 @@ gruppy_dopuska:
 
 zazemlenie:
   path: electrician
+  course: el_pue
   title: "ПУЭ глава 1.7: Заземление"
   slug: pue-zazemlenie
   stage: Правила устройства электроустановок
@@ -27,3 +35,48 @@ zazemlenie:
   body: Содержание урока по заземлению
   task: Нарисуйте схему TN-S
   position: 3
+
+draft_lesson:
+  path: draft_path
+  course: draft_course
+  title: Урок в черновике
+  slug: draft-lesson
+  stage: Черновой этап
+  description: Урок неопубликованной профессии
+  body: Текст
+  position: 1
+
+praktika_shchitok:
+  path: electrician
+  course: el_pue
+  title: "Практика: сборка распределительного щитка"
+  slug: praktika-shchitok
+  stage: Правила устройства электроустановок
+  description: Реальная сборка по однолинейной схеме
+  body: Текст практического задания
+  task: Соберите щит на 4 группы по чек-листу
+  kind: practice
+  difficulty: advanced
+  position: 4
+
+praktika_svarka:
+  path: welder
+  course: welding_basics
+  title: "Практика: первый сварной шов"
+  slug: praktika-svarnoy-shov
+  stage: Основы сварки
+  description: Первый шов на пластине под наблюдением наставника
+  body: Текст задания по сварке
+  kind: practice
+  difficulty: beginner
+  position: 2
+
+svarka_intro:
+  path: welder
+  course: welding_basics
+  title: "Введение в сварку"
+  slug: svarka-vvedenie
+  stage: Основы сварки
+  description: Стартовый урок сварщика
+  body: Текст урока сварщика
+  position: 1

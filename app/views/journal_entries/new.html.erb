@@ -1,0 +1,8 @@
+<% meta_title(t("journal.new_title")) %>
+
+<section class="section">
+  <div class="container container--reading journal">
+    <h1 class="section-title journal__title"><%= t("journal.new_title") %></h1>
+    <%= render "form", entry: @entry %>
+  </div>
+</section>

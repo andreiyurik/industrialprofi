@@ -1,0 +1,31 @@
+<% meta_title(t("signup.verification_title")) %>
+
+<section class="section">
+  <div class="container">
+    <div class="auth">
+      <h1 class="auth__title"><%= t("signup.verification_title") %></h1>
+      <p class="auth__subtitle"><%= t("signup.verification_hint") %></p>
+
+      <%= form_with url: signup_verification_path, class: "auth__form" do |form| %>
+        <%= form.label :code, t("signup.verification_title"), class: "for-screen-reader" %>
+        <%= form.text_field :code, class: "input auth__code", required: true, autofocus: true,
+              maxlength: Signup::CODE_LENGTH, autocomplete: "one-time-code",
+              autocapitalize: "characters", spellcheck: false %>
+
+        <p class="auth__hint">
+          <%= t("signup.code_sent_to_html", email: content_tag(:strong, signup.email_address)) %>
+        </p>
+
+        <%= form.button class: "btn btn--reversed btn--large auth__submit" do %>
+          <%= t("signup.verify") %>
+          <%= heroicon "arrow-right", variant: :outline %>
+        <% end %>
+      <% end %>
+
+      <p class="auth__alt">
+        <%= button_to t("signup.resend"), signup_path, params: { email_address: signup.email_address },
+              class: "auth__resend" %>
+      </p>
+    </div>
+  </div>
+</section>

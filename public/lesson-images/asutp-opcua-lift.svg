@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" role="img" aria-label="Пирамида автоматизации предприятия: снизу датчики и приводы (4-20 мА, HART), выше ПЛК и полевые сети (Modbus, Profibus, Profinet), затем SCADA; сбоку вертикальная стрелка-лифт OPC UA связывает уровни вплоть до MES, ERP и облака.">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .lvl{font-size:12px;font-weight:700}
+    .lift{fill:#3d9bff;font-size:13px;font-weight:700}
+    .note{fill:#a1a1a1;font-size:11px;font-style:italic}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+    <marker id="ahb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3d9bff"/></marker>
+  </defs>
+
+  <!-- Pyramid floors (widest at bottom) -->
+  <!-- Floor 1: sensors & actuators -->
+  <rect class="box" x="80" y="368" width="440" height="74" rx="10"/>
+  <text class="ttl" x="300" y="396" text-anchor="middle">Датчики и приводы</text>
+  <text class="sub" x="300" y="414" text-anchor="middle">полевой уровень: измерение и исполнение</text>
+  <text class="sub" x="300" y="431" text-anchor="middle">4–20 мА · HART (поверх 4–20 мА)</text>
+
+  <!-- Floor 2: PLC & fieldbuses -->
+  <rect class="box" x="120" y="270" width="360" height="74" rx="10"/>
+  <text class="ttl" x="300" y="298" text-anchor="middle">ПЛК и полевые сети</text>
+  <text class="sub" x="300" y="316" text-anchor="middle">управление, циклический обмен</text>
+  <text class="sub" x="300" y="333" text-anchor="middle">Modbus · Profibus · Profinet</text>
+
+  <!-- Floor 3: SCADA -->
+  <rect class="box" x="170" y="172" width="260" height="74" rx="10"/>
+  <text class="ttl" x="300" y="200" text-anchor="middle">SCADA / АРМ</text>
+  <text class="sub" x="300" y="218" text-anchor="middle">диспетчеризация, мнемосхемы</text>
+  <text class="sub" x="300" y="235" text-anchor="middle">архив, тревоги</text>
+
+  <!-- Top: MES / ERP / Cloud -->
+  <rect class="box" x="210" y="74" width="180" height="74" rx="10"/>
+  <text class="ttl" x="300" y="100" text-anchor="middle">MES · ERP</text>
+  <text class="ttl" x="300" y="120" text-anchor="middle">Облако</text>
+  <text class="sub" x="300" y="138" text-anchor="middle">планирование, учёт, IT</text>
+
+  <!-- floor level tags on the left -->
+  <text class="lvl" x="60" y="409" text-anchor="end" fill="#a1a1a1">поле</text>
+  <text class="lvl" x="100" y="311" text-anchor="end" fill="#a1a1a1">контроль</text>
+  <text class="lvl" x="150" y="213" text-anchor="end" fill="#a1a1a1">диспетч.</text>
+  <text class="lvl" x="190" y="115" text-anchor="end" fill="#a1a1a1">IT</text>
+
+  <!-- internal-to-floor protocol hint arrows (within levels) -->
+  <text class="sub" x="300" y="358" text-anchor="middle">↑ полевые протоколы — внутри этажей ↑</text>
+
+  <!-- OPC UA "elevator" on the right side -->
+  <line x1="600" y1="442" x2="600" y2="78" stroke="#3d9bff" stroke-width="3"/>
+  <path class="edge" d="M600 442 V96" stroke="#3d9bff" marker-end="url(#ahb)"/>
+  <path class="edge" d="M600 96 V442" stroke="#3d9bff" marker-end="url(#ahb)"/>
+
+  <!-- elevator label -->
+  <rect class="dec" x="630" y="222" width="118" height="60" rx="10"/>
+  <text class="lift" x="689" y="248" text-anchor="middle">OPC UA</text>
+  <text class="sub" x="689" y="266" text-anchor="middle">«лифт» между</text>
+  <text class="sub" x="689" y="280" text-anchor="middle">уровнями</text>
+
+  <!-- connectors from each floor to the elevator -->
+  <path class="edge" d="M430 209 H600" stroke="#3d9bff"/>
+  <path class="edge" d="M390 111 H600" stroke="#3d9bff"/>
+  <path class="edge" d="M480 307 H600" stroke="#3d9bff" stroke-dasharray="4 4"/>
+
+  <!-- conclusion callout -->
+  <text class="note" x="380" y="38" text-anchor="middle">Полевые протоколы работают внутри этажей,</text>
+  <text class="note" x="380" y="54" text-anchor="middle">OPC UA — лифт, связывающий уровни вплоть до MES, ERP и облака.</text>
+</svg>

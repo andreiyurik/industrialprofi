@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 446" role="img" aria-label="Алгоритм первой помощи при поражении током: обесточить → убедиться в безопасности → оценить сознание и дыхание → если дышит, боковое положение и вызов 103; если не дышит, СЛР 30:2 до приезда скорой">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .ok{fill:#102019;stroke:#34c759;stroke-width:1.75}
+    .danger{fill:#241110;stroke:#f25a4e;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .yes{fill:#34c759;font-size:12px;font-weight:700}
+    .no{fill:#f25a4e;font-size:12px;font-weight:700}
+    .note{fill:#a1a1a1;font-size:10.5px}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/>
+    </marker>
+  </defs>
+
+  <!-- A: обесточить -->
+  <rect class="box" x="160" y="16" width="300" height="52" rx="10"/>
+  <text class="ttl" x="310" y="38" text-anchor="middle">1. Обесточить</text>
+  <text class="sub" x="310" y="56" text-anchor="middle">отключить автомат/рубильник/вилку</text>
+  <path class="edge" d="M310 68 V96" marker-end="url(#ah)"/>
+
+  <!-- decision 1 -->
+  <rect class="dec" x="170" y="98" width="280" height="50" rx="14"/>
+  <text class="ttl" x="310" y="120" text-anchor="middle">Подходить безопасно?</text>
+  <text class="sub" x="310" y="138" text-anchor="middle">ток точно снят, основание сухое</text>
+
+  <!-- side note: no -->
+  <path class="edge" d="M450 123 H486" marker-end="url(#ah)"/>
+  <rect class="box" x="486" y="100" width="126" height="46" rx="9"/>
+  <text class="note" x="494" y="118">нет — отдели</text>
+  <text class="note" x="494" y="132">сухим предметом,</text>
+  <text class="note" x="494" y="146" fill="#a1a1a1" font-size="10.5">встань на изолятор</text>
+
+  <path class="edge" d="M310 148 V176" marker-end="url(#ah)"/>
+
+  <!-- B: оценить -->
+  <rect class="box" x="160" y="178" width="300" height="52" rx="10"/>
+  <text class="ttl" x="310" y="200" text-anchor="middle">2. Оценить сознание и дыхание</text>
+  <text class="sub" x="310" y="218" text-anchor="middle">окликнуть · запрокинуть голову · 10 секунд</text>
+  <path class="edge" d="M310 230 V258" marker-end="url(#ah)"/>
+
+  <!-- decision 2 -->
+  <rect class="dec" x="240" y="260" width="140" height="46" rx="14"/>
+  <text class="ttl" x="310" y="288" text-anchor="middle">Дышит?</text>
+
+  <!-- branch -->
+  <path class="edge" d="M240 283 H150 V348" marker-end="url(#ah)"/>
+  <path class="edge" d="M380 283 H470 V348" marker-end="url(#ah)"/>
+  <text class="yes" x="150" y="332" text-anchor="middle">ДА</text>
+  <text class="no"  x="470" y="332" text-anchor="middle">НЕТ</text>
+
+  <!-- ok box -->
+  <rect class="ok" x="20" y="350" width="260" height="78" rx="10"/>
+  <text class="ttl" x="150" y="374" text-anchor="middle">Боковое положение</text>
+  <text class="sub" x="150" y="394" text-anchor="middle">вызвать 103 / 112,</text>
+  <text class="sub" x="150" y="410" text-anchor="middle">следить за дыханием</text>
+
+  <!-- danger box -->
+  <rect class="danger" x="340" y="350" width="260" height="78" rx="10"/>
+  <text class="ttl" x="470" y="374" text-anchor="middle">СЛР 30 : 2</text>
+  <text class="sub" x="470" y="394" text-anchor="middle">глубина 5–6 см, 100–120/мин,</text>
+  <text class="sub" x="470" y="410" text-anchor="middle">непрерывно — до скорой</text>
+</svg>

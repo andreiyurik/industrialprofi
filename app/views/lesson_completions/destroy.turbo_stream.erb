@@ -1,0 +1,8 @@
+<%= turbo_stream.replace dom_id(@lesson, :completion) do %>
+  <%= render "lessons/completion", lesson: @lesson, completed: false %>
+<% end %>
+
+<%= turbo_stream.replace "lesson_sidebar" do %>
+  <%= render "lessons/sidebar", course: @course, current_lesson: @lesson,
+        lessons_by_stage: @lessons_by_stage, completed_ids: @completed_ids %>
+<% end %>

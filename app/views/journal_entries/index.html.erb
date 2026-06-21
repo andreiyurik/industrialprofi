@@ -1,0 +1,58 @@
+<% meta_title(t("journal.title")) %>
+
+<section class="section">
+  <div class="container container--reading journal">
+    <header class="journal__header">
+      <div>
+        <h1 class="section-title journal__title"><%= t("journal.title") %></h1>
+        <p class="section-subtitle journal__subtitle"><%= t("journal.subtitle") %></p>
+      </div>
+      <%= link_to new_journal_entry_path, class: "btn btn--reversed" do %>
+        <%= heroicon "plus", variant: :outline %>
+        <%= t("journal.new_entry") %>
+      <% end %>
+    </header>
+
+    <% if @entries.any? %>
+      <div class="journal__entries">
+        <% @entries.each do |entry| %>
+          <article class="panel journal-entry">
+            <header class="journal-entry__meta">
+              <time datetime="<%= entry.created_at.to_date %>"><%= l(entry.created_at.to_date) %></time>
+              <% if entry.lesson %>
+                <%= link_to entry.lesson.title, lesson_path(entry.lesson), class: "journal-entry__lesson" %>
+              <% end %>
+              <span class="journal-entry__actions">
+                <%= link_to t("journal.edit"), edit_journal_entry_path(entry), class: "journal-entry__action" %>
+                <%= button_to t("journal.delete"), journal_entry_path(entry), method: :delete,
+                      class: "journal-entry__action journal-entry__action--delete",
+                      form: { data: { turbo_confirm: t("journal.confirm_delete") } } %>
+              </span>
+            </header>
+
+            <% if entry.title.present? %>
+              <h2 class="journal-entry__title"><%= entry.title %></h2>
+            <% end %>
+
+            <div class="prose journal-entry__body"><%= entry.body %></div>
+
+            <% if entry.photos.attached? %>
+              <div class="journal-entry__photos">
+                <% entry.photos.each do |photo| %>
+                  <%= link_to url_for(photo), target: "_blank", rel: "noopener", class: "journal-entry__photo-link" do %>
+                    <%= image_tag photo_thumb_source(photo), loading: "lazy", class: "journal-entry__photo", alt: "" %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="journal__empty">
+        <p><%= t("journal.empty") %></p>
+        <%= link_to t("journal.new_entry"), new_journal_entry_path, class: "btn btn--reversed btn--large" %>
+      </div>
+    <% end %>
+  </div>
+</section>

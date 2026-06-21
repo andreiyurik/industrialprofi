@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" role="img" aria-label="Мнемосхема насосной станции: приёмный бак с заливкой по уровню 1,8 м, работающий насос (зелёный), труба к напорному баку, манометр 5,2 бар, кнопки ПУСК и СТОП, индикатор режима АВТО и неактивная авария сухого хода. Выноски связывают элементы с тегами.">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .ok{fill:#102019;stroke:#34c759;stroke-width:1.75}
+    .danger{fill:#241110;stroke:#f25a4e;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .pipe{stroke:#7d7d7d;stroke-width:6;fill:none}
+    .tag{stroke:#3d9bff;stroke-width:1;fill:none;stroke-dasharray:3 3}
+    .ttl{font-size:14px;font-weight:700}
+    .big{font-size:18px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .tagt{fill:#3d9bff;font-size:10px}
+    .lvl{fill:#11161c}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <text class="ttl" x="430" y="24" text-anchor="middle">Мнемосхема насосной станции</text>
+  <text class="sub" x="430" y="42" text-anchor="middle">элементы оживают от тегов в реальном времени</text>
+
+  <!-- intake tank -->
+  <rect class="box" x="40" y="120" width="120" height="200" rx="8"/>
+  <!-- level fill (1.8 m of ~3) -->
+  <rect class="dec" x="44" y="200" width="112" height="116" rx="4"/>
+  <text class="big" x="100" y="265" text-anchor="middle" fill="#3d9bff">1,8 м</text>
+  <text class="sub" x="100" y="338" text-anchor="middle">Приёмный бак</text>
+  <text class="tagt" x="100" y="108" text-anchor="middle">← тег: уровень (аналог.)</text>
+
+  <!-- pump pipe in -->
+  <path class="pipe" d="M160 245 H230"/>
+
+  <!-- pump (running = green) -->
+  <circle class="ok" cx="265" cy="245" r="35"/>
+  <path d="M265 219 L265 271 M250 232 L250 258 M280 232 L280 258" stroke="#34c759" stroke-width="2.5" fill="none"/>
+  <text class="sub" x="265" y="305" text-anchor="middle" fill="#34c759">Насос — РАБОТАЕТ</text>
+  <text class="tagt" x="265" y="325" text-anchor="middle">тег: состояние (дискр.)</text>
+
+  <!-- pipe out up to header tank -->
+  <path class="pipe" d="M300 245 H400 V160"/>
+
+  <!-- manometer on pipe -->
+  <circle class="box" cx="360" cy="200" r="30"/>
+  <text class="big" x="360" y="200" text-anchor="middle">5,2</text>
+  <text class="sub" x="360" y="216" text-anchor="middle">бар</text>
+  <path class="edge" d="M360 230 V245"/>
+  <text class="tagt" x="360" y="158" text-anchor="middle" fill="#3d9bff">PT</text>
+  <text class="tagt" x="445" y="200" text-anchor="middle">тег: давление</text>
+
+  <!-- header / pressure tank -->
+  <rect class="box" x="350" y="80" width="120" height="80" rx="8"/>
+  <text class="ttl" x="410" y="116" text-anchor="middle">Напорный</text>
+  <text class="ttl" x="410" y="134" text-anchor="middle">бак</text>
+
+  <!-- HMI control panel -->
+  <rect class="box" x="540" y="80" width="280" height="320" rx="10"/>
+  <text class="sub" x="680" y="106" text-anchor="middle">Панель управления (АРМ)</text>
+
+  <!-- START button -->
+  <rect class="ok" x="566" y="130" width="100" height="56" rx="10"/>
+  <text class="ttl" x="616" y="164" text-anchor="middle" fill="#34c759">ПУСК</text>
+
+  <!-- STOP button -->
+  <rect class="box" x="694" y="130" width="100" height="56" rx="10"/>
+  <text class="ttl" x="744" y="164" text-anchor="middle">СТОП</text>
+
+  <!-- AUTO mode indicator -->
+  <rect class="dec" x="566" y="216" width="228" height="56" rx="10"/>
+  <circle cx="600" cy="244" r="9" fill="#3d9bff"/>
+  <text class="ttl" x="650" y="249" text-anchor="middle" fill="#3d9bff">Режим: АВТО</text>
+  <text class="tagt" x="680" y="294" text-anchor="middle">тег: режим (дискр.)</text>
+
+  <!-- alarm: dry-run, inactive (grey) -->
+  <rect class="box" x="566" y="312" width="228" height="56" rx="10"/>
+  <circle cx="600" cy="340" r="9" fill="#2e2e2e" stroke="#7d7d7d" stroke-width="1.5"/>
+  <text class="ttl" x="660" y="338" text-anchor="middle" fill="#a1a1a1">Авария: сухой ход</text>
+  <text class="sub" x="660" y="356" text-anchor="middle">не активна</text>
+
+  <!-- legend -->
+  <text class="sub" x="40" y="400" >Цвет = сигнал состояния:</text>
+  <circle cx="60" cy="426" r="7" fill="#34c759"/>
+  <text class="sub" x="74" y="430">работает / норма</text>
+  <circle cx="230" cy="426" r="7" fill="#2e2e2e" stroke="#7d7d7d" stroke-width="1.5"/>
+  <text class="sub" x="244" y="430">стоит / нет аварии</text>
+  <circle cx="420" cy="426" r="7" fill="#f25a4e"/>
+  <text class="sub" x="434" y="430">авария (яркий красный)</text>
+</svg>

@@ -1,0 +1,57 @@
+<%# locals: (course:, completed:, total:, lessons_n:, practice_n:) -%>
+<%# TOP-style course card: big progress badge + title with lesson/practice
+    counts + open button in the header row, description below the divider. %>
+<% done = signed_in? && total.positive? && completed == total %>
+<% ring = signed_in? && !course.coming_soon? && total.positive? %>
+<article class="course-card<%= " course-card--done" if done %><%= " course-card--soon" if course.coming_soon? %>">
+  <% if done %>
+    <div class="course-card__completed">
+      <%= t("courses.completed") %>
+      <%= heroicon "check-circle", variant: :solid %>
+    </div>
+  <% end %>
+
+  <div class="course-card__header">
+    <span class="course-card__badge<%= " course-card__badge--plain" unless ring %>">
+      <% if ring %>
+        <%= render layout: "shared/progress_ring", locals: { completed: completed, total: total } do %>
+          <%= render "shared/topic_badge", token: course_icon_token(course) %>
+        <% end %>
+      <% else %>
+        <%= render "shared/topic_badge", token: course_icon_token(course) %>
+      <% end %>
+    </span>
+
+    <div class="course-card__heading">
+      <h2 class="course-card__title">
+        <% if course.coming_soon? %>
+          <%= course.title %>
+        <% else %>
+          <%= link_to course.title, course_path(course), class: "course-card__title-link" %>
+        <% end %>
+      </h2>
+      <div class="course-card__meta">
+        <span class="course-card__meta-item">
+          <%= heroicon "book-open", variant: :outline %>
+          <%= t("courses.lessons_count", count: lessons_n) %>
+        </span>
+        <% if practice_n.positive? %>
+          <span class="course-card__meta-item">
+            <%= heroicon "wrench-screwdriver", variant: :outline %>
+            <%= t("courses.practice_count", count: practice_n) %>
+          </span>
+        <% end %>
+      </div>
+    </div>
+
+    <% if course.coming_soon? %>
+      <span class="badge badge--draft"><%= t("courses.coming_soon") %></span>
+    <% else %>
+      <%= link_to t("courses.open"), course_path(course), class: "btn" %>
+    <% end %>
+  </div>
+
+  <% if course.description.present? %>
+    <p class="course-card__desc"><%= course.description %></p>
+  <% end %>
+</article>

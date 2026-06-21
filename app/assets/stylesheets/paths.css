@@ -5,12 +5,6 @@
   margin-block-start: 3rem;
 }
 
-.card-grid--2-col {
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 .card-grid--3-col {
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
@@ -86,14 +80,19 @@
 }
 
 @media (any-hover: hover) {
-  .path-card:hover .path-card__icon {
-    border-color: var(--color-marker);
+  .path-card:not(.path-card--soon):hover .path-card__icon {
+    border-color: var(--color-subtle-dark);
   }
 
-  .path-card:hover .path-card__arrow {
-    color: var(--color-marker);
+  .path-card:not(.path-card--soon):hover .path-card__arrow {
+    color: var(--color-ink);
     transform: translateX(0.25rem);
   }
+}
+
+/* Coming-soon profession — dimmed, non-interactive; footer shows a «Скоро» badge */
+.path-card--soon {
+  opacity: 0.5;
 }
 
 /* Featured profession — full-width hero card sitting above the catalog grid.
@@ -102,10 +101,10 @@
 .path-card--featured {
   --panel-padding: 2em;
   margin-block-start: 3rem;
-  border-color: var(--color-marker);
+  border-color: var(--color-subtle-dark);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .path-card--featured {
     --panel-padding: 2.75em;
     flex-direction: row;
@@ -144,21 +143,55 @@
   text-align: center;
 }
 
+/* The unified topic badge: the line icon centred in its disc — one quiet house
+   style for every course/path circle. The framing circle comes from the context
+   (progress ring, bordered badge, hero circle). */
+.topic-badge {
+  block-size: 100%;
+  display: inline-grid;
+  grid-template: 100% / 100%;
+  inline-size: 100%;
+  place-items: center;
+
+  > * {
+    grid-area: 1 / 1;
+  }
+}
+
 /* Individual profession page (paths/show) */
 .topic-hero-icon {
   align-items: center;
   block-size: 5rem;
-  border: 2px solid oklch(var(--lch-orange) / 0.6);
+  border: 2px solid var(--color-subtle-dark);
   border-radius: 50%;
-  color: var(--color-marker);
+  color: var(--color-ink);
   display: inline-flex;
   inline-size: 5rem;
   justify-content: center;
   margin-block-end: 1.5rem;
 
-  svg, img {
-    height: 2.5rem;
-    width: 2.5rem;
+  .topic-badge > :is(svg, img) {
+    block-size: 2.5rem;
+    inline-size: 2.5rem;
+  }
+}
+
+/* Hero icon wrapped in a course-progress ring (course page, signed-in):
+   bigger than the plain hero badge — TOP renders its course-page circle at
+   7rem. The ring's track replaces the static border. */
+.topic-hero-icon--ring {
+  block-size: 7rem;
+  border: none;
+  inline-size: 7rem;
+
+  .progress-ring__svg {
+    block-size: 100%;
+    inline-size: 100%;
+  }
+
+  .progress-ring__body .topic-badge > :is(svg, img) {
+    block-size: 3.25rem;
+    inline-size: 3.25rem;
   }
 }
 
@@ -168,9 +201,12 @@
 }
 
 .path__title {
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 600;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
   margin-block: 0;
+  text-transform: uppercase;
 }
 
 /* Overview block — left-aligned for readability, sits just above the curriculum */
@@ -183,4 +219,60 @@
   font-size: 0.95rem;
   line-height: 1.6;
   margin-block: 0;
+  margin-inline: auto;
+  max-inline-size: 60ch;
+  text-align: center;
+}
+
+/* Catalog attention guard: a learner mid-path sees their direction (and one
+   "continue" action) before any new profession competes for attention. */
+.focus-banner {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-block-end: 1.5rem;
+
+  .btn svg {
+    block-size: 0.9rem;
+    inline-size: 0.9rem;
+  }
+}
+
+.focus-banner__text {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+}
+
+.focus-banner__link {
+  color: var(--color-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--color-subtle);
+}
+
+/* Start / continue block between the overview and the curriculum: the one
+   primary action on the page, with the reader's progress right above it. */
+.path__start {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-block-end: 2.5rem;
+
+  .btn {
+    align-self: center;
+
+    svg {
+      block-size: 1rem;
+      inline-size: 1rem;
+    }
+  }
+}
+
+.path__continue-hint {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block: -0.5rem 0;
+  text-align: center;
 }

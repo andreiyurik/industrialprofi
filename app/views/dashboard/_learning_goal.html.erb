@@ -1,0 +1,14 @@
+<%# The learner's own "why" under the greeting (TOP's "What's your learning
+    goal?"). Clicking swaps this frame for the inline edit form. %>
+<%= turbo_frame_tag "learning_goal" do %>
+  <% if Current.user.learning_goal.present? %>
+    <p class="learning-goal">
+      <span class="learning-goal__text">«<%= Current.user.learning_goal %>»</span>
+      <%= link_to t("dashboard.goal.edit"), edit_learning_goal_path, class: "learning-goal__edit" %>
+    </p>
+  <% else %>
+    <p class="learning-goal">
+      <%= link_to t("dashboard.goal.prompt"), edit_learning_goal_path, class: "learning-goal__prompt" %>
+    </p>
+  <% end %>
+<% end %>

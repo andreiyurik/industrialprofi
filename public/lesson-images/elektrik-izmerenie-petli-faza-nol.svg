@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 420" role="img" aria-label="Схема измерения петли фаза-ноль: прибор в дальней розетке измеряет путь фаза-линия-ноль/PE-источник, формула I=U/Z и сравнение с порогом автомата">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .acc{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .wireL{stroke:#3d9bff;stroke-width:2;fill:none}
+    .wireN{stroke:#a1a1a1;stroke-width:2;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .lbl{font-size:12px;font-weight:600}
+    .mono{font-family:'Segoe UI',monospace;font-size:13px}
+    .ok{font-size:13px;font-weight:700;fill:#34c759}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- Источник -->
+  <rect class="box" x="24" y="60" width="140" height="80" rx="10"/>
+  <text class="ttl" x="94" y="92" text-anchor="middle">Источник</text>
+  <text class="sub" x="94" y="112" text-anchor="middle">трансформатор</text>
+  <text class="sub" x="94" y="128" text-anchor="middle">U = 230 В</text>
+
+  <!-- Автомат / щит -->
+  <rect class="box" x="244" y="60" width="140" height="80" rx="10"/>
+  <text class="ttl" x="314" y="92" text-anchor="middle">Автомат C16</text>
+  <text class="sub" x="314" y="112" text-anchor="middle">в щите</text>
+  <text class="sub" x="314" y="128" text-anchor="middle">порог 160 А</text>
+
+  <!-- Дальняя розетка с прибором -->
+  <rect class="acc" x="660" y="50" width="170" height="100" rx="10"/>
+  <text class="ttl" x="745" y="80" text-anchor="middle">Дальняя розетка</text>
+  <text class="sub" x="745" y="100" text-anchor="middle">прибор-измеритель</text>
+  <text class="sub" x="745" y="116" text-anchor="middle">петли фаза-нуль</text>
+  <text class="lbl" x="745" y="138" text-anchor="middle" fill="#3d9bff">Z = 0,8 Ом</text>
+
+  <!-- Фазный провод L: источник -> автомат -> розетка (верхняя линия) -->
+  <path class="wireL" d="M164 86 H244"/>
+  <path class="wireL" d="M384 86 H660"/>
+  <text class="lbl" x="520" y="78" text-anchor="middle" fill="#3d9bff">Фаза (L)</text>
+
+  <!-- Нулевой/PE провод N: розетка -> источник (нижняя линия) -->
+  <path class="wireN" d="M745 150 V200 H94 V140"/>
+  <text class="lbl" x="420" y="216" text-anchor="middle">Ноль / PE</text>
+
+  <!-- Петля стрелки направления -->
+  <path class="edge" d="M420 86 H520" marker-end="url(#ah)"/>
+  <path class="edge" d="M520 200 H420" marker-end="url(#ah)"/>
+  <text class="sub" x="745" y="184" text-anchor="middle">путь петли:</text>
+  <text class="sub" x="745" y="200" text-anchor="middle">фаза → линия →</text>
+  <text class="sub" x="745" y="216" text-anchor="middle">ноль/PE → источник</text>
+
+  <!-- Формула / расчёт -->
+  <rect class="box" x="24" y="270" width="380" height="120" rx="10"/>
+  <text class="ttl" x="214" y="298" text-anchor="middle">Закон Ома для петли</text>
+  <text class="mono" x="214" y="328" text-anchor="middle">I_кз = U / Z_петли</text>
+  <text class="mono" x="214" y="354" text-anchor="middle">= 230 / 0,8 ≈ 288 А</text>
+  <text class="sub" x="214" y="378" text-anchor="middle">меньше Z → больше ток КЗ</text>
+
+  <!-- Сравнение с порогом -->
+  <rect class="box" x="440" y="270" width="396" height="120" rx="10"/>
+  <text class="ttl" x="638" y="298" text-anchor="middle">Сравнение с порогом автомата</text>
+  <text class="mono" x="638" y="328" text-anchor="middle">288 А &gt; 160 А (10 × Iном)</text>
+  <text class="ok" x="638" y="358" text-anchor="middle">Автомат сработает мгновенно</text>
+  <text class="sub" x="638" y="378" text-anchor="middle">защита эффективна</text>
+
+  <!-- стрелка от формулы к сравнению -->
+  <path class="edge" d="M404 330 H440" marker-end="url(#ah)"/>
+  <!-- стрелка от розетки вниз к формуле -->
+  <path class="edge" d="M745 150 V240 H214 V270" marker-end="url(#ah)"/>
+</svg>

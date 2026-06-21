@@ -1,0 +1,9 @@
+<%= t("passwords_mailer.reset.greeting", name: @user.name) %>
+
+<%= t("passwords_mailer.reset.body") %>
+
+<%= edit_password_url(@user.password_reset_token) %>
+
+<%= t("passwords_mailer.reset.expires") %>
+
+<%= t("passwords_mailer.reset.ignore") %>

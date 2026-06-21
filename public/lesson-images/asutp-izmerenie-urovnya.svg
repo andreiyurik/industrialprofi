@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 420" role="img" aria-label="Сравнение трёх методов измерения уровня в одной ёмкости: радар сверху, ультразвук сверху, гидростатика у дна">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .tank{fill:#161616;stroke:#2e2e2e;stroke-width:1.75}
+    .liquid{fill:#11161c;stroke:#2e2e2e;stroke-width:1}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .wave{stroke:#3d9bff;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .ok{fill:#34c759;font-size:11px}
+    .bad{fill:#f25a4e;font-size:11px}
+    .tag{font-size:11px;font-weight:700;fill:#3d9bff}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3d9bff"/></marker>
+  </defs>
+
+  <!-- ===== RADAR (left) ===== -->
+  <text class="ttl" x="140" y="26" text-anchor="middle">Радар</text>
+  <text class="sub" x="140" y="42" text-anchor="middle">отражение радиоволны</text>
+  <!-- tank -->
+  <rect class="tank" x="55" y="70" width="170" height="200" rx="6"/>
+  <rect class="liquid" x="56" y="180" width="168" height="89"/>
+  <!-- sensor on top -->
+  <rect class="dec" x="120" y="55" width="40" height="20" rx="5"/>
+  <!-- waves down + reflection -->
+  <path class="wave" d="M140 75 V170" marker-end="url(#ah)"/>
+  <path class="wave" d="M152 170 V80" marker-end="url(#ah)" stroke-dasharray="4 4"/>
+  <!-- surface -->
+  <line x1="56" y1="180" x2="224" y2="180" stroke="#3d9bff" stroke-width="1.5"/>
+  <text class="ok" x="140" y="300" text-anchor="middle">+ не зависит от плотности</text>
+  <text class="ok" x="140" y="316" text-anchor="middle">+ не боится пара и t°</text>
+  <text class="bad" x="140" y="338" text-anchor="middle">− дороже</text>
+
+  <!-- ===== ULTRASONIC (center) ===== -->
+  <text class="ttl" x="430" y="26" text-anchor="middle">Ультразвук</text>
+  <text class="sub" x="430" y="42" text-anchor="middle">отражение звука</text>
+  <rect class="tank" x="345" y="70" width="170" height="200" rx="6"/>
+  <rect class="liquid" x="346" y="180" width="168" height="89"/>
+  <rect class="dec" x="410" y="55" width="40" height="20" rx="5"/>
+  <path class="wave" d="M430 75 V170" marker-end="url(#ah)"/>
+  <path class="wave" d="M442 170 V80" marker-end="url(#ah)" stroke-dasharray="4 4"/>
+  <line x1="346" y1="180" x2="514" y2="180" stroke="#3d9bff" stroke-width="1.5"/>
+  <text class="ok" x="430" y="300" text-anchor="middle">+ дешевле радара</text>
+  <text class="ok" x="430" y="316" text-anchor="middle">+ бесконтактный</text>
+  <text class="bad" x="430" y="338" text-anchor="middle">− боится пены, пара, пыли</text>
+
+  <!-- ===== HYDROSTATIC (right) ===== -->
+  <text class="ttl" x="720" y="26" text-anchor="middle">Гидростатика</text>
+  <text class="sub" x="720" y="42" text-anchor="middle">давление столба жидкости</text>
+  <rect class="tank" x="635" y="70" width="170" height="200" rx="6"/>
+  <rect class="liquid" x="636" y="180" width="168" height="89"/>
+  <line x1="636" y1="180" x2="804" y2="180" stroke="#2e2e2e" stroke-width="1.5"/>
+  <!-- column height arrow -->
+  <path class="wave" d="M700 182 V268" marker-end="url(#ah)" marker-start="url(#ah)"/>
+  <text class="tag" x="688" y="228" text-anchor="end">h</text>
+  <!-- sensor at bottom -->
+  <rect class="dec" x="800" y="248" width="42" height="22" rx="5"/>
+  <text class="tag" x="821" y="263" text-anchor="middle">P</text>
+  <line x1="804" y1="259" x2="800" y2="259" stroke="#3d9bff" stroke-width="1.75"/>
+  <text class="ok" x="720" y="300" text-anchor="middle">+ простой и дешёвый</text>
+  <text class="bad" x="720" y="322" text-anchor="middle">− зависит от плотности ρ</text>
+  <text class="sub" x="720" y="340" text-anchor="middle">P = ρ · g · h</text>
+
+  <!-- footer note -->
+  <text class="sub" x="430" y="400" text-anchor="middle">Все три выдают 4–20 мА; радар и ультразвук — бесконтактные сверху, гидростатика — врезка у дна</text>
+</svg>

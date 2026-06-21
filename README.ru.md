@@ -10,6 +10,7 @@
 
 [![CI](https://github.com/yurik2718/industrialprofi/actions/workflows/ci.yml/badge.svg)](https://github.com/yurik2718/industrialprofi/actions/workflows/ci.yml)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
+[![Content: CC BY-SA 4.0](https://img.shields.io/badge/Content-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE-CONTENT)
 [![Ruby 4.0](https://img.shields.io/badge/Ruby-4.0-CC342D.svg)](.ruby-version)
 [![Rails 8.1](https://img.shields.io/badge/Rails-8.1-D30001.svg)](Gemfile)
 
@@ -65,8 +66,9 @@ Node.js нигде.
 - Авторизация через `has_secure_password` (bcrypt) — без Devise
 - **Kamal 2** + Docker + Thruster для деплоя
 - **Minitest** + фикстуры + Capybara
-- Только системные шрифты, цветовые токены OKLCH, светлая тема по умолчанию с
-  автоматической тёмной — паттерны UI повторяют open-source приложения Basecamp.
+- Собственные шрифты Inter / Inter Tight через `@font-face`, цветовые токены
+  OKLCH, единая тёмная тема — паттерны UI повторяют open-source приложения
+  Basecamp (Writebook, Fizzy).
 
 ## Быстрый старт
 
@@ -98,7 +100,7 @@ app/views/                  # ERB-шаблоны + партиалы Turbo Frame/
 app/javascript/controllers/ # Stimulus-контроллеры
 app/assets/stylesheets/     # весь CSS — по одному самодостаточному файлу на компонент
 db/migrate/                 # миграции = источник истины для схемы
-docs/                       # VISION.md, MVP.md, заметки по дизайну
+docs/                       # VISION.md, MVP.md, DEPLOY.md, промпты для контента
 ```
 
 Иерархия контента:
@@ -112,9 +114,13 @@ User  →  LessonCompletion  (бинарно: строка существует 
 
 IndustrialProfi выходит фазами — см. [docs/MVP.md](docs/MVP.md):
 
-- **v0.1** — статический каталог (профессии → курсы → уроки, публично, SEO-first)
-- **v0.2** — аккаунты + бинарный трекинг прогресса
-- **v0.3** — контент от сообщества (черновик → ревью → публикация)
+- **v0.1 — готово:** статический каталог (профессии → курсы → уроки, публично, SEO-first)
+- **v0.2 — готово:** аккаунты, бинарный прогресс, личный кабинет, дневник
+  практики, карта активности, правки от читателей + история версий, админка с ролями
+- **v0.3 — дальше:** контент от сообщества (черновик → ревью → публикация),
+  поиск, публичные профили
+
+Публичная дорожная карта — на самом сайте, страница `/roadmap`.
 
 Полная продуктовая мысль — в [docs/VISION.md](docs/VISION.md).
 
@@ -131,12 +137,18 @@ IndustrialProfi выходит фазами — см. [docs/MVP.md](docs/MVP.md)
 
 ## Лицензия
 
-Под **GNU Affero General Public License v3.0** — см. [LICENSE](LICENSE).
+Проект под **двойной лицензией**:
+
+- **Код** — [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0).
+- **Контент** — программа обучения и уроки под
+  [Creative Commons Attribution-ShareAlike 4.0](LICENSE-CONTENT) (CC BY-SA 4.0).
 
 Простыми словами: ты свободен использовать, изучать, распространять и изменять
-код. Если ты запускаешь изменённую версию как сетевой сервис — ты обязан тоже
-открыть свой исходный код. Это держит платформу открытой для всех и защищает её
-от превращения в закрытый конкурирующий сервис.
+**код** — а если запускаешь изменённую версию как сетевой сервис, обязан тоже
+открыть свой исходный код. **Учебный контент** ты можешь свободно распространять
+и адаптировать (в том числе коммерчески) — при условии указания авторства
+IndustrialProfi и сохранения той же лицензии. Сторонние стандарты (ГОСТ, ASME,
+НАКС…) мы только цитируем и на них ссылаемся — они принадлежат своим издателям.
 
 ## Благодарности
 

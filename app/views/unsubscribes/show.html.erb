@@ -1,0 +1,14 @@
+<% meta_title(t("unsubscribes.title")) %>
+
+<section class="section">
+  <div class="container container--reading">
+    <% if @user %>
+      <h1 class="page-title"><%= t("unsubscribes.done_title") %></h1>
+      <p><%= t("unsubscribes.done_text") %></p>
+    <% else %>
+      <h1 class="page-title"><%= t("unsubscribes.invalid_title") %></h1>
+      <p><%= t("unsubscribes.invalid_text") %></p>
+    <% end %>
+    <p><%= link_to t("unsubscribes.back_home"), root_path, class: "btn" %></p>
+  </div>
+</section>

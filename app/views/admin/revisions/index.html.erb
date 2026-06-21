@@ -2,6 +2,8 @@
 
 <section class="admin-page">
   <div class="container">
+    <%= render "admin/shared/nav" %>
+
     <div class="admin-header">
       <div class="admin-header__title-group">
         <a href="<%= edit_admin_lesson_path(@lesson) %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
@@ -9,7 +11,7 @@
         </a>
         <h1 class="admin-header__title"><%= t("revisions.history") %> — <%= @lesson.title %></h1>
       </div>
-      <a href="<%= lesson_path(@lesson) %>" class="admin-header__view-live" target="_blank"><%= t("admin.view_live") %> ↗</a>
+      <a href="<%= lesson_path(@lesson) %>" class="admin-header__view-live link-quiet" target="_blank"><%= t("admin.view_live") %> ↗</a>
     </div>
 
     <% if @revisions.empty? %>

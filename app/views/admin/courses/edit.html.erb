@@ -1,0 +1,52 @@
+<% meta_title("#{t('admin.edit_course')} — #{@course.title}") %>
+
+<section class="admin-page">
+  <div class="container container--reading">
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-header">
+      <div class="admin-header__title-group">
+        <a href="<%= admin_courses_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+          <%= heroicon("arrow-left", variant: :outline) %>
+        </a>
+        <h1 class="admin-header__title"><%= @course.title %></h1>
+      </div>
+      <a href="<%= course_path(@course) %>" class="admin-header__view-live link-quiet" target="_blank"><%= t("admin.view_live") %> ↗</a>
+    </div>
+
+    <%= render "admin/shared/form_errors", object: @course %>
+
+    <%= form_with(model: [:admin, @course], url: admin_course_path(@course), method: :patch) do |f| %>
+      <div class="admin-form__field">
+        <label><%= t("admin.field_title") %></label>
+        <%= f.text_field :title, class: "input" %>
+      </div>
+
+      <div class="admin-form__field">
+        <label><%= t("admin.field_slug") %></label>
+        <%= f.text_field :slug, class: "input input--mono" %>
+      </div>
+
+      <div class="admin-form__field">
+        <label><%= t("admin.field_position") %></label>
+        <%= f.number_field :position, class: "input" %>
+      </div>
+
+      <div class="admin-form__field">
+        <label><%= t("admin.field_description") %></label>
+        <%= f.text_area :description, rows: 4, class: "input input--textarea" %>
+      </div>
+
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("admin.field_status") %></label>
+        <%= f.select :status, %w[draft pending_review published coming_soon],
+            {}, class: "input" %>
+      </div>
+
+      <div class="admin-form__actions">
+        <%= f.submit t("admin.save"), class: "btn btn--reversed" %>
+        <a href="<%= admin_courses_path %>" class="btn"><%= t("admin.cancel") %></a>
+      </div>
+    <% end %>
+  </div>
+</section>

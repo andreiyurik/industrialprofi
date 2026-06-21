@@ -1,4 +1,6 @@
 class SitemapsController < ApplicationController
+  allow_unauthenticated_access
+
   def robots
     expires_in 1.day, public: true
     render plain: "User-agent: *\nAllow: /\nSitemap: #{Rails.application.config.x.site.url}/sitemap.xml\n"
@@ -6,7 +8,10 @@ class SitemapsController < ApplicationController
 
   def show
     @paths = Path.published.ordered
-    @lessons = Lesson.joins(:path).where(paths: { status: "published" }).order(:id)
+    @courses = Course.published.joins(:path).where(paths: { status: "published" }).order(:id)
+    @lessons = Lesson.joins(course: :path)
+                     .where(courses: { status: "published" }, paths: { status: "published" })
+                     .order(:id)
 
     expires_in 1.hour, public: true
 

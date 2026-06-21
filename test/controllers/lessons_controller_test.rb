@@ -17,10 +17,16 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_match resources(:pteep_doc).title, response.body
   end
 
-  test "show displays prev/next navigation" do
+  test "sidebar shows the current course's contents" do
     get lesson_path(lessons(:gruppy_dopuska))
-    assert_match lessons(:pteep).title, response.body
-    assert_match lessons(:zazemlenie).title, response.body
+    assert_match courses(:el_basics).title, response.body  # sidebar header = course
+    assert_match lessons(:pteep).title, response.body      # sibling lesson in same course
+  end
+
+  test "next link flows across course boundaries within the profession" do
+    # gruppy_dopuska is the last lesson of el_basics; next is the first of el_pue.
+    get lesson_path(lessons(:gruppy_dopuska))
+    assert_match lesson_path(lessons(:zazemlenie)), response.body
   end
 
   test "show markdown format returns raw markdown" do
@@ -34,5 +40,37 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
   test "show renders markdown in html body" do
     get lesson_path(lessons(:pteep))
     assert_select "div.prose"
+  end
+
+  test "show renders the lesson toc with anchored body headings" do
+    get lesson_path(lessons(:pteep))
+    assert_select "aside.lesson-toc" do
+      assert_select ".lesson-toc__link[href='#study']"
+      # anchors are transliterated to ASCII (Turbo can't scroll to Cyrillic fragments)
+      assert_select ".lesson-toc__link--sub[href='#poryadok-dopuska-k-rabotam']", text: "Порядок допуска к работам"
+    end
+    # the in-body heading itself carries the matching anchor
+    assert_select "h2#poryadok-dopuska-k-rabotam"
+  end
+
+  test "practice lesson shows the journal CTA under the task for signed-in users" do
+    get lesson_path(lessons(:praktika_shchitok))
+    assert_select ".lesson-task-journal", false # signed out — no dead CTA
+
+    sign_in_as users(:member)
+    get lesson_path(lessons(:praktika_shchitok))
+    assert_select ".lesson-task-journal"
+
+    get lesson_path(lessons(:pteep)) # theory lesson — task, but no journal CTA
+    assert_select ".lesson-task-journal", false
+  end
+
+  test "reading mode cookie renders the stripped layout server-side" do
+    get lesson_path(lessons(:pteep))
+    assert_select "div.lesson-layout--reading", false
+
+    cookies[:reading_mode] = "1"
+    get lesson_path(lessons(:pteep))
+    assert_select "div.lesson-layout--reading"
   end
 end

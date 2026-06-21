@@ -1,0 +1,12 @@
+<%= t("reminders_mailer.continue_learning.greeting", name: @user.name) %>
+
+<%= t("reminders_mailer.continue_learning.body", path: @path.title, lesson: @lesson.title) %>
+
+<%= t("reminders_mailer.continue_learning.cta") %>: <%= lesson_url(@lesson) %>
+
+<%= t("reminders_mailer.continue_learning.once") %>
+
+<%= t("reminders_mailer.continue_learning.feedback") %>
+<%= new_feedback_url %>
+
+<%= t("reminders_mailer.continue_learning.unsubscribe") %>: <%= @unsubscribe_url %>

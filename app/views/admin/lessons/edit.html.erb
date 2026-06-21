@@ -2,6 +2,8 @@
 
 <section class="admin-page">
   <div class="container">
+    <%= render "admin/shared/nav" %>
+
     <div class="admin-header">
       <div class="admin-header__title-group">
         <a href="<%= admin_lessons_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
@@ -13,7 +15,7 @@
         <% if @lesson.revised? %>
           <a href="<%= admin_lesson_revisions_path(@lesson) %>" class="btn btn--small"><%= t("revisions.history") %> (<%= @lesson.lesson_revisions_count %>)</a>
         <% end %>
-        <a href="<%= lesson_path(@lesson) %>" class="admin-header__view-live" target="_blank"><%= t("admin.view_live") %> ↗</a>
+        <a href="<%= lesson_path(@lesson) %>" class="admin-header__view-live link-quiet" target="_blank"><%= t("admin.view_live") %> ↗</a>
       </div>
     </div>
 

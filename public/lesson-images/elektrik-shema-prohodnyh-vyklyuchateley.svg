@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 360" role="img" aria-label="Схема двух проходных выключателей: фаза на первый выключатель, две перемычки ко второму, от второго на светильник; ноль и PE напрямую к светильнику">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .lwire{stroke:#3d9bff;stroke-width:2;fill:none}
+    .nwire{stroke:#7d7d7d;stroke-width:2;fill:none}
+    .pewire{stroke:#34c759;stroke-width:2;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .lbl{font-size:11px;fill:#a1a1a1}
+    .term{fill:#3d9bff}
+    .dot{fill:#ededed}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- Source labels -->
+  <text class="ttl" x="40" y="60" text-anchor="middle">Сеть</text>
+  <circle class="term" cx="40" cy="100" r="5"/>
+  <text class="lbl" x="54" y="104" text-anchor="start">L (фаза)</text>
+  <circle cx="40" cy="240" r="5" fill="#7d7d7d"/>
+  <text class="lbl" x="54" y="244" text-anchor="start">N (ноль)</text>
+  <circle cx="40" cy="290" r="5" fill="#34c759"/>
+  <text class="lbl" x="54" y="294" text-anchor="start">PE</text>
+
+  <!-- Switch 1 -->
+  <rect class="box" x="180" y="70" width="140" height="120" rx="10"/>
+  <text class="ttl" x="250" y="98" text-anchor="middle">Проходной 1</text>
+  <text class="sub" x="250" y="116" text-anchor="middle">выключатель</text>
+  <!-- common in -->
+  <circle class="dot" cx="180" cy="100" r="4"/>
+  <!-- two travelers out -->
+  <circle class="term" cx="320" cy="135" r="4"/>
+  <circle class="term" cx="320" cy="165" r="4"/>
+  <!-- internal lever -->
+  <line x1="195" y1="150" x2="305" y2="135" class="lwire"/>
+
+  <!-- Switch 2 -->
+  <rect class="box" x="540" y="70" width="140" height="120" rx="10"/>
+  <text class="ttl" x="610" y="98" text-anchor="middle">Проходной 2</text>
+  <text class="sub" x="610" y="116" text-anchor="middle">выключатель</text>
+  <!-- two travelers in -->
+  <circle class="term" cx="540" cy="135" r="4"/>
+  <circle class="term" cx="540" cy="165" r="4"/>
+  <!-- common out -->
+  <circle class="dot" cx="680" cy="100" r="4"/>
+  <!-- internal lever -->
+  <line x1="555" y1="135" x2="665" y2="150" class="lwire"/>
+
+  <!-- L from source into switch 1 common -->
+  <path class="lwire" d="M40 100 H180"/>
+
+  <!-- two travelers (перемычки) between switches -->
+  <path class="lwire" d="M320 135 H540"/>
+  <path class="lwire" d="M320 165 H540"/>
+  <text class="lbl" x="430" y="128" text-anchor="middle">перемычка 1</text>
+  <text class="lbl" x="430" y="183" text-anchor="middle">перемычка 2</text>
+
+  <!-- L out of switch 2 to lamp -->
+  <path class="lwire" d="M680 100 H760 V210" marker-end="url(#ah)"/>
+
+  <!-- Lamp -->
+  <circle class="box" cx="760" cy="248" r="34"/>
+  <line x1="736" y1="224" x2="784" y2="272" class="lwire"/>
+  <line x1="784" y1="224" x2="736" y2="272" class="lwire"/>
+  <text class="ttl" x="760" y="318" text-anchor="middle">Светильник</text>
+
+  <!-- N direct to lamp -->
+  <path class="nwire" d="M40 240 H300 V248 H726" marker-end="url(#ah)"/>
+  <text class="lbl" x="360" y="234" text-anchor="middle">ноль — напрямую</text>
+
+  <!-- PE direct to lamp corpus -->
+  <path class="pewire" d="M40 290 H760 V282" marker-end="url(#ah)"/>
+  <text class="lbl" x="360" y="306" text-anchor="middle">PE — на корпус светильника</text>
+
+  <!-- note -->
+  <text class="sub" x="430" y="345" text-anchor="middle">Любое переключение любого выключателя меняет состояние лампы</text>
+</svg>

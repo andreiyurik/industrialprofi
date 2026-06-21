@@ -1,0 +1,46 @@
+<%# locals: (course:, current_lesson:, lessons_by_stage:, completed_ids:) -%>
+<%# TOP-style course-contents sidebar: back link + title + progress up top,
+    then a native <details> accordion per section — the current lesson's section
+    starts open, the rest stay folded so long courses scan well. %>
+<aside id="lesson_sidebar" class="lesson-sidebar" data-lesson-sidebar-target="panel"
+       aria-label="<%= t("lessons.sidebar_label") %>">
+  <header class="lesson-sidebar__head">
+    <%= link_to course_path(course), class: "lesson-sidebar__back" do %>
+      <%= heroicon "chevron-left", variant: :outline %>
+      <%= t("lessons.back_to_course") %>
+    <% end %>
+    <%= link_to course.title, course_path(course), class: "lesson-sidebar__path" %>
+    <% if signed_in? %>
+      <%= render "shared/progress_bar", completed: completed_ids.size, total: course.lessons_count %>
+    <% end %>
+    <button type="button" class="lesson-sidebar__close"
+            data-action="lesson-sidebar#close" aria-label="<%= t("common.close") %>">
+      <%= heroicon "x-mark", variant: :outline %>
+    </button>
+  </header>
+
+  <nav class="lesson-sidebar__nav">
+    <% lessons_by_stage.each do |stage, lessons| %>
+      <% if stage.present? %>
+        <details class="lesson-sidebar__stage" <%= "open" if lessons.any? { |lesson| lesson.id == current_lesson.id } %>>
+          <summary class="lesson-sidebar__stage-summary">
+            <span class="lesson-sidebar__stage-title"><%= stage %></span>
+            <% if signed_in? %>
+              <span class="lesson-sidebar__stage-count"><%= lessons.count { |lesson| completed_ids.include?(lesson.id) } %>/<%= lessons.size %></span>
+            <% end %>
+            <span class="lesson-sidebar__chevron" aria-hidden="true"><%= heroicon "chevron-down", variant: :outline %></span>
+          </summary>
+          <ul class="lesson-sidebar__list">
+            <%= render partial: "lessons/sidebar_item", collection: lessons, as: :lesson,
+                  locals: { current_lesson: current_lesson, completed_ids: completed_ids } %>
+          </ul>
+        </details>
+      <% else %>
+        <ul class="lesson-sidebar__list">
+          <%= render partial: "lessons/sidebar_item", collection: lessons, as: :lesson,
+                locals: { current_lesson: current_lesson, completed_ids: completed_ids } %>
+        </ul>
+      <% end %>
+    <% end %>
+  </nav>
+</aside>

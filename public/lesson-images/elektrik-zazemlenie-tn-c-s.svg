@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 400" role="img" aria-label="Система TN-C-S: от трансформатора идёт совмещённый PEN, в вводном щите он разделяется на PE и N с повторным заземлением, далее к потребителю раздельные PE и N">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .lbl{font-size:12px;font-weight:600}
+    .wL{stroke:#a1a1a1;stroke-width:2;fill:none}
+    .wN{stroke:#3d9bff;stroke-width:2;fill:none}
+    .wPE{stroke:#34c759;stroke-width:2;fill:none}
+    .wPEN{stroke:#f2c94c;stroke-width:2.5;fill:none}
+    .gnd{stroke:#34c759;stroke-width:2;fill:none}
+  </style>
+  <!-- Transformer / source -->
+  <rect class="box" x="20" y="120" width="150" height="120" rx="10"/>
+  <text class="ttl" x="95" y="150" text-anchor="middle">Трансформатор</text>
+  <text class="sub" x="95" y="170" text-anchor="middle">источник питания</text>
+  <text class="sub" x="95" y="186" text-anchor="middle">нейтраль заземлена</text>
+  <path class="gnd" d="M95 240 V282"/>
+  <line class="gnd" x1="75" y1="282" x2="115" y2="282"/>
+  <line class="gnd" x1="82" y1="290" x2="108" y2="290"/>
+  <line class="gnd" x1="88" y1="298" x2="102" y2="298"/>
+
+  <!-- L and combined PEN to panel -->
+  <path class="wL" d="M170 155 H440"/>
+  <text class="lbl" x="300" y="147" text-anchor="middle" fill="#a1a1a1">L (фаза)</text>
+  <path class="wPEN" d="M170 200 H440"/>
+  <text class="lbl" x="290" y="226" text-anchor="middle" fill="#f2c94c">PEN (совмещённый N + PE)</text>
+
+  <!-- Panel = split point -->
+  <rect class="dec" x="440" y="110" width="140" height="150" rx="10"/>
+  <text class="ttl" x="510" y="138" text-anchor="middle">Вводный щит</text>
+  <text class="sub" x="510" y="156" text-anchor="middle">точка разделения</text>
+  <text class="sub" x="510" y="170" text-anchor="middle">PEN → PE + N</text>
+
+  <!-- repeated grounding at split point -->
+  <path class="gnd" d="M510 260 V298"/>
+  <line class="gnd" x1="492" y1="298" x2="528" y2="298"/>
+  <line class="gnd" x1="498" y1="306" x2="522" y2="306"/>
+  <line class="gnd" x1="504" y1="314" x2="516" y2="314"/>
+  <text class="sub" x="510" y="338" text-anchor="middle">повторное заземление</text>
+
+  <!-- After split: separate PE and N to consumer -->
+  <path class="wL" d="M580 155 H740"/>
+  <path class="wN" d="M580 185 H740"/>
+  <text class="lbl" x="660" y="178" text-anchor="middle" fill="#3d9bff">N</text>
+  <path class="wPE" d="M580 220 H700 V250"/>
+  <text class="lbl" x="630" y="213" text-anchor="middle" fill="#34c759">PE</text>
+
+  <!-- Consumer / appliance -->
+  <rect class="box" x="740" y="125" width="96" height="80" rx="10"/>
+  <text class="ttl" x="788" y="160" text-anchor="middle">Прибор</text>
+  <text class="sub" x="788" y="178" text-anchor="middle">корпус</text>
+
+  <!-- PE to appliance body -->
+  <path class="wPE" d="M700 250 H788 V205"/>
+  <text class="sub" x="700" y="272" text-anchor="middle">корпус соединён с PE</text>
+</svg>

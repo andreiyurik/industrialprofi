@@ -2,20 +2,21 @@ require "test_helper"
 
 class Admin::LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @credentials = { "HTTP_AUTHORIZATION" => ActionController::HttpAuthentication::Basic.encode_credentials("admin", "secret") }
+    sign_in_as users(:admin)
   end
 
   # Auth
 
-  test "index without auth returns 401" do
+  test "index without auth redirects to sign-in" do
+    sign_out
     get admin_lesson_suggestions_path
-    assert_response :unauthorized
+    assert_redirected_to new_session_path
   end
 
   # Index
 
   test "index shows pending suggestions grouped by lesson" do
-    get admin_lesson_suggestions_path, headers: @credentials
+    get admin_lesson_suggestions_path
     assert_response :success
     assert_match lesson_suggestions(:pending_suggestion).author_name, response.body
     assert_match lesson_suggestions(:pending_suggestion).lesson.title, response.body
@@ -25,7 +26,7 @@ class Admin::LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
 
   test "show displays an inline diff and the edit reason" do
     suggestion = lesson_suggestions(:pending_suggestion)
-    get admin_lesson_suggestion_path(suggestion), headers: @credentials
+    get admin_lesson_suggestion_path(suggestion)
     assert_response :success
     assert_select "div.revision-diff ins", text: "Предложенное"
     assert_match suggestion.edit_reason, response.body
@@ -37,7 +38,7 @@ class Admin::LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     suggestion = lesson_suggestions(:pending_suggestion)
 
     assert_difference -> { suggestion.lesson.lesson_revisions.count }, 1 do
-      patch approve_admin_lesson_suggestion_path(suggestion), headers: @credentials
+      patch approve_admin_lesson_suggestion_path(suggestion)
     end
 
     suggestion.reload
@@ -58,8 +59,7 @@ class Admin::LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     suggestion = lesson_suggestions(:pending_suggestion)
 
     patch reject_admin_lesson_suggestion_path(suggestion),
-      params: { lesson_suggestion: { reviewer_comment: "Not accurate" } },
-      headers: @credentials
+      params: { lesson_suggestion: { reviewer_comment: "Not accurate" } }
 
     suggestion.reload
     assert_equal "rejected", suggestion.status

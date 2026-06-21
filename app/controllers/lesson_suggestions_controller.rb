@@ -1,4 +1,6 @@
 class LessonSuggestionsController < ApplicationController
+  allow_unauthenticated_access
+
   rate_limit to: 5, within: 1.hour, only: :create
 
   def new
@@ -9,7 +11,7 @@ class LessonSuggestionsController < ApplicationController
   end
 
   def create
-    @lesson = Lesson.find(params[:lesson_suggestion][:lesson_id])
+    @lesson = Lesson.find_by!(slug: params[:lesson_slug])
 
     # Honeypot: bots fill the hidden "company" field — pretend success, save nothing.
     if params[:company].present?

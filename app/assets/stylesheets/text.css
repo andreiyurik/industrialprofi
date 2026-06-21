@@ -1,8 +1,9 @@
 :where(h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6) {
-  font-weight: 800;
+  font-family: var(--font-display);
+  font-weight: 700;
   hyphens: auto;
-  letter-spacing: -0.02ch;
-  line-height: 1.1;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
   margin-block: 0;
   overflow-wrap: break-word;
   text-wrap: balance;
@@ -55,6 +56,18 @@ code {
   padding: 0.1em 0.3em;
 }
 
+/* Keyboard keys (`<kbd>Ctrl</kbd>` in lesson bodies) — a keycap look: same
+   chrome as inline code plus a thicker bottom edge. */
+kbd {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-block-end-width: 2px;
+  border-radius: 0.3em;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  padding: 0.1em 0.4em;
+}
+
 :is(pre, .pre) {
   border-radius: 0.5em;
   padding: 0.5lh 2ch;
@@ -65,6 +78,77 @@ code {
     font-size: 1em;
     padding: 0;
   }
+}
+
+/* Copy-code affordance — a quiet button parked at the block's top-right corner.
+   Server-rendered structure, the copy-code Stimulus controller only reveals it.
+   On pointer devices it stays hidden until the block is hovered (or the button
+   is focused); on touch (no hover) it's always shown. */
+.code-block {
+  position: relative;
+}
+
+.code-copy {
+  align-items: center;
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.4em;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  display: inline-flex;
+  inset-block-start: 0.5lh;
+  inset-inline-end: 0.5lh;
+  opacity: 0;
+  padding: 0.35em;
+  position: absolute;
+  transition: color 150ms ease, border-color 150ms ease, opacity 150ms ease;
+
+  svg {
+    block-size: 1.05em;
+    inline-size: 1.05em;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      border-color: var(--color-subtle-dark);
+      color: var(--color-ink);
+    }
+  }
+}
+
+@media (any-hover: hover) {
+  .code-block:hover .code-copy,
+  .code-copy:focus-visible {
+    opacity: 1;
+  }
+}
+
+@media (any-hover: none) {
+  .code-copy {
+    opacity: 1;
+  }
+}
+
+/* Icon swap: clipboard by default, a green check for ~2s after a copy. */
+.code-copy__icon {
+  display: inline-flex;
+}
+
+.code-copy__icon--done {
+  display: none;
+}
+
+.code-copy--copied {
+  border-color: oklch(var(--lch-green) / 0.5);
+  color: var(--color-positive);
+}
+
+.code-copy--copied .code-copy__icon--copy {
+  display: none;
+}
+
+.code-copy--copied .code-copy__icon--done {
+  display: inline-flex;
 }
 
 :is(blockquote, .quote) {
@@ -80,6 +164,40 @@ hr {
   border-color: var(--color-subtle-dark);
   border-style: solid none none;
   margin: 2lh auto;
+}
+
+/* Logo divider — the brand RJ45 mark "plugged in" at the centre of a fine
+   hairline, our take on the Rails Guides logo separator. Scoped to prose so the
+   plain <hr> above still serves mailers and other contexts.
+
+   The premium move: the hairline is CRISP where it meets the mark (a clean,
+   hard-edged gap — no muddy centre fade) and instead dissolves gently to nothing
+   toward the column edges, so the rule reads as "drawn" around a centred jewel.
+   Generous vertical breathing room finishes the effect. Two stacked backgrounds
+   (top-most first): the mark, then the tapered hairline with its centre gap. */
+.prose hr {
+  --mark-size: 0.6em;    /* the RJ45 logo height — the single knob to resize it */
+  --divider-gap: 1.1em;  /* half-gap each side of centre — clears the mark */
+
+  background-image:
+    url("logo-ethernet.png"),
+    linear-gradient(to right,
+      transparent 0,
+      var(--color-subtle-dark) 25%,
+      var(--color-subtle-dark) calc(50% - var(--divider-gap)),
+      transparent calc(50% - var(--divider-gap)) calc(50% + var(--divider-gap)),
+      var(--color-subtle-dark) calc(50% + var(--divider-gap)),
+      var(--color-subtle-dark) 75%,
+      transparent 100%);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size:
+    auto var(--mark-size),   /* the mark — the focal jewel */
+    100% 1px;                /* the hairline: crisp at the centre, fading to the edges */
+  block-size: var(--mark-size);
+  border: 0;
+  margin-block: 3.2lh;
+  opacity: 0.6;
 }
 
 table {
@@ -112,24 +230,62 @@ ins {
   color: var(--color-positive);
 }
 
-/* Page titles */
+/* Quiet link — muted by default, brightens to ink on hover. The single source
+   for the recurring "secondary text link" voice (footer, breadcrumbs, nav, meta
+   actions). Compose with --underline when the link should also carry a subtle
+   underline that brightens with it. Structural props (font-size, icon layout)
+   stay on the component class; this carries only colour + hover. */
+.link-quiet {
+  color: var(--color-subtle-dark);
+  text-decoration: none;
+  transition: color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+.link-quiet--underline {
+  text-decoration: underline;
+  text-decoration-color: var(--color-subtle);
+  transition: color 150ms ease, text-decoration-color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration-color: var(--color-ink);
+    }
+  }
+}
+
+/* Page titles — the display-type moment: Inter Tight, uppercase, big & tight. */
 .page-title {
-  font-size: clamp(2em, 6vw, 3.5em);
-  line-height: 1.1;
+  font-size: clamp(2.25em, 7vw, 4.25em);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1;
   margin-block: 0;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .section-title {
-  font-size: clamp(1.5em, 3.5vw, 2em);
+  font-size: clamp(1.75em, 4vw, 2.5em);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
   margin-block: 0;
   text-align: center;
+  text-transform: uppercase;
 }
 
-/* Long-form prose: markdown-rendered lesson content, etc. */
+/* Long-form prose: markdown-rendered lesson content, etc. Tuned for comfortable
+   long reading — larger type, generous line-height, headings that breathe,
+   callouts and tables that read as what they are. */
 .prose {
-  font-size: 0.95em;
-  line-height: 1.6;
+  font-size: 1.05rem;
+  line-height: 1.7;
 
   > :first-child {
     margin-block-start: 0;
@@ -139,17 +295,87 @@ ins {
     margin-block-end: 0;
   }
 
+  /* In-body headings sit a step below the section heading, with air above and a
+     tight gap below — so each one visibly starts a new block of text. */
+  :is(h2, h3, h4) {
+    line-height: 1.2;
+    margin-block: 1.8em 0.5em;
+    text-wrap: balance;
+  }
+
+  h2 { font-size: 1.25em; }
+  h3 { font-size: 1.1em; }
+  h4 { font-size: 1em; }
+
   ul, ol {
-    padding-inline-start: 2ch;
+    padding-inline-start: 1.5em;
   }
 
   li + li {
-    margin-block-start: 0.3em;
+    margin-block-start: 0.4em;
+  }
+
+  /* Quiet bullets/numbers — the text carries the emphasis, not the marker. */
+  li::marker {
+    color: var(--color-subtle-dark);
   }
 
   a {
     color: var(--color-link);
     text-decoration: underline;
     text-decoration-color: oklch(var(--lch-blue) / 0.4);
+  }
+
+  /* Callout — our `> **Важно:** …` safety notes. Stands out via a fill and a
+     warm accent edge, not a heavy box. */
+  blockquote {
+    background-color: var(--color-subtle-light);
+    border-inline-start: 3px solid oklch(var(--lch-yellow));
+    border-radius: 0 0.4em 0.4em 0;
+    font-style: normal;
+    margin: 1.25lh 0;
+    padding: 0.6lh 2ch;
+
+    > :first-child { margin-block-start: 0; }
+    > :last-child { margin-block-end: 0; }
+  }
+
+  /* Figures: images fit the column; the `*Рис. N…*` caption (a lone <em>) sits
+     centred and quiet beneath. */
+  img {
+    block-size: auto;
+    border: 1px solid var(--color-subtle);
+    border-radius: 0.5em;
+    display: block;
+    margin-inline: auto;
+    max-inline-size: 100%;
+  }
+
+  p > em:only-child {
+    color: var(--color-subtle-dark);
+    display: block;
+    font-size: 0.85em;
+    text-align: center;
+  }
+
+  /* Tables: roomier cells and a filled header row so columns read clearly. */
+  th {
+    background-color: var(--color-subtle-light);
+  }
+
+  :where(th, td) {
+    padding: 0.4lh 1.25ch;
+  }
+}
+
+/* Wrapper added around every table by the markdown helper, so wide comparison
+   tables scroll horizontally on phones instead of breaking the layout. */
+.prose-table {
+  margin-block: 1.25lh 0;
+  max-inline-size: 100%;
+  overflow-x: auto;
+
+  > table {
+    margin-block: 0;
   }
 }

@@ -4,8 +4,20 @@ class LessonTest < ActiveSupport::TestCase
   # Validations
 
   test "valid with required attributes" do
-    lesson = Lesson.new(path: paths(:electrician), title: "Новый урок", slug: "novyy-urok")
+    lesson = Lesson.new(course: courses(:el_basics), title: "Новый урок", slug: "novyy-urok")
     assert lesson.valid?
+  end
+
+  test "invalid without course" do
+    lesson = Lesson.new(title: "Orphan", slug: "orphan")
+    assert_not lesson.valid?
+    assert lesson.errors[:course].any?
+  end
+
+  test "derives path from course" do
+    lesson = Lesson.new(course: courses(:el_basics), title: "X", slug: "x-derives")
+    lesson.valid?
+    assert_equal paths(:electrician), lesson.path
   end
 
   test "invalid without title" do
@@ -48,6 +60,10 @@ class LessonTest < ActiveSupport::TestCase
 
   test "belongs to path" do
     assert_equal paths(:electrician), lessons(:pteep).path
+  end
+
+  test "belongs to course" do
+    assert_equal courses(:el_basics), lessons(:pteep).course
   end
 
   test "has many resources" do

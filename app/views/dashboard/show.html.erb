@@ -1,0 +1,160 @@
+<% meta_title(t("dashboard.title")) %>
+
+<section class="section">
+  <div class="container dashboard">
+    <h1 class="section-title dashboard__greeting"><%= t("dashboard.greeting", name: Current.user.name) %></h1>
+
+    <% if @focus_path %>
+      <% completed_ids = @completed_ids_by_path[@focus_path] %>
+      <% next_lesson = @focus_path.lessons.detect { |lesson| !completed_ids.include?(lesson.id) } %>
+
+      <%# TOP-style identity card: the direction + the learner's own goal,
+          then ONE big next action. Everything below is quieter than this. %>
+      <section class="panel dashboard-hero">
+        <div class="dashboard-hero__identity">
+          <span class="dashboard-hero__badge"><%= render "shared/topic_badge", token: path_icon_token(@focus_path) %></span>
+          <div class="dashboard-hero__info">
+            <p class="dashboard__eyebrow"><%= t("dashboard.focus_title") %></p>
+            <h2 class="dashboard-hero__title"><%= link_to @focus_path.title, path_path(@focus_path), class: "dashboard-hero__title-link" %></h2>
+            <%= render "shared/progress_bar", completed: completed_ids.size, total: @focus_path.lessons_count %>
+          </div>
+          <div class="dashboard-hero__goal">
+            <%= render "learning_goal" %>
+          </div>
+        </div>
+
+        <div class="dashboard-hero__action">
+          <% if next_lesson %>
+            <%= link_to next_lesson, class: "btn btn--reversed btn--large" do %>
+              <%= t("dashboard.continue") %>
+              <%= heroicon "arrow-right", variant: :outline %>
+            <% end %>
+            <p class="dashboard-hero__next"><%= t("paths.next_up", title: next_lesson.title) %></p>
+          <% else %>
+            <p class="dashboard-hero__finished">
+              <%= heroicon "check-circle", variant: :solid %>
+              <%= t("dashboard.path_completed") %>
+            </p>
+          <% end %>
+        </div>
+      </section>
+
+      <%# TOP's "Skills Progress": one row per course — ring with the percent
+          always visible, counts, and the right verb for the state. %>
+      <h2 class="dashboard__courses-title"><%= t("dashboard.courses_title") %></h2>
+      <p class="dashboard__courses-hint"><%= t("dashboard.courses_hint") %></p>
+      <section class="panel dashboard-courses">
+        <% @focus_path.courses.each do |course| %>
+          <% if course.coming_soon? %>
+            <div class="dashboard-course dashboard-course--soon">
+              <span class="dashboard-course__ring dashboard-course__ring--soon"><%= heroicon "lock-closed", variant: :outline %></span>
+              <div class="dashboard-course__info">
+                <h3 class="dashboard-course__title"><%= course.title %></h3>
+              </div>
+              <span class="badge badge--draft"><%= t("courses.coming_soon") %></span>
+            </div>
+          <% else %>
+            <% course_lessons = @focus_path.lessons.select { |lesson| lesson.course_id == course.id } %>
+            <% done_count = course_lessons.count { |lesson| completed_ids.include?(lesson.id) } %>
+            <% next_in_course = course_lessons.detect { |lesson| !completed_ids.include?(lesson.id) } %>
+            <% lessons_n = course_lessons.count { |lesson| lesson.kind == "lesson" } %>
+            <% practice_n = course_lessons.size - lessons_n %>
+            <div class="dashboard-course">
+              <span class="dashboard-course__ring">
+                <%= render layout: "shared/progress_ring", locals: { completed: done_count, total: course_lessons.size } do %><% end %>
+              </span>
+              <div class="dashboard-course__info">
+                <h3 class="dashboard-course__title"><%= link_to course.title, course_path(course), class: "dashboard-course__title-link" %></h3>
+                <div class="course-card__meta">
+                  <span class="course-card__meta-item">
+                    <%= heroicon "book-open", variant: :outline %>
+                    <%= t("courses.lessons_count", count: lessons_n) %>
+                  </span>
+                  <% if practice_n.positive? %>
+                    <span class="course-card__meta-item">
+                      <%= heroicon "wrench-screwdriver", variant: :outline %>
+                      <%= t("courses.practice_count", count: practice_n) %>
+                    </span>
+                  <% end %>
+                </div>
+              </div>
+              <% if next_in_course %>
+                <%= link_to (done_count.zero? ? t("dashboard.start") : t("dashboard.continue")), next_in_course, class: "btn" %>
+              <% elsif course_lessons.any? %>
+                <span class="dashboard-course__done">
+                  <%= heroicon "check-circle", variant: :solid %>
+                  <%= t("dashboard.course_done") %>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </section>
+
+      <% if @activity.any? %>
+        <%= render "heatmap", activity: @activity, since: @activity_since %>
+      <% end %>
+
+      <% if @other_paths.any? %>
+        <h2 class="dashboard__others-title"><%= t("dashboard.other_paths") %></h2>
+        <div class="dashboard__others">
+          <% @other_paths.each do |path| %>
+            <% ids = @completed_ids_by_path[path] %>
+            <% nxt = path.lessons.detect { |lesson| !ids.include?(lesson.id) } %>
+            <div class="panel dashboard-other">
+              <span class="dashboard-other__icon"><%= topic_icon_svg(path_icon_token(path)) %></span>
+              <%= link_to path.title, path_path(path), class: "dashboard-other__title" %>
+              <div class="dashboard-other__progress">
+                <%= render "shared/progress_bar", completed: ids.size, total: path.lessons_count %>
+              </div>
+              <% if nxt %>
+                <%= link_to t("dashboard.continue"), nxt, class: "dashboard-other__continue link-quiet" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="dashboard__goal">
+        <%= render "learning_goal" %>
+      </div>
+
+      <div class="dashboard__empty">
+        <p class="dashboard__empty-text"><%= t("dashboard.empty") %></p>
+        <%= link_to t("dashboard.browse_paths"), paths_path, class: "btn btn--reversed btn--large" %>
+      </div>
+
+      <% if @suggested_paths.any? %>
+        <div class="dashboard__suggested">
+          <h2 class="dashboard__suggested-title"><%= t("dashboard.suggested") %></h2>
+          <div class="card-grid card-grid--3-col">
+            <% @suggested_paths.each do |path| %>
+              <%= render "paths/path_card", path: path %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% if @bookmarked_lessons.any? %>
+      <section id="dashboard_bookmarks" class="dashboard__bookmarks">
+        <h2 class="dashboard__others-title"><%= t("dashboard.bookmarks_title") %></h2>
+        <p class="dashboard__courses-hint"><%= t("dashboard.bookmarks_hint") %></p>
+        <div class="panel dashboard-bookmarks">
+          <% @bookmarked_lessons.each do |lesson| %>
+            <div class="dashboard-bookmark" id="<%= dom_id(lesson, :bookmark_row) %>">
+              <span class="badge badge--diff-<%= lesson.difficulty %>"><%= t("lessons.difficulty.#{lesson.difficulty}") %></span>
+              <%= link_to lesson.title, lesson, class: "dashboard-bookmark__title" %>
+              <span class="dashboard-bookmark__path"><%= lesson.path.title %></span>
+              <%= button_to lesson_bookmark_path(lesson), method: :delete,
+                    class: "dashboard-bookmark__remove",
+                    title: t("bookmarks.remove"), "aria-label": t("bookmarks.remove") do %>
+                <%= heroicon "x-mark", variant: :outline %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+  </div>
+</section>

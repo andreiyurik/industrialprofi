@@ -1,0 +1,78 @@
+<% meta_title(t("projects.title")) %>
+<% meta_description(t("projects.subtitle")) %>
+<% canonical_url("#{site_config.url}/projects") %>
+
+<% saved_param = @saved_only ? "1" : nil %>
+
+<section class="section">
+  <div class="container">
+    <div class="txt-align-center">
+      <h1 class="section-title"><%= t("projects.title") %></h1>
+      <p class="section-subtitle"><%= t("projects.subtitle") %></p>
+    </div>
+
+    <nav class="project-filters" aria-label="<%= t("projects.filters_label") %>">
+      <%# Profession is the dimension that grows — a native <select> scales to
+          any number of paths and gives a real picker on mobile. Auto-submits on
+          change; the <noscript> button keeps it working without JS. Difficulty
+          and "saved" ride along as hidden fields so changing path keeps them. %>
+      <%= form_with url: projects_path, method: :get, class: "project-filters__paths",
+                    data: { controller: "auto-submit" } do %>
+        <label class="for-screen-reader" for="project-path"><%= t("projects.path_filter_label") %></label>
+        <select id="project-path" name="path" class="filter-select"
+                data-action="auto-submit#submit">
+          <option value=""><%= t("projects.all_paths") %></option>
+          <% @paths.each do |path| %>
+            <option value="<%= path.slug %>" <%= "selected" if @selected_path == path %>><%= path.title %></option>
+          <% end %>
+        </select>
+        <% if @selected_difficulty %><%= hidden_field_tag :difficulty, @selected_difficulty %><% end %>
+        <% if @saved_only %><%= hidden_field_tag :saved, "1" %><% end %>
+        <noscript><button type="submit" class="btn btn--small"><%= t("projects.apply_filter") %></button></noscript>
+      <% end %>
+      <div class="project-filters__group">
+        <%= link_to t("projects.any_difficulty"), projects_path(path: @selected_path&.slug, saved: saved_param),
+                    class: "filter-chip", "aria-current": @selected_difficulty.nil? || nil %>
+        <% Lesson::DIFFICULTIES.each do |difficulty| %>
+          <%= link_to t("lessons.difficulty.#{difficulty}"),
+                      projects_path(path: @selected_path&.slug, difficulty: difficulty, saved: saved_param),
+                      class: "filter-chip filter-chip--#{difficulty}",
+                      "aria-current": (@selected_difficulty == difficulty) || nil %>
+        <% end %>
+      </div>
+      <% if signed_in? %>
+        <div class="project-filters__group">
+          <%= link_to projects_path(path: @selected_path&.slug, difficulty: @selected_difficulty,
+                                    saved: @saved_only ? nil : "1"),
+                      class: "filter-chip filter-chip--saved", "aria-current": @saved_only || nil do %>
+            <%= heroicon "bookmark", variant: @saved_only ? :solid : :outline %>
+            <%= t("projects.saved_filter") %>
+          <% end %>
+        </div>
+      <% end %>
+      <p class="project-filters__count"><%= t("projects.found", count: @lessons.size) %></p>
+    </nav>
+
+    <% if @lessons.any? %>
+      <div class="project-grid">
+        <% @lessons.each do |lesson| %>
+          <%= render "project_card", lesson: lesson,
+                done: @completed_ids.include?(lesson.id),
+                bookmarked: @bookmarked_ids.include?(lesson.id) %>
+        <% end %>
+      </div>
+    <% elsif @saved_only && @selected_path.nil? && @selected_difficulty.nil? %>
+      <p class="projects__empty">
+        <%= t("projects.empty_saved") %>
+        <%= link_to t("projects.reset_filters"), projects_path %>
+      </p>
+    <% elsif @selected_path || @selected_difficulty || @saved_only %>
+      <p class="projects__empty">
+        <%= t("projects.empty_filtered") %>
+        <%= link_to t("projects.reset_filters"), projects_path %>
+      </p>
+    <% else %>
+      <p class="projects__empty"><%= t("projects.empty") %></p>
+    <% end %>
+  </div>
+</section>

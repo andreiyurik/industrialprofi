@@ -1,0 +1,25 @@
+<% meta_title(t("auth.new_password_title")) %>
+
+<section class="section">
+  <div class="container">
+    <div class="auth">
+      <h1 class="auth__title"><%= t("auth.new_password_title") %></h1>
+      <p class="auth__subtitle"><%= t("auth.password_hint") %></p>
+
+      <%= form_with url: password_path(params[:token]), method: :patch, class: "auth__form" do |form| %>
+        <%= form.label :password, t("auth.password"), class: "for-screen-reader" %>
+        <%= form.password_field :password, required: true, autofocus: true, minlength: 8,
+              autocomplete: "new-password", placeholder: t("auth.password_placeholder"), class: "input" %>
+
+        <%= form.label :password_confirmation, t("auth.password_confirmation"), class: "for-screen-reader" %>
+        <%= form.password_field :password_confirmation, required: true, minlength: 8,
+              autocomplete: "new-password", placeholder: t("auth.password_confirmation"), class: "input" %>
+
+        <%= form.button class: "btn btn--reversed btn--large auth__submit" do %>
+          <%= t("auth.save_password") %>
+          <%= heroicon "arrow-right", variant: :outline %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</section>

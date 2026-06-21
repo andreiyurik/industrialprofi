@@ -8,21 +8,76 @@
     { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
     { title: t("paths.title"), url: "#{site_config.url}/paths" },
     { title: @path.title, url: "#{site_config.url}/paths/#{@path.slug}" },
+    { title: @course.title, url: "#{site_config.url}/courses/#{@course.slug}" },
     { title: @lesson.title, url: "#{site_config.url}/lessons/#{@lesson.slug}" }
   ])) %>
 <% end %>
 
-<main class="lesson">
+<%# reading_mode cookie → the server renders the stripped layout directly,
+    so flipping between lessons inside reading mode never flashes the chrome. %>
+<div class="lesson-layout<%= " lesson-layout--reading" if cookies[:reading_mode] == "1" %>"
+     data-controller="lesson-sidebar reading-mode"
+     data-lesson-sidebar-open-class="lesson-layout--sidebar-open"
+     data-reading-mode-active-class="lesson-layout--reading"
+     data-action="keydown.esc@window->lesson-sidebar#close keydown.esc@window->reading-mode#exit">
+  <%= render "lessons/sidebar", course: @course, current_lesson: @lesson,
+        lessons_by_stage: @lessons_by_stage, completed_ids: @completed_ids %>
+
+  <div class="lesson-sidebar-backdrop" data-action="click->lesson-sidebar#close" aria-hidden="true"></div>
+
+  <div class="lesson">
+  <button type="button" class="lesson-contents-toggle" data-action="lesson-sidebar#open">
+    <%= heroicon "bars-3", variant: :outline %>
+    <%= t("lessons.contents") %>
+  </button>
+
   <%= render "shared/breadcrumbs", crumbs: [
     { title: @path.title, path: path_path(@path) },
+    { title: @course.title, path: course_path(@course) },
     { title: @lesson.title }
   ] %>
 
   <header class="lesson__header">
     <h1 class="lesson__title"><%= @lesson.title %></h1>
+
+    <%# JS-dependent buttons (copy, reading mode) are rendered `hidden` and
+        revealed by their controllers on connect — no dead buttons without JS.
+        The bookmark toggle is a plain form, so the row itself stays visible. %>
+    <div class="lesson__meta"
+         data-controller="copy-link"
+         data-copy-link-url-value="<%= "#{site_config.url}/lessons/#{@lesson.slug}" %>"
+         data-copy-link-label-value="<%= t("lessons.copy_link") %>"
+         data-copy-link-copied-value="<%= t("lessons.link_copied") %>">
+      <button type="button" class="lesson__copy" hidden
+              data-copy-link-target="button"
+              data-action="copy-link#copy">
+        <%= heroicon "link", variant: :outline %>
+        <span data-copy-link-target="label"><%= t("lessons.copy_link") %></span>
+      </button>
+
+      <button type="button" class="lesson__copy lesson-reading-toggle" hidden
+              data-reading-mode-target="toggle"
+              data-action="reading-mode#toggle">
+        <span class="lesson-reading-toggle__enter">
+          <%= heroicon "arrows-pointing-out", variant: :outline %>
+          <span><%= t("lessons.reading_mode") %></span>
+        </span>
+        <span class="lesson-reading-toggle__exit">
+          <%= heroicon "arrows-pointing-in", variant: :outline %>
+          <span><%= t("lessons.reading_mode_exit") %></span>
+        </span>
+      </button>
+
+      <%# Save-for-later: a practice task often waits for tools/materials. %>
+      <% if @lesson.practice? && signed_in? %>
+        <%= render "lessons/bookmark_button", lesson: @lesson,
+              bookmarked: Current.user.lesson_bookmarks.exists?(lesson: @lesson) %>
+      <% end %>
+    </div>
+
     <% if @lesson.revised? %>
       <%= link_to lesson_revisions_path(@lesson),
-          class: "lesson-updated", data: { turbo_frame: "lesson_history" } do %>
+          class: "lesson-updated link-quiet link-quiet--underline", data: { turbo_frame: "lesson_history" } do %>
         <%= heroicon("clock", variant: :outline) %>
         <span><%= t("revisions.updated_n_times", count: @lesson.lesson_revisions_count) %> · <%= t("revisions.history") %></span>
       <% end %>
@@ -41,36 +96,62 @@
     <% end %>
 
     <% if @lesson.has_body? %>
+      <%# No "Что изучить" heading on purpose: lesson bodies open with their own
+          ## heading, so a label here read as a duplicate. The id stays — the
+          sidebar TOC anchors to it. %>
       <section id="study" class="lesson__section">
-        <h2 class="lesson__heading"><%= t("lessons.study_section") %></h2>
         <div class="prose"><%= lesson_content(@lesson, :body) %></div>
         <%= render "lessons/edit_link", section: "body" %>
       </section>
     <% end %>
 
     <% if @lesson.has_resources? %>
+      <% required_resources = @lesson.resources.required %>
+      <% optional_resources = @lesson.resources.optional %>
       <section id="resources" class="lesson__section">
         <h2 class="lesson__heading"><%= t("lessons.resources_section") %></h2>
-        <ul class="lesson-resources">
-          <%= render @lesson.resources.required %>
-          <%= render @lesson.resources.optional %>
-        </ul>
+        <% if required_resources.any? %>
+          <h3 class="lesson-resources__group-title"><%= t("lessons.required_label") %></h3>
+          <ul class="lesson-resources">
+            <%= render required_resources %>
+          </ul>
+        <% end %>
+        <% if optional_resources.any? %>
+          <h3 class="lesson-resources__group-title"><%= t("lessons.optional_label") %></h3>
+          <ul class="lesson-resources">
+            <%= render optional_resources %>
+          </ul>
+        <% end %>
       </section>
     <% end %>
 
     <% if @lesson.has_task? %>
       <section id="task" class="lesson__section">
-        <h2 class="lesson__heading"><%= t("lessons.task_section") %></h2>
+        <h2 class="lesson__heading lesson__heading--task">
+          <%= heroicon "wrench-screwdriver", variant: :outline %>
+          <span><%= t("lessons.task_section") %></span>
+        </h2>
         <div class="lesson__task">
           <div class="prose"><%= lesson_content(@lesson, :task) %></div>
+          <%# The practice loop: did it → photograph it → log it. The journal
+              entry is the "submission" (and the future v0.3 portfolio). %>
+          <% if @lesson.practice? && signed_in? %>
+            <%= link_to new_journal_entry_path(lesson_id: @lesson.id), class: "btn lesson-task-journal" do %>
+              <%= heroicon "camera", variant: :outline %>
+              <%= t("lessons.log_result") %>
+            <% end %>
+          <% end %>
         </div>
         <%= render "lessons/edit_link", section: "task" %>
       </section>
     <% end %>
 
-    <%= render "lessons/lesson_nav" %>
+    <%= render "lessons/completion", lesson: @lesson, completed: @completed_ids.include?(@lesson.id) %>
   </article>
-</main>
+  </div>
+
+  <%= render "lessons/toc", lesson: @lesson %>
+</div>
 
 <section class="support-cta">
   <div class="container support-cta__inner">

@@ -1,0 +1,110 @@
+<% meta_title(t("admin.dashboard.title")) %>
+
+<section class="admin-page">
+  <div class="container">
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-header">
+      <h1 class="admin-header__title"><%= t("admin.dashboard.title") %></h1>
+    </div>
+
+    <% if @pending_suggestions.positive? %>
+      <a href="<%= admin_lesson_suggestions_path %>" class="panel panel--hover admin-callout">
+        <span class="admin-callout__text">
+          <%= t("admin.dashboard.pending_suggestions", count: @pending_suggestions) %>
+        </span>
+        <span class="btn btn--small btn--reversed"><%= t("admin.dashboard.review_now") %></span>
+      </a>
+    <% end %>
+
+    <div class="admin-stats">
+      <div class="panel admin-stat">
+        <span class="admin-stat__value"><%= @users_total %></span>
+        <span class="admin-stat__label"><%= t("admin.dashboard.users_total") %></span>
+        <span class="admin-stat__detail">
+          <%= t("admin.dashboard.users_week", count: @users_week) %> ·
+          <%= t("admin.dashboard.users_month", count: @users_month) %>
+        </span>
+      </div>
+
+      <div class="panel admin-stat">
+        <span class="admin-stat__value"><%= @active_week %></span>
+        <span class="admin-stat__label"><%= t("admin.dashboard.active_week") %></span>
+        <span class="admin-stat__detail"><%= t("admin.dashboard.active_week_hint") %></span>
+      </div>
+
+      <div class="panel admin-stat">
+        <span class="admin-stat__value"><%= @completions_total %></span>
+        <span class="admin-stat__label"><%= t("admin.dashboard.completions") %></span>
+        <span class="admin-stat__detail"><%= t("admin.dashboard.completions_week", count: @completions_week) %></span>
+      </div>
+
+      <div class="panel admin-stat">
+        <span class="admin-stat__value"><%= @journal_entries_total %></span>
+        <span class="admin-stat__label"><%= t("admin.dashboard.journal_entries") %></span>
+        <span class="admin-stat__detail"><%= t("admin.dashboard.storage", size: number_to_human_size(@storage_bytes)) %></span>
+      </div>
+    </div>
+
+    <div class="admin-group">
+      <div class="admin-group__head">
+        <h2 class="admin-group__title"><%= t("admin.dashboard.signups_chart") %></h2>
+        <span class="admin-group__meta"><%= t("admin.dashboard.signups_chart_period", weeks: @signups_by_week.size) %></span>
+      </div>
+      <% max = [ @signups_by_week.map(&:last).max, 1 ].max %>
+      <div class="admin-chart" role="img" aria-label="<%= t("admin.dashboard.signups_chart") %>">
+        <% @signups_by_week.each do |week_start, count| %>
+          <div class="admin-chart__col"
+               title="<%= t("admin.dashboard.signups_week_title", date: l(week_start), count: count) %>">
+            <div class="admin-chart__bar" style="block-size: <%= (count.to_f / max * 6).round(2) %>rem"></div>
+            <span class="admin-chart__count"><%= count %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="admin-group">
+      <div class="admin-group__head">
+        <h2 class="admin-group__title"><%= t("admin.dashboard.content") %></h2>
+      </div>
+      <div class="admin-list">
+        <a href="<%= admin_paths_path %>" class="admin-row">
+          <span class="admin-row__title"><%= t("admin.dashboard.content_paths") %></span>
+          <span class="admin-row__meta">
+            <%= t("admin.dashboard.published_of_total", published: @paths_published, total: @paths_total) %>
+          </span>
+        </a>
+        <a href="<%= admin_courses_path %>" class="admin-row">
+          <span class="admin-row__title"><%= t("admin.dashboard.content_courses") %></span>
+          <span class="admin-row__meta"><%= @courses_total %></span>
+        </a>
+        <a href="<%= admin_lessons_path %>" class="admin-row">
+          <span class="admin-row__title"><%= t("admin.dashboard.content_lessons") %></span>
+          <span class="admin-row__meta"><%= @lessons_total %></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="admin-group">
+      <div class="admin-group__head">
+        <h2 class="admin-group__title"><%= t("admin.dashboard.recent_users") %></h2>
+        <a href="<%= admin_users_path %>" class="admin-group__meta"><%= t("admin.dashboard.all_users") %> →</a>
+      </div>
+      <div class="admin-list">
+        <% @recent_users.each do |user| %>
+          <div class="admin-row admin-row--static">
+            <span class="admin-row__line">
+              <span class="admin-row__title"><%= user.name %></span>
+              <% unless user.member? %>
+                <span class="badge badge--marker"><%= t("admin.roles.#{user.role}") %></span>
+              <% end %>
+            </span>
+            <span class="admin-row__subtle">
+              <%= user.email_address %> · <%= l(user.created_at, format: :long) %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

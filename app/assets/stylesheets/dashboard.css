@@ -1,0 +1,480 @@
+/* "Моё обучение" — the signed-in home, TOP-style: identity card (direction +
+   personal goal + ONE next action), then per-course progress rows. */
+.dashboard .dashboard__greeting {
+  margin-block-end: 2rem;
+}
+
+/* Activity heatmap (GitHub-style): columns = weeks, rows = weekdays.
+   Pure server-rendered divs; green intensity = real actions that day. */
+.heatmap {
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75em;
+  margin-block-end: 2rem;
+  overflow-x: auto;
+  padding: 1rem 1.25rem;
+}
+
+.heatmap__header {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin-block-end: 0.75rem;
+}
+
+.heatmap__title {
+  font-size: 0.95rem;
+  margin-block: 0;
+}
+
+.heatmap__summary {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+}
+
+.heatmap__grid {
+  display: grid;
+  gap: 3px;
+  grid-auto-columns: 0.72rem;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 0.72rem);
+  inline-size: max-content;
+}
+
+.heatmap__cell {
+  background-color: var(--color-subtle-light);
+  border-radius: 2px;
+}
+
+.heatmap__cell--void {
+  background-color: transparent;
+}
+
+.heatmap__cell--l1 { background-color: oklch(var(--lch-green) / 0.25); }
+.heatmap__cell--l2 { background-color: oklch(var(--lch-green) / 0.45); }
+.heatmap__cell--l3 { background-color: oklch(var(--lch-green) / 0.7); }
+.heatmap__cell--l4 { background-color: oklch(var(--lch-green)); }
+
+.heatmap__legend {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  display: flex;
+  font-size: 0.7rem;
+  gap: 3px;
+  justify-content: flex-end;
+  margin-block-start: 0.6rem;
+
+  .heatmap__cell {
+    block-size: 0.72rem;
+    display: inline-block;
+    inline-size: 0.72rem;
+  }
+
+  span:first-child {
+    margin-inline-end: 0.3rem;
+  }
+
+  span:last-child {
+    margin-inline-start: 0.3rem;
+  }
+}
+
+/* The identity card (TOP-style): direction + personal goal, ONE next action.
+   Brighter border than anything else on the page — attention goes here. */
+.dashboard-hero {
+  border-color: var(--color-subtle-dark);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-block-end: 2.5rem;
+  padding: 1.5rem;
+}
+
+.dashboard-hero__identity {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.dashboard-hero__badge {
+  block-size: 4.5rem;
+  border: 2px solid var(--color-subtle);
+  border-radius: 50%;
+  color: var(--color-ink);
+  display: inline-block;
+  flex-shrink: 0;
+  inline-size: 4.5rem;
+
+  .topic-badge > svg {
+    block-size: 2rem;
+    inline-size: 2rem;
+  }
+}
+
+.dashboard-hero__info {
+  display: flex;
+  flex: 1 1 18rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-inline-size: 0;
+}
+
+.dashboard-hero__title {
+  font-size: 1.35rem;
+  margin-block: 0;
+}
+
+.dashboard-hero__title-link {
+  color: var(--color-ink);
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* The learner's own goal, TOP-style: to the right of the identity. */
+.dashboard-hero__goal {
+  flex: 1 1 16rem;
+  max-inline-size: 24rem;
+}
+
+.dashboard-hero__action {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dashboard-hero__next {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block: 0;
+}
+
+.dashboard-hero__finished {
+  align-items: center;
+  color: var(--color-positive);
+  display: inline-flex;
+  font-weight: 600;
+  gap: 0.4rem;
+  margin-block: 0;
+
+  svg {
+    block-size: 1.25rem;
+    inline-size: 1.25rem;
+  }
+}
+
+/* Per-course progress (TOP's "Skills Progress"): centered heading, then one
+   quiet row per course — ring with the percent always visible. */
+.dashboard__courses-title {
+  font-size: 1.5rem;
+  margin-block: 0;
+  text-align: center;
+}
+
+.dashboard__courses-hint {
+  color: var(--color-subtle-dark);
+  margin-block: 0.5rem 1.5rem;
+  text-align: center;
+}
+
+.dashboard-courses {
+  margin-block-end: 2.5rem;
+  padding: 0.25rem 1.5rem;
+}
+
+.dashboard-course {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  padding-block: 1.25rem;
+}
+
+.dashboard-course + .dashboard-course {
+  border-block-start: 1px solid var(--color-subtle);
+}
+
+.dashboard-course--soon {
+  opacity: 0.6;
+}
+
+/* Ring with no icon disc — the percent shows by default (TOP's dashboard). */
+.dashboard-course__ring {
+  block-size: 5rem;
+  flex-shrink: 0;
+  inline-size: 5rem;
+
+  .progress-ring__body {
+    display: none;
+  }
+}
+
+.dashboard-course__ring--soon {
+  align-items: center;
+  border: 2px solid var(--color-subtle);
+  border-radius: 50%;
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  justify-content: center;
+
+  svg {
+    block-size: 1.5rem;
+    inline-size: 1.5rem;
+  }
+}
+
+.dashboard-course__info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-inline-size: 12rem;
+}
+
+.dashboard-course__title {
+  font-size: 1.05rem;
+  margin-block: 0;
+}
+
+.dashboard-course__title-link {
+  color: var(--color-ink);
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.dashboard-course__done {
+  align-items: center;
+  color: var(--color-positive);
+  display: inline-flex;
+  font-weight: 600;
+  gap: 0.4rem;
+
+  svg {
+    block-size: 1.2rem;
+    inline-size: 1.2rem;
+  }
+}
+
+.dashboard__eyebrow {
+  color: var(--color-subtle-dark);
+  flex-basis: 100%;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-block: 0;
+  text-transform: uppercase;
+}
+
+/* Other started paths: present but quiet — one compact row each. */
+.dashboard__others-title {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-block: 2rem 0.75rem;
+}
+
+.dashboard__others {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dashboard-other {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dashboard-other__icon {
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+
+  svg {
+    block-size: 1.4rem;
+    inline-size: 1.4rem;
+  }
+}
+
+.dashboard-other__title {
+  color: var(--color-ink);
+  font-weight: 600;
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.dashboard-other__progress {
+  flex: 1 1 10rem;
+}
+
+.dashboard-other__continue {
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-decoration-color: var(--color-subtle);
+}
+
+.dashboard__empty {
+  align-items: center;
+  border: 1px dashed var(--color-subtle);
+  border-radius: 0.75em;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-block-start: 1rem;
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.dashboard__empty-text {
+  color: var(--color-subtle-dark);
+  margin-block: 0;
+  max-inline-size: 32rem;
+}
+
+.dashboard__suggested {
+  margin-block-start: 3rem;
+}
+
+.dashboard__suggested-title {
+  font-size: 1.2rem;
+  margin-block: 0 1rem;
+}
+
+/* Personal learning goal (TOP's "What's your learning goal?") — the
+   learner's own words inside the hero card. The whole block lives in a
+   Turbo Frame and swaps for the inline form on edit. */
+.learning-goal {
+  color: var(--color-subtle-dark);
+  margin-block: 0;
+}
+
+.learning-goal__text {
+  color: var(--color-ink);
+  font-style: italic;
+}
+
+.learning-goal__edit {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-inline-start: 0.5ch;
+}
+
+.learning-goal__prompt {
+  color: var(--color-subtle-dark);
+}
+
+.learning-goal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-inline-size: 36rem;
+}
+
+/* Standalone goal block on the empty dashboard (no hero card yet). */
+.dashboard__goal {
+  margin-block-end: 2rem;
+  text-align: center;
+
+  .learning-goal-form {
+    margin-inline: auto;
+    text-align: start;
+  }
+}
+
+.learning-goal-form__actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.learning-goal-form__error {
+  color: var(--color-negative);
+  font-size: 0.9rem;
+  margin-block: 0;
+}
+
+/* ── «Отложенные задания» — the saved-practice queue ─────────────────
+   Compact rows; the remove ✕ unbookmarks via Turbo Stream (row disappears,
+   whole section goes with the last row). */
+.dashboard__bookmarks {
+  margin-block-start: 3rem;
+}
+
+.dashboard-bookmarks {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-bookmark {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  padding-block: 0.65rem;
+}
+
+.dashboard-bookmark + .dashboard-bookmark {
+  border-block-start: 1px solid var(--color-subtle);
+}
+
+.dashboard-bookmark__title {
+  color: var(--color-ink);
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 500;
+  min-inline-size: 0;
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.dashboard-bookmark__path {
+  color: var(--color-subtle-dark);
+  flex-shrink: 0;
+  font-size: 0.8rem;
+}
+
+.dashboard-bookmark__remove {
+  background: none;
+  border: 0;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  display: inline-flex;
+  padding: 0.25rem;
+  transition: color 150ms ease;
+
+  svg {
+    block-size: 1.1rem;
+    inline-size: 1.1rem;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+@media (max-width: 639.98px) {
+  .dashboard-bookmark__path {
+    display: none; /* keep rows one-line on phones */
+  }
+}

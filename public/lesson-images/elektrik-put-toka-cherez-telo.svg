@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-label="Пути тока через тело: слева рука-рука через грудную клетку, справа рука-нога через сердце; выделено сердце как самый опасный участок">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .body{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .ttl{font-size:14px;font-weight:700;text-anchor:middle}
+    .sub{fill:#a1a1a1;font-size:11px;text-anchor:middle}
+    .heart{fill:#241110;stroke:#f25a4e;stroke-width:2}
+    .path{stroke:#f25a4e;stroke-width:3;fill:none}
+    .gnd{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#f25a4e"/></marker>
+  </defs>
+
+  <!-- ===== LEFT FIGURE: рука-рука ===== -->
+  <g>
+    <!-- head -->
+    <circle class="body" cx="180" cy="58" r="24"/>
+    <!-- torso -->
+    <path class="body" d="M180 82 C150 90 142 110 142 150 L142 240 C142 252 218 252 218 240 L218 150 C218 110 210 90 180 82 Z"/>
+    <!-- arms outstretched -->
+    <path class="body" d="M150 130 L70 150 L66 168 L150 156 Z"/>
+    <path class="body" d="M210 130 L290 150 L294 168 L210 156 Z"/>
+    <!-- legs -->
+    <path class="body" d="M150 244 L150 350 L168 350 L176 250 Z"/>
+    <path class="body" d="M210 244 L210 350 L192 350 L184 250 Z"/>
+
+    <!-- heart -->
+    <path class="heart" d="M178 170 c-10 -12 -28 -2 -22 12 c4 12 22 20 22 20 c0 0 18 -8 22 -20 c6 -14 -12 -24 -22 -12 Z"/>
+
+    <!-- current path arm-to-arm through chest -->
+    <path class="path" d="M76 159 L160 168 C172 178 188 178 200 168 L284 159" marker-end="url(#ah)"/>
+
+    <text class="ttl" x="180" y="385">Путь «рука — рука»</text>
+    <text class="sub" x="180" y="404">через грудную клетку</text>
+  </g>
+
+  <!-- ===== RIGHT FIGURE: рука-нога ===== -->
+  <g>
+    <!-- head -->
+    <circle class="body" cx="540" cy="58" r="24"/>
+    <!-- torso -->
+    <path class="body" d="M540 82 C510 90 502 110 502 150 L502 240 C502 252 578 252 578 240 L578 150 C578 110 570 90 540 82 Z"/>
+    <!-- one arm raised, one down -->
+    <path class="body" d="M510 130 L450 118 L446 134 L510 156 Z"/>
+    <path class="body" d="M572 134 L600 200 L584 206 L560 150 Z"/>
+    <!-- legs -->
+    <path class="body" d="M510 244 L506 350 L524 350 L534 250 Z"/>
+    <path class="body" d="M570 244 L574 350 L556 350 L548 250 Z"/>
+
+    <!-- heart -->
+    <path class="heart" d="M538 170 c-10 -12 -28 -2 -22 12 c4 12 22 20 22 20 c0 0 18 -8 22 -20 c6 -14 -12 -24 -22 -12 Z"/>
+
+    <!-- current path arm-to-leg through heart -->
+    <path class="path" d="M452 126 L505 145 C520 160 530 168 538 184 C546 210 528 320 515 348" marker-end="url(#ah)"/>
+
+    <!-- ground line -->
+    <line class="gnd" x1="470" y1="354" x2="610" y2="354"/>
+    <line class="gnd" x1="478" y1="360" x2="600" y2="360"/>
+
+    <text class="ttl" x="540" y="385">Путь «рука — нога»</text>
+    <text class="sub" x="540" y="404">через сердце</text>
+  </g>
+</svg>

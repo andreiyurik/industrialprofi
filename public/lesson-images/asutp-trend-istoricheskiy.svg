@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 470" role="img" aria-label="Экран исторического тренда SCADA: график давления и уровня за сутки, две кривые с легендой, ось X — время, ось Y — значения, сверху панель выбора периода">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .grid{stroke:#2e2e2e;stroke-width:1}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .tick{fill:#a1a1a1;font-size:10px}
+    .axt{fill:#a1a1a1;font-size:11px;font-weight:600}
+    .pres{stroke:#3d9bff;stroke-width:2.5;fill:none}
+    .lvl{stroke:#ededed;stroke-width:2.5;fill:none;stroke-dasharray:6 4}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- title bar -->
+  <text class="ttl" x="40" y="28">Исторический тренд — Насосная станция</text>
+
+  <!-- period selector panel -->
+  <rect class="box" x="40" y="44" width="720" height="38" rx="8"/>
+  <text class="sub" x="58" y="68">Период:</text>
+  <rect class="box" x="118" y="54" width="74" height="20" rx="6"/>
+  <text class="tick" x="155" y="68" text-anchor="middle">Час</text>
+  <rect class="dec" x="200" y="54" width="74" height="20" rx="6"/>
+  <text x="237" y="68" text-anchor="middle" style="font-size:10px;font-weight:600;fill:#3d9bff">Сутки</text>
+  <rect class="box" x="282" y="54" width="74" height="20" rx="6"/>
+  <text class="tick" x="319" y="68" text-anchor="middle">Неделя</text>
+  <rect class="box" x="364" y="54" width="74" height="20" rx="6"/>
+  <text class="tick" x="401" y="68" text-anchor="middle">Месяц</text>
+
+  <!-- legend -->
+  <line x1="540" y1="64" x2="572" y2="64" class="pres"/>
+  <text class="sub" x="578" y="68">Давление, бар</text>
+  <line x1="668" y1="64" x2="700" y2="64" class="lvl"/>
+  <text class="sub" x="706" y="68">Уровень, %</text>
+
+  <!-- plot frame -->
+  <rect class="box" x="72" y="100" width="688" height="280" rx="8"/>
+
+  <!-- horizontal gridlines -->
+  <line class="grid" x1="72" y1="156" x2="760" y2="156"/>
+  <line class="grid" x1="72" y1="212" x2="760" y2="212"/>
+  <line class="grid" x1="72" y1="268" x2="760" y2="268"/>
+  <line class="grid" x1="72" y1="324" x2="760" y2="324"/>
+
+  <!-- Y axis (pressure) ticks left -->
+  <text class="tick" x="64" y="104" text-anchor="end">6</text>
+  <text class="tick" x="64" y="160" text-anchor="end">5</text>
+  <text class="tick" x="64" y="216" text-anchor="end">4</text>
+  <text class="tick" x="64" y="272" text-anchor="end">3</text>
+  <text class="tick" x="64" y="328" text-anchor="end">2</text>
+  <text class="tick" x="64" y="384" text-anchor="end">1</text>
+
+  <!-- pressure curve (blue): high at start, smooth drop overnight, spike in morning -->
+  <path class="pres" d="M72 150 C150 158 200 200 280 250 C340 288 400 296 460 296 C500 296 540 286 600 210 C640 160 680 168 760 178"/>
+
+  <!-- level curve (white dashed): slow drift -->
+  <path class="lvl" d="M72 210 C160 216 240 230 340 256 C420 276 500 286 560 290 C620 292 700 286 760 280"/>
+
+  <!-- X axis (time) ticks -->
+  <text class="tick" x="72" y="398" text-anchor="middle">00:00</text>
+  <text class="tick" x="244" y="398" text-anchor="middle">06:00</text>
+  <text class="tick" x="416" y="398" text-anchor="middle">12:00</text>
+  <text class="tick" x="588" y="398" text-anchor="middle">18:00</text>
+  <text class="tick" x="760" y="398" text-anchor="middle">24:00</text>
+  <text class="axt" x="416" y="418" text-anchor="middle">Время, сутки</text>
+
+  <!-- annotations on curve -->
+  <text class="sub" x="240" y="334" text-anchor="middle">плавное снижение ночью</text>
+  <text style="font-size:11px;font-weight:600;fill:#3d9bff" x="612" y="196" text-anchor="middle">скачок утром</text>
+
+  <!-- callout -->
+  <rect class="dec" x="72" y="436" width="688" height="26" rx="8"/>
+  <text x="416" y="453" text-anchor="middle" style="font-size:11px;fill:#3d9bff">По тренду видна динамика, которую не покажет мгновенная цифра</text>
+</svg>

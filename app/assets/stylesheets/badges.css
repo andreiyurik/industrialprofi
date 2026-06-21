@@ -1,4 +1,5 @@
 .badge {
+  align-items: center;
   border-radius: 1em;
   display: inline-flex;
   flex-shrink: 0;
@@ -9,8 +10,8 @@
 }
 
 .badge--marker {
-  background-color: oklch(var(--lch-orange) / 0.15);
-  color: var(--color-marker);
+  background-color: var(--color-subtle);
+  color: var(--color-ink);
 }
 
 .badge--link {
@@ -21,4 +22,71 @@
 .badge--draft {
   background-color: var(--color-subtle);
   color: var(--color-subtle-dark);
+}
+
+/* Resource-type badges (roadmap.sh-style): one fixed hue per kind, tinted fill
+   + matching text. The only place category colours are allowed (see CLAUDE.md).
+   Norm = red (official standard, stands apart from blue links); Book = teal. */
+.badge--norm {
+  background-color: oklch(var(--lch-red) / 0.18);
+  color: oklch(var(--lch-red));
+}
+
+.badge--book {
+  background-color: oklch(var(--lch-teal) / 0.18);
+  color: oklch(var(--lch-teal));
+}
+
+.badge--video {
+  background-color: oklch(var(--lch-purple) / 0.2);
+  color: oklch(var(--lch-purple));
+}
+
+.badge--article {
+  background-color: oklch(var(--lch-yellow) / 0.18);
+  color: oklch(var(--lch-yellow));
+}
+
+.badge--tool {
+  background-color: oklch(var(--lch-green) / 0.18);
+  color: oklch(var(--lch-green));
+}
+
+/* Practice difficulty badges (/projects cards) — the conventional traffic
+   light: green = новичок, yellow = практик, red = челлендж. */
+.badge--diff-beginner {
+  background-color: oklch(var(--lch-green) / 0.18);
+  color: oklch(var(--lch-green));
+}
+
+.badge--diff-intermediate {
+  background-color: oklch(var(--lch-yellow) / 0.18);
+  color: oklch(var(--lch-yellow));
+}
+
+.badge--diff-advanced {
+  background-color: oklch(var(--lch-red) / 0.18);
+  color: oklch(var(--lch-red));
+}
+
+/* Roadmap status badges — conventional status colours (done/in-progress/
+   planned/future). "not_now" reuses .badge--draft (muted gray). */
+.badge--done {
+  background-color: oklch(var(--lch-green) / 0.18);
+  color: oklch(var(--lch-green));
+}
+
+.badge--progress {
+  background-color: oklch(var(--lch-blue) / 0.2);
+  color: var(--color-link);
+}
+
+.badge--planned {
+  background-color: var(--color-subtle);
+  color: var(--color-ink);
+}
+
+.badge--future {
+  background-color: oklch(var(--lch-purple) / 0.2);
+  color: oklch(var(--lch-purple));
 }

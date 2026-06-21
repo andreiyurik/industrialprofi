@@ -21,6 +21,21 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes result, "<code"
   end
 
+  test "markdown renders a typed callout with label" do
+    result = markdown("> [!СОВЕТ]\n> Полезный совет.\n")
+    assert_includes result, 'class="callout callout--tip"'
+    assert_includes result, "Совет"
+    assert_includes result, "Полезный совет."
+  end
+
+  test "callout body has no leading <br> from the GFM hard break" do
+    # `[!ТИП]` and the body sit on two `>` lines; kramdown joins them with a
+    # <br> that must be stripped, or it renders as a blank first line.
+    result = markdown("> [!СОВЕТ]\n> Текст совета.\n")
+    assert_no_match %r{<p>\s*<br}, result
+    assert_includes result, "<p>Текст совета."
+  end
+
   test "markdown returns empty string for nil" do
     assert_equal "", markdown(nil)
   end

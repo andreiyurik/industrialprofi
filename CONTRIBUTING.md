@@ -105,5 +105,7 @@ people; keep the tone the same.
 
 ---
 
-By contributing, you agree that your contributions are licensed under the
-AGPL-3.0 License and the project's CLA as described above.
+By contributing **code**, you agree it is licensed under the AGPL-3.0 License
+and the project's CLA as described above. By contributing **content** (lessons,
+curriculum, explanations, tasks), you agree it is licensed under
+**CC BY-SA 4.0** (see [LICENSE-CONTENT](LICENSE-CONTENT)).

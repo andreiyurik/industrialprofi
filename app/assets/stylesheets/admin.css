@@ -24,8 +24,8 @@
   transition: color 200ms ease;
 
   svg {
-    height: 1.25rem;
-    width: 1.25rem;
+    block-size: 1.25rem;
+    inline-size: 1.25rem;
   }
 
   @media (any-hover: hover) {
@@ -52,16 +52,7 @@
 }
 
 .admin-header__view-live {
-  color: var(--color-subtle-dark);
   font-size: 0.85rem;
-  text-decoration: none;
-  transition: color 200ms ease;
-
-  @media (any-hover: hover) {
-    &:hover {
-      color: var(--color-ink);
-    }
-  }
 }
 
 /* Generic list + row */
@@ -105,8 +96,8 @@
   gap: 0.75rem;
 
   svg {
-    height: 1rem;
-    width: 1rem;
+    block-size: 1rem;
+    inline-size: 1rem;
   }
 }
 
@@ -131,8 +122,8 @@
   margin-inline-start: auto;
 
   svg {
-    height: 1rem;
-    width: 1rem;
+    block-size: 1rem;
+    inline-size: 1rem;
   }
 }
 
@@ -157,9 +148,9 @@
   margin-block: 0;
 }
 
-/* Path grouping on lessons index */
+/* Path grouping — shared by the lessons index and the moderation queue */
 .admin-group + .admin-group {
-  margin-block-start: 2rem;
+  margin-block-start: 1.5rem;
 }
 
 .admin-group__head {
@@ -171,9 +162,9 @@
 
 .admin-group__title {
   color: var(--color-ink);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-block: 0;
+  margin-block: 0 0.5rem;
 }
 
 .admin-group__meta {
@@ -379,16 +370,6 @@
   font-weight: 600;
 }
 
-.admin-group + .admin-group {
-  margin-block-start: 1.5rem;
-}
-
-.admin-group__title {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-block: 0 0.5rem;
-}
-
 /* A non-clickable row (e.g. revision history with its own action button) */
 .admin-row--static {
   justify-content: space-between;
@@ -398,4 +379,156 @@
       background-color: transparent;
     }
   }
+}
+
+/* ── Users & roles ── */
+
+.admin-users-search {
+  display: flex;
+  gap: var(--inline-space);
+  margin-block-end: var(--block-space);
+
+  .input {
+    max-inline-size: 24rem;
+  }
+}
+
+.admin-role-form {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--inline-space);
+}
+
+/* ── Dashboard (admin overview) ── */
+
+.admin-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--inline-space);
+  margin-block-end: var(--block-space);
+}
+
+.admin-callout__text {
+  font-weight: 600;
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: var(--block-space-half);
+  margin-block-end: var(--block-space-double);
+}
+
+/* Children are explicit blocks: .panel (loaded after this file) forces
+   display: block on the card itself, so don't rely on flex here. */
+.admin-stat__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-block-end: 0.35rem;
+}
+
+.admin-stat__label {
+  display: block;
+  font-weight: 600;
+}
+
+.admin-stat__detail {
+  color: var(--color-subtle-dark);
+  display: block;
+  font-size: 0.875rem;
+  margin-block-start: 0.2rem;
+}
+
+.admin-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.25rem;
+  margin-block-end: var(--block-space-double);
+}
+
+.admin-chart__col {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.admin-chart__bar {
+  background-color: var(--color-link);
+  border-radius: 3px 3px 0 0;
+  inline-size: 100%;
+  margin-inline: auto;
+  max-inline-size: 2.5rem;
+  min-block-size: 2px;
+}
+
+.admin-chart__count {
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+/* ── Founder inbox (admin/feedbacks) ── */
+
+.admin-feedback__body {
+  margin-block: 0.25rem 0;
+
+  p {
+    margin-block: 0.25em;
+  }
+}
+
+/* ── Persistent section nav (tabs) ── */
+
+.admin-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-block-end: var(--block-space);
+  padding-block-end: var(--block-space-half);
+  border-block-end: 1px solid var(--color-subtle);
+}
+
+.admin-nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5ch;
+  padding: 0.3rem 0.7rem;
+  border-radius: 0.5rem;
+  color: var(--color-subtle-dark);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+@media (any-hover: hover) {
+  .admin-nav__link:hover {
+    background-color: var(--color-subtle-light);
+    color: var(--color-ink);
+  }
+}
+
+.admin-nav__link[aria-current="page"] {
+  background-color: var(--color-subtle-light);
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+/* Moderation-queue count on «Правки» — same red as .badge--norm */
+.admin-nav__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 1.4em;
+  padding: 0.05em 0.4em;
+  border-radius: 1em;
+  background-color: oklch(var(--lch-red) / 0.18);
+  color: oklch(var(--lch-red));
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.5;
 }

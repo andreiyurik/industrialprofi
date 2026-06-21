@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" role="img" aria-label="Путь к удостоверению: подготовка по нормам, заявка, проверка знаний на ЕПТ, протокол, удостоверение; ветка повторной проверки при непрохождении">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .danger{fill:#241110;stroke:#f25a4e;stroke-width:1.75}
+    .ok{fill:#102019;stroke:#34c759;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .num{font-size:14px;font-weight:700;fill:#3d9bff}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .elbl{fill:#a1a1a1;font-size:11px}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- 1. Подготовка -->
+  <rect class="box" x="30" y="30" width="200" height="70" rx="10"/>
+  <text class="num" x="48" y="55">1</text>
+  <text class="ttl" x="68" y="55">Подготовка по нормам</text>
+  <text class="sub" x="48" y="76">ПУЭ, ПТЭЭП, охрана труда,</text>
+  <text class="sub" x="48" y="91">первая помощь</text>
+
+  <path class="edge" d="M230 65 H300" marker-end="url(#ah)"/>
+
+  <!-- 2. Заявка -->
+  <rect class="box" x="300" y="30" width="180" height="70" rx="10"/>
+  <text class="num" x="318" y="55">2</text>
+  <text class="ttl" x="338" y="55">Заявка</text>
+  <text class="sub" x="318" y="76">в комиссию организации</text>
+  <text class="sub" x="318" y="91">или Ростехнадзора</text>
+
+  <path class="edge" d="M480 65 H550" marker-end="url(#ah)"/>
+
+  <!-- 3. Проверка знаний на ЕПТ (decision) -->
+  <rect class="dec" x="550" y="20" width="300" height="90" rx="14"/>
+  <text class="num" x="568" y="46">3</text>
+  <text class="ttl" x="588" y="46">Проверка знаний на ЕПТ</text>
+  <text class="sub" x="588" y="68">билет — 10 вопросов,</text>
+  <text class="sub" x="588" y="83">оценка по числу правильных</text>
+  <text class="ttl" x="700" y="103" text-anchor="middle" style="font-size:13px">Сдал?</text>
+
+  <!-- branch: не прошёл -> повторная проверка -->
+  <path class="edge" d="M700 110 V160" marker-end="url(#ah)"/>
+  <text class="elbl" x="710" y="140">не прошёл</text>
+  <rect class="danger" x="585" y="160" width="230" height="64" rx="10"/>
+  <text class="ttl" x="700" y="188" text-anchor="middle">Повторная проверка</text>
+  <text class="sub" x="700" y="208" text-anchor="middle">пересдача после подготовки</text>
+  <!-- loop back to ЕПТ -->
+  <path class="edge" d="M815 192 H850 V65 H850 V20" />
+  <path class="edge" d="M850 192 V20" marker-end="url(#ah)"/>
+
+  <!-- 3 -> 4 down-left (сдал) -->
+  <path class="edge" d="M550 95 H510 V300 H480" marker-end="url(#ah)"/>
+  <text class="elbl" x="515" y="290">сдал</text>
+
+  <!-- 4. Протокол -->
+  <rect class="box" x="300" y="265" width="180" height="70" rx="10"/>
+  <text class="num" x="318" y="290">4</text>
+  <text class="ttl" x="338" y="290">Протокол</text>
+  <text class="sub" x="318" y="311">результат и присвоенная</text>
+  <text class="sub" x="318" y="326">группа</text>
+
+  <path class="edge" d="M300 300 H230" marker-end="url(#ah)"/>
+
+  <!-- 5. Удостоверение -->
+  <rect class="ok" x="30" y="265" width="200" height="70" rx="10"/>
+  <text class="ttl" x="48" y="290" style="fill:#34c759">Удостоверение</text>
+  <text class="sub" x="48" y="311">группа + напряжение</text>
+  <text class="sub" x="48" y="326">(до / выше 1000 В)</text>
+
+  <text class="sub" x="130" y="370" text-anchor="middle">официальный пропуск к электроустановкам</text>
+</svg>

@@ -2,6 +2,46 @@
 
 Each phase is a deployable, usable product — not a prototype.
 
+> **Implementation status (read before trusting the data-model bullets below).**
+> The phase plans are the original intent; some model names and choices evolved
+> during build. Current reality (source of truth: `db/schema.rb` + `app/models/`):
+> - **Naming evolved:** `Profession → Path`; the `Stage`/`Skill`/`Task` split
+>   collapsed into a single **`Lesson`** (with a `stage` *string* for grouping and
+>   `body`/`task`/`description` rich-text sections); `Tailwind → pure CSS`.
+> - **Shipped (~v0.1):** static published catalog (`Path → Lesson → Resource`),
+>   SEO (sitemap, JSON-LD), markdown/ActionText content, Kamal deploy.
+> - **Shipped ahead of plan:** an admin panel for editing lessons, a reader
+>   **suggestion** flow, and an append-only **revision** history
+>   (`LessonSuggestion`, `LessonRevision`, `RevisionDiff`).
+> - **Shipped (v0.2):** `User` + `Session` + `Current` (Writebook pattern,
+>   `has_secure_password`), binary `LessonCompletion` ("mark as done" via Turbo
+>   Stream — no `UserProgress` statuses, no `UserRoadmap`: "started" is derived
+>   from having ≥1 completion), per-stage/per-path progress bars, `/dashboard`
+>   with continue links, the desktop two-column lesson sidebar, and admin folded
+>   into a `role` flag on `User` (HTTP Basic removed; first admin via
+>   `ADMIN_EMAIL`/`ADMIN_PASSWORD` env at seed time or console).
+> - **Also shipped:** password reset (token + mailer; production needs SMTP),
+>   `/projects` (aggregated practice lessons), stage-milestone chips +
+>   completion celebrations, the numbered journey rail on path pages, the
+>   **private practice journal** (`JournalEntry`, `/journal`: rich text +
+>   photos with hard limits — 5 photos/entry, 10 MB/file, 250 MB/user quota),
+>   and the GitHub-style **activity heatmap** on the dashboard (16 weeks,
+>   completions + journal entries).
+> - **Shipped June 2026:** the **role trust ladder** (`member` → `editor`
+>   «Эксперт» → `administrator`) with `/admin/users` role management; the
+>   **founder's admin dashboard** at `/admin` (signups, weekly activity,
+>   pending suggestions, content health, disk usage); **account settings**
+>   (name, password, email change with verification, account deletion);
+>   lesson **bookmarks**; the focused **reading mode**; the dashboard
+>   **learning goal**; the quiet **learning-reminder email** (one nudge per
+>   stall, daily `LearningReminderJob` via Solid Queue recurring, one-click
+>   unsubscribe) and hand-rolled **error-alert emails** (`ErrorSubscriber`);
+>   the **founder feedback line** («Написать автору»: `Feedback` model,
+>   `/admin/feedbacks` inbox with unread badge, email notification per message
+>   — async on purpose, no chat).
+> - **Not built yet:** all of v0.3 (community roadmaps, search, public
+>   profiles, publishing journal entries as a moderated public portfolio).
+
 ## v0.1 — Static Catalog (Target: 1 week)
 
 A visitor can browse profession roadmaps. No auth, no interactivity. Pure content.
@@ -88,13 +128,17 @@ Users contribute roadmaps. Platform becomes self-sustaining.
 
 ---
 
-## v0.4 — Verified Certificates (first paid feature) — DEMAND-GATED, NOT scheduled
+## v0.4 — Verified Certificates (first paid feature) — DEFERRED, NOT scheduled
 
-> **This phase ships only when reality says so**, not on a timer. The trigger is:
-> there is a real audience, users are *completing* courses, and they are asking
-> "is there a document I can show my employer?". Building this before that signal
-> means polishing a paywall around an empty room. Until then, this section is a
-> recorded decision, not a task.
+> **Founder decision (June 2026): certificates are explicitly deferred**, and
+> monetization as a whole is being rethought with two fixed constraints — the
+> materials stay free and open forever, and retention/satisfaction come before
+> revenue (see `docs/VISION.md` → Business Model, including the B2B direction:
+> training centers and employers). This section is kept as a recorded design so
+> the thinking isn't lost. The original trigger still applies if it ever ships:
+> a real audience, users *completing* courses, and users asking "is there a
+> document I can show my employer?". Building before that signal means polishing
+> a paywall around an empty room.
 
 This is the **first paid feature** and the project's first real monetization.
 It sits squarely inside the open-core model: **the platform stays free and

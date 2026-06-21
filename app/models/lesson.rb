@@ -1,8 +1,15 @@
 class Lesson < ApplicationRecord
+  belongs_to :course, counter_cache: true
+  # path_id is a denormalized FK (= course.path) kept in sync below. Many hot
+  # queries join lessons.path_id directly (User progress, Projects, Sitemaps),
+  # and lessons never move between courses, so it can't drift. Keeping it avoids
+  # rewriting every join through courses.
   belongs_to :path, counter_cache: true
   has_many :resources, -> { order(:position) }, dependent: :destroy
   has_many :lesson_suggestions, dependent: :destroy
   has_many :lesson_revisions, dependent: :destroy
+
+  before_validation { self.path = course.path if course }
 
   has_rich_text :rich_body
   has_rich_text :rich_description
@@ -12,8 +19,16 @@ class Lesson < ApplicationRecord
   validates :slug, presence: true, uniqueness: true, format: { with: Path::SLUG_FORMAT }
   validates :position, numericality: { greater_than_or_equal_to: 0 }
   validates :kind, inclusion: { in: %w[lesson practice] }
+  # Difficulty grades the practice ladder (/projects filters); theory lessons
+  # don't carry one.
+  validates :difficulty, inclusion: { in: DIFFICULTIES = %w[beginner intermediate advanced] },
+                         if: :practice?
+  validates :difficulty, absence: true, unless: :practice?
 
   scope :ordered, -> { order(:position) }
+  scope :practice, -> { where(kind: "practice") }
+
+  def practice? = kind == "practice"
 
   def to_param
     slug

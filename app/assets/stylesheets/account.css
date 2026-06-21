@@ -1,0 +1,120 @@
+.account-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-inline: auto;
+  max-inline-size: 38rem;
+  padding-block: 2rem;
+}
+
+.account-settings__title {
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+  font-weight: 700;
+  margin-block: 0 0.25rem;
+}
+
+/* Card — generous internal spacing */
+.account-settings__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.account-settings__card--danger {
+  --panel-border-color: oklch(var(--lch-red) / 0.3);
+}
+
+/* Field row: label on top, input below */
+.account-settings__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.85rem 1.25rem;
+}
+
+
+.account-settings__label {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.account-settings__label--danger {
+  color: var(--color-negative);
+}
+
+/* Actions row — separated by a line, button right-aligned */
+.account-settings__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem 1.25rem;
+}
+
+.account-settings__actions--danger {
+  border-block-start: none;
+  padding-block-start: 0;
+  justify-content: flex-start;
+  padding-inline-start: 1.25rem;
+  padding-block-end: 1rem;
+}
+
+/* Reminder-emails checkbox row */
+.account-settings__checkbox {
+  align-items: center;
+  color: var(--color-ink);
+  display: flex;
+  font-size: 0.95rem;
+  gap: 0.75ch;
+  margin-block-start: 0.5rem;
+
+  input[type="checkbox"] {
+    accent-color: var(--color-link);
+    block-size: 1rem;
+    inline-size: 1rem;
+  }
+}
+
+/* Email row */
+.account-settings__email-row {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+}
+
+.account-settings__email-value {
+  color: var(--color-ink);
+  font-size: 0.95rem;
+}
+
+.account-settings__link {
+  color: var(--color-link);
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.account-settings__hint {
+  color: var(--color-subtle-dark);
+  font-size: 0.875rem;
+  margin-block: 0.25rem 0;
+}
+
+.account-settings__error {
+  background: oklch(var(--lch-red) / 0.08);
+  border-block-end: 1px solid oklch(var(--lch-red) / 0.25);
+  color: var(--color-negative);
+  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.account-settings__danger-btn {
+  --btn-color: var(--color-negative);
+  --btn-border-color: oklch(var(--lch-red) / 0.4);
+
+  svg {
+    block-size: 1em;
+    inline-size: 1em;
+  }
+}

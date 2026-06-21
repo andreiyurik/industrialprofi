@@ -1,7 +1,10 @@
 en:
   site:
-    name: "IndustrialProfi"
+    name: "industrialprofi.com"
     tagline: "Mastery can't be automated"
     description: "Free career roadmaps for industrial professionals. Official standards, hands-on tasks, daily progress."
   common:
     close: "Close"
+  lessons:
+    copy_link: "Copy link"
+    link_copied: "Copied"

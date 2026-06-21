@@ -1,0 +1,27 @@
+<% meta_title(t("auth.sign_up_title")) %>
+
+<section class="section">
+  <div class="container">
+    <div class="auth">
+      <h1 class="auth__title"><%= t("auth.sign_up_title") %></h1>
+
+      <%= form_with url: signup_path, class: "auth__form" do |form| %>
+        <%= form.label :email_address, t("auth.email"), class: "for-screen-reader" %>
+        <%= form.email_field :email_address, value: params[:email_address], required: true, autofocus: true,
+              autocomplete: "email", placeholder: t("signup.email_placeholder"), class: "input" %>
+
+        <p class="auth__hint"><%= t("signup.email_hint") %></p>
+
+        <%= form.button class: "btn btn--reversed btn--large auth__submit" do %>
+          <%= t("signup.lets_go") %>
+          <%= heroicon "arrow-right", variant: :outline %>
+        <% end %>
+      <% end %>
+
+      <p class="auth__alt">
+        <%= t("auth.have_account") %>
+        <%= link_to t("auth.sign_in"), new_session_path %>
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 372" role="img" aria-label="Структура ПУЭ: ПУЭ делится на 7 разделов; под разделом 1 раскрыты главы, выделена глава 1.7 «Заземление и защитные меры»">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .root{fill:#19181c;stroke:#3d9bff;stroke-width:1.75}
+    .hl{fill:#102542;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#3a3a3a;stroke-width:1.5;fill:none}
+    .t{font-size:12px}
+    .ttl{font-size:19px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:10.5px}
+    .num{fill:#a1a1a1;font-size:11px;font-weight:700}
+    .ch{font-size:12px}
+    .chhl{font-size:12px;fill:#cfe3ff;font-weight:600}
+  </style>
+
+  <!-- root -->
+  <rect class="root" x="348" y="14" width="164" height="50" rx="10"/>
+  <text class="ttl" x="430" y="38" text-anchor="middle">ПУЭ</text>
+  <text class="sub" x="430" y="55" text-anchor="middle">Правила устройства электроустановок</text>
+
+  <!-- bus + drop lines to 7 sections -->
+  <path class="edge" d="M430 64 V90 M76 90 H784 M76 90 V116 M194 90 V116 M312 90 V116 M430 90 V116 M548 90 V116 M666 90 V116 M784 90 V116"/>
+
+  <!-- 7 sections -->
+  <g>
+    <rect class="box" x="21"  y="116" width="110" height="58" rx="9"/>
+    <text class="num" x="31" y="133">1</text>
+    <text class="t" x="76" y="150" text-anchor="middle">Общие</text>
+    <text class="t" x="76" y="166" text-anchor="middle">правила</text>
+
+    <rect class="box" x="139" y="116" width="110" height="58" rx="9"/>
+    <text class="num" x="149" y="133">2</text>
+    <text class="t" x="194" y="150" text-anchor="middle">Передача</text>
+    <text class="t" x="194" y="166" text-anchor="middle">энергии</text>
+
+    <rect class="box" x="257" y="116" width="110" height="58" rx="9"/>
+    <text class="num" x="267" y="133">3</text>
+    <text class="t" x="312" y="150" text-anchor="middle">Защита и</text>
+    <text class="t" x="312" y="166" text-anchor="middle">автоматика</text>
+
+    <rect class="box" x="375" y="116" width="110" height="58" rx="9"/>
+    <text class="num" x="385" y="133">4</text>
+    <text class="t" x="430" y="150" text-anchor="middle">Распред.</text>
+    <text class="t" x="430" y="166" text-anchor="middle">устройства</text>
+
+    <rect class="box" x="493" y="116" width="110" height="58" rx="9"/>
+    <text class="num" x="503" y="133">5</text>
+    <text class="t" x="548" y="150" text-anchor="middle">Электросил.</text>
+    <text class="t" x="548" y="166" text-anchor="middle">установки</text>
+
+    <rect class="box" x="611" y="116" width="110" height="58" rx="9"/>
+    <text class="num" x="621" y="133">6</text>
+    <text class="t" x="666" y="150" text-anchor="middle">Электро-</text>
+    <text class="t" x="666" y="166" text-anchor="middle">освещение</text>
+
+    <rect class="box" x="729" y="116" width="110" height="58" rx="9"/>
+    <text class="num" x="739" y="133">7</text>
+    <text class="t" x="784" y="150" text-anchor="middle">Спец-</text>
+    <text class="t" x="784" y="166" text-anchor="middle">установки</text>
+  </g>
+
+  <!-- chapters under section 1 -->
+  <path class="edge" d="M76 174 V190 H36 V328"/>
+  <path class="edge" d="M36 220 H50 M36 256 H50 M36 292 H50 M36 328 H50"/>
+
+  <rect class="box" x="50" y="206" width="226" height="28" rx="7"/>
+  <text class="ch" x="62" y="224">1.1 — Область применения</text>
+
+  <rect class="box" x="50" y="242" width="226" height="28" rx="7"/>
+  <text class="ch" x="62" y="260">1.3 — Выбор сечений проводников</text>
+
+  <rect class="box" x="50" y="278" width="226" height="28" rx="7"/>
+  <text class="ch" x="62" y="296">1.4 — Выбор аппаратов защиты</text>
+
+  <rect class="hl" x="50" y="314" width="226" height="28" rx="7"/>
+  <text class="chhl" x="62" y="332">1.7 — Заземление, защитные меры</text>
+
+  <text class="sub" x="290" y="332">…и другие главы раздела 1</text>
+</svg>

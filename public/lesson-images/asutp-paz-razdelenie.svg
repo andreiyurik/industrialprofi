@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" role="img" aria-label="Разделение двух независимых систем: слева АСУ ТП (РСУ, BPCS) со своими датчиками и клапанами ведёт процесс, справа ПАЗ (SIS) со своими отдельными датчиками и отсечными клапанами следит за безопасностью; обе влияют на один реактор, но физически независимы.">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .danger{fill:#241110;stroke:#f25a4e;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .lbl{font-size:12px;font-weight:600}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .tag{font-size:10.5px;font-weight:700;fill:#a1a1a1}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- LEFT: BPCS / РСУ -->
+  <rect class="box" x="24" y="20" width="300" height="48" rx="10"/>
+  <text class="ttl" x="174" y="42" text-anchor="middle">АСУ ТП · РСУ (BPCS)</text>
+  <text class="sub" x="174" y="59" text-anchor="middle">ведёт процесс: держит уставку</text>
+
+  <!-- sensor + valve left -->
+  <circle class="box" cx="86" cy="150" r="26"/>
+  <text class="tag" x="86" y="147" text-anchor="middle">PT</text>
+  <text class="tag" x="86" y="159" text-anchor="middle">101</text>
+  <text class="sub" x="86" y="195" text-anchor="middle">свой датчик</text>
+
+  <rect class="box" x="232" y="124" width="64" height="52" rx="9"/>
+  <text class="lbl" x="264" y="148" text-anchor="middle">клапан</text>
+  <text class="sub" x="264" y="165" text-anchor="middle">регулир.</text>
+  <text class="sub" x="264" y="206" text-anchor="middle">свой ИМ</text>
+
+  <path class="edge" d="M86 124 V90 H174 V68" marker-end="url(#ah)"/>
+  <path class="edge" d="M174 68 V90 H264 V124" marker-end="url(#ah)"/>
+
+  <!-- RIGHT: PAZ / SIS -->
+  <rect class="dec" x="536" y="20" width="300" height="48" rx="10"/>
+  <text class="ttl" x="686" y="42" text-anchor="middle" fill="#3d9bff">ПАЗ · SIS</text>
+  <text class="sub" x="686" y="59" text-anchor="middle">переводит в безопасное состояние</text>
+
+  <circle class="dec" cx="598" cy="150" r="26"/>
+  <text class="tag" x="598" y="147" text-anchor="middle" fill="#3d9bff">PSHH</text>
+  <text class="tag" x="598" y="159" text-anchor="middle" fill="#3d9bff">102</text>
+  <text class="sub" x="598" y="195" text-anchor="middle">ОТДЕЛЬНЫЙ датчик</text>
+
+  <rect class="danger" x="744" y="124" width="68" height="52" rx="9"/>
+  <text class="lbl" x="778" y="146" text-anchor="middle" fill="#f25a4e">отсечной</text>
+  <text class="lbl" x="778" y="162" text-anchor="middle" fill="#f25a4e">клапан</text>
+  <text class="sub" x="778" y="206" text-anchor="middle">свой ИМ (SDV)</text>
+
+  <path class="edge" d="M598 124 V90 H686 V68" marker-end="url(#ah)"/>
+  <path class="edge" d="M686 68 V90 H778 V124" marker-end="url(#ah)"/>
+
+  <!-- DIVIDER -->
+  <line x1="430" y1="14" x2="430" y2="300" stroke="#3d9bff" stroke-width="2.5" stroke-dasharray="7 6"/>
+  <text class="lbl" x="430" y="262" text-anchor="middle" fill="#3d9bff">независимы</text>
+  <text class="sub" x="430" y="280" text-anchor="middle">свои датчики,</text>
+  <text class="sub" x="430" y="296" text-anchor="middle">свои исполнит. устройства</text>
+
+  <!-- PROCESS / reactor -->
+  <rect class="box" x="300" y="340" width="260" height="62" rx="12"/>
+  <text class="ttl" x="430" y="368" text-anchor="middle">Процесс · реактор</text>
+  <text class="sub" x="430" y="387" text-anchor="middle">давление / температура / уровень</text>
+
+  <!-- left measure + act lines to process -->
+  <path class="edge" d="M300 388 H86 V176" marker-start="url(#ah)"/>
+  <path class="edge" d="M264 176 V360 H300" marker-end="url(#ah)"/>
+
+  <!-- right measure + act lines to process -->
+  <path class="edge" d="M560 388 H598 V176" marker-start="url(#ah)"/>
+  <path class="edge" d="M778 176 V360 H560" marker-end="url(#ah)"/>
+
+  <!-- callout -->
+  <rect class="dec" x="40" y="424" width="780" height="34" rx="9"/>
+  <text class="lbl" x="430" y="446" text-anchor="middle">Откажет управление — защита всё равно сработает, потому что не зависит от него.</text>
+</svg>

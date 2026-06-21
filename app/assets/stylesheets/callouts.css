@@ -1,0 +1,49 @@
+/* Attention blocks rendered from `> [!ВАЖНО] …` markdown admonitions.
+   Visual model borrowed from the Rails Guides "interstitial": a full rounded
+   border, a soft accent-tinted fill, and an accent icon — one hue per meaning,
+   instead of a flat gray box with a thin coloured stripe.
+   Colour = meaning, used sparingly (see CLAUDE.md / CONTENT_PROMPT.md). */
+.callout {
+  --callout-accent: var(--color-subtle-dark);
+  background-color: color-mix(in oklab, var(--callout-accent) 12%, transparent);
+  border: 1.5px solid color-mix(in oklab, var(--callout-accent) 55%, transparent);
+  border-radius: 0.7rem;
+  margin-block: 1.25lh;
+  padding: 0.85lh 2.2ch;
+}
+
+.callout > :first-child {
+  margin-block-start: 0;
+}
+
+.callout > :last-child {
+  margin-block-end: 0;
+}
+
+/* Header row: the accent icon in a soft tinted chip + the meaning label. */
+.callout__label {
+  align-items: center;
+  color: var(--callout-accent);
+  display: flex;
+  font-size: 0.78rem;
+  font-weight: 700;
+  gap: 0.6ch;
+  letter-spacing: 0.04em;
+  margin-block: 0 0.6lh;
+  text-transform: uppercase;
+}
+
+.callout__label svg {
+  background-color: color-mix(in oklab, var(--callout-accent) 16%, transparent);
+  block-size: 1.9em;
+  border-radius: 0.45em;
+  flex-shrink: 0;
+  inline-size: 1.9em;
+  padding: 0.35em;
+}
+
+.callout--danger    { --callout-accent: oklch(var(--lch-red)); }
+.callout--important { --callout-accent: oklch(var(--lch-yellow)); }
+.callout--tip       { --callout-accent: oklch(var(--lch-blue)); }
+.callout--example   { --callout-accent: oklch(var(--lch-gray-dark)); }
+.callout--check     { --callout-accent: oklch(var(--lch-green)); }
