@@ -60,6 +60,16 @@ class JournalEntryTest < ActiveSupport::TestCase
     assert entry.errors[:photos].any?
   end
 
+  test "mass-assigned photos are optimized to webp on the way in" do
+    # The controller path (mass-assignment) runs PhotoOptimizer; `.attach` above
+    # is the low-level path that deliberately doesn't. Needs libvips, so it runs
+    # in CI and is skipped on a bare dev box.
+    skip "libvips not available on this machine" unless PhotoOptimizer::VIPS_AVAILABLE
+
+    entry = build_entry(photos: [ photo_upload ])
+    assert_equal "image/webp", entry.photos.first.blob.content_type
+  end
+
   test "destroying a user destroys their entries" do
     build_entry.save!
     assert_difference -> { JournalEntry.count }, -1 do

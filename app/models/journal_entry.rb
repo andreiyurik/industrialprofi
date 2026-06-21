@@ -14,6 +14,15 @@ class JournalEntry < ApplicationRecord
   validates :body, presence: true
   validate :photos_within_limits
 
+  # Shrink + re-encode each uploaded image before it is stored (see
+  # PhotoOptimizer). We transform only the file contents and hand the same-shaped
+  # list to Active Storage, so attach/replace/blank semantics are unchanged —
+  # blanks and non-images pass straight through.
+  def photos=(attachables)
+    attachables = attachables.map { |a| PhotoOptimizer.optimize(a) } if attachables.is_a?(Array)
+    super
+  end
+
   scope :ordered, -> { order(created_at: :desc) }
 
   # Total bytes of journal photos a user has stored — the quota base.
