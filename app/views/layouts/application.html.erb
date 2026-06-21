@@ -9,6 +9,19 @@
     <meta name="description" content="<%= content_for?(:description) ? content_for(:description) : t('site.description') %>">
     <meta name="application-name" content="<%= t('site.name') %>">
     <meta name="robots" content="index, follow">
+
+    <%# Native-app feel, no JS: Turbo animates page changes via the View
+        Transitions API and morphs same-page refreshes while keeping scroll. %>
+    <meta name="view-transition" content="same-origin">
+    <meta name="turbo-refresh-method" content="morph">
+    <meta name="turbo-refresh-scroll" content="preserve">
+
+    <%# Installable PWA (home-screen icon, standalone window). %>
+    <link rel="manifest" href="<%= pwa_manifest_path %>">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="IndustrialProfi">
     <% if site_config.google_site_verification.present? %>
       <meta name="google-site-verification" content="<%= site_config.google_site_verification %>">
     <% end %>
@@ -64,6 +77,8 @@
                 aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } %>
           <%= link_to t("nav.projects"), projects_path, class: "nav__link link-quiet",
                 aria: { current: ("page" if current_page?(projects_path)) } %>
+          <%= link_to t("nav.calculators"), calculators_path, class: "nav__link link-quiet",
+                aria: { current: ("page" if controller_name == "calculators") } %>
           <%= link_to t("nav.about"), about_path, class: "nav__link link-quiet",
                 aria: { current: ("page" if current_page?(about_path)) } %>
           <%= link_to t("nav.support"), support_us_path, class: "nav__link link-quiet",
@@ -146,6 +161,7 @@
         <nav class="footer__nav">
           <a href="<%= paths_path %>" class="footer__link link-quiet"><%= t("nav.professions") %></a>
           <a href="<%= projects_path %>" class="footer__link link-quiet"><%= t("nav.projects") %></a>
+          <a href="<%= calculators_path %>" class="footer__link link-quiet"><%= t("nav.calculators") %></a>
           <a href="<%= about_path %>" class="footer__link link-quiet"><%= t("nav.about") %></a>
           <a href="<%= faq_path %>" class="footer__link link-quiet"><%= t("nav.faq") %></a>
           <a href="<%= roadmap_path %>" class="footer__link link-quiet"><%= t("nav.roadmap") %></a>

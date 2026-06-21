@@ -1,0 +1,29 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/field", field: "rho", label: t("calculators.grounding.rho"), unit: "Ом·м", value: 100,
+          hint: t("calculators.grounding.rho_hint"), info: t("calculators.grounding.info.rho") %>
+    <%= render "calculators/select", field: "psi", label: t("calculators.grounding.psi"), selected: "1.5",
+          options: [
+            ["2.0", t("calculators.grounding.psi_1")],
+            ["1.7", t("calculators.grounding.psi_2")],
+            ["1.5", t("calculators.grounding.psi_3")],
+            ["1.3", t("calculators.grounding.psi_4")]
+          ], info: t("calculators.grounding.info.psi") %>
+    <%= render "calculators/field", field: "l", label: t("calculators.grounding.length"), unit: "м", value: 3 %>
+    <%= render "calculators/field", field: "d", label: t("calculators.grounding.diameter"), unit: "мм", value: 16 %>
+    <%= render "calculators/field", field: "h", label: t("calculators.grounding.depth"), unit: "м", value: 0.7 %>
+    <%= render "calculators/field", field: "n", label: t("calculators.grounding.count"), unit: "шт", value: 4 %>
+    <%= render "calculators/field", field: "eta", label: t("calculators.grounding.eta"), value: 0.7,
+          hint: t("calculators.grounding.eta_hint"), info: t("calculators.grounding.info.eta") %>
+    <%= render "calculators/field", field: "target", label: t("calculators.grounding.target"), unit: "Ом", value: 4 %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "r1", label: t("calculators.grounding.result_single"), unit: "Ом" %>
+    <%= render "calculators/result", output: "rgroup", label: t("calculators.grounding.result_group"), unit: "Ом", strong: true %>
+    <%= render "calculators/result", output: "nreq", label: t("calculators.grounding.result_required"), unit: "шт" %>
+    <p class="calc__note"><%= t("calculators.grounding.note") %></p>
+  </div>
+</div>

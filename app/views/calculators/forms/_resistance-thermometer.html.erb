@@ -1,0 +1,29 @@
+<div class="calc__stack">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.resistance-thermometer.type_heading") %></h2>
+    <%= render "calculators/select", field: "type", label: t("calculators.resistance-thermometer.type"), selected: "pt100",
+          options: [
+            ["pt100", "Pt100 (α 0,00385)"],
+            ["pt500", "Pt500 (α 0,00385)"],
+            ["pt1000", "Pt1000 (α 0,00385)"],
+            ["100p", "100П (α 0,00391)"],
+            ["50p", "50П (α 0,00391)"],
+            ["100m", "100М (α 0,00428)"],
+            ["50m", "50М (α 0,00428)"]
+          ], info: t("calculators.resistance-thermometer.info.type") %>
+  </div>
+
+  <div class="calc__pair">
+    <div class="calc__pair-side">
+      <h2 class="calc__heading"><%= t("calculators.resistance-thermometer.to_r_heading") %></h2>
+      <%= render "calculators/field", field: "t", label: t("calculators.resistance-thermometer.temperature"), unit: "°C", value: 100 %>
+      <%= render "calculators/result", output: "rOut", label: t("calculators.resistance-thermometer.result_r"), unit: "Ом", strong: true %>
+    </div>
+
+    <div class="calc__pair-side">
+      <h2 class="calc__heading"><%= t("calculators.resistance-thermometer.to_t_heading") %></h2>
+      <%= render "calculators/field", field: "r", label: t("calculators.resistance-thermometer.resistance"), unit: "Ом", value: 138.51 %>
+      <%= render "calculators/result", output: "tOut", label: t("calculators.resistance-thermometer.result_t"), unit: "°C", strong: true %>
+    </div>
+  </div>
+</div>

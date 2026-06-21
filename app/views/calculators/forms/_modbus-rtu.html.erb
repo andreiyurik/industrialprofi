@@ -1,0 +1,22 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/select", field: "baud", label: t("calculators.modbus-rtu.baud"), selected: "9600",
+          options: [["9600", "9600"], ["19200", "19200"], ["38400", "38400"], ["57600", "57600"], ["115200", "115200"]] %>
+    <%= render "calculators/select", field: "bpc", label: t("calculators.modbus-rtu.format"), selected: "11",
+          options: [["11", t("calculators.modbus-rtu.format_11")], ["10", t("calculators.modbus-rtu.format_10")]], info: t("calculators.modbus-rtu.info.format") %>
+    <%= render "calculators/field", field: "n", label: t("calculators.modbus-rtu.registers"), value: 10 %>
+    <%= render "calculators/field", field: "dev", label: t("calculators.modbus-rtu.devices"), unit: "шт", value: 1 %>
+    <%= render "calculators/field", field: "delay", label: t("calculators.modbus-rtu.delay"), unit: "мс", value: 0,
+          hint: t("calculators.modbus-rtu.delay_hint") %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "respbytes", label: t("calculators.modbus-rtu.result_respbytes"), unit: "байт" %>
+    <%= render "calculators/result", output: "ttrans", label: t("calculators.modbus-rtu.result_ttrans"), unit: "мс", strong: true, info: t("calculators.modbus-rtu.info.ttrans") %>
+    <%= render "calculators/result", output: "rate", label: t("calculators.modbus-rtu.result_rate"), unit: "1/с" %>
+    <%= render "calculators/result", output: "tcycle", label: t("calculators.modbus-rtu.result_tcycle"), unit: "мс", strong: true, info: t("calculators.modbus-rtu.info.tcycle") %>
+    <p class="calc__note"><%= t("calculators.modbus-rtu.note") %></p>
+  </div>
+</div>

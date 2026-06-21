@@ -1,0 +1,23 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/field", field: "uf", label: t("calculators.short-circuit.uf"), unit: "В", value: 220 %>
+    <%= render "calculators/field", field: "zext", label: t("calculators.short-circuit.zext"), unit: "Ом", value: 0.1,
+          hint: t("calculators.short-circuit.zext_hint"), info: t("calculators.short-circuit.info.zext") %>
+    <%= render "calculators/select", field: "material", label: t("calculators.fields.material"), selected: "cu",
+          options: [["cu", t("calculators.options.material_cu")], ["al", t("calculators.options.material_al")]] %>
+    <%= render "calculators/field", field: "l", label: t("calculators.short-circuit.length"), unit: "м", value: 30 %>
+    <%= render "calculators/field", field: "s", label: t("calculators.fields.section"), unit: "мм²", value: 2.5 %>
+    <%= render "calculators/field", field: "inom", label: t("calculators.short-circuit.inom"), unit: "А", value: 16 %>
+    <%= render "calculators/select", field: "char", label: t("calculators.short-circuit.char"), selected: "C",
+          options: [["B", t("calculators.short-circuit.char_b")], ["C", t("calculators.short-circuit.char_c")], ["D", t("calculators.short-circuit.char_d")]], info: t("calculators.short-circuit.info.char") %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "zloop", label: t("calculators.short-circuit.result_zloop"), unit: "Ом" %>
+    <%= render "calculators/result", output: "ikz", label: t("calculators.short-circuit.result_ikz"), unit: "А", strong: true %>
+    <%= render "calculators/result", output: "ratio", label: t("calculators.short-circuit.result_ratio"), unit: "× Iₙ", strong: true, info: t("calculators.short-circuit.info.ratio") %>
+    <p class="calc__note"><%= t("calculators.short-circuit.note") %></p>
+  </div>
+</div>

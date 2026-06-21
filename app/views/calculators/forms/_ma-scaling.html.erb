@@ -1,0 +1,28 @@
+<div class="calc__stack">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.ma-scaling.range_heading") %></h2>
+    <div class="calc__row">
+      <%= render "calculators/field", field: "rmin", label: t("calculators.ma-scaling.range_min"), value: 0 %>
+      <%= render "calculators/field", field: "rmax", label: t("calculators.ma-scaling.range_max"), value: 100 %>
+    </div>
+    <div class="calc__row">
+      <%= render "calculators/field", field: "smin", label: t("calculators.ma-scaling.signal_min"), unit: "мА", value: 4 %>
+      <%= render "calculators/field", field: "smax", label: t("calculators.ma-scaling.signal_max"), unit: "мА", value: 20 %>
+    </div>
+  </div>
+
+  <div class="calc__pair">
+    <div class="calc__pair-side">
+      <h2 class="calc__heading"><%= t("calculators.ma-scaling.to_eu_heading") %></h2>
+      <%= render "calculators/field", field: "ma", label: t("calculators.ma-scaling.signal_value"), unit: "мА", value: 12 %>
+      <%= render "calculators/result", output: "eu", label: t("calculators.ma-scaling.result_eu"), strong: true, info: t("calculators.ma-scaling.info.eu") %>
+      <%= render "calculators/result", output: "percent", label: t("calculators.ma-scaling.result_percent"), unit: "%", info: t("calculators.ma-scaling.info.percent") %>
+    </div>
+
+    <div class="calc__pair-side">
+      <h2 class="calc__heading"><%= t("calculators.ma-scaling.to_ma_heading") %></h2>
+      <%= render "calculators/field", field: "eu", label: t("calculators.ma-scaling.eu_value"), value: 50 %>
+      <%= render "calculators/result", output: "ma", label: t("calculators.ma-scaling.result_ma"), unit: "мА", strong: true %>
+    </div>
+  </div>
+</div>

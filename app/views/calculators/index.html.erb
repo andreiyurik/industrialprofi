@@ -1,0 +1,30 @@
+<% meta_title(t("calculators.index.title")) %>
+<% meta_description(t("calculators.index.subtitle")) %>
+<% canonical_url("#{site_config.url}/calculators") %>
+
+<% content_for(:head) do %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+    { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
+    { title: t("calculators.index.title"), url: "#{site_config.url}/calculators" }
+  ])) %>
+<% end %>
+
+<section class="section">
+  <div class="container">
+    <div class="txt-align-center">
+      <h1 class="section-title"><%= t("calculators.index.title") %></h1>
+      <p class="section-subtitle"><%= t("calculators.index.subtitle") %></p>
+    </div>
+
+    <% @grouped.each do |category, calculators| %>
+      <div class="calc-group">
+        <h2 class="calc-group__title"><%= t("calculators.categories.#{category}") %></h2>
+        <div class="calc-catalog">
+          <% calculators.each do |calculator| %>
+            <%= render "card", calculator: calculator %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
