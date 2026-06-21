@@ -95,6 +95,30 @@ hr {
   margin: 2lh auto;
 }
 
+/* Logo divider — a hairline rule with the brand RJ45 mark "plugged in" at the
+   centre, our take on the Rails Guides logo separator. Scoped to prose so the
+   plain <hr> above still serves mailers and other contexts. Two stacked
+   backgrounds (top-most first): the small mark, then the hairline — which
+   dissolves to transparent toward the centre so it meets the mark softly
+   instead of stopping at a hard edge. Kept quiet (small + muted) so it reads
+   as an ornament, not a focal point. */
+.prose hr {
+  background-image:
+    url("logo-ethernet.png"),
+    linear-gradient(to right,
+      var(--color-subtle-dark) 0 41%, transparent 48% 52%,
+      var(--color-subtle-dark) 59% 100%);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size:
+    auto 0.82em,   /* the mark */
+    100% 1px;      /* the hairline, fading out around the mark */
+  block-size: 0.82em;
+  border: 0;
+  margin-block: 2.8lh;
+  opacity: 0.45;
+}
+
 table {
   border: 1px solid var(--color-subtle-dark);
   border-collapse: collapse;
