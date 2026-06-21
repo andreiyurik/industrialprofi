@@ -83,6 +83,7 @@ module ApplicationHelper
     # allowance: typed callouts first, then wrap tables for horizontal scroll.
     html = render_callouts(html)
     html = wrap_prose_tables(html)
+    html = wrap_code_blocks(html)
     html = anchor_prose_headings(html) if anchor_headings
     html.html_safe
   end
@@ -137,6 +138,26 @@ module ApplicationHelper
   def wrap_prose_tables(html)
     html.gsub("<table>", '<div class="prose-table"><table>')
         .gsub("</table>", "</table></div>")
+  end
+
+  # Wrap each fenced code block in a copy-button affordance. Runs post-sanitize
+  # (our own markup), like the callouts/tables above — so the data-* hooks and
+  # the button survive. The button ships `hidden`; the copy-code Stimulus
+  # controller reveals it, so there's no dead button without JS.
+  def wrap_code_blocks(html)
+    button =
+      %(<button type="button" class="code-copy" hidden ) +
+      %(data-copy-code-target="button" data-action="copy-code#copy" ) +
+      %(aria-label="Копировать код" title="Копировать код">) +
+      %(<span class="code-copy__icon code-copy__icon--copy">#{heroicon("document-duplicate", variant: :outline)}</span>) +
+      %(<span class="code-copy__icon code-copy__icon--done">#{heroicon("check", variant: :outline)}</span>) +
+      %(</button>)
+
+    # Matches both highlighted (`<pre class="highlight">`) and plain `<pre>` code
+    # blocks — in prose, every <pre> is a code block.
+    html.gsub(%r{<pre[^>]*>.*?</pre>}m) do |pre|
+      %(<div class="code-block" data-controller="copy-code">#{pre}#{button}</div>)
+    end
   end
 
   def lesson_content(lesson, field)

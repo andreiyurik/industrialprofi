@@ -336,8 +336,8 @@ ru:
     coming_soon: "В разработке"
     overview: "Обзор"
     focus_banner_html: "Вы изучаете %{title} — лучше закончить начатое, прежде чем браться за новое."
-    start_learning: "Начать обучение"
-    continue_learning: "Продолжить обучение"
+    start_learning: "Начать изучение"
+    continue_learning: "Продолжить изучение"
     next_up: "Далее: %{title}"
     lessons_in_section: "в разделе"
 

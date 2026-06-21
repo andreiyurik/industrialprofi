@@ -80,6 +80,77 @@ kbd {
   }
 }
 
+/* Copy-code affordance — a quiet button parked at the block's top-right corner.
+   Server-rendered structure, the copy-code Stimulus controller only reveals it.
+   On pointer devices it stays hidden until the block is hovered (or the button
+   is focused); on touch (no hover) it's always shown. */
+.code-block {
+  position: relative;
+}
+
+.code-copy {
+  align-items: center;
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.4em;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  display: inline-flex;
+  inset-block-start: 0.5lh;
+  inset-inline-end: 0.5lh;
+  opacity: 0;
+  padding: 0.35em;
+  position: absolute;
+  transition: color 150ms ease, border-color 150ms ease, opacity 150ms ease;
+
+  svg {
+    block-size: 1.05em;
+    inline-size: 1.05em;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      border-color: var(--color-subtle-dark);
+      color: var(--color-ink);
+    }
+  }
+}
+
+@media (any-hover: hover) {
+  .code-block:hover .code-copy,
+  .code-copy:focus-visible {
+    opacity: 1;
+  }
+}
+
+@media (any-hover: none) {
+  .code-copy {
+    opacity: 1;
+  }
+}
+
+/* Icon swap: clipboard by default, a green check for ~2s after a copy. */
+.code-copy__icon {
+  display: inline-flex;
+}
+
+.code-copy__icon--done {
+  display: none;
+}
+
+.code-copy--copied {
+  border-color: oklch(var(--lch-green) / 0.5);
+  color: var(--color-positive);
+}
+
+.code-copy--copied .code-copy__icon--copy {
+  display: none;
+}
+
+.code-copy--copied .code-copy__icon--done {
+  display: inline-flex;
+}
+
 :is(blockquote, .quote) {
   font-style: italic;
   margin: 0 3ch;
@@ -95,28 +166,37 @@ hr {
   margin: 2lh auto;
 }
 
-/* Logo divider — a hairline rule with the brand RJ45 mark "plugged in" at the
-   centre, our take on the Rails Guides logo separator. Scoped to prose so the
-   plain <hr> above still serves mailers and other contexts. Two stacked
-   backgrounds (top-most first): the small mark, then the hairline — which
-   dissolves to transparent toward the centre so it meets the mark softly
-   instead of stopping at a hard edge. Kept quiet (small + muted) so it reads
-   as an ornament, not a focal point. */
+/* Logo divider — the brand RJ45 mark "plugged in" at the centre of a fine
+   hairline, our take on the Rails Guides logo separator. Scoped to prose so the
+   plain <hr> above still serves mailers and other contexts.
+
+   The premium move: the hairline is CRISP where it meets the mark (a clean,
+   hard-edged gap — no muddy centre fade) and instead dissolves gently to nothing
+   toward the column edges, so the rule reads as "drawn" around a centred jewel.
+   Generous vertical breathing room finishes the effect. Two stacked backgrounds
+   (top-most first): the mark, then the tapered hairline with its centre gap. */
 .prose hr {
+  --divider-gap: 1.5em;  /* half-gap each side of centre — clears the mark */
+
   background-image:
     url("logo-ethernet.png"),
     linear-gradient(to right,
-      var(--color-subtle-dark) 0 41%, transparent 48% 52%,
-      var(--color-subtle-dark) 59% 100%);
+      transparent 0,
+      var(--color-subtle-dark) 25%,
+      var(--color-subtle-dark) calc(50% - var(--divider-gap)),
+      transparent calc(50% - var(--divider-gap)) calc(50% + var(--divider-gap)),
+      var(--color-subtle-dark) calc(50% + var(--divider-gap)),
+      var(--color-subtle-dark) 75%,
+      transparent 100%);
   background-position: center;
   background-repeat: no-repeat;
   background-size:
-    auto 0.82em,   /* the mark */
-    100% 1px;      /* the hairline, fading out around the mark */
-  block-size: 0.82em;
+    auto 0.85em,   /* the mark — the focal jewel */
+    100% 1px;      /* the hairline: crisp at the centre, fading to the edges */
+  block-size: 0.85em;
   border: 0;
-  margin-block: 2.8lh;
-  opacity: 0.45;
+  margin-block: 3.2lh;
+  opacity: 0.6;
 }
 
 table {

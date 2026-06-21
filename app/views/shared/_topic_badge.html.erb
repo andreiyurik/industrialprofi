@@ -1,11 +1,7 @@
 <%# locals: (token:) -%>
-<%# The unified topic badge: a thin dotted ring framing the line icon — one
-    quiet house style for every course/path circle (our take on The Odin
-    Project's badge artwork). The outer circle comes from the context
-    (progress ring, bordered disc, hero circle). %>
+<%# The unified topic badge: the line icon centred in its disc — one quiet house
+    style for every course/path circle. The framing circle comes from the
+    context (progress ring, bordered disc, hero circle). %>
 <span class="topic-badge">
-  <svg class="topic-badge__ring" viewBox="0 0 48 48" aria-hidden="true">
-    <circle cx="24" cy="24" r="22" pathLength="24" stroke-dasharray="0.06 0.94"></circle>
-  </svg>
   <%= topic_icon_svg(token) %>
 </span>
