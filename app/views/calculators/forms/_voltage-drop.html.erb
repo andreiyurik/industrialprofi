@@ -1,10 +1,8 @@
 <div class="calc__grid">
   <div class="calc__inputs">
     <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
-    <%= render "calculators/select", field: "phase", label: t("calculators.fields.phase"), selected: "3",
-          options: [["3", t("calculators.options.phase_3")], ["1", t("calculators.options.phase_1")]] %>
-    <%= render "calculators/select", field: "material", label: t("calculators.fields.material"), selected: "cu",
-          options: [["cu", t("calculators.options.material_cu")], ["al", t("calculators.options.material_al")]] %>
+    <%= render "calculators/phase_select" %>
+    <%= render "calculators/material_select" %>
     <%= render "calculators/field", field: "l", label: t("calculators.fields.length"), unit: "м", value: 50 %>
     <%= render "calculators/field", field: "i", label: t("calculators.fields.current"), unit: "А", value: 20 %>
     <%= render "calculators/field", field: "s", label: t("calculators.fields.section"), unit: "мм²", value: 4 %>

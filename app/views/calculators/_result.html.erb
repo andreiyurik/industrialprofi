@@ -1,4 +1,4 @@
-<%# A single output row. locals: output, label; optional: unit, strong (highlight) %>
+<%# A single output row. locals: output, label; optional: unit, strong (highlight + copy button), info ("?" popover) %>
 <div class="calc-result<%= " calc-result--primary" if local_assigns[:strong] %>">
   <span class="calc-result__label"><%= label %><% if local_assigns[:info].present? %><%= render "calculators/term_info", id: "info-out-#{output}", text: info %><% end %></span>
   <span class="calc-result__value">

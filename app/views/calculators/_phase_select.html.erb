@@ -1,0 +1,3 @@
+<%# The shared 1-ф / 3-ф network select (cable, power-current, voltage-drop). %>
+<%= render "calculators/select", field: "phase", label: t("calculators.fields.phase"), selected: "3",
+      options: [["3", t("calculators.options.phase_3")], ["1", t("calculators.options.phase_1")]] %>
