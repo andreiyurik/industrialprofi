@@ -26,9 +26,17 @@
     <meta property="og:title" content="<%= content_for?(:og_title) ? content_for(:og_title) : "#{t('site.name')} — #{t('site.tagline')}" %>">
     <meta property="og:description" content="<%= content_for?(:og_description) ? content_for(:og_description) : t('site.description') %>">
     <meta property="og:url" content="<%= content_for?(:canonical) ? content_for(:canonical) : request.original_url %>">
+    <% if site_config.og_image.present? %>
+      <meta property="og:image" content="<%= site_config.og_image %>">
+      <meta property="og:image:width" content="1200">
+      <meta property="og:image:height" content="630">
+    <% end %>
 
-    <%# Twitter Card %>
-    <meta name="twitter:card" content="summary">
+    <%# Twitter Card — a large image when we have one, otherwise the compact card. %>
+    <meta name="twitter:card" content="<%= site_config.og_image.present? ? "summary_large_image" : "summary" %>">
+    <% if site_config.og_image.present? %>
+      <meta name="twitter:image" content="<%= site_config.og_image %>">
+    <% end %>
     <meta name="twitter:title" content="<%= content_for?(:og_title) ? content_for(:og_title) : "#{t('site.name')} — #{t('site.tagline')}" %>">
     <meta name="twitter:description" content="<%= content_for?(:og_description) ? content_for(:og_description) : t('site.description') %>">
 

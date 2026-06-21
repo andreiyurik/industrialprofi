@@ -87,6 +87,7 @@ module ApplicationHelper
     html = render_callouts(html)
     html = wrap_prose_tables(html)
     html = wrap_code_blocks(html)
+    html = wrap_figures(html)
     html = anchor_prose_headings(html) if anchor_headings
     html.html_safe
   end
@@ -141,6 +142,21 @@ module ApplicationHelper
   def wrap_prose_tables(html)
     html.gsub("<table>", '<div class="prose-table"><table>')
         .gsub("</table>", "</table></div>")
+  end
+
+  # A standalone image — plus the `*Рис. N…*` caption that may follow it (a lone
+  # <em> paragraph) — becomes a single <figure>, so the caption sits tight under
+  # the image and the whole thing is one click target for the lightbox. Runs
+  # post-sanitize, like the table/code wrappers above (our own markup).
+  def wrap_figures(html)
+    html.gsub(%r{<p>(<img\b[^>]*?>)</p>\s*(?:<p><em>(.*?)</em></p>)?}m) do
+      image = Regexp.last_match(1)
+      caption = Regexp.last_match(2)
+      figure = +%(<figure class="prose-figure">#{image})
+      figure << %(<figcaption class="prose-figure__caption">#{caption}</figcaption>) if caption.present?
+      figure << "</figure>"
+      figure
+    end
   end
 
   # Wrap each fenced code block in a copy-button affordance. Runs post-sanitize

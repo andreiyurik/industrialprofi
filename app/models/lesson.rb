@@ -1,4 +1,6 @@
 class Lesson < ApplicationRecord
+  include IndexNowNotifiable
+
   belongs_to :course, counter_cache: true
   # path_id is a denormalized FK (= course.path) kept in sync below. Many hot
   # queries join lessons.path_id directly (User progress, Projects, Sitemaps),
@@ -113,4 +115,18 @@ class Lesson < ApplicationRecord
     end
     sections.join("\n\n")
   end
+
+  private
+    # Public only when both its course and profession are published.
+    def indexnow_url
+      return unless course&.status == "published" && path&.status == "published"
+
+      "#{indexnow_site_url}/lessons/#{slug}"
+    end
+
+    def indexnow_should_ping?
+      previously_new_record? ||
+        saved_change_to_title? || saved_change_to_slug? ||
+        saved_change_to_body? || saved_change_to_description? || saved_change_to_task?
+    end
 end

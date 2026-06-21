@@ -18,6 +18,13 @@ Rails.application.routes.draw do
   get "robots.txt" => "sitemaps#robots", defaults: { format: :text }
   get "sitemap.xml" => "sitemaps#show", defaults: { format: :xml }
 
+  # IndexNow ownership proof: serve the key as plain text at /<key>.txt. Only
+  # mounted when a key is configured (the key IS the route — no controller needed).
+  if (indexnow_key = ENV["INDEXNOW_KEY"]).present?
+    get "#{indexnow_key}.txt",
+        to: ->(_env) { [ 200, { "Content-Type" => "text/plain" }, [ indexnow_key ] ] }
+  end
+
   resource :account, only: [ :show, :update ], controller: "account"
   patch "account/password", to: "account#update_password", as: :account_password
   scope module: :account_settings, path: "account", as: :account do

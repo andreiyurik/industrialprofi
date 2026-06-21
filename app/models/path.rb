@@ -1,4 +1,6 @@
 class Path < ApplicationRecord
+  include IndexNowNotifiable
+
   SLUG_FORMAT = /\A[a-z0-9]+(-[a-z0-9]+)*\z/
 
   has_many :courses, -> { order(:position) }, dependent: :destroy
@@ -29,4 +31,14 @@ class Path < ApplicationRecord
   def to_param
     slug
   end
+
+  private
+    def indexnow_url
+      "#{indexnow_site_url}/paths/#{slug}" if status == "published"
+    end
+
+    def indexnow_should_ping?
+      saved_change_to_status? || saved_change_to_title? ||
+        saved_change_to_description? || saved_change_to_slug?
+    end
 end

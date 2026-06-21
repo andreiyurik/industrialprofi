@@ -13,3 +13,12 @@ site.contact_email = ENV.fetch("CONTACT_EMAIL", "hello@industrialprofi.com")
 # consoles only report what the crawlers already do.
 site.google_site_verification = ENV["GOOGLE_SITE_VERIFICATION"]
 site.yandex_verification      = ENV["YANDEX_VERIFICATION"]
+
+# Absolute URL of the default social-share image (1200×630). Blank → og:image is
+# omitted and the Twitter card stays "summary". Set OG_IMAGE_URL once you drop a
+# branded image in public/ (e.g. https://industrialprofi.com/og.png).
+site.og_image = ENV["OG_IMAGE_URL"]
+
+# IndexNow key (Yandex + Bing instant indexing). A random string you generate
+# once; it is served at /<key>.txt to prove ownership. Blank → pinging is off.
+site.indexnow_key = ENV["INDEXNOW_KEY"]

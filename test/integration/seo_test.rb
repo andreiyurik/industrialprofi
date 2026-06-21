@@ -41,6 +41,22 @@ class SeoTest < ActionDispatch::IntegrationTest
     assert_includes response.body, '"@type":"EducationalOrganization"'
   end
 
+  test "no og:image by default, compact twitter card" do
+    get root_path
+    assert_select 'meta[property="og:image"]', false
+    assert_select 'meta[name="twitter:card"][content=?]', "summary"
+  end
+
+  test "og:image and large twitter card render once an image is configured" do
+    site = Rails.application.config.x.site
+    site.og_image = "https://industrialprofi.com/og.png"
+    get root_path
+    assert_select 'meta[property="og:image"][content=?]', "https://industrialprofi.com/og.png"
+    assert_select 'meta[name="twitter:card"][content=?]', "summary_large_image"
+  ensure
+    site.og_image = nil
+  end
+
   test "path page has canonical link" do
     get path_path(paths(:electrician))
     assert_select 'link[rel="canonical"]'

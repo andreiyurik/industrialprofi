@@ -1,0 +1,117 @@
+/* Lesson figures (markdown diagrams) + the full-screen image viewer. The figure
+   groups image and caption tightly; the lightbox (a native <dialog> built by the
+   lightbox Stimulus controller) lets readers inspect fine text on diagrams. */
+
+.prose-figure {
+  position: relative;
+  margin-block: 1.25lh;
+}
+
+.prose-figure img {
+  cursor: zoom-in;
+}
+
+/* Caption sits right under the image, quiet and clearly secondary. */
+.prose-figure__caption {
+  margin-block-start: 0.5lh;
+  color: var(--color-subtle-dark);
+  font-size: 0.82em;
+  font-style: italic;
+  line-height: 1.45;
+  text-align: center;
+}
+
+/* Zoom affordance — injected by the controller, so no dead button without JS. */
+.prose-figure__zoom {
+  position: absolute;
+  inset-block-start: 0.6rem;
+  inset-inline-end: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  padding: 0;
+  color: var(--color-ink);
+  background: color-mix(in oklch, var(--color-bg) 65%, transparent);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.5rem;
+  cursor: zoom-in;
+  backdrop-filter: blur(4px);
+}
+
+.prose-figure__zoom svg {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+}
+
+.prose-figure__zoom:hover {
+  background: var(--color-bg);
+  border-color: var(--color-subtle-dark);
+}
+
+/* Full-screen viewer. */
+.lightbox {
+  inline-size: 100vw;
+  block-size: 100dvh;
+  max-inline-size: 100vw;
+  max-block-size: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  overflow: hidden;
+}
+
+.lightbox::backdrop {
+  background: oklch(0 0 0 / 0.9);
+}
+
+.lightbox__stage {
+  inline-size: 100%;
+  block-size: 100%;
+  display: grid;
+  place-items: center;
+  overflow: auto;
+  padding: 1.5rem;
+}
+
+.lightbox__img {
+  max-inline-size: 95vw;
+  max-block-size: 95dvh;
+  cursor: zoom-in;
+}
+
+/* Zoomed: show at full resolution and let the stage scroll. */
+.lightbox--zoomed .lightbox__stage {
+  place-items: start;
+}
+
+.lightbox--zoomed .lightbox__img {
+  max-inline-size: none;
+  max-block-size: none;
+  cursor: zoom-out;
+}
+
+.lightbox__close {
+  position: fixed;
+  inset-block-start: 1rem;
+  inset-inline-end: 1rem;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  color: var(--color-ink);
+  background: color-mix(in oklch, var(--color-bg) 65%, transparent);
+  border: 1px solid var(--color-subtle);
+  border-radius: 50%;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.lightbox__close svg {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+}

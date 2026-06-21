@@ -86,7 +86,7 @@
 
   <%= turbo_frame_tag "lesson_history" %>
 
-  <article>
+  <article data-controller="lightbox">
     <% if @lesson.has_description? %>
       <section id="why" class="lesson__intro">
         <p class="lesson__intro-label"><%= t("lessons.why_section") %></p>

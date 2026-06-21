@@ -1,4 +1,6 @@
 class Course < ApplicationRecord
+  include IndexNowNotifiable
+
   belongs_to :path, counter_cache: true
   has_many :lessons, -> { order(:position) }, dependent: :destroy
 
@@ -18,4 +20,16 @@ class Course < ApplicationRecord
   def to_param
     slug
   end
+
+  private
+    def indexnow_url
+      return unless status == "published" && path&.status == "published"
+
+      "#{indexnow_site_url}/courses/#{slug}"
+    end
+
+    def indexnow_should_ping?
+      saved_change_to_status? || saved_change_to_title? ||
+        saved_change_to_description? || saved_change_to_slug?
+    end
 end

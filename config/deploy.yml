@@ -43,6 +43,16 @@ env:
     # GOOGLE_SITE_VERIFICATION: "..."
     # YANDEX_VERIFICATION: "..."
 
+    # Social-share preview image (1200×630). Drop a branded PNG in public/ and
+    # point to it; blank = no og:image, compact Twitter card.
+    # OG_IMAGE_URL: "https://industrialprofi.com/og.png"
+
+    # IndexNow instant indexing (Yandex + Bing). Generate a random key once
+    # (e.g. `ruby -rsecurerandom -e 'puts SecureRandom.hex(16)'`), set it here,
+    # redeploy. The app then auto-pings on every published content change and
+    # serves the proof file at /<key>.txt. Blank = pinging off.
+    # INDEXNOW_KEY: "..."
+
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
 

@@ -11,6 +11,26 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes result, "Title"
   end
 
+  test "markdown wraps a standalone image and its caption in one figure" do
+    result = markdown("![схема](/lesson-images/net.svg)\n\n*Рис. 1. Сеть АСУ ТП.*")
+    assert_includes result, '<figure class="prose-figure">'
+    assert_includes result, "<img"
+    assert_includes result, '<figcaption class="prose-figure__caption">Рис. 1. Сеть АСУ ТП.</figcaption>'
+    # The caption is adopted into the figure, not left as a separate paragraph.
+    assert_not_includes result, "<p><em>Рис. 1."
+  end
+
+  test "markdown wraps a caption-less image in a figure too" do
+    result = markdown("![схема](/lesson-images/net.svg)")
+    assert_includes result, '<figure class="prose-figure">'
+    assert_not_includes result, "<figcaption"
+  end
+
+  test "markdown leaves an inline image untouched" do
+    result = markdown("Вот картинка ![x](/a.png) внутри текста.")
+    assert_not_includes result, "prose-figure"
+  end
+
   test "markdown renders links" do
     result = markdown("[link](https://example.com)")
     assert_includes result, '<a href="https://example.com"'
