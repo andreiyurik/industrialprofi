@@ -2,8 +2,6 @@
 
 # IndustrialProfi
 
-**The Odin Project + roadmap.sh — for industrial trades.**
-
 A free, open-source learning platform that teaches industrial professions
 the way real craftsmen actually learn: by reading official standards
 (ГОСТ, ASME, НАКС) and doing verifiable, real-world practice.

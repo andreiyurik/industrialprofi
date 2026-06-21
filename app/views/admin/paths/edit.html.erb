@@ -11,7 +11,7 @@
         </a>
         <h1 class="admin-header__title"><%= @path.title %></h1>
       </div>
-      <a href="<%= path_path(@path) %>" class="admin-header__view-live" target="_blank"><%= t("admin.view_live") %> ↗</a>
+      <a href="<%= path_path(@path) %>" class="admin-header__view-live link-quiet" target="_blank"><%= t("admin.view_live") %> ↗</a>
     </div>
 
     <%= render "admin/shared/form_errors", object: @path %>

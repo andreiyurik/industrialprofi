@@ -18,9 +18,9 @@
   .lesson-sidebar {
     /* block-size (not max-) keeps the divider running the full viewport
        height even on short stages — the rail reads as a dock, not a card. */
-    block-size: calc(100dvh - 4rem);
+    block-size: calc(100dvh - var(--header-height));
     border-inline-end: 1px solid var(--color-subtle);
-    inset-block-start: 4rem; /* clears the sticky header */
+    inset-block-start: var(--header-height); /* clears the sticky header */
     overflow-y: auto;
     overscroll-behavior: contain;
     padding-block: 1.5rem 2rem;
@@ -325,8 +325,8 @@
   .lesson-toc {
     display: block;
     font-size: 0.85rem;
-    inset-block-start: 4rem; /* clears the sticky header */
-    max-block-size: calc(100dvh - 4rem);
+    inset-block-start: var(--header-height); /* clears the sticky header */
+    max-block-size: calc(100dvh - var(--header-height));
     overflow-y: auto;
     overscroll-behavior: contain;
     padding-block: 2.5rem;

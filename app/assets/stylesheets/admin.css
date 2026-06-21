@@ -52,16 +52,7 @@
 }
 
 .admin-header__view-live {
-  color: var(--color-subtle-dark);
   font-size: 0.85rem;
-  text-decoration: none;
-  transition: color 200ms ease;
-
-  @media (any-hover: hover) {
-    &:hover {
-      color: var(--color-ink);
-    }
-  }
 }
 
 /* Generic list + row */
@@ -514,9 +505,11 @@
   text-decoration: none;
 }
 
-.admin-nav__link:hover {
-  background-color: var(--color-subtle-light);
-  color: var(--color-ink);
+@media (any-hover: hover) {
+  .admin-nav__link:hover {
+    background-color: var(--color-subtle-light);
+    color: var(--color-ink);
+  }
 }
 
 .admin-nav__link[aria-current="page"] {

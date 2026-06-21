@@ -108,7 +108,7 @@
                 <%= render "shared/progress_bar", completed: ids.size, total: path.lessons_count %>
               </div>
               <% if nxt %>
-                <%= link_to t("dashboard.continue"), nxt, class: "dashboard-other__continue" %>
+                <%= link_to t("dashboard.continue"), nxt, class: "dashboard-other__continue link-quiet" %>
               <% end %>
             </div>
           <% end %>

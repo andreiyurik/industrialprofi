@@ -125,7 +125,10 @@ module ApplicationHelper
       cfg = type && CALLOUTS[type]
       next "<blockquote>#{inner}</blockquote>" unless cfg
 
-      body = inner.sub(/\[!#{type}\]\s*/, "").gsub(%r{<p>\s*</p>}, "")
+      # Strip the marker AND the hard line break GFM inserts after it (`[!ТИП]`
+      # and the body sit on two `>` lines, which kramdown joins with a leading
+      # <br> — left in, it renders as a blank first line / extra gap).
+      body = inner.sub(%r{\[!#{type}\]\s*(?:<br\s*/?>\s*)?}, "").gsub(%r{<p>\s*</p>}, "")
       label = %(<p class="callout__label">#{heroicon(cfg[:icon], variant: :outline)}<span>#{cfg[:label]}</span></p>)
       %(<div class="callout callout--#{cfg[:mod]}">#{label}#{body}</div>)
     end

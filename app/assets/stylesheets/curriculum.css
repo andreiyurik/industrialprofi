@@ -57,22 +57,6 @@
   min-inline-size: 0;
 }
 
-/* Plain card list without the journey rail — used by the /projects catalog. */
-.curriculum--plain::before {
-  content: none;
-}
-
-.curriculum__header-link {
-  color: var(--color-ink);
-  text-decoration: none;
-
-  @media (any-hover: hover) {
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
 .projects__empty {
   color: var(--color-subtle-dark);
   text-align: center;

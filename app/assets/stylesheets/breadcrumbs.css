@@ -15,18 +15,6 @@
   }
 }
 
-.breadcrumbs__link {
-  color: var(--color-subtle-dark);
-  text-decoration: none;
-  transition: color 200ms ease;
-
-  @media (any-hover: hover) {
-    &:hover {
-      color: var(--color-ink);
-    }
-  }
-}
-
 .breadcrumbs__separator {
   color: var(--color-subtle-dark);
   user-select: none;

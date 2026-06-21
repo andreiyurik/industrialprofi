@@ -77,7 +77,7 @@
 
     <% if @lesson.revised? %>
       <%= link_to lesson_revisions_path(@lesson),
-          class: "lesson-updated", data: { turbo_frame: "lesson_history" } do %>
+          class: "lesson-updated link-quiet link-quiet--underline", data: { turbo_frame: "lesson_history" } do %>
         <%= heroicon("clock", variant: :outline) %>
         <span><%= t("revisions.updated_n_times", count: @lesson.lesson_revisions_count) %> · <%= t("revisions.history") %></span>
       <% end %>
@@ -127,7 +127,10 @@
 
     <% if @lesson.has_task? %>
       <section id="task" class="lesson__section">
-        <h2 class="lesson__heading"><%= t("lessons.task_section") %></h2>
+        <h2 class="lesson__heading lesson__heading--task">
+          <%= heroicon "wrench-screwdriver", variant: :outline %>
+          <span><%= t("lessons.task_section") %></span>
+        </h2>
         <div class="lesson__task">
           <div class="prose"><%= lesson_content(@lesson, :task) %></div>
           <%# The practice loop: did it → photograph it → log it. The journal

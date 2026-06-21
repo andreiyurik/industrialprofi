@@ -149,6 +149,35 @@ ins {
   color: var(--color-positive);
 }
 
+/* Quiet link — muted by default, brightens to ink on hover. The single source
+   for the recurring "secondary text link" voice (footer, breadcrumbs, nav, meta
+   actions). Compose with --underline when the link should also carry a subtle
+   underline that brightens with it. Structural props (font-size, icon layout)
+   stay on the component class; this carries only colour + hover. */
+.link-quiet {
+  color: var(--color-subtle-dark);
+  text-decoration: none;
+  transition: color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+.link-quiet--underline {
+  text-decoration: underline;
+  text-decoration-color: var(--color-subtle);
+  transition: color 150ms ease, text-decoration-color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration-color: var(--color-ink);
+    }
+  }
+}
+
 /* Page titles — the display-type moment: Inter Tight, uppercase, big & tight. */
 .page-title {
   font-size: clamp(2.25em, 7vw, 4.25em);

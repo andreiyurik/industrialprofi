@@ -4,7 +4,7 @@
       <span class="breadcrumbs__separator" aria-hidden="true">/</span>
     <% end %>
     <% if crumb[:path] %>
-      <%= link_to crumb[:title], crumb[:path], class: "breadcrumbs__link" %>
+      <%= link_to crumb[:title], crumb[:path], class: "link-quiet" %>
     <% else %>
       <span class="breadcrumbs__current" aria-current="page"><%= crumb[:title] %></span>
     <% end %>

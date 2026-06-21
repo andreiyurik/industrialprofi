@@ -109,10 +109,91 @@
   letter-spacing: -0.015em;
   margin-block: 0 1.25rem;
 }
+.lesson__heading--task {
+  -webkit-text-stroke: 0.25px currentColor;
+  align-items: center;
+  border-block-end: 1px solid var(--color-subtle);
+  display: flex;
+  font-family: var(--font-technical);
+  font-size: 1.35rem;
+  font-weight: 400;
+  gap: 0.7ch;
+  letter-spacing: 0.1em;
+  margin-block: 0 1.25rem;
+  padding-block-end: 0.7rem;
+  text-transform: uppercase;
+}
+
+.lesson__heading--task svg {
+  block-size: 1.25em;
+  color: var(--color-subtle-dark);
+  flex-shrink: 0;
+  inline-size: 1.25em;
+}
 
 .lesson__task {
-  border-inline-start: 2px solid var(--color-subtle-dark);
-  padding-inline-start: 1rem;
+  border-block-end: 1px solid var(--color-subtle);
+  padding-block-end: 2.2rem;
+}
+
+/* GOST is a thin, narrow monoline face with wide built-in side-bearings, so it
+   reads "airy" by default. To match Inter's density we drop the extra tracking
+   and word-spacing entirely, keep compact spec-sheet leading, and hold a modest
+   size. The hairline text-stroke thickens the one (light) weight to Inter 400's
+   typographic colour, otherwise this block reads lighter than the body text. */
+.lesson__task .prose {
+  -webkit-text-stroke: 0.25px currentColor;
+  font-family: var(--font-technical);
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  line-height: 1.45;
+}
+
+/* In-brief headings read as the ruled rubrics of a printed form. All are bright
+   (ink) — a heading must never be dimmer than the text it leads — uppercase, and
+   set in the technical face; hierarchy comes from size, not colour. */
+.lesson__task .prose :is(h2, h3, h4) {
+  color: var(--color-ink);
+  font-family: var(--font-technical);
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+/* Section rubrics (Шаги / Что сдать / Самопроверка) — larger, with a hairline
+   beneath, like a ruled section label on a form. */
+.lesson__task .prose :is(h2, h3) {
+  border-block-end: 1px solid var(--color-subtle);
+  font-size: 1.15rem;
+  letter-spacing: 0.1em;
+  margin-block: 1.9rem 0.6rem;
+  padding-block-end: 0.35rem;
+}
+
+/* Sub-steps (Шаг 1 / Шаг 2 …) — one level down, marked with a leading tick
+   like a drawing annotation. */
+.lesson__task .prose h4 {
+  align-items: baseline;
+  display: flex;
+  font-size: 1rem;
+  gap: 0.8ch;
+  letter-spacing: 0.08em;
+  margin-block: 1.5rem 0.4rem;
+}
+
+.lesson__task .prose h4::before {
+  background: var(--color-subtle-dark);
+  block-size: 2px;
+  content: "";
+  flex: 0 0 1.4ch;
+  transform: translateY(-0.35em);
+}
+
+/* Callouts keep their own component voice (sans) so a safety [!ОПАСНО] block
+   stays instantly recognisable inside the document — and must NOT inherit the
+   GOST stroke-thickening (they're already Inter, at Inter's weight). */
+.lesson__task .callout {
+  -webkit-text-stroke: 0;
+  font-family: var(--font-sans);
 }
 
 /* Practice submission: photograph the work, log it to the journal. */
@@ -228,19 +309,8 @@
 
 .lesson-edit-link {
   align-items: center;
-  color: var(--color-subtle-dark);
   display: inline-flex;
   gap: 0.25rem;
-  text-decoration: underline;
-  text-decoration-color: var(--color-subtle);
-  transition: color 200ms ease, text-decoration-color 200ms ease;
-
-  @media (any-hover: hover) {
-    &:hover {
-      color: var(--color-ink);
-      text-decoration-color: var(--color-ink);
-    }
-  }
 }
 
 /* TOP-style end-of-lesson bar: the completion toggle on the left, "next
@@ -307,15 +377,7 @@
 
 /* Quiet companion action: log what you built into the practice journal. */
 .lesson-complete__journal {
-  color: var(--color-subtle-dark);
   font-size: 0.85rem;
   text-decoration: underline;
   text-decoration-color: var(--color-subtle);
-  transition: color 150ms ease;
-
-  @media (any-hover: hover) {
-    &:hover {
-      color: var(--color-ink);
-    }
-  }
 }

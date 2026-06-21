@@ -30,7 +30,7 @@
   <div class="lesson-complete__side">
     <% if signed_in? %>
       <%= link_to t("journal.write_in_journal"), new_journal_entry_path(lesson_id: lesson.id),
-            class: "lesson-complete__journal" %>
+            class: "lesson-complete__journal link-quiet" %>
     <% end %>
     <% if (nxt = lesson.next_in_path) %>
       <%= link_to nxt, class: "btn btn--large lesson-complete__next" do %>

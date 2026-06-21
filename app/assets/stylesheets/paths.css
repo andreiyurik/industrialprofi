@@ -5,12 +5,6 @@
   margin-block-start: 3rem;
 }
 
-.card-grid--2-col {
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 .card-grid--3-col {
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);

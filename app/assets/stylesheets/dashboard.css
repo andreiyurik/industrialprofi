@@ -4,11 +4,6 @@
   margin-block-end: 2rem;
 }
 
-.dashboard__subtitle {
-  color: var(--color-subtle-dark);
-  margin-block: 0.5rem 2rem;
-}
-
 /* Activity heatmap (GitHub-style): columns = weeks, rows = weekdays.
    Pure server-rendered divs; green intensity = real actions that day. */
 .heatmap {
@@ -83,12 +78,6 @@
   span:last-child {
     margin-inline-start: 0.3rem;
   }
-}
-
-.dashboard__paths {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
 }
 
 /* The identity card (TOP-style): direction + personal goal, ONE next action.
@@ -335,17 +324,9 @@
 }
 
 .dashboard-other__continue {
-  color: var(--color-subtle-dark);
   font-size: 0.85rem;
   text-decoration: underline;
   text-decoration-color: var(--color-subtle);
-  transition: color 150ms ease;
-
-  @media (any-hover: hover) {
-    &:hover {
-      color: var(--color-ink);
-    }
-  }
 }
 
 .dashboard__empty {
