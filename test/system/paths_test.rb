@@ -13,7 +13,10 @@ class PathsTest < ApplicationSystemTestCase
     visit root_path
     click_on "Электрик"
 
-    # Curriculum of the electrician path is rendered.
+    # The profession page lists its courses; open the one holding the lesson.
+    click_on "Основы и электробезопасность"
+
+    # Curriculum of the course is rendered.
     assert_text "Группы допуска (II–V)"
 
     click_on "Группы допуска (II–V)"
