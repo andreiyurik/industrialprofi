@@ -176,7 +176,8 @@ hr {
    Generous vertical breathing room finishes the effect. Two stacked backgrounds
    (top-most first): the mark, then the tapered hairline with its centre gap. */
 .prose hr {
-  --divider-gap: 1.5em;  /* half-gap each side of centre — clears the mark */
+  --mark-size: 0.6em;    /* the RJ45 logo height — the single knob to resize it */
+  --divider-gap: 1.1em;  /* half-gap each side of centre — clears the mark */
 
   background-image:
     url("logo-ethernet.png"),
@@ -191,9 +192,9 @@ hr {
   background-position: center;
   background-repeat: no-repeat;
   background-size:
-    auto 0.85em,   /* the mark — the focal jewel */
-    100% 1px;      /* the hairline: crisp at the centre, fading to the edges */
-  block-size: 0.85em;
+    auto var(--mark-size),   /* the mark — the focal jewel */
+    100% 1px;                /* the hairline: crisp at the centre, fading to the edges */
+  block-size: var(--mark-size);
   border: 0;
   margin-block: 3.2lh;
   opacity: 0.6;
