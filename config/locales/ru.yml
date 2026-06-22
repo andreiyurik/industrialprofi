@@ -608,6 +608,9 @@ ru:
 
   footer:
     description: "Открытые карты развития для промышленных специалистов, поддерживаемые сообществом."
+    col_learning: "Изучение"
+    col_project: "Проект"
+    col_support: "Поддержка"
     professions: "Профессии"
     electrician: "Электрик"
     welder: "Сварщик"
