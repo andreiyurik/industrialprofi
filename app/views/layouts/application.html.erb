@@ -148,7 +148,7 @@
     <%= render "shared/flash" %>
     <%= render "shared/welcome_letter" if flash[:welcome_letter] %>
 
-    <main>
+    <main class="<%= @layout_class %>">
       <%= yield %>
     </main>
 
