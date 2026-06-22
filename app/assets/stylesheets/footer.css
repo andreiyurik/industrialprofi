@@ -1,7 +1,7 @@
 .footer {
   background-color: var(--color-bg);
   border-block-start: 1px solid var(--color-subtle);
-  padding-block: 2.5rem;
+  padding-block: 2rem;
 }
 
 .footer__inner {
@@ -56,7 +56,7 @@
   border-block-start: 1px solid var(--color-subtle);
   color: var(--color-subtle-dark);
   font-size: 0.75rem;
-  margin-block-start: 2rem;
-  padding-block-start: 1.5rem;
+  margin-block-start: 1.25rem;
+  padding-block-start: 1.25rem;
   text-align: center;
 }

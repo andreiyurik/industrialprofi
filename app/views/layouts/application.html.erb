@@ -72,27 +72,37 @@
           <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", aria: { hidden: "true" } %>
           <span class="brand__text"><%= t("site.name") %></span>
         <% end %>
-        <div class="header__links">
-          <%= link_to t("nav.professions"), paths_path, class: "nav__link link-quiet",
-                aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } %>
-          <%= link_to t("nav.projects"), projects_path, class: "nav__link link-quiet",
-                aria: { current: ("page" if current_page?(projects_path)) } %>
-          <%= link_to t("nav.calculators"), calculators_path, class: "nav__link link-quiet",
-                aria: { current: ("page" if controller_name == "calculators") } %>
-          <%= link_to t("nav.about"), about_path, class: "nav__link link-quiet",
-                aria: { current: ("page" if current_page?(about_path)) } %>
-          <%= link_to t("nav.support"), support_us_path, class: "nav__link link-quiet",
-                aria: { current: ("page" if current_page?(support_us_path)) } %>
-          <% if controller.class.module_parent_name == "Admin" %>
-            <span class="badge badge--marker">Admin</span>
-          <% end %>
+        <div class="header__right">
+          <%# Mobile: a zero-JS <details> disclosure collapses the nav behind a
+              hamburger. Desktop (≥720px): the toggle is hidden and the panel
+              flows inline as the nav row — single source of links, no JS. %>
+          <details class="header__menu">
+            <summary class="header__menu-toggle" aria-label="<%= t("nav.menu") %>">
+              <%= heroicon "bars-3", variant: :outline %>
+            </summary>
+            <div class="header__menu-panel">
+              <%= link_to t("nav.professions"), paths_path, class: "nav__link link-quiet",
+                    aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } %>
+              <%= link_to t("nav.projects"), projects_path, class: "nav__link link-quiet",
+                    aria: { current: ("page" if current_page?(projects_path)) } %>
+              <%= link_to t("nav.calculators"), calculators_path, class: "nav__link link-quiet",
+                    aria: { current: ("page" if controller_name == "calculators") } %>
+              <% if controller.class.module_parent_name == "Admin" %>
+                <span class="badge badge--marker">Admin</span>
+              <% end %>
+              <% unless signed_in? %>
+                <%= link_to t("auth.sign_in"), new_session_path, class: "nav__link link-quiet",
+                      aria: { current: ("page" if current_page?(new_session_path)) } %>
+              <% end %>
+            </div>
+          </details>
 
           <% if signed_in? %>
             <%# Fizzy-style account hub: everything personal lives behind one
                 name button. Native popover — light-dismiss, zero JS. %>
             <button type="button" class="account-menu-button" popovertarget="account-menu">
               <%= avatar_tag(Current.user.name) %>
-              <%= Current.user.name %>
+              <span class="account-menu-button__name"><%= Current.user.name %></span>
               <%= heroicon "chevron-down", variant: :outline %>
             </button>
 
@@ -137,9 +147,8 @@
               <% end %>
             </div>
           <% else %>
-            <%= link_to t("auth.sign_in"), new_session_path, class: "nav__link link-quiet",
-                  aria: { current: ("page" if current_page?(new_session_path)) } %>
-            <%= link_to t("auth.sign_up"), new_signup_path, class: "btn btn--small btn--reversed" %>
+            <%# The primary CTA stays visible on mobile (not buried in the menu). %>
+            <%= link_to t("auth.sign_up"), new_signup_path, class: "btn btn--small btn--reversed header__cta" %>
           <% end %>
         </div>
       </nav>

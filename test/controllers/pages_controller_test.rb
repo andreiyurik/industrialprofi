@@ -19,9 +19,11 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".about-letter__cta a[href=?]", support_us_path
   end
 
-  test "header exposes the about link on every page" do
+  test "footer exposes the about link on every page" do
+    # "About the project" lives in the footer now — the header carries only the
+    # "use the product" links (professions/practice/calculators).
     get root_path
-    assert_select "header.header a[href=?]", about_path, text: I18n.t("nav.about")
+    assert_select "footer.footer a[href=?]", about_path, text: I18n.t("nav.about")
   end
 
   test "support page still renders" do
