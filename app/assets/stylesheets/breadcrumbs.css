@@ -16,9 +16,13 @@
   }
 }
 
-/* The "/" is structure, not content — dimmer than the labels so it recedes. */
+/* The "›" marks the hierarchy step — muted like the links (not brighter), but
+   visible enough to read as a separator. A touch larger so the small glyph
+   doesn't disappear. */
 .breadcrumbs__separator {
-  color: var(--color-subtle);
+  color: var(--color-subtle-dark);
+  font-size: 1.15em;
+  line-height: 1;
   user-select: none;
 }
 
