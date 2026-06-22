@@ -1,11 +1,12 @@
 .breadcrumbs {
   align-items: center;
   color: var(--color-subtle-dark);
+  column-gap: var(--inline-space-half);
   display: flex;
   flex-wrap: wrap;
-  font-size: 0.85em;
-  gap: var(--inline-space-half);
+  font-size: 0.8em;
   min-inline-size: 0;
+  row-gap: 0.2rem;
 
   > * {
     flex-shrink: 1;
@@ -15,8 +16,9 @@
   }
 }
 
+/* The "/" is structure, not content — dimmer than the labels so it recedes. */
 .breadcrumbs__separator {
-  color: var(--color-subtle-dark);
+  color: var(--color-subtle);
   user-select: none;
 }
 

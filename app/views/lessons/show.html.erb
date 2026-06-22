@@ -31,10 +31,13 @@
     <%= t("lessons.contents") %>
   </button>
 
+  <%# Trail stops at the course on purpose: the <h1> right below already names
+      the lesson, so repeating it here is redundant noise (and the long title
+      forced a cramped two-line wrap). Full path stays in the breadcrumb JSON-LD
+      above for SEO. %>
   <%= render "shared/breadcrumbs", crumbs: [
     { title: @path.title, path: path_path(@path) },
-    { title: @course.title, path: course_path(@course) },
-    { title: @lesson.title }
+    { title: @course.title, path: course_path(@course) }
   ] %>
 
   <header class="lesson__header">
