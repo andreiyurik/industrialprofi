@@ -1,6 +1,8 @@
 class LessonSuggestionsController < ApplicationController
-  allow_unauthenticated_access
-
+  # Suggesting an edit requires an account: real identity makes attribution
+  # trustworthy and lets good contributors be promoted up the trust ladder.
+  # Signed-out visitors hit the default require_authentication gate, which
+  # stashes the return URL and brings them back to the form after signing in.
   rate_limit to: 5, within: 1.hour, only: :create
 
   def new
@@ -20,6 +22,7 @@ class LessonSuggestionsController < ApplicationController
     end
 
     @suggestion = @lesson.lesson_suggestions.new(suggestion_params)
+    @suggestion.author_name = Current.user.name
     capture_base_content
 
     if @suggestion.save
@@ -50,6 +53,6 @@ class LessonSuggestionsController < ApplicationController
   end
 
   def suggestion_params
-    params.require(:lesson_suggestion).permit(:section, :body_markdown, :author_name, :author_contact, :rich_body, :edit_reason)
+    params.require(:lesson_suggestion).permit(:section, :body_markdown, :rich_body, :edit_reason)
   end
 end
