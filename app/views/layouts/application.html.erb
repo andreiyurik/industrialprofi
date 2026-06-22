@@ -91,14 +91,18 @@
             <%# Fizzy-style account hub: everything personal lives behind one
                 name button. Native popover — light-dismiss, zero JS. %>
             <button type="button" class="account-menu-button" popovertarget="account-menu">
+              <%= avatar_tag(Current.user.name) %>
               <%= Current.user.name %>
               <%= heroicon "chevron-down", variant: :outline %>
             </button>
 
             <div id="account-menu" class="account-menu" popover>
               <p class="account-menu__header">
-                <span class="account-menu__name"><%= Current.user.name %></span>
-                <span class="account-menu__email"><%= Current.user.email_address %></span>
+                <%= avatar_tag(Current.user.name) %>
+                <span class="account-menu__identity">
+                  <span class="account-menu__name"><%= Current.user.name %></span>
+                  <span class="account-menu__email"><%= Current.user.email_address %></span>
+                </span>
               </p>
 
               <nav class="account-menu__nav">

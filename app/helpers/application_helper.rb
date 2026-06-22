@@ -207,19 +207,6 @@ module ApplicationHelper
     t("common.#{key}", count: count)
   end
 
-  # Thumbnails need libvips. Production (Docker) ships it; on a dev box
-  # without it we degrade to serving the original, CSS-constrained.
-  THUMBNAILS_AVAILABLE = begin
-    require "ruby-vips"
-    true
-  rescue LoadError, StandardError
-    false
-  end
-
-  def photo_thumb_source(photo)
-    THUMBNAILS_AVAILABLE ? photo.variant(resize_to_limit: [ 640, 640 ]) : photo
-  end
-
   # Resource-type badge (roadmap.sh-style): a coloured pill with a heroicon and
   # the kind label, shown before each resource link. One hue per kind.
   RESOURCE_KIND_BADGES = {

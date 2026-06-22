@@ -17,21 +17,19 @@ class JournalEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/Чужая запись про сварку/, response.body)
   end
 
-  test "create with photo and lesson link" do
+  test "create with lesson link" do
     sign_in_as users(:member)
 
     assert_difference -> { users(:member).journal_entries.count }, 1 do
       post journal_entries_path, params: { journal_entry: {
         title: "Сборка щитка",
         body: "<p>Собрал по однолинейной схеме</p>",
-        lesson_id: lessons(:praktika_shchitok).id,
-        photos: [ fixture_file_upload("photo.png", "image/png") ]
+        lesson_id: lessons(:praktika_shchitok).id
       } }
     end
     assert_redirected_to journal_entries_path
 
     entry = users(:member).journal_entries.ordered.first
-    assert entry.photos.attached?
     assert_equal lessons(:praktika_shchitok), entry.lesson
   end
 

@@ -84,6 +84,14 @@ volumes:
 # version inside the asset_path.
 asset_path: /rails/public/assets
 
+# Cap Docker container log size so the host disk can't fill up from Rails logs.
+# json-file is Docker's default driver; max-size * max-file = 30 MB ceiling.
+logging:
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 # Configure the image builder.
 builder:
   arch: amd64

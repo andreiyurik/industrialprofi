@@ -27,14 +27,6 @@
     <%= form.rich_text_area :body, class: "lexxy-content" %>
   </div>
 
-  <div class="journal-form__field">
-    <%= form.label :photos, t("journal.field_photos") %>
-    <%= form.file_field :photos, multiple: true, accept: "image/*", class: "input" %>
-    <p class="auth__hint"><%= t("journal.photos_hint",
-          max_photos: JournalEntry::MAX_PHOTOS,
-          max_size: JournalEntry::MAX_PHOTO_SIZE / 1.megabyte) %></p>
-  </div>
-
   <div class="journal-form__actions">
     <%= form.submit t("journal.save"), class: "btn btn--reversed btn--large" %>
     <%= link_to t("admin.cancel"), journal_entries_path, class: "btn btn--large" %>

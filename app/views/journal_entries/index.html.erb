@@ -35,16 +35,6 @@
             <% end %>
 
             <div class="prose journal-entry__body"><%= entry.body %></div>
-
-            <% if entry.photos.attached? %>
-              <div class="journal-entry__photos">
-                <% entry.photos.each do |photo| %>
-                  <%= link_to url_for(photo), target: "_blank", rel: "noopener", class: "journal-entry__photo-link" do %>
-                    <%= image_tag photo_thumb_source(photo), loading: "lazy", class: "journal-entry__photo", alt: "" %>
-                  <% end %>
-                <% end %>
-              </div>
-            <% end %>
           </article>
         <% end %>
       </div>

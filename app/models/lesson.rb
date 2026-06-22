@@ -51,6 +51,17 @@ class Lesson < ApplicationRecord
 
   def revised? = lesson_revisions_count.positive?
 
+  # Community members who improved this lesson, earliest-first. A revision's
+  # editor_name carries the suggester's name (set on approval); the founder's
+  # direct admin edits store nil, so they never appear here — the credit goes
+  # to contributors we want to motivate, and untouched lessons render nothing.
+  def contributor_names
+    lesson_revisions.where.not(editor_name: [ nil, "" ])
+                    .group(:editor_name)
+                    .order(Arel.sql("MIN(created_at)"))
+                    .pluck(:editor_name)
+  end
+
   # The HTML a reader currently sees for a section — rich text if present,
   # otherwise the markdown fallback rendered the same way the view renders it.
   def section_html(section)

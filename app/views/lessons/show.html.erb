@@ -133,11 +133,11 @@
         </h2>
         <div class="lesson__task">
           <div class="prose"><%= lesson_content(@lesson, :task) %></div>
-          <%# The practice loop: did it → photograph it → log it. The journal
-              entry is the "submission" (and the future v0.3 portfolio). %>
+          <%# The practice loop: did it → log it. The journal entry is the
+              "submission" (and the future v0.3 portfolio). %>
           <% if @lesson.practice? && signed_in? %>
             <%= link_to new_journal_entry_path(lesson_id: @lesson.id), class: "btn lesson-task-journal" do %>
-              <%= heroicon "camera", variant: :outline %>
+              <%= heroicon "pencil-square", variant: :outline %>
               <%= t("lessons.log_result") %>
             <% end %>
           <% end %>
@@ -148,6 +148,8 @@
 
     <%= render "lessons/completion", lesson: @lesson, completed: @completed_ids.include?(@lesson.id) %>
   </article>
+
+  <%= render "lessons/contributors", lesson: @lesson %>
   </div>
 
   <%= render "lessons/toc", lesson: @lesson %>

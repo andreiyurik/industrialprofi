@@ -18,6 +18,35 @@ Free platform with structured career roadmaps: stages → skills → official st
 
 Content structure follows The Odin Project (profession → course → lesson, binary completion). UI follows canonical DHH style — same patterns as Basecamp's open-source Rails apps (Writebook, Fizzy, Upright, Once-Campfire). Target market: CIS (Russia, Kazakhstan).
 
+## ⭐ Project goal — the north star (read second, after the git policy)
+
+**Build a platform that costs the founder as little money and time as possible
+to run AND to grow — and that can keep growing without him.** Two hard
+constraints flow from this; when convenience conflicts with them, they win:
+
+- **Minimum running cost, especially under growth.** One small VPS, SQLite on one
+  disk, no S3 / Node / build step / paid SaaS. A new feature must not add per-user
+  disk, a paid dependency, or ops surface. *(This is why journal photo uploads
+  were removed — unbounded user uploads were the one real threat to the SQLite
+  disk, and the disk is the app's life. New media, if ever needed, goes off-disk
+  in a v0.3 public flow, never back onto a private model.)*
+- **Self-developing — the founder is not the bottleneck.** Content and its quality
+  must improve through *other people's* contributions, not the founder's daily
+  labour. The built seams for this: the suggest-edit → editor-review →
+  immutable-revision pipeline; the `member → editor (Эксперт) → administrator`
+  trust ladder; contributor attribution (durable credit, **not** a leaderboard —
+  competition rewards quantity/gaming and repels experts); and demand-gated path
+  authorship. Expansion is expert-driven, never founder-driven breadth.
+
+A mechanic earns its place only if it serves retention/engagement **without**
+adding cost or complexity — «ровно столько механик, сколько нужно, и ничего
+лишнего». The real bus-factor risk is **ops continuity**, not a missing feature
+(see `docs/VISION.md`). **Recorded decision (2026-06-22):** do NOT keep a
+continuity runbook as a repo file — even a secrets-free one is unwanted attack
+surface here. Bus-factor mitigation lives out-of-band (a password manager; a
+successor briefed directly), never in the codebase. Don't re-propose a
+`docs/CONTINUITY.md`.
+
 ## Stack
 
 - Ruby 4.0.5 / Rails 8.1.3
@@ -280,15 +309,29 @@ zero started paths**; the catalog shows a focus banner ("лучше законч
 walls: nothing is locked.
 
 **Practice journal + activity heatmap (built):** `JournalEntry` (`/journal`) —
-the reader's **private** work log: rich-text body, optional lesson link, photos
-via Active Storage. Hard safety rails (a full disk kills SQLite → the site):
-max 5 photos/entry, 10 MB/file, images only, 250 MB per-user quota
-(constants on the model), upload rate limit. Thumbnails use libvips (in the
-production Docker image; on dev boxes without it `photo_thumb_source` serves
-originals). The dashboard heatmap (GitHub-style, 16 weeks, server-rendered
-divs) counts real actions only — completions + journal entries via
-`User#activity_by_day`. Publishing entries to a public portfolio = future v0.3
-moderated flow; until then everything stays private and unmoderated by design.
+the reader's **private**, **text-only** work log: rich-text body + optional
+lesson link, create-rate-limited. **Photo uploads were removed (2026-06-22)** —
+on a one-server SQLite app a full disk kills the site, and unbounded user uploads
+were the single biggest cost/abuse vector with no payoff on a private,
+unmoderated log (`PhotoOptimizer`, the quota/size rails and the libvips
+thumbnail helper went with them). Do NOT re-add uploads to this model; if a
+public, moderated portfolio ever ships (v0.3, demand-gated) it adds media there
+fresh and **off-disk** (object storage like Cloudflare R2 + compressed
+derivatives), never bolted back onto `JournalEntry`. The dashboard heatmap
+(GitHub-style, 16 weeks, server-rendered divs) counts real actions only —
+completions + journal entries via `User#activity_by_day`. Everything stays
+private and unmoderated by design.
+
+**Lesson contributor attribution (built 2026-06-22):** a muted "Статью улучшили"
+credit line under each lesson (`lessons/_contributors`), derived from existing
+`LessonRevision` rows — `Lesson#contributor_names` lists the suggesters whose
+edits were approved (founder's direct admin edits store `editor_name: nil`, so he
+never appears and untouched lessons render nothing). Avatars are **generated
+initials** (`AvatarsHelper#avatar_tag`: initials + a stable hue from the OKLCH
+primitives, the Basecamp/HEY pattern) — no uploads, no storage, no moderation;
+reused in the account menu. Recognition, not a leaderboard, is the contribution
+motivator (see the goal note up top). The big "Contributors N" grid is deferred
+until there are enough contributors to fill it.
 
 **Not built yet (planned — see `docs/MVP.md` v0.3):** community-authored
 roadmaps, public user profiles, search, project submissions (portfolio uploads).

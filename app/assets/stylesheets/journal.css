@@ -1,5 +1,5 @@
 /* Practice journal: the reader's own work log — private by default.
-   Entries are quiet panels; photos sit in a small thumbnail grid. */
+   Entries are quiet text panels. */
 .journal__header {
   align-items: start;
   display: flex;
@@ -81,22 +81,6 @@
 .journal-entry__title {
   font-size: 1.15rem;
   margin-block: 0 0.5rem;
-}
-
-.journal-entry__photos {
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
-  margin-block-start: 1rem;
-}
-
-.journal-entry__photo {
-  aspect-ratio: 1;
-  border: 1px solid var(--color-subtle);
-  border-radius: 0.5em;
-  display: block;
-  inline-size: 100%;
-  object-fit: cover;
 }
 
 .journal__empty {

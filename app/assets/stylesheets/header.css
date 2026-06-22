@@ -90,6 +90,10 @@
     inline-size: 0.9em;
   }
 
+  .avatar {
+    --avatar-size: 1.4rem;
+  }
+
   @media (any-hover: hover) {
     &:hover {
       background-color: var(--color-subtle-light);
@@ -127,12 +131,23 @@
 }
 
 .account-menu__header {
+  align-items: center;
   border-block-end: 1px solid var(--color-subtle);
+  display: flex;
+  gap: 0.6rem;
+  margin-block: 0 0.5rem;
+  padding: 0.5rem 0.6rem 0.75rem;
+
+  .avatar {
+    --avatar-size: 2.25rem;
+  }
+}
+
+.account-menu__identity {
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
-  margin-block: 0 0.5rem;
-  padding: 0.5rem 0.6rem 0.75rem;
+  min-inline-size: 0;
 }
 
 .account-menu__name {

@@ -20,3 +20,9 @@ production:
   learning_reminders:
     class: LearningReminderJob
     schedule: every day at 7am
+
+  # Alerts administrators when the storage disk exceeds 80% — catches a
+  # filling disk before SQLite breaks. Throttled to one email per day.
+  disk_alert:
+    class: DiskAlertJob
+    schedule: every day at 9am
