@@ -34,7 +34,11 @@ module Admin
     end
 
     def lesson_params
-      params.require(:lesson).permit(:title, :description, :body, :task, :kind, :rich_description, :rich_body, :rich_task)
+      params.require(:lesson).permit(
+        :title, :description, :body, :task, :kind,
+        :rich_description, :rich_body, :rich_task,
+        resources_attributes: %i[id title url kind required position _destroy]
+      )
     end
   end
 end

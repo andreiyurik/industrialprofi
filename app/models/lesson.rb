@@ -17,6 +17,12 @@ class Lesson < ApplicationRecord
   has_many :lesson_suggestions, dependent: :destroy
   has_many :lesson_revisions, dependent: :destroy
 
+  # The admin resource editor edits resources inline with the lesson. A row with
+  # neither a title nor a URL (an empty "add a link" the editor left behind) is
+  # ignored; rows flagged for removal are destroyed.
+  accepts_nested_attributes_for :resources, allow_destroy: true,
+    reject_if: ->(attrs) { attrs["title"].blank? && attrs["url"].blank? }
+
   before_validation { self.path = course.path if course }
 
   has_rich_text :rich_body
@@ -99,12 +105,15 @@ class Lesson < ApplicationRecord
     end
   end
 
-  # Apply an admin edit (title/kind + rich sections) and record one revision per
-  # section whose visible text actually changed — all in one transaction.
+  # Apply an admin edit (title/kind + rich sections + resources) and record one
+  # revision per section whose visible text actually changed — all in one
+  # transaction. A human edit takes ownership: origin becomes "human" so the
+  # YAML/AI importer leaves this lesson (and its resources) alone forever.
   def admin_update_with_revisions!(attrs, edit_reason:)
     transaction do
       befores = LessonRevision::SECTIONS.index_with { |section| section_html(section) }
       assign_attributes(attrs)
+      self.origin = "human"
       save!
       befores.each do |section, before|
         after = section_html(section)

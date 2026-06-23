@@ -73,4 +73,64 @@ class Admin::LessonsControllerTest < ActionDispatch::IntegrationTest
       params: { lesson: { title: "" } }
     assert_response :unprocessable_entity
   end
+
+  # ── Resource editor ──
+
+  test "edit renders the resource editor with a row per existing resource" do
+    get edit_admin_lesson_path(lessons(:pteep))
+    assert_response :success
+    assert_select ".resource-editor"
+    assert_select ".resource-editor__list .resource-row", lessons(:pteep).resources.count
+    assert_select "input[value=?]", resources(:pteep_doc).title
+  end
+
+  test "update can add a resource and the lesson takes human ownership" do
+    lessons(:pteep).update_column(:origin, "seed")
+
+    assert_difference -> { lessons(:pteep).resources.count }, 1 do
+      patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
+        resources_attributes: {
+          "0" => existing_attrs(resources(:pteep_doc), position: 0),
+          "1700000001" => { title: "ГОСТ 12.1.030-81", url: "https://example.com/gost",
+                            kind: "document", required: "1", position: 1 }
+        }
+      } }
+    end
+
+    assert_redirected_to edit_admin_lesson_path(lessons(:pteep))
+    assert_equal "human", lessons(:pteep).reload.origin
+    added = lessons(:pteep).resources.find_by(title: "ГОСТ 12.1.030-81")
+    assert_equal "https://example.com/gost", added.url
+    assert_nil added.country_code, "editor-created resources are universal (no country) by default"
+  end
+
+  test "update can remove a resource via _destroy" do
+    assert_difference -> { lessons(:pteep).resources.count }, -1 do
+      patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
+        resources_attributes: { "0" => { id: resources(:pteep_doc).id, _destroy: "1" } }
+      } }
+    end
+  end
+
+  test "an empty added row is ignored, not a validation error" do
+    assert_no_difference -> { lessons(:pteep).resources.count } do
+      patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
+        resources_attributes: { "1700000002" => { title: "", url: "", kind: "document" } }
+      } }
+    end
+    assert_redirected_to edit_admin_lesson_path(lessons(:pteep))
+  end
+
+  test "an invalid resource re-renders edit" do
+    patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
+      resources_attributes: { "1700000003" => { title: "x", url: "not-a-url", kind: "document" } }
+    } }
+    assert_response :unprocessable_entity
+  end
+
+  private
+    def existing_attrs(resource, position:)
+      { id: resource.id, title: resource.title, url: resource.url,
+        kind: resource.kind, required: resource.required ? "1" : "0", position: position }
+    end
 end

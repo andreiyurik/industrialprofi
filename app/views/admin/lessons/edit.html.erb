@@ -50,6 +50,41 @@
         <%= f.rich_text_area :rich_task, class: "lexxy-content" %>
       </div>
 
+      <%# Live badge palette for the editor: one colour per kind, mirroring the
+          reader's resource badges (documents skew "norm" red on this platform). %>
+      <% kind_badges = {
+           "document" => [ "badge--norm", t("lessons.resource_kinds.document") ],
+           "video"    => [ "badge--video", t("lessons.resource_kinds.video") ],
+           "article"  => [ "badge--article", t("lessons.resource_kinds.article") ],
+           "tool"     => [ "badge--tool", t("lessons.resource_kinds.tool") ]
+         } %>
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("admin.resources.heading") %></label>
+        <p class="admin-form__hint"><%= t("admin.resources.hint") %></p>
+
+        <div class="resource-editor" data-controller="nested-form"
+             data-nested-form-kinds-value="<%= kind_badges.to_json %>">
+          <div class="resource-editor__list" data-nested-form-target="list"
+               data-action="dragover->nested-form#dragOver">
+            <%= f.fields_for :resources do |rf| %>
+              <%= render "admin/lessons/resource_fields", f: rf %>
+            <% end %>
+          </div>
+
+          <template data-nested-form-target="template">
+            <%= f.fields_for :resources, Resource.new, child_index: "NEW_RECORD" do |rf| %>
+              <%= render "admin/lessons/resource_fields", f: rf %>
+            <% end %>
+          </template>
+
+          <button type="button" class="btn btn--small resource-editor__add"
+                  data-action="nested-form#addItem">
+            <%= heroicon "plus", variant: :outline %>
+            <span><%= t("admin.resources.add") %></span>
+          </button>
+        </div>
+      </div>
+
       <div class="admin-form__field admin-form__field--lg">
         <label><%= t("revisions.reason") %></label>
         <p class="admin-form__hint"><%= t("revisions.reason_hint_admin") %></p>

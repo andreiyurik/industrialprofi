@@ -1,6 +1,10 @@
 class Resource < ApplicationRecord
   belongs_to :lesson
 
+  # "" from the editor's "all countries" option means universal — store nil so
+  # the for_country scope (nil = everyone) matches.
+  before_validation { self.country_code = country_code.presence }
+
   validates :title, presence: true
   validates :url, presence: true, format: { with: /\Ahttps?:\/\/[^\s]+\z/i }
   validates :kind, inclusion: { in: %w[document video article tool] }
