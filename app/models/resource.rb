@@ -17,4 +17,10 @@ class Resource < ApplicationRecord
   scope :required, -> { where(required: true) }
   scope :optional, -> { where(required: false) }
   scope :for_country, ->(code) { where(country_code: [ nil, code ]) }
+  # Resources visible on the public site: their lesson's course AND profession
+  # are both published. Backs the /resources library (see ResourceLibrary).
+  scope :published, -> {
+    joins(lesson: [ :course, :path ])
+      .where(courses: { status: "published" }, paths: { status: "published" })
+  }
 end

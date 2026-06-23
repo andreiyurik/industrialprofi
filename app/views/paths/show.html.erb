@@ -52,6 +52,20 @@
               practice_n: @kind_counts[[course.id, "practice"]].to_i %>
       <% end %>
     </div>
+
+    <% if @library_preview.any? %>
+      <section class="path__library">
+        <div class="library-profession__head">
+          <h2 class="section-title"><%= t("resources.section_title") %></h2>
+          <a href="<%= resources_path(path: @path.slug) %>" class="link-quiet">
+            <%= t("resources.section_link") %>
+          </a>
+        </div>
+        <ul class="lesson-resources">
+          <%= render partial: "resources/resource_link", collection: @library_preview, as: :entry %>
+        </ul>
+      </section>
+    <% end %>
   </div>
 </section>
 

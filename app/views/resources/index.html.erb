@@ -1,0 +1,56 @@
+<% if @path %>
+  <% meta_title(t("resources.path_title", profession: @path.title)) %>
+  <% meta_description(t("resources.path_description", profession: @path.title)) %>
+<% else %>
+  <% meta_title(t("resources.title")) %>
+  <% meta_description(t("resources.description")) %>
+<% end %>
+
+<section class="section">
+  <div class="container container--reading">
+    <% if @path %>
+      <nav class="breadcrumbs">
+        <a href="<%= resources_path %>"><%= t("resources.title") %></a>
+        <span aria-hidden="true">/</span>
+        <a href="<%= path_path(@path) %>"><%= @path.title %></a>
+      </nav>
+
+      <h1 class="page-title"><%= t("resources.path_title", profession: @path.title) %></h1>
+      <p class="library-intro"><%= t("resources.path_intro") %></p>
+      <p class="library-legend">
+        <span class="library-required" aria-hidden="true"><%= heroicon "star", variant: :solid %></span>
+        <%= t("resources.legend_required") %>
+      </p>
+
+      <% if @entries.any? %>
+        <%= render "resources/library", entries: @entries %>
+      <% else %>
+        <p class="library-intro"><%= t("resources.empty") %></p>
+      <% end %>
+    <% else %>
+      <h1 class="page-title"><%= t("resources.title") %></h1>
+      <p class="library-intro"><%= t("resources.intro") %></p>
+      <p class="library-legend">
+        <span class="library-required" aria-hidden="true"><%= heroicon "star", variant: :solid %></span>
+        <%= t("resources.legend_required") %>
+      </p>
+
+      <% @groups.each do |path, entries| %>
+        <section class="library-profession">
+          <div class="library-profession__head">
+            <h2 class="library-profession__title"><%= path.title %></h2>
+            <a href="<%= resources_path(path: path.slug) %>" class="link-quiet">
+              <%= t("resources.view_all", count: entries.size) %>
+            </a>
+          </div>
+          <%# Always preview the key documents (required first). Usage counts are
+              hidden below the notable threshold, so a young profession just reads
+              as "key documents" rather than a misleading top of one-off refs. %>
+          <ul class="lesson-resources">
+            <%= render partial: "resources/resource_link", collection: entries.first(5), as: :entry %>
+          </ul>
+        </section>
+      <% end %>
+    <% end %>
+  </div>
+</section>

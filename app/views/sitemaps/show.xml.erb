@@ -16,6 +16,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc><%= site_config.url %>/resources</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <% @paths.each do |path| %>
+  <url>
+    <loc><%= site_config.url %>/resources?path=<%= path.slug %></loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <% end %>
+  <url>
     <loc><%= site_config.url %>/calculators</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

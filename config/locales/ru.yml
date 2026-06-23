@@ -128,6 +128,7 @@ ru:
     start: "Начать"
     projects: "Практика"
     calculators: "Калькуляторы"
+    library: "Библиотека"
     dashboard: "Моё обучение"
     journal: "Дневник"
     account: "Настройки"
@@ -184,6 +185,30 @@ ru:
     add: "Отложить задание"
     saved: "Отложено"
     remove: "Убрать из отложенных"
+
+  resources:
+    title: "Библиотека"
+    description: "Официальные стандарты, ГОСТы, книги, видео и инструменты по рабочим профессиям — собрано из уроков."
+    intro: "Ключевые документы, стандарты, книги, видео и инструменты по каждой профессии — собрано из уроков. Обязательные — выше."
+    path_title: "%{profession}: документы и литература"
+    path_description: "Все официальные документы, ГОСТы, книги и видео по профессии «%{profession}» — на одной странице."
+    path_intro: "Ключевые материалы профессии в одном месте. Обязательные — выше."
+    legend_required: "— обязательно для изучения"
+    section_title: "Документы и литература"
+    section_link: "Вся библиотека профессии →"
+    view_all: "Все документы (%{count}) →"
+    empty: "Пока нет документов."
+    used_in:
+      one: "в %{count} уроке"
+      few: "в %{count} уроках"
+      many: "в %{count} уроках"
+      other: "в %{count} уроках"
+    category:
+      norm: "Нормативы и стандарты"
+      book: "Книги и справочники"
+      video: "Видео"
+      article: "Статьи"
+      tool: "Инструменты"
 
   calculators:
     index:
@@ -1022,6 +1047,7 @@ ru:
     path_created: "Профессия создана"
     course_updated: "Курс сохранён"
     course_created: "Курс создан"
+    import_done: "Импортировано как черновик: курсов — %{courses}, уроков — %{lessons}. Проверьте и опубликуйте."
     suggestion_submitted: "Спасибо! Ваше предложение отправлено на модерацию."
     suggestion_approved: "Правка принята и применена"
     suggestion_rejected: "Правка отклонена"
@@ -1050,6 +1076,7 @@ ru:
     users_title: "Пользователи"
     manage_paths: "Профессии"
     manage_courses: "Курсы"
+    manage_imports: "Импорт"
     manage_lessons: "Уроки"
     manage_users: "Пользователи"
     manage_feedbacks: "Сообщения"
@@ -1127,6 +1154,44 @@ ru:
     slug_auto: "оставьте пустым — создадим из названия"
     slug_hint: "Часть адреса страницы. Только латиница, цифры и дефисы. Менять у существующих записей не рекомендуется."
     slug_locked: "Адрес зафиксирован: материал опубликован, и смена адреса сломала бы ссылки и SEO."
+    imports:
+      title: "Импорт профессии из ИИ"
+      preview_title: "Предпросмотр импорта"
+      intro: "Вставьте сгенерированную ИИ профессию в формате YAML. Сначала покажем, что будет создано, потом — импорт. Всё попадает в черновики: опубликует администратор после проверки."
+      yaml_label: "YAML профессии"
+      schema_summary: "Показать формат YAML"
+      schema_example: |
+        path:
+          title: "Сантехник"
+          description: "Краткое описание профессии для каталога."
+        courses:
+          - title: "Основы водоснабжения"
+            description: "О чём курс."
+            sections:
+              - title: "Введение"
+                lessons:
+                  - title: "Что делает сантехник"
+                    kind: lesson            # lesson | practice
+                    description: "Зачем урок — одно предложение."
+                    body: "Текст урока в Markdown."
+                    task: "Практическое задание."
+                    resources:
+                      - title: "ГОСТ 12.3.006"
+                        url: "https://example.com"
+                        kind: document      # document | video | article | tool
+                        required: true
+      preview_button: "Предпросмотр"
+      confirm_button: "Импортировать как черновик"
+      draft_note: "Всё импортируется как черновик. Существующие записи (по slug) не трогаются — импорт только добавляет новое."
+      status_new: "новое"
+      status_exists: "уже есть"
+      summary: "Будет создано: курсов — %{courses}, уроков — %{lessons}, ссылок — %{resources}."
+      errors:
+        blank: "Вставьте YAML профессии."
+        too_large: "Слишком большой документ (максимум 500 КБ)."
+        no_path: "Нет блока «path» с профессией."
+        no_path_title: "У профессии (path) не указан title."
+        no_courses: "Нужен хотя бы один курс в «courses»."
     statuses:
       draft: "Черновик"
       pending_review: "На проверке"

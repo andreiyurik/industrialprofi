@@ -47,6 +47,7 @@ Rails.application.routes.draw do
   get "dashboard" => "dashboard#show"
   resource :learning_goal, only: [ :edit, :update ]
   get "projects" => "projects#index"
+  get "resources" => "resources#index"
   resources :calculators, only: [ :index, :show ], param: :slug
   resources :journal_entries, path: "journal", except: [ :show ]
   resources :feedbacks, only: [ :new, :create ]
@@ -69,6 +70,7 @@ Rails.application.routes.draw do
     end
     resources :paths, only: [ :index, :new, :create, :edit, :update ], param: :slug
     resources :courses, only: [ :index, :new, :create, :edit, :update ], param: :slug
+    resources :imports, only: [ :new, :create ]
     resources :users, only: [ :index, :update ]
     resources :feedbacks, only: [ :index ]
     resources :lesson_suggestions, only: [ :index, :show ] do

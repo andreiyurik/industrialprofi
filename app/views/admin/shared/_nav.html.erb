@@ -3,7 +3,7 @@
     section is highlighted; «Правки» carries the moderation-queue count. %>
 <% section = { "dashboard" => "dashboard", "lessons" => "lessons", "revisions" => "lessons",
                "lesson_suggestions" => "suggestions", "paths" => "paths",
-               "courses" => "courses", "users" => "users",
+               "courses" => "courses", "imports" => "imports", "users" => "users",
                "feedbacks" => "feedbacks" }[controller_name] %>
 
 <nav class="admin-nav" aria-label="<%= t("admin.nav_label") %>">
@@ -26,6 +26,8 @@
         aria: { current: ("page" if section == "paths") } %>
   <%= link_to t("admin.manage_courses"), admin_courses_path, class: "admin-nav__link",
         aria: { current: ("page" if section == "courses") } %>
+  <%= link_to t("admin.manage_imports"), new_admin_import_path, class: "admin-nav__link",
+        aria: { current: ("page" if section == "imports") } %>
 
   <% if Current.user.can_administer? %>
     <%= link_to admin_feedbacks_path, class: "admin-nav__link",
