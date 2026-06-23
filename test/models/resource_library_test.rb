@@ -37,6 +37,22 @@ class ResourceLibraryTest < ActiveSupport::TestCase
     assert_not_includes ResourceLibrary.for.map(&:url), "https://example.com/hidden"
   end
 
+  test "version stamps the live set and changes when it grows" do
+    before = ResourceLibrary.version
+    courses(:el_basics).lessons.first.resources.create!(
+      title: "Свежий ГОСТ", url: "https://example.com/fresh", kind: "document"
+    )
+    assert_not_equal before, ResourceLibrary.version,
+      "adding a live resource must bust the shared hub stamp"
+  end
+
+  test "a shared version yields the same entries as a per-path key" do
+    path = paths(:electrician)
+    assert_equal ResourceLibrary.for(path:).map(&:url),
+                 ResourceLibrary.for(path:, version: ResourceLibrary.version).map(&:url),
+      "the version only changes the cache key, never the built entries"
+  end
+
   test "ranks required resources ahead of optional ones" do
     course = courses(:el_basics)
     lesson = course.lessons.create!(title: "Rank Lesson", slug: "rank-lesson", stage: "S", kind: "lesson")

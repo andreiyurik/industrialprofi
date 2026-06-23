@@ -45,6 +45,21 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_no_match users(:member).email_address, response.body
   end
 
+  test "the list paginates once it overflows one page" do
+    sign_in_as users(:admin)
+    per = Admin::UsersController::PER_PAGE
+    per.times { |i| User.create!(name: "U#{i}", email_address: "u#{i}@e.com", password: "password12") }
+
+    get admin_users_path
+    assert_response :success
+    assert_select ".admin-row", per, "first page is capped at PER_PAGE"
+    assert_select ".admin-pagination"
+
+    get admin_users_path(page: 2)
+    assert_response :success
+    assert_select ".admin-row", minimum: 1
+  end
+
   # ── Role assignment ──
 
   test "admin promotes a member to editor" do

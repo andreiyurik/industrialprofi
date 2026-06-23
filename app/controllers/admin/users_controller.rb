@@ -2,13 +2,20 @@ module Admin
   class UsersController < BaseController
     before_action :ensure_can_administer
 
+    PER_PAGE = 50
+
     def index
+      @page = [ params[:page].to_i, 1 ].max
       @paths = Path.ordered
-      @users = User.includes(:editorships).order(created_at: :desc)
+      scope = User.includes(:editorships).order(created_at: :desc)
       if params[:q].present?
         q = "%#{User.sanitize_sql_like(params[:q].strip)}%"
-        @users = @users.where("name LIKE :q OR email_address LIKE :q", q: q)
+        scope = scope.where("name LIKE :q OR email_address LIKE :q", q: q)
       end
+      # One extra row tells us a next page exists without a second count query.
+      records = scope.offset((@page - 1) * PER_PAGE).limit(PER_PAGE + 1).to_a
+      @has_more = records.size > PER_PAGE
+      @users = records.first(PER_PAGE)
     end
 
     def update

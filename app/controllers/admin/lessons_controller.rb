@@ -3,8 +3,22 @@ module Admin
     before_action :set_lesson, only: %i[edit update]
     before_action :set_editable_paths, only: %i[new create]
 
+    PER_PAGE = 100
+
+    # Two-level: without ?path it's a profession picker (bounded by # of
+    # professions); with ?path it's that ONE profession's lessons, grouped by
+    # course/stage and paginated. Never loads every lesson of every profession.
     def index
-      @paths = Path.editable_by(Current.user).ordered.includes(:lessons)
+      if params[:path].present?
+        @path = Path.editable_by(Current.user).find_by!(slug: params[:path])
+        @page = [ params[:page].to_i, 1 ].max
+        scope = @path.lessons.includes(:course).ordered
+        records = scope.offset((@page - 1) * PER_PAGE).limit(PER_PAGE + 1).to_a
+        @has_more = records.size > PER_PAGE
+        @lessons = records.first(PER_PAGE)
+      else
+        @paths = Path.editable_by(Current.user).ordered
+      end
     end
 
     # A lesson is born as a small stub (where it lives + title + kind); the rich

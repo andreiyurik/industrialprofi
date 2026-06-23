@@ -172,6 +172,16 @@
   font-size: 0.75rem;
 }
 
+/* Stage subheading inside a course group (admin lessons drill-in) */
+.admin-stage {
+  margin-block: 0.75rem 0.35rem;
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
 /* Empty state */
 .admin-empty {
   color: var(--color-subtle-dark);
@@ -282,6 +292,14 @@
 }
 
 /* Form layout */
+/* Keep simple create/edit forms a comfortable column width on the wide admin
+   container — the page stays full-width (so the section nav never shifts between
+   pages), only the form content is capped. Wide content (lesson rich editor,
+   YAML import) opts out by not using this class. */
+.admin-form {
+  max-inline-size: 44rem;
+}
+
 .admin-form__field {
   margin-block-end: 1rem;
 }
@@ -473,10 +491,98 @@
   text-align: center;
 }
 
-/* ── Founder inbox (admin/feedbacks) ── */
+/* ── Pager for long admin lists (users, feedbacks) ── */
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--inline-space);
+  margin-block-start: var(--block-space);
+}
 
-.admin-feedback__body {
-  margin-block: 0.25rem 0;
+.admin-pagination__page {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+}
+
+/* ── Founder inbox (admin/feedbacks) ── */
+/* Dense, scannable list: one compact row per message, full text revealed on
+   click (native <details>, no JS). Built to stay manageable at volume. */
+.inbox {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-block-start: 1px solid var(--color-subtle);
+}
+
+.inbox__item {
+  border-block-end: 1px solid var(--color-subtle);
+}
+
+.inbox__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--inline-space);
+  padding-block: 0.6rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.inbox__summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Caret instead of the default disclosure triangle — points right, rotates
+   down when the message is open. */
+.inbox__summary::before {
+  content: "";
+  flex: none;
+  inline-size: 0.4rem;
+  block-size: 0.4rem;
+  border-inline-end: 1.5px solid var(--color-subtle-dark);
+  border-block-end: 1.5px solid var(--color-subtle-dark);
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+}
+
+.inbox__entry[open] .inbox__summary::before {
+  transform: rotate(45deg);
+}
+
+.inbox__from {
+  flex: none;
+  font-weight: 600;
+}
+
+/* The one-line preview takes the slack and truncates with an ellipsis. */
+.inbox__snippet {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-subtle-dark);
+}
+
+.inbox__date {
+  flex: none;
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+}
+
+.inbox__detail {
+  padding-block: var(--block-space-half) var(--block-space);
+  padding-inline-start: calc(0.4rem + var(--inline-space));
+}
+
+.inbox__meta {
+  margin-block: 0 var(--block-space-half);
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+}
+
+.inbox__body {
+  margin-block: 0 var(--block-space);
 
   p {
     margin-block: 0.25em;

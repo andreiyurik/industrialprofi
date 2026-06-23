@@ -33,17 +33,45 @@ class Admin::LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_session_path
   end
 
-  # ── Index ──
+  # ── Index: profession picker → drill-in ──
 
-  test "index with auth returns success" do
+  test "the bare index is a profession picker, not a dump of every lesson" do
     get admin_lessons_path
     assert_response :success
-    assert_match lessons(:pteep).title, response.body
+    assert_match paths(:electrician).title, response.body
+    assert_no_match(/#{lessons(:pteep).title}/, response.body)
   end
 
-  test "index groups lessons by path" do
-    get admin_lessons_path
-    assert_match paths(:electrician).title, response.body
+  test "drilling into a profession lists its lessons grouped by course" do
+    get admin_lessons_path(path: paths(:electrician).slug)
+    assert_response :success
+    assert_match lessons(:pteep).title, response.body
+    assert_match courses(:el_basics).title, response.body
+  end
+
+  test "an editor cannot drill into a profession they weren't granted" do
+    sign_out
+    sign_in_as users(:editor)
+    get admin_lessons_path(path: paths(:welder).slug)
+    assert_response :not_found
+  end
+
+  test "the drill-in paginates a large profession" do
+    per = Admin::LessonsController::PER_PAGE
+    course = courses(:el_basics)
+    base = paths(:electrician).lessons.maximum(:position) || 0
+    per.times do |i|
+      course.lessons.create!(title: "Урок #{i}", slug: "pg-lesson-#{i}", stage: "Раздел",
+                             kind: "lesson", position: base + i + 1)
+    end
+
+    get admin_lessons_path(path: paths(:electrician).slug)
+    assert_response :success
+    assert_select ".admin-pagination"
+
+    get admin_lessons_path(path: paths(:electrician).slug, page: 2)
+    assert_response :success
+    assert_select ".admin-row", minimum: 1
   end
 
   # ── Edit ──

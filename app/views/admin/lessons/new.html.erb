@@ -1,7 +1,7 @@
 <% meta_title(t("admin.new_lesson")) %>
 
 <section class="admin-page">
-  <div class="container container--reading">
+  <div class="container">
     <%= render "admin/shared/nav" %>
 
     <div class="admin-header">
@@ -17,7 +17,7 @@
 
     <%= render "admin/shared/form_errors", object: @lesson %>
 
-    <%= form_with(model: [ :admin, @lesson ]) do |f| %>
+    <%= form_with(model: [ :admin, @lesson ], class: "admin-form") do |f| %>
       <div class="admin-form__field">
         <label><%= t("admin.field_course") %></label>
         <%= f.grouped_collection_select :course_id, @editable_paths,

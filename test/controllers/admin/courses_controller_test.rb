@@ -22,6 +22,15 @@ class Admin::CoursesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  # Guards the "Back\"> + translation missing" bug: a missing key makes t()
+  # return an HTML span whose quotes break the aria-label attribute.
+  test "edit renders with a proper back label, no missing translations" do
+    get edit_admin_course_path(courses(:el_basics))
+    assert_response :success
+    assert_no_match(/translation.missing/i, response.body)
+    assert_select "a.admin-header__back[aria-label=?]", I18n.t("admin.back")
+  end
+
   test "create adds a course under a path with an appended position" do
     assert_difference -> { paths(:electrician).courses.count }, 1 do
       post admin_courses_path, params: { course: {
@@ -49,6 +58,17 @@ class Admin::CoursesControllerTest < ActionDispatch::IntegrationTest
   test "create without a path re-renders" do
     post admin_courses_path, params: { course: { title: "Сирота" } }
     assert_response :unprocessable_entity
+  end
+
+  # path_id is create-only: permitting it on update would let a scoped editor
+  # push a course into a profession they don't own.
+  test "path_id is ignored on update — a course never moves professions" do
+    course = courses(:el_basics) # belongs to the electrician profession
+    patch admin_course_path(course),
+      params: { course: { path_id: paths(:welder).id, title: "Тронули" } }
+    course.reload
+    assert_equal paths(:electrician), course.path, "path stays put"
+    assert_equal "Тронули", course.title, "other fields still save"
   end
 
   # ── Slug lock (SEO) ──

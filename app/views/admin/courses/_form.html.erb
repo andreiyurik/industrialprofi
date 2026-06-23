@@ -1,5 +1,5 @@
 <%# Shared by new + edit. form_with routes to create/update by record state. %>
-<%= form_with(model: [ :admin, course ]) do |f| %>
+<%= form_with(model: [ :admin, course ], class: "admin-form") do |f| %>
   <%= render "admin/shared/form_errors", object: course %>
 
   <% if course.new_record? %>
