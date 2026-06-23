@@ -319,6 +319,15 @@
   margin-block-start: 3rem;
   padding-block-start: 2rem;
 
+  /* btn--large's 2em horizontal padding makes the toggle overrun the narrow
+     44rem lesson column when its label is long ("Отметить пройденным"),
+     orphaning it on its own wrapped row while the shorter "Урок пройден"
+     state still fits. Trim the footprint so both states sit on one line. */
+  .btn--large {
+    --btn-padding: 0.65em 1.3em;
+    font-size: 1em;
+  }
+
   .btn svg {
     block-size: 1.1rem;
     inline-size: 1.1rem;
