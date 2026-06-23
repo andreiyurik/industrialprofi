@@ -23,9 +23,9 @@ Each phase is a deployable, usable product — not a prototype.
 > - **Also shipped:** password reset (token + mailer; production needs SMTP),
 >   `/projects` (aggregated practice lessons), stage-milestone chips +
 >   completion celebrations, the numbered journey rail on path pages, the
->   **private practice journal** (`JournalEntry`, `/journal`: rich text +
->   photos with hard limits — 5 photos/entry, 10 MB/file, 250 MB/user quota),
->   and the GitHub-style **activity heatmap** on the dashboard (16 weeks,
+>   **private practice journal** (`JournalEntry`, `/journal`: rich text,
+>   **text-only** — photo uploads were removed 2026-06-22 for SQLite disk
+>   safety), and the GitHub-style **activity heatmap** on the dashboard (16 weeks,
 >   completions + journal entries).
 > - **Shipped June 2026:** the **role trust ladder** (`member` → `editor`
 >   «Эксперт» → `administrator`) with `/admin/users` role management; the
@@ -39,6 +39,14 @@ Each phase is a deployable, usable product — not a prototype.
 >   the **founder feedback line** («Написать автору»: `Feedback` model,
 >   `/admin/feedbacks` inbox with unread badge, email notification per message
 >   — async on purpose, no chat).
+> - **Shipped 2026-06-22:** **lesson contributor attribution** («Статью
+>   улучшили» credit + generated-initials avatars, no uploads); the
+>   **participation page** `/contribute` («Как поучаствовать») — an inspiring
+>   invitation plus a scannable map of every contribution seam (suggest-edit /
+>   author-a-profession as Эксперт / spread + support), the git-free
+>   suggest→review→revision pipeline and the trust ladder as small schematics,
+>   linked first in the footer's «Поддержка» column (pure CSS, copy in
+>   `ru.yml → contribute:`).
 > - **Not built yet:** all of v0.3 (community roadmaps, search, public
 >   profiles, publishing journal entries as a moderated public portfolio).
 

@@ -4,6 +4,9 @@ class PagesController < ApplicationController
   def about
   end
 
+  def contribute
+  end
+
   def faq
   end
 

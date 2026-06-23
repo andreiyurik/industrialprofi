@@ -333,6 +333,22 @@ reused in the account menu. Recognition, not a leaderboard, is the contribution
 motivator (see the goal note up top). The big "Contributors N" grid is deferred
 until there are enough contributors to fill it.
 
+**Participation page (built 2026-06-22):** `/contribute` («Как поучаствовать»,
+`pages#contribute` + `contribute.css`) — the community-invitation page, linked
+first in the footer's «Поддержка» column. An inspiring address (one person can't
+build quality coverage alone → each contributes their piece → infrastructure
+quality crisis → a slightly better world) plus a scannable map of every
+participation seam already in the app: the three ways to help (suggest an edit /
+author a profession as an Эксперт / spread + support), the git-free
+suggest→review→immutable-revision flow as a timeline, and the `member → Эксперт →
+administrator` trust ladder (growing accent bar). Pure-CSS only (one animated `?`
+glyph, `prefers-reduced-motion`-gated), reuses `panel`/`btn`/FAQ `<details>`. Copy
+lives in `ru.yml → contribute:`. This is the public face of the "self-developing"
+north-star, so keep it honest — it documents real mechanics, not aspirations.
+**Note the discrepancy it resolves:** suggesting an edit REQUIRES an account
+(`lesson_suggestions_controller`), so this page says so; the older `about.invite`
+copy still claims «можно без аккаунта» — reconcile when touched.
+
 **Not built yet (planned — see `docs/MVP.md` v0.3):** community-authored
 roadmaps, public user profiles, search, project submissions (portfolio uploads).
 

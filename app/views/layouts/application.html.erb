@@ -194,6 +194,7 @@
 
         <div class="footer__col">
           <p class="footer__heading"><%= t("footer.col_support") %></p>
+          <a href="<%= contribute_path %>" class="footer__link link-quiet"><%= t("nav.contribute") %></a>
           <a href="<%= support_us_path %>" class="footer__link link-quiet"><%= t("nav.support") %></a>
           <%# Signed-in readers write to the founder right on the site; guests go to Telegram. %>
           <% if signed_in? %>
