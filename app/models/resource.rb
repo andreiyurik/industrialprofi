@@ -11,7 +11,7 @@ class Resource < ApplicationRecord
   # Provenance only (no digest): a resource's edit-safety rides on its parent
   # lesson being pristine. Importer-made rows are "seed"; once a human edits them
   # (Phase 1 editor) they become "human" and the importer leaves them alone.
-  validates :origin, inclusion: { in: %w[human seed ai] }
+  validates :origin, inclusion: { in: Importable::ORIGINS }
 
   scope :ordered, -> { order(:position) }
   scope :required, -> { where(required: true) }

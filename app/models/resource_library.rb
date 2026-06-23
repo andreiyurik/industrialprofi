@@ -21,10 +21,20 @@ class ResourceLibrary
     def notable? = lesson_count >= NOTABLE_USAGE
   end
 
-  def self.for(path: nil) = new(path:).entries
+  def self.for(path: nil, version: nil) = new(path:, version:).entries
 
-  def initialize(path:)
+  # A single stamp for the whole live set, computed once and shared across every
+  # profession on the hub — so the hub pays two aggregates total instead of two
+  # per profession on each render. Coarser than a per-path key (any live change
+  # busts every hub entry), which is the right trade for a cached aggregate page.
+  def self.version(locale: I18n.locale)
+    scope = Resource.published.where(paths: { locale: locale })
+    [ scope.count, scope.maximum(:updated_at)&.to_f ]
+  end
+
+  def initialize(path:, version: nil)
     @path = path
+    @version = version
   end
 
   def entries
@@ -78,9 +88,11 @@ class ResourceLibrary
     end
 
     # Invalidates whenever a live resource is added/removed/edited, or a path or
-    # course is (un)published (which changes the live set's size).
+    # course is (un)published (which changes the live set's size). The hub passes
+    # a shared @version so it doesn't recompute the stamp per profession.
     def cache_key
-      [ "resource_library", @path&.id || "all:#{I18n.locale}", scope.count, scope.maximum(:updated_at)&.to_f ]
+      stamp = @version || [ scope.count, scope.maximum(:updated_at)&.to_f ]
+      [ "resource_library", @path&.id || "all:#{I18n.locale}", *stamp ]
     end
 
     def type_boolean(value) = ActiveModel::Type::Boolean.new.cast(value)

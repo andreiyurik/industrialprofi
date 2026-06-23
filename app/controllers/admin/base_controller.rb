@@ -6,7 +6,7 @@ module Admin
 
     # The moderation-queue size shown in the persistent admin nav (and the
     # dashboard callout) — one cheap COUNT per admin page render.
-    helper_method :pending_suggestions_count, :unread_feedbacks_count, :can_publish?, :slug_locked?
+    helper_method :pending_suggestions_count, :unread_feedbacks_count, :can_publish?, :slug_locked?, :status_live?
 
     LIVE_STATUSES = %w[published coming_soon].freeze
     EDITOR_STATUSES = %w[draft pending_review].freeze
@@ -21,8 +21,11 @@ module Admin
       # 404 the old URL and lose its SEO with no redirect. So lock the slug once
       # published/coming_soon — drafts (not public) stay freely renamable.
       def slug_locked?(record)
-        record&.persisted? && LIVE_STATUSES.include?(record.status)
+        record&.persisted? && status_live?(record)
       end
+
+      # A live (published/coming_soon) record — editors can't change its status.
+      def status_live?(record) = LIVE_STATUSES.include?(record.status)
 
       def sanitized_status(requested, current:)
         return current if requested.blank?

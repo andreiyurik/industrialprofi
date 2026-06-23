@@ -8,7 +8,7 @@
     <%= f.select :status,
           record.class::STATUSES.map { |s| [ t("admin.statuses.#{s}"), s ] },
           {}, class: "input" %>
-  <% elsif %w[published coming_soon].include?(record.status) %>
+  <% elsif status_live?(record) %>
     <p class="admin-form__hint"><%= t("admin.status_locked", status: t("admin.statuses.#{record.status}")) %></p>
   <% else %>
     <%= f.select :status,

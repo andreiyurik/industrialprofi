@@ -109,8 +109,12 @@ class CurriculumDocument
     end
 
     def upsert_lesson(course, stage, data, position, counts, lesson_nodes)
-      slug = data["slug"]
-      if slug.present? && Lesson.exists?(slug:)
+      slug = data["slug"].presence
+      # When the paste omits a slug, look up by the slug we'd generate from the
+      # title, so re-importing the same document reuses the lesson instead of
+      # silently creating a "-2" duplicate. A typed slug is honoured as-is.
+      lookup = slug || Lesson.slugify(data["title"])
+      if lookup.present? && Lesson.exists?(slug: lookup)
         lesson_nodes << node("lesson", data["title"], :exists)
         return position
       end
@@ -121,7 +125,7 @@ class CurriculumDocument
         body: data["body"], task: data["task"], kind: data["kind"].presence || "lesson",
         position:
       )
-      lesson.slug = slug if slug.present?
+      lesson.slug = slug if slug
       lesson.difficulty = data["difficulty"].presence || "beginner" if lesson.practice?
       lesson.stamp_import!(SOURCE)
       lesson.save!

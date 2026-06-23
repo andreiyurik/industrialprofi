@@ -91,6 +91,17 @@ class CurriculumDocumentTest < ActiveSupport::TestCase
     assert Course.exists?(slug: "absolutely-new-course"), "new course is still added under the existing path"
   end
 
+  test "a slug-less lesson is matched by its title-derived slug, so re-import never duplicates" do
+    document = CurriculumDocument.parse(DOC)
+    document.import!(author: users(:admin))
+
+    assert Lesson.exists?(slug: "chto-delaet-santehnik"), "slug is generated from the title"
+
+    assert_no_difference -> { Lesson.count } do
+      CurriculumDocument.parse(DOC).import!(author: users(:admin))
+    end
+  end
+
   test "blank, path-less, and malformed input are invalid" do
     assert_not CurriculumDocument.parse("").valid?
     assert_not CurriculumDocument.parse("courses: []").valid?

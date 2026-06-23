@@ -9,8 +9,9 @@ class ResourcesController < ApplicationController
       @path = Path.published.localized.find_by!(slug: params[:path])
       @entries = ResourceLibrary.for(path: @path)
     else
+      version = ResourceLibrary.version
       @groups = Path.published.localized.ordered
-                    .map { |path| [ path, ResourceLibrary.for(path:) ] }
+                    .map { |path| [ path, ResourceLibrary.for(path:, version:) ] }
                     .reject { |_path, entries| entries.empty? }
     end
   end
