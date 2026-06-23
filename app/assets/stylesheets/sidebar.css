@@ -1,18 +1,27 @@
 /* Course-contents sidebar, TOP-style. Two presentations of one element:
-   ≥1100px — a full-height rail docked to the viewport's left edge (the layout
+   ≥1280px — a full-height rail docked to the viewport's left edge (the layout
    is full-bleed, NOT inside .container — exactly like theodinproject.com: the
    rail owns the screen edge, the lesson column centers in the remaining space);
-   <1100px — an off-canvas drawer opened by the "Содержание курса" button.
-   Stages are native <details> accordions: the current one starts open. */
+   <1280px — an off-canvas drawer opened by the "Содержание курса" button.
+   Stages are native <details> accordions: the current one starts open.
+
+   The 1280px breakpoint is The Odin Project's single `xl` threshold: BOTH the
+   left rail and the right "В этом уроке" TOC appear together only when the
+   viewport is wide enough for all three columns (20 + ~44 + 15rem). Below it
+   there is no half-docked middle zone — the rail is a toggled drawer and the
+   TOC is hidden, so the lesson reads full-width. */
 .lesson-layout {
   display: block;
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1280px) {
   .lesson-layout {
     align-items: start;
     display: grid;
-    grid-template-columns: 20rem minmax(0, 1fr);
+    /* Three columns appear together: left rail + lesson + right TOC. The TOC
+       (.lesson-toc) reveals at this same 1280px, so its 15rem track is never
+       an empty gap. */
+    grid-template-columns: 20rem minmax(0, 1fr) 15rem;
   }
 
   .lesson-sidebar {
@@ -35,14 +44,7 @@
   }
 }
 
-/* Room for the right TOC rail ("В этом уроке") on wide screens. */
-@media (min-width: 1360px) {
-  .lesson-layout {
-    grid-template-columns: 20rem minmax(0, 1fr) 15rem;
-  }
-}
-
-@media (max-width: 1099.98px) {
+@media (max-width: 1279.98px) {
   .lesson-sidebar {
     background-color: var(--color-bg);
     border-inline-end: 1px solid var(--color-subtle);
@@ -113,7 +115,7 @@
   /* Desktop always shows the rail, so the toggle disappears. Lives HERE, after
      the base rule — an earlier `display: none` would lose the same-specificity
      cascade to the base `display: inline-flex` below it. */
-  @media (min-width: 1100px) {
+  @media (min-width: 1280px) {
     display: none;
   }
 }
@@ -321,7 +323,7 @@
   display: none;
 }
 
-@media (min-width: 1360px) {
+@media (min-width: 1280px) {
   .lesson-toc {
     display: block;
     font-size: 0.85rem;

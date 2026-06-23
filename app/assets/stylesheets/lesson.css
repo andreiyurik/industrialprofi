@@ -143,6 +143,16 @@
   padding-block-end: 2.2rem;
 }
 
+/* When the brief is the last block before the end-of-lesson action bar, the
+   bar's own top border is the divider — so drop the brief's closing hairline
+   (and its bottom padding) to avoid a stacked double line. The action bar's
+   border stays the single, consistent "content → actions" divider on every
+   lesson, with or without a practice brief. */
+.lesson__section:has(+ .lesson-complete) .lesson__task {
+  border-block-end: 0;
+  padding-block-end: 0;
+}
+
 /* GOST is a thin, narrow monoline face with wide built-in side-bearings, so it
    reads "airy" by default. To match Inter's density we drop the extra tracking
    and word-spacing entirely, keep compact spec-sheet leading, and hold a modest
