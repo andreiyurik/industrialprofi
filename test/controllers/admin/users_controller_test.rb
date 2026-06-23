@@ -73,4 +73,20 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
     assert users(:member).reload.member?
   end
+
+  # ── Per-profession access grants ──
+
+  test "admin grants and revokes an editor's profession access" do
+    sign_in_as users(:admin)
+    editor = users(:editor)
+
+    # Grant only the welder profession (replacing the seeded electrician/draft grants).
+    patch admin_user_path(editor), params: { user: { editable_path_ids: [ paths(:welder).id, "" ] } }
+    assert_redirected_to admin_users_path
+    assert_equal [ paths(:welder).id ], editor.reload.editable_path_ids
+
+    # Unticking everything clears all access (the blank value carries an empty set).
+    patch admin_user_path(editor), params: { user: { editable_path_ids: [ "" ] } }
+    assert_empty editor.reload.editable_path_ids
+  end
 end

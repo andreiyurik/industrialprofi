@@ -3,7 +3,7 @@ module Admin
     before_action :set_path, only: %i[edit update]
 
     def index
-      @paths = Path.ordered
+      @paths = Path.editable_by(Current.user).ordered
     end
 
     def new
@@ -17,6 +17,7 @@ module Admin
       @path.status = sanitized_status(params.dig(:path, :status), current: "draft")
 
       if @path.save
+        grant_editorship(@path)
         redirect_to edit_admin_path_path(@path), notice: I18n.t("flash.path_created")
       else
         render :new, status: :unprocessable_entity
@@ -40,6 +41,13 @@ module Admin
 
     def set_path
       @path = Path.find_by!(slug: params[:slug])
+      authorize_path!(@path)
+    end
+
+    # An editor who creates a profession owns it from then on; admins edit
+    # everything, so they don't accumulate grants they don't need.
+    def grant_editorship(path)
+      Current.user.editorships.create(path:) unless Current.user.administrator?
     end
 
     # status is handled separately via sanitized_status (trust ladder); slug is

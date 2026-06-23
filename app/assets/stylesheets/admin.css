@@ -532,3 +532,32 @@
   font-weight: 700;
   line-height: 1.5;
 }
+
+/* Per-profession edit-access grant on /admin/users (shown under expert rows) */
+.admin-access {
+  margin-block: var(--block-space-half) var(--block-space);
+  padding: var(--block-space);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.5rem;
+  background-color: var(--color-subtle-light);
+}
+
+.admin-access__legend {
+  margin-block-end: var(--block-space-half);
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.admin-access__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--block-space-half) var(--inline-space-double);
+  margin-block-end: var(--block-space);
+}
+
+.admin-access__option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--inline-space-half);
+}

@@ -8,6 +8,9 @@ class User < ApplicationRecord
   has_many :bookmarked_lessons, through: :lesson_bookmarks, source: :lesson
   has_many :journal_entries, dependent: :destroy
   has_many :feedbacks, dependent: :destroy
+  # Per-profession edit grants (see Editorship). Admins edit all and need none.
+  has_many :editorships, dependent: :destroy
+  has_many :editable_paths, through: :editorships, source: :path
 
   # The trust ladder: member → editor («Эксперт» — reviews suggestions, edits
   # content) → administrator (everything, incl. users and roles).
@@ -37,6 +40,11 @@ class User < ApplicationRecord
   def can_administer? = administrator?
 
   def can_edit_content? = editor? || administrator?
+
+  # Direct edit rights for ONE profession. Admins edit everything; editors only
+  # the professions granted to them (cross-profession edits go through the
+  # suggest → review pipeline). The gate for every admin content action.
+  def can_edit_path?(path) = administrator? || editorships.exists?(path_id: path&.id)
 
   def completed?(lesson)
     lesson_completions.exists?(lesson: lesson)

@@ -128,6 +128,41 @@ class Admin::LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
+  # ── Per-profession access (editorships) ──
+
+  test "an editor can edit a lesson in a granted profession" do
+    sign_out
+    sign_in_as users(:editor)
+    get edit_admin_lesson_path(lessons(:pteep)) # electrician — granted
+    assert_response :success
+  end
+
+  test "an editor cannot edit a lesson in a profession they weren't granted" do
+    sign_out
+    sign_in_as users(:editor)
+    get edit_admin_lesson_path(lessons(:svarka_intro)) # welder — not granted
+    assert_redirected_to admin_lessons_path
+  end
+
+  test "an editor cannot update a lesson in an ungranted profession" do
+    sign_out
+    sign_in_as users(:editor)
+    patch admin_lesson_path(lessons(:svarka_intro)), params: { lesson: { body: "Взлом" } }
+    assert_redirected_to admin_lessons_path
+    assert_not_equal "Взлом", lessons(:svarka_intro).reload.body
+  end
+
+  test "an editor cannot create a lesson under an ungranted profession's course" do
+    sign_out
+    sign_in_as users(:editor)
+    assert_no_difference -> { Lesson.count } do
+      post admin_lessons_path, params: { lesson: {
+        course_id: courses(:welding_basics).id, title: "Чужой урок", kind: "lesson"
+      } }
+    end
+    assert_redirected_to admin_lessons_path
+  end
+
   # ── Create ──
 
   test "new lesson form renders" do

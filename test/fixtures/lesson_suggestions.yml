@@ -13,3 +13,12 @@ approved_suggestion:
   section: description
   author_name: "Мария Сидорова"
   status: approved
+
+# A pending suggestion on the welder profession — the electrician expert must
+# NOT see or moderate it.
+welder_suggestion:
+  lesson: svarka_intro
+  body_markdown: "Правка по сварке"
+  section: body
+  author_name: "Пётр Сварной"
+  status: pending

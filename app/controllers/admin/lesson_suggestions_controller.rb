@@ -4,9 +4,9 @@ module Admin
 
     def index
       @order = params[:order] == "asc" ? :asc : :desc
-      @grouped = LessonSuggestion.pending.includes(:lesson)
-                                 .order(created_at: @order)
-                                 .group_by(&:lesson)
+      @grouped = editable_suggestions.pending.includes(:lesson)
+                                     .order(created_at: @order)
+                                     .group_by(&:lesson)
     end
 
     def show
@@ -44,6 +44,7 @@ module Admin
 
     def set_suggestion
       @suggestion = LessonSuggestion.find(params[:id])
+      authorize_path!(@suggestion.lesson)
     end
   end
 end

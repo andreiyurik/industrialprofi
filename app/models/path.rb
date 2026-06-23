@@ -18,6 +18,9 @@ class Path < ApplicationRecord
   # (path → courses → lessons). Adding it back would destroy each lesson twice.
   # This association stays for total counts / catalog-wide lesson queries.
   has_many :lessons, -> { order(:position) }
+  # Editors granted direct edit access to this profession (see Editorship).
+  has_many :editorships, dependent: :destroy
+  has_many :editors, through: :editorships, source: :user
 
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: SLUG_FORMAT }
@@ -31,6 +34,11 @@ class Path < ApplicationRecord
   scope :official, -> { where(author_id: nil) }
   scope :community, -> { where.not(author_id: nil) }
   scope :ordered, -> { order(:position) }
+  # Professions a user may edit in the admin: admins see all, editors only the
+  # ones granted to them. Backs the scoped admin index pages.
+  scope :editable_by, ->(user) {
+    user.administrator? ? all : where(id: user.editorships.select(:path_id))
+  }
   # Each language market gets its own paths (TOP model, not synced translations) —
   # the catalog only ever lists the current locale's maps.
   scope :localized, ->(locale = I18n.locale) { where(locale: locale) }

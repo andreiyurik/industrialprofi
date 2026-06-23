@@ -90,6 +90,39 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "published", paths(:draft_path).reload.status
   end
 
+  # ── Per-profession access (editorships) ──
+
+  test "an editor sees only the professions granted to them" do
+    sign_out
+    sign_in_as users(:editor)
+    get admin_paths_path
+    assert_match paths(:electrician).title, response.body
+    assert_no_match(/#{paths(:welder).title}/, response.body)
+  end
+
+  test "an editor cannot open a profession they weren't granted" do
+    sign_out
+    sign_in_as users(:editor)
+    get edit_admin_path_path(paths(:welder))
+    assert_redirected_to admin_lessons_path
+  end
+
+  test "an editor cannot update a profession they weren't granted" do
+    sign_out
+    sign_in_as users(:editor)
+    patch admin_path_path(paths(:welder)), params: { path: { description: "Взлом" } }
+    assert_redirected_to admin_lessons_path
+    assert_not_equal "Взлом", paths(:welder).reload.description
+  end
+
+  test "creating a profession grants the editor edit access to it" do
+    sign_out
+    sign_in_as users(:editor)
+    post admin_paths_path, params: { path: { title: "Плиточник" } }
+    path = Path.find_by!(title: "Плиточник")
+    assert users(:editor).can_edit_path?(path), "the creator can edit what they made"
+  end
+
   # ── Slug lock (SEO) ──
 
   test "the slug of a published path cannot be changed, other fields still save" do

@@ -1100,6 +1100,9 @@ ru:
     users:
       role_updated: "Роль обновлена: %{name} — %{role}"
       cannot_change_own_role: "Свою роль изменить нельзя"
+      access_legend: "Какие профессии может редактировать:"
+      access_save: "Сохранить доступ"
+      access_updated: "Доступ к профессиям обновлён: %{name}"
     dashboard:
       title: "Обзор"
       pending_suggestions:

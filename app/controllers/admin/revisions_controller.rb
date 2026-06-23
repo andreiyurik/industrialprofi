@@ -24,6 +24,7 @@ module Admin
 
     def set_lesson
       @lesson = Lesson.find_by!(slug: params[:lesson_slug])
+      authorize_path!(@lesson)
     end
   end
 end

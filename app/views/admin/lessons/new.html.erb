@@ -20,7 +20,7 @@
     <%= form_with(model: [ :admin, @lesson ]) do |f| %>
       <div class="admin-form__field">
         <label><%= t("admin.field_course") %></label>
-        <%= f.grouped_collection_select :course_id, Path.ordered.includes(:courses),
+        <%= f.grouped_collection_select :course_id, @editable_paths,
               :courses, :title, :id, :title,
               { prompt: t("admin.choose_course") }, class: "input" %>
       </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_12_130000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_23_120000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -64,6 +64,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_130000) do
     t.index ["path_id"], name: "index_courses_on_path_id"
     t.index ["slug"], name: "index_courses_on_slug", unique: true
     t.index ["status"], name: "index_courses_on_status"
+  end
+
+  create_table "editorships", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "path_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["path_id"], name: "index_editorships_on_path_id"
+    t.index ["user_id", "path_id"], name: "index_editorships_on_user_id_and_path_id", unique: true
+    t.index ["user_id"], name: "index_editorships_on_user_id"
   end
 
   create_table "feedbacks", force: :cascade do |t|
@@ -228,6 +238,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_130000) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "courses", "paths"
+  add_foreign_key "editorships", "paths"
+  add_foreign_key "editorships", "users"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "journal_entries", "lessons"
   add_foreign_key "journal_entries", "users"

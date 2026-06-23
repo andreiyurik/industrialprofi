@@ -45,6 +45,26 @@
               <% end %>
             <% end %>
           </div>
+
+          <%# Per-profession edit access — only meaningful for experts (admins
+              edit everything, members can't reach the admin). %>
+          <% if user.editor? && user != Current.user %>
+            <%= form_with url: admin_user_path(user), method: :patch, class: "admin-access" do %>
+              <p class="admin-access__legend"><%= t("admin.users.access_legend") %></p>
+              <%# Empty value so unticking every box clears all access. %>
+              <%= hidden_field_tag "user[editable_path_ids][]", "" %>
+              <div class="admin-access__options">
+                <% @paths.each do |path| %>
+                  <label class="admin-access__option">
+                    <%= check_box_tag "user[editable_path_ids][]", path.id,
+                          user.editorships.any? { |e| e.path_id == path.id } %>
+                    <span><%= path.title %></span>
+                  </label>
+                <% end %>
+              </div>
+              <%= submit_tag t("admin.users.access_save"), class: "btn btn--small" %>
+            <% end %>
+          <% end %>
         <% end %>
       </div>
     <% end %>

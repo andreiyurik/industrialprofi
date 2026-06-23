@@ -1,9 +1,10 @@
 module Admin
   class CoursesController < BaseController
     before_action :set_course, only: %i[edit update]
+    before_action :set_editable_paths, only: %i[new create]
 
     def index
-      @paths = Path.ordered.includes(:courses)
+      @paths = Path.editable_by(Current.user).ordered.includes(:courses)
     end
 
     def new
@@ -12,6 +13,8 @@ module Admin
 
     def create
       @course = Course.new(course_params)
+      return redirect_to(admin_courses_path, alert: t("auth.not_authorized")) unless can_edit_path?(@course)
+
       @course.position = (@course.path&.courses&.maximum(:position) || 0) + 1 if @course.position.to_i.zero?
       @course.status = sanitized_status(params.dig(:course, :status), current: "draft")
 
@@ -39,13 +42,20 @@ module Admin
 
     def set_course
       @course = Course.find_by!(slug: params[:slug])
+      authorize_path!(@course)
+    end
+
+    def set_editable_paths
+      @editable_paths = Path.editable_by(Current.user).ordered
     end
 
     # status is handled separately via sanitized_status (trust ladder). path_id
-    # is only submitted when creating — courses don't move between professions.
-    # slug is locked once the course is live (see slug_locked?).
+    # is create-only — courses don't move between professions, and permitting it
+    # on update would let a scoped editor push a course into a profession they
+    # don't own. slug is locked once the course is live (see slug_locked?).
     def course_params
-      permitted = [ :path_id, :title, :description, :position ]
+      permitted = [ :title, :description, :position ]
+      permitted << :path_id unless @course # only on create (set_course runs on update)
       permitted << :slug unless slug_locked?(@course)
       params.require(:course).permit(*permitted)
     end

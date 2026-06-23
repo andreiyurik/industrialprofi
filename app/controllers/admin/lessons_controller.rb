@@ -1,9 +1,10 @@
 module Admin
   class LessonsController < BaseController
     before_action :set_lesson, only: %i[edit update]
+    before_action :set_editable_paths, only: %i[new create]
 
     def index
-      @paths = Path.ordered.includes(:lessons)
+      @paths = Path.editable_by(Current.user).ordered.includes(:lessons)
     end
 
     # A lesson is born as a small stub (where it lives + title + kind); the rich
@@ -14,6 +15,10 @@ module Admin
 
     def create
       @lesson = Lesson.new(new_lesson_params)
+      unless can_edit_path?(@lesson.course)
+        return redirect_to(admin_lessons_path, alert: t("auth.not_authorized"))
+      end
+
       @lesson.position = next_lesson_position(@lesson.course)
       @lesson.difficulty ||= "beginner" if @lesson.practice?
 
@@ -39,6 +44,11 @@ module Admin
 
     def set_lesson
       @lesson = Lesson.find_by!(slug: params[:slug])
+      authorize_path!(@lesson)
+    end
+
+    def set_editable_paths
+      @editable_paths = Path.editable_by(Current.user).ordered.includes(:courses)
     end
 
     # Position is global within the profession (continuous prev/next across

@@ -5,7 +5,7 @@
   <% if course.new_record? %>
     <div class="admin-form__field">
       <label><%= t("admin.field_path") %></label>
-      <%= f.collection_select :path_id, Path.ordered, :id, :title,
+      <%= f.collection_select :path_id, @editable_paths, :id, :title,
             { prompt: t("admin.choose_path") }, class: "input" %>
     </div>
   <% end %>

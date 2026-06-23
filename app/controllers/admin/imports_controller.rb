@@ -28,6 +28,9 @@ module Admin
       result = @document.import!(author: Current.user)
       return render :new, status: :unprocessable_entity unless @document.valid? && result
 
+      # The importer owns the new draft profession (admins edit all regardless).
+      Current.user.editorships.create(path: result.path) unless Current.user.administrator?
+
       redirect_to edit_admin_path_path(result.path),
         notice: t("flash.import_done", courses: result.counts[:courses], lessons: result.counts[:lessons])
     end
