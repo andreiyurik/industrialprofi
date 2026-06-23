@@ -35,39 +35,42 @@
       the lesson, so repeating it here is redundant noise (and the long title
       forced a cramped two-line wrap). Full path stays in the breadcrumb JSON-LD
       above for SEO. %>
-  <%= render "shared/breadcrumbs", crumbs: [
-    { title: @path.title, path: path_path(@path) },
-    { title: @course.title, path: course_path(@course) }
-  ] %>
+  <%# Quiet top toolbar: breadcrumb trail on the left, icon-only utilities on
+      the right. Keeping the utilities up here (not between the title and the
+      lesson) leaves a clean title → "зачем" → content flow.
+      JS-dependent buttons (copy, reading mode) render `hidden` and are revealed
+      by their controllers on connect — no dead buttons without JS. %>
+  <div class="lesson__topbar"
+       data-controller="copy-link"
+       data-copy-link-url-value="<%= "#{site_config.url}/lessons/#{@lesson.slug}" %>"
+       data-copy-link-label-value="<%= t("lessons.copy_link") %>"
+       data-copy-link-copied-value="<%= t("lessons.link_copied") %>">
+    <%= render "shared/breadcrumbs", crumbs: [
+      { title: @path.title, path: path_path(@path) },
+      { title: @course.title, path: course_path(@course) }
+    ] %>
 
-  <header class="lesson__header">
-    <h1 class="lesson__title"><%= @lesson.title %></h1>
-
-    <%# JS-dependent buttons (copy, reading mode) are rendered `hidden` and
-        revealed by their controllers on connect — no dead buttons without JS.
-        The bookmark toggle is a plain form, so the row itself stays visible. %>
-    <div class="lesson__meta"
-         data-controller="copy-link"
-         data-copy-link-url-value="<%= "#{site_config.url}/lessons/#{@lesson.slug}" %>"
-         data-copy-link-label-value="<%= t("lessons.copy_link") %>"
-         data-copy-link-copied-value="<%= t("lessons.link_copied") %>">
-      <button type="button" class="lesson__copy" hidden
+    <div class="lesson__tools">
+      <button type="button" class="lesson__tool lesson__copy" hidden
               data-copy-link-target="button"
-              data-action="copy-link#copy">
-        <%= heroicon "link", variant: :outline %>
-        <span data-copy-link-target="label"><%= t("lessons.copy_link") %></span>
+              data-action="copy-link#copy"
+              aria-label="<%= t("lessons.copy_link") %>" title="<%= t("lessons.copy_link") %>">
+        <span class="lesson__copy-icon lesson__copy-icon--default"><%= heroicon "link", variant: :outline %></span>
+        <span class="lesson__copy-icon lesson__copy-icon--done"><%= heroicon "check", variant: :outline %></span>
+        <span class="for-screen-reader" data-copy-link-target="label"><%= t("lessons.copy_link") %></span>
       </button>
 
-      <button type="button" class="lesson__copy lesson-reading-toggle" hidden
+      <button type="button" class="lesson__tool lesson-reading-toggle" hidden
               data-reading-mode-target="toggle"
-              data-action="reading-mode#toggle">
+              data-action="reading-mode#toggle"
+              aria-label="<%= t("lessons.reading_mode") %>" title="<%= t("lessons.reading_mode") %>">
         <span class="lesson-reading-toggle__enter">
           <%= heroicon "arrows-pointing-out", variant: :outline %>
-          <span><%= t("lessons.reading_mode") %></span>
+          <span class="lesson-reading-toggle__text"><%= t("lessons.reading_mode") %></span>
         </span>
         <span class="lesson-reading-toggle__exit">
           <%= heroicon "arrows-pointing-in", variant: :outline %>
-          <span><%= t("lessons.reading_mode_exit") %></span>
+          <span class="lesson-reading-toggle__text"><%= t("lessons.reading_mode_exit") %></span>
         </span>
       </button>
 
@@ -77,6 +80,10 @@
               bookmarked: Current.user.lesson_bookmarks.exists?(lesson: @lesson) %>
       <% end %>
     </div>
+  </div>
+
+  <header class="lesson__header">
+    <h1 class="lesson__title"><%= @lesson.title %></h1>
 
     <% if @lesson.revised? %>
       <%= link_to lesson_revisions_path(@lesson),

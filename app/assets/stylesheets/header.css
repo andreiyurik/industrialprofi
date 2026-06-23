@@ -5,7 +5,21 @@
   border-block-end: 1px solid var(--color-subtle);
   position: sticky;
   inset-block-start: 0;
+  transition: transform 250ms ease;
   z-index: 40;
+}
+
+/* Auto-hide (TOP-style): the header-reveal controller adds this once the page
+   is scrolled past the header's height, sliding it up out of view. It returns
+   only when scrolled back to the very top. */
+.header--hidden {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header {
+    transition: none;
+  }
 }
 
 /* DHH-canon public header: wordmark anchored left (the home affordance lives

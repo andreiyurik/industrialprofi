@@ -709,7 +709,7 @@ ru:
       other: "%{count} практики"
 
   lessons:
-    why_section: "Зачем это нужно"
+    why_section: "Зачем"
     study_section: "Что изучить"
     resources_section: "Документы и ресурсы"
     required_label: "Обязательно"

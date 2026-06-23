@@ -435,3 +435,10 @@ body:has(.lesson-layout--reading) :is(.header, .support-cta) {
   position: fixed;
   z-index: 40;
 }
+
+/* The toolbar keeps the toggle icon-only, but the corner exit pill needs its
+   label ("Выйти из режима чтения") — chrome is hidden, so an icon alone is too
+   cryptic. Loads after lesson.css, so this wins the equal-specificity cascade. */
+.lesson-layout--reading .lesson-reading-toggle__text {
+  display: inline;
+}

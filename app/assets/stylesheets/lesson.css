@@ -24,27 +24,38 @@
 }
 
 .lesson__title {
-  font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+  /* Capped at 2.1rem (was 2.5): long multi-word technical titles read as a
+     calmer landmark, not a wall, while staying the clear primary heading. */
+  font-size: clamp(1.75rem, 4.5vw, 2.1rem);
   font-weight: 700;
   letter-spacing: -0.025em;
-  line-height: 1.05;
+  line-height: 1.1;
   margin-block: 0;
 }
 
-/* Compact secondary meta row under the title — quiet, never competing with the
-   heading. Currently holds the single "copy link" action. */
-.lesson__meta {
+/* Top toolbar: breadcrumb trail on the left, quiet icon-only utilities on the
+   right (copy link, reading mode, bookmark). Replaces the old action row that
+   sat between the title and the lesson — keeping the title → intro → content
+   flow clean, TOP-style. */
+.lesson__topbar {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-block-end: 0.75rem;
+}
+
+.lesson__tools {
   align-items: center;
   color: var(--color-subtle-dark);
   display: flex;
-  flex-wrap: wrap;
-  font-size: 0.85rem;
-  gap: 0.4rem 1.25rem;
-  margin-block-start: 0.75rem;
+  flex-shrink: 0;
+  gap: 0.9rem;
 }
 
-/* A bare text button — a quiet tertiary action, not a primary .btn. */
-.lesson__copy {
+/* A bare icon button — a quiet tertiary utility, never competing with the
+   heading or the breadcrumb beside it. */
+.lesson__tool {
   align-items: center;
   background: none;
   border: 0;
@@ -52,13 +63,12 @@
   cursor: pointer;
   display: inline-flex;
   font: inherit;
-  gap: var(--inline-space-half);
   padding: 0;
   transition: color 200ms ease;
 
   svg {
-    block-size: 0.95em;
-    inline-size: 0.95em;
+    block-size: 1.05rem;
+    inline-size: 1.05rem;
   }
 
   @media (any-hover: hover) {
@@ -68,8 +78,36 @@
   }
 }
 
+/* Copy-link feedback is icon-only here: the link glyph briefly swaps to a green
+   check (the controller toggles `--copied` + updates the screen-reader label). */
+.lesson__copy-icon {
+  display: inline-flex;
+}
+
+.lesson__copy-icon--done,
+.lesson__copy--copied .lesson__copy-icon--default {
+  display: none;
+}
+
+.lesson__copy--copied .lesson__copy-icon--done {
+  display: inline-flex;
+}
+
 .lesson__copy--copied {
   color: var(--color-positive);
+}
+
+/* The reading-mode toggle is icon-only in the toolbar; its label is revealed
+   only once reading mode is on, when the button becomes the corner exit pill
+   (see sidebar.css). */
+.lesson__tools .lesson-reading-toggle__text {
+  display: none;
+}
+
+/* The save-for-later bookmark joins the icon toolbar: keep just the glyph,
+   matching the project-card treatment (title/aria-label carry the meaning). */
+.lesson__tools .bookmark-btn__label {
+  display: none;
 }
 
 .lesson__intro {

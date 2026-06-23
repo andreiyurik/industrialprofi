@@ -65,7 +65,9 @@
   </head>
 
   <body>
-    <header class="header">
+    <header class="header"
+            data-controller="header-reveal"
+            data-header-reveal-hidden-class="header--hidden">
       <nav class="container header__nav">
         <%= link_to root_path, class: "brand header__brand" do %>
           <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", aria: { hidden: "true" } %>
