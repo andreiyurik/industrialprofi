@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_12_123652) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_12_130000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -52,7 +52,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_123652) do
   create_table "courses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
+    t.string "imported_digest"
     t.integer "lessons_count", default: 0, null: false
+    t.string "origin", default: "human", null: false
     t.integer "path_id", null: false
     t.integer "position", default: 0, null: false
     t.string "slug", null: false
@@ -144,8 +146,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_123652) do
     t.datetime "created_at", null: false
     t.text "description"
     t.string "difficulty"
+    t.string "imported_digest"
     t.string "kind", default: "lesson", null: false
     t.integer "lesson_revisions_count", default: 0, null: false
+    t.string "origin", default: "human", null: false
     t.integer "path_id", null: false
     t.integer "position", default: 0, null: false
     t.string "slug", null: false
@@ -165,8 +169,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_123652) do
     t.integer "courses_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.text "description"
+    t.string "imported_digest"
     t.integer "lessons_count", default: 0, null: false
     t.string "locale", default: "ru", null: false
+    t.string "origin", default: "human", null: false
     t.integer "position", default: 0, null: false
     t.string "slug", null: false
     t.string "status", default: "published", null: false
@@ -184,6 +190,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_123652) do
     t.datetime "created_at", null: false
     t.string "kind", default: "document", null: false
     t.integer "lesson_id", null: false
+    t.string "origin", default: "human", null: false
     t.integer "position", default: 0, null: false
     t.boolean "required", default: false, null: false
     t.string "title", null: false

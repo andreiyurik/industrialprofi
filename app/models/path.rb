@@ -1,7 +1,12 @@
 class Path < ApplicationRecord
   include IndexNowNotifiable
+  include Importable
 
   SLUG_FORMAT = /\A[a-z0-9]+(-[a-z0-9]+)*\z/
+
+  # Fields the YAML/AI importer manages (and digests for edit-safety). The slug
+  # is the stable key, not content.
+  IMPORTABLE_FIELDS = %w[title description position status].freeze
 
   has_many :courses, -> { order(:position) }, dependent: :destroy
   # NO dependent: :destroy here on purpose — Course owns the lesson destroy chain

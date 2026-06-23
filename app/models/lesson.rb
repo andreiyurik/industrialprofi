@@ -1,5 +1,11 @@
 class Lesson < ApplicationRecord
   include IndexNowNotifiable
+  include Importable
+
+  # Digested for edit-safety. The raw markdown columns the importer writes; admin
+  # edits live in rich text + leave a revision, which also freezes the lesson
+  # (see frozen_for_import? below).
+  IMPORTABLE_FIELDS = %w[title description body task kind difficulty stage position].freeze
 
   belongs_to :course, counter_cache: true
   # path_id is a denormalized FK (= course.path) kept in sync below. Many hot
@@ -50,6 +56,13 @@ class Lesson < ApplicationRecord
   end
 
   def revised? = lesson_revisions_count.positive?
+
+  # A lesson is also frozen for the importer once it carries any revision: admin
+  # edits and approved suggestions land in rich text (not the markdown columns
+  # the digest covers), so the digest alone wouldn't notice them.
+  def frozen_for_import?
+    super || lesson_revisions.exists?
+  end
 
   # Community members who improved this lesson, earliest-first. A revision's
   # editor_name carries the suggester's name (set on approval); the founder's

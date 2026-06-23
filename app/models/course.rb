@@ -1,5 +1,8 @@
 class Course < ApplicationRecord
   include IndexNowNotifiable
+  include Importable
+
+  IMPORTABLE_FIELDS = %w[title description position status].freeze
 
   belongs_to :path, counter_cache: true
   has_many :lessons, -> { order(:position) }, dependent: :destroy
