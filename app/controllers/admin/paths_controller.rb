@@ -42,9 +42,12 @@ module Admin
       @path = Path.find_by!(slug: params[:slug])
     end
 
-    # status is handled separately via sanitized_status (trust ladder).
+    # status is handled separately via sanitized_status (trust ladder); slug is
+    # locked once the path is live (see slug_locked?).
     def path_params
-      params.require(:path).permit(:title, :slug, :description)
+      permitted = [ :title, :description ]
+      permitted << :slug unless slug_locked?(@path)
+      params.require(:path).permit(*permitted)
     end
   end
 end

@@ -50,4 +50,20 @@ class Admin::CoursesControllerTest < ActionDispatch::IntegrationTest
     post admin_courses_path, params: { course: { title: "Сирота" } }
     assert_response :unprocessable_entity
   end
+
+  # ── Slug lock (SEO) ──
+
+  test "the slug of a published course cannot be changed" do
+    original = courses(:el_basics).slug
+    patch admin_course_path(courses(:el_basics)),
+      params: { course: { slug: "vzlomannyy", description: "Новое описание" } }
+    courses(:el_basics).reload
+    assert_equal original, courses(:el_basics).slug
+    assert_equal "Новое описание", courses(:el_basics).description
+  end
+
+  test "the slug of a draft course can be changed" do
+    patch admin_course_path(courses(:draft_course)), params: { course: { slug: "pereimenovannyy" } }
+    assert_equal "pereimenovannyy", courses(:draft_course).reload.slug
+  end
 end

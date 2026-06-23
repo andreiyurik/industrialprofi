@@ -43,8 +43,11 @@ module Admin
 
     # status is handled separately via sanitized_status (trust ladder). path_id
     # is only submitted when creating — courses don't move between professions.
+    # slug is locked once the course is live (see slug_locked?).
     def course_params
-      params.require(:course).permit(:path_id, :title, :slug, :description, :position)
+      permitted = [ :path_id, :title, :description, :position ]
+      permitted << :slug unless slug_locked?(@course)
+      params.require(:course).permit(*permitted)
     end
   end
 end

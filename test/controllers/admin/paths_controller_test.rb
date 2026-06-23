@@ -89,4 +89,20 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
     patch admin_path_path(paths(:draft_path)), params: { path: { status: "published" } }
     assert_equal "published", paths(:draft_path).reload.status
   end
+
+  # ── Slug lock (SEO) ──
+
+  test "the slug of a published path cannot be changed, other fields still save" do
+    original = paths(:electrician).slug
+    patch admin_path_path(paths(:electrician)),
+      params: { path: { slug: "vzlomannyy", description: "Обновлённое описание" } }
+    paths(:electrician).reload
+    assert_equal original, paths(:electrician).slug
+    assert_equal "Обновлённое описание", paths(:electrician).description
+  end
+
+  test "the slug of a draft path can be changed" do
+    patch admin_path_path(paths(:draft_path)), params: { path: { slug: "novyy-chernovik" } }
+    assert_equal "novyy-chernovik", paths(:draft_path).reload.slug
+  end
 end

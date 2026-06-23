@@ -17,8 +17,13 @@
 
   <div class="admin-form__field">
     <label><%= t("admin.field_slug") %></label>
-    <%= f.text_field :slug, class: "input input--mono", placeholder: t("admin.slug_auto") %>
-    <p class="admin-form__hint"><%= t("admin.slug_hint") %></p>
+    <% if slug_locked?(course) %>
+      <%= f.text_field :slug, class: "input input--mono", disabled: true %>
+      <p class="admin-form__hint"><%= t("admin.slug_locked") %></p>
+    <% else %>
+      <%= f.text_field :slug, class: "input input--mono", placeholder: t("admin.slug_auto") %>
+      <p class="admin-form__hint"><%= t("admin.slug_hint") %></p>
+    <% end %>
   </div>
 
   <% unless course.new_record? %>
