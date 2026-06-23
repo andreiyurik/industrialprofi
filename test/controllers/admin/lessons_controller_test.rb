@@ -128,6 +128,41 @@ class Admin::LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
+  # ── Create ──
+
+  test "new lesson form renders" do
+    get new_admin_lesson_path
+    assert_response :success
+  end
+
+  test "create builds a stub, appends position, and redirects to the full edit" do
+    assert_difference -> { Lesson.count }, 1 do
+      post admin_lessons_path, params: { lesson: {
+        course_id: courses(:el_basics).id, stage: "Раздел X", title: "Новый Урок X", kind: "lesson"
+      } }
+    end
+    lesson = Lesson.find_by!(title: "Новый Урок X")
+    assert_redirected_to edit_admin_lesson_path(lesson)
+    assert_equal courses(:el_basics), lesson.course
+    assert_equal paths(:electrician), lesson.path
+    assert_equal "human", lesson.origin
+    assert_equal "Раздел X", lesson.stage
+    assert_equal "novyy-urok-x", lesson.slug
+    assert_equal paths(:electrician).lessons.maximum(:position), lesson.position
+  end
+
+  test "a new practice lesson gets a default difficulty" do
+    post admin_lessons_path, params: { lesson: {
+      course_id: courses(:el_basics).id, title: "Практика X", kind: "practice"
+    } }
+    assert_equal "beginner", Lesson.find_by!(title: "Практика X").difficulty
+  end
+
+  test "create without a course re-renders" do
+    post admin_lessons_path, params: { lesson: { title: "Сирота", kind: "lesson" } }
+    assert_response :unprocessable_entity
+  end
+
   private
     def existing_attrs(resource, position:)
       { id: resource.id, title: resource.title, url: resource.url,

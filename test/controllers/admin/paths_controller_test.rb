@@ -34,4 +34,59 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
       params: { path: { title: "" } }
     assert_response :unprocessable_entity
   end
+
+  # ── Create ──
+
+  test "new renders for admin" do
+    get new_admin_path_path
+    assert_response :success
+  end
+
+  test "create as admin makes a path owned by the author, slug auto-generated" do
+    assert_difference -> { Path.count }, 1 do
+      post admin_paths_path, params: { path: { title: "Сантехник", status: "published" } }
+    end
+    path = Path.find_by!(title: "Сантехник")
+    assert_redirected_to edit_admin_path_path(path)
+    assert_equal "published", path.status
+    assert_equal users(:admin).id, path.author_id
+    assert_equal "human", path.origin
+    assert_equal "santehnik", path.slug
+    assert path.position.positive?
+  end
+
+  test "an editor cannot publish a new path — it lands as draft" do
+    sign_out
+    sign_in_as users(:editor)
+    post admin_paths_path, params: { path: { title: "Маляр", status: "published" } }
+    path = Path.find_by!(title: "Маляр")
+    assert_equal "draft", path.status
+    assert_equal users(:editor).id, path.author_id
+  end
+
+  test "an editor can submit a new path for review" do
+    sign_out
+    sign_in_as users(:editor)
+    post admin_paths_path, params: { path: { title: "Кровельщик", status: "pending_review" } }
+    assert_equal "pending_review", Path.find_by!(title: "Кровельщик").status
+  end
+
+  test "an editor cannot publish a draft via update" do
+    sign_out
+    sign_in_as users(:editor)
+    patch admin_path_path(paths(:draft_path)), params: { path: { status: "published" } }
+    assert_equal "draft", paths(:draft_path).reload.status
+  end
+
+  test "an editor cannot change an already-published path's status" do
+    sign_out
+    sign_in_as users(:editor)
+    patch admin_path_path(paths(:electrician)), params: { path: { status: "draft" } }
+    assert_equal "published", paths(:electrician).reload.status
+  end
+
+  test "an admin can publish a draft via update" do
+    patch admin_path_path(paths(:draft_path)), params: { path: { status: "published" } }
+    assert_equal "published", paths(:draft_path).reload.status
+  end
 end

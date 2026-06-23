@@ -1,4 +1,4 @@
-<% meta_title("#{t('admin.edit_course')} — #{@course.title}") %>
+<% meta_title(t("admin.new_course")) %>
 
 <section class="admin-page">
   <div class="container container--reading">
@@ -9,9 +9,8 @@
         <a href="<%= admin_courses_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
           <%= heroicon("arrow-left", variant: :outline) %>
         </a>
-        <h1 class="admin-header__title"><%= @course.title %></h1>
+        <h1 class="admin-header__title"><%= t("admin.new_course") %></h1>
       </div>
-      <a href="<%= course_path(@course) %>" class="admin-header__view-live link-quiet" target="_blank"><%= t("admin.view_live") %> ↗</a>
     </div>
 
     <%= render "admin/courses/form", course: @course %>

@@ -1,6 +1,7 @@
 class Course < ApplicationRecord
   include IndexNowNotifiable
   include Importable
+  include Sluggable
 
   IMPORTABLE_FIELDS = %w[title description position status].freeze
 

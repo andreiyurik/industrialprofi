@@ -1,6 +1,7 @@
 class Lesson < ApplicationRecord
   include IndexNowNotifiable
   include Importable
+  include Sluggable
 
   # Digested for edit-safety. The raw markdown columns the importer writes; admin
   # edits live in rich text + leave a revision, which also freezes the lesson

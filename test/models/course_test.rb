@@ -14,10 +14,10 @@ class CourseTest < ActiveSupport::TestCase
     assert course.errors[:title].any?
   end
 
-  test "invalid without slug" do
-    course = Course.new(path: paths(:electrician), title: "No Slug")
-    assert_not course.valid?
-    assert course.errors[:slug].any?
+  test "auto-generates a slug from the title when blank" do
+    course = Course.new(path: paths(:electrician), title: "Новый Курс")
+    assert course.valid?
+    assert_equal "novyy-kurs", course.slug
   end
 
   test "invalid without path" do

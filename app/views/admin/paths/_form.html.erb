@@ -1,0 +1,27 @@
+<%# Shared by new + edit. form_with routes to create/update by record state. %>
+<%= form_with(model: [ :admin, path ]) do |f| %>
+  <%= render "admin/shared/form_errors", object: path %>
+
+  <div class="admin-form__field">
+    <label><%= t("admin.field_title") %></label>
+    <%= f.text_field :title, class: "input" %>
+  </div>
+
+  <div class="admin-form__field">
+    <label><%= t("admin.field_slug") %></label>
+    <%= f.text_field :slug, class: "input input--mono", placeholder: t("admin.slug_auto") %>
+    <p class="admin-form__hint"><%= t("admin.slug_hint") %></p>
+  </div>
+
+  <div class="admin-form__field">
+    <label><%= t("admin.field_description") %></label>
+    <%= f.text_area :description, rows: 4, class: "input input--textarea" %>
+  </div>
+
+  <%= render "admin/shared/status_field", f: f, record: path %>
+
+  <div class="admin-form__actions">
+    <%= f.submit t("admin.save"), class: "btn btn--reversed" %>
+    <a href="<%= admin_paths_path %>" class="btn"><%= t("admin.cancel") %></a>
+  </div>
+<% end %>

@@ -26,10 +26,10 @@ class LessonTest < ActiveSupport::TestCase
     assert lesson.errors[:title].any?
   end
 
-  test "invalid without slug" do
-    lesson = Lesson.new(path: paths(:electrician), title: "No Slug")
-    assert_not lesson.valid?
-    assert lesson.errors[:slug].any?
+  test "auto-generates a slug from the title when blank" do
+    lesson = Lesson.new(course: courses(:el_basics), title: "Новый Урок")
+    assert lesson.valid?
+    assert_equal "novyy-urok", lesson.slug
   end
 
   test "invalid without path" do

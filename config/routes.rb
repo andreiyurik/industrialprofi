@@ -62,13 +62,13 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "dashboard#show"
-    resources :lessons, only: [ :index, :edit, :update ], param: :slug do
+    resources :lessons, only: [ :index, :new, :create, :edit, :update ], param: :slug do
       resources :revisions, only: [ :index ] do
         member { post :rollback }
       end
     end
-    resources :paths, only: [ :index, :edit, :update ], param: :slug
-    resources :courses, only: [ :index, :edit, :update ], param: :slug
+    resources :paths, only: [ :index, :new, :create, :edit, :update ], param: :slug
+    resources :courses, only: [ :index, :new, :create, :edit, :update ], param: :slug
     resources :users, only: [ :index, :update ]
     resources :feedbacks, only: [ :index ]
     resources :lesson_suggestions, only: [ :index, :show ] do

@@ -6,6 +6,24 @@ module Admin
       @paths = Path.ordered.includes(:lessons)
     end
 
+    # A lesson is born as a small stub (where it lives + title + kind); the rich
+    # body/task and resources are filled in straight away on the edit page.
+    def new
+      @lesson = Lesson.new(course_id: params[:course_id], kind: "lesson")
+    end
+
+    def create
+      @lesson = Lesson.new(new_lesson_params)
+      @lesson.position = next_lesson_position(@lesson.course)
+      @lesson.difficulty ||= "beginner" if @lesson.practice?
+
+      if @lesson.save
+        redirect_to edit_admin_lesson_path(@lesson), notice: I18n.t("flash.lesson_created")
+      else
+        render :new, status: :unprocessable_entity
+      end
+    end
+
     def edit
       populate_rich_text_from_markdown
     end
@@ -21,6 +39,18 @@ module Admin
 
     def set_lesson
       @lesson = Lesson.find_by!(slug: params[:slug])
+    end
+
+    # Position is global within the profession (continuous prev/next across
+    # courses), so a new lesson appends to the end of its path.
+    def next_lesson_position(course)
+      return 1 unless course
+
+      (course.path.lessons.maximum(:position) || 0) + 1
+    end
+
+    def new_lesson_params
+      params.require(:lesson).permit(:course_id, :stage, :title, :slug, :kind)
     end
 
     def populate_rich_text_from_markdown

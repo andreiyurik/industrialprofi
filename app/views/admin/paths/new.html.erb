@@ -1,4 +1,4 @@
-<% meta_title("#{t('admin.edit_path')} — #{@path.title}") %>
+<% meta_title(t("admin.new_path")) %>
 
 <section class="admin-page">
   <div class="container container--reading">
@@ -9,9 +9,8 @@
         <a href="<%= admin_paths_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
           <%= heroicon("arrow-left", variant: :outline) %>
         </a>
-        <h1 class="admin-header__title"><%= @path.title %></h1>
+        <h1 class="admin-header__title"><%= t("admin.new_path") %></h1>
       </div>
-      <a href="<%= path_path(@path) %>" class="admin-header__view-live link-quiet" target="_blank"><%= t("admin.view_live") %> ↗</a>
     </div>
 
     <%= render "admin/paths/form", path: @path %>
