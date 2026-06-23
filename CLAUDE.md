@@ -333,21 +333,27 @@ reused in the account menu. Recognition, not a leaderboard, is the contribution
 motivator (see the goal note up top). The big "Contributors N" grid is deferred
 until there are enough contributors to fill it.
 
-**Participation page (built 2026-06-22):** `/contribute` («Как поучаствовать»,
-`pages#contribute` + `contribute.css`) — the community-invitation page, linked
-first in the footer's «Поддержка» column. An inspiring address (one person can't
-build quality coverage alone → each contributes their piece → infrastructure
-quality crisis → a slightly better world) plus a scannable map of every
-participation seam already in the app: the three ways to help (suggest an edit /
-author a profession as an Эксперт / spread + support), the git-free
-suggest→review→immutable-revision flow as a timeline, and the `member → Эксперт →
-administrator` trust ladder (growing accent bar). Pure-CSS only (one animated `?`
-glyph, `prefers-reduced-motion`-gated), reuses `panel`/`btn`/FAQ `<details>`. Copy
-lives in `ru.yml → contribute:`. This is the public face of the "self-developing"
-north-star, so keep it honest — it documents real mechanics, not aspirations.
-**Note the discrepancy it resolves:** suggesting an edit REQUIRES an account
-(`lesson_suggestions_controller`), so this page says so; the older `about.invite`
-copy still claims «можно без аккаунта» — reconcile when touched.
+**Participation page (built 2026-06-22):** `/contribute` («Участие»,
+`pages#contribute` + `contribute.css`) — the **open-project / participation**
+page, deliberately split from `/support_us` (money). The two live side by side in
+the footer's «Поддержка» column but read as distinct asks: **«Участие»** = invest
+expertise/labour, **«Поддержать»** = money. Framing is the *open commons*, NOT
+"become an author": IndustrialProfi is an open project (code AGPL, content
+CC BY-SA) meant to outlive the founder and to hold **any complex modern
+profession** — electrician today, agronomist/farmer tomorrow; if a trade isn't
+here yet, a practitioner can start it. Authoring a profession is the *top* of a
+ladder, not the entry. Content: hero (animated `?`), manifesto (why it's open +
+multi-profession vision), the «Уровни участия» editorial index (fix → lead a
+profession → spread), the git-free suggest→review→immutable-revision timeline, the
+`member → Эксперт → administrator` trust ladder, FAQ (incl. "add a missing
+profession?" / "why open source?"), and a CTA that bridges to `/support_us`.
+`/support_us`'s "как ещё помочь?" FAQ links back here. Pure-CSS, reuses
+`panel`/`btn`/FAQ `<details>`; copy in `ru.yml → contribute:`. This is a
+**future-co-author surface**, so per the Positioning decision the wide
+"any profession" vision is voiced HERE (not on the homepage). Keep it honest —
+suggesting an edit REQUIRES an account (`lesson_suggestions_controller`), so the
+page says so; the older `about.invite` copy still claims «можно без аккаунта» —
+reconcile when touched.
 
 **Not built yet (planned — see `docs/MVP.md` v0.3):** community-authored
 roadmaps, public user profiles, search, project submissions (portfolio uploads).

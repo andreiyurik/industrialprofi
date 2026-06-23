@@ -20,7 +20,7 @@
         <p><%= t("contribute.manifesto2") %></p>
       </div>
 
-      <%# Three ways to help — most accessible first. %>
+      <%# Levels of participation — most accessible first. %>
       <section class="contribute-block">
         <h2 class="contribute-block__title"><%= t("contribute.ways_title") %></h2>
         <p class="contribute-block__lead"><%= t("contribute.ways_lead") %></p>
@@ -62,7 +62,7 @@
               <p class="contribute-way__kicker"><%= t("contribute.ways.spread.who") %></p>
               <h3 class="contribute-way__title"><%= t("contribute.ways.spread.title") %></h3>
               <p class="contribute-way__text"><%= t("contribute.ways.spread.what") %></p>
-              <a href="<%= support_us_path %>" class="contribute-way__link">
+              <a href="<%= site_config.telegram_url %>" class="contribute-way__link" target="_blank" rel="noopener">
                 <%= t("contribute.ways.spread.cta") %><span class="contribute-way__arrow" aria-hidden="true">→</span>
               </a>
             </div>
@@ -129,6 +129,7 @@
           <% else %>
             <a href="<%= site_config.telegram_url %>" class="btn" target="_blank" rel="noopener"><%= t("contribute.cta_write") %></a>
           <% end %>
+          <%# Bridge to the separate financial-support page. %>
           <a href="<%= support_us_path %>" class="btn"><%= t("contribute.cta_support") %></a>
         </div>
       </div>

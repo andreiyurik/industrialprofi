@@ -11,9 +11,6 @@
       <circle class="progress-ring__arc" cx="10" cy="10" r="9.3" pathLength="100" stroke-dasharray="100 200" stroke-dashoffset="<%= 100 - percent %>"></circle>
     <% end %>
   </svg>
-  <span class="progress-ring__percent" aria-hidden="true">
-    <%= percent %>%
-    <small><%= t("progress.complete_word") %></small>
-  </span>
+  <span class="progress-ring__percent" aria-hidden="true"><%= percent %>%</span>
   <span class="progress-ring__body"><%= yield %></span>
 </span>

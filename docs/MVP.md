@@ -41,12 +41,13 @@ Each phase is a deployable, usable product — not a prototype.
 >   — async on purpose, no chat).
 > - **Shipped 2026-06-22:** **lesson contributor attribution** («Статью
 >   улучшили» credit + generated-initials avatars, no uploads); the
->   **participation page** `/contribute` («Как поучаствовать») — an inspiring
->   invitation plus a scannable map of every contribution seam (suggest-edit /
->   author-a-profession as Эксперт / spread + support), the git-free
->   suggest→review→revision pipeline and the trust ladder as small schematics,
->   linked first in the footer's «Поддержка» column (pure CSS, copy in
->   `ru.yml → contribute:`).
+>   **participation page** `/contribute` («Участие») — the open-project page,
+>   split from `/support_us` (money) so the two footer links are distinct asks
+>   (expertise vs money). Framed as an open commons (AGPL code, CC BY-SA content)
+>   that can hold any complex profession (electrician → agronomist/farmer), with
+>   the «Уровни участия» editorial index, the git-free suggest→review→revision
+>   pipeline and trust ladder as schematics, and cross-links to `/support_us`
+>   (pure CSS, copy in `ru.yml → contribute:`).
 > - **Not built yet:** all of v0.3 (community roadmaps, search, public
 >   profiles, publishing journal entries as a moderated public portfolio).
 

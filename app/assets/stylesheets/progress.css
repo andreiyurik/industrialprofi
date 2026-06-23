@@ -81,10 +81,6 @@
   font-weight: 500;
   line-height: 1.35;
   text-align: center;
-
-  small {
-    font-size: 0.75rem;
-  }
 }
 
 /* The disc hiding the label: opaque, slightly smaller than the ring (the
