@@ -713,6 +713,8 @@ ru:
     resources_section: "Документы и ресурсы"
     required_label: "Обязательно"
     optional_label: "Рекомендуется"
+    required_group: "Обязательные"
+    optional_group: "Рекомендуемые"
     resource_kinds:
       norm: "Норматив"
       book: "Книга"

@@ -1,0 +1,44 @@
+/* The lesson's "Документы и ресурсы" block — a panel that gives the reading
+   list weight, paralleling the "Проверь себя" card. Groups carry the same
+   ★/☆ importance language as the public library. */
+.resource-block {
+  background: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.resource-block__head {
+  align-items: center;
+  display: flex;
+  gap: 0.6rem;
+  margin-block-end: 1.25rem;
+}
+
+.resource-block__icon {
+  color: var(--color-subtle-dark);
+  line-height: 0;
+}
+
+.resource-block__icon svg {
+  height: 1.4rem;
+  width: 1.4rem;
+}
+
+.resource-block__title {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/* Quiet group caption — whisper, not shout: small, muted, normal case, no icon.
+   The meaning stays explicit without the visual noise of stars + ALL CAPS. */
+.resource-block__group {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-block: 1.25rem 0.5rem;
+}
+
+.resource-block__group:first-of-type {
+  margin-block-start: 0;
+}

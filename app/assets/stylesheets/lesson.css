@@ -93,6 +93,13 @@
   padding-block-start: 2.5rem;
 }
 
+/* For a section that's its own card (e.g. the resources panel): the panel is
+   the boundary, so drop the divider line and top padding. */
+.lesson__section--plain {
+  border-block-start: 0;
+  padding-block-start: 0;
+}
+
 /* The body section has no own heading (the prose opens with its first ##),
    so the prose must sit flush under the section divider. */
 .lesson__section .prose > :first-child {
@@ -211,21 +218,6 @@
   list-style: none;
   margin-block: 0;
   padding-inline-start: 0;
-}
-
-/* Plain-text group label ("Обязательно" / "Рекомендуется") that tells the
-   reader what the list below is — replaces the ambiguous ★/○ glyphs. */
-.lesson-resources__group-title {
-  color: var(--color-subtle-dark);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  margin-block: 1.5rem 0.5rem;
-  text-transform: uppercase;
-}
-
-.lesson-resources__group-title:first-of-type {
-  margin-block-start: 1rem;
 }
 
 .lesson-resource {
