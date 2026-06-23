@@ -18,8 +18,14 @@
       <h1 class="page-title"><%= t("resources.path_title", profession: @path.title) %></h1>
       <p class="library-intro"><%= t("resources.path_intro") %></p>
       <p class="library-legend">
-        <span class="library-required" aria-hidden="true"><%= heroicon "star", variant: :solid %></span>
-        <%= t("resources.legend_required") %>
+        <span class="library-legend__item">
+          <span class="library-mark library-mark--required" aria-hidden="true"><%= heroicon "star", variant: :solid %></span>
+          <%= t("resources.legend_required") %>
+        </span>
+        <span class="library-legend__item">
+          <span class="library-mark library-mark--recommended" aria-hidden="true"><%= heroicon "star", variant: :outline %></span>
+          <%= t("resources.legend_recommended") %>
+        </span>
       </p>
 
       <% if @entries.any? %>
@@ -31,8 +37,14 @@
       <h1 class="page-title"><%= t("resources.title") %></h1>
       <p class="library-intro"><%= t("resources.intro") %></p>
       <p class="library-legend">
-        <span class="library-required" aria-hidden="true"><%= heroicon "star", variant: :solid %></span>
-        <%= t("resources.legend_required") %>
+        <span class="library-legend__item">
+          <span class="library-mark library-mark--required" aria-hidden="true"><%= heroicon "star", variant: :solid %></span>
+          <%= t("resources.legend_required") %>
+        </span>
+        <span class="library-legend__item">
+          <span class="library-mark library-mark--recommended" aria-hidden="true"><%= heroicon "star", variant: :outline %></span>
+          <%= t("resources.legend_recommended") %>
+        </span>
       </p>
 
       <% @groups.each do |path, entries| %>

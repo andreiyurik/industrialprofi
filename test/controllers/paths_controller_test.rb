@@ -13,6 +13,20 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/Черновик/, response.body)
   end
 
+  test "index shows planned and in-development paths as non-clickable stubs" do
+    Path.create!(title: "Будущая профессия", slug: "future-prof",
+                 description: "Заготовка", locale: "ru", position: 20, status: "planned")
+    Path.create!(title: "Скоро профессия", slug: "soon-prof",
+                 description: "В работе", locale: "ru", position: 21, status: "coming_soon")
+
+    get paths_path
+    assert_match "Будущая профессия", response.body
+    assert_match "В планах", response.body
+    assert_match "Скоро профессия", response.body
+    assert_match "В разработке", response.body
+    assert_no_match %r{href="/paths/future-prof"}, response.body, "stubs are not links"
+  end
+
   test "index shows only paths in the current locale" do
     Path.create!(title: "English Electrician", slug: "english-electrician",
                  description: "US market path", locale: "en", position: 9, status: "published")

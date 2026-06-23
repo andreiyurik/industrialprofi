@@ -1,12 +1,12 @@
 <%# locals: (path:, featured: false, completed_count: 0) -%>
-<% if path.coming_soon? %>
+<% if path.stub? %>
   <div class="panel path-card path-card--soon<%= " path-card--featured" if featured %>" aria-disabled="true">
     <span class="path-card__icon"><%= topic_icon_svg(path_icon_token(path)) %></span>
     <div class="path-card__body">
       <h2 class="panel__title path-card__title"><%= path.title %></h2>
       <p class="panel__description"><%= path.description %></p>
       <div class="path-card__footer">
-        <span class="badge badge--draft"><%= t("paths.coming_soon") %></span>
+        <span class="badge badge--draft"><%= t("paths.#{path.status}") %></span>
       </div>
     </div>
   </div>

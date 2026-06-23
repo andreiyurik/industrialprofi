@@ -5,6 +5,10 @@ class Path < ApplicationRecord
 
   SLUG_FORMAT = /\A[a-z0-9]+(-[a-z0-9]+)*\z/
 
+  # draft/pending_review = not public; published = live; coming_soon = stub being
+  # built ("В разработке"); planned = stub merely planned ("В планах").
+  STATUSES = %w[draft pending_review published coming_soon planned].freeze
+
   # Fields the YAML/AI importer manages (and digests for edit-safety). The slug
   # is the stable key, not content.
   IMPORTABLE_FIELDS = %w[title description position status].freeze
@@ -17,12 +21,13 @@ class Path < ApplicationRecord
 
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: SLUG_FORMAT }
-  validates :status, inclusion: { in: %w[draft pending_review published coming_soon] }
+  validates :status, inclusion: { in: STATUSES }
   validates :position, numericality: { greater_than_or_equal_to: 0 }
   validates :locale, presence: true, format: { with: /\A[a-z]{2}\z/ }
 
   scope :published, -> { where(status: "published") }
-  scope :listable, -> { where(status: %w[published coming_soon]) }
+  # Catalog shows real maps + the "not yet" stubs (being built and merely planned).
+  scope :listable, -> { where(status: %w[published coming_soon planned]) }
   scope :official, -> { where(author_id: nil) }
   scope :community, -> { where.not(author_id: nil) }
   scope :ordered, -> { order(:position) }
@@ -32,6 +37,16 @@ class Path < ApplicationRecord
 
   def coming_soon?
     status == "coming_soon"
+  end
+
+  def planned?
+    status == "planned"
+  end
+
+  # A not-yet-available map shown in the catalog as a non-clickable stub —
+  # either actively being built (coming_soon) or merely planned.
+  def stub?
+    coming_soon? || planned?
   end
 
   def to_param

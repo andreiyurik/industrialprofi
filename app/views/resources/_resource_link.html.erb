@@ -2,11 +2,13 @@
     `entry` is a ResourceLibrary::Entry (responds to kind/title like a Resource). %>
 <li class="lesson-resource <%= entry.required? ? "lesson-resource--required" : "lesson-resource--optional" %>">
   <% if entry.required? %>
-    <span class="library-required" role="img" title="<%= t("lessons.required_label") %>" aria-label="<%= t("lessons.required_label") %>">
+    <span class="library-mark library-mark--required" role="img" title="<%= t("lessons.required_label") %>" aria-label="<%= t("lessons.required_label") %>">
       <%= heroicon "star", variant: :solid %>
     </span>
   <% else %>
-    <span class="library-required" aria-hidden="true"></span>
+    <span class="library-mark library-mark--recommended" role="img" title="<%= t("lessons.optional_label") %>" aria-label="<%= t("lessons.optional_label") %>">
+      <%= heroicon "star", variant: :outline %>
+    </span>
   <% end %>
   <%= resource_kind_badge(entry) %>
   <a href="<%= entry.url %>" class="lesson-resource__link" target="_blank" rel="noopener"><%= entry.title %></a>

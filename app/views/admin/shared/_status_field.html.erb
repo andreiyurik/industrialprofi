@@ -6,7 +6,7 @@
 
   <% if can_publish? %>
     <%= f.select :status,
-          %w[draft pending_review published coming_soon].map { |s| [ t("admin.statuses.#{s}"), s ] },
+          record.class::STATUSES.map { |s| [ t("admin.statuses.#{s}"), s ] },
           {}, class: "input" %>
   <% elsif %w[published coming_soon].include?(record.status) %>
     <p class="admin-form__hint"><%= t("admin.status_locked", status: t("admin.statuses.#{record.status}")) %></p>

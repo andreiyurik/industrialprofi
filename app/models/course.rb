@@ -3,6 +3,8 @@ class Course < ApplicationRecord
   include Importable
   include Sluggable
 
+  STATUSES = %w[draft pending_review published coming_soon].freeze
+
   IMPORTABLE_FIELDS = %w[title description position status].freeze
 
   belongs_to :path, counter_cache: true
@@ -10,7 +12,7 @@ class Course < ApplicationRecord
 
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: Path::SLUG_FORMAT }
-  validates :status, inclusion: { in: %w[draft pending_review published coming_soon] }
+  validates :status, inclusion: { in: STATUSES }
   validates :position, numericality: { greater_than_or_equal_to: 0 }
 
   scope :published, -> { where(status: "published") }
