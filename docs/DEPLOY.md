@@ -1,32 +1,32 @@
-# Деплой — порядок действий
+# Deploy — step by step
 
-Первый деплой по шагам, дальше — одна команда. Стек: один VPS, Kamal 2, Docker,
-SQLite на персистентном томе. Всё уже настроено в репозитории
-(`config/deploy.yml`, `.kamal/secrets`, production-конфиг) — осталось подставить
-свои значения и пройти список сверху вниз.
+The first deploy, step by step; every deploy after that is a single command.
+Stack: one VPS, Kamal 2, Docker, SQLite on a persistent volume. Everything is
+already wired up in the repo (`config/deploy.yml`, `.kamal/secrets`, the
+production config) — you just fill in your own values and work down the list.
 
-## 0. Что нужно заранее
+## 0. Prerequisites
 
-- **VPS** — 2 ГБ RAM достаточно (SQLite, один контейнер). Чистый Ubuntu LTS,
-  доступ root по SSH-ключу. Docker ставить не надо — Kamal поставит сам.
-- **Домен** `industrialprofi.com` — A-запись на IP сервера (и `www`, если нужен).
-  Проверка: `dig +short industrialprofi.com` должен вернуть IP.
-- **GitHub PAT** (Settings → Developer settings → Tokens classic) с правом
-  `write:packages` — для реестра образов ghcr.io.
-- **SMTP-провайдер** — почта обязательна: без неё не работают регистрация
-  (код на email), сброс пароля и алерты об ошибках. Подойдёт любой
-  транзакционный SMTP, работающий с RU-доменами (например, smtp.mail.ru
-  для бизнеса / Unisender / Mailopost).
+- **VPS** — 2 GB RAM is enough (SQLite, single container). A clean Ubuntu LTS,
+  root access over an SSH key. No need to install Docker — Kamal installs it.
+- **Domain** `industrialprofi.com` — an A record pointing at the server IP (and
+  `www` if you want it). Check: `dig +short industrialprofi.com` returns the IP.
+- **GitHub PAT** (Settings → Developer settings → Tokens classic) with the
+  `write:packages` scope — for the ghcr.io image registry.
+- **SMTP provider** — mail is mandatory: without it, registration (the emailed
+  code), password reset, and error alerts don't work. Any transactional SMTP that
+  delivers to RU domains works (e.g. smtp.mail.ru for business / Unisender /
+  Mailopost).
 
-## 1. Секреты
+## 1. Secrets
 
 ```bash
-# SMTP — в шифрованные credentials (понадобится config/master.key):
+# SMTP — into encrypted credentials (needs config/master.key):
 bin/rails credentials:edit
 ```
 
 ```yaml
-# добавить блок:
+# add the block:
 smtp:
   address: smtp.example.com
   port: 587
@@ -35,71 +35,73 @@ smtp:
 ```
 
 ```bash
-# Токен реестра — в окружение шелла (НЕ в git):
-export KAMAL_REGISTRY_PASSWORD=ghp_...   # положи в ~/.bashrc
+# Registry token — into the shell environment (NOT in git):
+export KAMAL_REGISTRY_PASSWORD=ghp_...   # put it in ~/.bashrc
 ```
 
-`config/master.key` не коммитится — храни копию в менеджере паролей.
+`config/master.key` is not committed — keep a copy in a password manager.
 
-## 2. Конфиг
+## 2. Config
 
-В `config/deploy.yml` заменить два TODO: IP сервера (`servers.web`) и
-username на ghcr.io. Больше там трогать нечего.
+In `config/deploy.yml` replace the two TODOs: the server IP (`servers.web`) and
+the ghcr.io username. Nothing else there needs touching.
 
-## 3. Первый деплой
+## 3. First deploy
 
 ```bash
-bin/kamal setup        # ставит Docker на сервер, собирает образ, поднимает
-                       # kamal-proxy c Let's Encrypt, запускает приложение;
-                       # БД создаётся и мигрируется автоматически на старте
+bin/kamal setup        # installs Docker on the server, builds the image, brings
+                       # up kamal-proxy with Let's Encrypt, starts the app;
+                       # the DB is created and migrated automatically on boot
 ```
 
-Создать первого администратора и контент:
+Create the first administrator and the content:
 
 ```bash
 ADMIN_EMAIL=... ADMIN_PASSWORD=... bin/kamal app exec "bin/rails db:seed"
 ```
 
-## 4. Smoke-тест (не пропускать)
+## 4. Smoke test (don't skip)
 
-1. `https://industrialprofi.com/up` → 200, замок в браузере валидный.
-2. Зарегистрироваться с настоящей почтой — код должен прийти (это проверяет SMTP).
-3. Войти админом → `/admin` открывается.
-4. Отметить любой урок пройденным, создать запись в дневнике с фото.
-5. Проверить алерты: `bin/kamal console` → `Rails.error.report(RuntimeError.new("deploy smoke test"), handled: false)` — письмо должно прийти администратору.
+1. `https://industrialprofi.com/up` → 200, the browser lock icon is valid.
+2. Register with a real mailbox — the code must arrive (this verifies SMTP).
+3. Sign in as admin → `/admin` opens.
+4. Mark any lesson as done, create a journal entry (text-only).
+5. Check alerts: `bin/kamal console` →
+   `Rails.error.report(RuntimeError.new("deploy smoke test"), handled: false)` —
+   an email must reach an administrator.
 
-## 5. Сразу после первого деплоя
+## 5. Right after the first deploy
 
-- **Бэкапы — обязательно, до того как появятся живые пользователи.**
-  Данные лежат на хосте в docker-томе
-  `/var/lib/docker/volumes/industrialprofi_storage/_data` (SQLite-базы + фото).
-  Минимум — ежедневный cron на сервере (`apt install sqlite3 rclone`):
+- **Backups — mandatory, before any real users exist.** Data lives on the host
+  in the docker volume
+  `/var/lib/docker/volumes/industrialprofi_storage/_data` (the SQLite databases).
+  At minimum, a daily cron on the server (`apt install sqlite3 rclone`):
   ```bash
-  # .backup консистентен даже под нагрузкой (онлайн backup API SQLite)
+  # .backup is consistent even under load (SQLite online backup API)
   sqlite3 /var/lib/docker/volumes/industrialprofi_storage/_data/production.sqlite3 \
     ".backup /root/backups/production-$(date +%F).sqlite3"
-  rclone sync /root/backups remote:industrialprofi-backups          # БД
-  # фото Active Storage лежат в том же томе (hashed-подпапки) — синхронизируем
-  # всё, кроме самих sqlite-файлов (их бэкапит .backup выше):
-  rclone sync --exclude "*.sqlite3*" \
-    /var/lib/docker/volumes/industrialprofi_storage/_data remote:industrialprofi-files
+  rclone sync /root/backups remote:industrialprofi-backups
   ```
-  Правильнее — Litestream (потоковая репликация SQLite в S3) как Kamal
-  accessory; настроить при первой же свободной сессии. Бэкап без проверки
-  восстановления не считается бэкапом — раз в квартал разворачивай дамп локально.
-- **Внешний uptime-мониторинг:** UptimeRobot (бесплатный) на
-  `https://industrialprofi.com/up`, алерт на почту/Telegram. Внутренний
-  мониторинг ошибок уже встроен (`lib/error_subscriber.rb` шлёт письма админам).
-- Записать в continuity-документ: доступы к VPS, домену, реестру, SMTP,
-  master.key — чтобы проект мог пережить «автобусный фактор».
+  Active Storage blobs are ≈0 (journal uploads were removed), so the SQLite
+  databases are the whole dataset. The better option is Litestream (streaming
+  SQLite replication to S3) as a Kamal accessory — set it up at the first free
+  moment. A backup you've never restored isn't a backup — restore a dump locally
+  once a quarter.
+- **External uptime monitoring:** UptimeRobot (free) on
+  `https://industrialprofi.com/up`, alerting to email/Telegram. Internal error
+  monitoring is already built in (`lib/error_subscriber.rb` emails admins).
+- Record the access for VPS, domain, registry, SMTP, and `master.key`
+  **out-of-band** (a password manager) so the project can survive the bus factor.
+  Per a recorded decision, this never lives in the repo.
 
-## Рутина
+## Routine
 
 ```bash
-bin/kamal deploy       # каждый следующий деплой (зелёный CI — обязателен до)
-bin/kamal logs         # хвост логов
-bin/kamal console      # rails console на проде
-bin/kamal rollback     # откат на предыдущий образ, если деплой плохой
+bin/kamal deploy       # every subsequent deploy (a green CI is required first)
+bin/kamal logs         # tail the logs
+bin/kamal console      # rails console on production
+bin/kamal rollback     # roll back to the previous image if a deploy is bad
 ```
 
-Правило из VISION: ship weekly — деплой не событие, а рутина.
+The rule from VISION: ship weekly — a deploy is routine, not an event.
+</content>

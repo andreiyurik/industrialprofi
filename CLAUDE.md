@@ -79,7 +79,8 @@ app/views/                 # ERB templates + Turbo Frame/Stream partials
 app/javascript/controllers/# Stimulus controllers
 app/assets/stylesheets/    # all CSS, loaded individually by stylesheet_link_tag :all
 db/migrate/                # migrations = source of truth for schema
-docs/                      # VISION.md, MVP.md, DEPLOY.md, content prompts
+docs/                      # English project docs (VISION.md, DEPLOY.md)
+prompts/                   # reusable content-authoring prompts (RU content tooling)
 ```
 
 ## Content architecture
@@ -278,8 +279,9 @@ per file; cascade is filename-alphabetical (prefix bedrock with `_`).
 
 ## Feature map
 
-Each line is one shipped subsystem — see `docs/MVP.md` for the detailed "what
-shipped" ledger and rationale, and git history for when.
+Each line is one shipped subsystem. For *when* and the full commit rationale, use
+git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
+`docs/VISION.md → Roadmap & scope`.
 
 - **Accounts & progress (v0.2):** registration/login, binary `LessonCompletion`
   ("Отметить пройденным" via Turbo Stream), per-stage/per-path progress bars,
@@ -368,11 +370,19 @@ moderated public portfolio.
 
 ## Docs
 
-- `docs/VISION.md` — what we're building, for whom, why (incl. business model)
-- `docs/MVP.md` — phased rollout + the canonical "what shipped" status note
+**Documentation is English-only, in the style of mature open-source projects.**
+README / CONTRIBUTING / CLAUDE / `docs/` describe the project and how to work on
+it for any contributor — knowing English (or using a translator) is assumed, so
+we keep no parallel translations. The one carve-out: the **prompts in `prompts/`
+are content tooling, not documentation** — they stay in Russian because they
+generate the Russian-first lesson content. Keep new docs concise: one home per
+fact, no changelog prose (git history covers "when").
+
+- `docs/VISION.md` — what we're building, for whom, why (incl. business model +
+  the forward roadmap and the "not building" list)
 - `docs/DEPLOY.md` — first-deploy runbook (Kamal, SMTP, backups, monitoring)
-- `docs/CONTENT_PROMPT.md` / `LESSON_DEEPEN_PROMPT.md` / `IMAGE_PROMPT.md` —
-  reusable content-authoring prompts
+- `prompts/CONTENT_PROMPT.md` / `LESSON_DEEPEN_PROMPT.md` / `IMAGE_PROMPT.md` —
+  reusable content-authoring prompts (Russian tooling, per the rule above)
 - The public roadmap is the `/roadmap` page (`ru.yml → roadmap:`) — update it when
   shipping user-visible features
 </content>

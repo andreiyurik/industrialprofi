@@ -12,7 +12,7 @@ the way real craftsmen actually learn: by reading official standards
 [![Ruby 4.0](https://img.shields.io/badge/Ruby-4.0-CC342D.svg)](.ruby-version)
 [![Rails 8.1](https://img.shields.io/badge/Rails-8.1-D30001.svg)](Gemfile)
 
-[Русский](README.ru.md) · [Vision](docs/VISION.md) · [Roadmap](docs/MVP.md)
+[Vision](docs/VISION.md) · [Roadmap](docs/VISION.md#roadmap--scope)
 
 </div>
 
@@ -97,7 +97,8 @@ app/views/                  # ERB templates + Turbo Frame/Stream partials
 app/javascript/controllers/ # Stimulus controllers
 app/assets/stylesheets/     # all CSS — one self-contained file per component
 db/migrate/                 # migrations = source of truth for schema
-docs/                       # VISION.md, MVP.md, DEPLOY.md, content-authoring prompts
+docs/                       # VISION.md, DEPLOY.md (English project docs)
+prompts/                    # reusable content-authoring prompts (content tooling)
 ```
 
 Content hierarchy:
@@ -109,7 +110,8 @@ User  →  LessonCompletion  (binary: the row exists = the lesson is done)
 
 ## Roadmap
 
-IndustrialProfi ships in phases — see [docs/MVP.md](docs/MVP.md):
+IndustrialProfi ships in phases — the forward roadmap lives in
+[docs/VISION.md → Roadmap & scope](docs/VISION.md#roadmap--scope):
 
 - **v0.1 — shipped:** static catalog (professions → courses → lessons, public, SEO-first)
 - **v0.2 — shipped:** accounts, binary progress, dashboard, practice journal,
@@ -117,9 +119,8 @@ IndustrialProfi ships in phases — see [docs/MVP.md](docs/MVP.md):
 - **v0.3 — next:** community-authored content (draft → review → published),
   search, public profiles
 
-The user-facing roadmap lives at `/roadmap` on the site itself.
-
-The full product thinking lives in [docs/VISION.md](docs/VISION.md).
+The user-facing roadmap lives at `/roadmap` on the site itself; the full product
+thinking lives in [docs/VISION.md](docs/VISION.md).
 
 ## Contributing
 
