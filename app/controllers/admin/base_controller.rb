@@ -64,6 +64,15 @@ module Admin
         @unread_feedbacks_count ||= Feedback.unread.count
       end
 
+      # Append-only transparency log — our Special:Log. Records a privileged
+      # action over people or moderation so it stays reviewable. The
+      # human-readable bits are denormalized into `details` so the entry keeps
+      # its meaning even if the actor or target is later deleted. Call inside
+      # the same transaction as the action it records, so they commit together.
+      def record_admin_action(action, target: nil, **details)
+        AdminAction.create!(actor: Current.user, action: action, target: target, details: details)
+      end
+
       def ensure_can_edit_content
         redirect_to root_path, alert: t("auth.not_authorized") unless Current.user.can_edit_content?
       end

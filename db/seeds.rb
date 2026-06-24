@@ -45,4 +45,8 @@ if Rails.env.development?
       admin@example.com  — administrator (/admin)
       user@example.com   — member (#{member.lesson_completions.count} lessons completed)
   LOGINS
+
+  # Richer, production-like demo cohort (members/experts/admins + activity,
+  # journals, feedback and community edits). Idempotent; development-only.
+  load Rails.root.join("db/seeds/development_demo.rb")
 end

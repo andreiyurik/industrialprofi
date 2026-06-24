@@ -286,6 +286,29 @@ widget — a solo founder can't honor chat expectations, async + honest reply
 SLA wins (see Campfire discussion). `MAIL_REPLY_TO` env sets the founder's
 reply-to on all outgoing mail.
 
+**Admin action log (built 2026-06-24 — our `Special:Log`):** `AdminAction` is an
+append-only transparency log of privileged actions over PEOPLE and MODERATION —
+role changes, profession grants, suggestion approve/reject, lesson rollback — the
+second audit trail alongside `LessonRevision` (which covers content). Viewed at
+`/admin/log` (administrator-only, in the admin nav). Recorded via
+`Admin::BaseController#record_admin_action(action, target:, **details)` inside the
+same transaction as the mutation; human-readable facts are **denormalized into the
+`details` JSON** (subject name, role/section keys, titles) so each entry reads
+correctly forever even if actor/target is later deleted. `actor` FK is
+`on_delete: :nullify` (the log outlives an admin's self-deletion); rows are
+immutable (`readonly? = persisted?`, like `LessonRevision`). This came from an
+admin-functional architecture review (vs. Wikipedia/MediaWiki mechanics). **Recorded
+framing:** adopt wiki *data* mechanics (immutable history + transparency log), NOT
+its *social* governance machine (arbitration, RfA voting, granular permission tiers,
+checkuser) — that's for thousands of adversarial admins and violates «ровно столько
+механик». **Future seam:** admin-only now, but written so it *could* go public
+(don't log anything unshowable) — public logs build trust in open projects.
+Reviewed-but-not-yet-built next steps: a user detail page + **suspend/force-logout**
+(Writebook's `User#deactivate` = `sessions.delete_all` + `active: false` is the
+pattern), a dashboard **disk metric on the SQLite file size + free space** (not
+`ActiveStorage::Blob` bytes, ≈0 since journal photos were removed), a Solid Queue
+health block, and turbo-confirm on promote-to-admin.
+
 **Monetization (recorded decision, June 2026):** v0.4 certificates are
 DEFERRED; materials stay free/open forever; retention & satisfaction before
 revenue. Candidate paths (all demand-gated) in `docs/VISION.md` → Business

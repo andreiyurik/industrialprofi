@@ -1138,6 +1138,7 @@ ru:
     manage_lessons: "Уроки"
     manage_users: "Пользователи"
     manage_feedbacks: "Сообщения"
+    manage_log: "Журнал"
     feedbacks_none: "Пока сообщений нет — они появятся, когда читатели начнут писать."
     feedback_from_page: "Со страницы"
     feedback_reply: "Ответить на почту"
@@ -1157,6 +1158,22 @@ ru:
       access_legend: "Какие профессии может редактировать:"
       access_save: "Сохранить доступ"
       access_updated: "Доступ к профессиям обновлён: %{name}"
+    log:
+      title: "Журнал действий"
+      subtitle: "Кто что сделал с пользователями и правками. Записи добавляются навсегда и не редактируются."
+      none: "Пока действий администраторов не записано."
+      actor_deleted: "удалённый администратор"
+      actions:
+        user_role_changed: "Роль изменена: %{subject} — %{from} → %{to}"
+        user_access_changed: "Доступ к профессиям изменён: %{subject} (%{paths})"
+        user_access_cleared: "Доступ к профессиям снят: %{subject}"
+        suggestion_approved: "Правка одобрена: «%{lesson}» (%{section})"
+        suggestion_rejected: "Правка отклонена: «%{lesson}» (%{section})"
+        lesson_rolled_back: "Откат урока «%{lesson}» к версии %{version}"
+      sections:
+        body: "содержание"
+        task: "задание"
+        description: "описание"
     pagination:
       label: "Постранично"
       newer: "Новее"

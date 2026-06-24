@@ -1,0 +1,36 @@
+<% meta_title(t("admin.log.title")) %>
+
+<section class="admin-page">
+  <div class="container">
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-header">
+      <div class="admin-header__title-group">
+        <h1 class="admin-header__title"><%= t("admin.log.title") %></h1>
+        <p class="admin-header__subtitle"><%= t("admin.log.subtitle") %></p>
+      </div>
+    </div>
+
+    <% if @admin_actions.none? %>
+      <div class="admin-empty">
+        <p class="admin-empty__text"><%= t("admin.log.none") %></p>
+      </div>
+    <% else %>
+      <div class="admin-list">
+        <% @admin_actions.each do |entry| %>
+          <div class="admin-row admin-row--static">
+            <span class="admin-row__column">
+              <span class="admin-row__title"><%= admin_action_description(entry) %></span>
+              <p class="admin-row__subtle">
+                <%= entry.actor&.name || t("admin.log.actor_deleted") %> ·
+                <time datetime="<%= entry.created_at.iso8601 %>"><%= l(entry.created_at, format: :long) %></time>
+              </p>
+            </span>
+          </div>
+        <% end %>
+      </div>
+
+      <%= render "admin/shared/pagination", page: @page, more: @has_more %>
+    <% end %>
+  </div>
+</section>

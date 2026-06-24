@@ -74,6 +74,7 @@ Rails.application.routes.draw do
     resources :imports, only: [ :new, :create ]
     resources :users, only: [ :index, :update ]
     resources :feedbacks, only: [ :index ]
+    get "log" => "admin_actions#index", as: :log
     resources :lesson_suggestions, only: [ :index, :show ] do
       member do
         patch :approve
