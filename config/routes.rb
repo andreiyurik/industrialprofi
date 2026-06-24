@@ -72,7 +72,7 @@ Rails.application.routes.draw do
     resources :paths, only: [ :index, :new, :create, :edit, :update ], param: :slug
     resources :courses, only: [ :index, :new, :create, :edit, :update ], param: :slug
     resources :imports, only: [ :new, :create ]
-    resources :users, only: [ :index, :update ] do
+    resources :users, only: [ :index, :show, :update ] do
       resource :suspension, only: [ :create, :destroy ]
     end
     resources :feedbacks, only: [ :index ]

@@ -26,7 +26,7 @@ class Admin::SuspensionsControllerTest < ActionDispatch::IntegrationTest
     assert_difference -> { AdminAction.where(action: "user_suspended").count }, 1 do
       post admin_user_suspension_path(member)
     end
-    assert_redirected_to admin_users_path
+    assert_redirected_to admin_user_path(member)
     assert member.reload.suspended?
     assert_equal 0, member.sessions.count
   end

@@ -45,6 +45,50 @@
   white-space: nowrap;
 }
 
+/* Stacked header: back-link / title / subtitle in a column (user card, log). */
+.admin-header__title-group--stacked {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  .admin-header__title {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    overflow: visible;
+    white-space: normal;
+  }
+}
+
+.admin-back {
+  color: var(--color-subtle-dark);
+  font-size: 0.875rem;
+}
+
+/* User name as a quiet link to their card — stays ink-coloured, underlines on hover. */
+.admin-row__link {
+  color: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.admin-header__subtitle {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  margin-block: 0;
+}
+
+/* User card — management controls grouped above the read-only snapshot. */
+.admin-user__manage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-space);
+  margin-block-end: var(--block-space-double);
+}
+
 .admin-header__actions {
   display: flex;
   flex-shrink: 0;
@@ -411,6 +455,59 @@
   }
 }
 
+/* Role filter tabs — chips with a live count; the active one fills like a
+   primary button so the current scope is unmistakable. */
+.admin-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--inline-space-half);
+  margin-block-end: var(--block-space);
+}
+
+.admin-filter {
+  align-items: center;
+  border: 1px solid var(--color-subtle);
+  border-radius: 2rem;
+  color: var(--color-ink);
+  display: inline-flex;
+  gap: 0.5ch;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding-block: 0.3rem;
+  padding-inline: 0.85rem;
+
+  &:hover {
+    background-color: var(--color-subtle-light);
+  }
+}
+
+.admin-filter--active {
+  background-color: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-bg);
+
+  &:hover {
+    background-color: var(--color-ink);
+  }
+}
+
+.admin-filter__count {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+
+  .admin-filter--active & {
+    color: var(--color-bg);
+    opacity: 0.7;
+  }
+}
+
+.admin-list__summary {
+  color: var(--color-subtle-dark);
+  font-size: 0.875rem;
+  margin-block: 0 var(--block-space-half);
+}
+
 .admin-role-form {
   display: flex;
   flex-shrink: 0;
@@ -463,6 +560,16 @@
 .admin-stat__label {
   display: block;
   font-weight: 600;
+}
+
+/* Vital-sign warning: low disk or failed jobs — red value + border so it reads
+   as "needs attention" at a glance among the calm monochrome cards. */
+.admin-stat--warn {
+  border-color: oklch(var(--lch-red) / 0.55);
+
+  .admin-stat__value {
+    color: var(--color-negative);
+  }
 }
 
 .admin-stat__detail {

@@ -1,20 +1,27 @@
 <%# Lightweight offset pager for admin lists ordered newest-first. Locals:
-    page (current 1-based page), more (is there an older page?). Preserves the
-    search query. Renders nothing when everything fits on one page. %>
+    page (current 1-based page), more (is there an older page?), and optional
+    pages (total page count → shows "page X of Y"). Preserves ALL current query
+    params (search + filters). Renders nothing when everything fits on one page. %>
 <% if page > 1 || more %>
   <nav class="admin-pagination" aria-label="<%= t("admin.pagination.label") %>">
     <% if page > 1 %>
-      <%= link_to url_for(q: params[:q], page: page - 1), class: "btn btn--small" do %>
+      <%= link_to url_for(request.query_parameters.merge(page: page - 1)), class: "btn btn--small" do %>
         ← <%= t("admin.pagination.newer") %>
       <% end %>
     <% else %>
       <span></span>
     <% end %>
 
-    <span class="admin-pagination__page"><%= t("admin.pagination.page", n: page) %></span>
+    <span class="admin-pagination__page">
+      <% if local_assigns[:pages] %>
+        <%= t("admin.pagination.page_of", n: page, total: pages) %>
+      <% else %>
+        <%= t("admin.pagination.page", n: page) %>
+      <% end %>
+    </span>
 
     <% if more %>
-      <%= link_to url_for(q: params[:q], page: page + 1), class: "btn btn--small" do %>
+      <%= link_to url_for(request.query_parameters.merge(page: page + 1)), class: "btn btn--small" do %>
         <%= t("admin.pagination.older") %> →
       <% end %>
     <% else %>

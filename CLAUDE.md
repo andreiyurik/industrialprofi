@@ -303,9 +303,19 @@ its *social* governance machine (arbitration, RfA voting, granular permission ti
 checkuser) — that's for thousands of adversarial admins and violates «ровно столько
 механик». **Future seam:** admin-only now, but written so it *could* go public
 (don't log anything unshowable) — public logs build trust in open projects.
-Reviewed-but-not-yet-built next steps: a user detail page, a dashboard **disk
-metric on the SQLite file size + free space** (not `ActiveStorage::Blob` bytes, ≈0
-since journal photos were removed), and a Solid Queue health block.
+**Admin observability (built 2026-06-24):** `SystemStatus` (a PORO, like
+`RevisionDiff`) feeds the dashboard the single VPS's vital signs — **disk safety**
+(free space headline + the real SQLite footprint = sum of `storage/*.sqlite3*`,
+since Active Storage blobs are ≈0 after uploads were removed; free space via a
+memoized `df`, red below 1 GB) and **Solid Queue health** (pending + failed job
+counts; the queue runs in its own DB only in production, so the card self-hides in
+dev/test — every probe is `rescue`-guarded and returns nil rather than raising).
+The old misleading "Фото в журналах" blob metric is gone. The founder's
+**user detail card** (`admin/users/:id`) makes moderation sighted: profile +
+role/access/suspend controls, a snapshot (completions, journal, accepted
+contributions, feedback sent), progress per profession, **active sessions**
+(IP/device/last-active — the data behind force-logout), and recent activity.
+User names in the list link to it.
 
 **User suspension (built 2026-06-24 — reversible ban):** `users.suspended_at`
 (nil = active). `User#suspend!` revokes every session (`sessions.delete_all`) and

@@ -18,7 +18,9 @@ module Admin
       @completions_total = LessonCompletion.count
       @completions_week = LessonCompletion.where(created_at: 7.days.ago..).count
       @journal_entries_total = JournalEntry.count
-      @storage_bytes = ActiveStorage::Blob.sum(:byte_size)
+
+      # Disk safety + background-job health — the one-server VPS's vital signs.
+      @status = SystemStatus.new
 
       @paths_published = Path.published.count
       @paths_total = Path.count

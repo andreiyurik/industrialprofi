@@ -15,7 +15,7 @@ module Admin
         @user.suspend!
         record_admin_action("user_suspended", target: @user, subject: @user.name)
       end
-      redirect_to admin_users_path, notice: t("admin.users.suspended", name: @user.name)
+      redirect_to admin_user_path(@user), notice: t("admin.users.suspended", name: @user.name)
     end
 
     def destroy
@@ -23,7 +23,7 @@ module Admin
         @user.reinstate!
         record_admin_action("user_reinstated", target: @user, subject: @user.name)
       end
-      redirect_to admin_users_path, notice: t("admin.users.reinstated", name: @user.name)
+      redirect_to admin_user_path(@user), notice: t("admin.users.reinstated", name: @user.name)
     end
 
     private

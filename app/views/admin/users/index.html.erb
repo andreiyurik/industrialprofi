@@ -8,7 +8,28 @@
       <h1 class="admin-header__title"><%= t("admin.users_title") %></h1>
     </div>
 
+    <%# Filter tabs — one query param each, search preserved. Switching a filter
+        resets to page 1. Counts come from a single grouped query. %>
+    <% filters = [
+         [ t("admin.users.filter_all"),          {},                       @counts[:all],           params[:role].blank? && params[:status].blank? ],
+         [ t("admin.roles.member"),               { role: "member" },        @counts[:member],        params[:role] == "member" ],
+         [ t("admin.roles.editor"),               { role: "editor" },        @counts[:editor],        params[:role] == "editor" ],
+         [ t("admin.roles.administrator"),        { role: "administrator" }, @counts[:administrator], params[:role] == "administrator" ],
+         [ t("admin.users.filter_suspended"),     { status: "suspended" },   @counts[:suspended],     params[:status] == "suspended" ]
+       ] %>
+    <nav class="admin-filters" aria-label="<%= t("admin.users.filter_label") %>">
+      <% filters.each do |label, query, count, active| %>
+        <%= link_to url_for(query.merge(q: params[:q].presence)),
+              class: "admin-filter#{' admin-filter--active' if active}",
+              aria: { current: ("page" if active) } do %>
+          <%= label %><span class="admin-filter__count"><%= count %></span>
+        <% end %>
+      <% end %>
+    </nav>
+
     <%= form_with url: admin_users_path, method: :get, class: "admin-users-search" do %>
+      <%= hidden_field_tag :role, params[:role] if params[:role].present? %>
+      <%= hidden_field_tag :status, params[:status] if params[:status].present? %>
       <%= text_field_tag :q, params[:q], class: "input",
             placeholder: t("admin.users_search_placeholder") %>
       <%= submit_tag t("admin.users_search"), class: "btn" %>
@@ -19,9 +40,13 @@
         <p class="admin-empty__text"><%= t("admin.users_none") %></p>
       </div>
     <% else %>
+      <p class="admin-list__summary"><%= t("admin.users.found", count: @total) %></p>
+
       <div class="admin-list">
         <% @users.each do |user| %>
-          <div class="admin-row admin-row--static">
+          <%# Scan-and-navigate row: name + state, click through to manage. All
+              role/access/suspend controls live on the user card now. %>
+          <a href="<%= admin_user_path(user) %>" class="admin-row">
             <span class="admin-row__column">
               <span class="admin-row__line">
                 <span class="admin-row__title"><%= user.name %></span>
@@ -31,59 +56,20 @@
                 <% if user.suspended? %>
                   <span class="badge badge--draft"><%= t("admin.users.suspended_badge") %></span>
                 <% end %>
+                <% if user == Current.user %>
+                  <span class="badge badge--draft"><%= t("admin.users_you") %></span>
+                <% end %>
               </span>
               <p class="admin-row__subtle">
                 <%= user.email_address %> · <%= l(user.created_at, format: :long) %>
               </p>
             </span>
-
-            <% if user == Current.user %>
-              <span class="admin-row__subtle"><%= t("admin.users_you") %></span>
-            <% else %>
-              <div class="admin-row__actions">
-                <%= form_with url: admin_user_path(user), method: :patch, class: "admin-role-form" do %>
-                  <%= select_tag "user[role]",
-                        options_for_select(User.roles.keys.map { |r| [ t("admin.roles.#{r}"), r ] }, user.role),
-                        class: "input" %>
-                  <%= submit_tag t("admin.save"), class: "btn btn--small" %>
-                <% end %>
-
-                <%# Reversible ban — revokes sessions + blocks login. %>
-                <% if user.suspended? %>
-                  <%= button_to t("admin.users.reinstate"), admin_user_suspension_path(user),
-                        method: :delete, class: "btn btn--small" %>
-                <% else %>
-                  <%= button_to t("admin.users.suspend"), admin_user_suspension_path(user),
-                        method: :post, class: "btn btn--small btn--negative",
-                        form: { data: { turbo_confirm: t("admin.users.suspend_confirm", name: user.name) } } %>
-                <% end %>
-              </div>
-            <% end %>
-          </div>
-
-          <%# Per-profession edit access — only meaningful for experts (admins
-              edit everything, members can't reach the admin). %>
-          <% if user.editor? && user != Current.user %>
-            <%= form_with url: admin_user_path(user), method: :patch, class: "admin-access" do %>
-              <p class="admin-access__legend"><%= t("admin.users.access_legend") %></p>
-              <%# Empty value so unticking every box clears all access. %>
-              <%= hidden_field_tag "user[editable_path_ids][]", "" %>
-              <div class="admin-access__options">
-                <% @paths.each do |path| %>
-                  <label class="admin-access__option">
-                    <%= check_box_tag "user[editable_path_ids][]", path.id,
-                          user.editorships.any? { |e| e.path_id == path.id } %>
-                    <span><%= path.title %></span>
-                  </label>
-                <% end %>
-              </div>
-              <%= submit_tag t("admin.users.access_save"), class: "btn btn--small" %>
-            <% end %>
-          <% end %>
+            <span class="admin-row__meta">→</span>
+          </a>
         <% end %>
       </div>
 
-      <%= render "admin/shared/pagination", page: @page, more: @has_more %>
+      <%= render "admin/shared/pagination", page: @page, more: @has_more, pages: @pages %>
     <% end %>
   </div>
 </section>
