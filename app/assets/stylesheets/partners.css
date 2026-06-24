@@ -1,0 +1,137 @@
+/* /partners — companies & organizations who support the project. Adaptive:
+   an invitation while empty, a simple grid with a few entries, and a tiered
+   wall once there are many. Pure curated content, no user uploads. */
+.partners-hero {
+  text-align: center;
+}
+
+.partners-hero__title {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 700;
+  margin-block: 0;
+}
+
+.partners-hero__intro {
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+  margin-block: 1.25rem 0;
+  margin-inline: auto;
+  max-inline-size: 38rem;
+}
+
+/* Invitation state (no partners yet) — forward-looking, not an empty roster. */
+.partners-invite {
+  color: var(--color-ink);
+  line-height: 1.6;
+  margin-block: 3rem;
+  text-align: center;
+}
+
+/* ── A tier section (only rendered when it has entries) ───────────────── */
+.partners-tier {
+  margin-block-start: 3rem;
+}
+
+/* Centred label with hairlines either side — the roadmap.sh / Linux Mint feel. */
+.partners-tier__label {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  display: flex;
+  font-size: 0.78rem;
+  font-weight: 700;
+  gap: 1rem;
+  letter-spacing: 0.09em;
+  margin-block: 0 1.75rem;
+  text-align: center;
+  text-transform: uppercase;
+
+  &::before,
+  &::after {
+    background-color: var(--color-subtle);
+    block-size: 1px;
+    content: "";
+    flex: 1;
+  }
+}
+
+.partners-grid {
+  align-items: center;
+  display: grid;
+  gap: 1.5rem 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+}
+
+@media (min-width: 700px) {
+  .partners-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.partner__link {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.partner__logo {
+  block-size: auto;
+  max-block-size: 3.5rem;
+  max-inline-size: 100%;
+  /* Curated logos render on a dark page; keep them legible without per-logo work. */
+  object-fit: contain;
+}
+
+.partner__name {
+  color: var(--color-ink);
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ── Independence firewall + CTA panels ──────────────────────────────── */
+.partners-independence {
+  margin-block-start: 3rem;
+}
+
+.partners-independence__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-block: 0 0.6rem;
+}
+
+.partners-independence__text {
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+  margin-block: 0;
+}
+
+.partners-cta {
+  margin-block-start: 1.5rem;
+  text-align: center;
+}
+
+.partners-cta__title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-block: 0 0.75rem;
+}
+
+.partners-cta__text {
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+  margin-block: 0 1.5rem;
+  margin-inline: auto;
+  max-inline-size: 40rem;
+}
+
+.partners-cta__links {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}

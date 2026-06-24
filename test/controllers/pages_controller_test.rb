@@ -77,4 +77,20 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     get root_path
     assert_select "footer.footer a[href=?]", faq_path, text: I18n.t("nav.faq")
   end
+
+  test "partners page shows the invitation (not an empty roster) and the independence policy" do
+    get partners_path
+    assert_response :success
+    assert_select "h1.partners-hero__title", text: I18n.t("partners.title")
+    # No partners yet → forward-looking invitation, and NO empty tier headings.
+    assert_select ".partners-invite", text: I18n.t("partners.empty_invite")
+    assert_select ".partners-tier", count: 0
+    # The trust firewall is stated on the page itself.
+    assert_includes @response.body, I18n.t("partners.independence_title")
+  end
+
+  test "footer exposes the partners link on every page" do
+    get root_path
+    assert_select "footer.footer a[href=?]", partners_path, text: I18n.t("nav.partners")
+  end
 end

@@ -120,16 +120,12 @@
   margin-block: 0 1rem;
 }
 
+/* auto-fit so the group lays out evenly whether it holds 3 (recurring) or 4
+   (one-time) cards — 2 per row on phones, all-in-a-row on wider screens. */
 .support-amounts {
   display: grid;
   gap: 0.75rem;
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 560px) {
-  .support-amounts {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
 }
 
 /* A quiet card-button: the sum anchors, the caption frames the impact. */
@@ -178,6 +174,28 @@
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
   margin-block: 2rem 0;
+}
+
+/* ── Companies pointer → /partners ───────────────────────────────────── */
+.support-company {
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75rem;
+  margin-inline: auto;
+  max-inline-size: 42rem;
+  padding: 1.75rem;
+  text-align: center;
+}
+
+.support-company__title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-block: 0 0.6rem;
+}
+
+.support-company__text {
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+  margin-block: 0 1.25rem;
 }
 
 /* ── Destination (vision) ────────────────────────────────────────────── */

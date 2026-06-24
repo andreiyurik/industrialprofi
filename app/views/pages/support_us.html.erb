@@ -35,8 +35,10 @@
       <div class="support-give__group">
         <p class="support-give__group-label"><%= t("support.give.recurring_label") %></p>
         <div class="support-amounts">
-          <% [["100", "r1"], ["300", "r2"], ["1000", "r3"]].each do |sum, key| %>
-            <a href="<%= site_config.donate_url %>" class="support-amount" target="_blank" rel="noopener">
+          <% [["100", "r1", site_config.boosty_supporter_url],
+              ["300", "r2", site_config.boosty_ally_url],
+              ["1000", "r3", site_config.boosty_pillar_url]].each do |sum, key, url| %>
+            <a href="<%= url %>" class="support-amount" target="_blank" rel="noopener">
               <span class="support-amount__sum"><%= sum %> ₽<span class="support-amount__period">/мес</span></span>
               <span class="support-amount__impact"><%= t("support.give.#{key}") %></span>
             </a>
@@ -47,7 +49,7 @@
       <div class="support-give__group">
         <p class="support-give__group-label"><%= t("support.give.onetime_label") %></p>
         <div class="support-amounts">
-          <% [["150", "o1"], ["500", "o2"], ["1500", "o3"]].each do |sum, key| %>
+          <% [["150", "o1"], ["500", "o2"], ["1500", "o3"], ["5000", "o4"]].each do |sum, key| %>
             <a href="<%= site_config.donate_url %>" class="support-amount" target="_blank" rel="noopener">
               <span class="support-amount__sum"><%= sum %> ₽</span>
               <span class="support-amount__impact"><%= t("support.give.#{key}") %></span>
@@ -61,6 +63,18 @@
   </div>
 </section>
 
+<%# Companies need a different rail (CloudTips caps at 5000 ₽ one-time) — point
+    them to /partners rather than an empty sponsor wall here. %>
+<section class="section">
+  <div class="container">
+    <div class="support-company">
+      <h2 class="support-company__title"><%= t("support.company_title") %></h2>
+      <p class="support-company__text"><%= t("support.company_text") %></p>
+      <a href="<%= partners_path %>" class="btn"><%= t("support.company_cta") %></a>
+    </div>
+  </div>
+</section>
+
 <%# Destination, not traction: sell where this is going (the platform-constructor
     ambition), framed honestly as direction — the donor funds a future. %>
 <section class="section">
@@ -68,17 +82,6 @@
     <div class="support-vision__inner">
       <h2 class="support-vision__title"><%= t("support.vision_title") %></h2>
       <p class="support-vision__text"><%= t("support.vision_text") %></p>
-    </div>
-  </div>
-</section>
-
-<%# Transparency PROMISE now; the first real report comes once there's something
-    to report — so nothing empty is ever shown. %>
-<section class="section">
-  <div class="container">
-    <div class="support-transparency__inner panel">
-      <h2 class="support-transparency__title"><%= t("support.transparency_title") %></h2>
-      <p class="support-transparency__text"><%= t("support.transparency_text") %></p>
     </div>
   </div>
 </section>
@@ -100,6 +103,10 @@
         <div>
           <h3 class="support-faq__question"><%= t("support.q_why_free") %></h3>
           <p class="support-faq__answer"><%= t("support.a_why_free") %></p>
+        </div>
+        <div>
+          <h3 class="support-faq__question"><%= t("support.q_paid") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_paid") %></p>
         </div>
         <div>
           <h3 class="support-faq__question"><%= t("support.q_surplus") %></h3>

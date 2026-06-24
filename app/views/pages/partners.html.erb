@@ -1,0 +1,60 @@
+<% meta_title(t("partners.title")) %>
+<% meta_description(t("partners.intro").truncate(160)) %>
+<% canonical_url("#{site_config.url}/partners") %>
+
+<section class="section">
+  <div class="container container--reading">
+    <div class="partners">
+      <header class="partners-hero">
+        <h1 class="partners-hero__title"><%= t("partners.title") %></h1>
+        <p class="partners-hero__intro"><%= t("partners.intro") %></p>
+      </header>
+
+      <% if @partners_by_tier.any? %>
+        <%# Only tiers that actually have entries render — no empty "Gold/Silver"
+            headings ever. The page grows into the tiered layout on its own. %>
+        <% PagesController::TIER_ORDER.each do |tier| %>
+          <% entries = @partners_by_tier[tier] %>
+          <% next if entries.blank? %>
+          <section class="partners-tier">
+            <h2 class="partners-tier__label"><%= t("partners.tiers.#{tier}") %></h2>
+            <ul class="partners-grid">
+              <% entries.each do |partner| %>
+                <li class="partner">
+                  <a href="<%= partner[:url] %>" class="partner__link" target="_blank" rel="noopener">
+                    <% if partner[:logo].present? %>
+                      <%= image_tag partner[:logo], alt: partner[:name], class: "partner__logo" %>
+                    <% else %>
+                      <span class="partner__name"><%= partner[:name] %></span>
+                    <% end %>
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+      <% else %>
+        <%# Invitation mode (no partners yet): forward-looking, never an empty roster. %>
+        <p class="partners-invite"><%= t("partners.empty_invite") %></p>
+      <% end %>
+
+      <%# The trust firewall, stated plainly — support is recognition, not
+          editorial influence. This is what keeps the trust the project runs on. %>
+      <div class="partners-independence panel">
+        <h2 class="partners-independence__title"><%= t("partners.independence_title") %></h2>
+        <p class="partners-independence__text"><%= t("partners.independence_text") %></p>
+      </div>
+
+      <%# Companies reach the founder directly — CloudTips caps at 5000 ₽ one-time,
+          so larger / recurring / corporate support is arranged here. %>
+      <div class="partners-cta panel">
+        <h2 class="partners-cta__title"><%= t("partners.cta_title") %></h2>
+        <p class="partners-cta__text"><%= t("partners.cta_text") %></p>
+        <div class="partners-cta__links">
+          <a href="mailto:<%= site_config.contact_email %>" class="btn btn--reversed"><%= t("partners.cta_primary") %></a>
+          <a href="<%= site_config.telegram_url %>" class="btn" target="_blank" rel="noopener"><%= t("partners.cta_secondary") %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

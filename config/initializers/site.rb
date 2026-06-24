@@ -7,6 +7,14 @@ site.author_url    = ENV.fetch("AUTHOR_URL", "https://github.com/yurik2718")
 site.donate_url    = ENV.fetch("DONATE_URL", "https://pay.cloudtips.ru/p/61fe8ef3")
 site.contact_email = ENV.fetch("CONTACT_EMAIL", "hello@industrialprofi.com")
 
+# Boosty: the main page plus a deep link per subscription level (Boosty's own
+# per-level "share" purchase links), so each recurring card on /support_us lands
+# straight on the matching tier. Re-create a tier on Boosty → update the env var.
+site.boosty_url           = ENV.fetch("BOOSTY_URL", "https://boosty.to/industrialprofi")
+site.boosty_supporter_url = ENV.fetch("BOOSTY_SUPPORTER_URL", "https://boosty.to/industrialprofi/purchase/3985879?ssource=DIRECT&share=subscription_link")
+site.boosty_ally_url      = ENV.fetch("BOOSTY_ALLY_URL", "https://boosty.to/industrialprofi/purchase/3985880?ssource=DIRECT&share=subscription_link")
+site.boosty_pillar_url    = ENV.fetch("BOOSTY_PILLAR_URL", "https://boosty.to/industrialprofi/purchase/3985881?ssource=DIRECT&share=subscription_link")
+
 # Search-engine ownership verification (Google Search Console / Яндекс.Вебмастер).
 # These codes are public by design (they ship in a <head> meta tag); set them via
 # ENV at deploy time. Blank = the tag is simply omitted. No tracking — these
