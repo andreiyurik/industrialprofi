@@ -59,6 +59,9 @@ Focus on professions with proven global demand. BlackRock's $100M Future Builder
 - Industrial mechanics (maintenance)
 - Power plant operators (energy)
 
+The full prioritized queue — with selection criteria and per-profession status —
+lives in `docs/PROFESSION_BACKLOG.md`.
+
 ### Positioning decision (June 2026): narrow wedge, wide ceiling
 
 - **Wedge (today):** industrial trades only. The homepage, tagline and catalog
@@ -89,6 +92,8 @@ Focus on professions with proven global demand. BlackRock's $100M Future Builder
 Schools give: theory → exam → diploma. The problem: a person gets a diploma but can't work. Employers know this.
 
 **Our advantage — we remove the middleman.** We don't write our own textbooks. We find the best existing resources (like roadmap.sh) and arrange them in the right order (like The Odin Project). This is the librarian model, not the teacher model.
+
+Sharpened, that librarian model is the heart of the project: we **assemble each profession from the countries that genuinely lead it** — German training structure, US volume, Japanese quality method, domain specialists (NL/NO/CH/DK) — and localize it to the CIS standard. The full sourcing strategy lives in `docs/SOURCING.md`.
 
 A school gives a 500-page textbook. We give: "read these 3 pages of ПУЭ and do this task." Concrete, practical, no filler.
 

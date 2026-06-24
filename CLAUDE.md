@@ -42,8 +42,17 @@ when convenience conflicts with them, they win:
   (a real practitioner co-authors a new profession), never founder-driven breadth.
 
 The long arc: a **"Wikipedia for professions"** — open content (CC BY-SA), open
-code (AGPL), built to outlive the founder and hold any complex modern profession
-(electrician today, agronomist/farmer tomorrow). A mechanic earns its place only
+code (AGPL), built to outlive the founder and hold any **knowledge-deep,
+genuinely-in-demand** profession (electrician today, agronomist/farmer tomorrow).
+The hard gates are **a shortage of *quality* people + real depth** (an
+apprentice→expert ladder). Standardization/regulation is the **preferred spine,
+not a gate**: where official standards (ГОСТ/СП/ISO…) exist they anchor the
+content; where they don't — common for hands-on trades — we curate the **proven
+best practice of the world's top specialists** (Germany, Japan, the Netherlands,
+the US…), honestly cited as best-practice, never invented. What's excluded is the
+*shallow* or the *un-sourceable*, not the merely unregulated — and a domain like
+construction still enters only decomposed into deep professions, never one shallow
+path. A mechanic earns its place only
 if it serves retention/engagement **without** adding cost or complexity — «ровно
 столько механик, сколько нужно, и ничего лишнего». The real bus-factor risk is
 **ops continuity**, not a missing feature (`docs/VISION.md`).
@@ -165,7 +174,10 @@ Path (profession)  author_id (nil = official); status: draft|pending_review|publ
    (≤160 chars). One self-contained sentence ≤155 chars that honestly answers
    *"why spend time on this"* AND opens with the topic in natural search phrasing
    (it does double duty: human motivation + SEO snippet). Don't keyword-stuff.
-2. **OFFICIAL DOCUMENTS** — curated links, ranked (★ required, ○ optional).
+2. **OFFICIAL DOCUMENTS** — curated links, ranked (★ required, ○ optional). Where
+   no official standard exists (common for hands-on trades), this section instead
+   ranks the best **proven-practice sources** — leading-specialist / leading-country
+   references — honestly labeled as best-practice, not as a binding standard.
 3. **PRACTICAL TASK** — a concrete, verifiable assignment.
 
 **Practice lessons (`kind: practice`)** add a `difficulty:` (beginner = paper/bench,
@@ -380,6 +392,11 @@ one home per fact, no changelog prose (git history covers "when").
 
 - `docs/VISION.md` — what we're building, for whom, why (incl. business model +
   the forward roadmap and the "not building" list)
+- `docs/PROFESSION_BACKLOG.md` — the prioritized to-do of which professions to
+  package next, with selection criteria and per-profession status
+- `docs/SOURCING.md` — where to draw best practice from, by country and trade
+  (German structure + US volume + Japanese method + domain specialists, localized
+  to CIS); the sourcing filter and the per-trade map
 - `docs/DEPLOY.md` — first-deploy runbook (Kamal, SMTP, backups, monitoring)
 - `tools/AUTHOR_PROFESSION.md` / `DEEPEN_LESSON.md` / `LESSON_IMAGES.md` —
   reusable content-authoring tools (Russian tooling, per the rule above)
