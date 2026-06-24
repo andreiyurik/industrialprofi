@@ -5,13 +5,80 @@
 <section class="section">
   <div class="container">
     <div class="support-hero">
+      <p class="support-hero__eyebrow"><%= t("support.eyebrow") %></p>
       <h1 class="support-hero__title"><%= t("support.title") %></h1>
       <p class="support-hero__lede"><%= t("support.intro") %></p>
+      <p class="support-hero__signal"><%= t("support.signal") %></p>
       <div class="support-hero__cta">
         <a href="<%= site_config.donate_url %>" class="btn btn--reversed btn--large" target="_blank" rel="noopener">
           <%= t("support.donate_cta") %>
         </a>
       </div>
+      <%# "Alive" signal for a pre-traction project: not usage numbers (which
+          would be empty), but visible momentum — the living roadmap + open code. %>
+      <p class="support-hero__alive">
+        <%= t("support.alive_html", roadmap_url: roadmap_path, github_url: site_config.github_url) %>
+      </p>
+    </div>
+  </div>
+</section>
+
+<%# The ask: recurring first (the real foundation), then one-time. Amounts are
+    honest anchors with soft impact captions — no donor counts, nothing that
+    reads empty at launch. %>
+<section class="section support-give">
+  <div class="container">
+    <div class="support-give__inner">
+      <h2 class="support-give__title"><%= t("support.give_title") %></h2>
+      <p class="support-give__lead"><%= t("support.give_lead") %></p>
+
+      <div class="support-give__group">
+        <p class="support-give__group-label"><%= t("support.give.recurring_label") %></p>
+        <div class="support-amounts">
+          <% [["100", "r1"], ["300", "r2"], ["1000", "r3"]].each do |sum, key| %>
+            <a href="<%= site_config.donate_url %>" class="support-amount" target="_blank" rel="noopener">
+              <span class="support-amount__sum"><%= sum %> ₽<span class="support-amount__period">/мес</span></span>
+              <span class="support-amount__impact"><%= t("support.give.#{key}") %></span>
+            </a>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="support-give__group">
+        <p class="support-give__group-label"><%= t("support.give.onetime_label") %></p>
+        <div class="support-amounts">
+          <% [["150", "o1"], ["500", "o2"], ["1500", "o3"]].each do |sum, key| %>
+            <a href="<%= site_config.donate_url %>" class="support-amount" target="_blank" rel="noopener">
+              <span class="support-amount__sum"><%= sum %> ₽</span>
+              <span class="support-amount__impact"><%= t("support.give.#{key}") %></span>
+            </a>
+          <% end %>
+        </div>
+      </div>
+
+      <p class="support-give__note"><%= t("support.give_note") %></p>
+    </div>
+  </div>
+</section>
+
+<%# Destination, not traction: sell where this is going (the platform-constructor
+    ambition), framed honestly as direction — the donor funds a future. %>
+<section class="section">
+  <div class="container">
+    <div class="support-vision__inner">
+      <h2 class="support-vision__title"><%= t("support.vision_title") %></h2>
+      <p class="support-vision__text"><%= t("support.vision_text") %></p>
+    </div>
+  </div>
+</section>
+
+<%# Transparency PROMISE now; the first real report comes once there's something
+    to report — so nothing empty is ever shown. %>
+<section class="section">
+  <div class="container">
+    <div class="support-transparency__inner panel">
+      <h2 class="support-transparency__title"><%= t("support.transparency_title") %></h2>
+      <p class="support-transparency__text"><%= t("support.transparency_text") %></p>
     </div>
   </div>
 </section>
