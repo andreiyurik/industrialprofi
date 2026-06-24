@@ -8,6 +8,8 @@ module Admin
       @page = [ params[:page].to_i, 1 ].max
       @counts = filter_counts
 
+      # Offset here (not keyset like the log): this list needs page numbers + search.
+
       # The list is scan-and-navigate only; all management moved to the user
       # card (show), so the rows stay clean and the page filters/paginates well.
       scope = User.order(created_at: :desc)

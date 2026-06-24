@@ -32,6 +32,9 @@ module Admin
       # Keyset (cursor) pagination on the primary key — cheap at any depth, with
       # no COUNT and no OFFSET, so the log stays light however long it grows.
       # `before`/`after` carry the edge ids; filters reset the cursor.
+      # The ordering is index-only for the full feed and single-value filters; a
+      # multi-action category (the IN clause) adds a sort bounded by the category
+      # size — negligible at staff-action volume, so we don't index per action.
       def paginate(scope)
         if (after = params[:after]).present?
           rows = scope.where("admin_actions.id > ?", after).order(id: :asc).limit(PER_PAGE + 1).to_a

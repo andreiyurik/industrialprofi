@@ -22,7 +22,7 @@
         </div>
         <div>
           <span class="admin-meta-card__label"><%= t("admin.suggestion_section") %>:</span>
-          <span class="admin-meta-card__value admin-meta-card__value--marker"><%= @suggestion.section %></span>
+          <span class="admin-meta-card__value admin-meta-card__value--marker"><%= t("admin.field_#{@suggestion.section}") %></span>
         </div>
         <div>
           <span class="admin-meta-card__label"><%= t("admin.suggestion_author") %>:</span>
@@ -56,24 +56,20 @@
       </div>
     </div>
 
+    <p class="admin-decision__hint"><%= t("admin.approve_hint") %></p>
     <div class="admin-decision">
-      <%= form_with(url: approve_admin_lesson_suggestion_path(@suggestion), method: :patch) do %>
-        <button type="submit" class="btn btn--reversed"
-                onclick="return confirm('<%= t("admin.confirm_approve") %>')">
-          <%= t("admin.approve") %>
-        </button>
-      <% end %>
+      <%= button_to t("admin.approve"), approve_admin_lesson_suggestion_path(@suggestion),
+            method: :patch, class: "btn btn--reversed btn--large",
+            form: { class: "admin-decision__approve",
+                    data: { turbo_confirm: t("admin.confirm_approve") } } %>
 
       <%= form_with(url: reject_admin_lesson_suggestion_path(@suggestion), method: :patch, class: "admin-decision__reject") do |f| %>
         <div class="admin-decision__reject-field">
           <label><%= t("admin.reject_comment") %></label>
           <%= f.text_field "lesson_suggestion[reviewer_comment]",
-              placeholder: t("admin.reject_comment_placeholder"),
-              class: "input" %>
+                placeholder: t("admin.reject_comment_placeholder"), class: "input" %>
         </div>
-        <button type="submit" class="btn btn--negative">
-          <%= t("admin.reject") %>
-        </button>
+        <%= f.submit t("admin.reject"), class: "btn btn--negative" %>
       <% end %>
     </div>
   </div>
