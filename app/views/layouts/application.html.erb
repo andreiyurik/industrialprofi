@@ -209,9 +209,16 @@
       </div>
 
       <div class="container footer__bottom">
-        <p class="footer__copy">
-          <%= t("footer.copyright_html", year: Date.current.year, author_url: site_config.author_url) %>
-        </p>
+        <div class="footer__legal">
+          <p class="footer__copy">
+            <%= t("footer.copyright_html", year: Date.current.year, author_url: site_config.author_url) %>
+          </p>
+          <%# Honest, verifiable trust signal: the repo is public (AGPL) and the
+              content is CC BY-SA — links go to the code and the license itself. %>
+          <p class="footer__license">
+            <%= t("footer.license_html", repo_url: site_config.github_url) %>
+          </p>
+        </div>
         <a href="<%= privacy_path %>" class="footer__link link-quiet"><%= t("nav.privacy") %></a>
       </div>
     </footer>
