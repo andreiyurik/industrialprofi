@@ -48,6 +48,23 @@ Each phase is a deployable, usable product — not a prototype.
 >   the «Уровни участия» editorial index, the git-free suggest→review→revision
 >   pipeline and trust ladder as schematics, and cross-links to `/support_us`
 >   (pure CSS, copy in `ru.yml → contribute:`).
+> - **Shipped 2026-06-23:** **per-profession edit access** (`Editorship` join
+>   scopes an editor's rights to granted professions; cross-profession edits go
+>   through suggestions; only admins publish); the **create-only seed import**
+>   (DB is the source of truth — YAML/AI import never overwrites human edits);
+>   the **/calculators** trade-formula tools page (code registry, no DB; one
+>   Stimulus controller for all math).
+> - **Shipped 2026-06-24:** the **admin action log** (`AdminAction`, `/admin/log`)
+>   — append-only people/moderation transparency log (immutable, denormalized
+>   `details`, keyset pagination + category/actor filters); **admin observability**
+>   on the dashboard (`SystemStatus` disk + SQLite footprint + Solid Queue health;
+>   `MailMetrics` 7-day mail flow); the **user detail card** (`/admin/users/:id`:
+>   role/suspend controls, snapshot, progress, active sessions, recent activity);
+>   **reversible user suspension** (`users.suspended_at`; revokes sessions +
+>   blocks login via `User.active`); the **/partners** sponsors page (adaptive,
+>   curated, independence firewall); and the **focus direction** (`User#focus_path`
+>   derived from the latest completion — drives the dashboard hero, catalog
+>   banner, and `/projects` sort; defaults, not walls).
 > - **Not built yet:** all of v0.3 (community roadmaps, search, public
 >   profiles, publishing journal entries as a moderated public portfolio).
 
@@ -60,7 +77,7 @@ A visitor can browse profession roadmaps. No auth, no interactivity. Pure conten
 - Catalog page listing 3 professions
 - Profession show page: stages → skills list (collapsible)
 - Each skill shows: description, official document links, practical task text
-- Responsive layout (Tailwind), dark mode support
+- Responsive layout (shipped as pure CSS, not Tailwind), black-first dark theme
 - Deployed to production via Kamal
 
 **Data model:**
@@ -96,10 +113,11 @@ Registered users track their learning progress.
 - Progress bar per stage and per profession
 - Dashboard: "My roadmaps" with completion stats
 
-**Data model additions:**
-- `User` (email, password_digest, name, city, locale)
-- `UserProgress` (user_id, skill_id, status: todo|in_progress|completed, completed_at)
-- `UserRoadmap` (user_id, profession_id) — "I'm studying this"
+**Data model additions** (original plan — shipped simpler; see the status note above):
+- `User` (email, password_digest, name, locale)
+- ~~`UserProgress` (status: todo|in_progress|completed)~~ → shipped as binary
+  `LessonCompletion` (row exists = done; no statuses)
+- ~~`UserRoadmap`~~ → "started" is derived from having ≥1 completion (no table)
 
 **What does NOT ship:**
 - No social features (comments, follows)
