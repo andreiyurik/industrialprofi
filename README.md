@@ -98,7 +98,7 @@ app/javascript/controllers/ # Stimulus controllers
 app/assets/stylesheets/     # all CSS — one self-contained file per component
 db/migrate/                 # migrations = source of truth for schema
 docs/                       # VISION.md, DEPLOY.md (English project docs)
-prompts/                    # reusable content-authoring prompts (content tooling)
+tools/                      # reusable content-authoring tools (content tooling)
 ```
 
 Content hierarchy:

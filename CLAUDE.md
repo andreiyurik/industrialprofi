@@ -80,7 +80,7 @@ app/javascript/controllers/# Stimulus controllers
 app/assets/stylesheets/    # all CSS, loaded individually by stylesheet_link_tag :all
 db/migrate/                # migrations = source of truth for schema
 docs/                      # English project docs (VISION.md, DEPLOY.md)
-prompts/                   # reusable content-authoring prompts (RU content tooling)
+tools/                     # reusable content-authoring tools (RU content tooling)
 ```
 
 ## Content architecture
@@ -373,16 +373,16 @@ moderated public portfolio.
 **Documentation is English-only, in the style of mature open-source projects.**
 README / CONTRIBUTING / CLAUDE / `docs/` describe the project and how to work on
 it for any contributor — knowing English (or using a translator) is assumed, so
-we keep no parallel translations. The one carve-out: the **prompts in `prompts/`
-are content tooling, not documentation** — they stay in Russian because they
-generate the Russian-first lesson content. Keep new docs concise: one home per
-fact, no changelog prose (git history covers "when").
+we keep no parallel translations. The one carve-out: the **content-authoring
+tools in `tools/` are tooling, not documentation** — they stay in Russian
+because they generate the Russian-first lesson content. Keep new docs concise:
+one home per fact, no changelog prose (git history covers "when").
 
 - `docs/VISION.md` — what we're building, for whom, why (incl. business model +
   the forward roadmap and the "not building" list)
 - `docs/DEPLOY.md` — first-deploy runbook (Kamal, SMTP, backups, monitoring)
-- `prompts/CONTENT_PROMPT.md` / `LESSON_DEEPEN_PROMPT.md` / `IMAGE_PROMPT.md` —
-  reusable content-authoring prompts (Russian tooling, per the rule above)
+- `tools/AUTHOR_PROFESSION.md` / `DEEPEN_LESSON.md` / `LESSON_IMAGES.md` —
+  reusable content-authoring tools (Russian tooling, per the rule above)
 - The public roadmap is the `/roadmap` page (`ru.yml → roadmap:`) — update it when
   shipping user-visible features
 </content>
