@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_24_140000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_24_150000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -56,6 +56,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_24_140000) do
     t.json "details", default: {}, null: false
     t.integer "target_id"
     t.string "target_type"
+    t.index ["action", "id"], name: "index_admin_actions_on_action_and_id"
     t.index ["actor_id"], name: "index_admin_actions_on_actor_id"
     t.index ["created_at"], name: "index_admin_actions_on_created_at"
     t.index ["target_type", "target_id"], name: "index_admin_actions_on_target"

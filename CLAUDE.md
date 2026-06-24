@@ -296,8 +296,13 @@ same transaction as the mutation; human-readable facts are **denormalized into t
 `details` JSON** (subject name, role/section keys, titles) so each entry reads
 correctly forever even if actor/target is later deleted. `actor` FK is
 `on_delete: :nullify` (the log outlives an admin's self-deletion); rows are
-immutable (`readonly? = persisted?`, like `LessonRevision`). This came from an
-admin-functional architecture review (vs. Wikipedia/MediaWiki mechanics). **Recorded
+immutable (`readonly? = persisted?`, like `LessonRevision`). **The /admin/log page
+is built to stay cheap as the log grows for years:** category tabs (roles/
+moderation/bans, backed by a `(action, id)` index) + an actor filter (lists who can
+act, never a DISTINCT scan) + **keyset/cursor pagination** (newer/older by edge id —
+no `COUNT`, no `OFFSET`, every page an indexed `WHERE id ≷ ? LIMIT n`), the Fizzy
+feed pattern. No free-text search on purpose — structured filters avoid LIKE-on-JSON
+scans. This came from an admin-functional architecture review (vs. Wikipedia/MediaWiki mechanics). **Recorded
 framing:** adopt wiki *data* mechanics (immutable history + transparency log), NOT
 its *social* governance machine (arbitration, RfA voting, granular permission tiers,
 checkuser) — that's for thousands of adversarial admins and violates «ровно столько
@@ -309,8 +314,14 @@ checkuser) — that's for thousands of adversarial admins and violates «ров�
 since Active Storage blobs are ≈0 after uploads were removed; free space via a
 memoized `df`, red below 1 GB) and **Solid Queue health** (pending + failed job
 counts; the queue runs in its own DB only in production, so the card self-hides in
-dev/test — every probe is `rescue`-guarded and returns nil rather than raising).
-The old misleading "Фото в журналах" blob metric is gone. The founder's
+dev/test — every probe is `rescue`-guarded and returns nil rather than raising) and
+**mail flow** (`MailMetrics`, a PORO: a `deliver.action_mailer` subscriber —
+`config/initializers/mail_metrics.rb` — counts every sent message into per-day
+Solid Cache keys that self-expire after 8 days; the card shows the 7-day sum so a
+sudden zero flags the SMTP-gated signup funnel breaking. No table, no disk growth;
+counting is `rescue`-guarded so it never breaks a delivery. NOT deliverability/bounce
+tracking — that needs provider webhooks and stays unbuilt). The old misleading
+"Фото в журналах" blob metric is gone. The founder's
 **user detail card** (`admin/users/:id`) makes moderation sighted: profile +
 role/access/suspend controls, a snapshot (completions, journal, accepted
 contributions, feedback sent), progress per profession, **active sessions**

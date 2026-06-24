@@ -58,6 +58,14 @@
         </span>
       </div>
 
+      <%# Mail flow — a sudden zero means the SMTP-gated signup funnel is broken.
+          Counts delivered messages over the last 7 days (Solid Cache). %>
+      <div class="panel admin-stat">
+        <span class="admin-stat__value"><%= @emails_week.nil? ? "—" : @emails_week %></span>
+        <span class="admin-stat__label"><%= t("admin.dashboard.emails_week") %></span>
+        <span class="admin-stat__detail"><%= t("admin.dashboard.emails_week_hint") %></span>
+      </div>
+
       <%# Background-job health (Solid Queue) — shown only where the queue runs
           (production). `failed` is the alarm: a silently dying mailer/job. %>
       <% if (jobs = @status.jobs) %>

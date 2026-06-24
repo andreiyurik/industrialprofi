@@ -44,6 +44,12 @@ class Admin::DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_match "База данных", response.body
   end
 
+  test "the mail-flow card renders" do
+    sign_in_as users(:admin)
+    get admin_root_path
+    assert_match I18n.t("admin.dashboard.emails_week"), response.body
+  end
+
   test "callout is hidden when the queue is empty" do
     LessonSuggestion.pending.update_all(status: "approved")
     sign_in_as users(:admin)

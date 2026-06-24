@@ -8,7 +8,7 @@
   display: flex;
   gap: 0.75rem;
   justify-content: space-between;
-  margin-block-end: 2rem;
+  margin-block-end: 1.25rem;
 }
 
 .admin-header__title-group {
@@ -112,7 +112,7 @@
   color: var(--color-ink);
   display: flex;
   gap: 0.75rem;
-  padding: 0.7rem 1rem;
+  padding: 0.5rem 0.9rem;
   text-decoration: none;
   transition: background-color 200ms ease;
 
@@ -194,7 +194,7 @@
 
 /* Path grouping — shared by the lessons index and the moderation queue */
 .admin-group + .admin-group {
-  margin-block-start: 1.5rem;
+  margin-block-start: var(--block-space);
 }
 
 .admin-group__head {
@@ -508,6 +508,30 @@
   margin-block: 0 var(--block-space-half);
 }
 
+/* Log filters: category tabs on one side, the actor picker on the other;
+   wraps to stacked rows when the viewport is tight. */
+.admin-log-filters {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--inline-space) var(--block-space);
+  justify-content: space-between;
+  margin-block-end: var(--block-space);
+
+  .admin-filters {
+    margin-block-end: 0;
+  }
+}
+
+.admin-log-actor {
+  display: flex;
+  gap: var(--inline-space-half);
+
+  .input {
+    max-inline-size: 18rem;
+  }
+}
+
 .admin-role-form {
   display: flex;
   flex-shrink: 0;
@@ -528,6 +552,7 @@
 /* ── Dashboard (admin overview) ── */
 
 .admin-callout {
+  --panel-padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -541,9 +566,15 @@
 
 .admin-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
   gap: var(--block-space-half);
-  margin-block-end: var(--block-space-double);
+  margin-block-end: var(--block-space);
+}
+
+/* Dense control-room tiles: tighter padding than a default panel, so more KPIs
+   fit per row and above the fold. */
+.admin-stat {
+  --panel-padding: 0.9rem 1rem;
 }
 
 /* Children are explicit blocks: .panel (loaded after this file) forces
@@ -551,10 +582,10 @@
 .admin-stat__value {
   display: block;
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: 1.55rem;
   font-weight: 700;
   line-height: 1;
-  margin-block-end: 0.35rem;
+  margin-block-end: 0.15rem;
 }
 
 .admin-stat__label {
@@ -575,15 +606,16 @@
 .admin-stat__detail {
   color: var(--color-subtle-dark);
   display: block;
-  font-size: 0.875rem;
-  margin-block-start: 0.2rem;
+  font-size: 0.8rem;
+  line-height: 1.3;
+  margin-block-start: 0.15rem;
 }
 
 .admin-chart {
   display: flex;
   align-items: flex-end;
   gap: 0.25rem;
-  margin-block-end: var(--block-space-double);
+  margin-block-end: var(--block-space);
 }
 
 .admin-chart__col {

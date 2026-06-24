@@ -21,6 +21,8 @@ module Admin
 
       # Disk safety + background-job health — the one-server VPS's vital signs.
       @status = SystemStatus.new
+      # "Is mail flowing?" — registration is hard-gated on a working SMTP.
+      @emails_week = MailMetrics.sent_last(7)
 
       @paths_published = Path.published.count
       @paths_total = Path.count
