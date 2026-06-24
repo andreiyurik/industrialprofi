@@ -418,6 +418,16 @@
   gap: var(--inline-space);
 }
 
+/* Role form + suspend/reinstate button, kept on one line, wrapping when tight. */
+.admin-row__actions {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--inline-space);
+}
+
 /* ── Dashboard (admin overview) ── */
 
 .admin-callout {

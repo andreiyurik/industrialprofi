@@ -223,6 +223,21 @@ unless LessonSuggestion.where(author_name: DEMO_CONTRIBUTORS).exists?
   end
 end
 
+# ── A suspended account — shows moderation (the reversible ban) in action ────
+spammer = upsert_user(name: "Аноним Рекламный", email: "spammer@example.com", role: "member", joined_days_ago: 9)
+if spammer.feedbacks.none?
+  spammer.feedbacks.create!(
+    body: "Купите дёшево дипломы и удостоверения НАКС без обучения! Пишите в телеграм @...",
+    read_at: 4.days.ago, created_at: 5.days.ago
+  )
+end
+unless spammer.suspended?
+  spammer.suspend!
+  spammer.update_columns(suspended_at: 4.days.ago)
+  AdminAction.create!(actor: admins.last, action: "user_suspended", target: spammer,
+    details: { subject: spammer.name }, created_at: 4.days.ago)
+end
+
 # ── Admin log — backfill the people/role timeline (our Special:Log) ──────────
 if AdminAction.where(action: "user_role_changed").none?
   AdminAction.create!(actor: admins.first, action: "user_role_changed", target: experts["elektrik"],
@@ -240,6 +255,7 @@ puts <<~SUMMARY
     admins   : #{admins.map(&:email_address).join(", ")}
     experts  : #{experts.values.map(&:email_address).join(", ")}
     members  : #{members.map { |m| m[:user].email_address }.join(", ")}
+    suspended: #{User.suspended.pluck(:email_address).join(", ")}
   Activity   : #{LessonCompletion.count} completions · #{JournalEntry.count} journal entries
   Community  : #{LessonSuggestion.where(status: "approved").count} approved / #{LessonSuggestion.pending.count} pending edits · #{Feedback.unread.count} unread messages
   Admin log  : #{AdminAction.count} entries

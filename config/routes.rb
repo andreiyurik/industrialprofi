@@ -72,7 +72,9 @@ Rails.application.routes.draw do
     resources :paths, only: [ :index, :new, :create, :edit, :update ], param: :slug
     resources :courses, only: [ :index, :new, :create, :edit, :update ], param: :slug
     resources :imports, only: [ :new, :create ]
-    resources :users, only: [ :index, :update ]
+    resources :users, only: [ :index, :update ] do
+      resource :suspension, only: [ :create, :destroy ]
+    end
     resources :feedbacks, only: [ :index ]
     get "log" => "admin_actions#index", as: :log
     resources :lesson_suggestions, only: [ :index, :show ] do

@@ -28,6 +28,9 @@
                 <% unless user.member? %>
                   <span class="badge badge--marker"><%= t("admin.roles.#{user.role}") %></span>
                 <% end %>
+                <% if user.suspended? %>
+                  <span class="badge badge--draft"><%= t("admin.users.suspended_badge") %></span>
+                <% end %>
               </span>
               <p class="admin-row__subtle">
                 <%= user.email_address %> · <%= l(user.created_at, format: :long) %>
@@ -37,12 +40,24 @@
             <% if user == Current.user %>
               <span class="admin-row__subtle"><%= t("admin.users_you") %></span>
             <% else %>
-              <%= form_with url: admin_user_path(user), method: :patch, class: "admin-role-form" do %>
-                <%= select_tag "user[role]",
-                      options_for_select(User.roles.keys.map { |r| [ t("admin.roles.#{r}"), r ] }, user.role),
-                      class: "input" %>
-                <%= submit_tag t("admin.save"), class: "btn btn--small" %>
-              <% end %>
+              <div class="admin-row__actions">
+                <%= form_with url: admin_user_path(user), method: :patch, class: "admin-role-form" do %>
+                  <%= select_tag "user[role]",
+                        options_for_select(User.roles.keys.map { |r| [ t("admin.roles.#{r}"), r ] }, user.role),
+                        class: "input" %>
+                  <%= submit_tag t("admin.save"), class: "btn btn--small" %>
+                <% end %>
+
+                <%# Reversible ban — revokes sessions + blocks login. %>
+                <% if user.suspended? %>
+                  <%= button_to t("admin.users.reinstate"), admin_user_suspension_path(user),
+                        method: :delete, class: "btn btn--small" %>
+                <% else %>
+                  <%= button_to t("admin.users.suspend"), admin_user_suspension_path(user),
+                        method: :post, class: "btn btn--small btn--negative",
+                        form: { data: { turbo_confirm: t("admin.users.suspend_confirm", name: user.name) } } %>
+                <% end %>
+              </div>
             <% end %>
           </div>
 

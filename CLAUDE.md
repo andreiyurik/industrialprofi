@@ -303,11 +303,21 @@ its *social* governance machine (arbitration, RfA voting, granular permission ti
 checkuser) — that's for thousands of adversarial admins and violates «ровно столько
 механик». **Future seam:** admin-only now, but written so it *could* go public
 (don't log anything unshowable) — public logs build trust in open projects.
-Reviewed-but-not-yet-built next steps: a user detail page + **suspend/force-logout**
-(Writebook's `User#deactivate` = `sessions.delete_all` + `active: false` is the
-pattern), a dashboard **disk metric on the SQLite file size + free space** (not
-`ActiveStorage::Blob` bytes, ≈0 since journal photos were removed), a Solid Queue
-health block, and turbo-confirm on promote-to-admin.
+Reviewed-but-not-yet-built next steps: a user detail page, a dashboard **disk
+metric on the SQLite file size + free space** (not `ActiveStorage::Blob` bytes, ≈0
+since journal photos were removed), and a Solid Queue health block.
+
+**User suspension (built 2026-06-24 — reversible ban):** `users.suspended_at`
+(nil = active). `User#suspend!` revokes every session (`sessions.delete_all`) and
+blocks login — `SessionsController#create` authenticates through `User.active`
+(Writebook's `User.active.authenticate_by` pattern). `User#reinstate!` lifts it;
+the account, email and history are kept intact (distinct from account deletion,
+which is self-service only). Administrator-only, exposed as a singular sub-resource
+`resource :suspension` (create=suspend / destroy=reinstate, like `completion`/
+`bookmark`), with a self-suspend lockout guard, a turbo-confirm, a «Заблокирован»
+badge in `/admin/users`, and `user_suspended`/`user_reinstated` entries in the
+admin log above. There is intentionally NO Wikipedia-style block apparatus
+(durations, IP/partial blocks) — a plain reversible ban is enough at this scale.
 
 **Monetization (recorded decision, June 2026):** v0.4 certificates are
 DEFERRED; materials stay free/open forever; retention & satisfaction before

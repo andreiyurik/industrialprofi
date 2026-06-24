@@ -1158,6 +1158,13 @@ ru:
       access_legend: "Какие профессии может редактировать:"
       access_save: "Сохранить доступ"
       access_updated: "Доступ к профессиям обновлён: %{name}"
+      suspend: "Заблокировать"
+      reinstate: "Разблокировать"
+      suspend_confirm: "Заблокировать %{name}? Аккаунт выйдет со всех устройств и не сможет войти, пока вы не разблокируете."
+      suspended: "Пользователь заблокирован: %{name}"
+      reinstated: "Пользователь разблокирован: %{name}"
+      suspended_badge: "Заблокирован"
+      cannot_suspend_self: "Себя заблокировать нельзя"
     log:
       title: "Журнал действий"
       subtitle: "Кто что сделал с пользователями и правками. Записи добавляются навсегда и не редактируются."
@@ -1170,6 +1177,8 @@ ru:
         suggestion_approved: "Правка одобрена: «%{lesson}» (%{section})"
         suggestion_rejected: "Правка отклонена: «%{lesson}» (%{section})"
         lesson_rolled_back: "Откат урока «%{lesson}» к версии %{version}"
+        user_suspended: "Пользователь заблокирован: %{subject}"
+        user_reinstated: "Пользователь разблокирован: %{subject}"
       sections:
         body: "содержание"
         task: "задание"

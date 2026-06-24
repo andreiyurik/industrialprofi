@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_24_130000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_24_140000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -243,6 +243,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_24_130000) do
     t.datetime "reminded_at"
     t.boolean "reminder_emails", default: true, null: false
     t.string "role", default: "member", null: false
+    t.datetime "suspended_at"
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end

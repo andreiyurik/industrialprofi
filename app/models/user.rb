@@ -16,6 +16,11 @@ class User < ApplicationRecord
   # content) → administrator (everything, incl. users and roles).
   enum :role, { member: "member", editor: "editor", administrator: "administrator" }, default: "member"
 
+  # Suspension is a reversible ban: active users can sign in, suspended ones
+  # can't. `active` is the scope login authenticates through (Writebook pattern).
+  scope :active, -> { where(suspended_at: nil) }
+  scope :suspended, -> { where.not(suspended_at: nil) }
+
   normalizes :email_address, with: ->(email) { email.strip.downcase }
   # The learner's own "why" — shown on the dashboard on every visit (TOP's
   # "learning goal"). Blank saves as nil so presence checks stay simple.
@@ -40,6 +45,22 @@ class User < ApplicationRecord
   def can_administer? = administrator?
 
   def can_edit_content? = editor? || administrator?
+
+  def suspended? = suspended_at.present?
+
+  # Ban this account: revoke every session (forces sign-out everywhere) and
+  # block future logins. Reversible — history and email are kept intact.
+  def suspend!
+    transaction do
+      sessions.delete_all
+      update!(suspended_at: Time.current)
+    end
+  end
+
+  # Lift the ban; the user can sign in again.
+  def reinstate!
+    update!(suspended_at: nil)
+  end
 
   # Direct edit rights for ONE profession. Admins edit everything; editors only
   # the professions granted to them (cross-profession edits go through the
