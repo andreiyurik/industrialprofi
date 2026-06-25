@@ -4,10 +4,11 @@ class Resource < ApplicationRecord
   # The two axes of a resource. KINDS = what it is (one per link). `document` is a
   # legacy kind kept valid for old rows — it splits to norm/book by title sniffing
   # at display (see ApplicationHelper#resource_badge_meta); new rows pick norm or
-  # book explicitly. LANGUAGES = a source-language marker (nil = Russian),
-  # orthogonal to kind, shown as a small secondary badge.
+  # book explicitly. LANGUAGES = a source-language marker (nil = Russian), shown as
+  # a small secondary badge — only English, the international language; nothing
+  # else is sourced.
   KINDS = %w[norm book doc course video article software tool].freeze
-  LANGUAGES = %w[en de].freeze
+  LANGUAGES = %w[en].freeze
 
   # "" from the editor's "all countries"/"default language" options means
   # universal — store nil so the scopes (nil = everyone) match.

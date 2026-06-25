@@ -198,6 +198,29 @@
   transition: transform 200ms ease;
 }
 
+/* Way 03 share actions: the Telegram-share link + the copy-link button, side by
+   side. The copy button is a link-styled button reset (matches __link). */
+.contribute-way__share {
+  align-items: center;
+  column-gap: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.5rem;
+}
+
+.contribute-way__copy {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+
+  svg {
+    block-size: 1rem;
+    inline-size: 1rem;
+  }
+}
+
 @media (any-hover: hover) {
   .contribute-way__link:hover .contribute-way__arrow {
     transform: translateX(0.25rem);

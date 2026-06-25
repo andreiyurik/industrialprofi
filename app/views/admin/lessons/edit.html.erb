@@ -33,7 +33,10 @@
             {}, class: "input" %>
       </div>
 
-      <p class="admin-form__hint admin-form__field--lg"><%= t("admin.markdown_paste_hint") %></p>
+      <p class="admin-form__hint admin-form__field--lg">
+        <%= t("admin.markdown_paste_hint") %>
+        <a href="<%= admin_guide_path %>" class="link-quiet" target="_blank"><%= t("admin.guide.link") %> ↗</a>
+      </p>
 
       <div class="admin-form__field admin-form__field--lg">
         <label><%= t("admin.field_description") %></label>

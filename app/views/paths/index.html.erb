@@ -38,5 +38,12 @@
         </div>
       <% end %>
     <% end %>
+
+    <%# Demand-gated co-author seam: a quiet invite for practitioners to curate a
+        profession map. Funnels to /contribute (the co-author surface), not a new
+        contact form. %>
+    <p class="catalog-curator">
+      <%= t("paths.curator_html", link: link_to(t("paths.curator_link"), contribute_path)) %>
+    </p>
   </div>
 </section>

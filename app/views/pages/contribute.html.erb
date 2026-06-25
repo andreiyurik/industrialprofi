@@ -62,9 +62,24 @@
               <p class="contribute-way__kicker"><%= t("contribute.ways.spread.who") %></p>
               <h3 class="contribute-way__title"><%= t("contribute.ways.spread.title") %></h3>
               <p class="contribute-way__text"><%= t("contribute.ways.spread.what") %></p>
-              <a href="<%= site_config.telegram_url %>" class="contribute-way__link" target="_blank" rel="noopener">
-                <%= t("contribute.ways.spread.cta") %><span class="contribute-way__arrow" aria-hidden="true">→</span>
-              </a>
+              <%# Share the SITE link (not a personal contact): a real Telegram
+                  share dialog + a copy-link button (progressive enhancement). %>
+              <div class="contribute-way__share">
+                <% tg_share = "https://t.me/share/url?#{ { url: site_config.url, text: t('contribute.ways.spread.share_text') }.to_query }" %>
+                <a href="<%= tg_share %>" class="contribute-way__link" target="_blank" rel="noopener">
+                  <%= t("contribute.ways.spread.cta") %><span class="contribute-way__arrow" aria-hidden="true">→</span>
+                </a>
+                <span data-controller="copy-link"
+                      data-copy-link-url-value="<%= site_config.url %>"
+                      data-copy-link-label-value="<%= t('contribute.ways.spread.copy') %>"
+                      data-copy-link-copied-value="<%= t('contribute.ways.spread.copied') %>">
+                  <button type="button" class="contribute-way__link contribute-way__copy" hidden
+                          data-copy-link-target="button" data-action="copy-link#copy">
+                    <%= heroicon "link", variant: :outline %>
+                    <span data-copy-link-target="label"><%= t("contribute.ways.spread.copy") %></span>
+                  </button>
+                </span>
+              </div>
             </div>
           </li>
         </ol>
