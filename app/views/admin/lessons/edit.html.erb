@@ -96,5 +96,12 @@
         <a href="<%= admin_path_path(@lesson.path) %>" class="btn"><%= t("admin.cancel") %></a>
       </div>
     <% end %>
+
+    <div class="admin-danger">
+      <h2 class="admin-danger__title"><%= t("admin.builder.danger_zone") %></h2>
+      <%= button_to t("admin.builder.delete_lesson"), admin_lesson_path(@lesson), method: :delete,
+            class: "btn btn--negative btn--small",
+            data: { turbo_confirm: t("admin.builder.delete_lesson_confirm", title: @lesson.title) } %>
+    </div>
   </div>
 </section>

@@ -35,7 +35,7 @@
         <div class="admin-empty"><p class="admin-empty__text"><%= t("admin.builder.no_courses") %></p></div>
       <% else %>
         <ul class="builder__courses" data-curriculum-target="courseList">
-          <%= render partial: "admin/paths/course", collection: @courses, as: :course %>
+          <%= render partial: "admin/paths/course", collection: @courses, as: :course, locals: { path: @path } %>
         </ul>
       <% end %>
 

@@ -1,6 +1,6 @@
 module Admin
   class LessonsController < BaseController
-    before_action :set_lesson, only: %i[edit update]
+    before_action :set_lesson, only: %i[edit update destroy]
     before_action :set_editable_paths, only: %i[new create]
 
     PER_PAGE = 100
@@ -52,6 +52,12 @@ module Admin
       redirect_to edit_admin_lesson_path(@lesson), notice: I18n.t("flash.lesson_updated")
     rescue ActiveRecord::RecordInvalid
       render :edit, status: :unprocessable_entity
+    end
+
+    def destroy
+      path = @lesson.path
+      @lesson.destroy!
+      redirect_to admin_path_path(path), notice: I18n.t("flash.lesson_deleted")
     end
 
     private

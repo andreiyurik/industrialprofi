@@ -1,6 +1,6 @@
 module Admin
   class PathsController < BaseController
-    before_action :set_path, only: %i[edit update]
+    before_action :set_path, only: %i[edit update destroy]
 
     def index
       @paths = Path.editable_by(Current.user).ordered
@@ -33,6 +33,15 @@ module Admin
     end
 
     def edit; end
+
+    # Deleting a whole profession (and its courses → lessons) is an admin act,
+    # not an editor one — even an editor granted this profession can't do it.
+    def destroy
+      return redirect_to(admin_path_path(@path), alert: t("auth.not_authorized")) unless Current.user.can_administer?
+
+      @path.destroy!
+      redirect_to admin_paths_path, notice: I18n.t("flash.path_deleted")
+    end
 
     def update
       @path.assign_attributes(path_params)

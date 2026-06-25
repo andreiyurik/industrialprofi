@@ -71,6 +71,19 @@ class Admin::CoursesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Тронули", course.title, "other fields still save"
   end
 
+  # ── Destroy ──
+
+  test "destroy removes a course and its lessons" do
+    course = courses(:el_basics)
+    lesson_ids = course.lessons.pluck(:id)
+    assert_predicate lesson_ids, :any?
+    assert_difference -> { Course.count }, -1 do
+      delete admin_course_path(course)
+    end
+    assert_redirected_to admin_path_path(paths(:electrician))
+    assert_equal 0, Lesson.where(id: lesson_ids).count
+  end
+
   # ── Slug lock (SEO) ──
 
   test "the slug of a published course cannot be changed" do

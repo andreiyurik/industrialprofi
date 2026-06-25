@@ -140,6 +140,29 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
     assert users(:editor).can_edit_path?(path), "the creator can edit what they made"
   end
 
+  # ── Destroy (admin-only) ──
+
+  test "an admin can destroy a profession with all its courses and lessons" do
+    path = paths(:electrician)
+    course_ids = path.courses.pluck(:id)
+    lesson_ids = path.lessons.pluck(:id)
+    assert_difference -> { Path.count }, -1 do
+      delete admin_path_path(path)
+    end
+    assert_redirected_to admin_paths_path
+    assert_equal 0, Course.where(id: course_ids).count
+    assert_equal 0, Lesson.where(id: lesson_ids).count
+  end
+
+  test "an editor cannot destroy a profession, even one they can edit" do
+    sign_out
+    sign_in_as users(:editor) # granted the electrician profession
+    assert_no_difference -> { Path.count } do
+      delete admin_path_path(paths(:electrician))
+    end
+    assert_redirected_to admin_path_path(paths(:electrician))
+  end
+
   # ── Slug lock (SEO) ──
 
   test "the slug of a published path cannot be changed, other fields still save" do

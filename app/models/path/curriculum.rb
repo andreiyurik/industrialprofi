@@ -32,6 +32,18 @@ module Path::Curriculum
   # otherwise the continuous prev/next flow (which follows lesson.position) would
   # break. Position-only writes → update_column (no counter caches or IndexNow
   # pings ride along).
+  # Rename a section within a course. There's no Stage model — a section is just
+  # the shared `stage` label on contiguous lessons — so this updates that label on
+  # every lesson in the course carrying it. A human-authored rename, so those
+  # lessons take human ownership (importer leaves them alone). Blank `to` clears
+  # the section.
+  def rename_stage!(course_id:, from:, to:)
+    course = courses.find(course_id)
+    course.lessons.where(stage: from.presence).find_each do |lesson|
+      lesson.update!(stage: to.presence, origin: "human")
+    end
+  end
+
   def reorder_courses!(course_ids)
     courses_by_id = courses.index_by(&:id)
 
