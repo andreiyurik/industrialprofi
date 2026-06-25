@@ -2,18 +2,19 @@
 
 <section class="section">
   <div class="container container--reading journal">
-    <header class="journal__header">
-      <div>
-        <h1 class="section-title journal__title"><%= t("journal.title") %></h1>
-        <p class="section-subtitle journal__subtitle"><%= t("journal.subtitle") %></p>
-      </div>
-      <%= link_to new_journal_entry_path, class: "btn btn--reversed" do %>
-        <%= heroicon "plus", variant: :outline %>
-        <%= t("journal.new_entry") %>
-      <% end %>
-    </header>
+    <div class="txt-align-center journal__intro">
+      <h1 class="section-title"><%= t("journal.title") %></h1>
+      <p class="section-subtitle"><%= t("journal.subtitle") %></p>
+    </div>
 
     <% if @entries.any? %>
+      <div class="journal__toolbar">
+        <%= link_to new_journal_entry_path, class: "btn btn--reversed" do %>
+          <%= heroicon "plus", variant: :outline %>
+          <%= t("journal.new_entry") %>
+        <% end %>
+      </div>
+
       <div class="journal__entries">
         <% @entries.each do |entry| %>
           <article class="panel journal-entry">
@@ -40,7 +41,8 @@
       </div>
     <% else %>
       <div class="journal__empty">
-        <p><%= t("journal.empty") %></p>
+        <span class="journal__empty-icon"><%= heroicon "pencil-square", variant: :outline %></span>
+        <p class="journal__empty-text"><%= t("journal.empty") %></p>
         <%= link_to t("journal.new_entry"), new_journal_entry_path, class: "btn btn--reversed btn--large" %>
       </div>
     <% end %>

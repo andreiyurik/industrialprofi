@@ -17,7 +17,7 @@ You need **Ruby 4.0.5** and Git. There is no Node.js, no Yarn, no asset build
 step to configure.
 
 ```bash
-git clone https://github.com/yurik2718/industrialprofi.git
+git clone https://github.com/andreiyurik/industrialprofi.git
 cd industrialprofi
 bin/setup     # gems, database, sample data
 bin/dev       # http://localhost:3000

@@ -18,6 +18,9 @@ class Path < ApplicationRecord
   # (path → courses → lessons). Adding it back would destroy each lesson twice.
   # This association stays for total counts / catalog-wide lesson queries.
   has_many :lessons, -> { order(:position) }
+  # Practice lessons only — the journal links a practice task you did, not theory,
+  # which keeps the "Связанный урок" picker short (see journal form).
+  has_many :practice_lessons, -> { practice.ordered }, class_name: "Lesson"
   # Editors granted direct edit access to this profession (see Editorship).
   has_many :editorships, dependent: :destroy
   has_many :editors, through: :editorships, source: :user
@@ -34,6 +37,7 @@ class Path < ApplicationRecord
   scope :official, -> { where(author_id: nil) }
   scope :community, -> { where.not(author_id: nil) }
   scope :ordered, -> { order(:position) }
+  scope :with_practice_lessons, -> { where(id: Lesson.practice.select(:path_id)) }
   # Professions a user may edit in the admin: admins see all, editors only the
   # ones granted to them. Backs the scoped admin index pages.
   scope :editable_by, ->(user) {

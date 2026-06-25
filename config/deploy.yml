@@ -2,7 +2,7 @@
 service: industrialprofi
 
 # Name of the container image (use your-user/app-name on external registries).
-image: yurik2718/industrialprofi
+image: andreiyurik/industrialprofi
 
 # Deploy to these servers.
 servers:
@@ -18,7 +18,7 @@ proxy:
 # Where you keep your container images. GHCR is free for public repos.
 registry:
   server: ghcr.io
-  username: yurik2718 # TODO: confirm GitHub username
+  username: andreiyurik # TODO: confirm GitHub username
   # A GitHub personal access token with write:packages, stored in .kamal/secrets.
   password:
     - KAMAL_REGISTRY_PASSWORD

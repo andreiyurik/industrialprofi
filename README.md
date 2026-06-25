@@ -6,7 +6,7 @@ A free, open-source learning platform that teaches industrial professions
 the way real craftsmen actually learn: by reading official standards
 (ГОСТ, ASME, НАКС) and doing verifiable, real-world practice.
 
-[![CI](https://github.com/yurik2718/industrialprofi/actions/workflows/ci.yml/badge.svg)](https://github.com/yurik2718/industrialprofi/actions/workflows/ci.yml)
+[![CI](https://github.com/andreiyurik/industrialprofi/actions/workflows/ci.yml/badge.svg)](https://github.com/andreiyurik/industrialprofi/actions/workflows/ci.yml)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 [![Content: CC BY-SA 4.0](https://img.shields.io/badge/Content-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE-CONTENT)
 [![Ruby 4.0](https://img.shields.io/badge/Ruby-4.0-CC342D.svg)](.ruby-version)
@@ -73,7 +73,7 @@ Hotwire, no Node.js anywhere in sight.
 You need Ruby 4.0.5 and Git. No Node, no Yarn, no asset pipeline to configure.
 
 ```bash
-git clone https://github.com/yurik2718/industrialprofi.git
+git clone https://github.com/andreiyurik/industrialprofi.git
 cd industrialprofi
 bin/setup          # installs gems, prepares the database, seeds sample data
 bin/dev            # starts the server at http://localhost:3000
