@@ -54,6 +54,16 @@ class Lesson < ApplicationRecord
   def has_task?        = rich_task.present? || task.present?
   def has_resources?   = resources.any?
 
+  # The convention a theory lesson ends on is a self-check block (`> [!ПРОВЕРЬ]`;
+  # older "самопроверка" / "проверь себя" counts too). `content:audit` flags a
+  # WRITTEN lesson that lacks one — scanning both the imported markdown and any
+  # human rich-text edit.
+  SELF_CHECK_PATTERN = /\[!ПРОВЕРЬ\]|самопроверк|проверь себя/i
+
+  def missing_self_check?
+    has_body? && !body_text.match?(SELF_CHECK_PATTERN)
+  end
+
   def prev_in_path
     path.lessons.where("position < ?", position).ordered.last
   end
@@ -151,6 +161,10 @@ class Lesson < ApplicationRecord
   end
 
   private
+    def body_text
+      [ body, rich_body&.to_plain_text ].compact.join(" ")
+    end
+
     # Public only when both its course and profession are published.
     def indexnow_url
       return unless course&.status == "published" && path&.status == "published"

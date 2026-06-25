@@ -10,6 +10,8 @@ require "yaml"
 # `plan` runs the exact same code as `import!` inside a rolled-back transaction,
 # so the preview can never disagree with what the commit does.
 class CurriculumDocument
+  include ImportUpsert
+
   SOURCE = "ai"
   MAX_BYTES = 512_000
 
@@ -82,68 +84,82 @@ class CurriculumDocument
 
     def upsert_path(author, counts)
       data = @data["path"]
-      existing = data["slug"].present? ? Path.find_by(slug: data["slug"]) : nil
-      return [ existing, node("path", existing.title, :exists) ] if existing
-
-      path = Path.new(title: data["title"], description: data["description"], status: "draft")
-      path.slug = data["slug"] if data["slug"].present?
-      path.author_id = author.id
-      path.position = (Path.maximum(:position) || 0) + 1
-      path.stamp_import!(SOURCE)
-      path.save!
-      counts[:paths] += 1
-      [ path, node("path", path.title, :new) ]
+      path = Path.find_or_initialize_by(slug: lookup_slug(Path, data))
+      status = upsert(path, counts, :paths,
+                      title: data["title"], description: data["description"]) do
+        path.author_id = author.id
+        path.status = "draft"
+        path.position = (Path.maximum(:position) || 0) + 1
+      end
+      [ path, node("path", path.title, status) ]
     end
 
     def upsert_course(path, data, counts)
-      existing = data["slug"].present? ? Course.find_by(slug: data["slug"]) : nil
-      return [ existing, node("course", existing.title, :exists) ] if existing
-
-      course = Course.new(path:, title: data["title"], description: data["description"], status: "draft")
-      course.slug = data["slug"] if data["slug"].present?
-      course.position = (path.courses.maximum(:position) || 0) + 1
-      course.stamp_import!(SOURCE)
-      course.save!
-      counts[:courses] += 1
-      [ course, node("course", course.title, :new) ]
+      course = Course.find_or_initialize_by(slug: lookup_slug(Course, data))
+      status = upsert(course, counts, :courses,
+                      path: path, title: data["title"], description: data["description"]) do
+        course.status = "draft"
+        course.position = (path.courses.maximum(:position) || 0) + 1
+      end
+      [ course, node("course", course.title, status) ]
     end
 
+    # A slug-less lesson is matched by its title-derived slug, so re-import reuses
+    # the row instead of creating a "-2" duplicate. Only a NEW lesson takes a
+    # fresh appended position; an existing one keeps its global position.
     def upsert_lesson(course, stage, data, position, counts, lesson_nodes)
-      slug = data["slug"].presence
-      # When the paste omits a slug, look up by the slug we'd generate from the
-      # title, so re-importing the same document reuses the lesson instead of
-      # silently creating a "-2" duplicate. A typed slug is honoured as-is.
-      lookup = slug || Lesson.slugify(data["title"])
-      if lookup.present? && Lesson.exists?(slug: lookup)
-        lesson_nodes << node("lesson", data["title"], :exists)
-        return position
-      end
+      lesson = Lesson.find_or_initialize_by(slug: lookup_slug(Lesson, data))
+      position += 1 if lesson.new_record?
 
-      position += 1
-      lesson = Lesson.new(
-        course:, stage:, title: data["title"], description: data["description"],
-        body: data["body"], task: data["task"], kind: data["kind"].presence || "lesson",
-        position:
-      )
-      lesson.slug = slug if slug
-      lesson.difficulty = data["difficulty"].presence || "beginner" if lesson.practice?
-      lesson.stamp_import!(SOURCE)
-      lesson.save!
-      counts[:lessons] += 1
-      import_resources(lesson, data["resources"], counts)
-      lesson_nodes << node("lesson", lesson.title, :new)
+      status = upsert(lesson, counts, :lessons,
+                      course: course, stage: stage, title: data["title"],
+                      description: data["description"], body: data["body"], task: data["task"],
+                      kind: data["kind"].presence || "lesson",
+                      difficulty: lesson_difficulty(data),
+                      position: lesson.new_record? ? position : lesson.position)
+
+      import_resources(lesson, data["resources"], counts) unless status == :exists
+      lesson_nodes << node("lesson", lesson.title, status)
       position
     end
 
+    # Maps the shared create-or-refresh (ImportUpsert) onto the preview tree's
+    # status vocabulary (:new / :updated / :exists) and counts everything the
+    # import would write (created or refreshed, but not the frozen rows it skips).
+    def upsert(record, counts, table, attrs, &create_defaults)
+      result = import_upsert(record, SOURCE, attrs, &create_defaults)
+      counts[table] += 1 unless result == :frozen
+      { created: :new, updated: :updated, unchanged: :updated, frozen: :exists }.fetch(result)
+    end
+
+    def lookup_slug(klass, data)
+      data["slug"].presence || klass.slugify(data["title"].to_s)
+    end
+
+    # Theory lessons carry no difficulty; a practice lesson defaults to beginner.
+    def lesson_difficulty(data)
+      return nil unless (data["kind"].presence || "lesson") == "practice"
+
+      data["difficulty"].presence || "beginner"
+    end
+
+    # Resources ride with the lesson, keyed by title so re-import refreshes them
+    # in place instead of duplicating. A resource a human edited is left alone.
     def import_resources(lesson, resources, counts)
       Array(resources).each_with_index do |data, index|
-        resource = lesson.resources.build(
-          title: data["title"], url: data["url"], kind: data["kind"].presence || "document",
+        resource = lesson.resources.find_or_initialize_by(title: data["title"])
+        next if resource.persisted? && resource.origin == "human"
+
+        was_new = resource.new_record?
+        resource.assign_attributes(
+          url: data["url"], kind: data["kind"].presence || "document",
           required: data.fetch("required", false), position: index + 1
         )
-        resource.origin = SOURCE
+        resource.origin = SOURCE if was_new
+        next unless resource.changed?
+
         resource.save!
-        counts[:resources] += 1
+        counts[:resources] += 1 if was_new
       end
     end
 

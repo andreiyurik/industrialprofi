@@ -70,6 +70,38 @@ class CurriculumImporterTest < ActiveSupport::TestCase
     assert_equal "https://example.com/expert-pick", resource.reload.url
   end
 
+  test "new content without an explicit status defaults to draft" do
+    dir = Dir.mktmpdir
+    FileUtils.mkdir_p(File.join(dir, "draftprof", "01-c"))
+    File.write(File.join(dir, "draftprof", "path.yml"),
+               %(title: "Черновая профессия"\ndescription: "Без статуса."\nposition: 50\n))
+    File.write(File.join(dir, "draftprof", "01-c", "course.yml"),
+               %(title: "Курс"\nslug: "draft-course-x"\ndescription: "Без статуса."\nposition: 1\n))
+
+    CurriculumImporter.run(dir: dir, io: StringIO.new)
+
+    assert_equal "draft", Path.find_by!(slug: "draftprof").status
+    assert_equal "draft", Course.find_by!(slug: "draft-course-x").status
+  ensure
+    FileUtils.remove_entry(dir)
+  end
+
+  test "only: imports a single profession and leaves the rest untouched" do
+    dir = Dir.mktmpdir
+    %w[prof-a prof-b].each_with_index do |slug, i|
+      FileUtils.mkdir_p(File.join(dir, slug))
+      File.write(File.join(dir, slug, "path.yml"),
+                 %(title: "#{slug}"\ndescription: "x"\nposition: #{90 + i}\n))
+    end
+
+    CurriculumImporter.run(dir: dir, only: "prof-a", io: StringIO.new)
+
+    assert Path.exists?(slug: "prof-a")
+    assert_not Path.exists?(slug: "prof-b")
+  ensure
+    FileUtils.remove_entry(dir)
+  end
+
   private
     def import
       CurriculumImporter.run(dir: @dir, io: StringIO.new)

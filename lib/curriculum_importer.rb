@@ -15,19 +15,28 @@ require "yaml"
 # Freezing is per row, not per subtree: a frozen (e.g. published) path is still
 # walked, so new lessons added to the YAML still import beneath it.
 class CurriculumImporter
+  include ImportUpsert
+
   DEFAULT_DIR = Rails.root.join("db/seeds/curriculum")
 
   def self.run(...) = new(...).run
 
-  def initialize(dir: DEFAULT_DIR, source: "seed", io: $stdout)
+  def initialize(dir: DEFAULT_DIR, source: "seed", io: $stdout, only: nil)
     @dir = Pathname(dir)
     @source = source
     @io = io
+    @only = only.presence # a profession slug, or nil to import the whole tree
     @counts = Hash.new(0)
   end
 
   def run
-    Dir.glob(@dir.join("*/path.yml")).sort.each { |path_yml| import_path(path_yml) }
+    ymls = path_ymls
+    if @only && ymls.empty?
+      @io.puts "Профессия «#{@only}» не найдена: нет #{@dir.join(@only, 'path.yml')}."
+      return @counts
+    end
+
+    ymls.each { |path_yml| import_path(path_yml) }
     reset_counters
     report
     @counts
@@ -53,12 +62,20 @@ class CurriculumImporter
   end
 
   private
+    def path_ymls
+      pattern = @only ? @dir.join(@only, "path.yml") : @dir.join("*/path.yml")
+      Dir.glob(pattern).sort
+    end
+
+    # New content defaults to draft; the founder publishes deliberately (sets
+    # status: published in the yml and re-seeds, or publishes via admin). An
+    # explicit status in the yml is always honored.
     def import_path(path_yml)
       meta = YAML.safe_load_file(path_yml)
       path = Path.find_or_initialize_by(slug: File.basename(File.dirname(path_yml)))
       upsert(path,
              title: meta["title"], description: meta["description"],
-             position: meta["position"], status: meta["status"])
+             position: meta["position"], status: meta["status"].presence || "draft")
 
       position = 0 # lesson position is GLOBAL within the path (continuous prev/next)
       Dir.glob(File.join(File.dirname(path_yml), "*/course.yml")).sort.each do |course_yml|
@@ -71,7 +88,7 @@ class CurriculumImporter
       course = Course.find_or_initialize_by(slug: meta["slug"])
       upsert(course,
              path: path, title: meta["title"], description: meta["description"],
-             position: meta["position"], status: meta["status"] || "published")
+             position: meta["position"], status: meta["status"].presence || "draft")
 
       Dir.glob(File.join(File.dirname(course_yml), "*/section.yml")).sort.each do |section_yml|
         stage = YAML.safe_load_file(section_yml)["title"]
@@ -118,29 +135,15 @@ class CurriculumImporter
       end
     end
 
-    # Returns true when the row was applied (created or refreshed), false when it
-    # was frozen and left untouched.
+    # Maps the shared create-or-refresh (ImportUpsert) onto the report's
+    # per-category counts. Returns true when the row was applied (created or
+    # refreshed), false when frozen and left untouched (so the caller skips its
+    # resources — once frozen, those belong to the editor).
     def upsert(record, attrs)
       table = record.class.model_name.collection
-
-      if record.new_record?
-        record.assign_attributes(attrs)
-        record.stamp_import!(@source)
-        record.save!
-        @counts["#{table}_created"] += 1
-        true
-      elsif record.frozen_for_import?
-        @counts["#{table}_frozen"] += 1
-        false
-      else
-        record.assign_attributes(attrs)
-        record.stamp_import!(@source)
-        if record.changed?
-          record.save!
-          @counts["#{table}_updated"] += 1
-        end
-        true
-      end
+      result = import_upsert(record, @source, attrs)
+      @counts["#{table}_#{result}"] += 1 unless result == :unchanged
+      result != :frozen
     end
 
     # Counter caches are kept exact regardless of the create/update/skip mix.

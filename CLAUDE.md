@@ -89,7 +89,7 @@ app/javascript/controllers/# Stimulus controllers
 app/assets/stylesheets/    # all CSS, loaded individually by stylesheet_link_tag :all
 db/migrate/                # migrations = source of truth for schema
 docs/                      # English project docs (VISION.md, DEPLOY.md)
-tools/                     # reusable content-authoring tools (RU content tooling)
+tools/                     # reusable content & quality tooling (RU: authoring + review playbooks)
 ```
 
 ## Content architecture
@@ -174,11 +174,18 @@ Path (profession)  author_id (nil = official); status: draft|pending_review|publ
    (≤160 chars). One self-contained sentence ≤155 chars that honestly answers
    *"why spend time on this"* AND opens with the topic in natural search phrasing
    (it does double duty: human motivation + SEO snippet). Don't keyword-stuff.
-2. **OFFICIAL DOCUMENTS** — curated links, ranked (★ required, ○ optional). Where
-   no official standard exists (common for hands-on trades), this section instead
-   ranks the best **proven-practice sources** — leading-specialist / leading-country
-   references — honestly labeled as best-practice, not as a binding standard.
-3. **PRACTICAL TASK** — a concrete, verifiable assignment.
+2. **FURTHER-STUDY LINKS** — curated, ranked (★ required, ○ optional), and
+   **type-appropriate**: official **`document`**s for regulated / standard /
+   protocol / programming-language topics (ГОСТ, ПУЭ, НАКС, IEC, ISO, RFCs, language
+   specs); otherwise the most *interesting* quality source — a good YouTube
+   (`video`), a strong habr.com-style `article`, or the standard `tool`. Don't
+   force a normative reference where the topic isn't regulated. Where no standard
+   exists, rank best-practice sources, honestly labeled as such, not as binding.
+3. **CLOSE BY USEFULNESS, not a fixed template** — a theory lesson ends with quality
+   **self-check questions** (a `> [!ПРОВЕРЬ]` callout — thoughtful, referencing
+   the standard, not trivia). A **practical task** is added only where a hands-on
+   skill genuinely warrants it (format below); diagrams/infographics only where they
+   add real clarity. **Usefulness over box-ticking — never add a section to tick it.**
 
 **Practice lessons (`kind: practice`)** add a `difficulty:` (beginner = paper/bench,
 safe and ~free; intermediate = real tools; advanced = capstone) driving the
@@ -193,6 +200,12 @@ for a recurring task (Modbus Poll/qModMaster, UaExpert, Wireshark, the canonical
 PLC IDE), name it and say briefly what it's for — don't hide behind "use a suitable
 tool." Add it both as a `tool` resource and a `> [!СОВЕТ]` mention. This is about
 the standard *tool for the task*, not vendor lock-in.
+
+**Content factory (AI-draft → expert-review).** Deep materials are generated with
+AI at authoring time, refined by experts, improved by readers — the app stays
+LLM-free. The pipeline, the `update-if-pristine` import safety, the reusable
+prompts, and the QA (`bin/rails content:audit`/`content:links` + a Claude Code
+console review) are documented in `docs/CONTENT_FACTORY.md` and `tools/`.
 
 ## Code rules (DHH / Basecamp style)
 
@@ -385,10 +398,11 @@ moderated public portfolio.
 **Documentation is English-only, in the style of mature open-source projects.**
 README / CONTRIBUTING / CLAUDE / `docs/` describe the project and how to work on
 it for any contributor — knowing English (or using a translator) is assumed, so
-we keep no parallel translations. The one carve-out: the **content-authoring
-tools in `tools/` are tooling, not documentation** — they stay in Russian
-because they generate the Russian-first lesson content. Keep new docs concise:
-one home per fact, no changelog prose (git history covers "when").
+we keep no parallel translations. The one carve-out: the **content & quality
+tooling in `tools/` (authoring + review playbooks) is tooling, not
+documentation** — it stays in Russian because it works over the Russian-first
+lesson content. Keep new docs concise: one home per fact, no changelog prose
+(git history covers "when").
 
 - `docs/VISION.md` — what we're building, for whom, why (incl. business model +
   the forward roadmap and the "not building" list)
@@ -398,6 +412,8 @@ one home per fact, no changelog prose (git history covers "when").
   (German structure + US volume + Japanese method + domain specialists, localized
   to CIS); the sourcing filter and the per-trade map
 - `docs/DEPLOY.md` — first-deploy runbook (Kamal, SMTP, backups, monitoring)
+- `tools/WORKFLOW.md` — RU operator runbook: create / test / edit a profession
+  (seeds, YAML, web editor) with a command cheat-sheet — the practical entry point
 - `tools/AUTHOR_PROFESSION.md` / `DEEPEN_LESSON.md` / `LESSON_IMAGES.md` —
   reusable content-authoring tools (Russian tooling, per the rule above)
 - The public roadmap is the `/roadmap` page (`ru.yml → roadmap:`) — update it when

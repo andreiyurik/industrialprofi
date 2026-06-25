@@ -1,6 +1,6 @@
 <% meta_title(t("admin.imports.preview_title")) %>
 
-<% status_badge = ->(status) { status == :new ? "badge--link" : "badge--draft" } %>
+<% status_badge = ->(status) { %i[new updated].include?(status) ? "badge--link" : "badge--draft" } %>
 <% status_label = ->(status) { t("admin.imports.status_#{status}") } %>
 
 <section class="admin-page">

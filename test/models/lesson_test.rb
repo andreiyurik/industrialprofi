@@ -82,6 +82,25 @@ class LessonTest < ActiveSupport::TestCase
     assert_equal "pteep-osnovy", lessons(:pteep).to_param
   end
 
+  # missing_self_check? (drives content:audit)
+
+  test "missing_self_check? is true for a written theory lesson without a self-check block" do
+    lesson = Lesson.new(course: courses(:el_basics), title: "T", slug: "t-no-check",
+                        body: "Объяснение темы без вопросов.")
+    assert lesson.missing_self_check?
+  end
+
+  test "missing_self_check? is false when the body has a self-check block" do
+    lesson = Lesson.new(course: courses(:el_basics), title: "T", slug: "t-with-check",
+                        body: "Объяснение.\n\n> [!ПРОВЕРЬ] Что произойдёт, если...?")
+    assert_not lesson.missing_self_check?
+  end
+
+  test "missing_self_check? is false for an unwritten lesson with no body yet" do
+    lesson = Lesson.new(course: courses(:el_basics), title: "T", slug: "t-empty")
+    assert_not lesson.missing_self_check?
+  end
+
   # to_markdown
 
   test "to_markdown includes body" do
