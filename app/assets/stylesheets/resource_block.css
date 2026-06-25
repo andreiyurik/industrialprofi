@@ -30,6 +30,11 @@
   margin: 0;
 }
 
+/* Editor-only "edit links" button sits at the far end of the head row. */
+.resource-block__edit {
+  margin-inline-start: auto;
+}
+
 /* Quiet group caption — whisper, not shout: small, muted, normal case, no icon.
    The meaning stays explicit without the visual noise of stars + ALL CAPS. */
 .resource-block__group {

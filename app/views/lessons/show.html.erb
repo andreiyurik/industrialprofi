@@ -51,6 +51,16 @@
     ] %>
 
     <div class="lesson__tools">
+      <%# Editors/admins skip the suggest-edit flow: jump straight to the editor
+          for this lesson. Only shown to a user who may actually edit this
+          profession, so the link never lands on a 403. %>
+      <% if Current.user&.can_edit_path?(@lesson.path) %>
+        <%= link_to edit_admin_lesson_path(@lesson), class: "btn btn--small lesson__edit" do %>
+          <%= heroicon "pencil-square", variant: :outline %>
+          <%= t("lessons.edit_lesson") %>
+        <% end %>
+      <% end %>
+
       <button type="button" class="lesson__tool lesson__copy" hidden
               data-copy-link-target="button"
               data-action="copy-link#copy"
@@ -123,6 +133,15 @@
           <div class="resource-block__head">
             <span class="resource-block__icon"><%= heroicon "document-text", variant: :outline %></span>
             <h2 class="resource-block__title"><%= t("lessons.resources_section") %></h2>
+            <%# Editors jump straight to the link editor (anchored to the resources
+                fields), so fixing a dead/wrong link is one click from the article. %>
+            <% if Current.user&.can_edit_path?(@lesson.path) %>
+              <%= link_to edit_admin_lesson_path(@lesson, anchor: "resources-editor"),
+                    class: "btn btn--small resource-block__edit" do %>
+                <%= heroicon "pencil-square", variant: :outline %>
+                <%= t("lessons.edit_resources") %>
+              <% end %>
+            <% end %>
           </div>
 
           <% if required_resources.any? %>

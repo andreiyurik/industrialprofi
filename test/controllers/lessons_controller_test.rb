@@ -65,6 +65,35 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".lesson-task-journal", false
   end
 
+  test "edit-lesson button only shows to a user who can edit this profession" do
+    # signed out: no button
+    get lesson_path(lessons(:pteep))
+    assert_select "a.lesson__edit", false
+
+    # a plain member: no button
+    sign_in_as users(:member)
+    get lesson_path(lessons(:pteep))
+    assert_select "a.lesson__edit", false
+    sign_out
+
+    # an editor sees it on a profession they were granted, linking to the editor
+    sign_in_as users(:editor)
+    get lesson_path(lessons(:pteep)) # electrician — granted
+    assert_select "a.lesson__edit[href=?]", edit_admin_lesson_path(lessons(:pteep))
+    # and the "edit links" button by the resources block jumps to the link editor
+    assert_select "a.resource-block__edit[href=?]",
+      edit_admin_lesson_path(lessons(:pteep), anchor: "resources-editor")
+    # but NOT on a profession they were not granted (welder)
+    get lesson_path(lessons(:svarka_intro))
+    assert_select "a.lesson__edit", false
+    sign_out
+
+    # an admin sees it everywhere
+    sign_in_as users(:admin)
+    get lesson_path(lessons(:svarka_intro))
+    assert_select "a.lesson__edit[href=?]", edit_admin_lesson_path(lessons(:svarka_intro))
+  end
+
   test "reading mode cookie renders the stripped layout server-side" do
     get lesson_path(lessons(:pteep))
     assert_select "div.lesson-layout--reading", false
