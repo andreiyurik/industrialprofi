@@ -1,3 +1,28 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# DEV-ЛОГИНЫ (только development; в production аккаунтов отсюда НЕТ).
+# Пароль у ВСЕХ один: "password"
+#
+#   Роль            Логин (email)                    Имя
+#   ──────────────  ───────────────────────────────  ─────────────────────────
+#   администратор   admin@example.com                Dev Админ
+#   участник        user@example.com                 Dev Пользователь
+#
+#   администратор   sergey.admin@example.com         Сергей Ковалёв
+#   администратор   olga.admin@example.com           Ольга Морозова
+#
+#   эксперт         viktor.expert@example.com        Виктор Селезнёв   (elektrik)
+#   эксперт         dmitry.expert@example.com        Дмитрий Лагутин   (inzhener-asu-tp, kipia-aes)
+#   эксперт         natalya.expert@example.com       Наталья Орлова    (kipia-aes)
+#
+#   участник        ivan.petrov@example.com          Иван Петров
+#   участник        aleksey.smirnov@example.com      Алексей Смирнов
+#   участник        maria.kuznetsova@example.com     Мария Кузнецова
+#   участник        pavel.novikov@example.com        Павел Новиков
+#   участник        egor.vasilev@example.com         Егор Васильев
+#
+#   заблокирован    spammer@example.com              Аноним Рекламный
+# ─────────────────────────────────────────────────────────────────────────────
+
 # Curriculum lives as a YAML/Markdown tree under db/seeds/curriculum and is
 # imported create-only: the DB is the source of truth, so re-seeding never
 # overwrites lessons/paths an expert has edited. See CurriculumImporter.
