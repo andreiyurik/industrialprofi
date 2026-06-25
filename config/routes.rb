@@ -84,6 +84,7 @@ Rails.application.routes.draw do
     end
     resources :courses, only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug
     resources :imports, only: [ :new, :create ]
+    get "guide" => "guide#show", as: :guide
     resources :users, only: [ :index, :show, :update ] do
       resource :suspension, only: [ :create, :destroy ]
     end

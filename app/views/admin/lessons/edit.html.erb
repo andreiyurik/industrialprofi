@@ -52,11 +52,8 @@
 
       <%# Live badge palette for the editor: one colour per kind, mirroring the
           reader's resource badges (documents skew "norm" red on this platform). %>
-      <% kind_badges = {
-           "document" => [ "badge--norm", t("lessons.resource_kinds.document") ],
-           "video"    => [ "badge--video", t("lessons.resource_kinds.video") ],
-           "article"  => [ "badge--article", t("lessons.resource_kinds.article") ],
-           "tool"     => [ "badge--tool", t("lessons.resource_kinds.tool") ]
+      <% kind_badges = Resource::KINDS.index_with { |k|
+           [ "badge--#{k}", t("lessons.resource_kinds.#{k}") ]
          } %>
       <div class="admin-form__field admin-form__field--lg" id="resources-editor" data-controller="reveal">
         <label><%= t("admin.resources.heading") %></label>

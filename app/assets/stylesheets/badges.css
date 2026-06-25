@@ -52,6 +52,32 @@
   color: oklch(var(--lch-green));
 }
 
+.badge--doc {
+  background-color: oklch(var(--lch-cyan) / 0.18);
+  color: oklch(var(--lch-cyan));
+}
+
+.badge--course {
+  background-color: oklch(var(--lch-orange) / 0.18);
+  color: oklch(var(--lch-orange));
+}
+
+.badge--software {
+  background-color: oklch(var(--lch-pink) / 0.18);
+  color: oklch(var(--lch-pink));
+}
+
+/* Marker axis (orthogonal to type): a small, muted outline pill — language now,
+   partner later. Deliberately monochrome so it reads as a marker, not a type. */
+.badge--lang {
+  background-color: transparent;
+  border: 1px solid var(--color-subtle);
+  color: var(--color-subtle-dark);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  padding: 0.1em 0.5em;
+}
+
 /* Practice difficulty badges (/projects cards) — the conventional traffic
    light: green = новичок, yellow = практик, red = челлендж. */
 .badge--diff-beginner {

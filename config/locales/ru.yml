@@ -720,10 +720,16 @@ ru:
     resource_kinds:
       norm: "Норматив"
       book: "Книга"
+      doc: "Документация"
+      course: "Курс"
       document: "Документ"
       video: "Видео"
       article: "Статья"
+      software: "ПО"
       tool: "Инструмент"
+    resource_languages:
+      en: "Английский — нет русского аналога"
+      de: "Немецкий — нет русского аналога"
     task_section: "Практическое задание"
     log_result: "Записать результат в дневник"
     difficulty:
@@ -1146,6 +1152,11 @@ ru:
     manage_imports: "Импорт"
     manage_lessons: "Уроки"
     manage_program: "Программа"
+    manage_guide: "Памятка"
+    guide:
+      title: "Памятка автора"
+      intro: "Что означает каждый тип ссылки и текстовый блок и когда его применять. Бейджи и блоки ниже отрисованы так же, как их увидит читатель."
+      link: "Памятка по типам и блокам"
     builder:
       title: "Конструктор"
       landing_title: "Программа обучения"
@@ -1309,8 +1320,8 @@ ru:
     field_title: "Название"
     field_slug: "Slug"
     field_description: "Описание зачем знать"
-    field_body: "Содержание (если теория)"
-    field_task: "Практическое задание (если урок - практика)"
+    field_body: "Содержание (опционально, если теория)"
+    field_task: "Практическое задание (опционально, если урок - практика)"
     field_kind: "Тип"
     kind_lesson: "Урок"
     kind_practice: "Практика"
@@ -1386,6 +1397,8 @@ ru:
       reorder: "Перетащить"
       required: "Обязательно"
       title_placeholder: "Например: ГОСТ 12.1.030-81 «Электробезопасность»"
+      language: "Язык источника"
+      language_default: "RU"
     suggestions_title: "Предложенные правки"
     no_suggestions: "Нет правок на модерации"
     manage_suggestions: "Правки"

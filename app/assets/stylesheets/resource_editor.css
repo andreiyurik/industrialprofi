@@ -86,6 +86,11 @@
   min-width: 12rem;
 }
 
+.resource-row__lang {
+  flex-shrink: 0;
+  width: 5rem;
+}
+
 .resource-row__required {
   align-items: center;
   color: var(--color-subtle-dark);
@@ -99,6 +104,7 @@
 /* Slightly tighter inputs than the page default, to keep rows low. */
 .resource-row__title,
 .resource-row__url,
+.resource-row__lang,
 .resource-row__kind {
   --input-padding: 0.35rem 0.6rem;
 }

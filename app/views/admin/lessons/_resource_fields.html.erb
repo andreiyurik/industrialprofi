@@ -11,11 +11,15 @@
     <div class="resource-row__head">
       <span class="badge resource-row__badge" data-nested-form-target="badge"></span>
       <%= f.select :kind,
-            %w[document video article tool].map { |k| [ t("lessons.resource_kinds.#{k}"), k ] },
+            Resource::KINDS.map { |k| [ t("lessons.resource_kinds.#{k}"), k ] },
             {}, class: "input resource-row__kind",
             data: { nested_form_target: "kind", action: "nested-form#refreshBadge" } %>
       <%= f.text_field :title, placeholder: t("admin.resources.title_placeholder"),
             class: "input resource-row__title" %>
+      <%= f.select :language,
+            Resource::LANGUAGES.map { |l| [ l.upcase, l ] },
+            { include_blank: t("admin.resources.language_default") },
+            class: "input resource-row__lang", title: t("admin.resources.language") %>
       <label class="resource-row__required">
         <%= f.check_box :required %>
         <span><%= t("admin.resources.required") %></span>

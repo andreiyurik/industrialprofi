@@ -1,0 +1,68 @@
+/* Author's reference page (/admin/guide) — resource types + text callouts. */
+.guide__intro {
+  margin-block-end: 1.5rem;
+}
+
+.guide__heading {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-block: 0 0.5rem;
+}
+
+.guide__lead {
+  color: var(--color-subtle-dark);
+  margin-block: 0 1.25rem;
+  max-inline-size: 60ch;
+}
+
+/* Type / marker rows: badge in a fixed gutter, description beside it. */
+.guide-types {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0;
+}
+
+.guide-type {
+  align-items: start;
+  display: grid;
+  gap: 0.4rem 1rem;
+  grid-template-columns: 9rem 1fr;
+}
+
+.guide-type dt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.guide-type dd {
+  color: var(--color-ink);
+  margin: 0;
+}
+
+@media (max-width: 34rem) {
+  .guide-type {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Callout examples: the live block, then when-to-use, then the markdown syntax. */
+.guide-callout + .guide-callout {
+  margin-block-start: 1.75rem;
+}
+
+.guide-callout__when {
+  color: var(--color-subtle-dark);
+  margin-block: 0.5rem 0.4rem;
+}
+
+.guide-callout__syntax {
+  background-color: var(--color-subtle-light);
+  border-radius: 0.4rem;
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  margin: 0;
+  overflow-x: auto;
+  padding: 0.5rem 0.75rem;
+}
