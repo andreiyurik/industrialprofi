@@ -40,4 +40,11 @@ class RevisionDiffTest < ActiveSupport::TestCase
     assert_includes html, "<ins>"
     assert_includes html, "новое"
   end
+
+  test "preserves paragraph breaks so multi-block content stays readable" do
+    same = "<p>первый абзац</p><p>второй абзац</p>"
+    out = RevisionDiff.new(same, same).to_html
+    assert_includes out, "\n", "block boundaries survive as newlines (rendered pre-wrap)"
+    assert_not_includes out, "<ins>"
+  end
 end

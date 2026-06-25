@@ -1420,6 +1420,11 @@ ru:
     confirm_approve: "Принять правку и обновить урок?"
     markdown_paste_hint: "Любите Markdown? Вставляйте его через Ctrl+Shift+V (Cmd+Shift+V на Mac) — редактор отформатирует автоматически."
     diff_heading: "Изменения (текущий → предложенный)"
+    review:
+      view_side: "Рядом"
+      view_diff: "Изменения"
+      current: "Сейчас на сайте"
+      proposed: "Предложено"
     sort: "Сортировка"
     sort_newest: "Сначала свежие"
     sort_oldest: "Сначала старые"
