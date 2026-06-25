@@ -22,6 +22,23 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  # ── Builder (show) ──
+
+  test "show renders the builder tree with the profession's courses and lessons" do
+    get admin_path_path(paths(:electrician))
+    assert_response :success
+    assert_select ".builder"
+    assert_match courses(:el_basics).title, response.body
+    assert_match lessons(:pteep).title, response.body
+  end
+
+  test "an editor cannot open the builder for an ungranted profession" do
+    sign_out
+    sign_in_as users(:editor)
+    get admin_path_path(paths(:welder))
+    assert_response :not_found
+  end
+
   test "update with valid data redirects" do
     patch admin_path_path(paths(:electrician)),
       params: { path: { description: "New description" } }

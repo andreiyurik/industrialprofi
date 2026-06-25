@@ -69,7 +69,16 @@ Rails.application.routes.draw do
         member { post :rollback }
       end
     end
-    resources :paths, only: [ :index, :new, :create, :edit, :update ], param: :slug
+    # paths#show is the curriculum builder (the tree); #index is its landing.
+    # A drag in the builder creates a "move" — a nested RESTful resource scoped to
+    # the profession, so the path slug rides in the URL (cleaner auth than a body
+    # param). The reorder logic itself lives in Path::Curriculum.
+    resources :paths, only: [ :index, :new, :create, :show, :edit, :update ], param: :slug do
+      scope module: :paths do
+        resources :lesson_moves, only: :create
+        resources :course_moves, only: :create
+      end
+    end
     resources :courses, only: [ :index, :new, :create, :edit, :update ], param: :slug
     resources :imports, only: [ :new, :create ]
     resources :users, only: [ :index, :show, :update ] do

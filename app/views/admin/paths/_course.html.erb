@@ -1,0 +1,42 @@
+<%# One draggable course in the builder tree, with its lessons (grouped by stage)
+    nested in a drop list. The whole <li> is draggable; grabbing a nested lesson
+    drags the lesson instead (it's the closer draggable). %>
+<li class="builder-course" data-curriculum-target="course" data-course-id="<%= course.id %>" draggable="true">
+  <div class="builder-course__head">
+    <span class="builder__handle" aria-hidden="true"><%= heroicon "bars-3", variant: :outline %></span>
+    <button type="button" class="builder-course__toggle" data-action="curriculum#toggle"
+            aria-label="<%= t('admin.builder.toggle') %>">
+      <%= heroicon "chevron-down", variant: :outline %>
+    </button>
+    <span class="builder-course__title"><%= course.title %></span>
+    <span class="badge <%= course.status == 'published' ? 'badge--link' : 'badge--draft' %>"><%= course.status %></span>
+    <span class="builder-course__meta"><%= russian_pluralize(course.lessons.size, :lesson) %></span>
+    <span class="builder-course__actions">
+      <a href="<%= new_admin_lesson_path(course_id: course.id) %>" class="btn btn--small">
+        <%= heroicon "plus", variant: :outline %>
+        <span><%= t("admin.builder.add_lesson") %></span>
+      </a>
+      <a href="<%= edit_admin_course_path(course) %>" class="builder__edit" aria-label="<%= t('admin.edit_course') %>">
+        <%= heroicon "cog-6-tooth", variant: :outline %>
+      </a>
+    </span>
+  </div>
+
+  <ul class="builder-course__lessons" data-curriculum-target="lessonList" data-course-id="<%= course.id %>">
+    <% if course.lessons.empty? %>
+      <li class="builder-course__empty" data-curriculum-target="empty"><%= t("admin.builder.no_lessons") %></li>
+    <% else %>
+      <% prev_stage = nil %>
+      <% course.lessons.each do |lesson| %>
+        <% if lesson.stage.present? && lesson.stage != prev_stage %>
+          <li class="builder-stage" data-stage="<%= lesson.stage %>" draggable="true">
+            <span class="builder__handle builder__handle--stage" aria-hidden="true"><%= heroicon "bars-3", variant: :outline %></span>
+            <span class="builder-stage__title"><%= lesson.stage %></span>
+          </li>
+        <% end %>
+        <% prev_stage = lesson.stage %>
+        <%= render "admin/paths/lesson", lesson: lesson %>
+      <% end %>
+    <% end %>
+  </ul>
+</li>

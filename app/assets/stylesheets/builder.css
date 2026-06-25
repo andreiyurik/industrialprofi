@@ -1,0 +1,260 @@
+/* Curriculum builder — the profession tree (courses → stage → lessons) with
+   drag-and-drop reordering. Driven by curriculum_controller.js. */
+
+/* Landing: a grid of profession cards, each opening its builder. */
+.builder-cards {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+}
+
+.builder-card {
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75em;
+  color: var(--color-ink);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 1.1rem;
+  text-decoration: none;
+  transition: border-color 200ms ease, background-color 200ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: var(--color-subtle-light);
+      border-color: var(--color-subtle-dark);
+    }
+  }
+}
+
+.builder-card__head {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.builder-card__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.builder-card__meta {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+}
+
+/* Tree */
+.builder__hint {
+  margin-block-end: 1rem;
+}
+
+.builder__courses {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.builder-course {
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.6em;
+  overflow: hidden;
+}
+
+.builder-course.is-dragging,
+.builder-lesson.is-dragging {
+  opacity: 0.4;
+}
+
+.builder-course__head {
+  align-items: center;
+  background-color: var(--color-subtle-light);
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.6rem 0.75rem;
+}
+
+.builder-course__title {
+  color: var(--color-ink);
+  font-size: 1rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.builder-course__meta {
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+  margin-inline-start: auto;
+  white-space: nowrap;
+}
+
+.builder-course__actions {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.5rem;
+}
+
+.builder-course__toggle {
+  background: none;
+  border: 0;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  display: inline-flex;
+  padding: 0;
+
+  svg {
+    block-size: 1.1rem;
+    inline-size: 1.1rem;
+    transition: transform 200ms ease;
+  }
+
+  @media (any-hover: hover) {
+    &:hover { color: var(--color-ink); }
+  }
+}
+
+.builder-course.is-collapsed .builder-course__toggle svg {
+  transform: rotate(-90deg);
+}
+
+.builder-course.is-collapsed .builder-course__lessons {
+  display: none;
+}
+
+.builder-course__lessons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0.5rem 0.6rem;
+}
+
+.builder-course__empty {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  padding: 0.4rem 0.75rem;
+}
+
+.builder-stage {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  display: flex;
+  font-size: 0.72rem;
+  font-weight: 600;
+  gap: 0.5rem;
+  letter-spacing: 0.03em;
+  margin-block: 0.5rem 0.2rem;
+  padding-inline: 0.75rem;
+  text-transform: uppercase;
+}
+
+.builder-stage.is-dragging {
+  opacity: 0.4;
+}
+
+.builder__handle--stage svg {
+  block-size: 0.95rem;
+  inline-size: 0.95rem;
+}
+
+.builder-lesson {
+  align-items: center;
+  border-radius: 0.4em;
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.4rem 0.6rem;
+  transition: background-color 200ms ease;
+
+  @media (any-hover: hover) {
+    &:hover { background-color: var(--color-subtle-light); }
+  }
+}
+
+.builder-lesson__pos {
+  color: var(--color-subtle-dark);
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  inline-size: 1.5rem;
+  text-align: end;
+}
+
+.builder-lesson__title {
+  color: var(--color-ink);
+  flex: 1;
+  font-size: 0.92rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Drag handle + inline edit affordances */
+.builder__handle {
+  color: var(--color-subtle-dark);
+  cursor: grab;
+  display: inline-flex;
+  flex-shrink: 0;
+
+  svg {
+    block-size: 1.1rem;
+    inline-size: 1.1rem;
+  }
+}
+
+.builder-course.is-dragging .builder__handle,
+.builder-lesson.is-dragging .builder__handle {
+  cursor: grabbing;
+}
+
+.builder__edit {
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-inline-start: auto;
+  transition: color 200ms ease;
+
+  svg {
+    block-size: 1rem;
+    inline-size: 1rem;
+  }
+
+  @media (any-hover: hover) {
+    &:hover { color: var(--color-ink); }
+  }
+}
+
+.builder-course__actions .builder__edit {
+  margin-inline-start: 0;
+}
+
+.builder__add {
+  align-items: center;
+  border: 1px dashed var(--color-subtle);
+  border-radius: 0.6em;
+  color: var(--color-subtle-dark);
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  margin-block-start: 0.5rem;
+  padding: 0.6rem;
+  text-decoration: none;
+  transition: border-color 200ms ease, color 200ms ease;
+
+  svg {
+    block-size: 1rem;
+    inline-size: 1rem;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      border-color: var(--color-subtle-dark);
+      color: var(--color-ink);
+    }
+  }
+}

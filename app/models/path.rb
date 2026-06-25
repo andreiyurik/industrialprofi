@@ -2,6 +2,7 @@ class Path < ApplicationRecord
   include IndexNowNotifiable
   include Importable
   include Sluggable
+  include Curriculum
 
   SLUG_FORMAT = /\A[a-z0-9]+(-[a-z0-9]+)*\z/
 

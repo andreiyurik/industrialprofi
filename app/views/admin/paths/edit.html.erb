@@ -6,7 +6,7 @@
 
     <div class="admin-header">
       <div class="admin-header__title-group">
-        <a href="<%= admin_paths_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+        <a href="<%= admin_path_path(@path) %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
           <%= heroicon("arrow-left", variant: :outline) %>
         </a>
         <h1 class="admin-header__title"><%= @path.title %></h1>

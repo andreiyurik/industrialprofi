@@ -1,9 +1,9 @@
 <%# Persistent section nav — identical links in identical order on EVERY admin
     page, so nothing moves or disappears when switching sections. The current
     section is highlighted; «Правки» carries the moderation-queue count. %>
-<% section = { "dashboard" => "dashboard", "lessons" => "lessons", "revisions" => "lessons",
-               "lesson_suggestions" => "suggestions", "paths" => "paths",
-               "courses" => "courses", "imports" => "imports", "users" => "users",
+<% section = { "dashboard" => "dashboard",
+               "paths" => "program", "courses" => "program", "lessons" => "program", "revisions" => "program",
+               "lesson_suggestions" => "suggestions", "imports" => "imports", "users" => "users",
                "feedbacks" => "feedbacks", "admin_actions" => "log" }[controller_name] %>
 
 <nav class="admin-nav" aria-label="<%= t("admin.nav_label") %>">
@@ -11,6 +11,9 @@
     <%= link_to t("admin.dashboard.title"), admin_root_path, class: "admin-nav__link",
           aria: { current: ("page" if section == "dashboard") } %>
   <% end %>
+
+  <%= link_to t("admin.manage_program"), admin_paths_path, class: "admin-nav__link",
+        aria: { current: ("page" if section == "program") } %>
 
   <%= link_to admin_lesson_suggestions_path, class: "admin-nav__link",
         aria: { current: ("page" if section == "suggestions") } do %>
@@ -20,12 +23,6 @@
     <% end %>
   <% end %>
 
-  <%= link_to t("admin.manage_lessons"), admin_lessons_path, class: "admin-nav__link",
-        aria: { current: ("page" if section == "lessons") } %>
-  <%= link_to t("admin.manage_paths"), admin_paths_path, class: "admin-nav__link",
-        aria: { current: ("page" if section == "paths") } %>
-  <%= link_to t("admin.manage_courses"), admin_courses_path, class: "admin-nav__link",
-        aria: { current: ("page" if section == "courses") } %>
   <%= link_to t("admin.manage_imports"), new_admin_import_path, class: "admin-nav__link",
         aria: { current: ("page" if section == "imports") } %>
 

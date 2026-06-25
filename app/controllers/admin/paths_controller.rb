@@ -6,6 +6,14 @@ module Admin
       @paths = Path.editable_by(Current.user).ordered
     end
 
+    # The curriculum builder: one profession's whole tree (courses → stage →
+    # lessons), reorderable by drag. editable_by scopes it, so a non-owner editor
+    # gets a 404 rather than someone else's workspace.
+    def show
+      @path = Path.editable_by(Current.user).find_by!(slug: params[:slug])
+      @courses = @path.courses.ordered.includes(:lessons)
+    end
+
     def new
       @path = Path.new(status: "draft")
     end

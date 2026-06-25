@@ -6,7 +6,7 @@
 
     <div class="admin-header">
       <div class="admin-header__title-group">
-        <a href="<%= admin_lessons_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+        <a href="<%= admin_path_path(@lesson.path) %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
           <%= heroicon("arrow-left", variant: :outline) %>
         </a>
         <h1 class="admin-header__title"><%= @lesson.title %></h1>
@@ -93,7 +93,7 @@
 
       <div class="admin-form__actions">
         <%= f.submit t("admin.save"), class: "btn btn--reversed" %>
-        <a href="<%= admin_lessons_path %>" class="btn"><%= t("admin.cancel") %></a>
+        <a href="<%= admin_path_path(@lesson.path) %>" class="btn"><%= t("admin.cancel") %></a>
       </div>
     <% end %>
   </div>
