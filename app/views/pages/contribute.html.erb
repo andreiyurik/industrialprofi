@@ -1,0 +1,139 @@
+<% meta_title(t("contribute.title")) %>
+<% meta_description(t("contribute.intro").truncate(160)) %>
+<% canonical_url("#{site_config.url}/contribute") %>
+
+<section class="section">
+  <div class="container container--reading">
+    <div class="contribute">
+
+      <%# Hero — the animated "?" is decorative; the heading carries meaning. %>
+      <header class="contribute-hero">
+        <span class="contribute-hero__mark" aria-hidden="true">?</span>
+        <p class="contribute-hero__eyebrow"><%= t("contribute.eyebrow") %></p>
+        <h1 class="contribute-hero__title"><%= t("contribute.title") %></h1>
+        <p class="contribute-hero__intro"><%= t("contribute.intro") %></p>
+      </header>
+
+      <div class="contribute-manifesto">
+        <p><%= t("contribute.manifesto1") %></p>
+        <p class="contribute-manifesto__highlight"><%= t("contribute.manifesto_highlight") %></p>
+        <p><%= t("contribute.manifesto2") %></p>
+      </div>
+
+      <%# Levels of participation — most accessible first. %>
+      <section class="contribute-block">
+        <h2 class="contribute-block__title"><%= t("contribute.ways_title") %></h2>
+        <p class="contribute-block__lead"><%= t("contribute.ways_lead") %></p>
+
+        <ol class="contribute-ways">
+          <li class="contribute-way">
+            <span class="contribute-way__index" aria-hidden="true">01</span>
+            <div class="contribute-way__content">
+              <p class="contribute-way__kicker"><%= t("contribute.ways.fix.who") %></p>
+              <h3 class="contribute-way__title"><%= t("contribute.ways.fix.title") %></h3>
+              <p class="contribute-way__text"><%= t("contribute.ways.fix.what") %></p>
+              <a href="<%= paths_path %>" class="contribute-way__link">
+                <%= t("contribute.ways.fix.cta") %><span class="contribute-way__arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
+          </li>
+
+          <li class="contribute-way">
+            <span class="contribute-way__index" aria-hidden="true">02</span>
+            <div class="contribute-way__content">
+              <p class="contribute-way__kicker"><%= t("contribute.ways.expert.who") %></p>
+              <h3 class="contribute-way__title"><%= t("contribute.ways.expert.title") %></h3>
+              <p class="contribute-way__text"><%= t("contribute.ways.expert.what") %></p>
+              <% if signed_in? %>
+                <a href="<%= new_feedback_path %>" class="contribute-way__link">
+                  <%= t("contribute.ways.expert.cta") %><span class="contribute-way__arrow" aria-hidden="true">→</span>
+                </a>
+              <% else %>
+                <a href="<%= site_config.telegram_url %>" class="contribute-way__link" target="_blank" rel="noopener">
+                  <%= t("contribute.ways.expert.cta") %><span class="contribute-way__arrow" aria-hidden="true">→</span>
+                </a>
+              <% end %>
+            </div>
+          </li>
+
+          <li class="contribute-way">
+            <span class="contribute-way__index" aria-hidden="true">03</span>
+            <div class="contribute-way__content">
+              <p class="contribute-way__kicker"><%= t("contribute.ways.spread.who") %></p>
+              <h3 class="contribute-way__title"><%= t("contribute.ways.spread.title") %></h3>
+              <p class="contribute-way__text"><%= t("contribute.ways.spread.what") %></p>
+              <a href="<%= site_config.telegram_url %>" class="contribute-way__link" target="_blank" rel="noopener">
+                <%= t("contribute.ways.spread.cta") %><span class="contribute-way__arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <%# How a suggestion travels — the git-free edit pipeline, as a timeline. %>
+      <section class="contribute-block">
+        <h2 class="contribute-block__title"><%= t("contribute.pipeline_title") %></h2>
+        <p class="contribute-block__lead"><%= t("contribute.pipeline_lead") %></p>
+
+        <ol class="contribute-pipeline">
+          <% %w[step1 step2 step3 step4].each_with_index do |step, i| %>
+            <li class="contribute-pipeline__step">
+              <span class="contribute-pipeline__num" aria-hidden="true"><%= i + 1 %></span>
+              <div class="contribute-pipeline__body">
+                <h3 class="contribute-pipeline__step-title"><%= t("contribute.pipeline.#{step}_title") %></h3>
+                <p class="contribute-pipeline__step-desc"><%= t("contribute.pipeline.#{step}_desc") %></p>
+              </div>
+            </li>
+          <% end %>
+        </ol>
+      </section>
+
+      <%# Trust ladder — the growing accent bar shows rising trust/access. %>
+      <section class="contribute-block">
+        <h2 class="contribute-block__title"><%= t("contribute.ladder_title") %></h2>
+        <p class="contribute-block__lead"><%= t("contribute.ladder_lead") %></p>
+
+        <div class="contribute-ladder">
+          <% [["member", 1], ["editor", 2], ["admin", 3]].each do |role, level| %>
+            <div class="contribute-rung contribute-rung--<%= level %>">
+              <span class="contribute-rung__bar" style="--rung-level: <%= level %>" aria-hidden="true"></span>
+              <h3 class="contribute-rung__title"><%= t("contribute.ladder.#{role}_title") %></h3>
+              <p class="contribute-rung__desc"><%= t("contribute.ladder.#{role}_desc") %></p>
+            </div>
+          <% end %>
+        </div>
+      </section>
+
+      <section class="contribute-block">
+        <h2 class="contribute-block__title"><%= t("contribute.faq_title") %></h2>
+        <div class="faq-list">
+          <% t("contribute.faq").each do |item| %>
+            <details class="faq-item">
+              <summary class="faq-item__question"><%= item[:q] %></summary>
+              <div class="faq-item__answer">
+                <%= sanitize item[:a_html].gsub("%{telegram_url}", site_config.telegram_url),
+                             tags: %w[a strong em p br], attributes: %w[href target rel] %>
+              </div>
+            </details>
+          <% end %>
+        </div>
+      </section>
+
+      <div class="contribute-cta panel">
+        <h2 class="contribute-cta__title"><%= t("contribute.cta_title") %></h2>
+        <p class="contribute-cta__text"><%= t("contribute.cta_text") %></p>
+        <div class="contribute-cta__links">
+          <a href="<%= paths_path %>" class="btn btn--reversed"><%= t("contribute.cta_explore") %></a>
+          <% if signed_in? %>
+            <a href="<%= new_feedback_path %>" class="btn"><%= t("contribute.cta_write") %></a>
+          <% else %>
+            <a href="<%= site_config.telegram_url %>" class="btn" target="_blank" rel="noopener"><%= t("contribute.cta_write") %></a>
+          <% end %>
+          <%# Bridge to the separate financial-support page. %>
+          <a href="<%= support_us_path %>" class="btn"><%= t("contribute.cta_support") %></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

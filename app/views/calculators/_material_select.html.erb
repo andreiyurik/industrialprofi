@@ -1,0 +1,3 @@
+<%# The shared conductor-material select — медь / алюминий (cable, voltage-drop, short-circuit). %>
+<%= render "calculators/select", field: "material", label: t("calculators.fields.material"), selected: "cu",
+      options: [["cu", t("calculators.options.material_cu")], ["al", t("calculators.options.material_al")]] %>

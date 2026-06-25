@@ -1,4 +1,13 @@
 class Lesson < ApplicationRecord
+  include IndexNowNotifiable
+  include Importable
+  include Sluggable
+
+  # Digested for edit-safety. The raw markdown columns the importer writes; admin
+  # edits live in rich text + leave a revision, which also freezes the lesson
+  # (see frozen_for_import? below).
+  IMPORTABLE_FIELDS = %w[title description body task kind difficulty stage position].freeze
+
   belongs_to :course, counter_cache: true
   # path_id is a denormalized FK (= course.path) kept in sync below. Many hot
   # queries join lessons.path_id directly (User progress, Projects, Sitemaps),
@@ -8,6 +17,12 @@ class Lesson < ApplicationRecord
   has_many :resources, -> { order(:position) }, dependent: :destroy
   has_many :lesson_suggestions, dependent: :destroy
   has_many :lesson_revisions, dependent: :destroy
+
+  # The admin resource editor edits resources inline with the lesson. A row with
+  # neither a title nor a URL (an empty "add a link" the editor left behind) is
+  # ignored; rows flagged for removal are destroyed.
+  accepts_nested_attributes_for :resources, allow_destroy: true,
+    reject_if: ->(attrs) { attrs["title"].blank? && attrs["url"].blank? }
 
   before_validation { self.path = course.path if course }
 
@@ -39,6 +54,16 @@ class Lesson < ApplicationRecord
   def has_task?        = rich_task.present? || task.present?
   def has_resources?   = resources.any?
 
+  # The convention a theory lesson ends on is a self-check block (`> [!ПРОВЕРЬ]`;
+  # older "самопроверка" / "проверь себя" counts too). `content:audit` flags a
+  # WRITTEN lesson that lacks one — scanning both the imported markdown and any
+  # human rich-text edit.
+  SELF_CHECK_PATTERN = /\[!ПРОВЕРЬ\]|самопроверк|проверь себя/i
+
+  def missing_self_check?
+    has_body? && !body_text.match?(SELF_CHECK_PATTERN)
+  end
+
   def prev_in_path
     path.lessons.where("position < ?", position).ordered.last
   end
@@ -48,6 +73,24 @@ class Lesson < ApplicationRecord
   end
 
   def revised? = lesson_revisions_count.positive?
+
+  # A lesson is also frozen for the importer once it carries any revision: admin
+  # edits and approved suggestions land in rich text (not the markdown columns
+  # the digest covers), so the digest alone wouldn't notice them.
+  def frozen_for_import?
+    super || lesson_revisions.exists?
+  end
+
+  # Community members who improved this lesson, earliest-first. A revision's
+  # editor_name carries the suggester's name (set on approval); the founder's
+  # direct admin edits store nil, so they never appear here — the credit goes
+  # to contributors we want to motivate, and untouched lessons render nothing.
+  def contributor_names
+    lesson_revisions.where.not(editor_name: [ nil, "" ])
+                    .group(:editor_name)
+                    .order(Arel.sql("MIN(created_at)"))
+                    .pluck(:editor_name)
+  end
 
   # The HTML a reader currently sees for a section — rich text if present,
   # otherwise the markdown fallback rendered the same way the view renders it.
@@ -73,12 +116,15 @@ class Lesson < ApplicationRecord
     end
   end
 
-  # Apply an admin edit (title/kind + rich sections) and record one revision per
-  # section whose visible text actually changed — all in one transaction.
+  # Apply an admin edit (title/kind + rich sections + resources) and record one
+  # revision per section whose visible text actually changed — all in one
+  # transaction. A human edit takes ownership: origin becomes "human" so the
+  # YAML/AI importer leaves this lesson (and its resources) alone forever.
   def admin_update_with_revisions!(attrs, edit_reason:)
     transaction do
       befores = LessonRevision::SECTIONS.index_with { |section| section_html(section) }
       assign_attributes(attrs)
+      self.origin = "human"
       save!
       befores.each do |section, before|
         after = section_html(section)
@@ -113,4 +159,22 @@ class Lesson < ApplicationRecord
     end
     sections.join("\n\n")
   end
+
+  private
+    def body_text
+      [ body, rich_body&.to_plain_text ].compact.join(" ")
+    end
+
+    # Public only when both its course and profession are published.
+    def indexnow_url
+      return unless course&.status == "published" && path&.status == "published"
+
+      "#{indexnow_site_url}/lessons/#{slug}"
+    end
+
+    def indexnow_should_ping?
+      previously_new_record? ||
+        saved_change_to_title? || saved_change_to_slug? ||
+        saved_change_to_body? || saved_change_to_description? || saved_change_to_task?
+    end
 end

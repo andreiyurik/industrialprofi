@@ -2,7 +2,7 @@
 service: industrialprofi
 
 # Name of the container image (use your-user/app-name on external registries).
-image: yurik2718/industrialprofi
+image: andreiyurik/industrialprofi
 
 # Deploy to these servers.
 servers:
@@ -18,7 +18,7 @@ proxy:
 # Where you keep your container images. GHCR is free for public repos.
 registry:
   server: ghcr.io
-  username: yurik2718 # TODO: confirm GitHub username
+  username: andreiyurik # TODO: confirm GitHub username
   # A GitHub personal access token with write:packages, stored in .kamal/secrets.
   password:
     - KAMAL_REGISTRY_PASSWORD
@@ -36,6 +36,22 @@ env:
     # reminder emails invite people to "just reply".
     MAIL_FROM: "IndustrialProfi <no-reply@industrialprofi.com>"
     # MAIL_REPLY_TO: "you@industrialprofi.com"   # TODO: set to a mailbox you read
+
+    # Search-engine ownership verification (optional, public codes — NOT secret).
+    # Get them from Google Search Console / Яндекс.Вебмастер, paste here, redeploy;
+    # then submit https://industrialprofi.com/sitemap.xml in each console.
+    # GOOGLE_SITE_VERIFICATION: "..."
+    # YANDEX_VERIFICATION: "..."
+
+    # Social-share preview image (1200×630). Drop a branded PNG in public/ and
+    # point to it; blank = no og:image, compact Twitter card.
+    # OG_IMAGE_URL: "https://industrialprofi.com/og.png"
+
+    # IndexNow instant indexing (Yandex + Bing). Generate a random key once
+    # (e.g. `ruby -rsecurerandom -e 'puts SecureRandom.hex(16)'`), set it here,
+    # redeploy. The app then auto-pings on every published content change and
+    # serves the proof file at /<key>.txt. Blank = pinging off.
+    # INDEXNOW_KEY: "..."
 
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
@@ -67,6 +83,14 @@ volumes:
 # hitting 404 on in-flight requests. Combines all files from new and old
 # version inside the asset_path.
 asset_path: /rails/public/assets
+
+# Cap Docker container log size so the host disk can't fill up from Rails logs.
+# json-file is Docker's default driver; max-size * max-file = 30 MB ceiling.
+logging:
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
 
 # Configure the image builder.
 builder:

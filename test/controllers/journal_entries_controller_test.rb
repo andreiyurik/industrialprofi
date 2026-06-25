@@ -17,21 +17,42 @@ class JournalEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/Чужая запись про сварку/, response.body)
   end
 
-  test "create with photo and lesson link" do
+  test "new form is text-only (Lexxy attachments disabled, so no broken image button)" do
+    sign_in_as users(:member)
+    get new_journal_entry_path
+    assert_response :success
+    assert_match 'attachments="false"', response.body
+  end
+
+  test "empty journal shows a single new-entry CTA, not two" do
+    sign_in_as users(:member) # no entries yet
+    get journal_entries_path
+    assert_response :success
+    assert_select "a[href=?]", new_journal_entry_path, count: 1
+  end
+
+  test "lesson picker lists only practice lessons, not every theory lesson" do
+    sign_in_as users(:member)
+    get new_journal_entry_path
+    assert_select "select#journal_entry_lesson_id" do
+      assert_select "option", text: lessons(:praktika_shchitok).title          # practice — shown
+      assert_select "option", text: lessons(:pteep).title, count: 0             # theory — hidden
+    end
+  end
+
+  test "create with lesson link" do
     sign_in_as users(:member)
 
     assert_difference -> { users(:member).journal_entries.count }, 1 do
       post journal_entries_path, params: { journal_entry: {
         title: "Сборка щитка",
         body: "<p>Собрал по однолинейной схеме</p>",
-        lesson_id: lessons(:praktika_shchitok).id,
-        photos: [ fixture_file_upload("photo.png", "image/png") ]
+        lesson_id: lessons(:praktika_shchitok).id
       } }
     end
     assert_redirected_to journal_entries_path
 
     entry = users(:member).journal_entries.ordered.first
-    assert entry.photos.attached?
     assert_equal lessons(:praktika_shchitok), entry.lesson
   end
 

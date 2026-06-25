@@ -1,0 +1,15 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/phase_select" %>
+    <%= render "calculators/field", field: "p", label: t("calculators.fields.power_kw"), unit: "кВт", value: 5 %>
+    <%= render "calculators/field", field: "u", label: t("calculators.fields.voltage"), unit: "В", value: 380 %>
+    <%= render "calculators/field", field: "cos", label: t("calculators.fields.cosphi"), value: 0.95, info: t("calculators.info.cosphi") %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "i", label: t("calculators.power-current.result_current"), unit: "А", strong: true %>
+    <%= render "calculators/result", output: "s", label: t("calculators.power-current.result_apparent"), unit: "кВА", info: t("calculators.power-current.info.apparent") %>
+  </div>
+</div>

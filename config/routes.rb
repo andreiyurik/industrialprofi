@@ -5,17 +5,27 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # Installable PWA: dynamic manifest + service worker from app/views/pwa/*.
+  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest, defaults: { format: :json }
+  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker, defaults: { format: :js }
 
   root "paths#index"
   get "about" => "pages#about"
+  get "contribute" => "pages#contribute"
   get "faq" => "pages#faq"
+  get "partners" => "pages#partners"
   get "roadmap" => "pages#roadmap"
   get "support_us" => "pages#support_us"
+  get "privacy" => "pages#privacy"
   get "robots.txt" => "sitemaps#robots", defaults: { format: :text }
   get "sitemap.xml" => "sitemaps#show", defaults: { format: :xml }
+
+  # IndexNow ownership proof: serve the key as plain text at /<key>.txt. Only
+  # mounted when a key is configured (the key IS the route — no controller needed).
+  if (indexnow_key = ENV["INDEXNOW_KEY"]).present?
+    get "#{indexnow_key}.txt",
+        to: ->(_env) { [ 200, { "Content-Type" => "text/plain" }, [ indexnow_key ] ] }
+  end
 
   resource :account, only: [ :show, :update ], controller: "account"
   patch "account/password", to: "account#update_password", as: :account_password
@@ -38,6 +48,8 @@ Rails.application.routes.draw do
   get "dashboard" => "dashboard#show"
   resource :learning_goal, only: [ :edit, :update ]
   get "projects" => "projects#index"
+  get "resources" => "resources#index"
+  resources :calculators, only: [ :index, :show ], param: :slug
   resources :journal_entries, path: "journal", except: [ :show ]
   resources :feedbacks, only: [ :new, :create ]
 
@@ -52,15 +64,19 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "dashboard#show"
-    resources :lessons, only: [ :index, :edit, :update ], param: :slug do
+    resources :lessons, only: [ :index, :new, :create, :edit, :update ], param: :slug do
       resources :revisions, only: [ :index ] do
         member { post :rollback }
       end
     end
-    resources :paths, only: [ :index, :edit, :update ], param: :slug
-    resources :courses, only: [ :index, :edit, :update ], param: :slug
-    resources :users, only: [ :index, :update ]
+    resources :paths, only: [ :index, :new, :create, :edit, :update ], param: :slug
+    resources :courses, only: [ :index, :new, :create, :edit, :update ], param: :slug
+    resources :imports, only: [ :new, :create ]
+    resources :users, only: [ :index, :show, :update ] do
+      resource :suspension, only: [ :create, :destroy ]
+    end
     resources :feedbacks, only: [ :index ]
+    get "log" => "admin_actions#index", as: :log
     resources :lesson_suggestions, only: [ :index, :show ] do
       member do
         patch :approve

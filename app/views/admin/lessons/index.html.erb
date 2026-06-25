@@ -4,30 +4,90 @@
   <div class="container">
     <%= render "admin/shared/nav" %>
 
-    <div class="admin-header">
-      <h1 class="admin-header__title"><%= t("admin.lessons_title") %></h1>
-    </div>
-
-    <% @paths.each do |path| %>
-      <div class="admin-group">
-        <div class="admin-group__head">
-          <h2 class="admin-group__title"><%= path.title %></h2>
-          <span class="badge <%= path.status == 'published' ? 'badge--link' : 'badge--draft' %>">
-            <%= path.status %>
-          </span>
-          <span class="admin-group__meta"><%= russian_pluralize(path.lessons_count, :lesson) %></span>
+    <% if @path %>
+      <%# Drill-in: ONE profession's lessons, grouped by course → stage. %>
+      <div class="admin-header">
+        <div class="admin-header__title-group">
+          <a href="<%= admin_lessons_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+            <%= heroicon("arrow-left", variant: :outline) %>
+          </a>
+          <h1 class="admin-header__title"><%= @path.title %></h1>
+          <span class="badge <%= @path.status == 'published' ? 'badge--link' : 'badge--draft' %>"><%= @path.status %></span>
         </div>
+        <div class="admin-header__actions">
+          <a href="<%= new_admin_lesson_path %>" class="btn btn--small btn--reversed">
+            <%= heroicon("plus", variant: :outline) %>
+            <span><%= t("admin.new_lesson") %></span>
+          </a>
+        </div>
+      </div>
 
+      <% if @lessons.empty? %>
+        <div class="admin-empty"><p class="admin-empty__text"><%= t("admin.lessons_empty") %></p></div>
+      <% else %>
+        <%# @lessons is one bounded page, already ordered by global position — a
+            course's lessons are contiguous, so group_by renders each course once. %>
+        <% @lessons.group_by(&:course).each do |course, course_lessons| %>
+          <div class="admin-group">
+            <div class="admin-group__head">
+              <h2 class="admin-group__title"><%= course.title %></h2>
+              <span class="badge <%= course.status == 'published' ? 'badge--link' : 'badge--draft' %>"><%= course.status %></span>
+            </div>
+            <% course_lessons.chunk_while { |a, b| a.stage == b.stage }.each do |stage_lessons| %>
+              <% if stage_lessons.first.stage.present? %>
+                <p class="admin-stage"><%= stage_lessons.first.stage %></p>
+              <% end %>
+              <div class="admin-list">
+                <% stage_lessons.each do |lesson| %>
+                  <a href="<%= edit_admin_lesson_path(lesson) %>" class="admin-row">
+                    <span class="admin-row__position"><%= lesson.position %></span>
+                    <span class="admin-row__title"><%= lesson.title %></span>
+                    <% if lesson.practice? %>
+                      <span class="badge badge--marker"><%= t("admin.kind_practice") %></span>
+                    <% end %>
+                    <span class="admin-row__icon"><%= heroicon("pencil-square", variant: :outline) %></span>
+                  </a>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <%= render "admin/shared/pagination", page: @page, more: @has_more %>
+      <% end %>
+
+    <% else %>
+      <%# Picker: choose a profession, then manage its lessons. %>
+      <div class="admin-header">
+        <h1 class="admin-header__title"><%= t("admin.lessons_title") %></h1>
+        <div class="admin-header__actions">
+          <a href="<%= new_admin_lesson_path %>" class="btn btn--small btn--reversed">
+            <%= heroicon("plus", variant: :outline) %>
+            <span><%= t("admin.new_lesson") %></span>
+          </a>
+        </div>
+      </div>
+
+      <% if @paths.empty? %>
+        <div class="admin-empty"><p class="admin-empty__text"><%= t("admin.lessons_pick_none") %></p></div>
+      <% else %>
+        <p class="admin-form__hint"><%= t("admin.lessons_pick_hint") %></p>
         <div class="admin-list">
-          <% path.lessons.ordered.each do |lesson| %>
-            <a href="<%= edit_admin_lesson_path(lesson) %>" class="admin-row">
-              <span class="admin-row__position"><%= lesson.position %></span>
-              <span class="admin-row__title"><%= lesson.title %></span>
-              <span class="admin-row__icon"><%= heroicon("pencil-square", variant: :outline) %></span>
+          <% @paths.each do |path| %>
+            <a href="<%= admin_lessons_path(path: path.slug) %>" class="admin-row">
+              <span class="admin-row__lead">
+                <span class="admin-row__position"><%= path.position %></span>
+                <span class="admin-row__title"><%= path.title %></span>
+                <span class="badge <%= path.status == 'published' ? 'badge--link' : 'badge--draft' %>"><%= path.status %></span>
+              </span>
+              <span class="admin-row__meta">
+                <span><%= russian_pluralize(path.lessons_count, :lesson) %></span>
+                <%= heroicon("chevron-right", variant: :outline) %>
+              </span>
             </a>
           <% end %>
         </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
 </section>

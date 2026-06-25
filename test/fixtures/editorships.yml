@@ -1,0 +1,9 @@
+# The expert maintains the electrician profession (and a draft), but NOT the
+# welder — that one stays out of reach to prove scoping.
+editor_electrician:
+  user: editor
+  path: electrician
+
+editor_draft:
+  user: editor
+  path: draft_path

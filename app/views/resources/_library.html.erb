@@ -1,0 +1,11 @@
+<%# Full library for one set of entries, grouped by type (roadmap.sh-style). %>
+<% grouped = entries.group_by { |entry| resource_badge_meta(entry)[:label] } %>
+<% %w[norm book video article tool].each do |category| %>
+  <% next unless grouped[category] %>
+  <section class="library-group">
+    <h2 class="library-group__title"><%= t("resources.category.#{category}") %></h2>
+    <ul class="lesson-resources">
+      <%= render partial: "resources/resource_link", collection: grouped[category], as: :entry %>
+    </ul>
+  </section>
+<% end %>

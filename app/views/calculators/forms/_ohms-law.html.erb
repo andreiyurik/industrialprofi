@@ -1,0 +1,18 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <p class="calc__hint"><%= t("calculators.ohms-law.fields_hint") %></p>
+    <%= render "calculators/field", field: "u", label: t("calculators.fields.voltage"), unit: "В", value: 12 %>
+    <%= render "calculators/field", field: "i", label: t("calculators.fields.current"), unit: "А" %>
+    <%= render "calculators/field", field: "r", label: t("calculators.fields.resistance"), unit: "Ом", value: 4 %>
+    <%= render "calculators/field", field: "p", label: t("calculators.fields.power_w"), unit: "Вт" %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "u", label: t("calculators.fields.voltage"), unit: "В" %>
+    <%= render "calculators/result", output: "i", label: t("calculators.fields.current"), unit: "А" %>
+    <%= render "calculators/result", output: "r", label: t("calculators.fields.resistance"), unit: "Ом" %>
+    <%= render "calculators/result", output: "p", label: t("calculators.fields.power_w"), unit: "Вт" %>
+  </div>
+</div>

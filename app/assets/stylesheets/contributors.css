@@ -1,0 +1,28 @@
+/* Generated initials avatars (account menu, admin user cards) + the lesson
+   colophon — one quiet byline below the article, never noise up top. */
+
+.avatar {
+  align-items: center;
+  background: oklch(var(--avatar-hue, var(--lch-gray)) / 0.22);
+  block-size: var(--avatar-size, 1.5rem);
+  border-radius: 50%;
+  color: var(--color-ink);
+  display: inline-flex;
+  flex: none;
+  font-family: var(--font-display);
+  font-size: calc(var(--avatar-size, 1.5rem) * 0.42);
+  font-weight: 700;
+  inline-size: var(--avatar-size, 1.5rem);
+  justify-content: center;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* One quiet line: who improved it · when · history. No divider, no badge, no
+   avatar, normal weight — barely there, reachable, never competing. */
+.lesson-colophon {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin-block-start: var(--block-space-double);
+}

@@ -1,0 +1,19 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/field", field: "ip", label: t("calculators.subnet.ip"), value: "192.168.1.10", text: true %>
+    <%= render "calculators/field", field: "prefix", label: t("calculators.subnet.prefix"), value: 24,
+          hint: t("calculators.subnet.prefix_hint"), info: t("calculators.subnet.info.prefix") %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "network", label: t("calculators.subnet.result_network"), strong: true, info: t("calculators.subnet.info.network") %>
+    <%= render "calculators/result", output: "mask", label: t("calculators.subnet.result_mask"), info: t("calculators.subnet.info.mask") %>
+    <%= render "calculators/result", output: "wildcard", label: t("calculators.subnet.result_wildcard"), info: t("calculators.subnet.info.wildcard") %>
+    <%= render "calculators/result", output: "broadcast", label: t("calculators.subnet.result_broadcast"), info: t("calculators.subnet.info.broadcast") %>
+    <%= render "calculators/result", output: "hostmin", label: t("calculators.subnet.result_hostmin") %>
+    <%= render "calculators/result", output: "hostmax", label: t("calculators.subnet.result_hostmax") %>
+    <%= render "calculators/result", output: "hosts", label: t("calculators.subnet.result_hosts"), strong: true, info: t("calculators.subnet.info.hosts") %>
+  </div>
+</div>

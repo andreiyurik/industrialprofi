@@ -3,17 +3,17 @@ title: "ПНР как процесс: рабочие программы, ПМИ,
 position: 1
 kind: lesson
 resources:
-  - title: "НП-001-15 Общие положения обеспечения безопасности атомных станций (для аудита)"
+  - title: "НП-001-15 «Общие положения обеспечения безопасности атомных станций» (ОПБ)"
     url: https://docs.cntd.ru/document/420304490
     kind: document
     required: true
     country_code: RU
-  - title: "НП-082-07 Правила ядерной безопасности реакторных установок атомных станций (для аудита)"
+  - title: "НП-082-07 Правила ядерной безопасности реакторных установок атомных станций"
     url: https://docs.cntd.ru/document/902073015
     kind: document
     required: false
     country_code: RU
-  - title: "ГОСТ Р 55608-2013 Системы контроля и управления ядерными установками. Пусконаладка (для аудита)"
+  - title: "ГОСТ Р 55608-2013 Системы контроля и управления ядерными установками. Пусконаладка"
     url: https://protect.gost.ru/document.aspx?control=7&id=181014
     kind: document
     required: true

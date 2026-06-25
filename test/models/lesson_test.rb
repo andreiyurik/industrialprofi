@@ -8,6 +8,15 @@ class LessonTest < ActiveSupport::TestCase
     assert lesson.valid?
   end
 
+  # Fail-safe provenance: a row created outside the importer defaults to "human",
+  # so unknown-origin content is treated as frozen and never overwritten.
+  test "origin defaults to human" do
+    assert_equal "human", Lesson.new.origin
+    assert_equal "human", Path.new.origin
+    assert_equal "human", Course.new.origin
+    assert_equal "human", Resource.new.origin
+  end
+
   test "invalid without course" do
     lesson = Lesson.new(title: "Orphan", slug: "orphan")
     assert_not lesson.valid?
@@ -26,10 +35,10 @@ class LessonTest < ActiveSupport::TestCase
     assert lesson.errors[:title].any?
   end
 
-  test "invalid without slug" do
-    lesson = Lesson.new(path: paths(:electrician), title: "No Slug")
-    assert_not lesson.valid?
-    assert lesson.errors[:slug].any?
+  test "auto-generates a slug from the title when blank" do
+    lesson = Lesson.new(course: courses(:el_basics), title: "Новый Урок")
+    assert lesson.valid?
+    assert_equal "novyy-urok", lesson.slug
   end
 
   test "invalid without path" do
@@ -80,6 +89,25 @@ class LessonTest < ActiveSupport::TestCase
 
   test "to_param returns slug" do
     assert_equal "pteep-osnovy", lessons(:pteep).to_param
+  end
+
+  # missing_self_check? (drives content:audit)
+
+  test "missing_self_check? is true for a written theory lesson without a self-check block" do
+    lesson = Lesson.new(course: courses(:el_basics), title: "T", slug: "t-no-check",
+                        body: "Объяснение темы без вопросов.")
+    assert lesson.missing_self_check?
+  end
+
+  test "missing_self_check? is false when the body has a self-check block" do
+    lesson = Lesson.new(course: courses(:el_basics), title: "T", slug: "t-with-check",
+                        body: "Объяснение.\n\n> [!ПРОВЕРЬ] Что произойдёт, если...?")
+    assert_not lesson.missing_self_check?
+  end
+
+  test "missing_self_check? is false for an unwritten lesson with no body yet" do
+    lesson = Lesson.new(course: courses(:el_basics), title: "T", slug: "t-empty")
+    assert_not lesson.missing_self_check?
   end
 
   # to_markdown

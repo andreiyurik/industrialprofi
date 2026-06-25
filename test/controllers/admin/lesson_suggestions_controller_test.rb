@@ -66,4 +66,25 @@ class Admin::LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Not accurate", suggestion.reviewer_comment
     assert_redirected_to admin_lesson_suggestions_path
   end
+
+  # Per-profession access (editorships)
+
+  test "an editor's queue holds only suggestions for their granted professions" do
+    sign_out
+    sign_in_as users(:editor)
+    get admin_lesson_suggestions_path
+    assert_response :success
+    assert_match lesson_suggestions(:pending_suggestion).author_name, response.body # electrician — granted
+    assert_no_match(/#{lesson_suggestions(:welder_suggestion).author_name}/, response.body) # welder — not
+  end
+
+  test "an editor cannot approve a suggestion in an ungranted profession" do
+    sign_out
+    sign_in_as users(:editor)
+    assert_no_difference -> { lesson_suggestions(:welder_suggestion).lesson.lesson_revisions.count } do
+      patch approve_admin_lesson_suggestion_path(lesson_suggestions(:welder_suggestion))
+    end
+    assert_redirected_to admin_lessons_path
+    assert_equal "pending", lesson_suggestions(:welder_suggestion).reload.status
+  end
 end

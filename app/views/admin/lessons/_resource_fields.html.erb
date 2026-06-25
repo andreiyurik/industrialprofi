@@ -1,0 +1,34 @@
+<%# One editable resource row. `f` is a fields_for builder for a Resource.
+    Two compact lines: kind badge + select + title + controls, then the URL. %>
+<div class="resource-row" data-nested-form-target="item">
+  <button type="button" class="resource-row__handle" draggable="true"
+          aria-label="<%= t("admin.resources.reorder") %>"
+          data-action="dragstart->nested-form#dragStart dragend->nested-form#dragEnd">
+    <%= heroicon "bars-3", variant: :outline %>
+  </button>
+
+  <div class="resource-row__fields">
+    <div class="resource-row__head">
+      <span class="badge resource-row__badge" data-nested-form-target="badge"></span>
+      <%= f.select :kind,
+            %w[document video article tool].map { |k| [ t("lessons.resource_kinds.#{k}"), k ] },
+            {}, class: "input resource-row__kind",
+            data: { nested_form_target: "kind", action: "nested-form#refreshBadge" } %>
+      <%= f.text_field :title, placeholder: t("admin.resources.title_placeholder"),
+            class: "input resource-row__title" %>
+      <label class="resource-row__required">
+        <%= f.check_box :required %>
+        <span><%= t("admin.resources.required") %></span>
+      </label>
+      <button type="button" class="resource-row__remove" data-action="nested-form#removeItem"
+              aria-label="<%= t("admin.resources.remove") %>">
+        <%= heroicon "trash", variant: :outline %>
+      </button>
+    </div>
+
+    <%= f.url_field :url, placeholder: "https://", class: "input input--mono resource-row__url" %>
+  </div>
+
+  <%= f.hidden_field :position, data: { nested_form_target: "position" } %>
+  <%= f.hidden_field :_destroy, data: { nested_form_target: "destroy" } %>
+</div>

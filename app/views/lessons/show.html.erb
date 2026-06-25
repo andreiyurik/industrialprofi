@@ -31,40 +31,56 @@
     <%= t("lessons.contents") %>
   </button>
 
-  <%= render "shared/breadcrumbs", crumbs: [
-    { title: @path.title, path: path_path(@path) },
-    { title: @course.title, path: course_path(@course) },
-    { title: @lesson.title }
-  ] %>
+  <%# Trail stops at the course on purpose: the <h1> right below already names
+      the lesson, so repeating it here is redundant noise (and the long title
+      forced a cramped two-line wrap). Full path stays in the breadcrumb JSON-LD
+      above for SEO. %>
+  <%# Quiet top toolbar: breadcrumb trail on the left, icon-only utilities on
+      the right. Keeping the utilities up here (not between the title and the
+      lesson) leaves a clean title → "зачем" → content flow.
+      JS-dependent buttons (copy, reading mode) render `hidden` and are revealed
+      by their controllers on connect — no dead buttons without JS. %>
+  <div class="lesson__topbar"
+       data-controller="copy-link"
+       data-copy-link-url-value="<%= "#{site_config.url}/lessons/#{@lesson.slug}" %>"
+       data-copy-link-label-value="<%= t("lessons.copy_link") %>"
+       data-copy-link-copied-value="<%= t("lessons.link_copied") %>">
+    <%= render "shared/breadcrumbs", crumbs: [
+      { title: @path.title, path: path_path(@path) },
+      { title: @course.title, path: course_path(@course) }
+    ] %>
 
-  <header class="lesson__header">
-    <h1 class="lesson__title"><%= @lesson.title %></h1>
+    <div class="lesson__tools">
+      <%# Editors/admins skip the suggest-edit flow: jump straight to the editor
+          for this lesson. Only shown to a user who may actually edit this
+          profession, so the link never lands on a 403. %>
+      <% if Current.user&.can_edit_path?(@lesson.path) %>
+        <%= link_to edit_admin_lesson_path(@lesson), class: "btn btn--small lesson__edit" do %>
+          <%= heroicon "pencil-square", variant: :outline %>
+          <%= t("lessons.edit_lesson") %>
+        <% end %>
+      <% end %>
 
-    <%# JS-dependent buttons (copy, reading mode) are rendered `hidden` and
-        revealed by their controllers on connect — no dead buttons without JS.
-        The bookmark toggle is a plain form, so the row itself stays visible. %>
-    <div class="lesson__meta"
-         data-controller="copy-link"
-         data-copy-link-url-value="<%= "#{site_config.url}/lessons/#{@lesson.slug}" %>"
-         data-copy-link-label-value="<%= t("lessons.copy_link") %>"
-         data-copy-link-copied-value="<%= t("lessons.link_copied") %>">
-      <button type="button" class="lesson__copy" hidden
+      <button type="button" class="lesson__tool lesson__copy" hidden
               data-copy-link-target="button"
-              data-action="copy-link#copy">
-        <%= heroicon "link", variant: :outline %>
-        <span data-copy-link-target="label"><%= t("lessons.copy_link") %></span>
+              data-action="copy-link#copy"
+              aria-label="<%= t("lessons.copy_link") %>" title="<%= t("lessons.copy_link") %>">
+        <span class="lesson__copy-icon lesson__copy-icon--default"><%= heroicon "link", variant: :outline %></span>
+        <span class="lesson__copy-icon lesson__copy-icon--done"><%= heroicon "check", variant: :outline %></span>
+        <span class="for-screen-reader" data-copy-link-target="label"><%= t("lessons.copy_link") %></span>
       </button>
 
-      <button type="button" class="lesson__copy lesson-reading-toggle" hidden
+      <button type="button" class="lesson__tool lesson-reading-toggle" hidden
               data-reading-mode-target="toggle"
-              data-action="reading-mode#toggle">
+              data-action="reading-mode#toggle"
+              aria-label="<%= t("lessons.reading_mode") %>" title="<%= t("lessons.reading_mode") %>">
         <span class="lesson-reading-toggle__enter">
           <%= heroicon "arrows-pointing-out", variant: :outline %>
-          <span><%= t("lessons.reading_mode") %></span>
+          <span class="lesson-reading-toggle__text"><%= t("lessons.reading_mode") %></span>
         </span>
         <span class="lesson-reading-toggle__exit">
           <%= heroicon "arrows-pointing-in", variant: :outline %>
-          <span><%= t("lessons.reading_mode_exit") %></span>
+          <span class="lesson-reading-toggle__text"><%= t("lessons.reading_mode_exit") %></span>
         </span>
       </button>
 
@@ -74,19 +90,13 @@
               bookmarked: Current.user.lesson_bookmarks.exists?(lesson: @lesson) %>
       <% end %>
     </div>
+  </div>
 
-    <% if @lesson.revised? %>
-      <%= link_to lesson_revisions_path(@lesson),
-          class: "lesson-updated link-quiet link-quiet--underline", data: { turbo_frame: "lesson_history" } do %>
-        <%= heroicon("clock", variant: :outline) %>
-        <span><%= t("revisions.updated_n_times", count: @lesson.lesson_revisions_count) %> · <%= t("revisions.history") %></span>
-      <% end %>
-    <% end %>
+  <header class="lesson__header">
+    <h1 class="lesson__title"><%= @lesson.title %></h1>
   </header>
 
-  <%= turbo_frame_tag "lesson_history" %>
-
-  <article>
+  <article data-controller="lightbox">
     <% if @lesson.has_description? %>
       <section id="why" class="lesson__intro">
         <p class="lesson__intro-label"><%= t("lessons.why_section") %></p>
@@ -108,20 +118,36 @@
     <% if @lesson.has_resources? %>
       <% required_resources = @lesson.resources.required %>
       <% optional_resources = @lesson.resources.optional %>
-      <section id="resources" class="lesson__section">
-        <h2 class="lesson__heading"><%= t("lessons.resources_section") %></h2>
-        <% if required_resources.any? %>
-          <h3 class="lesson-resources__group-title"><%= t("lessons.required_label") %></h3>
-          <ul class="lesson-resources">
-            <%= render required_resources %>
-          </ul>
-        <% end %>
-        <% if optional_resources.any? %>
-          <h3 class="lesson-resources__group-title"><%= t("lessons.optional_label") %></h3>
-          <ul class="lesson-resources">
-            <%= render optional_resources %>
-          </ul>
-        <% end %>
+      <section id="resources" class="lesson__section lesson__section--plain">
+        <div class="resource-block">
+          <div class="resource-block__head">
+            <span class="resource-block__icon"><%= heroicon "document-text", variant: :outline %></span>
+            <h2 class="resource-block__title"><%= t("lessons.resources_section") %></h2>
+            <%# Editors jump straight to the link editor (anchored to the resources
+                fields), so fixing a dead/wrong link is one click from the article. %>
+            <% if Current.user&.can_edit_path?(@lesson.path) %>
+              <%= link_to edit_admin_lesson_path(@lesson, anchor: "resources-editor"),
+                    class: "btn btn--small resource-block__edit" do %>
+                <%= heroicon "pencil-square", variant: :outline %>
+                <%= t("lessons.edit_resources") %>
+              <% end %>
+            <% end %>
+          </div>
+
+          <% if required_resources.any? %>
+            <h3 class="resource-block__group"><%= t("lessons.required_group") %></h3>
+            <ul class="lesson-resources">
+              <%= render required_resources %>
+            </ul>
+          <% end %>
+
+          <% if optional_resources.any? %>
+            <h3 class="resource-block__group"><%= t("lessons.optional_group") %></h3>
+            <ul class="lesson-resources">
+              <%= render optional_resources %>
+            </ul>
+          <% end %>
+        </div>
       </section>
     <% end %>
 
@@ -133,11 +159,11 @@
         </h2>
         <div class="lesson__task">
           <div class="prose"><%= lesson_content(@lesson, :task) %></div>
-          <%# The practice loop: did it → photograph it → log it. The journal
-              entry is the "submission" (and the future v0.3 portfolio). %>
+          <%# The practice loop: did it → log it. The journal entry is the
+              "submission" (and the future v0.3 portfolio). %>
           <% if @lesson.practice? && signed_in? %>
             <%= link_to new_journal_entry_path(lesson_id: @lesson.id), class: "btn lesson-task-journal" do %>
-              <%= heroicon "camera", variant: :outline %>
+              <%= heroicon "pencil-square", variant: :outline %>
               <%= t("lessons.log_result") %>
             <% end %>
           <% end %>
@@ -148,6 +174,8 @@
 
     <%= render "lessons/completion", lesson: @lesson, completed: @completed_ids.include?(@lesson.id) %>
   </article>
+
+  <%= render "lessons/colophon", lesson: @lesson %>
   </div>
 
   <%= render "lessons/toc", lesson: @lesson %>

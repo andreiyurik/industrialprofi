@@ -1,0 +1,25 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/field", field: "value", label: t("calculators.fields.value"), value: 1 %>
+    <%= render "calculators/select", field: "unit", label: t("calculators.fields.unit"), selected: "bar",
+          options: [
+            ["bar", t("calculators.pressure.units.bar")],
+            ["kgf", t("calculators.pressure.units.kgf")],
+            ["mpa", t("calculators.pressure.units.mpa")],
+            ["kpa", t("calculators.pressure.units.kpa")],
+            ["mmh2o", t("calculators.pressure.units.mmh2o")],
+            ["mmhg", t("calculators.pressure.units.mmhg")],
+            ["atm", t("calculators.pressure.units.atm")],
+            ["psi", t("calculators.pressure.units.psi")],
+            ["pa", t("calculators.pressure.units.pa")]
+          ] %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <% %w[bar kgf mpa kpa mmh2o mmhg atm psi pa].each do |unit| %>
+      <%= render "calculators/result", output: unit, label: t("calculators.pressure.units.#{unit}") %>
+    <% end %>
+  </div>
+</div>

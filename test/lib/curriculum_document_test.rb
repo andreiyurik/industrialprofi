@@ -1,0 +1,203 @@
+require "test_helper"
+
+class CurriculumDocumentTest < ActiveSupport::TestCase
+  DOC = <<~YAML.freeze
+    path:
+      title: "Сантехник"
+      description: "Профессия сантехника."
+      status: published
+    courses:
+      - title: "Основы"
+        sections:
+          - title: "Введение"
+            lessons:
+              - title: "Что делает сантехник"
+                kind: lesson
+                description: "Зачем."
+                body: "Тело урока."
+                resources:
+                  - title: "ГОСТ 1"
+                    url: "https://example.com/g1"
+                    kind: document
+                    required: true
+              - title: "Первая практика"
+                kind: practice
+  YAML
+
+  test "imports a new profession as a draft, stamped ai, owned by the author" do
+    author = users(:editor)
+    document = CurriculumDocument.parse(DOC)
+    assert document.valid?, document.errors.inspect
+
+    result = nil
+    assert_difference -> { Path.count }, 1 do
+      result = document.import!(author: author)
+    end
+
+    path = result.path
+    assert_equal "Сантехник", path.title
+    assert_equal "draft", path.status, "AI imports must land as draft, never published"
+    assert_equal "ai", path.origin
+    assert_equal author.id, path.author_id
+    assert_equal "santehnik", path.slug
+
+    course = path.courses.sole
+    assert_equal "draft", course.status
+    assert_equal "ai", course.origin
+
+    lessons = path.lessons.order(:position)
+    assert_equal 2, lessons.size
+    assert_equal "Введение", lessons.first.stage
+    assert_equal "ai", lessons.first.origin
+    assert_equal "beginner", lessons.last.difficulty, "a practice lesson gets a default difficulty"
+
+    resource = lessons.first.resources.sole
+    assert_equal "ai", resource.origin
+    assert resource.required?
+  end
+
+  test "plan is a dry run that writes nothing but reports the counts" do
+    document = CurriculumDocument.parse(DOC)
+    plan = nil
+    assert_no_difference %w[Path.count Course.count Lesson.count Resource.count] do
+      plan = document.plan(author: users(:admin))
+    end
+    assert_equal 1, plan.counts[:courses]
+    assert_equal 2, plan.counts[:lessons]
+    assert_equal 1, plan.counts[:resources]
+    assert_equal :new, plan.path_node[:status]
+  end
+
+  test "an existing path slug is reused, never overwritten, but new children are added" do
+    yaml = <<~YAML
+      path:
+        title: "Электрик переписанный"
+        slug: "elektrik"
+      courses:
+        - title: "Совсем новый курс"
+          slug: "absolutely-new-course"
+          sections:
+            - title: "Раздел"
+              lessons:
+                - title: "Новый урок отсюда"
+    YAML
+    before_title = paths(:electrician).title
+
+    result = CurriculumDocument.parse(yaml).import!(author: users(:admin))
+
+    assert_equal paths(:electrician), result.path
+    assert_equal :exists, result.path_node[:status]
+    assert_equal before_title, paths(:electrician).reload.title, "existing path must not be overwritten"
+    assert Course.exists?(slug: "absolutely-new-course"), "new course is still added under the existing path"
+  end
+
+  test "a slug-less lesson is matched by its title-derived slug, so re-import never duplicates" do
+    document = CurriculumDocument.parse(DOC)
+    document.import!(author: users(:admin))
+
+    assert Lesson.exists?(slug: "chto-delaet-santehnik"), "slug is generated from the title"
+
+    assert_no_difference -> { Lesson.count } do
+      CurriculumDocument.parse(DOC).import!(author: users(:admin))
+    end
+  end
+
+  test "re-import deepens a pristine AI draft in place but never overwrites a human-owned lesson" do
+    CurriculumDocument.parse(DOC).import!(author: users(:admin))
+
+    theory = Lesson.find_by(slug: "chto-delaet-santehnik")
+    assert_equal "ai", theory.origin
+    assert_equal "Тело урока.", theory.body
+
+    # A human takes ownership of the practice lesson — it must freeze forever.
+    # The human's rename lives only in the DB; the re-import still carries the
+    # original AI title, so it resolves to the same slug and hits the frozen row.
+    practice = Lesson.find_by(slug: "pervaya-praktika")
+    practice.update!(origin: "human", title: "Практика (правка эксперта)")
+
+    deepened = DOC.sub('body: "Тело урока."', 'body: "Глубоко проработанное тело урока."')
+
+    result = nil
+    assert_no_difference -> { Lesson.count } do
+      result = CurriculumDocument.parse(deepened).import!(author: users(:admin))
+    end
+
+    assert_equal "Глубоко проработанное тело урока.", theory.reload.body,
+      "a pristine AI draft is deepened in place on re-import"
+
+    assert_equal "Практика (правка эксперта)", practice.reload.title,
+      "a human-owned lesson is frozen and never overwritten"
+
+    statuses = result.course_nodes.flat_map { |course| course[:lessons] }.map { |lesson| lesson[:status] }
+    assert_includes statuses, :updated, "the pristine AI lesson reports as refreshed"
+    assert_includes statuses, :exists, "the human-owned lesson reports as frozen"
+  end
+
+  test "refuses a lesson slug that already belongs to another profession" do
+    CurriculumDocument.parse(DOC).import!(author: users(:admin))
+    stolen = Lesson.find_by!(slug: "chto-delaet-santehnik")
+
+    # A different profession whose lesson title slugifies to the SAME slug.
+    colliding = <<~YAML
+      path:
+        title: "Электромонтёр-новичок"
+        slug: "elektromonter-novichok"
+      courses:
+        - title: "Старт"
+          slug: "start-em"
+          sections:
+            - title: "Введение"
+              lessons:
+                - title: "Что делает сантехник"
+    YAML
+
+    document = CurriculumDocument.parse(colliding)
+    assert_no_difference %w[Lesson.count Path.count] do
+      assert_nil document.import!(author: users(:admin)),
+        "a cross-profession slug collision aborts the whole import"
+    end
+    assert_not document.valid?
+    assert(document.errors.any? { |error| error.to_s.include?("chto-delaet-santehnik") },
+           "the error names the colliding slug so the author can rename it")
+    assert_equal "santehnik", stolen.reload.path.slug,
+      "the original lesson must NOT be moved to the pasted profession"
+  end
+
+  test "refuses two lessons in one paste that resolve to the same slug" do
+    yaml = <<~YAML
+      path:
+        title: "Тест-внутри"
+        slug: "test-vnutri"
+      courses:
+        - title: "Курс один"
+          slug: "kurs-odin"
+          sections:
+            - title: "Раздел"
+              lessons:
+                - title: "Введение"
+                  body: "Тело из курса 1"
+        - title: "Курс два"
+          slug: "kurs-dva"
+          sections:
+            - title: "Раздел"
+              lessons:
+                - title: "Введение"
+                  body: "Тело из курса 2"
+    YAML
+
+    document = CurriculumDocument.parse(yaml)
+    assert_no_difference %w[Path.count Lesson.count] do
+      assert_nil document.import!(author: users(:admin)),
+        "a duplicate slug within one paste aborts the whole import — no silent merge"
+    end
+    assert_not document.valid?
+    assert(document.errors.any? { |error| error.to_s.include?("vvedenie") },
+           "the error names the colliding slug")
+  end
+
+  test "blank, path-less, and malformed input are invalid" do
+    assert_not CurriculumDocument.parse("").valid?
+    assert_not CurriculumDocument.parse("courses: []").valid?
+    assert_not CurriculumDocument.parse("path: [broken").valid?
+  end
+end

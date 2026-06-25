@@ -1,0 +1,5 @@
+<%# A "?" that reveals a plain-language definition of a term in a native popover,
+    opened by click/tap — same on every device, top layer (never clips),
+    dismissed by tapping the backdrop or pressing Esc. Zero JS, one source.
+    locals: id (unique), text (the definition). %>
+<button type="button" class="term-info" popovertarget="<%= id %>" aria-label="<%= t("calculators.what_is_it") %>">?</button><span class="term-info__pop" id="<%= id %>" popover><%= text %></span>

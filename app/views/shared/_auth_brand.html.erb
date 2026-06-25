@@ -1,0 +1,5 @@
+<%# Brand mark above the form — the RJ45 plug alone (no wordmark), sized up as
+    a seal/icon. Links home; the alt carries the name for screen readers. %>
+<%= link_to root_path, class: "auth__brand" do %>
+  <%= image_tag "logo-ethernet.png", alt: t("site.name"), class: "auth__brand-mark" %>
+<% end %>

@@ -17,22 +17,19 @@
 
   <div class="journal-form__field">
     <%= form.label :lesson_id, t("journal.field_lesson") %>
+    <%# Practice lessons only: the journal logs a practice task done, not theory —
+        keeps this picker short instead of listing every lesson of every profession. %>
     <%= form.grouped_collection_select :lesson_id,
-          Path.published.localized.ordered, :lessons, :title, :id, :title,
+          Path.published.localized.ordered.with_practice_lessons, :practice_lessons, :title, :id, :title,
           { include_blank: t("journal.lesson_none") }, { class: "input" } %>
   </div>
 
   <div class="journal-form__field">
     <%= form.label :body, t("journal.field_body") %>
-    <%= form.rich_text_area :body, class: "lexxy-content" %>
-  </div>
-
-  <div class="journal-form__field">
-    <%= form.label :photos, t("journal.field_photos") %>
-    <%= form.file_field :photos, multiple: true, accept: "image/*", class: "input" %>
-    <p class="auth__hint"><%= t("journal.photos_hint",
-          max_photos: JournalEntry::MAX_PHOTOS,
-          max_size: JournalEntry::MAX_PHOTO_SIZE / 1.megabyte) %></p>
+    <p class="journal-form__hint"><%= t("journal.body_hint") %></p>
+    <%# Journal is text-only by design (no uploads on the SQLite disk) — disable
+        Lexxy attachments so there's no broken image button. Lessons keep theirs. %>
+    <%= form.rich_text_area :body, class: "lexxy-content", attachments: "false" %>
   </div>
 
   <div class="journal-form__actions">

@@ -1,26 +1,20 @@
 /* Practice journal: the reader's own work log — private by default.
-   Entries are quiet panels; photos sit in a small thumbnail grid. */
-.journal__header {
-  align-items: start;
+   Entries are quiet text panels. */
+/* Centred hero, matching every other section title on the site. */
+.journal__intro {
+  margin-block-end: 2.5rem;
+}
+
+/* "New entry" sits above the list as a quiet toolbar action. */
+.journal__toolbar {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: space-between;
-  margin-block-end: 2rem;
+  justify-content: flex-end;
+  margin-block-end: 1.25rem;
 
   .btn svg {
     block-size: 1rem;
     inline-size: 1rem;
   }
-}
-
-.journal__title {
-  text-align: start;
-}
-
-.journal__subtitle {
-  color: var(--color-subtle-dark);
-  margin-block: 0.5rem 0;
 }
 
 .journal__entries {
@@ -83,32 +77,31 @@
   margin-block: 0 0.5rem;
 }
 
-.journal-entry__photos {
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
-  margin-block-start: 1rem;
-}
-
-.journal-entry__photo {
-  aspect-ratio: 1;
-  border: 1px solid var(--color-subtle);
-  border-radius: 0.5em;
-  display: block;
-  inline-size: 100%;
-  object-fit: cover;
-}
-
 .journal__empty {
   align-items: center;
-  border: 1px dashed var(--color-subtle);
-  border-radius: 0.75em;
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.9rem;
   color: var(--color-subtle-dark);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  padding: 3rem 1.5rem;
+  padding: 3.5rem 1.5rem;
   text-align: center;
+}
+
+.journal__empty-icon {
+  color: var(--color-subtle);
+  line-height: 0;
+
+  svg {
+    block-size: 2.1rem;
+    inline-size: 2.1rem;
+  }
+}
+
+.journal__empty-text {
+  margin: 0;
+  max-inline-size: 34rem;
 }
 
 .journal-form {
@@ -116,6 +109,13 @@
   flex-direction: column;
   gap: 1.25rem;
   margin-block-start: 2rem;
+}
+
+/* Beats the blank page: a quiet prompt under the body label. */
+.journal-form__hint {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block: 0.15rem 0.5rem;
 }
 
 .journal-form__actions {

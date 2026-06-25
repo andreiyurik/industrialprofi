@@ -3,3 +3,10 @@ import "@hotwired/turbo-rails"
 import "controllers"
 
 import "lexxy"
+
+// Register the service worker so visited lessons stay readable offline.
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker").catch(() => {})
+  })
+}

@@ -87,6 +87,7 @@ module ApplicationHelper
     html = render_callouts(html)
     html = wrap_prose_tables(html)
     html = wrap_code_blocks(html)
+    html = wrap_figures(html)
     html = anchor_prose_headings(html) if anchor_headings
     html.html_safe
   end
@@ -143,6 +144,22 @@ module ApplicationHelper
         .gsub("</table>", "</table></div>")
   end
 
+  # A standalone image — plus its `*Рис. N…*` caption — becomes a single <figure>,
+  # so the caption sits tight under the image (small, muted) and the whole thing is
+  # one lightbox click target. The caption may sit in the SAME paragraph (next line,
+  # no blank — how lessons are authored, so kramdown joins them with a <br>) or in
+  # its own following <em> paragraph. Runs post-sanitize (our own markup).
+  def wrap_figures(html)
+    html.gsub(%r{<p>(<img\b[^>]*?>)\s*(?:<br\s*/?>\s*)?(?:<em>(.*?)</em>)?</p>(?:\s*<p><em>(.*?)</em></p>)?}m) do
+      image = Regexp.last_match(1)
+      caption = Regexp.last_match(2).presence || Regexp.last_match(3)
+      figure = +%(<figure class="prose-figure">#{image})
+      figure << %(<figcaption class="prose-figure__caption">#{caption}</figcaption>) if caption.present?
+      figure << "</figure>"
+      figure
+    end
+  end
+
   # Wrap each fenced code block in a copy-button affordance. Runs post-sanitize
   # (our own markup), like the callouts/tables above — so the data-* hooks and
   # the button survive. The button ships `hidden`; the copy-code Stimulus
@@ -189,19 +206,6 @@ module ApplicationHelper
 
   def russian_pluralize(count, key)
     t("common.#{key}", count: count)
-  end
-
-  # Thumbnails need libvips. Production (Docker) ships it; on a dev box
-  # without it we degrade to serving the original, CSS-constrained.
-  THUMBNAILS_AVAILABLE = begin
-    require "ruby-vips"
-    true
-  rescue LoadError, StandardError
-    false
-  end
-
-  def photo_thumb_source(photo)
-    THUMBNAILS_AVAILABLE ? photo.variant(resize_to_limit: [ 640, 640 ]) : photo
   end
 
   # Resource-type badge (roadmap.sh-style): a coloured pill with a heroicon and

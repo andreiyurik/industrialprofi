@@ -1,0 +1,65 @@
+<%# Tools compete on head terms — keep <title> keyword-tight (no domain suffix,
+    which only ate the SERP char budget); brand stays in the OG title for shares. %>
+<% content_for :title, @calculator.title %>
+<% content_for :og_title, "#{@calculator.title} — #{t('site.name')}" %>
+<% meta_description(@calculator.tagline) %>
+<% canonical_url("#{site_config.url}/calculators/#{@calculator.slug}") %>
+
+<% content_for(:head) do %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+    { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
+    { title: t("calculators.index.title"), url: "#{site_config.url}/calculators" },
+    { title: @calculator.title, url: "#{site_config.url}/calculators/#{@calculator.slug}" }
+  ])) %>
+<% end %>
+
+<section class="section">
+  <div class="container container--reading">
+    <%= render "shared/breadcrumbs", crumbs: [
+      { title: t("calculators.index.title"), path: calculators_path },
+      { title: @calculator.title }
+    ] %>
+
+    <h1 class="calc-title"><%= @calculator.title %></h1>
+    <p class="calc-intro"><%= t("calculators.#{@calculator.slug}.intro") %></p>
+
+    <div class="panel calc" data-controller="calculator"
+         data-calculator-formula-value="<%= @calculator.formula %>"
+         data-action="input->calculator#compute change->calculator#compute">
+      <%= render "calculators/forms/#{@calculator.slug}" %>
+    </div>
+
+    <% norm = t("calculators.#{@calculator.slug}.norm", default: "") %>
+    <% if norm.present? %>
+      <p class="calc-norm">
+        <%= heroicon "document-text", variant: :outline %>
+        <span><%= norm %></span>
+      </p>
+    <% end %>
+
+    <div class="callout callout--important calc-disclaimer">
+      <p class="callout__label">
+        <%= heroicon "information-circle", variant: :outline %>
+        <span><%= t("calculators.disclaimer_label") %></span>
+      </p>
+      <p><%= t("calculators.disclaimer") %></p>
+    </div>
+
+    <% if @calculator.lesson %>
+      <a href="<%= lesson_path(@calculator.lesson) %>" class="panel panel--hover calc-lesson-link">
+        <span class="calc-lesson-link__eyebrow"><%= t("calculators.related_lesson") %></span>
+        <span class="calc-lesson-link__title">
+          <%= @calculator.lesson.title %>
+          <%= heroicon "arrow-right", variant: :outline %>
+        </span>
+      </a>
+    <% end %>
+
+    <p class="calc-back">
+      <%= link_to calculators_path, class: "link-quiet" do %>
+        <%= heroicon "arrow-left", variant: :outline %>
+        <%= t("calculators.all_calculators") %>
+      <% end %>
+    </p>
+  </div>
+</section>

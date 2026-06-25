@@ -20,6 +20,11 @@ module IndustrialprofiDhh
     config.i18n.available_locales = %i[ru en]
     config.i18n.fallbacks = true
 
+    # Target market is RU/CIS — Moscow is the reference. Affects displayed times,
+    # day boundaries (activity heatmap, "active this week") and recurring-job
+    # firing times. Storage stays UTC (Active Record default).
+    config.time_zone = "Moscow"
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

@@ -10,13 +10,17 @@ module Admin
     # rewritten, only appended to.
     def rollback
       revision = @lesson.lesson_revisions.find(params[:id])
-      @lesson.revise!(
-        section: revision.section,
-        html: revision.content_after,
-        editor_name: nil,
-        edit_reason: I18n.t("revisions.rollback_reason", version: revision.version),
-        source: "rollback"
-      )
+      ActiveRecord::Base.transaction do
+        @lesson.revise!(
+          section: revision.section,
+          html: revision.content_after,
+          editor_name: nil,
+          edit_reason: I18n.t("revisions.rollback_reason", version: revision.version),
+          source: "rollback"
+        )
+        record_admin_action("lesson_rolled_back", target: @lesson,
+          lesson: @lesson.title, version: revision.version)
+      end
       redirect_to admin_lesson_revisions_path(@lesson), notice: I18n.t("flash.lesson_rolled_back")
     end
 
@@ -24,6 +28,7 @@ module Admin
 
     def set_lesson
       @lesson = Lesson.find_by!(slug: params[:lesson_slug])
+      authorize_path!(@lesson)
     end
   end
 end

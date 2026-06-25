@@ -5,7 +5,7 @@ class JournalEntriesController < ApplicationController
   before_action :set_entry, only: %i[ edit update destroy ]
 
   def index
-    @entries = Current.user.journal_entries.ordered.includes(:lesson, :rich_text_body, photos_attachments: :blob)
+    @entries = Current.user.journal_entries.ordered.includes(:lesson, :rich_text_body)
   end
 
   def new
@@ -44,6 +44,6 @@ class JournalEntriesController < ApplicationController
     end
 
     def entry_params
-      params.expect(journal_entry: [ :title, :body, :lesson_id, { photos: [] } ])
+      params.expect(journal_entry: [ :title, :body, :lesson_id ])
     end
 end

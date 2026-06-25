@@ -9,6 +9,25 @@
     <meta name="description" content="<%= content_for?(:description) ? content_for(:description) : t('site.description') %>">
     <meta name="application-name" content="<%= t('site.name') %>">
     <meta name="robots" content="index, follow">
+
+    <%# Native-app feel, no JS: Turbo animates page changes via the View
+        Transitions API and morphs same-page refreshes while keeping scroll. %>
+    <meta name="view-transition" content="same-origin">
+    <meta name="turbo-refresh-method" content="morph">
+    <meta name="turbo-refresh-scroll" content="preserve">
+
+    <%# Installable PWA (home-screen icon, standalone window). %>
+    <link rel="manifest" href="<%= pwa_manifest_path %>">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="IndustrialProfi">
+    <% if site_config.google_site_verification.present? %>
+      <meta name="google-site-verification" content="<%= site_config.google_site_verification %>">
+    <% end %>
+    <% if site_config.yandex_verification.present? %>
+      <meta name="yandex-verification" content="<%= site_config.yandex_verification %>">
+    <% end %>
     <% if content_for?(:canonical) %>
       <link rel="canonical" href="<%= content_for(:canonical) %>">
     <% end %>
@@ -20,9 +39,17 @@
     <meta property="og:title" content="<%= content_for?(:og_title) ? content_for(:og_title) : "#{t('site.name')} — #{t('site.tagline')}" %>">
     <meta property="og:description" content="<%= content_for?(:og_description) ? content_for(:og_description) : t('site.description') %>">
     <meta property="og:url" content="<%= content_for?(:canonical) ? content_for(:canonical) : request.original_url %>">
+    <% if site_config.og_image.present? %>
+      <meta property="og:image" content="<%= site_config.og_image %>">
+      <meta property="og:image:width" content="1200">
+      <meta property="og:image:height" content="630">
+    <% end %>
 
-    <%# Twitter Card %>
-    <meta name="twitter:card" content="summary">
+    <%# Twitter Card — a large image when we have one, otherwise the compact card. %>
+    <meta name="twitter:card" content="<%= site_config.og_image.present? ? "summary_large_image" : "summary" %>">
+    <% if site_config.og_image.present? %>
+      <meta name="twitter:image" content="<%= site_config.og_image %>">
+    <% end %>
     <meta name="twitter:title" content="<%= content_for?(:og_title) ? content_for(:og_title) : "#{t('site.name')} — #{t('site.tagline')}" %>">
     <meta name="twitter:description" content="<%= content_for?(:og_description) ? content_for(:og_description) : t('site.description') %>">
 
@@ -31,7 +58,6 @@
     <%= yield :head %>
 
     <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%= stylesheet_link_tag :all, "data-turbo-track": "reload" %>
@@ -39,37 +65,55 @@
   </head>
 
   <body>
-    <header class="header">
+    <header class="header"
+            data-controller="header-reveal"
+            data-header-reveal-hidden-class="header--hidden">
       <nav class="container header__nav">
         <%= link_to root_path, class: "brand header__brand" do %>
           <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", aria: { hidden: "true" } %>
           <span class="brand__text"><%= t("site.name") %></span>
         <% end %>
-        <div class="header__links">
-          <%= link_to t("nav.professions"), paths_path, class: "nav__link link-quiet",
-                aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } %>
-          <%= link_to t("nav.projects"), projects_path, class: "nav__link link-quiet",
-                aria: { current: ("page" if current_page?(projects_path)) } %>
-          <%= link_to t("nav.about"), about_path, class: "nav__link link-quiet",
-                aria: { current: ("page" if current_page?(about_path)) } %>
-          <%= link_to t("nav.support"), support_us_path, class: "nav__link link-quiet",
-                aria: { current: ("page" if current_page?(support_us_path)) } %>
-          <% if controller.class.module_parent_name == "Admin" %>
-            <span class="badge badge--marker">Admin</span>
-          <% end %>
+        <div class="header__right">
+          <%# Mobile: a zero-JS <details> disclosure collapses the nav behind a
+              hamburger. Desktop (≥720px): the toggle is hidden and the panel
+              flows inline as the nav row — single source of links, no JS. %>
+          <details class="header__menu">
+            <summary class="header__menu-toggle" aria-label="<%= t("nav.menu") %>">
+              <%= heroicon "bars-3", variant: :outline %>
+            </summary>
+            <div class="header__menu-panel">
+              <%= link_to t("nav.professions"), paths_path, class: "nav__link link-quiet",
+                    aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } %>
+              <%= link_to t("nav.projects"), projects_path, class: "nav__link link-quiet",
+                    aria: { current: ("page" if current_page?(projects_path)) } %>
+              <%= link_to t("nav.calculators"), calculators_path, class: "nav__link link-quiet",
+                    aria: { current: ("page" if controller_name == "calculators") } %>
+              <% if controller.class.module_parent_name == "Admin" %>
+                <span class="badge badge--marker">Admin</span>
+              <% end %>
+              <% unless signed_in? %>
+                <%= link_to t("auth.sign_in"), new_session_path, class: "nav__link link-quiet",
+                      aria: { current: ("page" if current_page?(new_session_path)) } %>
+              <% end %>
+            </div>
+          </details>
 
           <% if signed_in? %>
             <%# Fizzy-style account hub: everything personal lives behind one
                 name button. Native popover — light-dismiss, zero JS. %>
             <button type="button" class="account-menu-button" popovertarget="account-menu">
-              <%= Current.user.name %>
+              <%= avatar_tag(Current.user.name) %>
+              <span class="account-menu-button__name"><%= Current.user.name %></span>
               <%= heroicon "chevron-down", variant: :outline %>
             </button>
 
             <div id="account-menu" class="account-menu" popover>
               <p class="account-menu__header">
-                <span class="account-menu__name"><%= Current.user.name %></span>
-                <span class="account-menu__email"><%= Current.user.email_address %></span>
+                <%= avatar_tag(Current.user.name) %>
+                <span class="account-menu__identity">
+                  <span class="account-menu__name"><%= Current.user.name %></span>
+                  <span class="account-menu__email"><%= Current.user.email_address %></span>
+                </span>
               </p>
 
               <nav class="account-menu__nav">
@@ -104,9 +148,8 @@
               <% end %>
             </div>
           <% else %>
-            <%= link_to t("auth.sign_in"), new_session_path, class: "nav__link link-quiet",
-                  aria: { current: ("page" if current_page?(new_session_path)) } %>
-            <%= link_to t("auth.sign_up"), new_signup_path, class: "btn btn--small btn--reversed" %>
+            <%# The primary CTA stays visible on mobile (not buried in the menu). %>
+            <%= link_to t("auth.sign_up"), new_signup_path, class: "btn btn--small btn--reversed header__cta" %>
           <% end %>
         </div>
       </nav>
@@ -115,7 +158,7 @@
     <%= render "shared/flash" %>
     <%= render "shared/welcome_letter" if flash[:welcome_letter] %>
 
-    <main>
+    <main class="<%= @layout_class %>">
       <%= yield %>
     </main>
 
@@ -127,37 +170,60 @@
             <span class="brand__text"><%= t("site.name") %></span>
           </a>
           <p class="footer__tagline"><%= t("site.tagline") %></p>
+          <div class="footer__socials">
+            <a href="<%= site_config.telegram_url %>" class="footer__social-link link-quiet" target="_blank" rel="noopener" aria-label="Telegram">
+              <svg fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            </a>
+            <a href="<%= site_config.github_url %>" class="footer__social-link link-quiet" target="_blank" rel="noopener" aria-label="GitHub">
+              <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            </a>
+            <a href="<%= site_config.boosty_url %>" class="footer__social-link link-quiet" target="_blank" rel="noopener" aria-label="Boosty">
+              <svg fill="currentColor" viewBox="0 0 24 24"><path d="M2.661 14.337 6.801 0h6.362L11.88 4.444l-.038.077-3.378 11.733h3.15c-1.321 3.289-2.35 5.867-3.086 7.733-5.816-.063-7.442-4.228-6.02-9.155M8.554 24l7.67-11.035h-3.25l2.83-7.073c4.852.508 7.137 4.33 5.791 8.952C20.16 19.81 14.344 24 8.68 24h-.127z"/></svg>
+            </a>
+          </div>
         </div>
 
-        <nav class="footer__nav">
+        <div class="footer__col">
+          <p class="footer__heading"><%= t("footer.col_learning") %></p>
           <a href="<%= paths_path %>" class="footer__link link-quiet"><%= t("nav.professions") %></a>
           <a href="<%= projects_path %>" class="footer__link link-quiet"><%= t("nav.projects") %></a>
+          <a href="<%= resources_path %>" class="footer__link link-quiet"><%= t("nav.library") %></a>
+          <a href="<%= calculators_path %>" class="footer__link link-quiet"><%= t("nav.calculators") %></a>
+        </div>
+
+        <div class="footer__col">
+          <p class="footer__heading"><%= t("footer.col_project") %></p>
           <a href="<%= about_path %>" class="footer__link link-quiet"><%= t("nav.about") %></a>
           <a href="<%= faq_path %>" class="footer__link link-quiet"><%= t("nav.faq") %></a>
           <a href="<%= roadmap_path %>" class="footer__link link-quiet"><%= t("nav.roadmap") %></a>
+        </div>
+
+        <div class="footer__col">
+          <p class="footer__heading"><%= t("footer.col_support") %></p>
+          <a href="<%= contribute_path %>" class="footer__link link-quiet"><%= t("nav.contribute") %></a>
           <a href="<%= support_us_path %>" class="footer__link link-quiet"><%= t("nav.support") %></a>
+          <a href="<%= partners_path %>" class="footer__link link-quiet"><%= t("nav.partners") %></a>
           <%# Signed-in readers write to the founder right on the site; guests go to Telegram. %>
           <% if signed_in? %>
             <a href="<%= new_feedback_path %>" class="footer__link link-quiet"><%= t("footer.feedback") %></a>
           <% else %>
             <a href="<%= site_config.telegram_url %>" class="footer__link link-quiet" target="_blank" rel="noopener"><%= t("footer.feedback") %></a>
           <% end %>
-        </nav>
-
-        <div class="footer__socials">
-          <a href="<%= site_config.telegram_url %>" class="footer__social-link link-quiet" target="_blank" rel="noopener" aria-label="Telegram">
-            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-          </a>
-          <a href="<%= site_config.github_url %>" class="footer__social-link link-quiet" target="_blank" rel="noopener" aria-label="GitHub">
-            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-          </a>
         </div>
       </div>
 
-      <div class="container">
-        <div class="footer__copy">
-          <%= t("footer.copyright_html", year: Date.current.year, author_url: site_config.author_url) %>
+      <div class="container footer__bottom">
+        <div class="footer__legal">
+          <p class="footer__copy">
+            <%= t("footer.copyright_html", year: Date.current.year, author_url: site_config.author_url) %>
+          </p>
+          <%# Honest, verifiable trust signal: the repo is public (AGPL) and the
+              content is CC BY-SA — links go to the code and the license itself. %>
+          <p class="footer__license">
+            <%= t("footer.license_html", repo_url: site_config.github_url) %>
+          </p>
         </div>
+        <a href="<%= privacy_path %>" class="footer__link link-quiet"><%= t("nav.privacy") %></a>
       </div>
     </footer>
   </body>

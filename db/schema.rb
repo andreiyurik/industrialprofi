@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_12_123652) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_24_150000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -49,10 +49,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_123652) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "admin_actions", force: :cascade do |t|
+    t.string "action", null: false
+    t.integer "actor_id"
+    t.datetime "created_at", null: false
+    t.json "details", default: {}, null: false
+    t.integer "target_id"
+    t.string "target_type"
+    t.index ["action", "id"], name: "index_admin_actions_on_action_and_id"
+    t.index ["actor_id"], name: "index_admin_actions_on_actor_id"
+    t.index ["created_at"], name: "index_admin_actions_on_created_at"
+    t.index ["target_type", "target_id"], name: "index_admin_actions_on_target"
+  end
+
   create_table "courses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
+    t.string "imported_digest"
     t.integer "lessons_count", default: 0, null: false
+    t.string "origin", default: "human", null: false
     t.integer "path_id", null: false
     t.integer "position", default: 0, null: false
     t.string "slug", null: false
@@ -62,6 +77,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_123652) do
     t.index ["path_id"], name: "index_courses_on_path_id"
     t.index ["slug"], name: "index_courses_on_slug", unique: true
     t.index ["status"], name: "index_courses_on_status"
+  end
+
+  create_table "editorships", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "path_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["path_id"], name: "index_editorships_on_path_id"
+    t.index ["user_id", "path_id"], name: "index_editorships_on_user_id_and_path_id", unique: true
+    t.index ["user_id"], name: "index_editorships_on_user_id"
   end
 
   create_table "feedbacks", force: :cascade do |t|
@@ -144,8 +169,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_123652) do
     t.datetime "created_at", null: false
     t.text "description"
     t.string "difficulty"
+    t.string "imported_digest"
     t.string "kind", default: "lesson", null: false
     t.integer "lesson_revisions_count", default: 0, null: false
+    t.string "origin", default: "human", null: false
     t.integer "path_id", null: false
     t.integer "position", default: 0, null: false
     t.string "slug", null: false
@@ -165,8 +192,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_123652) do
     t.integer "courses_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.text "description"
+    t.string "imported_digest"
     t.integer "lessons_count", default: 0, null: false
     t.string "locale", default: "ru", null: false
+    t.string "origin", default: "human", null: false
     t.integer "position", default: 0, null: false
     t.string "slug", null: false
     t.string "status", default: "published", null: false
@@ -184,6 +213,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_123652) do
     t.datetime "created_at", null: false
     t.string "kind", default: "document", null: false
     t.integer "lesson_id", null: false
+    t.string "origin", default: "human", null: false
     t.integer "position", default: 0, null: false
     t.boolean "required", default: false, null: false
     t.string "title", null: false
@@ -214,13 +244,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_123652) do
     t.datetime "reminded_at"
     t.boolean "reminder_emails", default: true, null: false
     t.string "role", default: "member", null: false
+    t.datetime "suspended_at"
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "admin_actions", "users", column: "actor_id", on_delete: :nullify
   add_foreign_key "courses", "paths"
+  add_foreign_key "editorships", "paths"
+  add_foreign_key "editorships", "users"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "journal_entries", "lessons"
   add_foreign_key "journal_entries", "users"

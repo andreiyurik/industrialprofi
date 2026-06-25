@@ -1,0 +1,24 @@
+<div class="calc__stack">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.valve-kv.common_heading") %></h2>
+    <div class="calc__row">
+      <%= render "calculators/field", field: "dp", label: t("calculators.valve-kv.dp"), unit: "бар", value: 1, info: t("calculators.valve-kv.info.dp") %>
+      <%= render "calculators/field", field: "rho", label: t("calculators.valve-kv.rho"), unit: "кг/м³", value: 1000,
+            hint: t("calculators.valve-kv.rho_hint") %>
+    </div>
+  </div>
+
+  <div class="calc__pair">
+    <div class="calc__pair-side">
+      <h2 class="calc__heading"><%= t("calculators.valve-kv.size_heading") %></h2>
+      <%= render "calculators/field", field: "q", label: t("calculators.valve-kv.q"), unit: "м³/ч", value: 10 %>
+      <%= render "calculators/result", output: "kvReq", label: t("calculators.valve-kv.result_kv"), unit: "м³/ч", strong: true, info: t("calculators.valve-kv.info.kv") %>
+    </div>
+
+    <div class="calc__pair-side">
+      <h2 class="calc__heading"><%= t("calculators.valve-kv.check_heading") %></h2>
+      <%= render "calculators/field", field: "kvs", label: t("calculators.valve-kv.kvs"), unit: "м³/ч", value: 16, info: t("calculators.valve-kv.info.kvs") %>
+      <%= render "calculators/result", output: "qMax", label: t("calculators.valve-kv.result_q"), unit: "м³/ч", strong: true %>
+    </div>
+  </div>
+</div>

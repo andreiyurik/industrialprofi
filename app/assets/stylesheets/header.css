@@ -5,13 +5,29 @@
   border-block-end: 1px solid var(--color-subtle);
   position: sticky;
   inset-block-start: 0;
+  transition: transform 250ms ease;
   z-index: 40;
 }
 
+/* Auto-hide (TOP-style): the header-reveal controller adds this once the page
+   is scrolled past the header's height, sliding it up out of view. It returns
+   only when scrolled back to the very top. */
+.header--hidden {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header {
+    transition: none;
+  }
+}
+
 /* DHH-canon public header: wordmark anchored left (the home affordance lives
-   where users expect it), navigation right. A single flex row that wraps the
-   nav onto a second line on narrow screens — no hamburger needed for three
-   links. padding-block gives the wrapped state breathing room. */
+   where users expect it), navigation right. The top bar carries ONLY the
+   "use the product" links (Профессии · Проекты · Калькуляторы) — everything
+   "about the project" lives in the footer. Kept to three, a single flex row
+   wraps onto a second line only on the narrowest screens — no hamburger
+   needed. padding-block gives the wrapped state breathing room. */
 .header__nav {
   align-items: center;
   column-gap: 1.5rem;
@@ -27,12 +43,122 @@
   margin-inline-end: auto;
 }
 
-.header__links {
+.header__right {
+  align-items: center;
+  column-gap: 1.5rem;
+  display: flex;
+  row-gap: 0.5rem;
+}
+
+/* Desktop: the <details> disclosure is "transparent" — the toggle is hidden and
+   the panel always renders as the inline nav row (overriding the UA rule that
+   hides a closed <details>'s content). */
+.header__menu-toggle {
+  display: none;
+}
+
+.header__menu-panel {
   align-items: center;
   column-gap: 1.5rem;
   display: flex;
   flex-wrap: wrap;
   row-gap: 0.5rem;
+}
+
+/* Desktop (≥820px): the nav row must always show, even though the <details> is
+   closed. Modern engines hide closed content via ::details-content
+   (content-visibility); older ones via display:none on the content. The panel's
+   display:flex above covers the latter; this reveals it on the former.
+   820px is where the full inline row (logo + 4 links + CTA) stops fitting on
+   one line; below it we switch to the hamburger rather than let the row wrap. */
+@media (min-width: 820px) {
+  .header__menu::details-content {
+    content-visibility: visible;
+  }
+}
+
+/* Mobile: collapse the nav behind a hamburger. Single flex row never wraps —
+   logo left, [☰] (+ CTA / account button) right. */
+@media (max-width: 819px) {
+  /* One clean row: the brand collapses to just the RJ45 mark (the wordmark
+     would crowd the row), leaving room for [☰] + the CTA on the right. */
+  .header__nav {
+    column-gap: 0.6rem;
+    flex-wrap: nowrap;
+  }
+  .header__right {
+    column-gap: 0.5rem;
+    flex-wrap: nowrap;
+  }
+  .header__brand {
+    --brand-mark-height: 1.7em;
+  }
+  .header__brand .brand__text {
+    display: none;
+  }
+  .header__cta.btn--small {
+    white-space: nowrap;
+  }
+
+  /* Signed-in: the account button collapses to avatar + chevron (the name would
+     widen the row); the full name still shows inside the popover. */
+  .account-menu-button__name {
+    display: none;
+  }
+
+  .header__menu {
+    order: 1;          /* push the hamburger to the far-right corner, after the CTA */
+    position: relative;
+  }
+
+  .header__menu-toggle {
+    align-items: center;
+    border: 1px solid var(--color-subtle);
+    border-radius: 0.6rem;
+    color: var(--color-ink);
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0.4rem;
+  }
+  .header__menu-toggle::-webkit-details-marker { display: none; }
+  .header__menu-toggle svg {
+    block-size: 1.4rem;
+    inline-size: 1.4rem;
+  }
+
+  .header__menu:not([open]) .header__menu-panel {
+    display: none;
+  }
+
+  .header__menu[open] .header__menu-panel {
+    align-items: stretch;
+    background-color: var(--color-subtle-light);
+    border: 1px solid var(--color-subtle);
+    border-radius: 0.75rem;
+    box-shadow:
+      0 12px 32px -8px oklch(var(--lch-always-black) / 0.5),
+      0 4px 8px -4px oklch(var(--lch-always-black) / 0.4);
+    flex-direction: column;
+    inset-block-start: calc(100% + 0.6rem);
+    inset-inline-end: 0;
+    min-inline-size: 13rem;
+    padding: 0.5rem;
+    position: absolute;
+    row-gap: 0.1rem;
+    z-index: 50;
+  }
+
+  /* Roomy, full-width tap targets inside the dropdown. */
+  .header__menu[open] .header__menu-panel .nav__link {
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    padding: 0.6rem 0.7rem;
+  }
+  .header__menu[open] .header__menu-panel .nav__link[aria-current="page"] {
+    background-color: var(--color-selected);
+  }
 }
 
 .brand {
@@ -90,6 +216,10 @@
     inline-size: 0.9em;
   }
 
+  .avatar {
+    --avatar-size: 1.4rem;
+  }
+
   @media (any-hover: hover) {
     &:hover {
       background-color: var(--color-subtle-light);
@@ -127,12 +257,23 @@
 }
 
 .account-menu__header {
+  align-items: center;
   border-block-end: 1px solid var(--color-subtle);
+  display: flex;
+  gap: 0.6rem;
+  margin-block: 0 0.5rem;
+  padding: 0.5rem 0.6rem 0.75rem;
+
+  .avatar {
+    --avatar-size: 2.25rem;
+  }
+}
+
+.account-menu__identity {
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
-  margin-block: 0 0.5rem;
-  padding: 0.5rem 0.6rem 0.75rem;
+  min-inline-size: 0;
 }
 
 .account-menu__name {

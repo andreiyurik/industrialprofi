@@ -5,13 +5,83 @@
 <section class="section">
   <div class="container">
     <div class="support-hero">
+      <p class="support-hero__eyebrow"><%= t("support.eyebrow") %></p>
       <h1 class="support-hero__title"><%= t("support.title") %></h1>
       <p class="support-hero__lede"><%= t("support.intro") %></p>
+      <p class="support-hero__signal"><%= t("support.signal") %></p>
       <div class="support-hero__cta">
         <a href="<%= site_config.donate_url %>" class="btn btn--reversed btn--large" target="_blank" rel="noopener">
           <%= t("support.donate_cta") %>
         </a>
       </div>
+      <%# "Alive" signal for a pre-traction project: not usage numbers (which
+          would be empty), but visible momentum — the living roadmap + open code. %>
+      <p class="support-hero__alive">
+        <%= t("support.alive_html", roadmap_url: roadmap_path, github_url: site_config.github_url) %>
+      </p>
+    </div>
+  </div>
+</section>
+
+<%# The ask: recurring first (the real foundation), then one-time. Amounts are
+    honest anchors with soft impact captions — no donor counts, nothing that
+    reads empty at launch. %>
+<section class="section support-give">
+  <div class="container">
+    <div class="support-give__inner">
+      <h2 class="support-give__title"><%= t("support.give_title") %></h2>
+      <p class="support-give__lead"><%= t("support.give_lead") %></p>
+
+      <div class="support-give__group">
+        <p class="support-give__group-label"><%= t("support.give.recurring_label") %></p>
+        <div class="support-amounts">
+          <% [["100", "r1", site_config.boosty_supporter_url],
+              ["300", "r2", site_config.boosty_ally_url],
+              ["1000", "r3", site_config.boosty_pillar_url]].each do |sum, key, url| %>
+            <a href="<%= url %>" class="support-amount" target="_blank" rel="noopener">
+              <span class="support-amount__sum"><%= sum %> ₽<span class="support-amount__period">/мес</span></span>
+              <span class="support-amount__impact"><%= t("support.give.#{key}") %></span>
+            </a>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="support-give__group">
+        <p class="support-give__group-label"><%= t("support.give.onetime_label") %></p>
+        <div class="support-amounts">
+          <% [["150", "o1"], ["500", "o2"], ["1500", "o3"], ["5000", "o4"]].each do |sum, key| %>
+            <a href="<%= site_config.donate_url %>" class="support-amount" target="_blank" rel="noopener">
+              <span class="support-amount__sum"><%= sum %> ₽</span>
+              <span class="support-amount__impact"><%= t("support.give.#{key}") %></span>
+            </a>
+          <% end %>
+        </div>
+      </div>
+
+      <p class="support-give__note"><%= t("support.give_note") %></p>
+    </div>
+  </div>
+</section>
+
+<%# Companies need a different rail (CloudTips caps at 5000 ₽ one-time) — point
+    them to /partners rather than an empty sponsor wall here. %>
+<section class="section">
+  <div class="container">
+    <div class="support-company">
+      <h2 class="support-company__title"><%= t("support.company_title") %></h2>
+      <p class="support-company__text"><%= t("support.company_text") %></p>
+      <a href="<%= partners_path %>" class="btn"><%= t("support.company_cta") %></a>
+    </div>
+  </div>
+</section>
+
+<%# Destination, not traction: sell where this is going (the platform-constructor
+    ambition), framed honestly as direction — the donor funds a future. %>
+<section class="section">
+  <div class="container">
+    <div class="support-vision__inner">
+      <h2 class="support-vision__title"><%= t("support.vision_title") %></h2>
+      <p class="support-vision__text"><%= t("support.vision_text") %></p>
     </div>
   </div>
 </section>
@@ -35,12 +105,16 @@
           <p class="support-faq__answer"><%= t("support.a_why_free") %></p>
         </div>
         <div>
+          <h3 class="support-faq__question"><%= t("support.q_paid") %></h3>
+          <p class="support-faq__answer"><%= t("support.a_paid") %></p>
+        </div>
+        <div>
           <h3 class="support-faq__question"><%= t("support.q_surplus") %></h3>
           <p class="support-faq__answer"><%= t("support.a_surplus") %></p>
         </div>
         <div>
           <h3 class="support-faq__question"><%= t("support.q_other_help") %></h3>
-          <p class="support-faq__answer"><%= t("support.a_other_help") %></p>
+          <p class="support-faq__answer"><%= t("support.a_other_help_html", contribute_url: contribute_path) %></p>
         </div>
         <div>
           <h3 class="support-faq__question"><%= t("support.q_who_created") %></h3>

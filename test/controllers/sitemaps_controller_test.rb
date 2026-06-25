@@ -30,6 +30,11 @@ class SitemapsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "https://industrialprofi.com/support_us"
   end
 
+  test "sitemap contains the projects landing page" do
+    get "/sitemap.xml"
+    assert_includes response.body, "https://industrialprofi.com/projects"
+  end
+
   test "sitemap contains lastmod" do
     get "/sitemap.xml"
     assert_includes response.body, "<lastmod>"

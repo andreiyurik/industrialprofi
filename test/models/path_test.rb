@@ -14,10 +14,10 @@ class PathTest < ActiveSupport::TestCase
     assert path.errors[:title].any?
   end
 
-  test "invalid without slug" do
-    path = Path.new(title: "No Slug", status: "published")
-    assert_not path.valid?
-    assert path.errors[:slug].any?
+  test "auto-generates a slug from the title when blank" do
+    path = Path.new(title: "Новый Электрик", status: "published")
+    assert path.valid?
+    assert_equal "novyy-elektrik", path.slug
   end
 
   test "slug must be unique" do

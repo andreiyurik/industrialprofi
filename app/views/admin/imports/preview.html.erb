@@ -1,0 +1,57 @@
+<% meta_title(t("admin.imports.preview_title")) %>
+
+<% status_badge = ->(status) { %i[new updated].include?(status) ? "badge--link" : "badge--draft" } %>
+<% status_label = ->(status) { t("admin.imports.status_#{status}") } %>
+
+<section class="admin-page">
+  <div class="container">
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-header">
+      <div class="admin-header__title-group">
+        <a href="<%= new_admin_import_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+          <%= heroicon("arrow-left", variant: :outline) %>
+        </a>
+        <h1 class="admin-header__title"><%= t("admin.imports.preview_title") %></h1>
+      </div>
+    </div>
+
+    <p class="admin-form__hint admin-form__field--lg"><%= t("admin.imports.draft_note") %></p>
+
+    <div class="import-plan">
+      <div class="import-plan__path">
+        <span class="badge <%= status_badge.(@plan.path_node[:status]) %>"><%= status_label.(@plan.path_node[:status]) %></span>
+        <strong><%= @plan.path_node[:title] %></strong>
+      </div>
+
+      <% @plan.course_nodes.each do |course| %>
+        <div class="import-plan__course">
+          <span class="badge <%= status_badge.(course[:status]) %>"><%= status_label.(course[:status]) %></span>
+          <span><%= course[:title] %></span>
+        </div>
+        <ul class="import-plan__lessons">
+          <% Array(course[:lessons]).each do |lesson| %>
+            <li>
+              <span class="badge <%= status_badge.(lesson[:status]) %>"><%= status_label.(lesson[:status]) %></span>
+              <%= lesson[:title] %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+
+    <p class="import-plan__summary">
+      <%= t("admin.imports.summary",
+            courses: @plan.counts[:courses], lessons: @plan.counts[:lessons], resources: @plan.counts[:resources]) %>
+    </p>
+
+    <%= form_with(url: admin_imports_path, method: :post) do |f| %>
+      <%= hidden_field_tag :yaml, @yaml %>
+      <%= hidden_field_tag :confirm, "1" %>
+      <div class="admin-form__actions">
+        <%= submit_tag t("admin.imports.confirm_button"), class: "btn btn--reversed" %>
+        <a href="<%= new_admin_import_path %>" class="btn"><%= t("admin.cancel") %></a>
+      </div>
+    <% end %>
+  </div>
+</section>

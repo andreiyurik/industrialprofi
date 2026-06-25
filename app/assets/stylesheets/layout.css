@@ -1,7 +1,19 @@
 body {
   display: grid;
+  /* The single column is minmax(0, 1fr), NOT the default `auto`: `auto` sizes to
+     content, so any over-wide child (a comparison table, code block, long URL)
+     blows the whole page past the viewport and everything clips on mobile. The
+     0 minimum lets the column — and its grid items — shrink to the viewport so
+     wide content scrolls inside its own wrapper instead. */
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto 1fr auto;
   min-block-size: 100dvh;
+}
+
+/* Grid items default to min-width:auto (won't shrink below content); zero it so
+   <main>'s content is bound by the viewport, not by its widest descendant. */
+body > * {
+  min-inline-size: 0;
 }
 
 .container {

@@ -1,0 +1,96 @@
+<% meta_title(t("admin.log.title")) %>
+
+<section class="admin-page">
+  <div class="container">
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-header">
+      <div class="admin-header__title-group admin-header__title-group--stacked">
+        <h1 class="admin-header__title"><%= t("admin.log.title") %></h1>
+        <p class="admin-header__subtitle"><%= t("admin.log.subtitle") %></p>
+      </div>
+    </div>
+
+    <%# Category tabs — group the raw action types. Changing a filter drops the
+        cursor (back to newest of the narrowed set), keeps the actor choice. %>
+    <% tabs = [
+         [ t("admin.log.filters.all"),        nil,          @category.nil? ],
+         [ t("admin.log.filters.roles"),      "roles",      @category == "roles" ],
+         [ t("admin.log.filters.moderation"), "moderation", @category == "moderation" ],
+         [ t("admin.log.filters.bans"),       "bans",       @category == "bans" ]
+       ] %>
+    <div class="admin-log-filters">
+      <nav class="admin-filters" aria-label="<%= t("admin.log.filter_label") %>">
+        <% tabs.each do |label, value, active| %>
+          <%= link_to url_for(type: value, actor: @actor_id),
+                class: "admin-filter#{' admin-filter--active' if active}",
+                aria: { current: ("page" if active) } do %>
+            <%= label %>
+          <% end %>
+        <% end %>
+      </nav>
+
+      <%# Actor filter — lists who can act (cheap, fixed), not a scan of the log. %>
+      <%= form_with url: admin_log_path, method: :get, class: "admin-log-actor" do %>
+        <%= hidden_field_tag :type, @category if @category %>
+        <%= select_tag :actor,
+              options_for_select([ [ t("admin.log.actor_all"), "" ] ] +
+                @actors.map { |u| [ u.name, u.id.to_s ] }, @actor_id),
+              class: "input" %>
+        <%= submit_tag t("admin.log.actor_apply"), class: "btn btn--small" %>
+      <% end %>
+    </div>
+
+    <% if @admin_actions.none? %>
+      <div class="admin-empty">
+        <p class="admin-empty__text"><%= @filtered ? t("admin.log.none_filtered") : t("admin.log.none") %></p>
+        <% if @filtered %>
+          <%= link_to t("admin.log.reset"), admin_log_path, class: "btn btn--small" %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="admin-list">
+        <% @admin_actions.each do |entry| %>
+          <div class="admin-row admin-row--static">
+            <span class="admin-row__column">
+              <span class="admin-row__title"><%= admin_action_description(entry) %></span>
+              <p class="admin-row__subtle">
+                <%= entry.actor&.name || t("admin.log.actor_deleted") %> ·
+                <time datetime="<%= entry.created_at.iso8601 %>"><%= l(entry.created_at, format: :long) %></time>
+              </p>
+            </span>
+          </div>
+        <% end %>
+      </div>
+
+      <%# Cursor nav — newer/older by edge id, no page numbers (the log is a feed,
+          not a finite table) so we never COUNT or OFFSET. %>
+      <% if @has_newer || @has_older %>
+        <% keep = request.query_parameters.except("before", "after") %>
+        <nav class="admin-pagination" aria-label="<%= t("admin.pagination.label") %>">
+          <% if @has_newer %>
+            <%= link_to url_for(keep.merge(after: @newer_cursor)), class: "btn btn--small" do %>
+              ← <%= t("admin.pagination.newer") %>
+            <% end %>
+          <% else %>
+            <span></span>
+          <% end %>
+
+          <% if @has_newer %>
+            <%= link_to t("admin.log.to_newest"), url_for(keep), class: "admin-pagination__page" %>
+          <% else %>
+            <span class="admin-pagination__page"><%= t("admin.log.newest") %></span>
+          <% end %>
+
+          <% if @has_older %>
+            <%= link_to url_for(keep.merge(before: @older_cursor)), class: "btn btn--small" do %>
+              <%= t("admin.pagination.older") %> →
+            <% end %>
+          <% else %>
+            <span></span>
+          <% end %>
+        </nav>
+      <% end %>
+    <% end %>
+  </div>
+</section>

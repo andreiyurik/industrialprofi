@@ -1,0 +1,357 @@
+/* /contribute — "Как поучаствовать?" The community-invitation page: an
+   inspiring address plus a clear, scannable map of every way to help. Reuses
+   panels, buttons, badges and the FAQ <details> accordion; adds a hero with a
+   gently animated "?" and two small schematics (the edit pipeline + the trust
+   ladder). One blue accent, otherwise monochrome — hierarchy from type, weight
+   and spacing, per the house style. */
+
+.contribute {
+  margin-inline: auto;
+  max-inline-size: 44rem;
+}
+
+/* ---- Hero -------------------------------------------------------------- */
+
+.contribute-hero {
+  text-align: center;
+  margin-block-end: 3.5rem;
+}
+
+.contribute-hero__mark {
+  color: var(--color-link);
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 16vw, 8rem);
+  font-weight: 800;
+  line-height: 1;
+  margin-block-end: 0.5rem;
+}
+
+.contribute-hero__eyebrow {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-block: 0;
+  text-transform: uppercase;
+}
+
+.contribute-hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-block: 0.5rem 1.25rem;
+  text-transform: uppercase;
+}
+
+.contribute-hero__intro {
+  color: var(--color-ink);
+  font-size: 1.1rem;
+  line-height: 1.65;
+  margin-block: 0;
+  margin-inline: auto;
+  max-inline-size: 36rem;
+}
+
+/* A slow float + soft glow on the "?" — playful but calm, and motion-safe. */
+@media (prefers-reduced-motion: no-preference) {
+  .contribute-hero__mark {
+    animation: contribute-float 5s ease-in-out infinite;
+  }
+}
+
+@keyframes contribute-float {
+  0%, 100% {
+    transform: translateY(0) rotate(-5deg);
+    text-shadow: 0 0 0 transparent;
+  }
+  50% {
+    transform: translateY(-12px) rotate(5deg);
+    text-shadow: 0 0.5rem 2.5rem oklch(var(--lch-blue) / 0.45);
+  }
+}
+
+/* ---- Manifesto --------------------------------------------------------- */
+
+.contribute-manifesto {
+  color: var(--color-ink);
+  font-size: 1.075rem;
+  line-height: 1.75;
+  margin-block-end: 4rem;
+}
+
+.contribute-manifesto p {
+  margin-block: 0 1.35rem;
+}
+
+.contribute-manifesto__highlight {
+  border-inline-start: 3px solid var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-block: 1.9rem;
+  padding-inline-start: 1.1rem;
+}
+
+/* ---- Shared block scaffolding ------------------------------------------ */
+
+.contribute-block {
+  margin-block-end: 4rem;
+}
+
+.contribute-block__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 4vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-block: 0 0.5rem;
+  text-transform: uppercase;
+}
+
+.contribute-block__lead {
+  color: var(--color-subtle-dark);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-block: 0 1.75rem;
+  max-inline-size: 40rem;
+}
+
+/* ---- Three ways — editorial numbered index -----------------------------
+   Full-width rows separated by hairlines, each anchored by a large ghosted
+   numeral and closed by an arrow link. Replaces the three boxed cards: the
+   text gets full measure (no cramped multi-column hyphenation) and the result
+   reads as a designed index rather than a generic card grid. */
+
+.contribute-ways {
+  border-block-start: 1px solid var(--color-subtle);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contribute-way {
+  border-block-end: 1px solid var(--color-subtle);
+  display: grid;
+  gap: 0.75rem 1.5rem;
+  grid-template-columns: auto 1fr;
+  padding-block: 2rem;
+}
+
+/* Large display numeral as a quiet anchor — present, not shouting. */
+.contribute-way__index {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 8vw, 2.75rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  opacity: 0.28;
+}
+
+.contribute-way__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-inline-size: 36rem;
+}
+
+.contribute-way__kicker {
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin-block: 0 0.4rem;
+  text-transform: uppercase;
+}
+
+.contribute-way__title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-block: 0 0.6rem;
+}
+
+/* Hyphenation off + pretty wrap: long Russian words wrap whole, never split
+   mid-word the way the old narrow columns did. */
+.contribute-way__text {
+  color: var(--color-ink);
+  hyphens: none;
+  line-height: 1.65;
+  margin-block: 0 1.1rem;
+  text-wrap: pretty;
+}
+
+.contribute-way__link {
+  align-items: center;
+  color: var(--color-link);
+  display: inline-flex;
+  font-weight: 600;
+  gap: 0.45rem;
+  text-decoration: none;
+}
+
+.contribute-way__arrow {
+  transition: transform 200ms ease;
+}
+
+@media (any-hover: hover) {
+  .contribute-way__link:hover .contribute-way__arrow {
+    transform: translateX(0.25rem);
+  }
+}
+
+@media (min-width: 40rem) {
+  .contribute-way {
+    gap: 0.75rem 2.5rem;
+    padding-block: 2.5rem;
+  }
+
+  .contribute-way__index {
+    font-size: 3rem;
+  }
+}
+
+/* ---- Edit pipeline (vertical timeline) --------------------------------- */
+
+.contribute-pipeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contribute-pipeline__step {
+  display: flex;
+  gap: 1rem;
+  padding-block-end: 1.75rem;
+  position: relative;
+}
+
+.contribute-pipeline__step:last-child {
+  padding-block-end: 0;
+}
+
+/* The connector line linking the numbered nodes. */
+.contribute-pipeline__step:not(:last-child)::before {
+  background: var(--color-subtle);
+  content: "";
+  inline-size: 1px;
+  inset-block: 2.25rem 0;
+  inset-inline-start: 1.1rem;
+  position: absolute;
+}
+
+.contribute-pipeline__num {
+  align-items: center;
+  background: var(--color-bg);
+  border: 1px solid var(--color-subtle);
+  border-radius: 50%;
+  color: var(--color-ink);
+  display: inline-flex;
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  block-size: 2.25rem;
+  inline-size: 2.25rem;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.contribute-pipeline__body {
+  padding-block-start: 0.2rem;
+}
+
+.contribute-pipeline__step-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-block: 0 0.25rem;
+}
+
+.contribute-pipeline__step-desc {
+  color: var(--color-subtle-dark);
+  line-height: 1.55;
+  margin-block: 0;
+}
+
+/* ---- Trust ladder ------------------------------------------------------ */
+
+.contribute-ladder {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 48rem) {
+  .contribute-ladder {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: stretch;
+  }
+}
+
+.contribute-rung {
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.5rem;
+  background: var(--color-subtle-light);
+  padding: 1.25rem;
+}
+
+/* The accent bar grows with each role — a quiet visual for "rising trust". */
+.contribute-rung__bar {
+  background: var(--color-link);
+  border-radius: 99px;
+  display: block;
+  block-size: 4px;
+  inline-size: calc(var(--rung-level) / 3 * 100%);
+  margin-block-end: 0.9rem;
+  opacity: calc(0.4 + var(--rung-level) * 0.2);
+}
+
+.contribute-rung__title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-block: 0 0.3rem;
+}
+
+.contribute-rung__desc {
+  color: var(--color-subtle-dark);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin-block: 0;
+}
+
+/* ---- Closing CTA ------------------------------------------------------- */
+
+.contribute-cta {
+  padding: 2rem;
+  text-align: center;
+}
+
+.contribute-cta__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 4vw, 1.8rem);
+  font-weight: 800;
+  margin-block: 0 0.5rem;
+  text-transform: uppercase;
+}
+
+.contribute-cta__text {
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+  margin-block: 0 1.5rem;
+  margin-inline: auto;
+  max-inline-size: 34rem;
+}
+
+.contribute-cta__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}

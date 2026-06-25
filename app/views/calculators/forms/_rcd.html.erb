@@ -1,0 +1,21 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/field", field: "i", label: t("calculators.rcd.current"), unit: "А", value: 16 %>
+    <%= render "calculators/field", field: "l", label: t("calculators.rcd.length"), unit: "м", value: 20 %>
+    <%= render "calculators/select", field: "setting", label: t("calculators.rcd.setting"), selected: "30",
+          options: [
+            ["10", t("calculators.rcd.setting_10")],
+            ["30", t("calculators.rcd.setting_30")],
+            ["100", t("calculators.rcd.setting_100")],
+            ["300", t("calculators.rcd.setting_300")]
+          ] %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "ileak", label: t("calculators.rcd.result_ileak"), unit: "мА", strong: true %>
+    <%= render "calculators/result", output: "threshold", label: t("calculators.rcd.result_threshold"), unit: "мА" %>
+    <p class="calc__note"><%= t("calculators.rcd.note") %></p>
+  </div>
+</div>

@@ -19,14 +19,30 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".about-letter__cta a[href=?]", support_us_path
   end
 
-  test "header exposes the about link on every page" do
+  test "footer exposes the about link on every page" do
+    # "About the project" lives in the footer now — the header carries only the
+    # "use the product" links (professions/practice/calculators).
     get root_path
-    assert_select "header.header a[href=?]", about_path, text: I18n.t("nav.about")
+    assert_select "footer.footer a[href=?]", about_path, text: I18n.t("nav.about")
   end
 
   test "support page still renders" do
     get support_us_path
     assert_response :success
+  end
+
+  test "privacy policy page renders all sections" do
+    get privacy_path
+    assert_response :success
+    assert_select "h1.legal__title", text: I18n.t("privacy.title")
+    assert_select "h2.legal__heading", count: 10
+    # The rights section links to account settings (the data-deletion path).
+    assert_select ".legal a[href=?]", account_path
+  end
+
+  test "footer links to the privacy policy on every page" do
+    get root_path
+    assert_select "footer a[href=?]", privacy_path, text: I18n.t("nav.privacy")
   end
 
   test "roadmap page renders status groups and items" do
@@ -60,5 +76,21 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "footer exposes the faq link on every page" do
     get root_path
     assert_select "footer.footer a[href=?]", faq_path, text: I18n.t("nav.faq")
+  end
+
+  test "partners page shows the invitation (not an empty roster) and the independence policy" do
+    get partners_path
+    assert_response :success
+    assert_select "h1.partners-hero__title", text: I18n.t("partners.title")
+    # No partners yet → forward-looking invitation, and NO empty tier headings.
+    assert_select ".partners-invite", text: I18n.t("partners.empty_invite")
+    assert_select ".partners-tier", count: 0
+    # The trust firewall is stated on the page itself.
+    assert_includes @response.body, I18n.t("partners.independence_title")
+  end
+
+  test "footer exposes the partners link on every page" do
+    get root_path
+    assert_select "footer.footer a[href=?]", partners_path, text: I18n.t("nav.partners")
   end
 end

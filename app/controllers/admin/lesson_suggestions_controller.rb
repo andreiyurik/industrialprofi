@@ -4,9 +4,9 @@ module Admin
 
     def index
       @order = params[:order] == "asc" ? :asc : :desc
-      @grouped = LessonSuggestion.pending.includes(:lesson)
-                                 .order(created_at: @order)
-                                 .group_by(&:lesson)
+      @grouped = editable_suggestions.pending.includes(:lesson)
+                                     .order(created_at: @order)
+                                     .group_by(&:lesson)
     end
 
     def show
@@ -26,6 +26,8 @@ module Admin
           suggestion: @suggestion
         )
         @suggestion.update!(status: "approved")
+        record_admin_action("suggestion_approved", target: @suggestion,
+          lesson: @suggestion.lesson.title, section: @suggestion.section)
       end
       redirect_to admin_lesson_suggestions_path, notice: I18n.t("flash.suggestion_approved")
     end
@@ -33,10 +35,14 @@ module Admin
     def reject
       return redirect_to admin_lesson_suggestions_path unless @suggestion.status == "pending"
 
-      @suggestion.update!(
-        status: "rejected",
-        reviewer_comment: params.dig(:lesson_suggestion, :reviewer_comment)
-      )
+      ActiveRecord::Base.transaction do
+        @suggestion.update!(
+          status: "rejected",
+          reviewer_comment: params.dig(:lesson_suggestion, :reviewer_comment)
+        )
+        record_admin_action("suggestion_rejected", target: @suggestion,
+          lesson: @suggestion.lesson.title, section: @suggestion.section)
+      end
       redirect_to admin_lesson_suggestions_path, notice: I18n.t("flash.suggestion_rejected")
     end
 
@@ -44,6 +50,7 @@ module Admin
 
     def set_suggestion
       @suggestion = LessonSuggestion.find(params[:id])
+      authorize_path!(@suggestion.lesson)
     end
   end
 end

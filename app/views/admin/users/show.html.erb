@@ -1,0 +1,169 @@
+<% meta_title(@user.name) %>
+
+<section class="admin-page">
+  <div class="container">
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-header">
+      <div class="admin-header__title-group admin-header__title-group--stacked">
+        <a href="<%= admin_users_path %>" class="admin-back">← <%= t("admin.users_title") %></a>
+        <h1 class="admin-header__title">
+          <%= avatar_tag(@user.name) %>
+          <%= @user.name %>
+          <% unless @user.member? %>
+            <span class="badge badge--marker"><%= t("admin.roles.#{@user.role}") %></span>
+          <% end %>
+          <% if @user.suspended? %>
+            <span class="badge badge--draft"><%= t("admin.users.suspended_badge") %></span>
+          <% end %>
+        </h1>
+        <p class="admin-header__subtitle">
+          <%= mail_to @user.email_address, @user.email_address, class: "link-quiet" %>
+          · <%= t("admin.user.joined", date: l(@user.created_at, format: :long)) %>
+          <% if (active = @user.last_active_at) %>
+            · <%= t("admin.user.last_active", date: l(active, format: :long)) %>
+          <% end %>
+        </p>
+      </div>
+    </div>
+
+    <%# ── Management (same endpoints as the list) ── %>
+    <div class="panel admin-user__manage">
+      <% if @user == Current.user %>
+        <p class="admin-row__subtle"><%= t("admin.users_you") %></p>
+      <% else %>
+        <div class="admin-row__actions">
+          <%= form_with url: admin_user_path(@user), method: :patch, class: "admin-role-form" do %>
+            <%= select_tag "user[role]",
+                  options_for_select(User.roles.keys.map { |r| [ t("admin.roles.#{r}"), r ] }, @user.role),
+                  class: "input" %>
+            <%= submit_tag t("admin.save"), class: "btn btn--small" %>
+          <% end %>
+
+          <% if @user.suspended? %>
+            <%= button_to t("admin.users.reinstate"), admin_user_suspension_path(@user),
+                  method: :delete, class: "btn btn--small" %>
+          <% else %>
+            <%= button_to t("admin.users.suspend"), admin_user_suspension_path(@user),
+                  method: :post, class: "btn btn--small btn--negative",
+                  form: { data: { turbo_confirm: t("admin.users.suspend_confirm", name: @user.name) } } %>
+          <% end %>
+        </div>
+
+        <% if @user.editor? %>
+          <%= form_with url: admin_user_path(@user), method: :patch, class: "admin-access" do %>
+            <p class="admin-access__legend"><%= t("admin.users.access_legend") %></p>
+            <%= hidden_field_tag "user[editable_path_ids][]", "" %>
+            <div class="admin-access__options">
+              <% @paths.each do |path| %>
+                <label class="admin-access__option">
+                  <%= check_box_tag "user[editable_path_ids][]", path.id,
+                        @user.editable_paths.include?(path) %>
+                  <span><%= path.title %></span>
+                </label>
+              <% end %>
+            </div>
+            <%= submit_tag t("admin.users.access_save"), class: "btn btn--small" %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%# ── Snapshot ── %>
+    <div class="admin-stats">
+      <div class="panel admin-stat">
+        <span class="admin-stat__value"><%= @completions_total %></span>
+        <span class="admin-stat__label"><%= t("admin.dashboard.completions") %></span>
+      </div>
+      <div class="panel admin-stat">
+        <span class="admin-stat__value"><%= @journal_total %></span>
+        <span class="admin-stat__label"><%= t("admin.dashboard.journal_entries") %></span>
+      </div>
+      <div class="panel admin-stat">
+        <span class="admin-stat__value"><%= @approved_contributions %></span>
+        <span class="admin-stat__label"><%= t("admin.user.contributions") %></span>
+        <span class="admin-stat__detail"><%= t("admin.user.suggestions_total", count: @suggestions.size) %></span>
+      </div>
+      <div class="panel admin-stat">
+        <span class="admin-stat__value"><%= @feedback_total %></span>
+        <span class="admin-stat__label"><%= t("admin.user.feedback_sent") %></span>
+      </div>
+    </div>
+
+    <%# ── Progress by profession ── %>
+    <% if @started_paths.any? %>
+      <div class="admin-group">
+        <div class="admin-group__head">
+          <h2 class="admin-group__title"><%= t("admin.user.progress") %></h2>
+        </div>
+        <div class="admin-list">
+          <% @started_paths.each do |path| %>
+            <% done = @user.completed_lesson_ids_for(path).size %>
+            <% total = path.lessons.count %>
+            <a href="<%= admin_lessons_path(path: path.slug) %>" class="admin-row">
+              <span class="admin-row__title">
+                <%= path.title %>
+                <% if @focus_path == path %><span class="badge badge--marker"><%= t("admin.user.focus") %></span><% end %>
+              </span>
+              <span class="admin-row__meta"><%= t("admin.user.lessons_done", done: done, total: total) %></span>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <%# ── Sessions (force-logout = suspend) ── %>
+    <div class="admin-group">
+      <div class="admin-group__head">
+        <h2 class="admin-group__title"><%= t("admin.user.sessions") %></h2>
+        <span class="admin-group__meta"><%= t("admin.user.sessions_count", count: @user_sessions.size) %></span>
+      </div>
+      <% if @user_sessions.none? %>
+        <div class="admin-empty"><p class="admin-empty__text"><%= t("admin.user.no_sessions") %></p></div>
+      <% else %>
+        <div class="admin-list">
+          <% @user_sessions.each do |session| %>
+            <div class="admin-row admin-row--static">
+              <span class="admin-row__column">
+                <span class="admin-row__title"><%= session.ip_address.presence || "—" %></span>
+                <p class="admin-row__subtle"><%= truncate(session.user_agent.to_s, length: 80) %></p>
+              </span>
+              <span class="admin-row__meta">
+                <%= t("admin.user.session_active", date: l(session.last_active_at || session.created_at, format: :long)) %>
+              </span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <%# ── Recent activity ── %>
+    <% if @completions.any? || @recent_journal.any? %>
+      <div class="admin-group">
+        <div class="admin-group__head">
+          <h2 class="admin-group__title"><%= t("admin.user.recent_activity") %></h2>
+        </div>
+        <div class="admin-list">
+          <% @completions.each do |completion| %>
+            <div class="admin-row admin-row--static">
+              <span class="admin-row__column">
+                <span class="admin-row__title"><%= t("admin.user.completed", title: completion.lesson.title) %></span>
+                <p class="admin-row__subtle"><%= completion.lesson.path&.title %></p>
+              </span>
+              <span class="admin-row__meta"><%= l(completion.created_at, format: :long) %></span>
+            </div>
+          <% end %>
+          <% @recent_journal.each do |entry| %>
+            <div class="admin-row admin-row--static">
+              <span class="admin-row__column">
+                <span class="admin-row__title"><%= t("admin.user.journal", title: entry.title.presence || t("admin.user.journal_untitled")) %></span>
+                <% if entry.lesson %><p class="admin-row__subtle"><%= entry.lesson.title %></p><% end %>
+              </span>
+              <span class="admin-row__meta"><%= l(entry.created_at, format: :long) %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

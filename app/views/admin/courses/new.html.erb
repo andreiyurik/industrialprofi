@@ -1,0 +1,18 @@
+<% meta_title(t("admin.new_course")) %>
+
+<section class="admin-page">
+  <div class="container">
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-header">
+      <div class="admin-header__title-group">
+        <a href="<%= admin_courses_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+          <%= heroicon("arrow-left", variant: :outline) %>
+        </a>
+        <h1 class="admin-header__title"><%= t("admin.new_course") %></h1>
+      </div>
+    </div>
+
+    <%= render "admin/courses/form", course: @course %>
+  </div>
+</section>

@@ -1,0 +1,18 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/phase_select" %>
+    <%= render "calculators/material_select" %>
+    <%= render "calculators/field", field: "l", label: t("calculators.fields.length"), unit: "м", value: 50 %>
+    <%= render "calculators/field", field: "i", label: t("calculators.fields.current"), unit: "А", value: 20 %>
+    <%= render "calculators/field", field: "s", label: t("calculators.fields.section"), unit: "мм²", value: 4 %>
+    <%= render "calculators/field", field: "u", label: t("calculators.fields.voltage"), unit: "В", value: 380 %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "du", label: t("calculators.voltage-drop.result_drop"), unit: "В" %>
+    <%= render "calculators/result", output: "dupct", label: t("calculators.voltage-drop.result_percent"), unit: "%", strong: true %>
+    <p class="calc__note"><%= t("calculators.voltage-drop.norm_note") %></p>
+  </div>
+</div>

@@ -1,46 +1,82 @@
 .footer {
   background-color: var(--color-bg);
   border-block-start: 1px solid var(--color-subtle);
-  padding-block: 2.5rem;
+  padding-block: 1.75rem 0;
 }
 
+/* Grown-up footer: a wide brand column + grouped, labelled link columns.
+   CSS grid only — mobile stacks, tablet shows the 3 link columns under the
+   brand, desktop puts the brand as the leftmost column. */
 .footer__inner {
-  align-items: center;
-  column-gap: 2rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  row-gap: 1rem;
+  display: grid;
+  gap: 1.4rem 2rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 560px) {
+  .footer__inner {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  /* Brand sits on its own row above the three link columns. */
+  .footer__brand-block {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 860px) {
+  .footer__inner {
+    column-gap: 3rem;
+    grid-template-columns: 1.7fr repeat(3, 1fr);
+  }
+  .footer__brand-block {
+    grid-column: auto;
+  }
 }
 
 .footer__brand-block {
-  align-items: baseline;
-  column-gap: 0.75rem;
+  align-items: flex-start;
   display: flex;
-  flex-wrap: wrap;
-  row-gap: 0.25rem;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 .footer__tagline {
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
   margin-block: 0;
+  max-inline-size: 22rem;
 }
 
-.footer__nav {
+/* A link group: small uppercase label over a stack of quiet links. */
+.footer__col {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-inline-start: auto;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Column label: a bright, crisp small-caps marker — deliberately distinct from
+   the muted links below it, so the eye scans categories first, then the quiet
+   links brighten on hover. Bright heading + muted links = clear hierarchy. */
+.footer__heading {
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  margin-block: 0 0.35rem;
+  text-transform: uppercase;
 }
 
 .footer__link {
-  font-size: 0.85rem;
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  line-height: 1.35;
 }
 
 .footer__socials {
   display: flex;
   gap: 1rem;
+  margin-block-start: 0.25rem;
 }
 
 .footer__social-link {
@@ -52,11 +88,35 @@
   }
 }
 
-.footer__copy {
+/* Legal bottom bar: copyright left, privacy right; stacks centred on mobile. */
+.footer__bottom {
+  align-items: center;
   border-block-start: 1px solid var(--color-subtle);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  justify-content: space-between;
+  margin-block-start: 1.4rem;
+  padding-block: 0.9rem;
+}
+
+/* Bottom-left stack: copyright above the open-source/license line. */
+.footer__legal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.footer__copy,
+.footer__license {
   color: var(--color-subtle-dark);
-  font-size: 0.75rem;
-  margin-block-start: 2rem;
-  padding-block-start: 1.5rem;
-  text-align: center;
+  font-size: 0.8rem;
+  margin-block: 0;
+}
+
+@media (max-width: 559px) {
+  .footer__bottom {
+    justify-content: center;
+    text-align: center;
+  }
 }

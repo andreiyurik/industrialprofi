@@ -1,8 +1,10 @@
 # IndustrialProfi — Vision
 
-**Слоган:** Мастерство, практика, документация.
+**Tagline** (shown in Russian on the site): «Мастерство, практика, документация»
+— *Craft, practice, documentation.*
 
-**Позиционирование:** Открытые карты развития для промышленных специалистов. Официальные стандарты, практические задания, ежедневный прогресс.
+**Positioning:** open development maps for industrial professionals — official
+standards, practical assignments, daily progress.
 
 ## Problem
 
@@ -57,6 +59,9 @@ Focus on professions with proven global demand. BlackRock's $100M Future Builder
 - Industrial mechanics (maintenance)
 - Power plant operators (energy)
 
+The full prioritized queue — with selection criteria and per-profession status —
+lives in `docs/PROFESSION_BACKLOG.md`.
+
 ### Positioning decision (June 2026): narrow wedge, wide ceiling
 
 - **Wedge (today):** industrial trades only. The homepage, tagline and catalog
@@ -88,6 +93,8 @@ Schools give: theory → exam → diploma. The problem: a person gets a diploma 
 
 **Our advantage — we remove the middleman.** We don't write our own textbooks. We find the best existing resources (like roadmap.sh) and arrange them in the right order (like The Odin Project). This is the librarian model, not the teacher model.
 
+Sharpened, that librarian model is the heart of the project: we **assemble each profession from the countries that genuinely lead it** — German training structure, US volume, Japanese quality method, domain specialists (NL/NO/CH/DK) — and localize it to the CIS standard. The full sourcing strategy lives in `docs/SOURCING.md`.
+
 A school gives a 500-page textbook. We give: "read these 3 pages of ПУЭ and do this task." Concrete, practical, no filler.
 
 ### What Makes Users Grateful
@@ -100,9 +107,9 @@ A school gives a 500-page textbook. We give: "read these 3 pages of ПУЭ and d
 ## Content Architecture
 
 > **This document is the product intent, not a status ledger.** What has
-> actually shipped (and how naming evolved during the build) is tracked in one
-> place: the status note at the top of `docs/MVP.md`. The codebase conventions
-> live in `CLAUDE.md`.
+> actually shipped lives in **git history** and the **Feature map in
+> `CLAUDE.md`** — not duplicated here. The codebase conventions live in
+> `CLAUDE.md`; the forward roadmap is the "Roadmap & scope" section below.
 
 ### Hierarchy: Profession → Course → Lesson
 
@@ -190,7 +197,7 @@ Course progress = count of completed lessons / total lessons. Displayed as a pro
 | The Odin Project | Path → Course → Lesson structure | Proven hierarchy for learning content |
 | The Odin Project | Binary progress (done/not done) | Simplicity, no status management overhead |
 | The Odin Project | Full pages with own URLs | SEO, bookmarking, mobile-friendly |
-| The Odin Project | Design system (dark, teal+gold, Inter) | Professional, proven, Cyrillic-ready |
+| Basecamp/DHH | Design system (black-first dark, monochrome + blue, Inter) | Calm, proven, Cyrillic-ready |
 | Basecamp/DHH | ERB + Turbo Frames, no React | Simple, fast, one-person maintainable |
 
 ### International Support — Multi-Country Resources
@@ -253,19 +260,83 @@ an option to be validated against real users:
    but untrusted one cannot be fixed.
 
 Candidate revenue paths, in rough order of fit (none scheduled — all
-demand-gated, see `docs/MVP.md`):
+demand-gated):
 
 - **B2B — training centers and employers.** Учебные центры use the platform as
   their structured learning environment; предприятия get cohort tracking for
   their own workers (corporate training budgets exist and are mandated by
   labor law). This is where real money in this niche lives. The content the
   companies' workers learn from stays public.
-- **Verified completion certificates** (the original v0.4 plan — kept as a
-  recorded design, deferred): pay to *issue* a verifiable document, learning
-  and verification stay free.
+- **Verified completion certificates** (deferred; recorded design below): pay to
+  *issue* a verifiable document — learning and verification stay free.
 - **Donations:** a footer link, like The Odin Project / Wikipedia — a bonus,
   not the model (donations barely sustain anything in the CIS market).
 - Telegram for direct feedback and community building.
+
+### Deferred design — verified certificates (was the v0.4 plan)
+
+Kept so the thinking isn't lost. Trigger to revisit: a real audience, users
+*completing* courses, and users asking "is there a document I can show my
+employer?" Building before that signal is polishing a paywall around an empty
+room.
+
+- **Charges for the outcome, never for entry.** Learning and the public
+  `/verify/:token` page stay free forever; payment only *issues* the proof.
+- **Honest about what it attests:** *"completed IndustrialProfi's
+  standards-based curriculum for X"* — NOT a state license, НАКС attestation, or
+  группа допуска (those come from accredited bodies; conflating them is dangerous
+  in trades where bad credentials get people hurt).
+- **Shape:** all lessons in a course done → eligible → a one-time ~500–1000 ₽
+  payment issues a branded PDF with a QR + verification token; the free public
+  `/verify` page is the trust anchor and a marketing surface. Payment via a
+  CIS-native provider (ЮKassa / CloudPayments / Robokassa — Stripe doesn't work
+  in Russia); a webhook flips `paid`.
+- **Models:** `Certificate` (`has_secure_token`) + `Payment`; eligibility stays
+  *derived* from `LessonCompletion` (no status columns). One fat-model gate:
+  `current_user.can_issue_certificate?(course)`.
+- **Open-core boundary:** the platform stays AGPL; the hosted issuance +
+  verification registry is the commercial layer. Self-hosters run the platform
+  freely but can't mint *IndustrialProfi-verified* certificates — the moat is the
+  registry + brand, not the code.
+
+## Roadmap & scope
+
+What shipped (v0.1 static catalog, v0.2 accounts/progress, and a large set of
+editor/admin/retention features built ahead of plan) lives in **git history** and
+the **Feature map in `CLAUDE.md`** — not duplicated here. This section is
+forward-looking only.
+
+### Next — v0.3 (not built)
+
+The "self-developing platform" milestone — content grows through other people,
+not the founder:
+
+- **Community-authored roadmaps:** an in-app create flow (profession → course →
+  lesson → resources/task) with `draft → pending_review → published`; admins
+  publish. The suggest-edit → review → immutable-revision pipeline and the
+  `member → editor → administrator` trust ladder already exist as the foundation.
+- **Search** across professions, courses, and lessons (also the home for the
+  deferred command palette).
+- **Public user profiles** — completed paths and authored/contributed content.
+- **Moderated public portfolio** — publishing selected journal entries as a
+  public showcase; media, if added, goes **off-disk** (object storage), never
+  onto the private `JournalEntry` or the SQLite disk.
+
+### Explicitly not building (until real users ask)
+
+| Feature | Why not now |
+|---|---|
+| Visual graph/flowchart | The audience needs lists, not diagrams |
+| Streak/gamification | Optimizing retention before acquisition is premature |
+| Badges/certificates | Needs trust and volume first — see the deferred design above |
+| Mobile app | Responsive web is enough for years |
+| API | No consumers exist yet |
+| Multi-language sync | Russian first; each market gets its own paths, not synced translations |
+| Employer portal / candidate marketplace | Need a real user base with profiles first |
+| Payment system | Free until the model is proven; first use is the deferred certificate |
+| Comments / discussions / forum | Forum dynamics are hard — add only if users ask |
+| AI features | A distraction from core content value |
+| Realtime chat / floating widget | A solo founder can't honor chat expectations — async feedback wins |
 
 ## Principles
 

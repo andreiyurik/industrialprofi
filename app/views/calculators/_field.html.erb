@@ -1,0 +1,15 @@
+<%# A labelled input. locals: field, label; optional: unit, value, hint, info ("?" popover), text (string input, e.g. an IP) %>
+<label class="calc-field">
+  <span class="calc-field__label">
+    <%= label %><% if local_assigns[:info].present? %><%= render "calculators/term_info", id: "info-#{field}", text: info %><% end %>
+    <% if local_assigns[:hint].present? %><span class="calc-field__hint"><%= hint %></span><% end %>
+  </span>
+  <span class="calc-field__control">
+    <input type="text" inputmode="<%= local_assigns[:text] ? "text" : "decimal" %>" autocomplete="off"
+           class="input calc-field__input" data-field="<%= field %>"
+           <%= "data-text" if local_assigns[:text] %> value="<%= local_assigns[:value] %>">
+    <% if local_assigns[:unit].present? %>
+      <span class="calc-field__unit"><%= unit %></span>
+    <% end %>
+  </span>
+</label>

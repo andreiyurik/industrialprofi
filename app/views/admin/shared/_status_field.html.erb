@@ -1,0 +1,19 @@
+<%# Status select gated by the trust ladder. Admins get every status; editors
+    get draft / pending_review, and can't touch an already-live item. `f` is the
+    form builder, `record` the path or course. %>
+<div class="admin-form__field admin-form__field--lg">
+  <label><%= t("admin.field_status") %></label>
+
+  <% if can_publish? %>
+    <%= f.select :status,
+          record.class::STATUSES.map { |s| [ t("admin.statuses.#{s}"), s ] },
+          {}, class: "input" %>
+  <% elsif status_live?(record) %>
+    <p class="admin-form__hint"><%= t("admin.status_locked", status: t("admin.statuses.#{record.status}")) %></p>
+  <% else %>
+    <%= f.select :status,
+          %w[draft pending_review].map { |s| [ t("admin.statuses.#{s}"), s ] },
+          {}, class: "input" %>
+    <p class="admin-form__hint"><%= t("admin.status_editor_hint") %></p>
+  <% end %>
+</div>

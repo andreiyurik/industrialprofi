@@ -1,0 +1,409 @@
+/* /calculators — practical tools (converters, sizing) for the trades. The
+   index is a categorised card grid; each tool is a server-rendered form whose
+   live math runs in the single `calculator` Stimulus controller. Layout and
+   tokens follow the rest of the app (panels, inputs, OKLCH colours). */
+
+/* ── Index: a compact, divided directory of tools — deliberately list-like,
+   NOT the panel-card grid used for paths/courses, so the tools page reads as
+   a reference index. Narrow column, hairline dividers, one row per tool. ── */
+.calc-group {
+  margin-block-start: 2.75rem;
+  margin-inline: auto;
+  max-inline-size: 52rem;
+}
+
+.calc-group__title {
+  border-block-end: 1px solid var(--color-subtle);
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  margin-block-end: 0.25rem;
+  padding: 0 0.75rem 0.5rem;
+  text-transform: uppercase;
+}
+
+.calc-catalog {
+  display: flex;
+  flex-direction: column;
+}
+
+.calc-row {
+  align-items: center;
+  border-block-end: 1px solid var(--color-subtle);
+  color: var(--color-ink);
+  display: flex;
+  gap: 1rem;
+  padding: 0.95rem 0.75rem;
+}
+
+.calc-row:hover {
+  background-color: var(--color-subtle-light);
+
+  .calc-row__arrow {
+    color: var(--color-ink);
+    transform: translateX(0.2rem);
+  }
+}
+
+.calc-row__icon {
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  flex-shrink: 0;
+
+  svg {
+    block-size: 1.4rem;
+    inline-size: 1.4rem;
+  }
+}
+
+.calc-row__text {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.calc-row__title {
+  display: block;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.calc-row__desc {
+  color: var(--color-subtle-dark);
+  display: block;
+  font-size: 0.9rem;
+  margin-block-start: 0.2rem;
+}
+
+.calc-row__arrow {
+  color: var(--color-subtle);
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+
+  svg {
+    block-size: 1.1rem;
+    inline-size: 1.1rem;
+  }
+}
+
+/* ── Show: title + intro + the calculator panel ────────────────────── */
+/* A tool-page heading, NOT the big uppercase marketing `.page-title`:
+   sentence case, lighter, left-aligned — so the long SEO-tuned titles stay
+   one or two calm lines instead of a giant hyphenated caps block. */
+.calc-title {
+  font-size: clamp(1.55rem, 4vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin-block: 0;
+  text-wrap: balance;
+}
+
+.calc-intro {
+  color: var(--color-subtle-dark);
+  font-size: 1.05rem;
+  margin-block: 0.75rem 2rem;
+  max-inline-size: 46rem;
+}
+
+.calc {
+  --panel-padding: 1.75em;
+}
+
+/* Two columns on wide screens (inputs | results), stacked on narrow. */
+.calc__grid {
+  display: grid;
+  gap: 2rem;
+
+  @media (min-width: 640px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.calc__stack {
+  display: grid;
+  gap: 2rem;
+}
+
+.calc__heading {
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  margin-block: 0 1.1rem;
+  text-transform: uppercase;
+  color: var(--color-subtle-dark);
+}
+
+.calc__hint,
+.calc__note {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+}
+
+.calc__hint {
+  margin-block: -0.5rem 1rem;
+}
+
+.calc__note {
+  border-block-start: 1px solid var(--color-subtle);
+  margin-block-start: 1.25rem;
+  padding-block-start: 0.9rem;
+}
+
+/* Two inputs side by side (range pairs in the 4–20 mA tool). */
+.calc__row {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* The two conversion directions of the mA tool, divided on wide screens. */
+.calc__pair {
+  display: grid;
+  gap: 2rem;
+
+  @media (min-width: 640px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.calc__pair-side + .calc__pair-side {
+  @media (min-width: 640px) {
+    border-inline-start: 1px solid var(--color-subtle);
+    padding-inline-start: 2rem;
+  }
+}
+
+/* ── Fields ────────────────────────────────────────────────────────── */
+.calc-field {
+  margin-block-end: 1.1rem;
+}
+
+.calc-field__label {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+}
+
+.calc-field__hint {
+  color: var(--color-subtle-dark);
+  font-size: 0.8em;
+  font-weight: 400;
+}
+
+/* Unit sits inside the field's trailing edge; the input reserves room for it. */
+.calc-field__control {
+  position: relative;
+}
+
+.calc-field__input {
+  padding-inline-end: 3.5em;
+}
+
+.calc-field__unit {
+  color: var(--color-subtle-dark);
+  font-size: 0.9em;
+  inset-block-start: 50%;
+  inset-inline-end: 0.85em;
+  pointer-events: none;
+  position: absolute;
+  transform: translateY(-50%);
+}
+
+/* ── Results ───────────────────────────────────────────────────────── */
+.calc-result {
+  align-items: baseline;
+  border-block-end: 1px solid var(--color-subtle);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding-block: 0.7rem;
+}
+
+.calc-result__label {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+}
+
+.calc-result__value {
+  align-items: baseline;
+  display: inline-flex;
+  gap: 0.3em;
+  justify-content: flex-end;
+  text-align: end;
+  white-space: nowrap;
+
+  strong {
+    font-size: 1.1rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+}
+
+.calc-result__unit {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+}
+
+/* The headline answer of a tool — larger, accent-coloured. */
+.calc-result--primary .calc-result__value strong {
+  color: var(--color-link);
+  font-size: 1.5rem;
+}
+
+/* Verdict colouring (e.g. voltage drop vs the 5 % norm) — overrides the accent. */
+.calc-result[data-status="ok"] .calc-result__value strong {
+  color: var(--color-positive);
+}
+
+.calc-result[data-status="warn"] .calc-result__value strong {
+  color: var(--color-negative);
+}
+
+/* Copy-to-clipboard button on a headline result. */
+.calc-copy {
+  --btn-background: transparent;
+  align-items: center;
+  align-self: center;
+  border: 0;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  display: inline-flex;
+  padding: 0.2em;
+
+  &:hover {
+    color: var(--color-ink);
+  }
+
+  svg {
+    block-size: 1rem;
+    inline-size: 1rem;
+  }
+}
+
+.calc-copy__ok {
+  display: none;
+  color: var(--color-positive);
+}
+
+.calc-copy--done {
+  color: var(--color-positive);
+
+  .calc-copy__idle {
+    display: none;
+  }
+
+  .calc-copy__ok {
+    display: inline-flex;
+  }
+}
+
+/* ── "?" term glossary: a tiny circular button revealing a plain-language
+   definition for jargon a beginner won't know. Opens a native popover on
+   click/tap — same everywhere, top layer (never clips), dismissed by tapping
+   the backdrop or Esc. Zero JS, one element, no clutter for pros. ──────── */
+.term-info {
+  appearance: none;
+  background: none;
+  border: 1px solid var(--color-subtle);
+  border-radius: 999px;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-inline-start: 0.4em;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  block-size: 1.15rem;
+  inline-size: 1.15rem;
+
+  @media (any-hover: hover) {
+    &:hover {
+      border-color: var(--color-subtle-dark);
+      color: var(--color-ink);
+    }
+  }
+}
+
+.term-info__pop {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.7em;
+  box-shadow:
+    0 12px 32px -8px oklch(var(--lch-always-black) / 0.5),
+    0 4px 8px -4px oklch(var(--lch-always-black) / 0.4);
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: auto;
+  max-inline-size: min(26rem, calc(100vw - 2rem));
+  padding: 1rem 1.1rem;
+
+  &::backdrop {
+    background-color: oklch(var(--lch-always-black) / 0.45);
+  }
+}
+
+/* ── Below the panel: source, disclaimer, lesson link ──────────────── */
+.calc-norm {
+  align-items: flex-start;
+  color: var(--color-subtle-dark);
+  display: flex;
+  font-size: 0.9rem;
+  gap: 0.5em;
+  margin-block: 1.25rem;
+
+  svg {
+    block-size: 1.1rem;
+    flex-shrink: 0;
+    inline-size: 1.1rem;
+    margin-block-start: 0.1em;
+  }
+}
+
+.calc-disclaimer {
+  margin-block: 1.5rem;
+}
+
+.calc-lesson-link {
+  display: block;
+  margin-block: 1.5rem;
+}
+
+.calc-lesson-link__eyebrow {
+  color: var(--color-subtle-dark);
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  margin-block-end: 0.4rem;
+  text-transform: uppercase;
+}
+
+.calc-lesson-link__title {
+  align-items: center;
+  color: var(--color-ink);
+  display: flex;
+  font-weight: 600;
+  gap: 0.5em;
+
+  svg {
+    block-size: 1rem;
+    inline-size: 1rem;
+  }
+}
+
+.calc-back {
+  margin-block-start: 2rem;
+
+  a {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.4em;
+  }
+
+  svg {
+    block-size: 1rem;
+    inline-size: 1rem;
+  }
+}

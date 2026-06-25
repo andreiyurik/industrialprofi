@@ -1,8 +1,10 @@
 <% meta_title(t("signup.verification_title")) %>
+<% @layout_class = "main--auth" %>
 
 <section class="section">
   <div class="container">
     <div class="auth">
+      <%= render "shared/auth_brand" %>
       <h1 class="auth__title"><%= t("signup.verification_title") %></h1>
       <p class="auth__subtitle"><%= t("signup.verification_hint") %></p>
 

@@ -1,0 +1,38 @@
+<% meta_title(t("admin.imports.title")) %>
+
+<section class="admin-page">
+  <div class="container">
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-header">
+      <h1 class="admin-header__title"><%= t("admin.imports.title") %></h1>
+    </div>
+
+    <p class="admin-form__hint admin-form__field--lg"><%= t("admin.imports.intro") %></p>
+
+    <% if import_error_messages.any? %>
+      <div class="admin-alert admin-alert--error">
+        <% import_error_messages.each do |message| %>
+          <p><%= message %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <details class="admin-form__field--lg">
+      <summary><%= t("admin.imports.schema_summary") %></summary>
+      <pre class="import-schema"><code><%= t("admin.imports.schema_example") %></code></pre>
+    </details>
+
+    <%= form_with(url: admin_imports_path, method: :post) do |f| %>
+      <div class="admin-form__field admin-form__field--lg">
+        <label for="yaml"><%= t("admin.imports.yaml_label") %></label>
+        <%= text_area_tag :yaml, @yaml, id: "yaml", rows: 18, class: "input input--textarea input--mono" %>
+      </div>
+
+      <div class="admin-form__actions">
+        <%= submit_tag t("admin.imports.preview_button"), class: "btn btn--reversed" %>
+        <a href="<%= admin_lessons_path %>" class="btn"><%= t("admin.cancel") %></a>
+      </div>
+    <% end %>
+  </div>
+</section>

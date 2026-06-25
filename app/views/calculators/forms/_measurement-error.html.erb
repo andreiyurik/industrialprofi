@@ -1,0 +1,20 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/field", field: "measured", label: t("calculators.measurement-error.measured"), value: 50.4 %>
+    <%= render "calculators/field", field: "actual", label: t("calculators.measurement-error.actual"), value: 50 %>
+    <%= render "calculators/field", field: "span", label: t("calculators.measurement-error.span"), value: 100,
+          hint: t("calculators.measurement-error.span_hint"), info: t("calculators.measurement-error.info.span") %>
+    <%= render "calculators/field", field: "cls", label: t("calculators.measurement-error.cls"), unit: "%", value: 0.5,
+          hint: t("calculators.measurement-error.cls_hint"), info: t("calculators.measurement-error.info.cls") %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "abs", label: t("calculators.measurement-error.result_abs") %>
+    <%= render "calculators/result", output: "rel", label: t("calculators.measurement-error.result_rel"), unit: "%" %>
+    <%= render "calculators/result", output: "red", label: t("calculators.measurement-error.result_red"), unit: "%", strong: true, info: t("calculators.measurement-error.info.red") %>
+    <%= render "calculators/result", output: "limit", label: t("calculators.measurement-error.result_limit"), unit: "%" %>
+    <p class="calc__note"><%= t("calculators.measurement-error.note") %></p>
+  </div>
+</div>

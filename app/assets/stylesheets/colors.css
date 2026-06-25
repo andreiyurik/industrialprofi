@@ -43,6 +43,10 @@
   --color-subtle-dark: oklch(var(--lch-gray-dark));
   --color-selected: oklch(var(--lch-blue-light));
   --color-selected-dark: oklch(var(--lch-blue-dark));
+  /* Text selection: hi-vis safety-yellow + black ink — the industrial signal
+     language (vests, hazard tape), and the most legible pairing there is. */
+  --color-selection: oklch(var(--lch-yellow));
+  --color-selection-ink: var(--color-ink-reversed);
   --color-always-black: oklch(var(--lch-always-black));
   --color-always-white: oklch(var(--lch-always-white));
 }

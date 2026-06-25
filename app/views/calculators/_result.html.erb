@@ -1,0 +1,15 @@
+<%# A single output row. locals: output, label; optional: unit, strong (highlight + copy button), info ("?" popover) %>
+<div class="calc-result<%= " calc-result--primary" if local_assigns[:strong] %>">
+  <span class="calc-result__label"><%= label %><% if local_assigns[:info].present? %><%= render "calculators/term_info", id: "info-out-#{output}", text: info %><% end %></span>
+  <span class="calc-result__value">
+    <strong data-output="<%= output %>">—</strong>
+    <% if local_assigns[:unit].present? %><span class="calc-result__unit"><%= unit %></span><% end %>
+    <% if local_assigns[:strong] %>
+      <button type="button" class="calc-copy" data-action="calculator#copy"
+              aria-label="<%= t("calculators.copy") %>" title="<%= t("calculators.copy") %>">
+        <span class="calc-copy__idle"><%= heroicon "clipboard-document", variant: :outline %></span>
+        <span class="calc-copy__ok"><%= heroicon "check", variant: :outline %></span>
+      </button>
+    <% end %>
+  </span>
+</div>

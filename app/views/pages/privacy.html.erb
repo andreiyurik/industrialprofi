@@ -1,0 +1,19 @@
+<% meta_title(t("privacy.title")) %>
+<% meta_description(t("privacy.intro").truncate(160)) %>
+<% canonical_url("#{site_config.url}/privacy") %>
+
+<section class="section">
+  <div class="container container--reading">
+    <article class="legal">
+      <p class="legal__eyebrow"><%= t("privacy.eyebrow") %></p>
+      <h1 class="legal__title"><%= t("privacy.title") %></h1>
+      <p class="legal__updated"><%= t("privacy.updated") %></p>
+      <p class="legal__intro"><%= t("privacy.intro") %></p>
+
+      <% %w[operator data purposes legal sharing storage cookies rights changes contact].each do |key| %>
+        <h2 class="legal__heading"><%= t("privacy.#{key}_title") %></h2>
+        <%= t("privacy.#{key}_html", account_url: account_path, contact_email: site_config.contact_email) %>
+      <% end %>
+    </article>
+  </div>
+</section>

@@ -51,21 +51,7 @@
             class: "input" %>
       </div>
 
-      <div class="admin-form__grid admin-form__field--lg">
-        <div class="admin-form__field">
-          <label><%= t("suggestions.field_name") %> *</label>
-          <%= f.text_field :author_name,
-              placeholder: t("suggestions.name_placeholder"),
-              class: "input" %>
-        </div>
-        <div class="admin-form__field">
-          <label><%= t("suggestions.field_contact") %></label>
-          <%= f.text_field :author_contact,
-              placeholder: t("suggestions.contact_placeholder"),
-              class: "input" %>
-        </div>
-      </div>
-
+      <p class="admin-form__hint admin-form__field--lg"><%= t("suggestions.signed_as", name: Current.user.name) %></p>
       <p class="admin-form__hint admin-form__field--lg"><%= t("suggestions.review_note") %></p>
 
       <div class="admin-form__actions">

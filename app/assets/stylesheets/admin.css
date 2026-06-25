@@ -8,7 +8,7 @@
   display: flex;
   gap: 0.75rem;
   justify-content: space-between;
-  margin-block-end: 2rem;
+  margin-block-end: 1.25rem;
 }
 
 .admin-header__title-group {
@@ -45,6 +45,41 @@
   white-space: nowrap;
 }
 
+/* Stacked header: back-link / title / subtitle in a column (user card, log). */
+.admin-header__title-group--stacked {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  .admin-header__title {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    overflow: visible;
+    white-space: normal;
+  }
+}
+
+.admin-back {
+  color: var(--color-subtle-dark);
+  font-size: 0.875rem;
+}
+
+.admin-header__subtitle {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  margin-block: 0;
+}
+
+/* User card — management controls grouped above the read-only snapshot. */
+.admin-user__manage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-space);
+  margin-block-end: var(--block-space-double);
+}
+
 .admin-header__actions {
   display: flex;
   flex-shrink: 0;
@@ -68,7 +103,7 @@
   color: var(--color-ink);
   display: flex;
   gap: 0.75rem;
-  padding: 0.7rem 1rem;
+  padding: 0.5rem 0.9rem;
   text-decoration: none;
   transition: background-color 200ms ease;
 
@@ -150,7 +185,7 @@
 
 /* Path grouping — shared by the lessons index and the moderation queue */
 .admin-group + .admin-group {
-  margin-block-start: 1.5rem;
+  margin-block-start: var(--block-space);
 }
 
 .admin-group__head {
@@ -170,6 +205,16 @@
 .admin-group__meta {
   color: var(--color-subtle-dark);
   font-size: 0.75rem;
+}
+
+/* Stage subheading inside a course group (admin lessons drill-in) */
+.admin-stage {
+  margin-block: 0.75rem 0.35rem;
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 /* Empty state */
@@ -240,14 +285,22 @@
   background-color: var(--color-subtle);
   border: 1px solid var(--color-subtle);
   border-radius: 0.5em;
-  max-block-size: 24rem;
-  min-block-size: 16rem;
+  /* Use most of the screen height so the reviewer reads as much of the diff as
+     possible before scrolling, with a cap so a huge edit still stays bounded. */
+  max-block-size: min(75vh, 60rem);
+  min-block-size: 20rem;
   overflow-y: auto;
-  padding: 0.75rem 1rem;
+  padding: 1rem 1.25rem;
 }
 
 .admin-comparison__body--proposed {
   border-color: oklch(var(--lch-blue) / 0.25);
+}
+
+.admin-decision__hint {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block: 0 0.5rem;
 }
 
 .admin-decision {
@@ -260,8 +313,17 @@
   padding: 1rem;
 
   @media (min-width: 640px) {
+    /* Bottom-align so the primary Approve button and the Reject button sit on
+       one line (the reject label floats above its input) — no more "crooked"
+       approve hovering at the top of a stretched form. */
+    align-items: flex-end;
     flex-direction: row;
   }
+}
+
+/* The button_to wrapper around Approve — a plain flex item, no growing. */
+.admin-decision__approve {
+  flex: 0 0 auto;
 }
 
 .admin-decision__reject {
@@ -282,6 +344,14 @@
 }
 
 /* Form layout */
+/* Keep simple create/edit forms a comfortable column width on the wide admin
+   container — the page stays full-width (so the section nav never shifts between
+   pages), only the form content is capped. Wide content (lesson rich editor,
+   YAML import) opts out by not using this class. */
+.admin-form {
+  max-inline-size: 44rem;
+}
+
 .admin-form__field {
   margin-block-end: 1rem;
 }
@@ -393,6 +463,83 @@
   }
 }
 
+/* Role filter tabs — chips with a live count; the active one fills like a
+   primary button so the current scope is unmistakable. */
+.admin-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--inline-space-half);
+  margin-block-end: var(--block-space);
+}
+
+.admin-filter {
+  align-items: center;
+  border: 1px solid var(--color-subtle);
+  border-radius: 2rem;
+  color: var(--color-ink);
+  display: inline-flex;
+  gap: 0.5ch;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding-block: 0.3rem;
+  padding-inline: 0.85rem;
+
+  &:hover {
+    background-color: var(--color-subtle-light);
+  }
+}
+
+.admin-filter--active {
+  background-color: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-bg);
+
+  &:hover {
+    background-color: var(--color-ink);
+  }
+}
+
+.admin-filter__count {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+
+  .admin-filter--active & {
+    color: var(--color-bg);
+    opacity: 0.7;
+  }
+}
+
+.admin-list__summary {
+  color: var(--color-subtle-dark);
+  font-size: 0.875rem;
+  margin-block: 0 var(--block-space-half);
+}
+
+/* Log filters: category tabs on one side, the actor picker on the other;
+   wraps to stacked rows when the viewport is tight. */
+.admin-log-filters {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--inline-space) var(--block-space);
+  justify-content: space-between;
+  margin-block-end: var(--block-space);
+
+  .admin-filters {
+    margin-block-end: 0;
+  }
+}
+
+.admin-log-actor {
+  display: flex;
+  gap: var(--inline-space-half);
+
+  .input {
+    max-inline-size: 18rem;
+  }
+}
+
 .admin-role-form {
   display: flex;
   flex-shrink: 0;
@@ -400,9 +547,20 @@
   gap: var(--inline-space);
 }
 
+/* Role form + suspend/reinstate button, kept on one line, wrapping when tight. */
+.admin-row__actions {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--inline-space);
+}
+
 /* ── Dashboard (admin overview) ── */
 
 .admin-callout {
+  --panel-padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -416,9 +574,15 @@
 
 .admin-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
   gap: var(--block-space-half);
-  margin-block-end: var(--block-space-double);
+  margin-block-end: var(--block-space);
+}
+
+/* Dense control-room tiles: tighter padding than a default panel, so more KPIs
+   fit per row and above the fold. */
+.admin-stat {
+  --panel-padding: 0.9rem 1rem;
 }
 
 /* Children are explicit blocks: .panel (loaded after this file) forces
@@ -426,10 +590,10 @@
 .admin-stat__value {
   display: block;
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: 1.55rem;
   font-weight: 700;
   line-height: 1;
-  margin-block-end: 0.35rem;
+  margin-block-end: 0.15rem;
 }
 
 .admin-stat__label {
@@ -437,18 +601,29 @@
   font-weight: 600;
 }
 
+/* Vital-sign warning: low disk or failed jobs — red value + border so it reads
+   as "needs attention" at a glance among the calm monochrome cards. */
+.admin-stat--warn {
+  border-color: oklch(var(--lch-red) / 0.55);
+
+  .admin-stat__value {
+    color: var(--color-negative);
+  }
+}
+
 .admin-stat__detail {
   color: var(--color-subtle-dark);
   display: block;
-  font-size: 0.875rem;
-  margin-block-start: 0.2rem;
+  font-size: 0.8rem;
+  line-height: 1.3;
+  margin-block-start: 0.15rem;
 }
 
 .admin-chart {
   display: flex;
   align-items: flex-end;
   gap: 0.25rem;
-  margin-block-end: var(--block-space-double);
+  margin-block-end: var(--block-space);
 }
 
 .admin-chart__col {
@@ -473,10 +648,98 @@
   text-align: center;
 }
 
-/* ── Founder inbox (admin/feedbacks) ── */
+/* ── Pager for long admin lists (users, feedbacks) ── */
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--inline-space);
+  margin-block-start: var(--block-space);
+}
 
-.admin-feedback__body {
-  margin-block: 0.25rem 0;
+.admin-pagination__page {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+}
+
+/* ── Founder inbox (admin/feedbacks) ── */
+/* Dense, scannable list: one compact row per message, full text revealed on
+   click (native <details>, no JS). Built to stay manageable at volume. */
+.inbox {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-block-start: 1px solid var(--color-subtle);
+}
+
+.inbox__item {
+  border-block-end: 1px solid var(--color-subtle);
+}
+
+.inbox__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--inline-space);
+  padding-block: 0.6rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.inbox__summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Caret instead of the default disclosure triangle — points right, rotates
+   down when the message is open. */
+.inbox__summary::before {
+  content: "";
+  flex: none;
+  inline-size: 0.4rem;
+  block-size: 0.4rem;
+  border-inline-end: 1.5px solid var(--color-subtle-dark);
+  border-block-end: 1.5px solid var(--color-subtle-dark);
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+}
+
+.inbox__entry[open] .inbox__summary::before {
+  transform: rotate(45deg);
+}
+
+.inbox__from {
+  flex: none;
+  font-weight: 600;
+}
+
+/* The one-line preview takes the slack and truncates with an ellipsis. */
+.inbox__snippet {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-subtle-dark);
+}
+
+.inbox__date {
+  flex: none;
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+}
+
+.inbox__detail {
+  padding-block: var(--block-space-half) var(--block-space);
+  padding-inline-start: calc(0.4rem + var(--inline-space));
+}
+
+.inbox__meta {
+  margin-block: 0 var(--block-space-half);
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+}
+
+.inbox__body {
+  margin-block: 0 var(--block-space);
 
   p {
     margin-block: 0.25em;
@@ -531,4 +794,33 @@
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1.5;
+}
+
+/* Per-profession edit-access grant on /admin/users (shown under expert rows) */
+.admin-access {
+  margin-block: var(--block-space-half) var(--block-space);
+  padding: var(--block-space);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.5rem;
+  background-color: var(--color-subtle-light);
+}
+
+.admin-access__legend {
+  margin-block-end: var(--block-space-half);
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.admin-access__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--block-space-half) var(--inline-space-double);
+  margin-block-end: var(--block-space);
+}
+
+.admin-access__option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--inline-space-half);
 }

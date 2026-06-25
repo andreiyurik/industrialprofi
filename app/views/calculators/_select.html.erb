@@ -1,0 +1,9 @@
+<%# A labelled <select>. locals: field, label, options (array of [value, text]); optional: selected, info ("?" popover) %>
+<label class="calc-field">
+  <span class="calc-field__label"><%= label %><% if local_assigns[:info].present? %><%= render "calculators/term_info", id: "info-#{field}", text: info %><% end %></span>
+  <select class="input calc-field__select" data-field="<%= field %>">
+    <% options.each do |value, text| %>
+      <option value="<%= value %>" <%= "selected" if local_assigns[:selected].to_s == value.to_s %>><%= text %></option>
+    <% end %>
+  </select>
+</label>

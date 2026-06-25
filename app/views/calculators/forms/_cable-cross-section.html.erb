@@ -1,0 +1,23 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/phase_select" %>
+    <%= render "calculators/material_select" %>
+    <%= render "calculators/select", field: "laying", label: t("calculators.fields.laying"), selected: "air",
+          options: [["air", t("calculators.options.laying_air")], ["pipe", t("calculators.options.laying_pipe")]] %>
+    <%= render "calculators/field", field: "p", label: t("calculators.fields.power_kw"), unit: "кВт", value: 10,
+          hint: t("calculators.cable-cross-section.power_hint") %>
+    <%= render "calculators/field", field: "i", label: t("calculators.fields.current"), unit: "А",
+          hint: t("calculators.cable-cross-section.current_hint") %>
+    <%= render "calculators/field", field: "cos", label: t("calculators.fields.cosphi"), value: 0.95, info: t("calculators.info.cosphi") %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "current", label: t("calculators.cable-cross-section.result_current"), unit: "А" %>
+    <%= render "calculators/result", output: "section", label: t("calculators.cable-cross-section.result_section"), unit: "мм²", strong: true %>
+    <%= render "calculators/result", output: "allowed", label: t("calculators.cable-cross-section.result_allowed"), unit: "А", info: t("calculators.cable-cross-section.info.allowed") %>
+    <%= render "calculators/result", output: "breaker", label: t("calculators.cable-cross-section.result_breaker"), unit: "А" %>
+    <p class="calc__note"><%= t("calculators.cable-cross-section.factors_note") %></p>
+  </div>
+</div>

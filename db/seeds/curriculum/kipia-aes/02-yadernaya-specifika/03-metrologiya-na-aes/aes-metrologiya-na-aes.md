@@ -3,22 +3,22 @@ title: "Метрология и поверка средств измерений
 position: 1
 kind: lesson
 resources:
-  - title: "НП-001-15 Общие положения обеспечения безопасности атомных станций (для аудита)"
+  - title: "НП-001-15 «Общие положения обеспечения безопасности атомных станций» (ОПБ)"
     url: https://docs.cntd.ru/document/420265361
     kind: document
     required: true
     country_code: RU
-  - title: "НП-026-16 Требования к системам КИПиА АЭС (для аудита)"
+  - title: "НП-026-16 Требования к системам КИПиА АЭС"
     url: https://docs.cntd.ru/document/456054212
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ 8.009-84 Нормируемые метрологические характеристики средств измерений (для аудита)"
+  - title: "ГОСТ 8.009-84 Нормируемые метрологические характеристики средств измерений"
     url: https://protect.gost.ru/document.aspx?control=7&id=129982
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ 6651-2009 Термометры сопротивления. Допуски и номинальные характеристики (для аудита)"
+  - title: "ГОСТ 6651-2009 Термометры сопротивления. Допуски и номинальные характеристики"
     url: https://protect.gost.ru/document.aspx?control=7&id=173416
     kind: document
     required: false

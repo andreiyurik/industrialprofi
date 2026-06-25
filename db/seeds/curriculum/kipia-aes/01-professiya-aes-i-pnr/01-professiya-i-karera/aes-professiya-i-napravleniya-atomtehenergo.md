@@ -6,7 +6,7 @@ resources:
   - title: "Вакансии АО «Атомтехэнерго» — реальные требования по направлениям и категориям"
     url: "https://atech.ru/company/vakansii/"
     kind: article
-    required: true
+    required: false
     country_code: RU
   - title: "АО «Атомтехэнерго» — наладочное предприятие Концерна «Росэнергоатом» (о компании)"
     url: "https://atech.ru/"

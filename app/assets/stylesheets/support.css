@@ -48,8 +48,192 @@
   margin-block: 1.5rem 0;
 }
 
+.support-hero__eyebrow {
+  color: var(--color-subtle-dark);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  margin-block: 0 0.75rem;
+  text-transform: uppercase;
+}
+
+/* The motivational core: a donation is a vote of confidence + an early-adopter
+   invitation. Brighter than the lede so it lands. */
+.support-hero__signal {
+  color: var(--color-ink);
+  line-height: 1.6;
+  margin-block: 1.25rem 0;
+}
+
 .support-hero__cta {
   margin-block-start: 2rem;
+}
+
+.support-hero__alive {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  margin-block: 1.75rem 0;
+
+  a {
+    color: var(--color-link);
+  }
+}
+
+/* ── The ask: amount groups ──────────────────────────────────────────── */
+.support-give {
+  background-color: var(--color-subtle-light);
+  border-block: 1px solid var(--color-subtle);
+}
+
+.support-give__inner {
+  margin-inline: auto;
+  max-inline-size: 46rem;
+  text-align: center;
+}
+
+.support-give__title {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 700;
+  margin-block: 0 0.75rem;
+}
+
+.support-give__lead {
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+  margin-block: 0 2rem;
+  margin-inline: auto;
+  max-inline-size: 38rem;
+}
+
+.support-give__group {
+  margin-block-start: 2rem;
+}
+
+.support-give__group:first-of-type {
+  margin-block-start: 0;
+}
+
+.support-give__group-label {
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-block: 0 1rem;
+}
+
+/* auto-fit so the group lays out evenly whether it holds 3 (recurring) or 4
+   (one-time) cards — 2 per row on phones, all-in-a-row on wider screens. */
+.support-amounts {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+}
+
+/* A quiet card-button: the sum anchors, the caption frames the impact. */
+.support-amount {
+  align-items: center;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  justify-content: center;
+  padding: 1.1rem 1rem;
+  text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      border-color: var(--color-subtle-dark);
+    }
+  }
+}
+
+.support-amount__sum {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.support-amount__period {
+  color: var(--color-subtle-dark);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.support-amount__impact {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.support-give__note {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block: 2rem 0;
+}
+
+/* ── Companies pointer → /partners ───────────────────────────────────── */
+.support-company {
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75rem;
+  margin-inline: auto;
+  max-inline-size: 42rem;
+  padding: 1.75rem;
+  text-align: center;
+}
+
+.support-company__title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-block: 0 0.6rem;
+}
+
+.support-company__text {
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+  margin-block: 0 1.25rem;
+}
+
+/* ── Destination (vision) ────────────────────────────────────────────── */
+.support-vision__inner {
+  margin-inline: auto;
+  max-inline-size: 42rem;
+  text-align: center;
+}
+
+.support-vision__title {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 700;
+  margin-block: 0 1rem;
+}
+
+.support-vision__text {
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+  margin-block: 0;
+}
+
+/* ── Transparency promise ────────────────────────────────────────────── */
+.support-transparency__inner {
+  margin-inline: auto;
+  max-inline-size: 42rem;
+  text-align: center;
+}
+
+.support-transparency__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-block: 0 0.75rem;
+}
+
+.support-transparency__text {
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+  margin-block: 0;
 }
 
 .support-faq {
