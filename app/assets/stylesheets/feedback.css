@@ -1,11 +1,71 @@
-/* «Написать автору» — the in-app feedback form */
-.feedbacks__intro {
-  color: var(--color-subtle-dark);
-  margin-block: 0 var(--block-space);
+/* Vertically centre the page in the viewport: <main> is the 1fr grid row
+   between header and footer, so we fill it and centre the section's content.
+   A reusable layout modifier (set via @layout_class), same idea as .main--auth. */
+main.main--centered {
+  display: flex;
+  flex-direction: column;
 }
 
-.feedbacks__promise {
+.main--centered > .section {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* «Написать автору» — a focused, single-purpose contact page: a narrow centred
+   column, a calm (not marketing-sized) title, a tidy form. */
+.feedback {
+  margin-inline: auto;
+  max-inline-size: 40rem;
+}
+
+.feedback__head {
+  margin-block-end: var(--block-space-double);
+  text-align: center;
+}
+
+.feedback__title {
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  margin-block: 0 0.5rem;
+  text-transform: uppercase;
+}
+
+.feedback__intro {
+  color: var(--color-subtle-dark);
+  margin: 0 auto;
+  max-inline-size: 34rem;
+}
+
+.feedback__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-space);
+}
+
+.feedback__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.feedback__label {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Natural-width primary action, centred under the field. */
+.feedback__form .btn {
+  align-self: center;
+}
+
+.feedback__promise {
   color: var(--color-subtle-dark);
   font-size: 0.875rem;
   margin-block-start: var(--block-space);
+  text-align: center;
 }

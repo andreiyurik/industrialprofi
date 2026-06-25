@@ -1,0 +1,10 @@
+<%# App override of ActionText's core remote_image partial. The only change: a
+    missing image asset (a not-yet-drawn "TODO-*.png" placeholder, or any broken
+    URL) renders a calm placeholder via safe_remote_image_tag instead of raising
+    Propshaft::MissingAssetError and 500-ing the whole lesson. %>
+<figure class="attachment attachment--preview">
+  <%= safe_remote_image_tag(remote_image) %>
+  <% if caption = remote_image.try(:caption) %>
+    <figcaption class="attachment__caption"><%= caption %></figcaption>
+  <% end %>
+</figure>

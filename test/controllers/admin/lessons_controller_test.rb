@@ -132,6 +132,18 @@ class Admin::LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_nil added.country_code, "editor-created resources are universal (no country) by default"
   end
 
+  test "the language checkbox marks a resource English and clears back to Russian" do
+    patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
+      resources_attributes: { "0" => existing_attrs(resources(:pteep_doc), position: 0).merge(language: "en") }
+    } }
+    assert_equal "en", resources(:pteep_doc).reload.language
+
+    patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
+      resources_attributes: { "0" => existing_attrs(resources(:pteep_doc), position: 0).merge(language: "") }
+    } }
+    assert_nil resources(:pteep_doc).reload.language, "an unchecked box stores nil (Russian)"
+  end
+
   test "update can remove a resource via _destroy" do
     assert_difference -> { lessons(:pteep).resources.count }, -1 do
       patch admin_lesson_path(lessons(:pteep)), params: { lesson: {

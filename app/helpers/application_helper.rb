@@ -180,6 +180,16 @@ module ApplicationHelper
     end
   end
 
+  # A remote-image attachment (ActionText) whose URL points at a missing asset —
+  # e.g. a "TODO-*.png" placeholder an author left for an illustration not yet
+  # drawn — must never 500 the whole lesson. Render a calm placeholder instead.
+  def safe_remote_image_tag(remote_image)
+    image_tag(remote_image.url, width: remote_image.try(:width), height: remote_image.try(:height),
+              loading: "lazy", alt: remote_image.try(:caption).to_s)
+  rescue Propshaft::MissingAssetError
+    tag.span(t("lessons.image_pending"), class: "attachment__missing")
+  end
+
   def lesson_content(lesson, field)
     rich = lesson.send(:"rich_#{field}")
     return rich if rich.present?

@@ -12,6 +12,27 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  # ── Draft visibility / editor preview ──
+
+  test "a lesson in an unpublished profession is 404 for the public" do
+    get lesson_path(lessons(:draft_lesson))
+    assert_response :not_found
+  end
+
+  test "a member cannot preview an unpublished lesson" do
+    sign_in_as users(:member)
+    get lesson_path(lessons(:draft_lesson))
+    assert_response :not_found
+  end
+
+  test "an admin can preview an unpublished lesson, with a draft banner" do
+    sign_in_as users(:admin)
+    get lesson_path(lessons(:draft_lesson))
+    assert_response :success
+    assert_match lessons(:draft_lesson).title, response.body
+    assert_match I18n.t("lessons.preview_banner"), response.body
+  end
+
   test "show displays resources" do
     get lesson_path(lessons(:pteep))
     assert_match resources(:pteep_doc).title, response.body

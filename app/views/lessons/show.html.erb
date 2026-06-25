@@ -26,6 +26,9 @@
   <div class="lesson-sidebar-backdrop" data-action="click->lesson-sidebar#close" aria-hidden="true"></div>
 
   <div class="lesson">
+  <% if @preview %>
+    <p class="lesson__preview-banner"><%= t("lessons.preview_banner") %></p>
+  <% end %>
   <button type="button" class="lesson-contents-toggle" data-action="lesson-sidebar#open">
     <%= heroicon "bars-3", variant: :outline %>
     <%= t("lessons.contents") %>
