@@ -1,15 +1,22 @@
-<%= turbo_frame_tag "lesson_history" do %>
-  <div class="lesson-history">
-    <h2 class="lesson-history__title"><%= t("revisions.history") %></h2>
+<% meta_title("#{t('revisions.history')} — #{@lesson.title}") %>
 
-    <ol class="lesson-history__list">
-      <%= render partial: "revisions/revision_row", collection: @revisions, as: :revision_row %>
-    </ol>
+<section class="section">
+  <div class="container container--reading">
+    <%= link_to lesson_path(@lesson), class: "lesson-history__back link-quiet link-quiet--underline" do %>
+      ← <%= @lesson.title %>
+    <% end %>
+    <h1 class="lesson-history__page-title"><%= t("revisions.history") %></h1>
 
-    <% if @more %>
-      <%= link_to t("revisions.show_more"),
-          lesson_revisions_path(@lesson, page: @page + 1),
-          class: "lesson-history__more" %>
+    <%= turbo_frame_tag "lesson_history" do %>
+      <ol class="lesson-history__list">
+        <%= render partial: "revisions/revision_row", collection: @revisions, as: :revision_row %>
+      </ol>
+
+      <% if @more %>
+        <%= link_to t("revisions.show_more"),
+            lesson_revisions_path(@lesson, page: @page + 1),
+            class: "lesson-history__more" %>
+      <% end %>
     <% end %>
   </div>
-<% end %>
+</section>

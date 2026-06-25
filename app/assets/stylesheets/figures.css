@@ -5,10 +5,13 @@
 .prose-figure {
   position: relative;
   margin-block: 1.25lh;
+  margin-inline: 0; /* kill the browser's default <figure> 40px side margins */
 }
 
 .prose-figure img {
   cursor: zoom-in;
+  display: block;
+  inline-size: 100%; /* fill the text column, not the image's intrinsic width */
 }
 
 /* Caption sits right under the image, quiet and clearly secondary. */

@@ -20,6 +20,15 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_not_includes result, "<p><em>Рис. 1."
   end
 
+  test "markdown wraps the caption even when it sits on the next line (no blank line)" do
+    # How lessons are actually authored: image then *Рис…* directly below, so
+    # kramdown joins them in one <p> with a <br>. The caption must still become a
+    # <figcaption>, not stay as large inline italic body text.
+    result = markdown("![схема](/lesson-images/net.svg)\n*Рис. 2. Сеть АСУ ТП.*")
+    assert_includes result, '<figcaption class="prose-figure__caption">Рис. 2. Сеть АСУ ТП.</figcaption>'
+    assert_not_includes result, "<br"
+  end
+
   test "markdown wraps a caption-less image in a figure too" do
     result = markdown("![схема](/lesson-images/net.svg)")
     assert_includes result, '<figure class="prose-figure">'

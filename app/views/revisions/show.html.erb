@@ -1,24 +1,33 @@
-<%= turbo_frame_tag "lesson_history" do %>
-  <div class="lesson-history">
-    <%= link_to lesson_revisions_path(@lesson), class: "lesson-history__back" do %>
-      ← <%= t("revisions.back") %>
+<% meta_title("#{t('revisions.history')} — #{@lesson.title}") %>
+
+<section class="section">
+  <div class="container container--reading">
+    <%= link_to lesson_path(@lesson), class: "lesson-history__back link-quiet link-quiet--underline" do %>
+      ← <%= @lesson.title %>
     <% end %>
+    <h1 class="lesson-history__page-title"><%= t("revisions.history") %></h1>
 
-    <h2 class="lesson-history__title">
-      <%= t("revisions.version_n", version: @revision.version) %>
-      <span class="badge badge--marker"><%= t("revisions.sections.#{@revision.section}") %></span>
-    </h2>
+    <%= turbo_frame_tag "lesson_history" do %>
+      <%= link_to lesson_revisions_path(@lesson), class: "lesson-history__back link-quiet" do %>
+        ← <%= t("revisions.back") %>
+      <% end %>
 
-    <p class="lesson-history__byline">
-      <%= t("revisions.source.#{@revision.source}") %> ·
-      <%= revision_editor(@revision) %> ·
-      <%= l(@revision.created_at, format: :long) %>
-    </p>
+      <h2 class="lesson-history__title">
+        <%= t("revisions.version_n", version: @revision.version) %>
+        <span class="badge badge--marker"><%= t("revisions.sections.#{@revision.section}") %></span>
+      </h2>
 
-    <% if @revision.edit_reason.present? %>
-      <p class="lesson-history__reason"><%= @revision.edit_reason %></p>
+      <p class="lesson-history__byline">
+        <%= t("revisions.source.#{@revision.source}") %> ·
+        <%= revision_editor(@revision) %> ·
+        <%= l(@revision.created_at, format: :long) %>
+      </p>
+
+      <% if @revision.edit_reason.present? %>
+        <p class="lesson-history__reason"><%= @revision.edit_reason %></p>
+      <% end %>
+
+      <div class="revision-diff prose"><%= @revision.diff.to_html %></div>
     <% end %>
-
-    <div class="revision-diff prose"><%= @revision.diff.to_html %></div>
   </div>
-<% end %>
+</section>

@@ -6,26 +6,6 @@
   max-width: 48rem;
 }
 
-.library-legend {
-  align-items: center;
-  color: var(--color-subtle-dark);
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 0.85rem;
-  gap: 0.3rem 1.25rem;
-  margin-block: 0 2rem;
-}
-
-.library-legend__item {
-  align-items: center;
-  display: inline-flex;
-  gap: 0.3rem;
-}
-
-.library-legend .library-mark {
-  margin-block-start: 0;
-}
-
 .library-group {
   margin-block-end: 2rem;
 }
@@ -53,31 +33,6 @@
 .library-profession__title {
   font-size: 1.2rem;
   margin: 0;
-}
-
-/* Importance marker: solid gold ★ = required, muted outline ☆ = recommended —
-   one shape, two intensities, reads as a scale. Fixed-width slot keeps the type
-   badges aligned across rows. */
-.library-mark {
-  align-items: center;
-  display: inline-flex;
-  flex-shrink: 0;
-  justify-content: center;
-  margin-block-start: 0.25rem;
-  width: 0.85rem;
-}
-
-.library-mark svg {
-  height: 0.72rem;
-  width: 0.72rem;
-}
-
-.library-mark--required {
-  color: oklch(var(--lch-yellow));
-}
-
-.library-mark--recommended {
-  color: var(--color-subtle-dark);
 }
 
 /* "в N уроках" — muted, pushed to the row's end. */

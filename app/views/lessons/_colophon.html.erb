@@ -1,0 +1,10 @@
+<%# One quiet byline at the very bottom: who improved the article, when, and a
+    link to the full history on its own page. No avatar, no badges, no count, no
+    divider — meta that's reachable but never competes with the lesson (the
+    DHH/Writebook way: history is editor machinery, the reader just reads). %>
+<% if lesson.revised? %>
+  <% names = lesson.contributor_names %>
+  <footer class="lesson-colophon">
+    <% if names.any? %><%= t("lessons.improved_by") %> <%= names.to_sentence %> · <% end %><%= t("lessons.updated_ago", time: time_ago_in_words(lesson.lesson_revisions.maximum(:created_at))) %> · <%= link_to t("revisions.history"), lesson_revisions_path(lesson), class: "link-quiet link-quiet--underline" %>
+  </footer>
+<% end %>

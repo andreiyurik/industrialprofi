@@ -1,5 +1,5 @@
-/* Generated initials avatars + the lesson "Статью улучшили" credit line.
-   Calm by design: a muted footer below the article, never noise up top. */
+/* Generated initials avatars (account menu, admin user cards) + the lesson
+   colophon — one quiet byline below the article, never noise up top. */
 
 .avatar {
   align-items: center;
@@ -18,37 +18,11 @@
   text-transform: uppercase;
 }
 
-.lesson-contributors {
-  align-items: center;
-  border-block-start: 1px solid var(--color-subtle);
+/* One quiet line: who improved it · when · history. No divider, no badge, no
+   avatar, normal weight — barely there, reachable, never competing. */
+.lesson-colophon {
   color: var(--color-subtle-dark);
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 0.875rem;
-  gap: var(--block-space-half) var(--block-space);
+  font-size: 0.8rem;
+  font-weight: 400;
   margin-block-start: var(--block-space-double);
-  padding-block-start: var(--block-space);
-}
-
-.lesson-contributors__label {
-  font-weight: 600;
-}
-
-.lesson-contributors__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--block-space);
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.lesson-contributors__person {
-  align-items: center;
-  display: inline-flex;
-  gap: var(--inline-space-half);
-}
-
-.lesson-contributors__name {
-  color: var(--color-ink);
 }

@@ -94,6 +94,20 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.lesson__edit[href=?]", edit_admin_lesson_path(lessons(:svarka_intro))
   end
 
+  test "lesson colophon: none on a pristine lesson, quiet credit + history link once revised" do
+    get lesson_path(lessons(:pteep))
+    assert_select "footer.lesson-colophon", false # never edited → no colophon
+
+    lessons(:pteep).revise!(section: "body", html: "<p>точнее</p>",
+                            editor_name: "Наталья Орлова", edit_reason: "уточнила", source: "suggestion")
+    get lesson_path(lessons(:pteep))
+    assert_select "footer.lesson-colophon" do
+      assert_select "a[href=?]", lesson_revisions_path(lessons(:pteep)) # history on its own page
+      assert_select ".avatar", false # quiet byline — no avatar, no badges
+    end
+    assert_match "Наталья Орлова", response.body
+  end
+
   test "reading mode cookie renders the stripped layout server-side" do
     get lesson_path(lessons(:pteep))
     assert_select "div.lesson-layout--reading", false

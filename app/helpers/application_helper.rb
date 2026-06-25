@@ -144,14 +144,15 @@ module ApplicationHelper
         .gsub("</table>", "</table></div>")
   end
 
-  # A standalone image — plus the `*Рис. N…*` caption that may follow it (a lone
-  # <em> paragraph) — becomes a single <figure>, so the caption sits tight under
-  # the image and the whole thing is one click target for the lightbox. Runs
-  # post-sanitize, like the table/code wrappers above (our own markup).
+  # A standalone image — plus its `*Рис. N…*` caption — becomes a single <figure>,
+  # so the caption sits tight under the image (small, muted) and the whole thing is
+  # one lightbox click target. The caption may sit in the SAME paragraph (next line,
+  # no blank — how lessons are authored, so kramdown joins them with a <br>) or in
+  # its own following <em> paragraph. Runs post-sanitize (our own markup).
   def wrap_figures(html)
-    html.gsub(%r{<p>(<img\b[^>]*?>)</p>\s*(?:<p><em>(.*?)</em></p>)?}m) do
+    html.gsub(%r{<p>(<img\b[^>]*?>)\s*(?:<br\s*/?>\s*)?(?:<em>(.*?)</em>)?</p>(?:\s*<p><em>(.*?)</em></p>)?}m) do
       image = Regexp.last_match(1)
-      caption = Regexp.last_match(2)
+      caption = Regexp.last_match(2).presence || Regexp.last_match(3)
       figure = +%(<figure class="prose-figure">#{image})
       figure << %(<figcaption class="prose-figure__caption">#{caption}</figcaption>) if caption.present?
       figure << "</figure>"
