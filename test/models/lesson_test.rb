@@ -8,6 +8,15 @@ class LessonTest < ActiveSupport::TestCase
     assert lesson.valid?
   end
 
+  # Fail-safe provenance: a row created outside the importer defaults to "human",
+  # so unknown-origin content is treated as frozen and never overwritten.
+  test "origin defaults to human" do
+    assert_equal "human", Lesson.new.origin
+    assert_equal "human", Path.new.origin
+    assert_equal "human", Course.new.origin
+    assert_equal "human", Resource.new.origin
+  end
+
   test "invalid without course" do
     lesson = Lesson.new(title: "Orphan", slug: "orphan")
     assert_not lesson.valid?

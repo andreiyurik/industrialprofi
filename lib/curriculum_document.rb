@@ -1,11 +1,13 @@
 require "yaml"
 
 # Parses ONE pasted profession (a single YAML document — path → courses →
-# sections → lessons → resources) and imports it through the same create-only
+# sections → lessons → resources) and imports it through the same create-or-refresh
 # safety as the seed importer, but stamped origin "ai" and forced to DRAFT:
-# AI scaffolds breadth, a human verifies and publishes later via the trust
-# ladder. It NEVER touches an existing row — anything whose slug already exists
-# is skipped, so a paste can't overwrite live or human-owned content.
+# AI scaffolds breadth, a human verifies and publishes later via the trust ladder.
+# A human-frozen row (origin "human" or carrying a revision) is skipped, so a paste
+# can never overwrite an expert's work; a pristine AI draft IS refreshed in place
+# (that is how AI deepens its own stubs). A slug that already belongs to ANOTHER
+# profession is refused, not silently re-parented (see ImportUpsert).
 #
 # `plan` runs the exact same code as `import!` inside a rolled-back transaction,
 # so the preview can never disagree with what the commit does.
@@ -59,6 +61,7 @@ class CurriculumDocument
       course_nodes = []
       path = nil
       path_node = nil
+      @seen = Set.new
 
       ActiveRecord::Base.transaction do
         path, path_node = upsert_path(author, counts)
@@ -77,6 +80,9 @@ class CurriculumDocument
       end
 
       Result.new(path_node:, course_nodes:, counts:, path:)
+    rescue ImportUpsert::ImportConflict => e
+      @errors << e.message
+      nil
     rescue ActiveRecord::RecordInvalid => e
       @errors << e.record.errors.full_messages.to_sentence
       nil
@@ -86,7 +92,7 @@ class CurriculumDocument
       data = @data["path"]
       path = Path.find_or_initialize_by(slug: lookup_slug(Path, data))
       status = upsert(path, counts, :paths,
-                      title: data["title"], description: data["description"]) do
+                      { title: data["title"], description: data["description"] }) do
         path.author_id = author.id
         path.status = "draft"
         path.position = (Path.maximum(:position) || 0) + 1
@@ -97,7 +103,8 @@ class CurriculumDocument
     def upsert_course(path, data, counts)
       course = Course.find_or_initialize_by(slug: lookup_slug(Course, data))
       status = upsert(course, counts, :courses,
-                      path: path, title: data["title"], description: data["description"]) do
+                      { path: path, title: data["title"], description: data["description"] },
+                      target_path: path) do
         course.status = "draft"
         course.position = (path.courses.maximum(:position) || 0) + 1
       end
@@ -112,11 +119,12 @@ class CurriculumDocument
       position += 1 if lesson.new_record?
 
       status = upsert(lesson, counts, :lessons,
-                      course: course, stage: stage, title: data["title"],
-                      description: data["description"], body: data["body"], task: data["task"],
-                      kind: data["kind"].presence || "lesson",
-                      difficulty: lesson_difficulty(data),
-                      position: lesson.new_record? ? position : lesson.position)
+                      { course: course, stage: stage, title: data["title"],
+                        description: data["description"], body: data["body"], task: data["task"],
+                        kind: data["kind"].presence || "lesson",
+                        difficulty: lesson_difficulty(data),
+                        position: lesson.new_record? ? position : lesson.position },
+                      target_path: course.path)
 
       import_resources(lesson, data["resources"], counts) unless status == :exists
       lesson_nodes << node("lesson", lesson.title, status)
@@ -126,10 +134,11 @@ class CurriculumDocument
     # Maps the shared create-or-refresh (ImportUpsert) onto the preview tree's
     # status vocabulary (:new / :updated / :exists) and counts everything the
     # import would write (created or refreshed, but not the frozen rows it skips).
-    def upsert(record, counts, table, attrs, &create_defaults)
-      result = import_upsert(record, SOURCE, attrs, &create_defaults)
-      counts[table] += 1 unless result == :frozen
-      { created: :new, updated: :updated, unchanged: :updated, frozen: :exists }.fetch(result)
+    def upsert(record, counts, table, attrs, target_path: nil, &create_defaults)
+      claim_slug!(@seen, record) unless record.is_a?(Path)
+      result = import_upsert(record, SOURCE, attrs, target_path: target_path, &create_defaults)
+      counts[table] += 1 if %i[created updated].include?(result)
+      { created: :new, updated: :updated, unchanged: :unchanged, frozen: :exists }.fetch(result)
     end
 
     def lookup_slug(klass, data)

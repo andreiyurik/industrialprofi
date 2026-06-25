@@ -36,7 +36,9 @@ class CurriculumImporter
       return @counts
     end
 
-    ymls.each { |path_yml| import_path(path_yml) }
+    # Each profession imports all-or-nothing: a conflict (duplicate/cross-path slug)
+    # rolls back that profession instead of leaving half of it written.
+    ymls.each { |path_yml| ActiveRecord::Base.transaction { import_path(path_yml) } }
     reset_counters
     report
     @counts
@@ -71,11 +73,15 @@ class CurriculumImporter
     # status: published in the yml and re-seeds, or publishes via admin). An
     # explicit status in the yml is always honored.
     def import_path(path_yml)
+      # Per-profession slug ledger: a duplicate WITHIN a profession raises here;
+      # a slug owned by ANOTHER profession is caught by the cross-path guard.
+      @seen = Set.new
       meta = YAML.safe_load_file(path_yml)
       path = Path.find_or_initialize_by(slug: File.basename(File.dirname(path_yml)))
-      upsert(path,
-             title: meta["title"], description: meta["description"],
-             position: meta["position"], status: meta["status"].presence || "draft")
+      upsert(path, {
+               title: meta["title"], description: meta["description"],
+               position: meta["position"], status: meta["status"].presence || "draft"
+             })
 
       position = 0 # lesson position is GLOBAL within the path (continuous prev/next)
       Dir.glob(File.join(File.dirname(path_yml), "*/course.yml")).sort.each do |course_yml|
@@ -86,9 +92,10 @@ class CurriculumImporter
     def import_course(course_yml, path, position)
       meta = YAML.safe_load_file(course_yml)
       course = Course.find_or_initialize_by(slug: meta["slug"])
-      upsert(course,
-             path: path, title: meta["title"], description: meta["description"],
-             position: meta["position"], status: meta["status"].presence || "draft")
+      upsert(course, {
+               path: path, title: meta["title"], description: meta["description"],
+               position: meta["position"], status: meta["status"].presence || "draft"
+             }, target_path: path)
 
       Dir.glob(File.join(File.dirname(course_yml), "*/section.yml")).sort.each do |section_yml|
         stage = YAML.safe_load_file(section_yml)["title"]
@@ -103,12 +110,13 @@ class CurriculumImporter
     def import_lesson(md_file, course, path, stage, position)
       data = self.class.parse_lesson(md_file)
       lesson = Lesson.find_or_initialize_by(slug: File.basename(md_file, ".md"))
-      applied = upsert(lesson,
-                       course: course, path: path, stage: stage,
-                       title: data["title"], description: data["description"],
-                       body: data["body"], task: data["task"], position: position,
-                       kind: data["kind"] || "lesson",
-                       difficulty: data["difficulty"] || (data["kind"] == "practice" ? "beginner" : nil))
+      applied = upsert(lesson, {
+                         course: course, path: path, stage: stage,
+                         title: data["title"], description: data["description"],
+                         body: data["body"], task: data["task"], position: position,
+                         kind: data["kind"] || "lesson",
+                         difficulty: data["difficulty"] || (data["kind"] == "practice" ? "beginner" : nil)
+                       }, target_path: path)
 
       # Resources ride with the lesson: only sync them while the lesson is still
       # importer-owned. Once it's frozen, its resources belong to the editor.
@@ -139,9 +147,10 @@ class CurriculumImporter
     # per-category counts. Returns true when the row was applied (created or
     # refreshed), false when frozen and left untouched (so the caller skips its
     # resources — once frozen, those belong to the editor).
-    def upsert(record, attrs)
+    def upsert(record, attrs, target_path: nil)
+      claim_slug!(@seen, record) unless record.is_a?(Path)
       table = record.class.model_name.collection
-      result = import_upsert(record, @source, attrs)
+      result = import_upsert(record, @source, attrs, target_path: target_path)
       @counts["#{table}_#{result}"] += 1 unless result == :unchanged
       result != :frozen
     end

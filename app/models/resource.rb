@@ -8,9 +8,11 @@ class Resource < ApplicationRecord
   validates :title, presence: true
   validates :url, presence: true, format: { with: /\Ahttps?:\/\/[^\s]+\z/i }
   validates :kind, inclusion: { in: %w[document video article tool] }
-  # Provenance only (no digest): a resource's edit-safety rides on its parent
-  # lesson being pristine. Importer-made rows are "seed"; once a human edits them
-  # (Phase 1 editor) they become "human" and the importer leaves them alone.
+  # Provenance only (no digest). Edit-safety rides primarily on the PARENT lesson's
+  # freeze: the importer syncs resources only while the lesson is still pristine, so
+  # an edited (frozen) lesson's links are never touched. The origin "human" guard is
+  # the secondary seam for the day a single link is owned independently of its lesson
+  # (a per-link editor); until then importer rows stay "seed"/"ai".
   validates :origin, inclusion: { in: Importable::ORIGINS }
 
   scope :ordered, -> { order(:position) }

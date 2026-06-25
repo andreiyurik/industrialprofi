@@ -205,7 +205,8 @@ the standard *tool for the task*, not vendor lock-in.
 AI at authoring time, refined by experts, improved by readers — the app stays
 LLM-free. The pipeline, the `update-if-pristine` import safety, the reusable
 prompts, and the QA (`bin/rails content:audit`/`content:links` + a Claude Code
-console review) are documented in `docs/CONTENT_FACTORY.md` and `tools/`.
+console review) are documented in `tools/CONTENT_FACTORY.md` (the canonical, Russian
+content-factory doc — architecture + step-by-step authoring) and the rest of `tools/`.
 
 ## Code rules (DHH / Basecamp style)
 
@@ -395,14 +396,16 @@ moderated public portfolio.
 
 ## Docs
 
-**Documentation is English-only, in the style of mature open-source projects.**
-README / CONTRIBUTING / CLAUDE / `docs/` describe the project and how to work on
-it for any contributor — knowing English (or using a translator) is assumed, so
-we keep no parallel translations. The one carve-out: the **content & quality
-tooling in `tools/` (authoring + review playbooks) is tooling, not
-documentation** — it stays in Russian because it works over the Russian-first
-lesson content. Keep new docs concise: one home per fact, no changelog prose
-(git history covers "when").
+**Documentation is English by default**, in the style of mature open-source
+projects. README / CONTRIBUTING / CLAUDE / `docs/` describe the project and how to
+work on it for any contributor — knowing English (or using a translator) is
+assumed, so we keep no parallel translations. **The one carve-out: the
+critically-important content-creation docs live in `tools/` and are written in
+Russian** — the canonical content-factory doc (`tools/CONTENT_FACTORY.md`:
+architecture + step-by-step authoring) plus the authoring/review playbooks work
+over the Russian-first lesson content, so the people who write content read them
+in Russian. Keep new docs concise: one home per fact, no changelog prose (git
+history covers "when").
 
 - `docs/VISION.md` — what we're building, for whom, why (incl. business model +
   the forward roadmap and the "not building" list)
@@ -412,10 +415,12 @@ lesson content. Keep new docs concise: one home per fact, no changelog prose
   (German structure + US volume + Japanese method + domain specialists, localized
   to CIS); the sourcing filter and the per-trade map
 - `docs/DEPLOY.md` — first-deploy runbook (Kamal, SMTP, backups, monitoring)
-- `tools/WORKFLOW.md` — RU operator runbook: create / test / edit a profession
-  (seeds, YAML, web editor) with a command cheat-sheet — the practical entry point
-- `tools/AUTHOR_PROFESSION.md` / `DEEPEN_LESSON.md` / `LESSON_IMAGES.md` —
-  reusable content-authoring tools (Russian tooling, per the rule above)
+- `tools/CONTENT_FACTORY.md` — **canonical Russian content doc and entry point**:
+  factory architecture (diagrams, the freeze invariant, the slug guards) + the
+  step-by-step canon for creating a quality profession, with a command cheat-sheet
+- `tools/AUTHOR_PROFESSION.md` / `DEEPEN_LESSON.md` / `LESSON_IMAGES.md` /
+  `QA_REVIEW.md` / `ARCHITECTURE_REVIEW.md` — the reusable Russian prompts the
+  factory runs on (authoring, deepening, images, content QA, code review)
 - The public roadmap is the `/roadmap` page (`ru.yml → roadmap:`) — update it when
   shipping user-visible features
 </content>

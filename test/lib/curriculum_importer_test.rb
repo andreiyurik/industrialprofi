@@ -86,6 +86,62 @@ class CurriculumImporterTest < ActiveSupport::TestCase
     FileUtils.remove_entry(dir)
   end
 
+  test "refuses to move a lesson whose slug already belongs to another profession" do
+    dir = Dir.mktmpdir
+    %w[prof-a prof-b].each do |slug|
+      section = File.join(dir, slug, "01-course", "01-section")
+      FileUtils.mkdir_p(section)
+      File.write(File.join(dir, slug, "path.yml"), %(title: "#{slug}"\ndescription: "x"\nposition: 80\n))
+      File.write(File.join(dir, slug, "01-course", "course.yml"),
+                 %(title: "Курс #{slug}"\nslug: "course-#{slug}"\ndescription: "x"\nposition: 1\n))
+      File.write(File.join(section, "section.yml"), %(title: "Раздел"\n))
+      File.write(File.join(section, "vvedenie.md"),
+                 %(---\ntitle: "Введение"\nkind: lesson\n---\nЗачем.\n\n---\nТело.\n))
+    end
+
+    error = assert_raises(ImportUpsert::CrossPathConflict) do
+      CurriculumImporter.run(dir: dir, io: StringIO.new)
+    end
+    assert_includes error.message, "vvedenie"
+    assert_equal "prof-a", Lesson.find_by!(slug: "vvedenie").path.slug,
+      "the lesson stays with the profession that created it"
+  ensure
+    FileUtils.remove_entry(dir)
+  end
+
+  test "a duplicate lesson slug within one profession aborts it atomically" do
+    dir = Dir.mktmpdir
+    %w[01-section 02-section].each do |section|
+      section_dir = File.join(dir, "dupprof", "01-course", section)
+      FileUtils.mkdir_p(section_dir)
+      File.write(File.join(section_dir, "section.yml"), %(title: "#{section}"\n))
+      File.write(File.join(section_dir, "vvedenie.md"),
+                 %(---\ntitle: "Введение"\nkind: lesson\n---\nЗачем.\n\n---\nТело.\n))
+    end
+    File.write(File.join(dir, "dupprof", "path.yml"), %(title: "Дубль"\ndescription: "x"\nposition: 80\n))
+    File.write(File.join(dir, "dupprof", "01-course", "course.yml"),
+               %(title: "Курс"\nslug: "dup-course"\ndescription: "x"\nposition: 1\n))
+
+    assert_raises(ImportUpsert::DuplicateSlugConflict) do
+      CurriculumImporter.run(dir: dir, io: StringIO.new)
+    end
+    assert_not Path.exists?(slug: "dupprof"),
+      "the whole profession rolls back — no half-written tree"
+  ensure
+    FileUtils.remove_entry(dir)
+  end
+
+  test "an admin edit to a course title survives re-import (digest freeze)" do
+    import
+    course = Course.find_by!(slug: "test-course-x")
+    course.update!(title: "Курс, переименованный экспертом")
+
+    import # the yml still says "Тестовый курс"
+
+    assert_equal "Курс, переименованный экспертом", course.reload.title,
+      "a human edit changes the digested fields, freezing the row from re-import"
+  end
+
   test "only: imports a single profession and leaves the rest untouched" do
     dir = Dir.mktmpdir
     %w[prof-a prof-b].each_with_index do |slug, i|

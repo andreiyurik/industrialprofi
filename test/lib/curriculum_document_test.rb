@@ -133,6 +133,68 @@ class CurriculumDocumentTest < ActiveSupport::TestCase
     assert_includes statuses, :exists, "the human-owned lesson reports as frozen"
   end
 
+  test "refuses a lesson slug that already belongs to another profession" do
+    CurriculumDocument.parse(DOC).import!(author: users(:admin))
+    stolen = Lesson.find_by!(slug: "chto-delaet-santehnik")
+
+    # A different profession whose lesson title slugifies to the SAME slug.
+    colliding = <<~YAML
+      path:
+        title: "Электромонтёр-новичок"
+        slug: "elektromonter-novichok"
+      courses:
+        - title: "Старт"
+          slug: "start-em"
+          sections:
+            - title: "Введение"
+              lessons:
+                - title: "Что делает сантехник"
+    YAML
+
+    document = CurriculumDocument.parse(colliding)
+    assert_no_difference %w[Lesson.count Path.count] do
+      assert_nil document.import!(author: users(:admin)),
+        "a cross-profession slug collision aborts the whole import"
+    end
+    assert_not document.valid?
+    assert(document.errors.any? { |error| error.to_s.include?("chto-delaet-santehnik") },
+           "the error names the colliding slug so the author can rename it")
+    assert_equal "santehnik", stolen.reload.path.slug,
+      "the original lesson must NOT be moved to the pasted profession"
+  end
+
+  test "refuses two lessons in one paste that resolve to the same slug" do
+    yaml = <<~YAML
+      path:
+        title: "Тест-внутри"
+        slug: "test-vnutri"
+      courses:
+        - title: "Курс один"
+          slug: "kurs-odin"
+          sections:
+            - title: "Раздел"
+              lessons:
+                - title: "Введение"
+                  body: "Тело из курса 1"
+        - title: "Курс два"
+          slug: "kurs-dva"
+          sections:
+            - title: "Раздел"
+              lessons:
+                - title: "Введение"
+                  body: "Тело из курса 2"
+    YAML
+
+    document = CurriculumDocument.parse(yaml)
+    assert_no_difference %w[Path.count Lesson.count] do
+      assert_nil document.import!(author: users(:admin)),
+        "a duplicate slug within one paste aborts the whole import — no silent merge"
+    end
+    assert_not document.valid?
+    assert(document.errors.any? { |error| error.to_s.include?("vvedenie") },
+           "the error names the colliding slug")
+  end
+
   test "blank, path-less, and malformed input are invalid" do
     assert_not CurriculumDocument.parse("").valid?
     assert_not CurriculumDocument.parse("courses: []").valid?
