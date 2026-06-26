@@ -5,15 +5,31 @@
 <section class="section">
   <div class="container">
     <div class="support-hero">
+      <%# Living emblem — a monochrome line "hand offering a heart" (the universal
+          give/support glyph, matching the donate button), with a soft ambient
+          glow breathing behind it and a gentle float. Pure CSS, no JS / no assets,
+          on-brand line-style. Honors prefers-reduced-motion. %>
+      <div class="support-emblem" aria-hidden="true">
+        <span class="support-emblem__icon"><%= render "shared/icons/hand_heart" %></span>
+      </div>
+
       <p class="support-hero__eyebrow"><%= t("support.eyebrow") %></p>
       <h1 class="support-hero__title"><%= t("support.title") %></h1>
       <p class="support-hero__lede"><%= t("support.intro") %></p>
       <p class="support-hero__signal"><%= t("support.signal") %></p>
       <div class="support-hero__cta">
-        <a href="<%= site_config.donate_url %>" class="btn btn--reversed btn--large" target="_blank" rel="noopener">
+        <a href="<%= site_config.donate_url %>" class="btn btn--reversed btn--large support-btn support-btn--give" target="_blank" rel="noopener">
           <%= t("support.donate_cta") %>
+          <%= render "shared/icons/hand_heart" %>
+        </a>
+        <%# GitHub Sponsors can't pay out to RU — so GitHub's role here is a free,
+            real way to help: a star = visibility = contributors (open-commons). %>
+        <a href="<%= site_config.github_url %>" class="btn btn--large support-btn" target="_blank" rel="noopener">
+          <%= t("support.github_cta") %>
+          <%= heroicon "star", variant: :outline %>
         </a>
       </div>
+      <p class="support-hero__github-note"><%= t("support.github_note") %></p>
       <%# "Alive" signal for a pre-traction project: not usage numbers (which
           would be empty), but visible momentum — the living roadmap + open code. %>
       <p class="support-hero__alive">
