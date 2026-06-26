@@ -104,10 +104,10 @@ A platform this broad can't be written by one person — and it isn't meant to b
 So the editor's side of the screen got the same care as the reader's. We're
 unashamed magpies: we took mechanics proven by apps we admire and adapted them
 for the trades — the calm editor and UX of **Basecamp's** open-source Rails apps,
-the read-the-source lesson model of **The Odin Project**, the structured roadmaps
-and resource taxonomy of **roadmap.sh**, and **Wikipedia's** immutable revision
-history and review pipeline. The result is a workshop that's comfortable on *both*
-sides: the learner reading it, and the expert improving it.
+the structured roadmaps and resource taxonomy of **roadmap.sh**, and
+**Wikipedia's** immutable revision history and review pipeline. The result is a
+workshop that's comfortable on *both* sides: the learner reading it, and the
+expert improving it.
 
 <p align="center">
   <img src="docs/screenshots/editor.png" alt="The lesson editor — rich text plus official documents you rank and drag to reorder" width="860">
