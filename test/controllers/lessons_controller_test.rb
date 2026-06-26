@@ -115,18 +115,23 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.lesson__edit[href=?]", edit_admin_lesson_path(lessons(:svarka_intro))
   end
 
-  test "lesson colophon: none on a pristine lesson, quiet credit + history link once revised" do
+  test "lesson history tool: in the top utility bar, only once the community has edited — never names on the page" do
     get lesson_path(lessons(:pteep))
-    assert_select "footer.lesson-colophon", false # never edited → no colophon
+    assert_select ".lesson__topbar a[href=?]", lesson_revisions_path(lessons(:pteep)), count: 0 # pristine → no tool
 
-    lessons(:pteep).revise!(section: "body", html: "<p>точнее</p>",
+    # The founder's own edit stores no name → still no tool (stays rare).
+    lessons(:pteep).revise!(section: "body", html: "<p>чуть точнее</p>",
+                            editor_name: nil, edit_reason: "правка", source: "admin")
+    get lesson_path(lessons(:pteep))
+    assert_select ".lesson__topbar a[href=?]", lesson_revisions_path(lessons(:pteep)), count: 0
+
+    # A named community contributor → a history tool appears in the utility bar,
+    # out of the reading flow; no names/timestamp leak onto the page itself.
+    lessons(:pteep).revise!(section: "body", html: "<p>ещё точнее</p>",
                             editor_name: "Наталья Орлова", edit_reason: "уточнила", source: "suggestion")
     get lesson_path(lessons(:pteep))
-    assert_select "footer.lesson-colophon" do
-      assert_select "a[href=?]", lesson_revisions_path(lessons(:pteep)) # history on its own page
-      assert_select ".avatar", false # quiet byline — no avatar, no badges
-    end
-    assert_match "Наталья Орлова", response.body
+    assert_select ".lesson__topbar a[href=?]", lesson_revisions_path(lessons(:pteep))
+    assert_no_match(/Наталья Орлова/, response.body)
   end
 
   test "reading mode cookie renders the stripped layout server-side" do
