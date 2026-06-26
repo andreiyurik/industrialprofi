@@ -14,6 +14,12 @@ the way real craftsmen actually learn: by reading official standards
 
 [Vision](docs/VISION.md) · [Roadmap](docs/VISION.md#roadmap--scope)
 
+<br>
+
+<img src="docs/screenshots/lesson.png" alt="A lesson on IndustrialProfi: why it matters, the official standards to read, and a verifiable task" width="860">
+
+<sub>A lesson: <b>why</b> it matters → the official <b>standards</b> to read → a verifiable <b>task</b> → one binary <b>done</b>.</sub>
+
 </div>
 
 ---
@@ -35,6 +41,11 @@ Profession  →  Course           →  Lesson
 (Электрик)     (Охрана труда)      (ПУЭ: Правила устройства электроустановок)
 ```
 
+<p align="center">
+  <img src="docs/screenshots/catalog.png" alt="The profession catalog — each trade is a structured career map" width="860">
+  <br><sub>Every profession is a structured career map, not a pile of articles.</sub>
+</p>
+
 ## How a lesson works
 
 Every lesson follows the same honest, no-fluff structure — the same idea as
@@ -48,6 +59,19 @@ an Odin Project assignment, adapted for the shop floor:
 
 Course progress is simply `completed / total`. No "in progress", no fake
 gamification — just a clear map of what you know and what's next.
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/dashboard.png" alt="The learner dashboard — your direction, what to continue, and progress per course">
+      <br><sub><b>Dashboard</b> — your direction, one "continue" button, and binary progress per course.</sub>
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/course.png" alt="A course page — the curriculum grouped by stage with completion ticks">
+      <br><sub><b>Course</b> — the curriculum grouped by stage, with a tick on everything you've finished.</sub>
+    </td>
+  </tr>
+</table>
 
 ## Tech stack
 
