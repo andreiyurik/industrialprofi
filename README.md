@@ -98,6 +98,35 @@ today. What no one else has is *all six columns at once*: the structured depth
 of a course, the authority of the source standards, and the openness of a wiki —
 free for good.
 
+## Built to grow itself
+
+A platform this broad can't be written by one person — and it isn't meant to be.
+So the editor's side of the screen got the same care as the reader's. We're
+unashamed magpies: we took mechanics proven by apps we admire and adapted them
+for the trades — the calm editor and UX of **Basecamp's** open-source Rails apps,
+the read-the-source lesson model of **The Odin Project**, the structured roadmaps
+and resource taxonomy of **roadmap.sh**, and **Wikipedia's** immutable revision
+history and review pipeline. The result is a workshop that's comfortable on *both*
+sides: the learner reading it, and the expert improving it.
+
+<p align="center">
+  <img src="docs/screenshots/editor.png" alt="The lesson editor — rich text plus official documents you rank and drag to reorder" width="860">
+  <br><sub>The <b>lesson editor</b>: rich text + the official documents, each typed, ranked and drag-sorted. A friendly builder — not a wall of wiki-markup.</sub>
+</p>
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/builder.png" alt="The curriculum builder — drag courses, sections and lessons to reorder them">
+      <br><sub><b>Curriculum builder</b> — drag whole courses, sections and lessons into order. The whole profession, on one screen.</sub>
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/review.png" alt="Suggestion review — a reader's edit shown side-by-side against the current text for an expert to approve">
+      <br><sub><b>Suggestion review</b> — any reader can propose an edit; an expert weighs it side-by-side; the applied change becomes an immutable revision.</sub>
+    </td>
+  </tr>
+</table>
+
 ## Tech stack
 
 This is a deliberately boring, **build-step-free** Rails app — and that's the
