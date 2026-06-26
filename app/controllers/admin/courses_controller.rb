@@ -1,6 +1,6 @@
 module Admin
   class CoursesController < BaseController
-    before_action :set_course, only: %i[edit update]
+    before_action :set_course, only: %i[edit update destroy]
     before_action :set_editable_paths, only: %i[new create]
 
     def index
@@ -26,6 +26,14 @@ module Admin
     end
 
     def edit; end
+
+    # Course owns the lesson destroy chain (path → courses → lessons), so this
+    # also clears the course's lessons and their dependents.
+    def destroy
+      path = @course.path
+      @course.destroy!
+      redirect_to admin_path_path(path), notice: I18n.t("flash.course_deleted")
+    end
 
     def update
       @course.assign_attributes(course_params)

@@ -1,6 +1,6 @@
 module Admin
   class LessonsController < BaseController
-    before_action :set_lesson, only: %i[edit update]
+    before_action :set_lesson, only: %i[edit update destroy]
     before_action :set_editable_paths, only: %i[new create]
 
     PER_PAGE = 100
@@ -54,6 +54,12 @@ module Admin
       render :edit, status: :unprocessable_entity
     end
 
+    def destroy
+      path = @lesson.path
+      @lesson.destroy!
+      redirect_to admin_path_path(path), notice: I18n.t("flash.lesson_deleted")
+    end
+
     private
 
     def set_lesson
@@ -91,7 +97,7 @@ module Admin
       params.require(:lesson).permit(
         :title, :description, :body, :task, :kind,
         :rich_description, :rich_body, :rich_task,
-        resources_attributes: %i[id title url kind required position _destroy]
+        resources_attributes: %i[id title url kind language required position _destroy]
       )
     end
   end

@@ -90,9 +90,16 @@ class RevisionDiff
     text.scan(/\S+|\s+/)
   end
 
+  # Strip to plain text, but turn block boundaries into newlines first so a
+  # multi-paragraph section keeps its structure in the diff (rendered pre-wrap)
+  # instead of collapsing into one unreadable blob. Single-block content is
+  # unaffected (trailing newlines are trimmed), so identical? stays correct.
   def plain_text(html)
     return "" if html.blank?
-    text = ActionController::Base.helpers.strip_tags(html.to_s)
-    CGI.unescapeHTML(text)
+    with_breaks = html.to_s
+                      .gsub(%r{<br\s*/?>}i, "\n")
+                      .gsub(%r{</(?:p|div|li|h[1-6]|blockquote|tr)>}i, "\n")
+    text = ActionController::Base.helpers.strip_tags(with_breaks)
+    CGI.unescapeHTML(text).gsub(/[^\S\n]+\n/, "\n").gsub(/\n{3,}/, "\n\n").strip
   end
 end

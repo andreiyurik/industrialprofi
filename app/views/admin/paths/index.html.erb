@@ -1,11 +1,11 @@
-<% meta_title(t("admin.paths_title")) %>
+<% meta_title(t("admin.builder.landing_title")) %>
 
 <section class="admin-page">
   <div class="container">
     <%= render "admin/shared/nav" %>
 
     <div class="admin-header">
-      <h1 class="admin-header__title"><%= t("admin.paths_title") %></h1>
+      <h1 class="admin-header__title"><%= t("admin.builder.landing_title") %></h1>
       <div class="admin-header__actions">
         <a href="<%= new_admin_path_path %>" class="btn btn--small btn--reversed">
           <%= heroicon("plus", variant: :outline) %>
@@ -14,22 +14,22 @@
       </div>
     </div>
 
-    <div class="admin-list">
-      <% @paths.each do |path| %>
-        <a href="<%= edit_admin_path_path(path) %>" class="admin-row">
-          <span class="admin-row__lead">
-            <span class="admin-row__position"><%= path.position %></span>
-            <span class="admin-row__title"><%= path.title %></span>
-            <span class="badge <%= path.status == 'published' ? 'badge--link' : 'badge--draft' %>">
-              <%= path.status %>
+    <% if @paths.empty? %>
+      <div class="admin-empty"><p class="admin-empty__text"><%= t("admin.builder.landing_empty") %></p></div>
+    <% else %>
+      <div class="builder-cards">
+        <% @paths.each do |path| %>
+          <a href="<%= admin_path_path(path) %>" class="builder-card">
+            <span class="builder-card__head">
+              <span class="builder-card__title"><%= path.title %></span>
+              <span class="badge <%= path.status == 'published' ? 'badge--link' : 'badge--draft' %>"><%= path.status %></span>
             </span>
-          </span>
-          <span class="admin-row__meta">
-            <span><%= russian_pluralize(path.lessons_count, :lesson) %></span>
-            <%= heroicon("pencil-square", variant: :outline) %>
-          </span>
-        </a>
-      <% end %>
-    </div>
+            <span class="builder-card__meta">
+              <%= russian_pluralize(path.courses_count, :course) %> · <%= russian_pluralize(path.lessons_count, :lesson) %>
+            </span>
+          </a>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </section>

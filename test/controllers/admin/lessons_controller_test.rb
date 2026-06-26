@@ -132,6 +132,18 @@ class Admin::LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_nil added.country_code, "editor-created resources are universal (no country) by default"
   end
 
+  test "the language checkbox marks a resource English and clears back to Russian" do
+    patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
+      resources_attributes: { "0" => existing_attrs(resources(:pteep_doc), position: 0).merge(language: "en") }
+    } }
+    assert_equal "en", resources(:pteep_doc).reload.language
+
+    patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
+      resources_attributes: { "0" => existing_attrs(resources(:pteep_doc), position: 0).merge(language: "") }
+    } }
+    assert_nil resources(:pteep_doc).reload.language, "an unchecked box stores nil (Russian)"
+  end
+
   test "update can remove a resource via _destroy" do
     assert_difference -> { lessons(:pteep).resources.count }, -1 do
       patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
@@ -224,6 +236,36 @@ class Admin::LessonsControllerTest < ActionDispatch::IntegrationTest
   test "create without a course re-renders" do
     post admin_lessons_path, params: { lesson: { title: "Сирота", kind: "lesson" } }
     assert_response :unprocessable_entity
+  end
+
+  # ── Destroy (with the full dependent cascade) ──
+
+  test "destroy clears the dependent chain (incl. readonly revisions) and unlinks journal entries" do
+    lesson = lessons(:pteep) # fixtures attach suggestions to it
+    # A revision that FKs a suggestion — exercises the delete-revisions-first order.
+    lesson.lesson_revisions.create!(section: "body", source: "suggestion", version: 99,
+      content_before: "до", content_after: "после", lesson_suggestion: lesson_suggestions(:approved_suggestion))
+    lesson.lesson_completions.create!(user: users(:member))
+    lesson.lesson_bookmarks.create!(user: users(:member))
+    journal = users(:member).journal_entries.create!(lesson: lesson, body: "собрал щит")
+
+    assert_difference -> { Lesson.count }, -1 do
+      delete admin_lesson_path(lesson)
+    end
+    assert_redirected_to admin_path_path(paths(:electrician))
+    assert_nil journal.reload.lesson_id, "the journal entry survives, just unlinked"
+    assert_equal 0, LessonSuggestion.where(lesson_id: lesson.id).count
+    assert_equal 0, LessonRevision.where(lesson_id: lesson.id).count
+    assert_equal 0, LessonCompletion.where(lesson_id: lesson.id).count
+  end
+
+  test "an editor cannot destroy a lesson in an ungranted profession" do
+    sign_out
+    sign_in_as users(:editor)
+    assert_no_difference -> { Lesson.count } do
+      delete admin_lesson_path(lessons(:svarka_intro))
+    end
+    assert_redirected_to admin_lessons_path
   end
 
   private

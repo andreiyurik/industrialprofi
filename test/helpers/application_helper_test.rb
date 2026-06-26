@@ -5,6 +5,18 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes markdown("**bold**"), "<strong>"
   end
 
+  # In dev/prod Propshaft raises on a missing asset (a not-yet-drawn "TODO-*.png");
+  # the helper must swallow that and render a placeholder, not 500 the lesson.
+  # (The test-env resolver is lenient and won't raise, so we force it.)
+  test "safe_remote_image_tag renders a placeholder when the image asset is missing" do
+    missing = Struct.new(:url, :width, :height, :caption).new("TODO-x.png", nil, nil, nil)
+    define_singleton_method(:image_tag) { |*, **| raise Propshaft::MissingAssetError.new("TODO-x.png") }
+
+    html = safe_remote_image_tag(missing)
+    assert_includes html, "attachment__missing"
+    assert_includes html, I18n.t("lessons.image_pending")
+  end
+
   test "markdown renders heading" do
     result = markdown("## Title")
     assert_includes result, "<h2"

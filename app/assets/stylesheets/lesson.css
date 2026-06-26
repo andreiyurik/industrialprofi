@@ -1,3 +1,29 @@
+/* Draft preview banner — shown to an editor viewing an unpublished lesson. */
+.lesson__preview-banner {
+  background-color: oklch(var(--lch-yellow) / 0.12);
+  border: 1px solid oklch(var(--lch-yellow) / 0.4);
+  border-radius: 0.5rem;
+  color: var(--color-ink);
+  font-size: 0.85rem;
+  margin-block-end: 1.5rem;
+  padding: 0.6rem 0.9rem;
+}
+
+/* Placeholder for an image whose asset is missing (e.g. a not-yet-drawn
+   "TODO-*.png"), so one pending illustration never crashes the lesson. */
+.attachment__missing {
+  align-items: center;
+  background-color: var(--color-subtle-light);
+  border: 1px dashed var(--color-subtle);
+  border-radius: 0.5rem;
+  color: var(--color-subtle-dark);
+  display: flex;
+  font-size: 0.85rem;
+  justify-content: center;
+  min-block-size: 6rem;
+  padding: 1rem;
+}
+
 .lesson {
   margin-inline: auto;
   max-inline-size: 44rem;

@@ -53,18 +53,15 @@
       <% end %>
     </div>
 
-    <% if @library_preview.any? %>
-      <section class="path__library">
-        <div class="library-profession__head">
-          <h2 class="section-title"><%= t("resources.section_title") %></h2>
-          <a href="<%= resources_path(path: @path.slug) %>" class="link-quiet">
-            <%= t("resources.section_link") %>
-          </a>
-        </div>
-        <ul class="lesson-resources">
-          <%= render partial: "resources/resource_link", collection: @library_preview, as: :entry %>
-        </ul>
-      </section>
+    <%# A single quiet link to the profession's document library — the full,
+        type-grouped list lives on its own page (and the per-lesson resources show
+        each source in context). Keeping it off the overview removes the visual
+        noise of a flat document dump and matches the "right order, in context"
+        thesis. %>
+    <% if @has_library %>
+      <p class="path__library-link">
+        <a href="<%= resources_path(path: @path.slug) %>" class="link-quiet"><%= t("resources.section_link") %></a>
+      </p>
     <% end %>
   </div>
 </section>

@@ -6,7 +6,7 @@
 
     <div class="admin-header">
       <div class="admin-header__title-group">
-        <a href="<%= admin_lessons_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+        <a href="<%= admin_path_path(@lesson.path) %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
           <%= heroicon("arrow-left", variant: :outline) %>
         </a>
         <h1 class="admin-header__title"><%= @lesson.title %></h1>
@@ -33,7 +33,10 @@
             {}, class: "input" %>
       </div>
 
-      <p class="admin-form__hint admin-form__field--lg"><%= t("admin.markdown_paste_hint") %></p>
+      <p class="admin-form__hint admin-form__field--lg">
+        <%= t("admin.markdown_paste_hint") %>
+        <a href="<%= admin_guide_path %>" class="link-quiet" target="_blank"><%= t("admin.guide.link") %> ↗</a>
+      </p>
 
       <div class="admin-form__field admin-form__field--lg">
         <label><%= t("admin.field_description") %></label>
@@ -52,11 +55,8 @@
 
       <%# Live badge palette for the editor: one colour per kind, mirroring the
           reader's resource badges (documents skew "norm" red on this platform). %>
-      <% kind_badges = {
-           "document" => [ "badge--norm", t("lessons.resource_kinds.document") ],
-           "video"    => [ "badge--video", t("lessons.resource_kinds.video") ],
-           "article"  => [ "badge--article", t("lessons.resource_kinds.article") ],
-           "tool"     => [ "badge--tool", t("lessons.resource_kinds.tool") ]
+      <% kind_badges = Resource::KINDS.index_with { |k|
+           [ "badge--#{k}", t("lessons.resource_kinds.#{k}") ]
          } %>
       <div class="admin-form__field admin-form__field--lg" id="resources-editor" data-controller="reveal">
         <label><%= t("admin.resources.heading") %></label>
@@ -93,8 +93,15 @@
 
       <div class="admin-form__actions">
         <%= f.submit t("admin.save"), class: "btn btn--reversed" %>
-        <a href="<%= admin_lessons_path %>" class="btn"><%= t("admin.cancel") %></a>
+        <a href="<%= admin_path_path(@lesson.path) %>" class="btn"><%= t("admin.cancel") %></a>
       </div>
     <% end %>
+
+    <div class="admin-danger">
+      <h2 class="admin-danger__title"><%= t("admin.builder.danger_zone") %></h2>
+      <%= button_to t("admin.builder.delete_lesson"), admin_lesson_path(@lesson), method: :delete,
+            class: "btn btn--negative btn--small",
+            data: { turbo_confirm: t("admin.builder.delete_lesson_confirm", title: @lesson.title) } %>
+    </div>
   </div>
 </section>

@@ -14,40 +14,118 @@ the way real craftsmen actually learn: by reading official standards
 
 [Vision](docs/VISION.md) · [Roadmap](docs/VISION.md#roadmap--scope)
 
+<br>
+
+<img src="docs/screenshots/lesson.png" alt="A lesson on IndustrialProfi: why it matters, the official standards to read, and a verifiable task" width="860">
+
+<sub>A lesson: <b>why</b> it matters → the official <b>standards</b> to read → a verifiable <b>task</b> → one binary <b>done</b>.</sub>
+
+<br><br>
+
+⭐ **Like the idea of a free, open encyclopedia of the trades?**
+[Star the repo](https://github.com/andreiyurik/industrialprofi) — it's the cheapest way to help it find the experts who'll grow it.
+· [Support development →](https://industrialprofi.com/support_us)
+
 </div>
 
 ---
 
 ## Why this exists
 
-The Odin Project proved that people can master full-stack web development for
-free — not through video courses, but by reading documentation and building
-real projects. **IndustrialProfi brings that model to the trades.**
+Wikipedia made the world's knowledge free and open — but the deep, practical
+know-how of the **trades** never really made it in. How you actually wire a
+panel, weld a seam or commission a sensor still lives locked away: in scattered
+standards, paywalled video courses, and the heads of a retiring generation.
 
-Welders, electricians, instrumentation techs and other industrial workers in
-the CIS (Russia, Kazakhstan) have no structured, free, standards-based path to
-grow their skills. The official knowledge already exists — it lives in ГОСТ,
-ПУЭ, НАКС and ASME standards — but it's scattered, intimidating, and unmapped.
-IndustrialProfi curates it into clear career roadmaps:
+**IndustrialProfi is building the open commons for that knowledge — think a
+Wikipedia for the trades**, with two differences that matter: a *guided path*
+(profession → course → lesson, so you always know what to learn next), and a
+*friendly builder* instead of a wall of wiki-markup — so a working electrician
+can improve a lesson without first becoming a wiki editor.
+
+The raw material already exists — it lives in ГОСТ, ПУЭ, НАКС and ASME
+standards — but it's scattered, intimidating, and unmapped. Welders,
+electricians and instrumentation techs across the CIS have no structured, free,
+standards-based path to grow. So we curate one into clear career roadmaps:
 
 ```
 Profession  →  Course           →  Lesson
 (Электрик)     (Охрана труда)      (ПУЭ: Правила устройства электроустановок)
 ```
 
+<p align="center">
+  <img src="docs/screenshots/resources.png" alt="The library — official standards, books, videos and tools curated per profession" width="860">
+  <br><sub>The <b>library</b>: every official standard, book and tool — curated per profession, ranked, and linked from the lessons that use it. An open encyclopedia of the trades, in the making.</sub>
+</p>
+
 ## How a lesson works
 
-Every lesson follows the same honest, no-fluff structure — the same idea as
-an Odin Project assignment, adapted for the shop floor:
+Every lesson follows the same honest, no-fluff structure — read the real source,
+then prove you can use it:
 
 1. **WHY** — one or two sentences on why this matters on the job site.
 2. **OFFICIAL DOCUMENTS** — curated links to the real standards, ranked
    (★ required, ○ optional). No paraphrasing — you read the source.
 3. **PRACTICAL TASK** — a concrete, verifiable assignment.
-4. **✓ Mark as done** — binary progress, just like Odin. Done or not done.
+4. **✓ Mark as done** — binary progress. Done or not done, nothing in between.
 
 Course progress is simply `completed / total`. No "in progress", no fake
 gamification — just a clear map of what you know and what's next.
+
+<p align="center">
+  <img src="docs/screenshots/projects.png" alt="The practice projects grid — real, verifiable tasks filtered by difficulty" width="860">
+  <br><sub>Theory is half of it. Every profession also has <b>real, verifiable practice</b> — paper-and-bench drills for beginners up to capstone builds — the part that actually makes a craftsman.</sub>
+</p>
+
+## How it's different
+
+There's no shortage of ways to learn a trade online. Almost all of them are
+*either* free-but-scattered *or* structured-but-paid, and almost none are built
+on the official standards or open for the community to improve. The combination
+is the point:
+
+|                                              | **IndustrialProfi** | Paid video courses | Scattered standards / PDFs | YouTube tutorials |
+| -------------------------------------------- | :-----------------: | :----------------: | :------------------------: | :---------------: |
+| Free — forever, not a trial                  |          ✅          |         ❌          |             ✅              |         ✅         |
+| Built on official standards (ГОСТ/ПУЭ/НАКС)   |          ✅          |     ⚠️ sometimes    |        ✅ (raw, unsorted)   |         ❌         |
+| Structured path: profession → course → lesson |          ✅          |         ✅          |             ❌              |         ❌         |
+| Hands-on, verifiable practice                |          ✅          |     ⚠️ varies       |             ❌              |     ⚠️ varies      |
+| Open content, community-editable (CC BY-SA)  |          ✅          |         ❌          |             ❌              |         ❌         |
+| No ads, no upsell, no account wall to read   |          ✅          |         ❌          |             ✅              |         ❌         |
+
+We're early and don't pretend otherwise — a paid course will have more polish
+today. What no one else has is *all six columns at once*: the structured depth
+of a course, the authority of the source standards, and the openness of a wiki —
+free for good.
+
+## Built to grow itself
+
+A platform this broad can't be written by one person — and it isn't meant to be.
+So the editor's side of the screen got the same care as the reader's. We're
+unashamed magpies: we took mechanics proven by apps we admire and adapted them
+for the trades — the calm editor and UX of **Basecamp's** open-source Rails apps,
+the structured roadmaps and resource taxonomy of **roadmap.sh**, and
+**Wikipedia's** immutable revision history and review pipeline. The result is a
+workshop that's comfortable on *both* sides: the learner reading it, and the
+expert improving it.
+
+<p align="center">
+  <img src="docs/screenshots/editor.png" alt="The lesson editor — rich text plus official documents you rank and drag to reorder" width="860">
+  <br><sub>The <b>lesson editor</b>: rich text + the official documents, each typed, ranked and drag-sorted. A friendly builder — not a wall of wiki-markup.</sub>
+</p>
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/builder.png" alt="The curriculum builder — drag courses, sections and lessons to reorder them">
+      <br><sub><b>Curriculum builder</b> — drag whole courses, sections and lessons into order. The whole profession, on one screen.</sub>
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/review.png" alt="Suggestion review — a reader's edit shown side-by-side against the current text for an expert to approve">
+      <br><sub><b>Suggestion review</b> — any reader can propose an edit; an expert weighs it side-by-side; the applied change becomes an immutable revision.</sub>
+    </td>
+  </tr>
+</table>
 
 ## Tech stack
 
@@ -162,5 +240,16 @@ Standing on the shoulders of projects that showed the way:
 ---
 
 <div align="center">
+
+### ⭐ Star · 💛 Support · ✍️ Contribute
+
+If you believe the trades deserve an open, standards-based commons:
+**[star the repo](https://github.com/andreiyurik/industrialprofi)**,
+**[support development](https://industrialprofi.com/support_us)**,
+or **[help build it](CONTRIBUTING.md)** — code or content, both move it forward.
+
+<br>
+
 Built for the people who keep the lights on, the pipes welded, and the machines running.
+
 </div>

@@ -30,6 +30,6 @@ class PathsController < ApplicationController
     @kind_counts = @path.lessons.group(:course_id, :kind).count
     @completed_ids = signed_in? ? Current.user.completed_lesson_ids_for(@path) : Set.new
     @continue_lesson = signed_in? ? Current.user.next_lesson_in(@path) : @path.lessons.ordered.first
-    @library_preview = ResourceLibrary.for(path: @path).first(6)
+    @has_library = ResourceLibrary.for(path: @path).any?
   end
 end

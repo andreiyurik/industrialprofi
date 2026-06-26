@@ -22,6 +22,23 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  # ── Builder (show) ──
+
+  test "show renders the builder tree with the profession's courses and lessons" do
+    get admin_path_path(paths(:electrician))
+    assert_response :success
+    assert_select ".builder"
+    assert_match courses(:el_basics).title, response.body
+    assert_match lessons(:pteep).title, response.body
+  end
+
+  test "an editor cannot open the builder for an ungranted profession" do
+    sign_out
+    sign_in_as users(:editor)
+    get admin_path_path(paths(:welder))
+    assert_response :not_found
+  end
+
   test "update with valid data redirects" do
     patch admin_path_path(paths(:electrician)),
       params: { path: { description: "New description" } }
@@ -121,6 +138,29 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
     post admin_paths_path, params: { path: { title: "Плиточник" } }
     path = Path.find_by!(title: "Плиточник")
     assert users(:editor).can_edit_path?(path), "the creator can edit what they made"
+  end
+
+  # ── Destroy (admin-only) ──
+
+  test "an admin can destroy a profession with all its courses and lessons" do
+    path = paths(:electrician)
+    course_ids = path.courses.pluck(:id)
+    lesson_ids = path.lessons.pluck(:id)
+    assert_difference -> { Path.count }, -1 do
+      delete admin_path_path(path)
+    end
+    assert_redirected_to admin_paths_path
+    assert_equal 0, Course.where(id: course_ids).count
+    assert_equal 0, Lesson.where(id: lesson_ids).count
+  end
+
+  test "an editor cannot destroy a profession, even one they can edit" do
+    sign_out
+    sign_in_as users(:editor) # granted the electrician profession
+    assert_no_difference -> { Path.count } do
+      delete admin_path_path(paths(:electrician))
+    end
+    assert_redirected_to admin_path_path(paths(:electrician))
   end
 
   # ── Slug lock (SEO) ──

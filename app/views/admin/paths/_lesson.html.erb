@@ -1,0 +1,23 @@
+<%# One draggable lesson row in the builder tree. The title renames inline
+    (double-click); ✎ opens the full content editor. %>
+<li class="builder-lesson" data-curriculum-target="lesson" data-lesson-id="<%= lesson.id %>" draggable="true">
+  <span class="builder__handle" aria-hidden="true"><%= heroicon "bars-3", variant: :outline %></span>
+  <span class="builder-lesson__pos" data-curriculum-target="pos"><%= lesson.position %></span>
+  <span class="builder-lesson__title" data-controller="inline-edit"
+        data-inline-edit-url-value="<%= admin_path_lesson_name_path(path, lesson) %>">
+    <span class="builder-inline__display" data-inline-edit-target="display"
+          data-action="dblclick->inline-edit#start"><%= lesson.title %></span>
+    <form class="builder-inline__form" data-inline-edit-target="form" hidden
+          data-action="submit->inline-edit#save">
+      <input type="text" class="input builder-inline__input" data-inline-edit-target="input"
+             value="<%= lesson.title %>" aria-label="<%= t('admin.builder.rename') %>"
+             data-action="keydown->inline-edit#keydown">
+    </form>
+  </span>
+  <% if lesson.practice? %>
+    <span class="badge badge--marker"><%= t("admin.kind_practice") %></span>
+  <% end %>
+  <a href="<%= edit_admin_lesson_path(lesson) %>" class="builder__edit" aria-label="<%= t('admin.edit_lesson') %>">
+    <%= heroicon "pencil-square", variant: :outline %>
+  </a>
+</li>

@@ -1,0 +1,48 @@
+<% meta_title("#{t('admin.builder.title')} · #{@path.title}") %>
+
+<section class="admin-page">
+  <div class="container">
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-header">
+      <div class="admin-header__title-group">
+        <a href="<%= admin_paths_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+          <%= heroicon("arrow-left", variant: :outline) %>
+        </a>
+        <h1 class="admin-header__title"><%= @path.title %></h1>
+        <span class="badge <%= @path.status == 'published' ? 'badge--link' : 'badge--draft' %>"><%= @path.status %></span>
+      </div>
+      <div class="admin-header__actions">
+        <a href="<%= path_path(@path) %>" class="admin-header__view-live link-quiet" target="_blank"><%= t("admin.view_live") %> ↗</a>
+        <a href="<%= edit_admin_path_path(@path) %>" class="btn btn--small">
+          <%= heroicon "cog-6-tooth", variant: :outline %>
+          <span><%= t("admin.builder.settings") %></span>
+        </a>
+      </div>
+    </div>
+
+    <p class="admin-form__hint builder__hint"><%= t("admin.builder.hint") %></p>
+
+    <div class="builder"
+         data-controller="curriculum"
+         data-curriculum-lessons-url-value="<%= admin_path_lesson_moves_path(@path) %>"
+         data-curriculum-courses-url-value="<%= admin_path_course_moves_path(@path) %>"
+         data-curriculum-saved-text-value="<%= t('admin.builder.saved') %>"
+         data-curriculum-failed-text-value="<%= t('admin.builder.save_failed') %>"
+         data-action="dragstart->curriculum#dragStart dragover->curriculum#dragOver drop->curriculum#drop dragend->curriculum#dragEnd">
+
+      <% if @courses.empty? %>
+        <div class="admin-empty"><p class="admin-empty__text"><%= t("admin.builder.no_courses") %></p></div>
+      <% else %>
+        <ul class="builder__courses" data-curriculum-target="courseList">
+          <%= render partial: "admin/paths/course", collection: @courses, as: :course, locals: { path: @path } %>
+        </ul>
+      <% end %>
+
+      <a href="<%= new_admin_course_path(path_id: @path.id) %>" class="builder__add">
+        <%= heroicon "plus", variant: :outline %>
+        <span><%= t("admin.builder.add_course") %></span>
+      </a>
+    </div>
+  </div>
+</section>

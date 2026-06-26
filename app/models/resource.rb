@@ -1,13 +1,24 @@
 class Resource < ApplicationRecord
   belongs_to :lesson
 
-  # "" from the editor's "all countries" option means universal — store nil so
-  # the for_country scope (nil = everyone) matches.
+  # The two axes of a resource. KINDS = what it is (one per link). `document` is a
+  # legacy kind kept valid for old rows — it splits to norm/book by title sniffing
+  # at display (see ApplicationHelper#resource_badge_meta); new rows pick norm or
+  # book explicitly. LANGUAGES = a source-language marker (nil = Russian), shown as
+  # a small secondary badge — only English, the international language; nothing
+  # else is sourced.
+  KINDS = %w[norm book doc course video article software tool].freeze
+  LANGUAGES = %w[en].freeze
+
+  # "" from the editor's "all countries"/"default language" options means
+  # universal — store nil so the scopes (nil = everyone) match.
   before_validation { self.country_code = country_code.presence }
+  before_validation { self.language = language.presence }
 
   validates :title, presence: true
   validates :url, presence: true, format: { with: /\Ahttps?:\/\/[^\s]+\z/i }
-  validates :kind, inclusion: { in: %w[document video article tool] }
+  validates :kind, inclusion: { in: KINDS + %w[document] }
+  validates :language, inclusion: { in: LANGUAGES }, allow_nil: true
   # Provenance only (no digest). Edit-safety rides primarily on the PARENT lesson's
   # freeze: the importer syncs resources only while the lesson is still pristine, so
   # an edited (frozen) lesson's links are never touched. The origin "human" guard is

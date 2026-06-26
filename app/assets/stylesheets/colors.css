@@ -23,6 +23,8 @@
   --lch-purple: 70% 0.17 300;
   --lch-yellow: 84% 0.14 95;
   --lch-teal: 78% 0.11 195;
+  --lch-cyan: 74% 0.12 225;    /* doc / datasheet badge */
+  --lch-pink: 74% 0.16 350;    /* software (ПО) badge */
   /* Code syntax-highlighting accents (code.css only) — soft hues, readable on
      the black ground without competing with UI color. Never general UI. */
   --lch-orange: 76% 0.14 60;

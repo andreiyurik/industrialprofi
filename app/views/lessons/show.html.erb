@@ -26,6 +26,9 @@
   <div class="lesson-sidebar-backdrop" data-action="click->lesson-sidebar#close" aria-hidden="true"></div>
 
   <div class="lesson">
+  <% if @preview %>
+    <p class="lesson__preview-banner"><%= t("lessons.preview_banner") %></p>
+  <% end %>
   <button type="button" class="lesson-contents-toggle" data-action="lesson-sidebar#open">
     <%= heroicon "bars-3", variant: :outline %>
     <%= t("lessons.contents") %>
@@ -58,6 +61,16 @@
         <%= link_to edit_admin_lesson_path(@lesson), class: "btn btn--small lesson__edit" do %>
           <%= heroicon "pencil-square", variant: :outline %>
           <%= t("lessons.edit_lesson") %>
+        <% end %>
+      <% end %>
+
+      <%# History lives in the utility bar (Wikipedia-style "View history"), shown
+          only once the community has actually edited the lesson — out of the
+          reading flow, never competing with the end-of-lesson actions. %>
+      <% if @lesson.contributor_names.any? %>
+        <%= link_to lesson_revisions_path(@lesson), class: "lesson__tool",
+              aria: { label: t("revisions.history") }, title: t("revisions.history") do %>
+          <%= heroicon "clock", variant: :outline %>
         <% end %>
       <% end %>
 
@@ -174,8 +187,6 @@
 
     <%= render "lessons/completion", lesson: @lesson, completed: @completed_ids.include?(@lesson.id) %>
   </article>
-
-  <%= render "lessons/colophon", lesson: @lesson %>
   </div>
 
   <%= render "lessons/toc", lesson: @lesson %>

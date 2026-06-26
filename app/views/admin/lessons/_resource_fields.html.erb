@@ -11,11 +11,17 @@
     <div class="resource-row__head">
       <span class="badge resource-row__badge" data-nested-form-target="badge"></span>
       <%= f.select :kind,
-            %w[document video article tool].map { |k| [ t("lessons.resource_kinds.#{k}"), k ] },
+            Resource::KINDS.map { |k| [ t("lessons.resource_kinds.#{k}"), k ] },
             {}, class: "input resource-row__kind",
             data: { nested_form_target: "kind", action: "nested-form#refreshBadge" } %>
       <%= f.text_field :title, placeholder: t("admin.resources.title_placeholder"),
             class: "input resource-row__title" %>
+      <%# One-click language marker: checked = English source, unchecked = Russian
+          (default). Only EN exists, so a checkbox beats a two-click select. %>
+      <label class="resource-row__lang" title="<%= t('lessons.resource_languages.en') %>">
+        <%= f.check_box :language, {}, "en", "" %>
+        <span>EN</span>
+      </label>
       <label class="resource-row__required">
         <%= f.check_box :required %>
         <span><%= t("admin.resources.required") %></span>

@@ -180,6 +180,16 @@ module ApplicationHelper
     end
   end
 
+  # A remote-image attachment (ActionText) whose URL points at a missing asset —
+  # e.g. a "TODO-*.png" placeholder an author left for an illustration not yet
+  # drawn — must never 500 the whole lesson. Render a calm placeholder instead.
+  def safe_remote_image_tag(remote_image)
+    image_tag(remote_image.url, width: remote_image.try(:width), height: remote_image.try(:height),
+              loading: "lazy", alt: remote_image.try(:caption).to_s)
+  rescue Propshaft::MissingAssetError
+    tag.span(t("lessons.image_pending"), class: "attachment__missing")
+  end
+
   def lesson_content(lesson, field)
     rich = lesson.send(:"rich_#{field}")
     return rich if rich.present?
@@ -209,10 +219,17 @@ module ApplicationHelper
   end
 
   # Resource-type badge (roadmap.sh-style): a coloured pill with a heroicon and
-  # the kind label, shown before each resource link. One hue per kind.
+  # the kind label, shown before each resource link. One hue per kind — the
+  # "type" axis. The orthogonal "marker" axis (language, and later partner) is a
+  # separate small badge, see resource_lang_badge.
   RESOURCE_KIND_BADGES = {
+    "norm" => { modifier: "badge--norm", icon: "document-text", label: "norm" },
+    "book" => { modifier: "badge--book", icon: "book-open", label: "book" },
+    "doc" => { modifier: "badge--doc", icon: "clipboard-document-list", label: "doc" },
+    "course" => { modifier: "badge--course", icon: "academic-cap", label: "course" },
     "video" => { modifier: "badge--video", icon: "video-camera", label: "video" },
     "article" => { modifier: "badge--article", icon: "newspaper", label: "article" },
+    "software" => { modifier: "badge--software", icon: "cpu-chip", label: "software" },
     "tool" => { modifier: "badge--tool", icon: "wrench-screwdriver", label: "tool" }
   }.freeze
 
@@ -232,10 +249,20 @@ module ApplicationHelper
   def resource_badge_meta(resource)
     return RESOURCE_KIND_BADGES[resource.kind] if RESOURCE_KIND_BADGES.key?(resource.kind)
 
+    # Legacy `document` rows: split to norm/book by sniffing the title.
     if resource.title.to_s.match?(NORMATIVE_TITLE)
-      { modifier: "badge--norm", icon: "document-text", label: "norm" }
+      RESOURCE_KIND_BADGES["norm"]
     else
-      { modifier: "badge--book", icon: "book-open", label: "book" }
+      RESOURCE_KIND_BADGES["book"]
     end
+  end
+
+  # The orthogonal source-language marker — a small secondary badge shown only
+  # for non-Russian sources (the default market language carries no badge).
+  def resource_lang_badge(resource)
+    return unless resource.respond_to?(:language) && resource.language.present?
+
+    tag.span(resource.language.upcase, class: "badge badge--lang lesson-resource__lang",
+      title: t("lessons.resource_languages.#{resource.language}", default: resource.language.upcase))
   end
 end

@@ -276,3 +276,35 @@
   margin-block: -0.5rem 0;
   text-align: center;
 }
+
+/* Quiet "become a curator" invite below the catalog grid. Deliberately a low-key
+   footnote: small, muted, and the link blends into the line (brightens on hover)
+   rather than shouting as a blue CTA. */
+.catalog-curator {
+  border-block-start: 1px solid var(--color-subtle);
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  margin-block-start: var(--block-space-double);
+  padding-block-start: var(--block-space);
+  text-align: center;
+}
+
+.catalog-curator a {
+  color: var(--color-subtle-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (any-hover: hover) {
+  .catalog-curator a:hover {
+    color: var(--color-ink);
+  }
+}
+
+/* Quiet link to the profession's document library — a footnote, not a section. */
+.path__library-link {
+  border-block-start: 1px solid var(--color-subtle);
+  font-size: 0.85rem;
+  margin-block-start: var(--block-space);
+  padding-block-start: var(--block-space);
+}

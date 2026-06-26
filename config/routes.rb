@@ -64,14 +64,27 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "dashboard#show"
-    resources :lessons, only: [ :index, :new, :create, :edit, :update ], param: :slug do
+    resources :lessons, only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug do
       resources :revisions, only: [ :index ] do
         member { post :rollback }
       end
     end
-    resources :paths, only: [ :index, :new, :create, :edit, :update ], param: :slug
-    resources :courses, only: [ :index, :new, :create, :edit, :update ], param: :slug
+    # paths#show is the curriculum builder (the tree); #index is its landing.
+    # Builder mutations (reorder, rename) are nested RESTful resources scoped to
+    # the profession, so the path slug rides in the URL (cleaner auth than a body
+    # param). The work itself lives in Path::Curriculum.
+    resources :paths, only: [ :index, :new, :create, :show, :edit, :update, :destroy ], param: :slug do
+      scope module: :paths do
+        resources :lesson_moves, only: :create
+        resources :course_moves, only: :create
+        resources :lesson_names, only: :update
+        resources :course_names, only: :update
+        resource  :stage_rename, only: :update
+      end
+    end
+    resources :courses, only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug
     resources :imports, only: [ :new, :create ]
+    get "guide" => "guide#show", as: :guide
     resources :users, only: [ :index, :show, :update ] do
       resource :suspension, only: [ :create, :destroy ]
     end

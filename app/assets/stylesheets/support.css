@@ -37,15 +37,29 @@
 }
 
 .support-hero__title {
-  font-size: clamp(1.75rem, 5vw, 2.5rem);
-  font-weight: 700;
+  font-size: clamp(1.85rem, 5vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
   margin-block: 0;
+  text-wrap: balance;
+}
+
+/* Body copy in the hero shares ONE narrower measure with balanced wrapping and
+   no mid-word hyphenation, so the centered lines break evenly and symmetrically
+   instead of zig-zagging with stray "ся." orphans (the "криво" look). */
+.support-hero__lede,
+.support-hero__signal {
+  hyphens: manual;
+  line-height: 1.65;
+  margin-inline: auto;
+  max-inline-size: 34rem;
+  text-wrap: balance;
 }
 
 .support-hero__lede {
   color: var(--color-subtle-dark);
-  line-height: 1.6;
-  margin-block: 1.5rem 0;
+  margin-block: 1.25rem 0;
 }
 
 .support-hero__eyebrow {
@@ -53,7 +67,7 @@
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.09em;
-  margin-block: 0 0.75rem;
+  margin-block: 1.5rem 0.75rem;
   text-transform: uppercase;
 }
 
@@ -61,12 +75,108 @@
    invitation. Brighter than the lede so it lands. */
 .support-hero__signal {
   color: var(--color-ink);
-  line-height: 1.6;
   margin-block: 1.25rem 0;
 }
 
 .support-hero__cta {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  justify-content: center;
   margin-block-start: 2rem;
+}
+
+/* Donate/GitHub buttons: the canonical .btn with a gentle hover lift so the
+   primary ask feels a touch more alive than a plain link. */
+.support-btn {
+  transition: transform 150ms ease, background-color 150ms ease, border-color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+/* The hand-heart glyph carries more detail than a plain icon — give it a touch
+   more room so it stays legible at button scale. */
+.support-btn--give {
+  --btn-icon-size: 1.35em;
+}
+
+.support-hero__github-note {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  hyphens: manual;
+  line-height: 1.5;
+  margin-block: 1rem auto 0;
+  max-inline-size: 30rem;
+  text-wrap: balance;
+}
+
+/* ── Living hero emblem (pure CSS, no JS, no assets) ──────────────────── */
+/* The glyph draws itself on load (stroke-dashoffset), the glow hugs the line
+   (drop-shadow, not a background blob), then the HEART keeps beating — a real
+   lub-dub. On-brand for a line-icon system; honors prefers-reduced-motion. */
+.support-emblem {
+  block-size: 6.5rem;
+  display: grid;
+  inline-size: 6.5rem;
+  margin-inline: auto;
+  place-items: center;
+}
+
+.support-emblem__icon {
+  color: var(--color-ink);
+  display: grid;
+  grid-area: 1 / 1;
+  filter: drop-shadow(0 0 7px oklch(var(--lch-black) / 0.35));
+  place-items: center;
+
+  svg {
+    block-size: 3.4rem;
+    inline-size: 3.4rem;
+  }
+
+  path {
+    stroke-dasharray: 100;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* 1) The line draws itself, hand → palm → heart, on load. `both` keeps each
+        path hidden through its stagger delay (backwards) and drawn after (forwards). */
+  .support-emblem__icon path {
+    animation: support-draw 1s ease both;
+  }
+
+  .support-emblem__icon path:nth-child(1) { animation-delay: 0s; }
+  .support-emblem__icon path:nth-child(2) { animation-delay: 0.35s; }
+
+  /* 2) The heart (3rd path) draws last, then beats forever in place — scaled
+        around its own centre via transform-box: fill-box. */
+  .support-emblem__icon path:nth-child(3) {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: support-draw 1s ease 0.75s both,
+               support-heartbeat 1.5s ease-in-out 2s infinite;
+  }
+}
+
+@keyframes support-draw {
+  from { stroke-dashoffset: 100; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* A real heartbeat: a strong thump, a softer second one, then rest. */
+@keyframes support-heartbeat {
+  0%   { transform: scale(1); }
+  12%  { transform: scale(1.17); }
+  24%  { transform: scale(1); }
+  36%  { transform: scale(1.1); }
+  50%  { transform: scale(1); }
+  100% { transform: scale(1); }
 }
 
 .support-hero__alive {

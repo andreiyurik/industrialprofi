@@ -49,10 +49,33 @@
       </div>
     <% end %>
 
-    <div class="admin-diff">
-      <h3 class="admin-comparison__heading"><%= t("admin.diff_heading") %></h3>
-      <div class="admin-comparison__body revision-diff prose">
-        <%= inline_diff(@lesson.section_html(@suggestion.section), @suggestion.proposed_html) %>
+    <% current_html  = @lesson.section_html(@suggestion.section) %>
+    <% proposed_html = @suggestion.proposed_html %>
+
+    <%# Two lenses, toggled client-side (no reload): «Рядом» reads each version on
+        its own — legible at any edit size, the default — and «Изменения» is the
+        inline word diff for pinning down a small, precise change. %>
+    <div class="review-compare" data-controller="segmented" data-segmented-active-value="side">
+      <div class="segmented" role="tablist">
+        <button type="button" class="segmented__tab" data-segmented-target="tab" data-view="side"
+                data-action="segmented#select"><%= t("admin.review.view_side") %></button>
+        <button type="button" class="segmented__tab" data-segmented-target="tab" data-view="diff"
+                data-action="segmented#select"><%= t("admin.review.view_diff") %></button>
+      </div>
+
+      <div class="review-split" data-segmented-target="panel" data-view="side">
+        <div class="review-pane">
+          <h3 class="review-pane__head review-pane__head--current"><%= t("admin.review.current") %></h3>
+          <div class="review-pane__body prose"><%= safe_prose(current_html) %></div>
+        </div>
+        <div class="review-pane">
+          <h3 class="review-pane__head review-pane__head--proposed"><%= t("admin.review.proposed") %></h3>
+          <div class="review-pane__body prose"><%= safe_prose(proposed_html) %></div>
+        </div>
+      </div>
+
+      <div class="review-diff" data-segmented-target="panel" data-view="diff" hidden>
+        <div class="review-pane__body revision-diff prose"><%= inline_diff(current_html, proposed_html) %></div>
       </div>
     </div>
 

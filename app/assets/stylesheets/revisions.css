@@ -1,4 +1,4 @@
-/* The standalone change-history page (reachable from the lesson colophon). */
+/* The standalone change-history page (reachable from the lesson's history tool). */
 .lesson-history__page-title {
   font-size: 1.5rem;
   font-weight: 800;
@@ -79,17 +79,108 @@
   margin-block: 0 1rem;
 }
 
-/* Inline word diff — added words green, removed words struck red */
+/* Inline word diff — added green / removed struck red, each as a rounded chip
+   with a hair of side padding + margin so a replaced word never mashes into its
+   replacement ("словоСлово"). */
+.revision-diff ins,
+.revision-diff del {
+  border-radius: 0.25em;
+  margin-inline: 0.04em;
+  padding-inline: 0.18em;
+}
+
 .revision-diff ins {
-  background-color: oklch(var(--lch-green) / 0.18);
+  background-color: oklch(var(--lch-green) / 0.2);
   color: var(--color-ink);
   text-decoration: none;
 }
 
 .revision-diff del {
-  background-color: oklch(var(--lch-red) / 0.18);
+  background-color: oklch(var(--lch-red) / 0.2);
   color: var(--color-ink);
   text-decoration: line-through;
+}
+
+/* ── Moderation comparison: segmented control + side-by-side panes ── */
+
+.review-compare {
+  margin-block-end: 1.5rem;
+}
+
+.segmented {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.6rem;
+  display: inline-flex;
+  gap: 0.15rem;
+  margin-block-end: 1rem;
+  padding: 0.2rem;
+}
+
+.segmented__tab {
+  background: none;
+  border: 0;
+  border-radius: 0.45rem;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.9rem;
+}
+
+.segmented__tab.is-active {
+  background-color: var(--color-subtle);
+  color: var(--color-ink);
+}
+
+.review-split {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 56rem) {
+  .review-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.review-pane {
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.6rem;
+  overflow: hidden;
+}
+
+.review-pane__head {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin: 0;
+  padding: 0.5rem 0.9rem;
+  text-transform: uppercase;
+}
+
+.review-pane__head--current {
+  background-color: oklch(var(--lch-red) / 0.1);
+  color: oklch(var(--lch-red));
+}
+
+.review-pane__head--proposed {
+  background-color: oklch(var(--lch-green) / 0.1);
+  color: oklch(var(--lch-green));
+}
+
+.review-pane__body {
+  max-block-size: 34rem;
+  overflow-y: auto;
+  padding: 0.9rem 1.1rem;
+}
+
+/* The diff keeps RevisionDiff's newlines (block structure) visible. */
+.review-diff .review-pane__body {
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.6rem;
+  white-space: pre-wrap;
 }
 
 /* "⚠ урок изменился с момента этой правки" warning in moderation */

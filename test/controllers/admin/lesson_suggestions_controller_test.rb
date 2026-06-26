@@ -32,6 +32,15 @@ class Admin::LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     assert_match suggestion.edit_reason, response.body
   end
 
+  test "show offers a side-by-side view and a diff toggle" do
+    get admin_lesson_suggestion_path(lesson_suggestions(:pending_suggestion))
+    assert_response :success
+    assert_select ".segmented__tab", 2                         # two view tabs
+    assert_select ".review-split .review-pane", 2              # current | proposed
+    assert_select ".review-pane__head--current"
+    assert_select ".review-pane__head--proposed"
+  end
+
   # Approve
 
   test "approve applies the edit and records a revision" do

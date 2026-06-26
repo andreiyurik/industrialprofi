@@ -15,8 +15,17 @@ class Lesson < ApplicationRecord
   # rewriting every join through courses.
   belongs_to :path, counter_cache: true
   has_many :resources, -> { order(:position) }, dependent: :destroy
+  # Revisions are an immutable, readonly audit log, so they're cleared with
+  # delete_all (destroy would raise ReadOnlyRecord). They must precede
+  # lesson_suggestions in the cascade: a revision FKs a suggestion, so the
+  # revisions have to go first.
+  has_many :lesson_revisions, dependent: :delete_all
   has_many :lesson_suggestions, dependent: :destroy
-  has_many :lesson_revisions, dependent: :destroy
+  # Learner-side records vanish with the lesson; journal entries survive (their
+  # lesson link is optional) and are just unlinked.
+  has_many :lesson_completions, dependent: :delete_all
+  has_many :lesson_bookmarks, dependent: :delete_all
+  has_many :journal_entries, dependent: :nullify
 
   # The admin resource editor edits resources inline with the lesson. A row with
   # neither a title nor a URL (an empty "add a link" the editor left behind) is

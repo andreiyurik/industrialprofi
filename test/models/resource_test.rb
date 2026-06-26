@@ -49,6 +49,35 @@ class ResourceTest < ActiveSupport::TestCase
     assert resource.errors[:kind].any?
   end
 
+  test "accepts the explicit taxonomy kinds" do
+    %w[norm book doc course video article software tool].each do |kind|
+      resource = Resource.new(lesson: lessons(:pteep), title: "OK", url: "https://example.com", kind: kind)
+      assert resource.valid?, "#{kind} should be a valid kind"
+    end
+  end
+
+  # Language marker (orthogonal to kind)
+
+  test "language is optional (nil = Russian)" do
+    resource = Resource.new(lesson: lessons(:pteep), title: "OK", url: "https://example.com")
+    assert resource.valid?
+    assert_nil resource.language
+  end
+
+  test "accepts a known foreign language and rejects an unknown one" do
+    ok = Resource.new(lesson: lessons(:pteep), title: "OK", url: "https://example.com", language: "en")
+    assert ok.valid?
+    bad = Resource.new(lesson: lessons(:pteep), title: "Bad", url: "https://example.com", language: "fr")
+    assert_not bad.valid?
+    assert bad.errors[:language].any?
+  end
+
+  test "blank language is normalised to nil" do
+    resource = Resource.new(lesson: lessons(:pteep), title: "OK", url: "https://example.com", language: "")
+    assert resource.valid?
+    assert_nil resource.language
+  end
+
   # Scopes
 
   test ".required returns only required resources" do
