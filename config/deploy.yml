@@ -15,6 +15,12 @@ proxy:
   ssl: true
   host: industrialprofi.com
 
+# Branded error pages served BY kamal-proxy (not the app), so they show even when
+# the app container is stopped. Kamal uploads only files matching {4??,5??}.html
+# from this dir. public/503.html is the "техническое обслуживание" page shown by
+# `bin/kamal app maintenance` (proxy returns 503 → search engines keep our SEO).
+error_pages_path: public
+
 # Where you keep your container images. GHCR is free for public repos.
 registry:
   server: ghcr.io

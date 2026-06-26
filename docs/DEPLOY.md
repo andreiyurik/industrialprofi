@@ -104,4 +104,28 @@ bin/kamal rollback     # roll back to the previous image if a deploy is bad
 ```
 
 The rule from VISION: ship weekly — a deploy is routine, not an event.
+
+## Maintenance mode (server migrations)
+
+When you move to a new server — or do any work that takes the app offline — turn
+on maintenance mode FIRST. This is Kamal's built-in feature: kamal-proxy returns
+HTTP **503** to every request and serves our branded `public/503.html`
+("техническое обслуживание"). The 503 status tells Google the outage is
+*temporary*, so search rankings survive — a normal 200 "we're down" page is what
+gets a site dropped from the index.
+
+```bash
+bin/kamal app maintenance     # ON  — proxy serves 503.html; the app can be stopped
+bin/kamal app live            # OFF — back to normal
+```
+
+Why this beats a Rails-level page: the 503 comes from **kamal-proxy**, not the app,
+so it keeps showing even while the app container is stopped — exactly the case
+during a migration. The page is wired via `error_pages_path: public` in
+`deploy.yml`; Kamal uploads `public/503.html` (and the other `4xx`/`5xx` pages) on
+each deploy, so a one-time `bin/kamal deploy` after adding it is all the setup.
+
+Typical migration order: **maintenance** on the old server → copy `storage/`
+(SQLite DB) to the new server → switch DNS → verify the new server → **live**.
+Holding maintenance during the copy also guarantees the DB isn't written mid-copy.
 </content>
