@@ -408,30 +408,6 @@
   }
 }
 
-/* Turbo sets aria-busy on the form while the request is in flight — swap the
-   button's icon for a CSS spinner, no JS needed (TOP shows the same moment). */
-.lesson-complete__form[aria-busy] .lesson-complete__toggle {
-  svg {
-    display: none;
-  }
-
-  &::before {
-    animation: lesson-complete-spin 600ms linear infinite;
-    block-size: 1em;
-    border: 2px solid currentColor;
-    border-inline-end-color: transparent;
-    border-radius: 50%;
-    content: "";
-    inline-size: 1em;
-  }
-}
-
-@keyframes lesson-complete-spin {
-  to {
-    transform: rotate(1turn);
-  }
-}
-
 .lesson-complete__signin {
   color: var(--color-subtle-dark);
   font-size: 0.95rem;

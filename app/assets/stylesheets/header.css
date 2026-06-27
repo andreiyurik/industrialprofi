@@ -246,6 +246,7 @@
   min-inline-size: 15rem;
   padding: 0.5rem;
   position: fixed;
+  transform-origin: top right; /* grows out from under its trigger, not the centre */
 
   @media (min-width: 640px) {
     inset-inline-end: max(1.5rem, calc((100vw - 72rem) / 2 + 1.5rem));

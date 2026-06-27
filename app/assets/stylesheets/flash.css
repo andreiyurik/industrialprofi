@@ -9,6 +9,14 @@
   z-index: 50;
 }
 
+/* Rise-and-fade in, hold, fade out — timed to the 4s element-removal delay so
+   the toast leaves gracefully instead of vanishing mid-screen. */
+@media (prefers-reduced-motion: no-preference) {
+  .flash {
+    animation: appear-then-fade 4000ms ease both;
+  }
+}
+
 .flash__inner {
   background-color: var(--color-ink);
   border-radius: 0.5em;

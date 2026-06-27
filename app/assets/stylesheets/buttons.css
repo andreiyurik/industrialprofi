@@ -47,6 +47,44 @@
   }
 }
 
+/* Submitting state — Turbo flags the enclosing form [aria-busy] for the whole
+   round-trip. Freeze the submit button and overlay a spinner: instant "working"
+   feedback on every form, no JS (the lesson-complete button proved the trick).
+   The spinner border picks up --btn-color so it stays legible on any variant. */
+form[aria-busy="true"] :is(button[type="submit"], button:not([type]), input[type="submit"]).btn {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  form[aria-busy="true"] :is(button[type="submit"], button:not([type])).btn {
+    color: transparent !important;
+    position: relative;
+
+    &::after {
+      animation: spin 600ms linear infinite;
+      block-size: 1.1em;
+      border: 2px solid var(--btn-color, var(--color-ink));
+      border-inline-end-color: transparent;
+      border-radius: 50%;
+      content: "";
+      inline-size: 1.1em;
+      inset: 0;
+      margin: auto;
+      position: absolute;
+    }
+  }
+
+  form[aria-busy="true"] input[type="submit"].btn {
+    animation: pulse 900ms ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  form[aria-busy="true"] :is(button[type="submit"], button:not([type]), input[type="submit"]).btn {
+    opacity: 0.6;
+  }
+}
+
 /* Variants */
 .btn--reversed {
   --btn-background: var(--color-ink);

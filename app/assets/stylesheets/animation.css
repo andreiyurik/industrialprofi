@@ -1,0 +1,83 @@
+/* Shared animation primitives — reusable keyframes plus the entrance/exit for
+   native top-layer surfaces (dialogs, popovers). The Basecamp/Fizzy "feel" is
+   that nothing snaps; this is the one place that polish lives, so a component
+   never re-authors a spinner or a fade. Pure CSS, no JS, no build step. */
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* Toast lifecycle in a single keyframe: a quick rise-and-fade in, a long hold,
+   then a fade out timed to land exactly when the element-removal controller
+   pulls the node (4s). */
+@keyframes appear-then-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  6%,
+  92% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}
+
+/* Dialogs & popovers scale + fade in/out instead of appearing instantly.
+   :where() keeps specificity at zero, so any component is still free to set its
+   own transform-origin, duration (--overlay-duration), or other styles.
+   allow-discrete + @starting-style do the whole reveal in CSS; browsers without
+   support just show the surface immediately. Gated on reduced-motion so the
+   base opacity:0 never leaves a surface invisible when motion is off. */
+@media (prefers-reduced-motion: no-preference) {
+  :where(dialog, [popover]) {
+    opacity: 0;
+    scale: 0.97;
+    transition:
+      opacity var(--overlay-duration, 180ms) ease,
+      scale var(--overlay-duration, 180ms) ease,
+      overlay var(--overlay-duration, 180ms) ease allow-discrete,
+      display var(--overlay-duration, 180ms) ease allow-discrete;
+  }
+
+  :where(dialog[open], [popover]:popover-open) {
+    opacity: 1;
+    scale: 1;
+  }
+
+  @starting-style {
+    :where(dialog[open], [popover]:popover-open) {
+      opacity: 0;
+      scale: 0.97;
+    }
+  }
+
+  :where(dialog)::backdrop {
+    opacity: 0;
+    transition:
+      opacity var(--overlay-duration, 180ms) ease,
+      overlay var(--overlay-duration, 180ms) ease allow-discrete,
+      display var(--overlay-duration, 180ms) ease allow-discrete;
+  }
+
+  :where(dialog[open])::backdrop {
+    opacity: 1;
+  }
+
+  @starting-style {
+    :where(dialog[open])::backdrop {
+      opacity: 0;
+    }
+  }
+}
