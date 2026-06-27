@@ -611,7 +611,7 @@ ru:
       placeholder: "Например: за год освоить монтаж и сменить работу"
 
   progress:
-    label: "Пройдено %{completed} из %{total} · %{percent}%"
+    label: "Пройдено %{completed} из %{total}"
 
   lesson_completions:
     create:
