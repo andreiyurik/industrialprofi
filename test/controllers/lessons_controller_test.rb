@@ -107,6 +107,13 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".lesson-task-journal", false
   end
 
+  test "the completion bar carries no journal link — journaling lives with the task" do
+    sign_in_as users(:member)
+    get lesson_path(lessons(:praktika_shchitok)) # even on practice
+    assert_select ".lesson-complete__journal", false
+    assert_select ".lesson-task-journal" # the one journal CTA, in the task section
+  end
+
   test "edit-lesson button only shows to a user who can edit this profession" do
     # signed out: no button
     get lesson_path(lessons(:pteep))

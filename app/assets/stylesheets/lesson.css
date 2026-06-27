@@ -461,10 +461,3 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
-
-/* Quiet companion action: log what you built into the practice journal. */
-.lesson-complete__journal {
-  font-size: 0.85rem;
-  text-decoration: underline;
-  text-decoration-color: var(--color-subtle);
-}
