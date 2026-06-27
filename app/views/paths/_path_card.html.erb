@@ -2,7 +2,6 @@
 <% if path.stub? %>
   <div class="panel path-card path-card--soon" aria-disabled="true">
     <div class="path-card__head">
-      <span class="path-card__icon"><%= topic_icon_svg(path_icon_token(path)) %></span>
       <h2 class="path-card__title"><%= path.title %></h2>
     </div>
     <div class="path-card__foot">
@@ -12,7 +11,6 @@
 <% else %>
   <a href="<%= path_path(path) %>" class="panel panel--hover path-card">
     <div class="path-card__head">
-      <span class="path-card__icon"><%= topic_icon_svg(path_icon_token(path)) %></span>
       <h2 class="path-card__title"><%= path.title %></h2>
       <span class="path-card__arrow" aria-hidden="true"><%= heroicon "arrow-right", variant: :outline %></span>
     </div>

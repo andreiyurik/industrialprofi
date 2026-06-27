@@ -64,7 +64,7 @@
 }
 
 .path-card__head {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   gap: 0.85rem;
 }
@@ -88,9 +88,11 @@
   }
 }
 
+/* The name is the hero now (no topic icon competing) — bigger, display weight. */
 .path-card__title {
-  font-size: 1.05rem;
-  line-height: 1.25;
+  font-size: 1.3rem;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
   margin-block: 0;
 }
 
@@ -112,6 +114,7 @@
   color: var(--color-subtle-dark);
   display: inline-flex;
   flex-shrink: 0;
+  margin-block-start: 0.25rem; /* optical-centre on the title's first line */
   margin-inline-start: auto;
   transition: color 200ms ease, transform 200ms ease;
 
