@@ -1,0 +1,21 @@
+<%# locals: (caption:, value:, link: nil) %>
+<%# One direct-transfer requisite row with a copy-to-clipboard button (reuses the
+    copy-link Stimulus controller). The button is rendered `hidden` and revealed by
+    JS, so without JS the number is still there to select and copy by hand. %>
+<div class="support-direct__row"
+     data-controller="copy-link"
+     data-copy-link-url-value="<%= value %>"
+     data-copy-link-label-value="<%= t("support.copy") %>"
+     data-copy-link-copied-value="<%= t("support.copied") %>">
+  <span class="support-direct__method"><%= caption %></span>
+  <span class="support-direct__value"><%= value %></span>
+  <div class="support-direct__actions">
+    <% if link.present? %>
+      <a href="<%= link %>" class="btn btn--small" target="_blank" rel="noopener"><%= t("support.give.yoomoney_open") %></a>
+    <% end %>
+    <button type="button" class="btn btn--small support-direct__copy" hidden
+            data-copy-link-target="button" data-action="copy-link#copy">
+      <span data-copy-link-target="label"><%= t("support.copy") %></span>
+    </button>
+  </div>
+</div>

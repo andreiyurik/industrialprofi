@@ -11,6 +11,7 @@
   --lch-white: 0% 0 0;         /* page background — pure black */
   --lch-gray-light: 15% 0 0;   /* elevated surfaces: cards, panels, inputs (~#161616) */
   --lch-gray: 28% 0 0;         /* hairline borders + row hover fill (~#2e2e2e) */
+  --lch-gray-mid: 50% 0 0;     /* dimmed/disabled text — quieter than muted, still legible (~#6f6f6f) */
   --lch-gray-dark: 66% 0 0;    /* muted / secondary text (~#a1a1a1) */
   --lch-blue: 66% 0.17 248;    /* the one accent — links / interactive only */
   --lch-blue-light: 26% 0.06 248;
@@ -42,6 +43,7 @@
   --color-marker: var(--color-ink);   /* monochrome: no chromatic accent — emphasis is ink (brightness), not hue */
   --color-subtle-light: oklch(var(--lch-gray-light));
   --color-subtle: oklch(var(--lch-gray));
+  --color-disabled: oklch(var(--lch-gray-mid));
   --color-subtle-dark: oklch(var(--lch-gray-dark));
   --color-selected: oklch(var(--lch-blue-light));
   --color-selected-dark: oklch(var(--lch-blue-dark));

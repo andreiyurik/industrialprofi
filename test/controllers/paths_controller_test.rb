@@ -21,9 +21,11 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
 
     get paths_path
     assert_match "Будущая профессия", response.body
-    assert_match "В планах", response.body
     assert_match "Скоро профессия", response.body
+    # Both live under the "Скоро" group, each with its own readiness badge:
+    # coming_soon → «В разработке», planned → «В планах».
     assert_match "В разработке", response.body
+    assert_match "В планах", response.body
     assert_no_match %r{href="/paths/future-prof"}, response.body, "stubs are not links"
   end
 

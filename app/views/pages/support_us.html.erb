@@ -74,6 +74,23 @@
         </div>
       </div>
 
+      <% if site_config.yoomoney_wallet.present? || site_config.card_number.present? %>
+        <div class="support-give__group">
+          <p class="support-give__group-label"><%= t("support.give.direct_label") %></p>
+          <div class="support-direct">
+            <% if site_config.yoomoney_wallet.present? %>
+              <%= render "copy_field", caption: "ЮMoney", value: site_config.yoomoney_wallet,
+                    link: site_config.yoomoney_url %>
+            <% end %>
+            <% if site_config.card_number.present? %>
+              <%= render "copy_field", caption: site_config.card_bank.presence || t("support.give.card_label"),
+                    value: site_config.card_number %>
+            <% end %>
+          </div>
+          <p class="support-direct__hint"><%= t("support.give.direct_hint") %></p>
+        </div>
+      <% end %>
+
       <p class="support-give__note"><%= t("support.give_note") %></p>
     </div>
   </div>

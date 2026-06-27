@@ -7,6 +7,15 @@ site.author_url    = ENV.fetch("AUTHOR_URL", "https://github.com/andreiyurik")
 site.donate_url    = ENV.fetch("DONATE_URL", "https://pay.cloudtips.ru/p/61fe8ef3")
 site.contact_email = ENV.fetch("CONTACT_EMAIL", "hello@industrialprofi.com")
 
+# Direct-transfer rails (no platform fee) shown on /support_us. Public on purpose,
+# but kept in ENV — NEVER hardcoded — so no card/wallet number ever lands in this
+# open (AGPL) repo's git history. Blank → that row simply isn't rendered. Tip: use
+# a dedicated/virtual card, not your main one, since the number is public.
+site.yoomoney_url    = ENV["YOOMONEY_URL"]      # https://yoomoney.ru/to/<wallet> — opens a pay-by-card form
+site.yoomoney_wallet = ENV["YOOMONEY_WALLET"]   # the wallet number, shown + copyable
+site.card_number     = ENV["CARD_NUMBER"]       # shown + copyable
+site.card_bank       = ENV["CARD_BANK"]         # optional label, e.g. "Сбербанк" / "Т-Банк"
+
 # Boosty: the main page plus a deep link per subscription level (Boosty's own
 # per-level "share" purchase links), so each recurring card on /support_us lands
 # straight on the matching tier. Re-create a tier on Boosty → update the env var.

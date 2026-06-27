@@ -62,6 +62,16 @@ env:
     # serves the proof file at /<key>.txt. Blank = pinging off.
     # INDEXNOW_KEY: "..."
 
+    # Direct-transfer requisites shown on /support_us (no platform fee). Blank →
+    # the "Перевести напрямую" block is hidden. ⚠️ These numbers are PUBLIC on the
+    # page, but if you uncomment them HERE they also land in git — fine for a
+    # private deploy repo, NOT for the public mirror. For the public repo, set them
+    # on the server's environment instead. Tip: use a dedicated/virtual card.
+    # YOOMONEY_WALLET: "4100 11XX XXXX XXXX"
+    # YOOMONEY_URL: "https://yoomoney.ru/to/410011XXXXXXXXX"
+    # CARD_NUMBER: "2200 XXXX XXXX XXXX"
+    # CARD_BANK: "Т-Банк"
+
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
 

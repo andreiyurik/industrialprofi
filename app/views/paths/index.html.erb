@@ -26,24 +26,29 @@
       </div>
     <% end %>
 
-    <% if @paths.any? %>
-      <%= render "path_card", path: @paths.first, featured: true,
-            completed_count: @completed_counts.fetch(@paths.first.id, 0) %>
+    <% available, upcoming = @paths.partition { |path| !path.stub? } %>
 
-      <% if @paths.size > 1 %>
-        <div class="card-grid card-grid--3-col">
-          <% @paths.drop(1).each do |path| %>
+    <% if available.any? %>
+      <div class="catalog-group">
+        <h2 class="catalog-group__label"><%= t("paths.group_available") %></h2>
+        <div class="catalog-grid">
+          <% available.each do |path| %>
             <%= render "path_card", path: path, completed_count: @completed_counts.fetch(path.id, 0) %>
           <% end %>
+          <%= render "curator_card" %>
         </div>
-      <% end %>
+      </div>
     <% end %>
 
-    <%# Demand-gated co-author seam: a quiet invite for practitioners to curate a
-        profession map. Funnels to /contribute (the co-author surface), not a new
-        contact form. %>
-    <p class="catalog-curator">
-      <%= t("paths.curator_html", link: link_to(t("paths.curator_link"), contribute_path)) %>
-    </p>
+    <% if upcoming.any? %>
+      <div class="catalog-group">
+        <h2 class="catalog-group__label"><%= t("paths.group_upcoming") %></h2>
+        <div class="catalog-grid catalog-grid--muted">
+          <% upcoming.each do |path| %>
+            <%= render "path_card", path: path %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </section>

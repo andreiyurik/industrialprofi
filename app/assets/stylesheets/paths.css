@@ -1,4 +1,42 @@
-/* Card grid — multi-col layout for path/profession cards on the catalog page */
+/* Catalog (paths#index) — a dense, roadmap.sh-style grid grouped by readiness.
+   Readiness is signalled by grouping + dimming, not by coloured borders. */
+.catalog-group {
+  margin-block-start: var(--block-space-double);
+}
+
+/* Centered group label with a hairline running through it (── Доступны ──). */
+.catalog-group__label {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  display: flex;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  gap: 1rem;
+  letter-spacing: 0.04em;
+  margin-block-end: 1.5rem;
+  text-transform: uppercase;
+}
+
+.catalog-group__label::before,
+.catalog-group__label::after {
+  border-block-start: 1px solid var(--color-subtle);
+  content: "";
+  flex: 1;
+}
+
+.catalog-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+}
+
+/* The "in planах" group reads as quieter than the available one. */
+.catalog-grid--muted {
+  opacity: 0.85;
+}
+
+/* Card grid — multi-col layout for path/profession cards (dashboard "other paths") */
 .card-grid {
   display: grid;
   gap: 1.5rem;
@@ -15,52 +53,52 @@
   }
 }
 
-/* Profession card (catalog page) — icon, body, hairline footer with arrow */
+/* Profession card (catalog) — compact: icon + title + arrow head row, then a
+   single meta line (or a progress bar). Description lives on the profession page,
+   not here, so the grid stays dense and the card has no hollow middle. */
 .path-card {
+  --panel-padding: 1.5em;
   display: flex;
   flex-direction: column;
+  gap: 0.9rem;
+}
+
+.path-card__head {
+  align-items: center;
+  display: flex;
+  gap: 0.85rem;
 }
 
 .path-card__icon {
   align-items: center;
   background-color: var(--color-bg);
-  block-size: 2.75rem;
+  block-size: 2.5rem;
   border: 1px solid var(--color-subtle);
   border-radius: 0.6em;
   color: var(--color-marker);
   display: inline-flex;
-  inline-size: 2.75rem;
+  flex-shrink: 0;
+  inline-size: 2.5rem;
   justify-content: center;
-  margin-block-end: 1.25rem;
   transition: border-color 200ms ease;
 
   svg {
-    block-size: 1.4rem;
-    inline-size: 1.4rem;
+    block-size: 1.3rem;
+    inline-size: 1.3rem;
   }
 }
 
-.path-card__body {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
 .path-card__title {
-  font-size: 1.2em;
+  font-size: 1.05rem;
+  line-height: 1.25;
+  margin-block: 0;
 }
 
-.path-card .panel__description {
-  flex-grow: 1;
-}
-
-.path-card__footer {
-  align-items: center;
-  border-block-start: 1px solid var(--color-subtle);
-  display: flex;
-  justify-content: space-between;
-  margin-block-start: 1.5rem;
-  padding-block-start: 1rem;
+/* The status line (meta / progress / badge). Pinned to the card's bottom so every
+   card in a row is the same height (grid stretch) and footers align. */
+.path-card__foot {
+  margin-block-start: auto;
+  padding-block-start: 0.75rem;
 }
 
 .path-card__meta {
@@ -68,15 +106,23 @@
   font-size: 0.8rem;
 }
 
+/* Sits at the far right of the head row — a quiet, consistent "enter" affordance
+   (the audience leans non-technical, so an explicit cue beats pure minimalism). */
 .path-card__arrow {
   color: var(--color-subtle-dark);
   display: inline-flex;
+  flex-shrink: 0;
+  margin-inline-start: auto;
   transition: color 200ms ease, transform 200ms ease;
 
   svg {
     block-size: 1rem;
     inline-size: 1rem;
   }
+}
+
+.path-card .progress {
+  margin-block: -0.25rem 0;
 }
 
 @media (any-hover: hover) {
@@ -90,48 +136,32 @@
   }
 }
 
-/* Coming-soon profession — dimmed, non-interactive; footer shows a «Скоро» badge */
-.path-card--soon {
-  opacity: 0.5;
+/* Coming-soon / planned profession — non-interactive. Muted via TEXT colour, not
+   blanket opacity, so the card's border stays as legible as the available ones;
+   the status badge (В разработке / В планах) carries the readiness signal. */
+.path-card--soon .path-card__title,
+.path-card--soon .path-card__icon {
+  color: var(--color-disabled);
 }
 
-/* Featured profession — full-width hero card sitting above the catalog grid.
-   On wider screens it lays out horizontally (icon beside the body); on mobile
-   it falls back to the same vertical card as the grid. */
-.path-card--featured {
-  --panel-padding: 2em;
-  margin-block-start: 3rem;
-  border-color: var(--color-subtle-dark);
+/* The planned badge whispers — a ghost pill, not a filled bright chip. */
+.path-card--soon .badge--planned {
+  background-color: transparent;
+  border: 1px solid var(--color-subtle);
+  color: var(--color-disabled);
+  font-weight: 400;
 }
 
-@media (min-width: 1024px) {
-  .path-card--featured {
-    --panel-padding: 2.75em;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 2.5rem;
-  }
+/* Co-author invite tile — a dashed first-class member of the catalog grid that
+   says "this is community-built, you can lead a map" right on the main page. */
+.path-card--curator {
+  background-color: transparent;
+  border-style: dashed;
+}
 
-  .path-card--featured .path-card__icon {
-    block-size: 4rem;
-    inline-size: 4rem;
-    flex-shrink: 0;
-    margin-block-end: 0;
-
-    svg {
-      block-size: 2rem;
-      inline-size: 2rem;
-    }
-  }
-
-  .path-card--featured .path-card__title {
-    font-size: 1.7em;
-  }
-
-  .path-card--featured .panel__description {
-    font-size: 1.05rem;
-    max-inline-size: 70ch;
-  }
+.path-card--curator .path-card__icon {
+  background-color: transparent;
+  border-style: dashed;
 }
 
 /* Subtitle under a centered section heading (catalog page intro) */
@@ -139,7 +169,7 @@
   color: var(--color-subtle-dark);
   margin-block: 1rem 0;
   margin-inline: auto;
-  max-inline-size: 36rem;
+  max-inline-size: 42rem;
   text-align: center;
 }
 
@@ -275,30 +305,6 @@
   font-size: 0.85rem;
   margin-block: -0.5rem 0;
   text-align: center;
-}
-
-/* Quiet "become a curator" invite below the catalog grid. Deliberately a low-key
-   footnote: small, muted, and the link blends into the line (brightens on hover)
-   rather than shouting as a blue CTA. */
-.catalog-curator {
-  border-block-start: 1px solid var(--color-subtle);
-  color: var(--color-subtle-dark);
-  font-size: 0.8rem;
-  margin-block-start: var(--block-space-double);
-  padding-block-start: var(--block-space);
-  text-align: center;
-}
-
-.catalog-curator a {
-  color: var(--color-subtle-dark);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-@media (any-hover: hover) {
-  .catalog-curator a:hover {
-    color: var(--color-ink);
-  }
 }
 
 /* Quiet link to the profession's document library — a footnote, not a section. */

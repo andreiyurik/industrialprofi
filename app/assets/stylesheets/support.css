@@ -286,6 +286,54 @@
   margin-block: 2rem 0;
 }
 
+/* Direct-transfer requisites (ЮMoney / card) — quiet rows: method label, the
+   number, and the actions (open form / copy) to the right. Left-aligned inside
+   the otherwise-centered give section so the numbers read cleanly. */
+.support-direct {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  text-align: start;
+}
+
+.support-direct__row {
+  align-items: center;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.9rem;
+  padding: 0.85rem 1rem;
+}
+
+.support-direct__method {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+  min-inline-size: 4.5rem;
+}
+
+.support-direct__value {
+  color: var(--color-ink);
+  flex-grow: 1;
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.03em;
+}
+
+.support-direct__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-inline-start: auto;
+}
+
+.support-direct__hint {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  margin-block: 1rem 0;
+}
+
 /* ── Companies pointer → /partners ───────────────────────────────────── */
 .support-company {
   border: 1px solid var(--color-subtle);

@@ -1,0 +1,12 @@
+<%# A co-author invite that lives inside the catalog grid as a first-class tile
+    (roadmap.sh's "Create your own Roadmap" pattern), making "this is built by the
+    community" visible on the main page. Funnels to /contribute, not a new form. -%>
+<a href="<%= contribute_path %>" class="panel panel--hover path-card path-card--curator">
+  <div class="path-card__head">
+    <span class="path-card__icon"><%= heroicon "plus", variant: :outline %></span>
+    <h2 class="path-card__title"><%= t("paths.curator_card_title") %></h2>
+  </div>
+  <div class="path-card__foot">
+    <span class="path-card__meta"><%= t("paths.curator_card_meta") %></span>
+  </div>
+</a>
