@@ -11,6 +11,10 @@ class SitemapsController < ApplicationController
   def robots
     expires_in 1.day, public: true
     lines = [ "User-agent: *" ]
+    # Every bot stays allowed (we WANT search + AI-citation reach); the only
+    # throttle is a light crawl-delay for the bursty long tail. Google ignores
+    # crawl-delay, so indexing speed is unaffected; Bing/Yandex/misc honour it.
+    lines << "Crawl-delay: 10"
     lines.concat(DISALLOWED.map { |path| "Disallow: #{path}" })
     lines << "Sitemap: #{Rails.application.config.x.site.url}/sitemap.xml"
     render plain: lines.join("\n") + "\n"

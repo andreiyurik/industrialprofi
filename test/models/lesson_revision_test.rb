@@ -31,6 +31,14 @@ class LessonRevisionTest < ActiveSupport::TestCase
     end
   end
 
+  test "creating a revision touches the lesson, busting its content cache" do
+    before = @lesson.updated_at
+    travel 1.second do
+      build_revision.save!
+    end
+    assert_operator @lesson.reload.updated_at, :>, before
+  end
+
   test "ordered scope returns newest version first" do
     @lesson.record_revision!(section: "body", before: "a", after: "b", editor_name: "X", edit_reason: nil, source: "admin")
     @lesson.record_revision!(section: "body", before: "b", after: "c", editor_name: "X", edit_reason: nil, source: "admin")

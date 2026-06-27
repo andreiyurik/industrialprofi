@@ -217,20 +217,33 @@ module ApplicationHelper
     tag.span(t("lessons.image_pending"), class: "attachment__missing")
   end
 
+  # Bump when the rendering pipeline (markdown/enrich_prose/callouts/…) changes,
+  # so cached HTML below is regenerated even though the lesson itself didn't
+  # change. View fragment caching gets this free via template digests; a helper
+  # cache needs it spelled out.
+  LESSON_CONTENT_RENDER_VERSION = 1
+
   # The HTML a reader sees for a section. Rich text (Lexxy) and the markdown
   # fallback both flow through the SAME enrichment, so callouts/code/tables/TOC
   # anchors render the same way regardless of which editor wrote the section.
-  # Memoized per request: the body is read twice (prose + TOC anchors).
+  #
+  # Rendering is the expensive part of a lesson view (Kramdown + Nokogiri +
+  # enrichments), and a lesson is read far more than written — so the result is
+  # cached in Solid Cache, keyed on the lesson's version (an edit creates a
+  # revision, which touches the lesson, busting the key — see LessonRevision).
+  # The per-request memo stays as an L1 cache: the body is read twice (prose +
+  # TOC anchors), so this avoids even the cache round-trip the second time.
   def lesson_content(lesson, field)
     @lesson_content ||= {}
-    @lesson_content[[ lesson.id, field ]] ||= begin
-      rich = lesson.send(:"rich_#{field}")
-      if rich.present?
-        enrich_prose(rich.to_s, anchor_headings: field == :body).html_safe
-      else
-        markdown(lesson.send(field), anchor_headings: field == :body)
-      end
-    end
+    @lesson_content[[ lesson.id, field ]] ||=
+      Rails.cache.fetch([ lesson.cache_key_with_version, "lesson_content", field, LESSON_CONTENT_RENDER_VERSION ]) do
+        rich = lesson.send(:"rich_#{field}")
+        if rich.present?
+          enrich_prose(rich.to_s, anchor_headings: field == :body)
+        else
+          markdown(lesson.send(field), anchor_headings: field == :body)
+        end
+      end.to_s.html_safe
   end
 
   # Entries for the right-rail "В этом уроке" TOC: the body's ## headings.

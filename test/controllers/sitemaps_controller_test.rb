@@ -45,4 +45,14 @@ class SitemapsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert response.headers["Cache-Control"].include?("max-age")
   end
+
+  test "robots welcomes all bots, paces them, hides private areas, and links the sitemap" do
+    get "/robots.txt"
+    assert_response :success
+    assert_match(/User-agent: \*/, response.body)
+    assert_match(/Crawl-delay: 10/, response.body)
+    assert_match(%r{Disallow: /admin}, response.body)
+    assert_match %r{Sitemap: .+/sitemap\.xml}, response.body
+    assert_not response.body.match?(%r{^Disallow: /$}), "must not blanket-block the whole site"
+  end
 end
