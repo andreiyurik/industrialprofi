@@ -1,4 +1,4 @@
-<%# locals: (lesson:, completed:) -%>
+<%# locals: (lesson:, completed:, popped: false) -%>
 <%# TOP-style end-of-lesson bar: completion toggle left, "next" always right.
     The toggle is one button — POST marks done, clicking it again un-marks. %>
 <div id="<%= dom_id(lesson, :completion) %>" class="lesson-complete">
@@ -8,14 +8,18 @@
             class: "btn btn--large btn--positive lesson-complete__toggle",
             form_class: "lesson-complete__form",
             title: t("lessons.uncomplete") do %>
-        <%= heroicon "check-circle", variant: :solid %>
+        <span class="lesson-complete__check<%= " lesson-complete__check--pop" if popped %>">
+          <%= heroicon "check-circle", variant: :solid %>
+        </span>
         <%= t("lessons.completed") %>
       <% end %>
     <% else %>
       <%= button_to lesson_completion_path(lesson), method: :post,
             class: "btn btn--large btn--reversed lesson-complete__toggle",
             form_class: "lesson-complete__form" do %>
-        <%= heroicon "check", variant: :outline %>
+        <span class="lesson-complete__check">
+          <%= heroicon "check", variant: :outline %>
+        </span>
         <%= t("lessons.mark_complete") %>
       <% end %>
     <% end %>

@@ -64,6 +64,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "dashboard#show"
+    get "dashboard/vitals" => "dashboard#vitals", as: :dashboard_vitals
     resources :lessons, only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug do
       resources :revisions, only: [ :index ] do
         member { post :rollback }

@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { rafThrottle } from "helpers/timing_helpers"
 
 // Auto-hiding header (TOP-style): the sticky header is shown only near the very
 // top of the page. Once the reader scrolls past the header's own height it
@@ -11,23 +12,14 @@ export default class extends Controller {
   static classes = ["hidden"]
 
   connect() {
-    this.ticking = false
-    this.onScroll = this.onScroll.bind(this)
+    this.onScroll = rafThrottle(() => this.update())
     window.addEventListener("scroll", this.onScroll, { passive: true })
     this.update() // set the right state if the page loads already scrolled
   }
 
   disconnect() {
     window.removeEventListener("scroll", this.onScroll)
-  }
-
-  onScroll() {
-    if (this.ticking) return
-    this.ticking = true
-    requestAnimationFrame(() => {
-      this.update()
-      this.ticking = false
-    })
+    this.onScroll.cancel()
   }
 
   update() {

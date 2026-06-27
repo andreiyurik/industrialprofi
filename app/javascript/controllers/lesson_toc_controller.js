@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { rafThrottle } from "helpers/timing_helpers"
 
 // The lesson TOC ("В этом уроке"). Two jobs:
 //  - mark the entry for the section under the reading line (30% down the
@@ -17,14 +18,7 @@ export default class extends Controller {
       if (anchor) this.anchored.set(anchor, link)
     })
 
-    this.onScroll = () => {
-      if (this.scheduled) return
-      this.scheduled = true
-      requestAnimationFrame(() => {
-        this.scheduled = false
-        this.update()
-      })
-    }
+    this.onScroll = rafThrottle(() => this.update())
     window.addEventListener("scroll", this.onScroll, { passive: true })
 
     this.update()
@@ -32,6 +26,7 @@ export default class extends Controller {
 
   disconnect() {
     window.removeEventListener("scroll", this.onScroll)
+    this.onScroll.cancel()
     clearTimeout(this.settleTimer)
   }
 

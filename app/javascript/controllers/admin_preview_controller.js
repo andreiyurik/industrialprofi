@@ -1,11 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
+import { debounce } from "helpers/timing_helpers"
 
 export default class extends Controller {
   static targets = ["input", "output"]
   static values = { url: String }
 
   connect() {
-    this.timeout = null
+    this.debouncedFetch = debounce((text, output) => this.fetchPreview(text, output), 300)
   }
 
   preview(event) {
@@ -13,10 +14,7 @@ export default class extends Controller {
     const section = input.closest("[data-admin-preview-target='section']")
     const output = section.querySelector("[data-admin-preview-target='output']")
 
-    clearTimeout(this.timeout)
-    this.timeout = setTimeout(() => {
-      this.fetchPreview(input.value, output)
-    }, 300)
+    this.debouncedFetch(input.value, output)
   }
 
   async fetchPreview(text, output) {

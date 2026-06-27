@@ -19,11 +19,6 @@ module Admin
       @completions_week = LessonCompletion.where(created_at: 7.days.ago..).count
       @journal_entries_total = JournalEntry.count
 
-      # Disk safety + background-job health — the one-server VPS's vital signs.
-      @status = SystemStatus.new
-      # "Is mail flowing?" — registration is hard-gated on a working SMTP.
-      @emails_week = MailMetrics.sent_last(7)
-
       @paths_published = Path.published.count
       @paths_total = Path.count
       @courses_total = Course.count
@@ -31,6 +26,17 @@ module Admin
 
       @signups_by_week = signups_by_week(SIGNUP_CHART_WEEKS)
       @recent_users = User.order(created_at: :desc).limit(10)
+    end
+
+    # Lazy-loaded fragment (loading: :lazy frame). Holds the VPS vital signs —
+    # the `df` shell-out + Solid Queue probes — so the dashboard shell paints
+    # immediately and these stream in a beat later.
+    def vitals
+      # Disk safety + background-job health — the one-server VPS's vital signs.
+      @status = SystemStatus.new
+      # "Is mail flowing?" — registration is hard-gated on a working SMTP.
+      @emails_week = MailMetrics.sent_last(7)
+      render layout: false
     end
 
     private

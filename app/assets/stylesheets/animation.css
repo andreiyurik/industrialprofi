@@ -15,6 +15,21 @@
   }
 }
 
+/* A calm one-shot "pop" for an element that's already on screen (it morphs in
+   place, so no opacity fade — that would blink). Used for the lesson-complete
+   check the moment it's earned; scale-only, like The Odin Project's heartbeat. */
+@keyframes pop {
+  0% {
+    scale: 1;
+  }
+  45% {
+    scale: 1.18;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
 /* Toast lifecycle in a single keyframe: a quick rise-and-fade in, a long hold,
    then a fade out timed to land exactly when the element-removal controller
    pulls the node (4s). */

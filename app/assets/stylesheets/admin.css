@@ -619,6 +619,23 @@
   margin-block-start: 0.15rem;
 }
 
+/* The lazy vitals frame is layout-transparent, so its cards land directly in
+   the .admin-stats grid instead of forming one squashed cell. */
+#dashboard_vitals {
+  display: contents;
+}
+
+/* Placeholder tiles shown while the vitals frame loads — same footprint as a
+   real card so the grid doesn't reflow when the numbers arrive. */
+.admin-stat--skeleton {
+  --panel-background: var(--color-subtle);
+  --panel-border-color: transparent;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+}
+
 .admin-chart {
   display: flex;
   align-items: flex-end;

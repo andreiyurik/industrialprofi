@@ -303,6 +303,78 @@ per file; cascade is filename-alphabetical (prefix bedrock with `_`).
   the `element-removal` Stimulus controller. **Account menu:** signed-in header
   shows one name button opening a native `popover` hub (zero JS).
 
+## Fizzy idioms — the bigger-app Hotwire reference
+
+When a task needs a richer Hotwire/Stimulus/CSS pattern than Writebook shows,
+copy **how Fizzy does it** (`/home/pingvinus/dhh-references/fizzy/`). Take the
+idiom, **not** the parts that break our hard constraints — Fizzy is a themed,
+multi-user, npm-bundled app; we are single-dark-theme, mostly single-reader, and
+importmap-only. The "don't adopt" list at the end is load-bearing.
+
+**Stimulus controllers** (`auto_save_controller.js`, `form_controller.js`):
+- **True ES private fields/methods** — `#timer`, `#save()`, private getters
+  `get #dirty()`. Public surface = lifecycle + actions only.
+- **Section dividers** as comments inside a controller: `// Lifecycle`,
+  `// Actions`, `// Private`. Module-scope constants in `UPPER_SNAKE`
+  (`const AUTOSAVE_INTERVAL = 3000`).
+- `static values = { debounceTimeout: { type: Number, default: 300 } }` (object
+  form with defaults). Bind debounced/throttled handlers once in
+  `initialize()`/`connect()` (`this.x = debounce(this.x.bind(this), …)`), not per
+  event. Submit forms with `this.element.requestSubmit()`.
+
+**JS helpers** (`app/javascript/helpers/*.js`, pinned `pin_all_from … under:
+"helpers"`): small **pure-function modules** instead of re-authoring plumbing per
+controller — `timing_helpers` (`debounce`/`throttle`/`rafThrottle`/`nextFrame`),
+plus `form_/scroll_/platform_helpers` as needs arise. Import named functions. Add
+an export only when a real caller exists (no speculative utilities). Ours lives at
+`helpers/timing_helpers.js`.
+
+**CSS** (`dialog.css`, `buttons.css`, `animation.css`):
+- **Component-local custom properties with fallback defaults** —
+  `var(--btn-background, var(--color-canvas))`; modifiers just override the vars
+  (this is also the Writebook canon — reinforced here).
+- **Named keyframes centralized** in `animation.css`. Enter/exit transitions for
+  top-layer surfaces use `@starting-style` + `transition-behavior: allow-discrete`
+  and transition `display`/`overlay` (our `animation.css` already does this for
+  `dialog`/`[popover]`).
+- **Explicit `transition-property:` lists** (never `all`), short `ease-out`
+  ~100–300ms. **Busy/submitting state**: `form[aria-busy]` hides the button's
+  children (`> * { visibility: hidden }`) and overlays a masked `::after` spinner
+  (we generalized this in `buttons.css`).
+
+**Rails controllers** (`cards/reactions_controller.rb`): skinny + RESTful;
+`respond_to { |format| format.turbo_stream { render "…" } }` (add `format.json`
+only with a real consumer — our rule). `before_action :set_x`, `with_options
+only:` to scope filters, a `private` section of `set_*`/`ensure_*` helpers,
+`params.expect(...)`. Extract a **reusable render helper** for a turbo replacement
+done from several actions (Fizzy's `render_card_replacement`).
+
+**Rails models** (`card.rb`): the destination shape for a fat model is **many
+single-purpose concerns** (`extend ActiveSupport::Concern` → `included do … end`
+→ `private`), one behaviour each, plus heavy **scopes** (incl. `case`-dispatch
+scopes like `indexed_by`). Member order: includes → associations → callbacks →
+scopes → publics → private. **But our threshold holds — extract a concern only
+past ~200 lines**; Fizzy shows the target, not a licence to pre-split.
+
+**Turbo**: `loading: :lazy`/eager frames for server-expensive fragments; a flash
+helper that does `turbo_stream.replace(:flash, …)` from a concern
+(`turbo_flash.rb`); disable View Transitions on a same-URL refresh to avoid a
+jarring re-animate (`view_transitions.rb`).
+
+**Don't adopt (these conflict with our constraints):**
+- **`@layer components { … }` / `@import` between CSS** — Fizzy wraps every file
+  in a cascade layer; we forbid it. Our cascade is filename load order; write
+  bare rules.
+- **Theme switching** — Fizzy keys off `html[data-theme]` / `prefers-color-scheme`
+  light mode. We ship a **single dark theme** by decree; no `data-theme`, no light
+  variants.
+- **Extra npm deps** Fizzy pins (`@rails/request.js`, `hotwire-native-bridge`,
+  passkey lib) — stay importmap-minimal; use native `fetch` / `requestSubmit()`.
+- **`broadcasts_refreshes` realtime, Web Push, reactions, kanban** — app-domain
+  mechanics for a multi-user tool. Our pages are single-reader; add Cable/broadcast
+  load only with a genuine shared-state need (see north star + "Recorded
+  decisions").
+
 ## Feature map
 
 Each line is one shipped subsystem. For *when* and the full commit rationale, use
