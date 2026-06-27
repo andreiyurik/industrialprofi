@@ -5,9 +5,12 @@ service: industrialprofi
 image: andreiyurik/industrialprofi
 
 # Deploy to these servers.
+# The IP is read from the local shell (not committed): this is a public repo, and
+# keeping the origin IP out of git history avoids burning it if a CDN is added
+# later. Set it once: `export KAMAL_WEB_IP=...` in your ~/.bashrc (see docs/DEPLOY.md).
 servers:
   web:
-    - 192.168.0.1 # TODO: replace with the VPS public IP (see docs/DEPLOY.md, step 2)
+    - <%= ENV.fetch("KAMAL_WEB_IP") %>
 
 # SSL auto certification via Let's Encrypt (kamal-proxy terminates SSL;
 # production.rb has assume_ssl + force_ssl on to match).

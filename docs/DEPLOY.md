@@ -43,8 +43,18 @@ export KAMAL_REGISTRY_PASSWORD=ghp_...   # put it in ~/.bashrc
 
 ## 2. Config
 
-In `config/deploy.yml` replace the two TODOs: the server IP (`servers.web`) and
-the ghcr.io username. Nothing else there needs touching.
+The server IP is **not** committed (this is a public repo). `deploy.yml` reads it
+from your shell, so set it once locally:
+
+```bash
+echo 'export KAMAL_WEB_IP=82.202.158.50' >> ~/.bashrc && source ~/.bashrc
+```
+
+Every `bin/kamal` command then picks it up; if it's unset, Kamal fails fast with
+`key not found: "KAMAL_WEB_IP"` (no accidental empty target). Then in
+`config/deploy.yml` confirm the one remaining TODO — the ghcr.io username
+(`registry.username`). If your VPS logs in as something other than `root`, also
+uncomment the `ssh.user` block. Nothing else there needs touching.
 
 ## 3. First deploy
 
