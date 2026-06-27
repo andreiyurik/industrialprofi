@@ -18,9 +18,7 @@
   <%= link_to admin_lesson_suggestions_path, class: "admin-nav__link",
         aria: { current: ("page" if section == "suggestions") } do %>
     <%= t("admin.manage_suggestions") %>
-    <% if pending_suggestions_count.positive? %>
-      <span class="admin-nav__count"><%= pending_suggestions_count %></span>
-    <% end %>
+    <%= render "admin/shared/suggestions_count" %>
   <% end %>
 
   <%= link_to t("admin.manage_imports"), new_admin_import_path, class: "admin-nav__link",

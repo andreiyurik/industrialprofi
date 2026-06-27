@@ -8,40 +8,6 @@
       <h1 class="admin-header__title"><%= t("admin.suggestions_title") %></h1>
     </div>
 
-    <% if @grouped.empty? %>
-      <div class="admin-empty">
-        <p class="admin-empty__text"><%= t("admin.no_suggestions") %></p>
-      </div>
-    <% else %>
-      <div class="admin-sort">
-        <span class="admin-sort__label"><%= t("admin.sort") %>:</span>
-        <%= link_to t("admin.sort_newest"), admin_lesson_suggestions_path(order: "desc"),
-            class: "admin-sort__option#{' admin-sort__option--active' if @order == :desc}" %>
-        <%= link_to t("admin.sort_oldest"), admin_lesson_suggestions_path(order: "asc"),
-            class: "admin-sort__option#{' admin-sort__option--active' if @order == :asc}" %>
-      </div>
-
-      <% @grouped.each do |lesson, suggestions| %>
-        <div class="admin-group">
-          <h2 class="admin-group__title"><%= lesson.title %></h2>
-          <div class="admin-list">
-            <% suggestions.each do |suggestion| %>
-              <a href="<%= admin_lesson_suggestion_path(suggestion) %>" class="admin-row">
-                <span class="admin-row__column">
-                  <span class="admin-row__line">
-                    <span class="badge badge--marker"><%= t("revisions.sections.#{suggestion.section}") %></span>
-                    <span class="admin-row__title"><%= suggestion.author_name %></span>
-                  </span>
-                  <p class="admin-row__subtle">
-                    <%= time_ago_in_words(suggestion.created_at) %> <%= t("admin.ago") %>
-                  </p>
-                </span>
-                <span class="admin-row__icon"><%= heroicon("chevron-right", variant: :outline) %></span>
-              </a>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
+    <%= render "list" %>
   </div>
 </section>

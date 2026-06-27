@@ -1,6 +1,31 @@
 require "test_helper"
 
 class PagesControllerTest < ActionDispatch::IntegrationTest
+  test "static pages are cacheable (so clients and crawlers skip re-fetching)" do
+    get about_path
+    assert_response :success
+    cache_control = response.headers["Cache-Control"].to_s
+    assert_includes cache_control, "max-age=3600"
+    assert_includes cache_control, "private", "static pages cache privately, not in shared caches"
+  end
+
+  test "search-engine verification meta tags render only when configured" do
+    site = Rails.application.config.x.site
+
+    get about_path
+    assert_select "meta[name='google-site-verification']", count: 0, message: "omitted when unset"
+    assert_select "meta[name='yandex-verification']", count: 0
+
+    site.google_site_verification = "google-abc123"
+    site.yandex_verification = "yandex-def456"
+    get about_path
+    assert_select "meta[name='google-site-verification'][content='google-abc123']", count: 1
+    assert_select "meta[name='yandex-verification'][content='yandex-def456']", count: 1
+  ensure
+    site.google_site_verification = nil
+    site.yandex_verification = nil
+  end
+
   test "about page renders the creator's letter" do
     get about_path
     assert_response :success

@@ -970,3 +970,17 @@
 .editor-cheatsheet__copy.is-copied .editor-cheatsheet__copy-icon--done {
   display: inline-flex;
 }
+
+/* Suggestion-queue rows: the info is its own link that grows, with inline
+   approve/reject quick-action buttons pinned to the end (the row no longer
+   links as a whole, so it uses .admin-row--static). */
+.admin-row__main {
+  color: var(--color-ink);
+  flex: 1;
+  min-inline-size: 0;
+  text-decoration: none;
+}
+
+.admin-row__action-form {
+  margin: 0;
+}

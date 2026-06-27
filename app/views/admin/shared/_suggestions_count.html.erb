@@ -1,0 +1,7 @@
+<%# The pending-suggestions badge in the admin nav. A stable wrapper id (present
+    even at zero) so an inline moderation decision can refresh it via Turbo Stream. %>
+<span id="admin_suggestions_count">
+  <% if pending_suggestions_count.positive? %>
+    <span class="admin-nav__count"><%= pending_suggestions_count %></span>
+  <% end %>
+</span>

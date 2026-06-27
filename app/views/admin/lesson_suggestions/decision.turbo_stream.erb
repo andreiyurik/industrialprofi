@@ -1,0 +1,5 @@
+<%# After an inline approve/reject: re-render the queue, show the flash, and
+    update the nav badge — all without a page reload. %>
+<%= turbo_stream.replace "suggestions", partial: "admin/lesson_suggestions/list" %>
+<%= turbo_stream.replace "flash", partial: "shared/flash" %>
+<%= turbo_stream.replace "admin_suggestions_count", partial: "admin/shared/suggestions_count" %>

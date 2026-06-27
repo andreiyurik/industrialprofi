@@ -1,0 +1,59 @@
+<%# The pending-suggestions queue. Wrapped in #suggestions so a decision (approve/
+    reject) can replace it in place via Turbo Stream — the empty state and any
+    now-empty group disappear naturally on re-render, no surgical row removal. %>
+<div id="suggestions">
+  <% if @grouped.empty? %>
+    <div class="admin-empty">
+      <p class="admin-empty__text"><%= t("admin.no_suggestions") %></p>
+    </div>
+  <% else %>
+    <div class="admin-sort">
+      <span class="admin-sort__label"><%= t("admin.sort") %>:</span>
+      <%= link_to t("admin.sort_newest"), admin_lesson_suggestions_path(order: "desc"),
+          class: "admin-sort__option#{' admin-sort__option--active' if @order == :desc}" %>
+      <%= link_to t("admin.sort_oldest"), admin_lesson_suggestions_path(order: "asc"),
+          class: "admin-sort__option#{' admin-sort__option--active' if @order == :asc}" %>
+    </div>
+
+    <% @grouped.each do |lesson, suggestions| %>
+      <div class="admin-group">
+        <h2 class="admin-group__title"><%= lesson.title %></h2>
+        <div class="admin-list">
+          <% suggestions.each do |suggestion| %>
+            <div class="admin-row admin-row--static">
+              <a href="<%= admin_lesson_suggestion_path(suggestion) %>" class="admin-row__main">
+                <span class="admin-row__column">
+                  <span class="admin-row__line">
+                    <span class="badge badge--marker"><%= t("revisions.sections.#{suggestion.section}") %></span>
+                    <span class="admin-row__title"><%= suggestion.author_name %></span>
+                  </span>
+                  <p class="admin-row__subtle">
+                    <%= time_ago_in_words(suggestion.created_at) %> <%= t("admin.ago") %>
+                  </p>
+                </span>
+              </a>
+              <%# Quick approve/reject without leaving the queue (params[:inline]);
+                  the row's link still opens the full diff for a careful review. %>
+              <div class="admin-row__actions">
+                <%= button_to approve_admin_lesson_suggestion_path(suggestion), method: :patch,
+                      params: { inline: true, order: @order },
+                      class: "btn btn--small btn--reversed admin-row__action",
+                      form: { class: "admin-row__action-form" },
+                      aria: { label: t("admin.approve") }, title: t("admin.approve") do %>
+                  <%= heroicon "check", variant: :outline %>
+                <% end %>
+                <%= button_to reject_admin_lesson_suggestion_path(suggestion), method: :patch,
+                      params: { inline: true, order: @order },
+                      class: "btn btn--small btn--negative admin-row__action",
+                      form: { class: "admin-row__action-form" },
+                      aria: { label: t("admin.reject") }, title: t("admin.reject") do %>
+                  <%= heroicon "x-mark", variant: :outline %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

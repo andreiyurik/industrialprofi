@@ -62,6 +62,20 @@ class Admin::LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to admin_lesson_suggestions_path
   end
 
+  test "inline approve from the queue responds with a Turbo Stream, no reload" do
+    suggestion = lesson_suggestions(:pending_suggestion)
+
+    assert_difference -> { suggestion.lesson.lesson_revisions.count }, 1 do
+      patch approve_admin_lesson_suggestion_path(suggestion), params: { inline: true }, as: :turbo_stream
+    end
+
+    assert_response :success
+    assert_equal "approved", suggestion.reload.status
+    assert_equal "text/vnd.turbo-stream.html", response.media_type
+    assert_match %r{target="suggestions"}, response.body          # queue re-rendered in place
+    assert_match %r{target="admin_suggestions_count"}, response.body # nav badge refreshed
+  end
+
   # Reject
 
   test "reject changes status and saves comment" do
