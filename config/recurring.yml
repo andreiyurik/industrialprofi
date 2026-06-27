@@ -26,3 +26,9 @@ production:
   disk_alert:
     class: DiskAlertJob
     schedule: every day at 9am
+
+  # Sweeps orphaned lesson-image uploads (a blob picked then abandoned before
+  # save) so the disk never accretes them. Attached images are untouched.
+  purge_unattached_uploads:
+    class: PurgeUnattachedBlobsJob
+    schedule: every day at 4am

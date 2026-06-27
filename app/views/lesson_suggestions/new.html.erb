@@ -39,8 +39,9 @@
       <div class="admin-form__field admin-form__field--lg">
         <label><%= t("suggestions.field_content") %></label>
         <p class="admin-form__hint"><%= t("suggestions.field_content_hint") %></p>
-        <%= f.rich_text_area :rich_body, class: "lexxy-content",
-            data: { toolbar: { upload: false }.to_json } %>
+        <%# attachments: false fully disables uploads (toolbar + paste + drag-drop),
+            not just the button — readers must never write files to the SQLite disk. %>
+        <%= f.rich_text_area :rich_body, class: "lexxy-content", attachments: "false" %>
       </div>
 
       <div class="admin-form__field admin-form__field--lg">

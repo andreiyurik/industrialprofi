@@ -66,3 +66,15 @@
   overflow-x: auto;
   padding: 0.5rem 0.75rem;
 }
+
+/* The "how to insert a block" steps in the guide — a plain numbered list, just
+   spaced so each step reads as a discrete instruction. */
+.guide-steps {
+  margin-block: 0.5rem 1rem;
+  padding-inline-start: 1.4rem;
+
+  li {
+    margin-block: 0.35rem;
+    padding-inline-start: 0.3rem;
+  }
+}

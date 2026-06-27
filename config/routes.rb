@@ -97,5 +97,8 @@ Rails.application.routes.draw do
       end
     end
     post "preview", to: "preview#create"
+    # Editor/admin-only image uploads for lesson rich text — a gated, validating
+    # replacement for the open ActiveStorage direct-upload endpoint.
+    resources :uploads, only: :create
   end
 end

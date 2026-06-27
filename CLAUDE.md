@@ -390,6 +390,21 @@ git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
 - **No command palette** until search ships (v0.3) — the palette is search's UI.
 - **No wiki social governance** (arbitration, RfA voting, granular permission
   tiers, checkuser) — «лишние механики» at this scale.
+- **Lesson callouts are blockquote + marker, NOT a custom editor block**
+  (2026-06-27): the Lexxy editor stores a quote whose first line is `[!ВАЖНО]`;
+  `ApplicationHelper#enrich_prose` (shared by rich-text and the markdown
+  fallback) upgrades it to a `.callout` on render. A true WYSIWYG colour block
+  would need a custom Lexical node = vendored Lexical + a build step against a
+  beta gem — rejected as anti-north-star. Don't re-propose it.
+- **Lesson images: editor-gated upload, NOT open, NOT off to object storage**
+  (2026-06-27): uploads are disabled on the member/suggestion path and the
+  description; enabled on `rich_body`/`rich_task` only, via `Admin::UploadsController`
+  (`LessonImageUpload` policy: image-only, **no SVG** = XSS + diagrams stay the
+  curated `public/lesson-images` commit, 10 MB cap). Readers get a resized WebP
+  variant (`ruby-vips`); the original is archived. `PurgeUnattachedBlobsJob`
+  sweeps orphans. **No visible watermark** (contradicts CC BY-SA, clutters the
+  educational detail, no SEO value). Blobs live in `storage/blobs/`, separate
+  from the SQLite DBs, and need their own backup rule (`docs/DEPLOY.md`).
 
 **Not built yet (v0.3):** community-authored roadmaps, public profiles, search,
 moderated public portfolio.

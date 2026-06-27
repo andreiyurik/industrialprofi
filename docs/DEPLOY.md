@@ -82,21 +82,30 @@ ADMIN_EMAIL=... ADMIN_PASSWORD=... bin/kamal app exec "bin/rails db:seed"
 
 ## 5. Right after the first deploy
 
-- **Backups — mandatory, before any real users exist.** Data lives on the host
-  in the docker volume
-  `/var/lib/docker/volumes/industrialprofi_storage/_data` (the SQLite databases).
-  At minimum, a daily cron on the server (`apt install sqlite3 rclone`):
+- **Backups — mandatory, before any real users exist.** Everything lives on the
+  host in the docker volume `/var/lib/docker/volumes/industrialprofi_storage/_data`,
+  which holds **two** kinds of data that need **two** backup rules:
+  1. the SQLite databases (`*.sqlite3`) — the whole catalog, progress, accounts;
+  2. `blobs/` — Active Storage files, i.e. editor-uploaded **lesson images**
+     (no longer ≈0 since editors can attach images to lessons).
+
+  A daily cron on the server (`apt install sqlite3 rclone`) must cover both —
+  miss the second and a restore yields lessons with broken images:
   ```bash
-  # .backup is consistent even under load (SQLite online backup API)
-  sqlite3 /var/lib/docker/volumes/industrialprofi_storage/_data/production.sqlite3 \
-    ".backup /root/backups/production-$(date +%F).sqlite3"
-  rclone sync /root/backups remote:industrialprofi-backups
+  vol=/var/lib/docker/volumes/industrialprofi_storage/_data
+  # 1. DBs: .backup is consistent even under load (SQLite online backup API).
+  for db in production production_cache production_queue production_cable; do
+    sqlite3 "$vol/$db.sqlite3" ".backup /root/backups/$db-$(date +%F).sqlite3"
+  done
+  # 2. Image blobs: plain files, a mirror is enough (separate dir, never the DBs).
+  rclone sync "$vol/blobs" remote:industrialprofi-backups/blobs
+  rclone sync /root/backups remote:industrialprofi-backups/db
   ```
-  Active Storage blobs are ≈0 (journal uploads were removed), so the SQLite
-  databases are the whole dataset. The better option is Litestream (streaming
-  SQLite replication to S3) as a Kamal accessory — set it up at the first free
-  moment. A backup you've never restored isn't a backup — restore a dump locally
-  once a quarter.
+  The better option for the DBs is Litestream (streaming SQLite replication to
+  S3) as a Kamal accessory — but note **Litestream replicates only the SQLite
+  databases, not `blobs/`**, so the `rclone sync` of `blobs/` stays required
+  either way. A backup you've never restored isn't a backup — restore a dump
+  (and a few blobs) locally once a quarter.
 - **External uptime monitoring:** UptimeRobot (free) on
   `https://industrialprofi.com/up`, alerting to email/Telegram. Internal error
   monitoring is already built in (`lib/error_subscriber.rb` emails admins).
@@ -135,7 +144,8 @@ during a migration. The page is wired via `error_pages_path: public` in
 `deploy.yml`; Kamal uploads `public/503.html` (and the other `4xx`/`5xx` pages) on
 each deploy, so a one-time `bin/kamal deploy` after adding it is all the setup.
 
-Typical migration order: **maintenance** on the old server → copy `storage/`
-(SQLite DB) to the new server → switch DNS → verify the new server → **live**.
+Typical migration order: **maintenance** on the old server → copy the whole
+`storage/` volume (SQLite DBs **and** `blobs/`) to the new server → switch DNS →
+verify the new server → **live**.
 Holding maintenance during the copy also guarantees the DB isn't written mid-copy.
 </content>

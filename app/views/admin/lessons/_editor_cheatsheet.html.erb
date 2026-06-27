@@ -1,0 +1,34 @@
+<%# In-editor cheatsheet — a native popover (zero JS), opened by the hint-line
+    trigger. The block list derives from ApplicationHelper::CALLOUTS, the SAME
+    source the renderer uses, so it can never drift from what a reader sees. The
+    full reference (link types, markers) stays at /admin/guide, one click away. %>
+<div id="editor-cheatsheet" popover class="editor-cheatsheet">
+  <h3 class="editor-cheatsheet__heading"><%= t("admin.editor_cheatsheet.blocks_heading") %></h3>
+  <p class="editor-cheatsheet__intro"><%= t("admin.editor_cheatsheet.blocks_intro") %></p>
+
+  <p class="editor-cheatsheet__hint"><%= t("admin.editor_cheatsheet.copy_hint") %></p>
+  <ul class="editor-cheatsheet__list">
+    <% ApplicationHelper::CALLOUTS.each do |marker, cfg| %>
+      <li class="editor-cheatsheet__item callout--<%= cfg[:mod] %>">
+        <%# The marker IS the copy button — click it to grab `[!СОВЕТ]`, no typing. %>
+        <button type="button" class="editor-cheatsheet__copy"
+                data-controller="copy" data-copy-text-value="[!<%= marker %>]" data-action="copy#copy"
+                title="<%= t('admin.editor_cheatsheet.copy') %>">
+          <code class="editor-cheatsheet__marker">[!<%= marker %>]</code>
+          <span class="editor-cheatsheet__copy-icon editor-cheatsheet__copy-icon--copy"><%= heroicon "document-duplicate", variant: :outline %></span>
+          <span class="editor-cheatsheet__copy-icon editor-cheatsheet__copy-icon--done"><%= heroicon "check", variant: :outline %></span>
+        </button>
+        <span class="editor-cheatsheet__meaning">
+          <%= heroicon cfg[:icon], variant: :outline %><%= cfg[:label] %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+
+  <h3 class="editor-cheatsheet__heading"><%= t("admin.editor_cheatsheet.images_heading") %></h3>
+  <p class="editor-cheatsheet__intro"><%= t("admin.editor_cheatsheet.images_text") %></p>
+
+  <a href="<%= admin_guide_path %>" class="editor-cheatsheet__full" target="_blank">
+    <%= t("admin.editor_cheatsheet.full_guide") %> ↗
+  </a>
+</div>

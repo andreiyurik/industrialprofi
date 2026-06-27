@@ -77,6 +77,24 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes result, "<p>Текст совета."
   end
 
+  test "enrich_prose upgrades a Lexxy-style blockquote into a typed callout" do
+    # A lesson edited in Lexxy stores a quote as <blockquote><p>…</p></blockquote>;
+    # the marker on the first line must drive the same coloured callout the
+    # markdown path produces, so authoring in either editor renders identically.
+    html = "<blockquote><p>[!ВАЖНО] Группа III не даёт права работать в 6–10 кВ.</p></blockquote>"
+    result = enrich_prose(html)
+    assert_includes result, 'class="callout callout--important"'
+    assert_includes result, "Важно"
+    assert_includes result, "Группа III не даёт права работать в 6–10 кВ."
+  end
+
+  test "enrich_prose leaves an unmarked blockquote as a plain quote" do
+    html = "<blockquote><p>Обычная цитата без маркера.</p></blockquote>"
+    result = enrich_prose(html)
+    assert_includes result, "<blockquote>"
+    assert_not_includes result, "callout"
+  end
+
   test "markdown returns empty string for nil" do
     assert_equal "", markdown(nil)
   end

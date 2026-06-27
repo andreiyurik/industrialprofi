@@ -36,7 +36,13 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
+# ruby-vips is the :vips processor backend (FFI to the libvips system lib, which
+# the Dockerfile installs) — it resizes/re-encodes lesson images to WebP.
 gem "image_processing", "~> 2.0"
+# require: false — ruby-vips dlopens libvips the moment it's loaded, so let
+# ActiveStorage's vips transformer require it lazily (only when a variant is
+# generated). Keeps boot/tests working on machines without the libvips lib.
+gem "ruby-vips", "~> 2.2", require: false
 
 # Markdown rendering (GFM)
 gem "kramdown"

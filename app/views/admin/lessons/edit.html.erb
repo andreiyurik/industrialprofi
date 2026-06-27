@@ -35,22 +35,41 @@
 
       <p class="admin-form__hint admin-form__field--lg">
         <%= t("admin.markdown_paste_hint") %>
-        <a href="<%= admin_guide_path %>" class="link-quiet" target="_blank"><%= t("admin.guide.link") %> ↗</a>
+        <button type="button" class="editor-cheatsheet__trigger" popovertarget="editor-cheatsheet">
+          <%= heroicon "question-mark-circle", variant: :outline %><%= t("admin.editor_cheatsheet.trigger") %>
+        </button>
       </p>
+      <%= render "admin/lessons/editor_cheatsheet" %>
+
+      <%# Images are enabled only on the body and task sections, only for editors
+          (this whole form is gated), routed through the validating upload
+          endpoint, capped at 2 MB, image-only. The description is a one-sentence
+          WHY — no images there. %>
+      <% max_upload = LessonImageUpload::MAX_BYTES
+         image_opts = {
+           "permitted-attachment-types" => LessonImageUpload.accept_attribute,
+           data: {
+             direct_upload_url: admin_uploads_path,
+             controller: "lexxy-uploads",
+             "lexxy-uploads-max-bytes-value": max_upload,
+             "lexxy-uploads-message-value": t("admin.uploads.too_large", max: number_to_human_size(max_upload))
+           }
+         } %>
 
       <div class="admin-form__field admin-form__field--lg">
         <label><%= t("admin.field_description") %></label>
-        <%= f.rich_text_area :rich_description, class: "lexxy-content" %>
+        <%= f.rich_text_area :rich_description, class: "lexxy-content", attachments: "false" %>
       </div>
 
       <div class="admin-form__field admin-form__field--lg">
         <label><%= t("admin.field_body") %></label>
-        <%= f.rich_text_area :rich_body, class: "lexxy-content" %>
+        <%= f.rich_text_area :rich_body, class: "lexxy-content", **image_opts %>
+        <p class="admin-form__hint"><%= t("admin.uploads.hint") %></p>
       </div>
 
       <div class="admin-form__field admin-form__field--lg">
         <label><%= t("admin.field_task") %></label>
-        <%= f.rich_text_area :rich_task, class: "lexxy-content" %>
+        <%= f.rich_text_area :rich_task, class: "lexxy-content", **image_opts %>
       </div>
 
       <%# Live badge palette for the editor: one colour per kind, mirroring the

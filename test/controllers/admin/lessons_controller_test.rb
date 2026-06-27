@@ -87,6 +87,24 @@ class Admin::LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_select "[name='lesson[rich_body]']"
   end
 
+  test "the editor cheatsheet popover lists the live callout markers" do
+    get edit_admin_lesson_path(lessons(:pteep))
+    assert_select "button[popovertarget='editor-cheatsheet']"
+    assert_select "#editor-cheatsheet[popover]" do
+      assert_select ".editor-cheatsheet__marker", text: "[!ОПАСНО]"
+      assert_select ".editor-cheatsheet__item.callout--check" # the green "проверь себя" block
+      # The marker is a one-click copy button (no typing the magic syntax).
+      assert_select "button.editor-cheatsheet__copy[data-copy-text-value='[!СОВЕТ]'][data-action='copy#copy']"
+    end
+  end
+
+  test "body editor allows gated image uploads; description stays upload-free" do
+    get edit_admin_lesson_path(lessons(:pteep))
+    assert_select "lexxy-editor[name='lesson[rich_body]'][data-direct-upload-url=?]", admin_uploads_path
+    assert_select "lexxy-editor[name='lesson[rich_body]'][permitted-attachment-types*=?]", "image/png"
+    assert_select "lexxy-editor[name='lesson[rich_description]'][attachments='false']"
+  end
+
   # ── Update ──
 
   test "update with valid data redirects" do

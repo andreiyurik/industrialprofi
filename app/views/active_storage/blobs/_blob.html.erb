@@ -1,6 +1,18 @@
 <figure class="attachment attachment--<%= blob.representable? ? "preview" : "file" %> attachment--<%= blob.filename.extension %>">
-  <% if blob.representable? %>
-    <%= image_tag blob.representation(resize_to_limit: local_assigns[:in_gallery] ? [ 800, 600 ] : [ 1024, 768 ]) %>
+  <% if blob.image? %>
+    <% alt = blob.try(:caption).presence || blob.filename.base %>
+    <% if ApplicationHelper.variant_processing_available? %>
+      <%# Where libvips is available (production): a resized, re-encoded WebP —
+          light and SEO-friendly, while the full upload stays archived. %>
+      <%= image_tag blob.representation(
+            resize_to_limit: local_assigns[:in_gallery] ? [ 800, 600 ] : [ 1600, 1200 ],
+            format: :webp, saver: { quality: 80 }),
+            alt: alt, loading: "lazy" %>
+    <% else %>
+      <%# No image processor here (e.g. a dev box without libvips): serve the
+          original so the image still shows instead of a broken variant URL. %>
+      <%= image_tag rails_blob_path(blob), alt: alt, loading: "lazy" %>
+    <% end %>
   <% end %>
 
   <figcaption class="attachment__caption">

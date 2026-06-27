@@ -45,3 +45,15 @@ lexxy-editor {
   block-size: auto;
   border-radius: 0.5em;
 }
+
+/* A quote inside the editor reads as a callout shell — so an author building a
+   `[!ВАЖНО]` block sees a real, bounded block, not just indented text. The
+   reader-side colour and label come from the marker on the first line
+   (ApplicationHelper#render_callouts turns the quote into a `.callout`). */
+lexxy-editor blockquote {
+  background-color: var(--color-subtle-light);
+  border-inline-start: 3px solid oklch(var(--lch-yellow));
+  border-radius: 0 0.4em 0.4em 0;
+  padding: 0.4lh 2ch;
+  font-style: normal;
+}
