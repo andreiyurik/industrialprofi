@@ -1,0 +1,19 @@
+<%# A weekly bar chart — pure CSS, no charting JS (the Basecamp way).
+    locals: (title:, data:, week_title_key:)
+    data = [[week_start_date, count], ...] oldest → newest. -%>
+<div class="admin-group">
+  <div class="admin-group__head">
+    <h2 class="admin-group__title"><%= title %></h2>
+    <span class="admin-group__meta"><%= t("admin.dashboard.chart_period", weeks: data.size) %></span>
+  </div>
+  <% max = [ data.map(&:last).max, 1 ].max %>
+  <div class="admin-chart" role="img" aria-label="<%= title %>">
+    <% data.each do |week_start, count| %>
+      <div class="admin-chart__col"
+           title="<%= t(week_title_key, date: l(week_start), count: count) %>">
+        <div class="admin-chart__bar" style="block-size: <%= (count.to_f / max * 6).round(2) %>rem"></div>
+        <span class="admin-chart__count"><%= count %></span>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -62,22 +62,11 @@
       <% end %>
     </div>
 
-    <div class="admin-group">
-      <div class="admin-group__head">
-        <h2 class="admin-group__title"><%= t("admin.dashboard.signups_chart") %></h2>
-        <span class="admin-group__meta"><%= t("admin.dashboard.signups_chart_period", weeks: @signups_by_week.size) %></span>
-      </div>
-      <% max = [ @signups_by_week.map(&:last).max, 1 ].max %>
-      <div class="admin-chart" role="img" aria-label="<%= t("admin.dashboard.signups_chart") %>">
-        <% @signups_by_week.each do |week_start, count| %>
-          <div class="admin-chart__col"
-               title="<%= t("admin.dashboard.signups_week_title", date: l(week_start), count: count) %>">
-            <div class="admin-chart__bar" style="block-size: <%= (count.to_f / max * 6).round(2) %>rem"></div>
-            <span class="admin-chart__count"><%= count %></span>
-          </div>
-        <% end %>
-      </div>
-    </div>
+    <%= render "bar_chart", title: t("admin.dashboard.signups_chart"),
+          data: @signups_by_week, week_title_key: "admin.dashboard.signups_week_title" %>
+
+    <%= render "bar_chart", title: t("admin.dashboard.completions_chart"),
+          data: @completions_by_week, week_title_key: "admin.dashboard.completions_week_title" %>
 
     <div class="admin-group">
       <div class="admin-group__head">

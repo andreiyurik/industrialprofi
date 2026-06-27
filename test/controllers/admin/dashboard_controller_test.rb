@@ -31,6 +31,19 @@ class Admin::DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_match I18n.t("admin.dashboard.signups_chart"), response.body
   end
 
+  test "renders both the signups and completions charts" do
+    sign_in_as users(:admin)
+    get admin_root_path
+    assert_match I18n.t("admin.dashboard.signups_chart"), response.body
+    assert_match I18n.t("admin.dashboard.completions_chart"), response.body
+  end
+
+  test "admin pages drop the public marketing footer" do
+    sign_in_as users(:admin)
+    get admin_root_path
+    assert_no_match "footer__inner", response.body
+  end
+
   test "pending suggestions callout links to the moderation queue" do
     sign_in_as users(:admin)
     get admin_root_path

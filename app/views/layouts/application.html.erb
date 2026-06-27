@@ -162,6 +162,7 @@
       <%= yield %>
     </main>
 
+    <% unless in_admin? %>
     <footer class="footer">
       <div class="container footer__inner">
         <div class="footer__brand-block">
@@ -226,5 +227,6 @@
         <a href="<%= privacy_path %>" class="footer__link link-quiet"><%= t("nav.privacy") %></a>
       </div>
     </footer>
+    <% end %>
   </body>
 </html>

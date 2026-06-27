@@ -32,7 +32,10 @@
   <% end %>
 
   <div class="lesson-complete__side">
-    <% if signed_in? %>
+    <%# Journaling is the practice loop ("did it → log it"); theory has no
+        deliverable to record, so this prompt is practice-only. The journal stays
+        reachable from /journal for anyone who wants to note a reflection. %>
+    <% if signed_in? && lesson.practice? %>
       <%= link_to t("journal.write_in_journal"), new_journal_entry_path(lesson_id: lesson.id),
             class: "lesson-complete__journal link-quiet" %>
     <% end %>

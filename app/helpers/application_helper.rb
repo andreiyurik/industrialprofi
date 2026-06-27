@@ -1,6 +1,12 @@
 module ApplicationHelper
   include Heroicon::Engine.helpers
 
+  # Admin is a focused internal workspace, not a marketing surface — it drops the
+  # public footer (its persistent nav covers navigation).
+  def in_admin?
+    controller.is_a?(Admin::BaseController)
+  end
+
   # Profession icons: self-hosted Tabler (https://tabler.io/icons) line glyphs,
   # rendered inline so they inherit `currentColor` and the monochrome theme.
   # Each token maps to a partial in app/views/shared/icons/.

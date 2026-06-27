@@ -5,7 +5,7 @@ module Admin
   class DashboardController < BaseController
     before_action :ensure_can_administer
 
-    SIGNUP_CHART_WEEKS = 12
+    CHART_WEEKS = 12
 
     def show
       @users_total = User.count
@@ -24,7 +24,10 @@ module Admin
       @courses_total = Course.count
       @lessons_total = Lesson.count
 
-      @signups_by_week = signups_by_week(SIGNUP_CHART_WEEKS)
+      # Acquisition (signups) next to engagement (lesson completions) — the two
+      # together answer "are people arriving AND actually learning?".
+      @signups_by_week = weekly_counts(User.all, CHART_WEEKS)
+      @completions_by_week = weekly_counts(LessonCompletion.all, CHART_WEEKS)
       @recent_users = User.order(created_at: :desc).limit(10)
     end
 
@@ -47,11 +50,12 @@ module Admin
           JournalEntry.where(created_at: time..).distinct.pluck(:user_id)).size
       end
 
-      # [[week_start_date, signups], ...] oldest → newest, zero-filled.
-      def signups_by_week(weeks)
+      # [[week_start_date, count], ...] oldest → newest, zero-filled. `scope` is
+      # any relation with a created_at (User, LessonCompletion, …).
+      def weekly_counts(scope, weeks)
         from = (weeks - 1).weeks.ago.to_date.beginning_of_week
-        daily = User.where(created_at: from.beginning_of_day..).group("DATE(created_at)").count
-                    .transform_keys { |day| Date.parse(day.to_s) }
+        daily = scope.where(created_at: from.beginning_of_day..).group("DATE(created_at)").count
+                     .transform_keys { |day| Date.parse(day.to_s) }
         (0...weeks).map do |i|
           start = from + (i * 7)
           [ start, daily.sum { |day, count| day.between?(start, start + 6) ? count : 0 } ]
