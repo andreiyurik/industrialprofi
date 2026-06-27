@@ -17,7 +17,7 @@
   --lch-blue-light: 26% 0.06 248;
   --lch-blue-dark: 44% 0.09 248;
   --lch-red: 64% 0.21 27;
-  --lch-green: 72% 0.18 150;
+  --lch-green: 70% 0.12 150;
   /* Resource-type badge accents — the one sanctioned set of category hues
      outside the monochrome+blue rule (see CLAUDE.md). Used ONLY for the small
      type pills on lesson resources, never for general UI. */
