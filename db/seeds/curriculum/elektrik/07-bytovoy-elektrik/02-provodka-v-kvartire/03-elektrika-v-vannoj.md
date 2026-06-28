@@ -12,10 +12,6 @@ resources:
     url: "https://example.com/placeholder"
     kind: document
     required: true
-  - title: "Электрика в ванной по зонам: что можно и что нельзя"
-    url: "https://example.com/placeholder"
-    kind: video
-    required: false
 ---
 Ванная — самое опасное помещение в квартире: вода + электричество. Пойми зоны и IP-требования раз и навсегда, чтобы защитить жизнь заказчика.
 ---

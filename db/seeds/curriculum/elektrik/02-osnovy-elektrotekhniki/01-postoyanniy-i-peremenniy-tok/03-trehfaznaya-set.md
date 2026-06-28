@@ -12,10 +12,6 @@ resources:
     url: "https://example.com/bessonov-toe"
     kind: document
     required: false
-  - title: "Трёхфазная сеть для начинающих — видеообъяснение"
-    url: "https://example.com/video-trehfaza"
-    kind: video
-    required: false
 ---
 Трёхфазная сеть — основа промышленного электроснабжения: понимая откуда берутся 220 В и 380 В, ты правильно подключаешь любое оборудование.
 ---

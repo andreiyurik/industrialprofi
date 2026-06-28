@@ -8,10 +8,6 @@ resources:
     kind: norm
     required: true
     country_code: RU
-  - title: "Сварочная проволока: чем отличаются марки и как выбрать для своей задачи"
-    url: "https://example.com/placeholder-article-provoloka-vybor"
-    kind: article
-    required: false
 ---
 Сварочная проволока определяет состав шва: марка Св-08Г2С закрывает 80% задач по стали, но знание других марок и правил выбора диаметра экономит брак и деньги.
 ---

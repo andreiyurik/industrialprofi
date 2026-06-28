@@ -8,10 +8,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "СЛР при поражении током — учебное видео Красного Креста (реанимация и АВД)"
-    url: "https://example.com/placeholder-video-cpr-electric"
-    kind: video
-    required: true
   - title: "Сибикин Ю.Д. — Справочник мастера-электрика"
     url: "https://example.com/placeholder-sibikin"
     kind: document

@@ -12,10 +12,6 @@ resources:
     url: "https://example.com/placeholder"
     kind: document
     required: false
-  - title: "Подключение генератора через АВР: схемы и разбор ошибок"
-    url: "https://example.com/placeholder"
-    kind: video
-    required: false
 ---
 Понимать схемы резервного питания — значит уметь объяснить заказчику, что именно купить и как подключить, чтобы котёл и холодильник не замерзали при отключении сети.
 ---

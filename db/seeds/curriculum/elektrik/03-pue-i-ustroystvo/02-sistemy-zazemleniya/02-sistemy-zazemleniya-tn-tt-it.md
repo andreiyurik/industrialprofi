@@ -12,10 +12,6 @@ resources:
     url: "https://docs.cntd.ru/document/1200073895"
     kind: document
     required: false
-  - title: "Системы заземления TN-C, TN-S, TN-C-S, TT, IT — наглядное сравнение"
-    url: "https://example.com/placeholder-video-sistemy-zazemleniya"
-    kind: video
-    required: false
 ---
 Буквенный код системы заземления — TN-C-S, TT, IT — описывает, как нейтраль и защитные проводники соединены с землёй от трансформатора до твоей розетки.
 ---

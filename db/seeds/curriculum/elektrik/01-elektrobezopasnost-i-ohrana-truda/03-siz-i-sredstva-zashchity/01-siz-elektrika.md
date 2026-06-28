@@ -13,10 +13,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Проверка диэлектрических перчаток перед работой — правильная техника"
-    url: "https://example.com/placeholder-video-gloves-check"
-    kind: video
-    required: false
 ---
 СИЗ электрика — последний барьер между тобой и током, который срабатывает только тогда, когда все остальные защиты уже провалились.
 ---

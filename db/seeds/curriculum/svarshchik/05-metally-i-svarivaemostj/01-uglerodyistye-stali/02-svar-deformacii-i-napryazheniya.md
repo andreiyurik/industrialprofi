@@ -7,10 +7,6 @@ resources:
     url: "https://example.com/placeholder-book-tekhnologiya-svarki-plavleniem"
     kind: book
     required: false
-  - title: "Сварочные деформации: почему коробит и как бороться — практический разбор"
-    url: "https://example.com/placeholder-article-deformacii-svarki"
-    kind: article
-    required: false
 ---
 Сварочные деформации — неизбежное физическое следствие неравномерного нагрева: понять их механизм значит научиться управлять последовательностью швов и сохранять геометрию конструкции.
 ---

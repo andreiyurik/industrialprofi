@@ -7,10 +7,6 @@ resources:
     url: "https://example.com/bessonov-toe"
     kind: document
     required: false
-  - title: "Почему используют переменный ток — видеообъяснение"
-    url: "https://example.com/video-peremenniy-tok"
-    kind: video
-    required: false
 ---
 Переменный ток — основа промышленного электроснабжения: понимая синусоиду и действующее значение, ты правильно интерпретируешь показания приборов и расчёты мощности.
 ---

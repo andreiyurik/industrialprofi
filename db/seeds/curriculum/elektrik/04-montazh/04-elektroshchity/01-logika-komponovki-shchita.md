@@ -12,10 +12,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Компоновка электрического щита — разбор схемы"
-    url: "https://example.com/placeholder-video-komponovka-shchita"
-    kind: video
-    required: false
 ---
 Щит собирается как однолинейная схема: ток течёт сверху вниз — ввод, учёт, защита, группы.
 ---

@@ -12,10 +12,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Монтаж заземления частного дома своими руками: нормы и ошибки"
-    url: "https://example.com/placeholder"
-    kind: video
-    required: false
 ---
 Заземление защищает людей от поражения током, молниезащита — дом от пожара при грозе: разберись с обеими системами и не путай их назначение.
 ---

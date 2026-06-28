@@ -8,10 +8,6 @@ resources:
     kind: norm
     required: true
     country_code: RU
-  - title: "Предварительный подогрев при сварке: расчёт и практика для строительных и трубных работ"
-    url: "https://example.com/placeholder-article-podogrev-praktika"
-    kind: article
-    required: false
 ---
 Предварительный подогрев — главная мера против холодных трещин при сварке: правильная температура рассчитывается по углеродному эквиваленту и сохраняется в процессе всего соединения.
 ---

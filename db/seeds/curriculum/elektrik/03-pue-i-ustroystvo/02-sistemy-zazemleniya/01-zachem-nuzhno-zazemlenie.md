@@ -12,10 +12,6 @@ resources:
     url: "https://docs.cntd.ru/document/1200082016"
     kind: document
     required: false
-  - title: "Как работает защитное заземление: наглядное объяснение"
-    url: "https://example.com/placeholder-video-zazemlenie"
-    kind: video
-    required: false
 ---
 Заземление — это аварийный «слив» для тока утечки: без него ток пойдёт через человека, с ним — через провод в автомат.
 ---

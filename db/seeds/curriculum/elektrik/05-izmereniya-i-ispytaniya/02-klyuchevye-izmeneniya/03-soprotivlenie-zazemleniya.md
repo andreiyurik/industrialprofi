@@ -12,10 +12,6 @@ resources:
     url: "https://example.com/placeholder-gost-12-1-030"
     kind: document
     required: false
-  - title: "Измерение сопротивления заземления — метод трёх электродов"
-    url: "https://example.com/placeholder-video-zazemlenie"
-    kind: video
-    required: false
 ---
 Сопротивление заземляющего устройства показывает, насколько быстро ток утечки уйдёт в землю при аварии.
 ---

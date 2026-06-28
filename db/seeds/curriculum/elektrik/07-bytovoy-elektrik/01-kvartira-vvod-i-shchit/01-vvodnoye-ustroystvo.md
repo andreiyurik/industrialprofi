@@ -13,10 +13,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Граница ответственности в электроснабжении квартиры: разбор"
-    url: "https://example.com/placeholder"
-    kind: article
-    required: false
 ---
 Пойми, где заканчивается зона энергетиков и начинается твоя: знать границу ответственности — значит знать, что ты можешь трогать, а что нет.
 ---

@@ -12,10 +12,6 @@ resources:
     url: "https://example.com/placeholder-gost-51322"
     kind: document
     required: false
-  - title: "Монтаж розетки с заземлением — пошагово"
-    url: "https://example.com/placeholder-video-rozetka"
-    kind: video
-    required: false
 ---
 Выключатель всегда рвёт фазу, а не ноль — это ключевое правило безопасности при монтаже.
 ---

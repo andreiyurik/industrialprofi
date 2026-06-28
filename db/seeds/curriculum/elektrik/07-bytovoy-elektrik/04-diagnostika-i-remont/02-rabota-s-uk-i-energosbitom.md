@@ -8,10 +8,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Как подключиться к электросети частного дома: технические условия и порядок"
-    url: "https://example.com/placeholder"
-    kind: article
-    required: false
   - title: "Ростехнадзор — надзорный орган в сфере электроэнергетики"
     url: "https://www.gosnadzor.ru/"
     kind: tool

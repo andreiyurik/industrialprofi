@@ -13,10 +13,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Как составить однолинейную схему квартиры: пошаговый разбор"
-    url: "https://example.com/placeholder"
-    kind: video
-    required: false
 ---
 Однолинейная схема щита — твоя визитная карточка: по ней коллеги и заказчики судят о твоём профессионализме ещё до того, как видят работу.
 ---

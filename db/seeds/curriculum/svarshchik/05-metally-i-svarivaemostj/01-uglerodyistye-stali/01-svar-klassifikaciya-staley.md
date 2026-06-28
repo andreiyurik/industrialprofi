@@ -13,10 +13,6 @@ resources:
     kind: norm
     required: false
     country_code: RU
-  - title: "Свариваемость сталей: как читать маркировку и выбирать режим — практическое руководство"
-    url: "https://example.com/placeholder-article-svarivamost-staley"
-    kind: article
-    required: false
 ---
 Марка стали определяет, как её варить: углеродный эквивалент за одну минуту даёт ответ — нужен ли подогрев и какой риск трещин при данной толщине.
 ---

@@ -8,10 +8,6 @@ resources:
     kind: norm
     required: true
     country_code: RU
-  - title: "Сварка нержавеющей стали: главные ошибки и как их избежать — разбор с примерами"
-    url: "https://example.com/placeholder-article-nerzhaveyushchaya-svarka"
-    kind: article
-    required: false
 ---
 Нержавеющая сталь теряет коррозионную стойкость в зоне 450–850°C — это называется сенсибилизация: правильный выбор присадки и ограничение тепловложения защищают шов от скрытого разрушения.
 ---

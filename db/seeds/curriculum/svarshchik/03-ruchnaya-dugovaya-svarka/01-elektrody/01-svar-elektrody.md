@@ -13,10 +13,6 @@ resources:
     kind: norm
     required: false
     country_code: RU
-  - title: "Электроды для сварки: какие бывают, как выбрать — сравнительный обзор"
-    url: "https://example.com/placeholder-video-elektrody-vybor"
-    kind: video
-    required: false
 ---
 Электрод — это расходный материал, который одновременно является присадкой и защитой ванны: правильный выбор типа покрытия и диаметра решает половину задачи ещё до поджига дуги.
 ---

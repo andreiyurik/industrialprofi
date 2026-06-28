@@ -17,10 +17,6 @@ resources:
     url: "https://example.com/placeholder-rybakov-svarka"
     kind: book
     required: false
-  - title: "Профессия сварщик: обзор специальности, разряды и карьера — видеообзор"
-    url: "https://example.com/placeholder-video-svarshchik-professiya"
-    kind: video
-    required: false
 ---
 Сварщик — одна из самых востребованных рабочих профессий в СНГ: здесь понятен карьерный рост, прозрачна аттестация НАКС и всегда есть работа на крупных объектах.
 ---

@@ -13,10 +13,6 @@ resources:
     kind: norm
     required: true
     country_code: RU
-  - title: "Профессиональные заболевания сварщика: что нужно знать — статья"
-    url: "https://example.com/placeholder-article-svarka-profzabolevaniya"
-    kind: article
-    required: false
 ---
 Сварочная дуга создаёт сразу несколько видов угроз — ультрафиолет, токсичный аэрозоль, риск пожара и удар током — знание каждого из них позволяет работать годами без последствий для здоровья.
 ---

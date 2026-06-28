@@ -13,10 +13,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Группы допуска по электробезопасности: что дают и как получить — объяснение с примерами"
-    url: "https://example.com/placeholder-video-gruppy-dopuska"
-    kind: video
-    required: false
 ---
 Группы электробезопасности II–V — это лестница ответственности: каждая ступень даёт новые права и требует новых знаний о работе в электроустановках.
 ---

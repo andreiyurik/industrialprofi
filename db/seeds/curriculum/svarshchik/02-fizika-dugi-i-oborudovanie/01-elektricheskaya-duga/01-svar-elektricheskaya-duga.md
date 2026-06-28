@@ -7,10 +7,6 @@ resources:
     url: "https://example.com/placeholder-dumov-svarka-plavleniem"
     kind: book
     required: true
-  - title: "Физика сварочной дуги: термоэмиссия и ионизация — учебное видео"
-    url: "https://example.com/placeholder-video-fizika-dugi"
-    kind: video
-    required: false
 ---
 Понимание физики дуги объясняет, почему меняется ток и напряжение, почему длина дуги влияет на шов и как правильно её поджечь — без этого настройка режима превращается в угадайку.
 ---

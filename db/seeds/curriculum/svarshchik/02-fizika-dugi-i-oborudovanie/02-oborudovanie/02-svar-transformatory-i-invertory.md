@@ -7,10 +7,6 @@ resources:
     url: "https://example.com/placeholder-vinogradov-oborudovanie"
     kind: book
     required: false
-  - title: "Обзор типов сварочных аппаратов: трансформаторы, инверторы, полуавтоматы — видео"
-    url: "https://example.com/placeholder-video-tipy-apparatov"
-    kind: video
-    required: false
 ---
 Тип сварочного аппарата определяет, насколько стабильна дуга, сколько весит оборудование и сколько тратится электроэнергии — выбор начинается с понимания принципиального различия.
 ---

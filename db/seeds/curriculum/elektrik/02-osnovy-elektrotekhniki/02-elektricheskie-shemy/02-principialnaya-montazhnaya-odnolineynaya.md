@@ -7,10 +7,6 @@ resources:
     url: "https://docs.cntd.ru/document/1200114878"
     kind: document
     required: false
-  - title: "Читаем однолинейную схему — видеообъяснение"
-    url: "https://example.com/video-odnolineynaya"
-    kind: video
-    required: false
   - title: "Шабад М.А. «Расчёты релейной защиты и автоматики распределительных сетей»"
     url: "https://example.com/shabad-releynaya"
     kind: document

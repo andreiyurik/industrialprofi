@@ -12,10 +12,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "Как работает УЗО: принцип дифференциального трансформатора"
-    url: "https://example.com/placeholder-video-uzo"
-    kind: video
-    required: false
 ---
 УЗО — единственная защита от поражения током при утечке на корпус: оно реагирует на ток в 500 раз меньше того, при котором сработает автомат.
 ---

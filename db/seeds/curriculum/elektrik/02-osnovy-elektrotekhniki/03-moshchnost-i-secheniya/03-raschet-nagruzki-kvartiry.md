@@ -9,10 +9,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "Онлайн-калькулятор выбора сечения кабеля по ПУЭ"
-    url: "https://example.com/kalkulator-secheniya"
-    kind: tool
-    required: false
 ---
 Рассчитать электрическую нагрузку двухкомнатной квартиры и подобрать кабели и автоматы по ПУЭ — это реальная задача из проектной практики.
 ---

@@ -13,10 +13,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Пути тока через тело человека: учебный анимированный ролик"
-    url: "https://example.com/placeholder-video-current-path"
-    kind: video
-    required: false
 ---
 Электрический ток убивает не напряжением, а силой тока через тело — понимание этого механизма объясняет, почему одни ситуации смертельны, а другие нет.
 ---

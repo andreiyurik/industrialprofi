@@ -12,10 +12,6 @@ resources:
     url: "https://example.com/placeholder-sibikin"
     kind: document
     required: false
-  - title: "Профессия электрик: обзор специальности и направлений работы"
-    url: "https://example.com/placeholder-video-elektrik-overview"
-    kind: video
-    required: false
 ---
 Электрик — это не тот, кто меняет розетки: профессия охватывает от жилых щитков до подстанций 110 кВ, и эта карта покажет, где ты сейчас и куда двигаться.
 ---

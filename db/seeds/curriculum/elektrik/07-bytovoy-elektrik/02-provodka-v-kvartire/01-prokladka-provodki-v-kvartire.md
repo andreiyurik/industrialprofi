@@ -13,10 +13,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Монтаж проводки в квартире с нуля: полный разбор"
-    url: "https://example.com/placeholder"
-    kind: video
-    required: false
 ---
 Пойми логику маршрутизации кабелей в квартире: правильно проложенная трасса — это ремонтопригодность через 20 лет и отсутствие сюрпризов при сверлении.
 ---

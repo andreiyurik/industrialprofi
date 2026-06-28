@@ -8,10 +8,6 @@ resources:
     kind: norm
     required: false
     country_code: RU
-  - title: "Сварка в вертикальном и потолочном положениях: техника — видео"
-    url: "https://example.com/placeholder-video-vertikalnoe-potolok"
-    kind: video
-    required: false
 ---
 Умение сваривать в любом положении — то, что разделяет 2-й и 4-й разряды: нижнее положение осваивается за дни, потолочное требует месяцев, но именно это умение открывает большинство серьёзных объектов.
 ---

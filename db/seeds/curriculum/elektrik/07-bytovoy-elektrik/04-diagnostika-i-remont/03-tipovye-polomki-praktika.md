@@ -9,10 +9,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Поиск неисправностей в домашней электрике: практический разбор"
-    url: "https://example.com/placeholder"
-    kind: video
-    required: false
 ---
 Прокачай навык систематической диагностики: пройди пять реальных сценариев поломок и научись находить причину, а не просто устранять симптом.
 ---

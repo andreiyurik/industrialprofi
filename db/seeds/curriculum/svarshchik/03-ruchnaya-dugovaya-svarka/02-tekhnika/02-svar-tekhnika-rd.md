@@ -7,10 +7,6 @@ resources:
     url: "https://example.com/placeholder-rybakov-tekhnika"
     kind: book
     required: true
-  - title: "Техника ведения шва: движения электродом — обучающее видео"
-    url: "https://example.com/placeholder-video-tekhnika-rd"
-    kind: video
-    required: false
 ---
 Техника РД — это не только «поджёг и повёл»: правильный угол, постоянная длина дуги и ритмичные движения дают ровный шов, а хаотичная рука — дефекты, которые нельзя исправить шлифовкой.
 ---

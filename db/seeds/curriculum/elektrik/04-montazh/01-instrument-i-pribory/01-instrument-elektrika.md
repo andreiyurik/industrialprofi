@@ -7,10 +7,6 @@ resources:
     url: "https://example.com/placeholder-gost-iec-60900-2022"
     kind: document
     required: true
-  - title: "Набор инструментов электрика-монтажника — обзор профессионального инструмента"
-    url: "https://example.com/placeholder-video-tool-set"
-    kind: video
-    required: false
 ---
 Профессиональный набор электрика: что класть в сумку, чем один инструмент лучше другого и что сломается без него.
 ---

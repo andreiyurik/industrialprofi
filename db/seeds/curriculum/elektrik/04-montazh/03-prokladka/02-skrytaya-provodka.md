@@ -12,10 +12,6 @@ resources:
     url: "https://example.com/placeholder-sp-256-2016"
     kind: document
     required: false
-  - title: "Штробление стен под электропроводку: инструмент, глубина, замоноличивание"
-    url: "https://example.com/placeholder-video-shtroba"
-    kind: video
-    required: false
 ---
 Скрытая проводка в квартире — только горизонтально и вертикально, только в гофре, с планом трасс до замоноличивания: разбираем нормы ПУЭ 7.1.37 и технологию.
 ---

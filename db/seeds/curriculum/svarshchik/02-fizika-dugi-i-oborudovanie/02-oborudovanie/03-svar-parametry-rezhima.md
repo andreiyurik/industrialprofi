@@ -7,10 +7,6 @@ resources:
     url: "https://example.com/placeholder-dumov-svarka-rezhim"
     kind: book
     required: true
-  - title: "Как влияет сварочный ток на шов: демонстрация на разных токах — видео"
-    url: "https://example.com/placeholder-video-svarochniy-tok"
-    kind: video
-    required: false
 ---
 Режим сварки — это числа на панели аппарата, которые либо дают ровный прочный шов, либо превращают металл в решето с непроварами: понимать их взаимодействие значит видеть результат ещё до поджига дуги.
 ---

@@ -13,10 +13,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Диагностика электрики мультиметром: практический разбор"
-    url: "https://example.com/placeholder"
-    kind: video
-    required: false
 ---
 Диагностировать электрические неисправности — это навык, а не удача: пойми алгоритм поиска и ты перестанешь менять всё подряд в надежде «найти».
 ---

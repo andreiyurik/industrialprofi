@@ -12,10 +12,6 @@ resources:
     url: "https://example.com/placeholder-gost-50571-701"
     kind: document
     required: true
-  - title: "Уравнивание потенциалов в ванной комнате: схема и монтаж"
-    url: "https://example.com/placeholder-video-uravnivanie"
-    kind: video
-    required: false
 ---
 Уравнивание потенциалов устраняет опасную разность напряжений между металлическими предметами в мокрых зонах — даже 12В в ванной могут убить.
 ---

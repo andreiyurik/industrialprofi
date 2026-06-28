@@ -12,10 +12,6 @@ resources:
     url: "https://example.com/placeholder-gost-14254"
     kind: document
     required: false
-  - title: "Зоны в ванной комнате по ПУЭ: наглядное объяснение"
-    url: "https://example.com/placeholder-video-zones"
-    kind: video
-    required: false
 ---
 Тип помещения определяет класс защиты оборудования: в ванной нельзя ставить то, что работает в офисе.
 ---

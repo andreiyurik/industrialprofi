@@ -12,10 +12,6 @@ resources:
     url: "https://example.com/placeholder-gost-50571-5-52"
     kind: document
     required: false
-  - title: "Способы соединения проводов: сравнительный разбор"
-    url: "https://example.com/placeholder-video-soedineniya"
-    kind: video
-    required: false
 ---
 ПУЭ 2.1.21 прямо запрещает скрутку — разбираем, какие методы разрешены, чем WAGO отличается от гильзы и когда что применять.
 ---

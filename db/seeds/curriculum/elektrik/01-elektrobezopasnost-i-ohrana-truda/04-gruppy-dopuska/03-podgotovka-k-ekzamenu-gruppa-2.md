@@ -9,9 +9,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "Онлайн-тренажёр для проверки знаний по электробезопасности (группы II–V)"
-    url: "https://example.com/placeholder-rostekhnadzor-testy"
-    kind: tool
 ---
 Пройти структурированную подготовку к экзамену на группу II: разобрать требования Приложения №1 к 903н, ответить на 15 типовых вопросов и выявить пробелы до реального экзамена.
 ---

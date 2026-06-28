@@ -8,10 +8,6 @@ resources:
     kind: norm
     required: true
     country_code: RU
-  - title: "МИГ/МАГ сварка — принцип работы полуавтомата и перенос металла (обзорное видео)"
-    url: "https://example.com/placeholder-video-mig-mag-princip"
-    kind: video
-    required: false
 ---
 МИГ/МАГ — самый распространённый процесс в цехах: принцип саморегулирования дуги превращает «нажал кнопку» в осознанное управление параметрами.
 ---

@@ -7,10 +7,6 @@ resources:
     url: "https://example.com/bessonov-toe"
     kind: document
     required: false
-  - title: "Что такое cos φ и реактивная мощность — видеообъяснение"
-    url: "https://example.com/video-cos-phi"
-    kind: video
-    required: false
 ---
 Треугольник мощностей P–Q–S и cos φ объясняют, почему мотор и нагреватель одинаковой мощности требуют разного сечения кабеля.
 ---

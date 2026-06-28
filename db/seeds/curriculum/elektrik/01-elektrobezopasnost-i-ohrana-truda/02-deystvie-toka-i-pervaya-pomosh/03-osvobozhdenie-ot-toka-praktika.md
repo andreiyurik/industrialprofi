@@ -9,10 +9,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "Техника сердечно-лёгочной реанимации — пошаговое видео (манекен)"
-    url: "https://example.com/placeholder-video-cpr-mannequin"
-    kind: video
-    required: false
 ---
 Отработать алгоритм первой помощи при поражении током на двух реальных сценариях — чтобы в аварийной ситуации руки действовали раньше, чем успевает испугаться голова.
 ---

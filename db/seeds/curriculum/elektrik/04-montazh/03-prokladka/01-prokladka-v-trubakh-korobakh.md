@@ -12,10 +12,6 @@ resources:
     url: "https://example.com/placeholder-sp-76-13330-2016"
     kind: document
     required: false
-  - title: "Монтаж кабельного лотка: технология, крепление, заземление"
-    url: "https://example.com/placeholder-video-lotok-montazh"
-    kind: video
-    required: false
 ---
 Какой способ прокладки выбрать и почему: стальная труба, ПВХ гофра, кабель-канал, лоток — нормы заполнения, радиусы изгиба, разделение цепей.
 ---

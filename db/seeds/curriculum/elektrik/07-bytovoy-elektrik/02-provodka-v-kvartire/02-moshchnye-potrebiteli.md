@@ -12,10 +12,6 @@ resources:
     url: "https://example.com/placeholder"
     kind: document
     required: false
-  - title: "Подключение варочной панели и духового шкафа: разбор всех схем"
-    url: "https://example.com/placeholder"
-    kind: video
-    required: false
 ---
 Четыре прибора, которые «съедают» половину нагрузки квартиры — знай, как подключить каждый правильно, чтобы не было пожара и отказа через год.
 ---

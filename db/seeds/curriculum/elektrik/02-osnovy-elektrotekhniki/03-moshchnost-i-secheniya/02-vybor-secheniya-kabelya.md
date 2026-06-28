@@ -12,10 +12,6 @@ resources:
     url: "https://docs.cntd.ru/document/1200084880"
     kind: document
     required: false
-  - title: "Онлайн-калькулятор выбора сечения кабеля по ПУЭ"
-    url: "https://example.com/kalkulator-secheniya"
-    kind: tool
-    required: false
 ---
 Выбор сечения кабеля и номинала автомата по ПУЭ — главный расчёт электрика: неправильный выбор ведёт к пожару или ложным отключениям.
 ---

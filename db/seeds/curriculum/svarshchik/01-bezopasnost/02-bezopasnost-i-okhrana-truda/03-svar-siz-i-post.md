@@ -13,10 +13,6 @@ resources:
     kind: norm
     required: false
     country_code: RU
-  - title: "Как выбрать сварочную маску: светофильтры и классы защиты — видео"
-    url: "https://example.com/placeholder-video-maska-svarshchika"
-    kind: video
-    required: false
 ---
 Правильно подобранные СИЗ и грамотно организованный пост — это не формальность для проверяющего, а то, что сохраняет зрение, лёгкие и жизнь десятки лет работы.
 ---

@@ -12,10 +12,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "Как выбрать кабель для проводки: обзор марок"
-    url: "https://example.com/placeholder-video-kabeli"
-    kind: video
-    required: false
 ---
 Маркировка кабеля — это зашифрованный паспорт: материал жилы, тип изоляции, оболочка и класс пожарной безопасности читаются прямо из аббревиатуры.
 ---

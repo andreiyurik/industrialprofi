@@ -12,10 +12,6 @@ resources:
     url: "https://example.com/placeholder-gost-mek-60228-2006"
     kind: document
     required: false
-  - title: "Разделка кабеля ВВГ: пошаговая видеоинструкция"
-    url: "https://example.com/placeholder-video-razdelka-vvg"
-    kind: video
-    required: false
 ---
 Разделка кабеля ВВГ и оконцевание жил наконечниками НШВИ: пошаговый порядок, выбор гильзы, цветовая маркировка по ПУЭ.
 ---

@@ -8,10 +8,6 @@ resources:
     kind: norm
     required: true
     country_code: RU
-  - title: "Сварка алюминия: почему он горит, почему пористый и как правильно — практический разбор"
-    url: "https://example.com/placeholder-article-alyuminiy-svarka"
-    kind: article
-    required: false
 ---
 Алюминий выглядит простым, но скрывает два предательства: оксидная плёнка тугоплавче самого металла, а водород растворяется в ванне и даёт поры — знание этих механизмов решает 80% проблем.
 ---

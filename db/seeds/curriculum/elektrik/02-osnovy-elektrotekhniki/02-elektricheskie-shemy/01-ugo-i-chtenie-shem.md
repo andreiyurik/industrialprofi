@@ -7,10 +7,6 @@ resources:
     url: "https://docs.cntd.ru/document/1200006513"
     kind: document
     required: true
-  - title: "Как читать электрические схемы — видеообъяснение"
-    url: "https://example.com/video-chtenie-shem"
-    kind: video
-    required: false
 ---
 УГО — азбука электрика: зная условные обозначения по ГОСТ 2.755-87, ты читаешь любую принципиальную схему как текст, а не угадываешь по интуиции.
 ---

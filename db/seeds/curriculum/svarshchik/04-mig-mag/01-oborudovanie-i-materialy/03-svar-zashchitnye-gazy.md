@@ -8,10 +8,6 @@ resources:
     kind: norm
     required: true
     country_code: RU
-  - title: "CO₂ против смеси Ar+CO₂ для полуавтомата: сравнение качества шва и стоимости"
-    url: "https://example.com/placeholder-article-gazy-mig-mag"
-    kind: article
-    required: false
 ---
 Защитный газ — половина качества шва МИГ/МАГ: CO₂ дёшев и режет глубоко, смесь Ar+CO₂ даёт меньше брызг и красивый шов, а выбор газа меняет всё поведение дуги.
 ---

@@ -13,10 +13,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Ввод электричества в частный дом: воздушная линия и подземный кабель"
-    url: "https://example.com/placeholder"
-    kind: article
-    required: false
 ---
 Электрика частного дома начинается ещё на столбе: пойми, как электричество доходит от опоры до твоего щита и где в этом пути твоя ответственность.
 ---

@@ -7,10 +7,6 @@ resources:
     url: "https://example.com/placeholder-book-mig-mag-tekhnologiya"
     kind: book
     required: false
-  - title: "Настройка полуавтомата: три режима переноса металла на живом аппарате (видео)"
-    url: "https://example.com/placeholder-video-mig-mag-nastroyka"
-    kind: video
-    required: false
 ---
 Три режима переноса металла (КЗ, капельный, струйный) определяют, где и как сваривать: неправильная настройка — главная причина брака на полуавтомате.
 ---

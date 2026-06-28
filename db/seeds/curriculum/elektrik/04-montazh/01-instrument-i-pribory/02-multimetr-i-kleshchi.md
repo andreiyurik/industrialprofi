@@ -7,14 +7,6 @@ resources:
     url: "https://example.com/placeholder-gost-51527-99"
     kind: document
     required: false
-  - title: "Как пользоваться мультиметром — базовый курс для электрика"
-    url: "https://example.com/placeholder-video-multimeter"
-    kind: video
-    required: true
-  - title: "Fluke 115 — де-факто стандарт мультиметра для электрика"
-    url: "https://example.com/placeholder-fluke-115"
-    kind: tool
-    required: false
 ---
 Два прибора, без которых электрик не выходит на объект: мультиметр и токовые клещи — режимы, безопасность, типичные ошибки.
 ---

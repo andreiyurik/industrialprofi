@@ -8,10 +8,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Схема проходного выключателя — разбор монтажа"
-    url: "https://example.com/placeholder-video-prokhodnoy"
-    kind: video
-    required: false
   - title: "ГОСТ Р 50462-2009 Маркировка проводников"
     url: "https://example.com/placeholder-gost-50462"
     kind: document
