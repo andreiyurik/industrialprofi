@@ -77,6 +77,11 @@
   }
 }
 
+/* Desktop default: account section hidden (popover button is used instead). */
+.header__menu-account {
+  display: none;
+}
+
 /* Mobile: collapse the nav behind a hamburger. Single flex row never wraps —
    logo left, [☰] (+ CTA / account button) right. */
 @media (max-width: 819px) {
@@ -158,6 +163,26 @@
   }
   .header__menu[open] .header__menu-panel .nav__link[aria-current="page"] {
     background-color: var(--color-selected);
+  }
+
+  /* Account section: show in hamburger on mobile; desktop uses the popover. */
+  .header__menu-account {
+    border-block-start: 1px solid var(--color-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    margin-block-start: 0.4rem;
+    padding-block-start: 0.4rem;
+  }
+
+  /* button_to wraps sign-out in a <form> — make it fill the row. */
+  .header__menu-account .button_to {
+    display: block;
+  }
+
+  /* Hide the desktop account-button on mobile — hamburger covers it. */
+  .account-menu-button {
+    display: none;
   }
 }
 

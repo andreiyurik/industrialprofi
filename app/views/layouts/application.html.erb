@@ -95,6 +95,39 @@
                 <%= link_to t("auth.sign_in"), new_session_path, class: "nav__link link-quiet",
                       aria: { current: ("page" if current_page?(new_session_path)) } %>
               <% end %>
+
+              <%# Mobile-only: account links duplicated here so they're reachable
+                  from the hamburger. On desktop the popover button covers this. %>
+              <% if signed_in? %>
+                <div class="header__menu-account">
+                  <%= link_to dashboard_path, class: "account-menu__link" do %>
+                    <%= heroicon "home", variant: :outline %>
+                    <%= t("nav.dashboard") %>
+                  <% end %>
+                  <%= link_to journal_entries_path, class: "account-menu__link" do %>
+                    <%= heroicon "pencil-square", variant: :outline %>
+                    <%= t("nav.journal") %>
+                  <% end %>
+                  <%= link_to account_path, class: "account-menu__link" do %>
+                    <%= heroicon "user-circle", variant: :outline %>
+                    <%= t("nav.account") %>
+                  <% end %>
+                  <%= link_to new_feedback_path, class: "account-menu__link" do %>
+                    <%= heroicon "chat-bubble-left-ellipsis", variant: :outline %>
+                    <%= t("nav.feedback") %>
+                  <% end %>
+                  <% if Current.user.can_edit_content? %>
+                    <%= link_to (Current.user.can_administer? ? admin_root_path : admin_lesson_suggestions_path), class: "account-menu__link" do %>
+                      <%= heroicon "cog-6-tooth", variant: :outline %>
+                      Admin
+                    <% end %>
+                  <% end %>
+                  <%= button_to session_path, method: :delete, class: "account-menu__link account-menu__signout" do %>
+                    <%= heroicon "arrow-right-on-rectangle", variant: :outline %>
+                    <%= t("auth.sign_out") %>
+                  <% end %>
+                </div>
+              <% end %>
             </div>
           </details>
 
