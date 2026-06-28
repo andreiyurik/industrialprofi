@@ -141,3 +141,30 @@ main.main--auth {
   text-decoration: underline;
   text-decoration-color: var(--color-subtle);
 }
+
+/* Three-dot step progress for the signup wizard. Sits between the brand mark
+   and the page title — quiet, centered, purely visual. Screen readers get the
+   aria-current + sr-only text. */
+.auth-steps {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.auth-step {
+  background-color: var(--color-subtle);
+  block-size: 0.45rem;
+  border-radius: 999px;
+  inline-size: 0.45rem;
+  transition: background-color 200ms ease, scale 200ms ease;
+}
+
+.auth-step--done {
+  background-color: var(--color-positive);
+}
+
+.auth-step--active {
+  background-color: var(--color-link);
+  inline-size: 1.4rem;
+}

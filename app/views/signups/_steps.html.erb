@@ -1,0 +1,10 @@
+<%# Three-dot step indicator for the signup wizard.
+    Accepts local: current_step (1, 2, or 3). %>
+<nav class="auth-steps" aria-label="<%= t("signup.steps_label") %>">
+  <% (1..3).each do |n| %>
+    <span class="auth-step <%= "auth-step--done" if n < current_step %> <%= "auth-step--active" if n == current_step %>"
+          aria-current="<%= "step" if n == current_step %>">
+      <span class="for-screen-reader"><%= t("signup.step_n", n: n, total: 3) %></span>
+    </span>
+  <% end %>
+</nav>

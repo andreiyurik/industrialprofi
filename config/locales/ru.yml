@@ -550,6 +550,8 @@ ru:
     welcome: "Добро пожаловать, %{name}! Выберите профессию и начните обучение."
 
   signup:
+    steps_label: "Шаги регистрации"
+    step_n: "Шаг %{n} из %{total}"
     email_hint: "Укажите email — пришлём код подтверждения. Бесплатно и навсегда."
     email_placeholder: "you@example.com"
     lets_go: "Получить код"

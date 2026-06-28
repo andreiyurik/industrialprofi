@@ -1,0 +1,5 @@
+title: "Проектирование сети АСУ ТП"
+slug: "setevoy-inzhener-proektirovanie"
+description: "Как спроектировать и настроить сеть промышленного объекта: модель Purdue и сегментация, промышленные коммутаторы, VLAN для OT, резервирование RSTP/MRP/PRP и QoS для реального времени. От чистого листа до работающей схемы."
+position: 4
+status: published
