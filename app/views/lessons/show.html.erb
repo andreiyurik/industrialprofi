@@ -1,4 +1,4 @@
-<% meta_title(@lesson.title) %>
+<% meta_title("#{@lesson.title} — #{@path.title}") %>
 <% meta_description(@lesson.description.to_s.truncate(160)) %>
 <% canonical_url("#{site_config.url}/lessons/#{@lesson.slug}") %>
 
