@@ -1,3 +1,4 @@
+---
 title: "Практика: первый шов ТИГ на нержавейке"
 kind: practice
 difficulty: intermediate
