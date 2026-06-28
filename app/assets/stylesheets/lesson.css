@@ -337,6 +337,12 @@
   font-weight: 600;
 }
 
+.lesson-resource__link--pending {
+  color: var(--color-subtle);
+  text-decoration: none;
+  font-style: italic;
+}
+
 /* Edit prompt + prev/next nav */
 .lesson-edit-prompt {
   color: var(--color-subtle-dark);

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_25_160000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_28_120000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -219,7 +219,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_25_160000) do
     t.boolean "required", default: false, null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
-    t.string "url", null: false
+    t.string "url"
     t.index ["lesson_id", "position"], name: "index_resources_on_lesson_id_and_position"
     t.index ["lesson_id"], name: "index_resources_on_lesson_id"
   end

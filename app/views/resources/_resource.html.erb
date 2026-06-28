@@ -1,7 +1,11 @@
 <li class="lesson-resource <%= resource.required? ? "lesson-resource--required" : "lesson-resource--optional" %>">
   <%= resource_kind_badge(resource) %>
   <%= resource_lang_badge(resource) %>
-  <a href="<%= resource.url %>" class="lesson-resource__link" target="_blank" rel="noopener">
-    <%= resource.title %>
-  </a>
+  <% if resource.url.present? %>
+    <a href="<%= resource.url %>" class="lesson-resource__link" target="_blank" rel="noopener">
+      <%= resource.title %>
+    </a>
+  <% else %>
+    <span class="lesson-resource__link lesson-resource__link--pending"><%= resource.title %></span>
+  <% end %>
 </li>

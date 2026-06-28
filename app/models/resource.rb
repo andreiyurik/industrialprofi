@@ -16,7 +16,7 @@ class Resource < ApplicationRecord
   before_validation { self.language = language.presence }
 
   validates :title, presence: true
-  validates :url, presence: true, format: { with: /\Ahttps?:\/\/[^\s]+\z/i }
+  validates :url, format: { with: /\Ahttps?:\/\/[^\s]+\z/i }, allow_blank: true
   validates :kind, inclusion: { in: KINDS + %w[document] }
   validates :language, inclusion: { in: LANGUAGES }, allow_nil: true
   # Provenance only (no digest). Edit-safety rides primarily on the PARENT lesson's

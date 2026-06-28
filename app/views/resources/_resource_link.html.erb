@@ -2,7 +2,11 @@
     `entry` is a ResourceLibrary::Entry (responds to kind/title like a Resource). %>
 <li class="lesson-resource <%= entry.required? ? "lesson-resource--required" : "lesson-resource--optional" %>">
   <%= resource_kind_badge(entry) %>
-  <a href="<%= entry.url %>" class="lesson-resource__link" target="_blank" rel="noopener"><%= entry.title %></a>
+  <% if entry.url.present? %>
+    <a href="<%= entry.url %>" class="lesson-resource__link" target="_blank" rel="noopener"><%= entry.title %></a>
+  <% else %>
+    <span class="lesson-resource__link lesson-resource__link--pending"><%= entry.title %></span>
+  <% end %>
   <% if entry.notable? %>
     <span class="library-count"><%= t("resources.used_in", count: entry.lesson_count) %></span>
   <% end %>
