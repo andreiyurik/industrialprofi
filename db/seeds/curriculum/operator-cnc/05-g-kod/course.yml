@@ -2,4 +2,4 @@ title: "G-код и программирование ЧПУ"
 slug: "cnc-g-kod"
 description: "Язык, которым ты разговариваешь со станком: системы координат, базовые команды, циклы, Fanuc vs Siemens."
 position: 5
-status: draft
+status: published
