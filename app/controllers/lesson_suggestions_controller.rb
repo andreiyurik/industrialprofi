@@ -22,6 +22,7 @@ class LessonSuggestionsController < ApplicationController
     end
 
     @suggestion = @lesson.lesson_suggestions.new(suggestion_params)
+    @suggestion.user = Current.user
     @suggestion.author_name = Current.user.name
     capture_base_content
 

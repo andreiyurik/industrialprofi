@@ -1,5 +1,8 @@
 class LessonSuggestion < ApplicationRecord
   belongs_to :lesson
+  # The account that made this suggestion — the identity a track record is
+  # computed over. Optional: legacy/anonymous edits keep only author_name.
+  belongs_to :user, optional: true
 
   has_rich_text :rich_body
 
@@ -8,7 +11,9 @@ class LessonSuggestion < ApplicationRecord
   validates :section, inclusion: { in: %w[body task description] }
   validates :status, inclusion: { in: %w[pending approved rejected] }
 
-  scope :pending, -> { where(status: "pending") }
+  scope :pending,  -> { where(status: "pending") }
+  scope :approved, -> { where(status: "approved") }
+  scope :rejected, -> { where(status: "rejected") }
 
   # The proposed content as HTML, regardless of whether it was submitted via the
   # rich-text editor or the markdown fallback.

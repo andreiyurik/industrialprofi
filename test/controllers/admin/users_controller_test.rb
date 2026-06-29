@@ -154,6 +154,28 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action=?]", admin_user_path(member)         # role form
   end
 
+  test "show surfaces the track record for a user with accepted edits" do
+    member = users(:member)
+    3.times do
+      member.lesson_suggestions.create!(lesson: lessons(:pteep), author_name: member.name,
+        body_markdown: "Правка", status: "approved")
+    end
+
+    sign_in_as users(:admin)
+    get admin_user_path(member)
+    assert_response :success
+    assert_match I18n.t("admin.user.track.title"), response.body
+    assert_match I18n.t("admin.user.track.standing.trusted"), response.body  # 3 accepted = trusted
+    assert_match paths(:electrician).title, response.body                     # per-profession row
+  end
+
+  test "show hides the track record when the user has never suggested" do
+    sign_in_as users(:admin)
+    get admin_user_path(users(:member))
+    assert_response :success
+    assert_no_match I18n.t("admin.user.track.title"), response.body
+  end
+
   test "show offers reinstate for a suspended user" do
     member = users(:member)
     member.suspend!

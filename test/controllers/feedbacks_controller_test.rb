@@ -31,4 +31,12 @@ class FeedbacksControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :unprocessable_entity
   end
+
+  test "the profession-idea entry tailors the form and seeds a distinguishing marker" do
+    sign_in_as users(:member)
+    get new_feedback_url(about: "profession")
+    assert_response :success
+    assert_match I18n.t("feedbacks.profession_title"), response.body
+    assert_match I18n.t("feedbacks.profession_prefill"), response.body
+  end
 end

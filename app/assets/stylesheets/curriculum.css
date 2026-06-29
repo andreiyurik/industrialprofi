@@ -85,18 +85,6 @@
   margin-block: 0;
 }
 
-/* Per-stage completion count ("3/5") for signed-in readers. */
-.curriculum__header-count {
-  color: var(--color-subtle-dark);
-  font-size: 0.85rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.curriculum__header-count--done {
-  color: var(--color-positive);
-  font-weight: 600;
-}
-
 /* Rows separated by spacing (no dividers); inset padding so the hover
    highlight floats inside the card, Odin-style. */
 .curriculum__list {

@@ -80,15 +80,48 @@
         <span class="admin-stat__label"><%= t("admin.dashboard.journal_entries") %></span>
       </div>
       <div class="panel admin-stat">
-        <span class="admin-stat__value"><%= @approved_contributions %></span>
+        <span class="admin-stat__value"><%= @track_record.accepted %></span>
         <span class="admin-stat__label"><%= t("admin.user.contributions") %></span>
-        <span class="admin-stat__detail"><%= t("admin.user.suggestions_total", count: @suggestions.size) %></span>
+        <span class="admin-stat__detail"><%= t("admin.user.suggestions_total", count: @track_record.submitted) %></span>
       </div>
       <div class="panel admin-stat">
         <span class="admin-stat__value"><%= @feedback_total %></span>
         <span class="admin-stat__label"><%= t("admin.user.feedback_sent") %></span>
       </div>
     </div>
+
+    <%# ── Track record (derived trust — informs review, never auto-acts) ── %>
+    <% if @track_record.submitted.positive? %>
+      <% standing_badge = { newcomer: "badge--planned", trusted: "badge--marker", expert: "badge--done" }[@track_record.standing] %>
+      <div class="admin-group">
+        <div class="admin-group__head">
+          <h2 class="admin-group__title"><%= t("admin.user.track.title") %></h2>
+          <span class="admin-group__meta">
+            <span class="badge <%= standing_badge %>"><%= t("admin.user.track.standing.#{@track_record.standing}") %></span>
+          </span>
+        </div>
+        <div class="admin-list">
+          <div class="admin-row admin-row--static">
+            <span class="admin-row__title">
+              <%= t("admin.user.track.accepted_of_decided", accepted: @track_record.accepted, decided: @track_record.decided) %>
+            </span>
+            <span class="admin-row__meta">
+              <% if (rate = @track_record.acceptance_rate) %>
+                <%= t("admin.user.track.acceptance_rate", percent: number_to_percentage(rate * 100, precision: 0)) %>
+              <% else %>
+                <%= t("admin.user.track.no_decisions") %>
+              <% end %>
+            </span>
+          </div>
+          <% @track_record.accepted_by_profession.each do |path, count| %>
+            <a href="<%= admin_lessons_path(path: path.slug) %>" class="admin-row">
+              <span class="admin-row__title"><%= path.title %></span>
+              <span class="admin-row__meta"><%= t("admin.user.track.accepted_count", count: count) %></span>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
 
     <%# ── Progress by profession ── %>
     <% if @started_paths.any? %>

@@ -29,6 +29,15 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match %r{href="/paths/future-prof"}, response.body, "stubs are not links"
   end
 
+  test "index invites a profession idea alongside the upcoming stubs" do
+    Path.create!(title: "Скоро профессия", slug: "soon-prof",
+                 description: "В работе", locale: "ru", position: 22, status: "coming_soon")
+
+    get paths_path
+    assert_match I18n.t("paths.idea_card_title"), response.body
+    assert_select "a[href=?]", new_feedback_path(about: "profession", from: paths_path)
+  end
+
   test "index shows only paths in the current locale" do
     Path.create!(title: "English Electrician", slug: "english-electrician",
                  description: "US market path", locale: "en", position: 9, status: "published")

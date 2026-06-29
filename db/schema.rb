@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_28_194444) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_29_120000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -159,8 +159,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_194444) do
     t.string "section", default: "body", null: false
     t.string "status", default: "pending", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
     t.index ["lesson_id"], name: "index_lesson_suggestions_on_lesson_id"
     t.index ["status"], name: "index_lesson_suggestions_on_status"
+    t.index ["user_id"], name: "index_lesson_suggestions_on_user_id"
   end
 
   create_table "lessons", force: :cascade do |t|
@@ -267,6 +269,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_194444) do
   add_foreign_key "lesson_revisions", "lesson_suggestions"
   add_foreign_key "lesson_revisions", "lessons"
   add_foreign_key "lesson_suggestions", "lessons"
+  add_foreign_key "lesson_suggestions", "users"
   add_foreign_key "lessons", "courses"
   add_foreign_key "lessons", "paths"
   add_foreign_key "resources", "lessons"

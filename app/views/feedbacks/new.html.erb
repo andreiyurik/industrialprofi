@@ -1,12 +1,12 @@
-<% meta_title(t("feedbacks.title")) %>
+<% meta_title(@title || t("feedbacks.title")) %>
 <% @layout_class = "main--centered" %>
 
 <section class="section">
   <div class="container">
     <div class="feedback">
       <header class="feedback__head">
-        <h1 class="feedback__title"><%= t("feedbacks.title") %></h1>
-        <p class="feedback__intro"><%= t("feedbacks.intro") %></p>
+        <h1 class="feedback__title"><%= @title || t("feedbacks.title") %></h1>
+        <p class="feedback__intro"><%= @intro || t("feedbacks.intro") %></p>
       </header>
 
       <%= render "admin/shared/form_errors", object: @feedback %>

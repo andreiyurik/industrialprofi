@@ -11,6 +11,10 @@ class User < ApplicationRecord
   # Per-profession edit grants (see Editorship). Admins edit all and need none.
   has_many :editorships, dependent: :destroy
   has_many :editable_paths, through: :editorships, source: :path
+  # Edits this person proposed — the raw material of their track record. Nullify
+  # on delete keeps the suggestion and its denormalized author_name, so the
+  # immutable revision trail stays intact (history kept, like suspension).
+  has_many :lesson_suggestions, dependent: :nullify
 
   # The trust ladder: member → editor («Эксперт» — reviews suggestions, edits
   # content) → administrator (everything, incl. users and roles).

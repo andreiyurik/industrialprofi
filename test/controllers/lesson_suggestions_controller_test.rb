@@ -32,7 +32,7 @@ class LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     post lesson_suggestions_path(lessons(:pteep)), params: {
       lesson_suggestion: { section: "body", body_markdown: "Improved content here" }
     }
-    assert_equal users(:member).name, LessonSuggestion.order(:created_at).last.author_name
+    assert_equal users(:member).name, LessonSuggestion.order(:created_at, :id).last.author_name
   end
 
   test "signed-out visitors cannot create" do
@@ -53,7 +53,7 @@ class LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
         edit_reason: "Поправил опечатку"
       }
     }
-    suggestion = LessonSuggestion.order(:created_at).last
+    suggestion = LessonSuggestion.order(:created_at, :id).last
     assert_equal "Поправил опечатку", suggestion.edit_reason
     assert_includes suggestion.base_content, "Содержание урока по ПТЭЭП"
   end

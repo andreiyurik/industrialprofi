@@ -17,11 +17,6 @@
       <% if stage.present? %>
         <div class="curriculum__header">
           <h2 class="curriculum__header-title"><%= stage %></h2>
-          <% if signed_in? %>
-            <span class="curriculum__header-count<%= " curriculum__header-count--done" if stage_completed == lessons.size %>">
-              <%= stage_completed %>/<%= lessons.size %>
-            </span>
-          <% end %>
         </div>
       <% end %>
 

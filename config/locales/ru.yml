@@ -690,6 +690,8 @@ ru:
     group_upcoming: "Скоро"
     curator_card_title: "Стать соавтором"
     curator_card_meta: "Вести карту своей профессии"
+    idea_card_title: "Не хватает профессии?"
+    idea_card_meta: "Предложите — соберём востребованное"
     coming_soon: "В разработке"
     planned: "В планах"
     overview: "Обзор"
@@ -1101,6 +1103,9 @@ ru:
   feedbacks:
     title: "Написать мне"
     intro: "Это прямая линия с автором проекта. Идеи, ошибки, вопросы, впечатления — пишите как есть, без формальностей."
+    profession_title: "Предложить профессию"
+    profession_intro: "Какой профессии не хватает в каталоге? Назовите её и почему она востребована — самые частые запросы я беру в работу следующими."
+    profession_prefill: "Предлагаю профессию: "
     body_label: "Сообщение"
     body_placeholder: "Что улучшить? Что не работает? Чего не хватает?"
     send: "Отправить"
@@ -1255,6 +1260,20 @@ ru:
       completed: "Пройден урок «%{title}»"
       journal: "Запись в журнале: «%{title}»"
       journal_untitled: "без заголовка"
+      track:
+        title: "Track record"
+        accepted_of_decided: "Принято %{accepted} из %{decided} рассмотренных"
+        acceptance_rate: "доля принятых — %{percent}"
+        no_decisions: "правки ещё на рассмотрении"
+        accepted_count:
+          one: "%{count} принятая правка"
+          few: "%{count} принятые правки"
+          many: "%{count} принятых правок"
+          other: "%{count} принятых правок"
+        standing:
+          newcomer: "Новичок"
+          trusted: "Проверенный"
+          expert: "Эксперт"
     log:
       title: "Журнал действий"
       subtitle: "Кто что сделал с пользователями и правками. Записи добавляются навсегда и не редактируются."

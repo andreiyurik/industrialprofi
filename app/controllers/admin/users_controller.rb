@@ -38,10 +38,9 @@ module Admin
       @completions = @user.lesson_completions.includes(lesson: :path).order(created_at: :desc).limit(8)
       @recent_journal = @user.journal_entries.includes(:lesson).ordered.limit(5)
       @user_sessions = @user.sessions.order(Arel.sql("COALESCE(last_active_at, created_at) DESC"))
-      # Contributions link by author name (same key as Lesson#contributor_names),
-      # since suggestions can be submitted without an account.
-      @suggestions = LessonSuggestion.where(author_name: @user.name).includes(:lesson).order(created_at: :desc)
-      @approved_contributions = @suggestions.count { |s| s.status == "approved" }
+      # The trust this person has earned — derived live from their suggestions,
+      # now keyed to the account (user_id), not a display-name match.
+      @track_record = TrackRecord.for(@user)
     end
 
     def update
