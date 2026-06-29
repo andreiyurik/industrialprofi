@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_28_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_28_194444) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -193,6 +193,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_120000) do
     t.datetime "created_at", null: false
     t.text "description"
     t.string "imported_digest"
+    t.string "kind", default: "role", null: false
     t.integer "lessons_count", default: 0, null: false
     t.string "locale", default: "ru", null: false
     t.string "origin", default: "human", null: false

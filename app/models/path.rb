@@ -10,9 +10,13 @@ class Path < ApplicationRecord
   # built ("В разработке"); planned = stub merely planned ("В планах").
   STATUSES = %w[draft pending_review published coming_soon planned].freeze
 
+  # role = full career path from scratch ("Электрик", "Инженер АСУ ТП");
+  # skill = specific tool/technology for working professionals ("Siemens TIA Portal", "SCADA").
+  KINDS = %w[role skill].freeze
+
   # Fields the YAML/AI importer manages (and digests for edit-safety). The slug
   # is the stable key, not content.
-  IMPORTABLE_FIELDS = %w[title description position status].freeze
+  IMPORTABLE_FIELDS = %w[title description position status kind].freeze
 
   has_many :courses, -> { order(:position) }, dependent: :destroy
   # NO dependent: :destroy here on purpose — Course owns the lesson destroy chain
@@ -29,6 +33,7 @@ class Path < ApplicationRecord
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: SLUG_FORMAT }
   validates :status, inclusion: { in: STATUSES }
+  validates :kind, inclusion: { in: KINDS }
   validates :position, numericality: { greater_than_or_equal_to: 0 }
   validates :locale, presence: true, format: { with: /\A[a-z]{2}\z/ }
 

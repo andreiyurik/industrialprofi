@@ -218,7 +218,7 @@ rich-текст        rich_body / rich_*          ← пишет ЧЕЛОВЕК
 2. **Написать уроки** в формат сидов (`db/seeds/curriculum/<slug>/`), `status: draft`:
    ```
    <slug>/
-     path.yml                  # title, description, position, status: draft
+     path.yml                  # title, description, position, status: draft, kind: role|skill
      01-<раздел>/
        section.yml             # title → станет stage урока
        <урок>.md               # frontmatter → ЗАЧЕМ → тело → ## Задание

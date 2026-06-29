@@ -2,3 +2,4 @@ title: "Программирование ПЛК Allen-Bradley"
 description: "Rockwell Automation Studio 5000 / Logix Designer: конфигурация ControlLogix и CompactLogix, языки Ladder/FBD/ST, EtherNet/IP, FactoryTalk View — для работы на международных и автомобильных производствах."
 position: 13
 status: planned
+kind: skill

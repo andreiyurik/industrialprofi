@@ -2,3 +2,4 @@ title: "Программирование ПЛК на CODESYS"
 description: "Вендор-нейтральная среда программирования по IEC 61131-3: все пять языков (LD, FBD, ST, IL, SFC), виртуальный ПЛК, работа с оборудованием ОВЕН, Wago, Beckhoff, Phoenix Contact."
 position: 14
 status: planned
+kind: skill
