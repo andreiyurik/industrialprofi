@@ -21,4 +21,12 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
     patch account_url, params: { user: { reminder_emails: "1" } }
     assert @user.reload.reminder_emails?
   end
+
+  test "opts in as a public curator with a headline" do
+    patch account_url, params: { user: { public_curator: "1", headline: "Инженер АСУ ТП, 10 лет" } }
+    assert_redirected_to account_url
+    @user.reload
+    assert @user.public_curator?
+    assert_equal "Инженер АСУ ТП, 10 лет", @user.headline
+  end
 end

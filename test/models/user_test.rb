@@ -89,6 +89,16 @@ class UserTest < ActiveSupport::TestCase
     assert_empty user.activity_by_day(since: 1.week.ago.to_date)
   end
 
+  test "activity_by_day buckets late-evening work into the local day, not the UTC day" do
+    user = users(:member)
+    # 00:30 MSK = 21:30 the previous day in UTC — the boundary that dropped "today".
+    travel_to Time.zone.local(2026, 6, 30, 0, 30) do
+      user.lesson_completions.create!(lesson: lessons(:pteep))
+      activity = user.activity_by_day(since: 1.week.ago.to_date)
+      assert_equal 1, activity[Date.new(2026, 6, 30)]
+    end
+  end
+
   test "needs_learning_reminder? only after a week of silence" do
     user = users(:member)
     assert_not user.needs_learning_reminder?, "no activity at all — nothing to continue"

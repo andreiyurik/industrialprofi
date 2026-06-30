@@ -31,5 +31,7 @@ class PathsController < ApplicationController
     @completed_ids = signed_in? ? Current.user.completed_lesson_ids_for(@path) : Set.new
     @continue_lesson = signed_in? ? Current.user.next_lesson_in(@path) : @path.lessons.ordered.first
     @has_library = ResourceLibrary.for(path: @path).any?
+    # Editors who opted in to be shown as public curators of this profession.
+    @curators = @path.curators.to_a
   end
 end

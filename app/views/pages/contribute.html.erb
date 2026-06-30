@@ -44,15 +44,9 @@
               <p class="contribute-way__kicker"><%= t("contribute.ways.expert.who") %></p>
               <h3 class="contribute-way__title"><%= t("contribute.ways.expert.title") %></h3>
               <p class="contribute-way__text"><%= t("contribute.ways.expert.what") %></p>
-              <% if signed_in? %>
-                <a href="<%= new_feedback_path %>" class="contribute-way__link">
-                  <%= t("contribute.ways.expert.cta") %><span class="contribute-way__arrow" aria-hidden="true">→</span>
-                </a>
-              <% else %>
-                <a href="<%= site_config.telegram_url %>" class="contribute-way__link" target="_blank" rel="noopener">
-                  <%= t("contribute.ways.expert.cta") %><span class="contribute-way__arrow" aria-hidden="true">→</span>
-                </a>
-              <% end %>
+              <a href="<%= new_coauthor_application_path %>" class="contribute-way__link">
+                <%= t("contribute.ways.expert.cta") %><span class="contribute-way__arrow" aria-hidden="true">→</span>
+              </a>
             </div>
           </li>
 

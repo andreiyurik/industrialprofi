@@ -30,6 +30,10 @@ class User < ApplicationRecord
   # "learning goal"). Blank saves as nil so presence checks stay simple.
   normalizes :learning_goal, with: ->(goal) { goal.strip.presence }
 
+  # A curator's short public credentials line ("Инженер АСУ ТП, 10 лет, НАКС"),
+  # shown next to their name on professions they maintain when they opt in.
+  normalizes :headline, with: ->(line) { line.strip.presence }
+
   # Single-use by construction: the token embeds part of the password salt,
   # so changing the password invalidates every outstanding reset link.
   generates_token_for :password_reset, expires_in: 1.hour do
@@ -45,6 +49,7 @@ class User < ApplicationRecord
             format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: 8 }, allow_nil: true
   validates :learning_goal, length: { maximum: 200 }
+  validates :headline, length: { maximum: 120 }
 
   def can_administer? = administrator?
 
@@ -125,11 +130,16 @@ class User < ApplicationRecord
   end
 
   # Activity per calendar day (lesson completions + journal entries) — feeds
-  # the dashboard heatmap. Counts real work, not logins.
+  # the dashboard heatmap. Counts real work, not logins. Grouped by LOCAL date:
+  # SQLite's DATE() works on the UTC-stored timestamp, so grouping in SQL would
+  # bucket late-evening activity into the previous day (the heatmap lost "today"
+  # between 00:00–03:00 MSK). We pluck and group in the app zone instead — a
+  # learner's rows in the window are few, so this stays cheap.
   def activity_by_day(since:)
-    [ lesson_completions, journal_entries ].map { |scope|
-      scope.where(created_at: since.to_date.beginning_of_day..).group("DATE(created_at)").count
-    }.reduce { |a, b| a.merge(b) { |_, x, y| x + y } }
-     .transform_keys { |day| Date.parse(day.to_s) }
+    cutoff = since.to_date.beginning_of_day
+    [ lesson_completions, journal_entries ].flat_map { |scope|
+      scope.where(created_at: cutoff..).pluck(:created_at)
+    }.group_by { |timestamp| timestamp.in_time_zone.to_date }
+     .transform_values(&:size)
   end
 end

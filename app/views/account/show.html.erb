@@ -51,6 +51,31 @@
         <% end %>
       </div>
 
+      <%# Куратор — только для тех, кто ведёт профессии (редакторы/админы) %>
+      <% if Current.user.can_edit_content? %>
+        <div class="panel account-settings__card">
+          <%= form_with url: account_path, method: :patch do |f| %>
+            <div class="account-settings__field">
+              <span class="account-settings__label"><%= t("account.curator_section") %></span>
+              <label class="account-settings__checkbox">
+                <%= hidden_field_tag "user[public_curator]", "0", id: nil %>
+                <%= check_box_tag "user[public_curator]", "1", Current.user.public_curator? %>
+                <%= t("account.public_curator_label") %>
+              </label>
+              <p class="account-settings__hint"><%= t("account.public_curator_hint") %></p>
+            </div>
+            <div class="account-settings__field">
+              <%= f.label :headline, t("account.headline_label"), class: "account-settings__label" %>
+              <%= f.text_field :headline, value: Current.user.headline, name: "user[headline]",
+                    maxlength: 120, placeholder: t("account.headline_placeholder"), class: "input" %>
+            </div>
+            <div class="account-settings__actions">
+              <%= f.submit t("account.save"), class: "btn btn--reversed btn--small" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
       <%# Пароль %>
       <div class="panel account-settings__card">
         <% if @password_errors.any? %>

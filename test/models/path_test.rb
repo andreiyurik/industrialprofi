@@ -123,4 +123,19 @@ class PathTest < ActiveSupport::TestCase
   test "to_param returns slug" do
     assert_equal "elektrik", paths(:electrician).to_param
   end
+
+  # Curators (opt-in public recognition)
+
+  test "curators are only editors who opted in" do
+    assert_empty paths(:electrician).curators, "off by default"
+
+    users(:editor).update!(public_curator: true)
+    assert_includes paths(:electrician).reload.curators, users(:editor)
+  end
+
+  test "an opted-in editor is not a curator of professions they don't maintain" do
+    users(:editor).update!(public_curator: true)
+    # editor maintains electrician, not welder (see editorships fixture)
+    assert_not_includes paths(:welder).curators, users(:editor)
+  end
 end

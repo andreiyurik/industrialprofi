@@ -14,10 +14,9 @@ class ResourceTest < ActiveSupport::TestCase
     assert resource.errors[:title].any?
   end
 
-  test "invalid without url" do
+  test "url is optional (a resource may be a title-only reference)" do
     resource = Resource.new(lesson: lessons(:pteep), title: "Документ")
-    assert_not resource.valid?
-    assert resource.errors[:url].any?
+    assert resource.valid?
   end
 
   test "invalid with non-http url" do

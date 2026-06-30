@@ -38,6 +38,20 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", new_feedback_path(about: "profession", from: paths_path)
   end
 
+  test "show credits an opted-in curator with their headline" do
+    users(:editor).update!(public_curator: true, headline: "Инженер-электрик, 12 лет")
+    get path_path(paths(:electrician))
+    assert_response :success
+    assert_match I18n.t("paths.curated_by"), response.body
+    assert_match "Инженер-электрик, 12 лет", response.body
+  end
+
+  test "show hides the curator credit when nobody opted in" do
+    get path_path(paths(:electrician))
+    assert_response :success
+    assert_no_match I18n.t("paths.curated_by"), response.body
+  end
+
   test "index shows only paths in the current locale" do
     Path.create!(title: "English Electrician", slug: "english-electrician",
                  description: "US market path", locale: "en", position: 9, status: "published")

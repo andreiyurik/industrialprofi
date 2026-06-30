@@ -24,6 +24,23 @@
       <p class="path__overview-text"><%= @path.description %></p>
     </div>
 
+    <% if @curators.any? %>
+      <div class="path__curators">
+        <span class="path__curators-label"><%= t("paths.curated_by") %></span>
+        <% @curators.each do |curator| %>
+          <span class="path__curator">
+            <%= avatar_tag(curator.name) %>
+            <span class="path__curator-text">
+              <span class="path__curator-name"><%= curator.name %></span>
+              <% if curator.headline.present? %>
+                <span class="path__curator-headline"><%= curator.headline %></span>
+              <% end %>
+            </span>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+
     <div class="path__start">
       <% if signed_in? && @completed_ids.any? %>
         <%= render "shared/progress_bar", completed: @completed_ids.size, total: @path.lessons_count %>

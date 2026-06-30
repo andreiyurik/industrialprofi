@@ -29,6 +29,9 @@ class Path < ApplicationRecord
   # Editors granted direct edit access to this profession (see Editorship).
   has_many :editorships, dependent: :destroy
   has_many :editors, through: :editorships, source: :user
+  # Editors who opted in to be shown publicly as curators of this profession
+  # (opt-in recognition; see User#public_curator).
+  has_many :curators, -> { where(public_curator: true) }, through: :editorships, source: :user
 
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: SLUG_FORMAT }

@@ -1,0 +1,43 @@
+<% meta_title(t("coauthor_applications.title")) %>
+<% @layout_class = "main--centered" %>
+
+<section class="section">
+  <div class="container">
+    <div class="feedback">
+      <header class="feedback__head">
+        <h1 class="feedback__title"><%= t("coauthor_applications.title") %></h1>
+        <p class="feedback__intro"><%= t("coauthor_applications.intro") %></p>
+      </header>
+
+      <%= form_with url: coauthor_application_path, scope: :coauthor_application, method: :post, class: "feedback__form" do |f| %>
+        <div class="feedback__field">
+          <%= f.label :profession, t("coauthor_applications.fields.profession"), class: "feedback__label" %>
+          <%= f.text_field :profession, value: @application[:profession], required: true, maxlength: 120, autofocus: true,
+                placeholder: t("coauthor_applications.placeholders.profession"), class: "input" %>
+        </div>
+
+        <div class="feedback__field">
+          <%= f.label :background, t("coauthor_applications.fields.background"), class: "feedback__label" %>
+          <%= f.text_area :background, value: @application[:background], rows: 5, required: true, maxlength: 2000,
+                placeholder: t("coauthor_applications.placeholders.background"), class: "input input--textarea" %>
+        </div>
+
+        <div class="feedback__field">
+          <%= f.label :motivation, t("coauthor_applications.fields.motivation"), class: "feedback__label" %>
+          <%= f.text_area :motivation, value: @application[:motivation], rows: 3, required: true, maxlength: 1000,
+                placeholder: t("coauthor_applications.placeholders.motivation"), class: "input input--textarea" %>
+        </div>
+
+        <%= f.submit t("coauthor_applications.send"), class: "btn btn--reversed btn--large" %>
+      <% end %>
+
+      <% if site_config.telegram_url.present? %>
+        <p class="feedback__promise">
+          <%= link_to t("coauthor_applications.telegram"), site_config.telegram_url, target: "_blank", rel: "noopener" %>
+        </p>
+      <% end %>
+
+      <p class="feedback__promise"><%= t("coauthor_applications.promise") %></p>
+    </div>
+  </div>
+</section>

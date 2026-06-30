@@ -52,6 +52,10 @@ Rails.application.routes.draw do
   resources :calculators, only: [ :index, :show ], param: :slug
   resources :journal_entries, path: "journal", except: [ :show ]
   resources :feedbacks, only: [ :new, :create ]
+  # Expert-entry gate (loop #1): a structured "become a co-author" application.
+  # Stored as a tagged Feedback for now — no separate model until volume warrants
+  # tracking application status.
+  resource :coauthor_application, only: [ :new, :create ]
 
   resources :paths, only: [ :index, :show ], param: :slug
   resources :courses, only: [ :show ], param: :slug
