@@ -1,0 +1,50 @@
+/* /business — the pitch page for training centers/employers + the inquiry
+   form (the B2B demand sensor). Form fields reuse the .feedback__* classes. */
+.business__eyebrow {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  margin-block-end: 0.5rem;
+  text-transform: uppercase;
+}
+
+.business__title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  margin-block: 0 1rem;
+  text-transform: uppercase;
+}
+
+.business__intro {
+  color: var(--color-subtle-dark);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-block-end: 2rem;
+}
+
+.business-points {
+  display: grid;
+  gap: var(--block-space-half);
+  list-style: none;
+  margin-block: 0 2rem;
+  padding: 0;
+}
+
+.business-points__item h2 {
+  font-size: 1rem;
+  margin-block: 0 0.35rem;
+}
+
+.business-points__item p {
+  color: var(--color-subtle-dark);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.business__ask {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-block-end: 1.5rem;
+}

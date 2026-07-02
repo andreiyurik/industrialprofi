@@ -441,6 +441,18 @@ git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
   is the future-co-author surface where the wide vision is voiced.
 - **Partners (`/partners`):** adaptive sponsors page (invitation while empty),
   curated constant, independence firewall.
+- **Milestone dialog:** finishing a course/profession opens a celebration
+  `<dialog>` (stats + «Поделиться в Telegram») via the completion Turbo Stream —
+  the one honest share moment; a section keeps the quiet flash pill.
+- **B2B demand sensor (`/business`):** public pitch page for training
+  centers/employers + inquiry form → tagged guest `Feedback` (user optional,
+  contact folded into body). A sensor, not a product — build B2B features only
+  from real inquiries.
+- **Analytics:** Yandex Metrika, rendered only when `YANDEX_METRIKA_ID` is set
+  (`shared/_metrika`). Idle-loaded: the ym() stub queues events, tag.js is
+  fetched on requestIdleCallback (3 s cap) so it never competes with rendering;
+  hits fire per `turbo:load`. Disclosed in `/privacy` — keep that page truthful
+  if the provider ever changes. GA rejected (152-ФЗ + no Google Ads in RU).
 
 ## Recorded decisions — don't re-propose
 

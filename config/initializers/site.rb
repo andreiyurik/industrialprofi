@@ -39,3 +39,8 @@ site.og_image = ENV["OG_IMAGE_URL"]
 # IndexNow key (Yandex + Bing instant indexing). A random string you generate
 # once; it is served at /<key>.txt to prove ownership. Blank → pinging is off.
 site.indexnow_key = ENV["INDEXNOW_KEY"]
+
+# Yandex Metrika counter id (digits only). Blank → no analytics script is
+# rendered at all. Disclosed in the privacy policy — keep that page truthful
+# if you ever swap the provider.
+site.metrika_id = ENV["YANDEX_METRIKA_ID"]

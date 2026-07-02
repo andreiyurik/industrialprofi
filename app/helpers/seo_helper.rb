@@ -1,6 +1,14 @@
 module SeoHelper
   SITE_NAME = "IndustrialProfi"
 
+  # og:locale wants a territory ("ru_RU"); fall back to the bare code for
+  # locales we haven't mapped yet.
+  OG_LOCALES = { ru: "ru_RU", en: "en_US", kk: "kk_KZ" }.freeze
+
+  def og_locale
+    OG_LOCALES.fetch(I18n.locale, I18n.locale.to_s)
+  end
+
   def learning_resource_json_ld(lesson)
     data = {
       "@context": "https://schema.org",
@@ -8,7 +16,7 @@ module SeoHelper
       name: lesson.title,
       description: lesson.description.to_s.truncate(160),
       provider: { "@type": "Organization", name: SITE_NAME },
-      inLanguage: "ru",
+      inLanguage: I18n.locale.to_s,
       isPartOf: { "@type": "Course", name: lesson.course.title },
       url: "#{site_url}/lessons/#{lesson.slug}"
     }
@@ -24,7 +32,7 @@ module SeoHelper
       description: path.description.to_s.truncate(160),
       provider: { "@type": "Organization", name: SITE_NAME },
       numberOfLessons: path.lessons_count,
-      inLanguage: "ru",
+      inLanguage: I18n.locale.to_s,
       isAccessibleForFree: true,
       url: "#{site_url}/paths/#{path.slug}"
     }
@@ -40,7 +48,7 @@ module SeoHelper
       description: course.description.to_s.truncate(160),
       provider: { "@type": "Organization", name: SITE_NAME },
       numberOfLessons: course.lessons_count,
-      inLanguage: "ru",
+      inLanguage: I18n.locale.to_s,
       isAccessibleForFree: true,
       url: "#{site_url}/courses/#{course.slug}"
     }

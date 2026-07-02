@@ -1,4 +1,6 @@
-<p><strong><%= t("feedback_mailer.new_message.from") %>:</strong> <%= @user.name %> (<%= @user.email_address %>)</p>
+<% if @user %>
+  <p><strong><%= t("feedback_mailer.new_message.from") %>:</strong> <%= @user.name %> (<%= @user.email_address %>)</p>
+<% end %>
 <% if @feedback.page_url.present? %>
   <p><strong><%= t("feedback_mailer.new_message.page") %>:</strong> <%= link_to @feedback.page_url, @feedback.page_url %></p>
 <% end %>

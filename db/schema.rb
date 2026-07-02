@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_29_140000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_02_120000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -95,7 +95,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_29_140000) do
     t.string "page_url"
     t.datetime "read_at"
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.integer "user_id"
     t.index ["user_id"], name: "index_feedbacks_on_user_id"
   end
 
