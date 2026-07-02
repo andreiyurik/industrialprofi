@@ -1,0 +1,60 @@
+<% meta_title(t("business_inquiries.title")) %>
+<% meta_description(t("business_inquiries.meta_description")) %>
+<% canonical_url("#{site_config.url}/business") %>
+
+<section class="section">
+  <div class="container container--reading">
+    <div class="business">
+      <p class="business__eyebrow"><%= t("business_inquiries.eyebrow") %></p>
+      <h1 class="business__title"><%= t("business_inquiries.title") %></h1>
+      <p class="business__intro"><%= t("business_inquiries.intro") %></p>
+
+      <ul class="business-points">
+        <% %w[curriculum standards progress].each do |key| %>
+          <li class="business-points__item panel">
+            <h2><%= t("business_inquiries.points.#{key}.title") %></h2>
+            <p><%= t("business_inquiries.points.#{key}.body") %></p>
+          </li>
+        <% end %>
+      </ul>
+
+      <p class="business__ask"><%= t("business_inquiries.ask") %></p>
+
+      <%= form_with url: business_path, scope: :business_inquiry, method: :post, class: "feedback__form" do |f| %>
+        <div class="feedback__field">
+          <%= f.label :organization, t("business_inquiries.fields.organization"), class: "feedback__label" %>
+          <%= f.text_field :organization, value: @inquiry[:organization], required: true, maxlength: 200,
+                placeholder: t("business_inquiries.placeholders.organization"), class: "input" %>
+        </div>
+
+        <div class="feedback__field">
+          <%= f.label :contact, t("business_inquiries.fields.contact"), class: "feedback__label" %>
+          <%= f.text_field :contact, value: @inquiry[:contact], required: true, maxlength: 200,
+                placeholder: t("business_inquiries.placeholders.contact"), class: "input" %>
+        </div>
+
+        <div class="feedback__field">
+          <%= f.label :message, t("business_inquiries.fields.message"), class: "feedback__label" %>
+          <%= f.text_area :message, value: @inquiry[:message], rows: 5, required: true, maxlength: 3000,
+                placeholder: t("business_inquiries.placeholders.message"), class: "input input--textarea" %>
+        </div>
+
+        <%# Honeypot: invisible to people, irresistible to bots. %>
+        <div class="honeypot" aria-hidden="true">
+          <label for="business_company"><%= t("suggestions.honeypot_label") %></label>
+          <%= text_field_tag :company, nil, id: "business_company", tabindex: -1, autocomplete: "off" %>
+        </div>
+
+        <%= f.submit t("business_inquiries.send"), class: "btn btn--reversed btn--large" %>
+      <% end %>
+
+      <% if site_config.telegram_url.present? %>
+        <p class="feedback__promise">
+          <%= link_to t("business_inquiries.telegram"), site_config.telegram_url, target: "_blank", rel: "noopener" %>
+        </p>
+      <% end %>
+
+      <p class="feedback__promise"><%= t("business_inquiries.promise") %></p>
+    </div>
+  </div>
+</section>

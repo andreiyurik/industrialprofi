@@ -56,6 +56,10 @@ Rails.application.routes.draw do
   # Stored as a tagged Feedback for now — no separate model until volume warrants
   # tracking application status.
   resource :coauthor_application, only: [ :new, :create ]
+  # B2B demand sensor: the pitch page for training centers/employers + their
+  # inquiry form (also a tagged Feedback). GET shows the page, POST sends.
+  get "business" => "business_inquiries#new", as: :business
+  post "business" => "business_inquiries#create"
 
   resources :paths, only: [ :index, :show ], param: :slug
   resources :courses, only: [ :show ], param: :slug

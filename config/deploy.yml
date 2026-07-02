@@ -62,6 +62,11 @@ env:
     # serves the proof file at /<key>.txt. Blank = pinging off.
     # INDEXNOW_KEY: "..."
 
+    # Yandex Metrika counter id (digits, public by design). Create a counter at
+    # metrika.yandex.ru, paste the id, redeploy. Blank = no analytics script at
+    # all. Already disclosed in /privacy.
+    # YANDEX_METRIKA_ID: "..."
+
     # Direct-transfer requisites shown on /support_us (no platform fee). Blank →
     # the "Перевести напрямую" block is hidden. ⚠️ These numbers are PUBLIC on the
     # page, but if you uncomment them HERE they also land in git — fine for a

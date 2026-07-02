@@ -59,6 +59,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
+  <url>
+    <loc><%= site_config.url %>/business</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
   <% @paths.each do |path| %>
   <url>
     <loc><%= site_config.url %>/paths/<%= path.slug %></loc>

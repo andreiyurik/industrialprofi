@@ -6,6 +6,7 @@ class LessonCompletionsController < ApplicationController
     # Done means no longer "saved for later".
     Current.user.lesson_bookmarks.destroy_by(lesson: @lesson)
     load_progress
+    @milestone = milestone_reached
     @celebration = celebration_message
     respond
   end
@@ -33,15 +34,24 @@ class LessonCompletionsController < ApplicationController
 
     # The milestone moment: finishing the last lesson of a section, course, or
     # the whole profession deserves a louder cheer than a silent checkmark.
-    # Ordered most-significant first.
-    def celebration_message
+    # Ordered most-significant first. A section gets a flash pill; a course or
+    # the whole profession gets the milestone dialog with a share button.
+    def milestone_reached
       path_completed_ids = Current.user.completed_lesson_ids_for(@path)
       if @path.lessons.all? { |lesson| path_completed_ids.include?(lesson.id) }
-        t(".path_completed", title: @path.title)
+        :path
       elsif @course.lessons.all? { |lesson| @completed_ids.include?(lesson.id) }
-        t(".course_completed", title: @course.title)
+        :course
       elsif @lesson.stage.present? && @lessons_by_stage[@lesson.stage].all? { |lesson| @completed_ids.include?(lesson.id) }
-        t(".stage_completed", stage: @lesson.stage)
+        :stage
+      end
+    end
+
+    def celebration_message
+      case @milestone
+      when :path then t(".path_completed", title: @path.title)
+      when :course then t(".course_completed", title: @course.title)
+      when :stage then t(".stage_completed", stage: @lesson.stage)
       end
     end
 

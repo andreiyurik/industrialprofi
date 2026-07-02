@@ -38,6 +38,28 @@ class LessonCompletionsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "completing the last lesson of a course renders the milestone dialog with a share link" do
+    sign_in_as users(:member)
+    users(:member).lesson_completions.create!(lesson: lessons(:pteep))
+
+    post lesson_completion_path(lessons(:gruppy_dopuska)), as: :turbo_stream
+    assert_response :success
+    assert_match I18n.t("lesson_completions.milestone.eyebrow.course"), response.body
+    assert_match "t.me/share/url", response.body
+  end
+
+  test "completing the last lesson of the profession renders the path milestone" do
+    sign_in_as users(:member)
+    %i[pteep gruppy_dopuska zazemlenie].each do |name|
+      users(:member).lesson_completions.create!(lesson: lessons(name))
+    end
+
+    post lesson_completion_path(lessons(:praktika_shchitok)), as: :turbo_stream
+    assert_response :success
+    assert_match I18n.t("lesson_completions.milestone.eyebrow.path"), response.body
+    assert_match "t.me/share/url", response.body
+  end
+
   test "destroy removes the completion" do
     sign_in_as users(:member)
     users(:member).lesson_completions.create!(lesson: @lesson)

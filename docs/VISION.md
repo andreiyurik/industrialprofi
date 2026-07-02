@@ -217,6 +217,35 @@ One lesson, one skill, different documents per country. User selects country →
 
 On MVP: `country_code` field exists on Resource but all values are nil (everything is universal/Russian). When users from Kazakhstan appear — add KZ resources. Zero code changes.
 
+### Language expansion — the recorded plan (founder decision, July 2026)
+
+The long-term ladder is **Russian → English → Spanish** (→ Brazilian Portuguese
+only if Spanish succeeds — Spanish does not cover Brazil). Three big languages,
+no small ones: Kazakhstan is served by Russian + KZ resources via
+`country_code`, not a Kazakh version. Spanish is deliberately strong for
+trades: it covers Latin America **and** the Spanish-speaking half of the US
+construction workforce. China is excluded (closed ecosystem).
+
+Ground rules, agreed and not to be re-litigated:
+
+- **A language version is a new product, not a translation.** Own paths (this
+  is why `Path.locale` exists), own normative base (NEC/OSHA ≠ ПУЭ; and even
+  English splits: US NEC ≠ UK BS 7671), own experts, own competitors. The unit
+  of a market is a *country with its norms*, served by `Resource.country_code`
+  inside one language content spine — never by duplicating lessons per country.
+- **Trigger for the English version** (Wikipedia model — versions are founded
+  by natives, not translated by the founder): the Russian version shows real
+  retention plus first B2B revenue, **and** a native-speaker expert co-author
+  appears (or there is budget to hire editors). Until then: zero hours; the
+  only standing obligation is keeping new code i18n-clean.
+- **Languages beyond the three are community-founded**, like new professions —
+  the founder builds the first versions and the machine that lets a fourth be
+  born without him.
+- **Decided at build time, not now:** subdomain (`es.`) vs path prefix
+  (`/es/`) — a young domain consolidates SEO authority better with path
+  prefixes; payments split into Stripe (global; requires a non-RU legal
+  entity) + ЮKassa (RU/CIS) behind one provider seam.
+
 ### Official vs Community Content
 
 Two types of roadmaps with clear visual distinction:
@@ -345,7 +374,7 @@ not the founder:
 3. **Official standards first.** Link to real documents, not summaries. Workers need what's required on the job site.
 4. **Practice daily.** The platform encourages consistent, daily practice — not binge learning.
 5. **No JS where HTML works.** Hotwire for interactivity, Stimulus only when server can't solve it.
-6. **Russian-first, international-ready.** UI in Russian, i18n from day one, English later.
+6. **Russian-first, international-ready.** UI in Russian, i18n from day one; the language ladder is RU → EN → ES (see "Language expansion" above).
 7. **One person can run it.** SQLite, single server, Kamal deploy. No DevOps team needed.
 
 ## Feedback & Support

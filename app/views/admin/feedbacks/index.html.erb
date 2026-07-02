@@ -22,7 +22,7 @@
           <li class="inbox__item">
             <details class="inbox__entry">
               <summary class="inbox__summary">
-                <span class="inbox__from"><%= feedback.user.name %></span>
+                <span class="inbox__from"><%= feedback.user&.name || t("admin.feedback_guest") %></span>
                 <span class="inbox__snippet"><%= truncate(feedback.body.to_s.squish, length: 100) %></span>
                 <time class="inbox__date" datetime="<%= feedback.created_at.iso8601 %>">
                   <%= l(feedback.created_at, format: :short) %>
@@ -31,17 +31,22 @@
 
               <div class="inbox__detail">
                 <p class="inbox__meta">
-                  <%= mail_to feedback.user.email_address, feedback.user.email_address, class: "link-quiet" %>
-                  · <%= l(feedback.created_at, format: :long) %>
+                  <% if feedback.user %>
+                    <%= mail_to feedback.user.email_address, feedback.user.email_address, class: "link-quiet" %>
+                    ·
+                  <% end %>
+                  <%= l(feedback.created_at, format: :long) %>
                   <% if feedback.page_url.present? %>
                     · <%= link_to t("admin.feedback_from_page"), feedback.page_url, class: "link-quiet" %>
                   <% end %>
                 </p>
                 <div class="inbox__body"><%= simple_format(feedback.body) %></div>
-                <a href="mailto:<%= feedback.user.email_address %>?subject=<%= u t('admin.feedback_reply_subject') %>"
-                   class="btn btn--small btn--reversed">
-                  <%= t("admin.feedback_reply") %>
-                </a>
+                <% if feedback.user %>
+                  <a href="mailto:<%= feedback.user.email_address %>?subject=<%= u t('admin.feedback_reply_subject') %>"
+                     class="btn btn--small btn--reversed">
+                    <%= t("admin.feedback_reply") %>
+                  </a>
+                <% end %>
               </div>
             </details>
           </li>

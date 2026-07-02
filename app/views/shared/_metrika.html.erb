@@ -1,0 +1,27 @@
+<%# Yandex Metrika, idle-loaded: the ym() stub queues events immediately, but
+    tag.js itself is fetched only in the browser's first idle moment (or after
+    3 s), so the tracker never competes with page rendering. `defer: true`
+    suppresses the automatic first-page hit; instead every `turbo:load`
+    (including the initial load) reports one hit, so Turbo Drive navigation is
+    counted exactly once per page view. Queued hits flush when tag.js arrives;
+    the only loss is visits shorter than the idle delay. %>
+<script>
+  window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
+  window.ym.l = 1 * new Date();
+
+  ym(<%= site_config.metrika_id.to_i %>, "init", { defer: true, clickmap: true, trackLinks: true, accurateTrackBounce: true });
+  document.addEventListener("turbo:load", function () { ym(<%= site_config.metrika_id.to_i %>, "hit", location.href); });
+
+  function loadMetrika() {
+    var script = document.createElement("script");
+    script.async = true;
+    script.src = "https://mc.yandex.ru/metrika/tag.js";
+    document.head.appendChild(script);
+  }
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(loadMetrika, { timeout: 3000 });
+  } else {
+    setTimeout(loadMetrika, 3000);
+  }
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/<%= site_config.metrika_id.to_i %>" style="position:absolute; left:-9999px" alt=""></div></noscript>

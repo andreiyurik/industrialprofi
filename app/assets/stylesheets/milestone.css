@@ -1,0 +1,90 @@
+/* The milestone dialog: a finished course/profession earns a real celebration
+   (stats + share button) instead of a three-second flash pill. */
+.milestone {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75em;
+  color: var(--color-ink);
+  inline-size: min(28rem, calc(100vw - 2rem));
+  line-height: 1.6;
+  margin: auto;
+  padding: 2.5rem 2rem 2rem;
+  position: relative;
+  text-align: center;
+
+  &::backdrop {
+    backdrop-filter: blur(2px);
+    background-color: oklch(var(--lch-always-black) / 0.65);
+  }
+}
+
+.milestone__close {
+  background: none;
+  border: 0;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  inset-block-start: 1rem;
+  inset-inline-end: 1rem;
+  padding: 0.25rem;
+  position: absolute;
+
+  svg {
+    block-size: 1.25rem;
+    inline-size: 1.25rem;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+.milestone__emblem {
+  align-items: center;
+  border: 2px solid var(--color-positive);
+  border-radius: 50%;
+  block-size: 3.5rem;
+  color: var(--color-positive);
+  display: inline-flex;
+  inline-size: 3.5rem;
+  justify-content: center;
+  margin-block-end: 1rem;
+
+  svg {
+    block-size: 1.75rem;
+    inline-size: 1.75rem;
+  }
+}
+
+.milestone__eyebrow {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  margin-block: 0 0.25rem;
+  text-transform: uppercase;
+}
+
+.milestone__title {
+  font-size: 1.35rem;
+  margin-block: 0 0.5rem;
+}
+
+.milestone__stats {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  margin-block: 0 1rem;
+}
+
+.milestone__note {
+  color: var(--color-subtle-dark);
+  font-size: 0.95rem;
+  margin-block: 0 1.5rem;
+}
+
+.milestone__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
