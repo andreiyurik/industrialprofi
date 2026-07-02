@@ -56,6 +56,12 @@ class Path < ApplicationRecord
   # the catalog only ever lists the current locale's maps.
   scope :localized, ->(locale = I18n.locale) { where(locale: locale) }
 
+  # path_id => published-course count, for the catalog cards' meta line
+  # (the courses_count counter cache also counts coming-soon stubs).
+  def self.published_course_counts
+    Course.where(status: "published").group(:path_id).count
+  end
+
   def coming_soon?
     status == "coming_soon"
   end

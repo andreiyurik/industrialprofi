@@ -29,13 +29,16 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match %r{href="/paths/future-prof"}, response.body, "stubs are not links"
   end
 
-  test "index invites a profession idea alongside the upcoming stubs" do
-    Path.create!(title: "Скоро профессия", slug: "soon-prof",
-                 description: "В работе", locale: "ru", position: 22, status: "coming_soon")
-
+  test "index invites a profession idea and a co-author" do
     get paths_path
-    assert_match I18n.t("paths.idea_card_title"), response.body
+    assert_match I18n.t("paths.soon_idea"), response.body
     assert_select "a[href=?]", new_feedback_path(about: "profession", from: paths_path)
+    assert_select "a[href=?]", contribute_path
+  end
+
+  test "index shows the catalog scale line" do
+    get paths_path
+    assert_match I18n.t("paths.stats_free"), response.body
   end
 
   test "show credits an opted-in curator with their headline" do
