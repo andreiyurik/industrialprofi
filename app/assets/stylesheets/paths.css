@@ -29,11 +29,76 @@
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  margin-block-start: var(--block-space-double);
 }
 
-/* The "in planах" group reads as quieter than the available one. */
-.catalog-grid--muted {
-  opacity: 0.85;
+/* Catalog scale line under the hero — the honest numbers, engineering-style. */
+.catalog-stats {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  margin-block: 0.75rem 0;
+}
+
+/* The unbuilt professions: a quiet line-list under the live grid. Readiness is
+   a monochrome dot — filled (being built) or hollow (planned) — never a card. */
+.catalog-soon {
+  margin-block-start: var(--block-space-double);
+}
+
+.catalog-soon__list {
+  color: var(--color-subtle-dark);
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.5rem;
+  row-gap: 0.6rem;
+  font-size: 0.9rem;
+  justify-content: center;
+  margin-block: 0;
+}
+
+.catalog-soon__item {
+  align-items: center;
+  color: var(--color-disabled);
+  display: inline-flex;
+  gap: 0.5em;
+
+  &::before {
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    block-size: 0.45em;
+    content: "";
+    inline-size: 0.45em;
+  }
+}
+
+.catalog-soon__item--active {
+  color: var(--color-subtle-dark);
+
+  &::before {
+    background-color: currentColor;
+  }
+}
+
+.catalog-soon__actions {
+  color: var(--color-subtle-dark);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  justify-content: center;
+  margin-block: 1.25rem 0;
+}
+
+.catalog-soon__cta {
+  color: var(--color-link);
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 /* Card grid — multi-col layout for path/profession cards (dashboard "other paths") */
@@ -53,9 +118,10 @@
   }
 }
 
-/* Profession card (catalog) — compact: icon + title + arrow head row, then a
-   single meta line (or a progress bar). Description lives on the profession page,
-   not here, so the grid stays dense and the card has no hollow middle. */
+/* Profession card (catalog) — the emblem card: the profession's line icon in a
+   bordered plate (like the marking on a control cabinet), the name, one meta
+   line, and a progress bar for a signed-in learner. Description lives on the
+   profession page, not here. */
 .path-card {
   --panel-padding: 1.5em;
   display: flex;
@@ -63,42 +129,39 @@
   gap: 0.9rem;
 }
 
-.path-card__head {
-  align-items: flex-start;
-  display: flex;
-  gap: 0.85rem;
-}
-
 .path-card__icon {
   align-items: center;
   background-color: var(--color-bg);
-  block-size: 2.5rem;
+  block-size: 2.75rem;
   border: 1px solid var(--color-subtle);
   border-radius: 0.6em;
-  color: var(--color-marker);
+  color: var(--color-ink);
   display: inline-flex;
   flex-shrink: 0;
-  inline-size: 2.5rem;
+  inline-size: 2.75rem;
   justify-content: center;
   transition: border-color 200ms ease;
 
-  svg {
-    block-size: 1.3rem;
-    inline-size: 1.3rem;
+  .topic-badge > :is(svg, img) {
+    block-size: 1.5rem;
+    inline-size: 1.5rem;
   }
 }
 
-/* The name is the hero now (no topic icon competing) — bigger, display weight. */
 .path-card__title {
   font-size: 1.3rem;
+  /* a profession name hyphenated mid-word («Сетевой ин-женер») reads cheap */
+  hyphens: none;
   letter-spacing: -0.01em;
   line-height: 1.2;
   margin-block: 0;
 }
 
-/* The status line (meta / progress / badge). Pinned to the card's bottom so every
-   card in a row is the same height (grid stretch) and footers align. */
+/* The status line (meta + progress). Pinned to the card's bottom so every card
+   in a row is the same height (grid stretch) and footers align. */
 .path-card__foot {
+  display: grid;
+  gap: 0.6rem;
   margin-block-start: auto;
   padding-block-start: 0.75rem;
 }
@@ -106,22 +169,7 @@
 .path-card__meta {
   color: var(--color-subtle-dark);
   font-size: 0.8rem;
-}
-
-/* Sits at the far right of the head row — a quiet, consistent "enter" affordance
-   (the audience leans non-technical, so an explicit cue beats pure minimalism). */
-.path-card__arrow {
-  color: var(--color-subtle-dark);
-  display: inline-flex;
-  flex-shrink: 0;
-  margin-block-start: 0.25rem; /* optical-centre on the title's first line */
-  margin-inline-start: auto;
-  transition: color 200ms ease, transform 200ms ease;
-
-  svg {
-    block-size: 1rem;
-    inline-size: 1rem;
-  }
+  font-variant-numeric: tabular-nums;
 }
 
 .path-card .progress {
@@ -129,42 +177,9 @@
 }
 
 @media (any-hover: hover) {
-  .path-card:not(.path-card--soon):hover .path-card__icon {
+  .path-card:hover .path-card__icon {
     border-color: var(--color-subtle-dark);
   }
-
-  .path-card:not(.path-card--soon):hover .path-card__arrow {
-    color: var(--color-ink);
-    transform: translateX(0.25rem);
-  }
-}
-
-/* Coming-soon / planned profession — non-interactive. Muted via TEXT colour, not
-   blanket opacity, so the card's border stays as legible as the available ones;
-   the status badge (В разработке / В планах) carries the readiness signal. */
-.path-card--soon .path-card__title,
-.path-card--soon .path-card__icon {
-  color: var(--color-disabled);
-}
-
-/* The planned badge whispers — a ghost pill, not a filled bright chip. */
-.path-card--soon .badge--planned {
-  background-color: transparent;
-  border: 1px solid var(--color-subtle);
-  color: var(--color-disabled);
-  font-weight: 400;
-}
-
-/* Co-author invite tile — a dashed first-class member of the catalog grid that
-   says "this is community-built, you can lead a map" right on the main page. */
-.path-card--curator {
-  background-color: transparent;
-  border-style: dashed;
-}
-
-.path-card--curator .path-card__icon {
-  background-color: transparent;
-  border-style: dashed;
 }
 
 /* Subtitle under a centered section heading (catalog page intro) */

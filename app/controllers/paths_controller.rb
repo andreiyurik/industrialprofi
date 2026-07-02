@@ -7,6 +7,7 @@ class PathsController < ApplicationController
     return redirect_to dashboard_path if signed_in? && request.path == root_path
 
     @paths = Path.listable.localized.ordered
+    @course_counts = Path.published_course_counts
     @completed_counts = signed_in? ? Current.user.lesson_completions.joins(:lesson).group("lessons.path_id").count : {}
 
     # A learner browsing the catalog mid-path gets a way back to their
