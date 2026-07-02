@@ -9,6 +9,7 @@
     <div class="txt-align-center">
       <h1 class="section-title"><%= t("projects.title") %></h1>
       <p class="section-subtitle"><%= t("projects.subtitle") %></p>
+      <p class="projects__stats"><%= t("projects.tasks", count: @total_tasks) %> · <%= t("projects.paths_count", count: @paths.size) %></p>
     </div>
 
     <nav class="project-filters" aria-label="<%= t("projects.filters_label") %>">
@@ -34,10 +35,12 @@
         <%= link_to t("projects.any_difficulty"), projects_path(path: @selected_path&.slug, saved: saved_param),
                     class: "filter-chip", "aria-current": @selected_difficulty.nil? || nil %>
         <% Lesson::DIFFICULTIES.each do |difficulty| %>
-          <%= link_to t("lessons.difficulty.#{difficulty}"),
-                      projects_path(path: @selected_path&.slug, difficulty: difficulty, saved: saved_param),
-                      class: "filter-chip filter-chip--#{difficulty}",
-                      "aria-current": (@selected_difficulty == difficulty) || nil %>
+          <%= link_to projects_path(path: @selected_path&.slug, difficulty: difficulty, saved: saved_param),
+                      class: "filter-chip",
+                      "aria-current": (@selected_difficulty == difficulty) || nil do %>
+            <%= render "shared/difficulty_scale", difficulty: difficulty, sr_label: false %>
+            <%= t("lessons.difficulty.#{difficulty}") %>
+          <% end %>
         <% end %>
       </div>
       <% if signed_in? %>
@@ -50,15 +53,24 @@
           <% end %>
         </div>
       <% end %>
-      <p class="project-filters__count"><%= t("projects.found", count: @lessons.size) %></p>
+      <p class="project-filters__count"><%= t("projects.found", count: @found_count) %></p>
     </nav>
 
-    <% if @lessons.any? %>
-      <div class="project-grid">
-        <% @lessons.each do |lesson| %>
-          <%= render "project_card", lesson: lesson,
-                done: @completed_ids.include?(lesson.id),
-                bookmarked: @bookmarked_ids.include?(lesson.id) %>
+    <% if @lessons_by_path.any? %>
+      <div class="project-groups">
+        <% @lessons_by_path.each do |path, lessons| %>
+          <section class="project-group">
+            <h2 class="project-group__heading">
+              <%= link_to path.title, path_path(path), class: "project-group__link" %>
+            </h2>
+            <ul class="project-tiles">
+              <% lessons.each do |lesson| %>
+                <%= render "project_tile", lesson: lesson,
+                      done: @completed_ids.include?(lesson.id),
+                      bookmarked: @bookmarked_ids.include?(lesson.id) %>
+              <% end %>
+            </ul>
+          </section>
         <% end %>
       </div>
     <% elsif @saved_only && @selected_path.nil? && @selected_difficulty.nil? %>
