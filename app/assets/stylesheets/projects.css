@@ -1,7 +1,14 @@
-/* /projects — the practice catalog: a filter bar + a roadmap.sh-style grid of
-   square-ish project cards. The profession axis is a native <select> (scales to
+/* /projects — the practice catalog as a typographic document: one section per
+   profession, quiet list rows, a monochrome difficulty ladder instead of the
+   old traffic-light pills. The profession axis is a native <select> (scales to
    any number of paths, real picker on mobile); difficulty + "saved" stay as
    chips. Server-rendered GET, the select auto-submits. */
+
+.projects__stats {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  margin-block: 0.75rem 0;
+}
 
 .project-filters {
   align-items: center;
@@ -61,10 +68,13 @@
 }
 
 .filter-chip {
+  align-items: center;
   border: 1px solid var(--color-subtle);
   border-radius: 2em;
   color: var(--color-subtle-dark);
+  display: inline-flex;
   font-size: 0.85rem;
+  gap: 0.45em;
   padding: 0.35em 1em;
   text-decoration: none;
   transition: border-color 150ms ease, color 150ms ease, background-color 150ms ease;
@@ -87,15 +97,9 @@
 }
 
 /* The «Сохранённые» chip carries a bookmark glyph. */
-.filter-chip--saved {
-  align-items: center;
-  display: inline-flex;
-  gap: 0.4em;
-
-  svg {
-    block-size: 1em;
-    inline-size: 1em;
-  }
+.filter-chip--saved svg {
+  block-size: 1em;
+  inline-size: 1em;
 }
 
 .project-filters__count {
@@ -106,93 +110,134 @@
   text-align: center;
 }
 
-/* ── The grid ──────────────────────────────────────────────────────── */
-.project-grid {
-  display: grid;
-  gap: 1.25rem;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-  margin-block-start: 2rem;
+/* ── The difficulty ladder ─────────────────────────────────────────── */
+/* Three steps, one filled per level; filled steps take currentColor, so the
+   glyph follows its context (row ink, chip text, inverted selected chip). */
+.difficulty-scale {
+  align-items: flex-end;
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 2px;
+
+  i {
+    background-color: var(--color-subtle);
+    block-size: 0.35em;
+    border-radius: 1px;
+    display: inline-block;
+    inline-size: 0.3em;
+  }
+
+  i:nth-child(2) {
+    block-size: 0.6em;
+  }
+
+  i:nth-child(3) {
+    block-size: 0.85em;
+  }
 }
 
-/* The card is one big <a>; the bookmark button is its SIBLING (a button can't
+.difficulty-scale--beginner i:nth-child(1),
+.difficulty-scale--intermediate i:nth-child(-n + 2),
+.difficulty-scale--advanced i {
+  background-color: currentColor;
+}
+
+/* ── The document: one section per profession ──────────────────────── */
+.project-groups {
+  display: grid;
+  gap: 2.75rem;
+  margin-block-start: 2.5rem;
+}
+
+.project-group__heading {
+  border-block-end: 1px solid var(--color-subtle);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  margin-block: 0;
+  padding-block-end: 0.6rem;
+  text-transform: uppercase;
+}
+
+.project-group__link {
+  color: var(--color-ink);
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-link);
+    }
+  }
+}
+
+/* Compact tiles: ladder + title, no description — the WHY lives on the lesson
+   page; the catalog stays a scannable board, not an article. */
+.project-tiles {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+/* The tile is one big <a>; the bookmark button is its SIBLING (a button can't
    live inside a link), absolutely positioned over the top-right corner. */
-.project-card-wrap {
-  display: flex; /* the inner card stretches to the grid row height */
+.project-tile-wrap {
+  display: flex; /* the inner tile stretches to the grid row height */
   position: relative;
 }
 
-.project-card-wrap .bookmark-toggle {
-  inset-block-start: 1.1em;
-  inset-inline-end: 1.25em;
-  position: absolute;
-}
-
-/* Card corner: icon only — the label would fight the difficulty badge. */
-.project-card-wrap .bookmark-btn__label {
-  display: none;
-}
-
-.project-card-wrap .bookmark-btn svg {
-  block-size: 1.2rem;
-  inline-size: 1.2rem;
-}
-
-.project-card {
+.project-tile {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  gap: 0.75rem;
+  padding: 1.1em 1.2em;
 }
 
-.project-card__top {
+.project-tile__top {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  margin-block-end: 0.9rem;
   /* keep the done check clear of the corner bookmark */
-  padding-inline-end: 1.9rem;
+  padding-inline-end: 1.6rem;
 }
 
-.project-card__done {
+.project-tile .difficulty-scale {
+  color: var(--color-ink);
+}
+
+.project-tile__title {
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.project-tile__done {
   color: var(--color-positive);
   display: inline-flex;
 
   svg {
-    block-size: 1.3rem;
-    inline-size: 1.3rem;
+    block-size: 1.1rem;
+    inline-size: 1.1rem;
   }
 }
 
-.project-card__title {
-  font-size: 1.05em;
+.project-tile-wrap .bookmark-toggle {
+  inset-block-start: 0.9em;
+  inset-inline-end: 1em;
+  position: absolute;
 }
 
-/* Keep cards near-square: clamp the WHY sentence to three lines. */
-.project-card__description {
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-  flex-grow: 1;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
+/* Tile corner: icon only — the label would collide with the title. */
+.project-tile-wrap .bookmark-btn__label {
+  display: none;
 }
 
-.project-card__footer {
-  align-items: center;
-  border-block-start: 1px solid var(--color-subtle);
-  display: flex;
-  justify-content: space-between;
-  margin-block-start: 1.25rem;
-  padding-block-start: 0.9rem;
-}
-
-.project-card__path {
-  align-items: center;
-  color: var(--color-subtle-dark);
-  display: inline-flex;
-  font-size: 0.8rem;
-  gap: 0.45em;
-
-  svg {
-    block-size: 1rem;
-    inline-size: 1rem;
-  }
+.project-tile-wrap .bookmark-btn svg {
+  block-size: 1.1rem;
+  inline-size: 1.1rem;
 }
