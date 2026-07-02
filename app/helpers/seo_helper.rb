@@ -16,10 +16,21 @@ module SeoHelper
       name: lesson.title,
       description: lesson.description.to_s.truncate(160),
       provider: { "@type": "Organization", name: SITE_NAME },
+      author: { "@type": "Organization", name: SITE_NAME },
       inLanguage: I18n.locale.to_s,
       isPartOf: { "@type": "Course", name: lesson.course.title },
+      datePublished: lesson.created_at.iso8601,
+      dateModified: lesson.updated_at.iso8601,
       url: "#{site_url}/lessons/#{lesson.slug}"
     }
+    # E-E-A-T: the profession's opted-in curators vouch for the material.
+    # Emitted only when a real person actually stands behind the map.
+    curators = lesson.path.curators.to_a
+    if curators.any?
+      data[:reviewedBy] = curators.map do |curator|
+        { "@type": "Person", name: curator.name, jobTitle: curator.headline.presence }.compact
+      end
+    end
     data.to_json
   end
 

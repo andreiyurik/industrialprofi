@@ -12,6 +12,21 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "a lesson of a curated profession carries the quiet byline and reviewedBy JSON-LD" do
+    users(:editor).update!(public_curator: true, headline: "Инженер-электрик, 12 лет")
+
+    get lesson_path(lessons(:pteep))
+    assert_select ".lesson-attribution", text: /Инженер-электрик, 12 лет/
+    assert_match "reviewedBy", response.body
+    assert_match "dateModified", response.body
+  end
+
+  test "a lesson without curators or contributors renders no byline" do
+    get lesson_path(lessons(:pteep))
+    assert_select ".lesson-attribution", false
+    assert_no_match(/reviewedBy/, response.body)
+  end
+
   # ── Conditional GET (crawl efficiency / server load) ──
 
   test "an anonymous re-request of an unchanged lesson gets a 304" do

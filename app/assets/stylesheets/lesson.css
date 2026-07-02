@@ -467,3 +467,14 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
+
+/* The quiet byline before the completion bar — who stands behind the material
+   (curators + accepted contributors). Renders only when someone real exists. */
+.lesson-attribution {
+  color: var(--color-subtle-dark);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  gap: 0.35rem 1.5rem;
+  margin-block: 2.5rem 0;
+}

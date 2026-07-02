@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   get "about" => "pages#about"
   get "contribute" => "pages#contribute"
   get "faq" => "pages#faq"
+  # The author's reference — public like the content itself: readers suggesting
+  # an edit and editors reviewing one read the SAME rules.
+  get "guide" => "pages#guide"
   get "partners" => "pages#partners"
   get "roadmap" => "pages#roadmap"
   get "support_us" => "pages#support_us"
@@ -93,7 +96,9 @@ Rails.application.routes.draw do
     end
     resources :courses, only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug
     resources :imports, only: [ :new, :create ]
-    get "guide" => "guide#show", as: :guide
+    # The guide went public (readers suggesting edits need it too) — old
+    # editor bookmarks land on the new home.
+    get "guide", to: redirect("/guide")
     resources :users, only: [ :index, :show, :update ] do
       resource :suspension, only: [ :create, :destroy ]
     end

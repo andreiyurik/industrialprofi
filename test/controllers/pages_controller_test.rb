@@ -70,6 +70,28 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "footer a[href=?]", privacy_path, text: I18n.t("nav.privacy")
   end
 
+  test "the author's guide is public and renders real badges and callouts" do
+    get guide_path
+    assert_response :success
+    assert_select "h1.guide__title", text: I18n.t("guide.title")
+    assert_select ".badge--norm"    # a resource-type badge
+    assert_select ".badge--lang"    # the language marker
+    assert_select ".callout--check" # a live-rendered callout
+    assert_match I18n.t("lessons.resource_kinds.doc"), response.body
+  end
+
+  test "the old admin guide address redirects to the public guide" do
+    sign_in_as users(:editor)
+    get "/admin/guide"
+    assert_redirected_to "/guide"
+  end
+
+  test "the suggestion form points contributors to the guide" do
+    sign_in_as users(:member)
+    get new_lesson_suggestion_path(lessons(:pteep))
+    assert_select "a[href=?]", guide_path
+  end
+
   test "roadmap page renders status groups and items" do
     get roadmap_path
     assert_response :success

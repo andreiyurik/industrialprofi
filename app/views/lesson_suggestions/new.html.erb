@@ -13,6 +13,7 @@
     </header>
 
     <p class="lesson-edit-prompt"><%= t("suggestions.subtitle", lesson: @lesson.title) %></p>
+    <p class="lesson-edit-prompt"><%= t("suggestions.guide_hint_html", link: link_to("памятке автора", guide_path, target: "_blank")) %></p>
 
     <% if @suggestion.errors.any? %>
       <div class="admin-alert admin-alert--error">
