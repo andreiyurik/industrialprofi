@@ -29,6 +29,9 @@ class PagesController < ApplicationController
   def faq
   end
 
+  def guide
+  end
+
   def roadmap
   end
 

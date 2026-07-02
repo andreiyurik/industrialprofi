@@ -1,6 +1,17 @@
-/* Author's reference page (/admin/guide) — resource types + text callouts. */
+/* Author's reference page (/guide, public) — mission, the lesson canon,
+   resource types + text callouts. */
+.guide__title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  margin-block: 0 0.75rem;
+  text-transform: uppercase;
+}
+
 .guide__intro {
+  color: var(--color-subtle-dark);
   margin-block-end: 1.5rem;
+  max-inline-size: 60ch;
 }
 
 .guide__heading {

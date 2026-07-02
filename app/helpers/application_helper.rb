@@ -1,6 +1,13 @@
 module ApplicationHelper
   include Heroicon::Engine.helpers
 
+  # Every heroicon ships an intrinsic 24px size: on a cold-cache load the page
+  # can paint before the stylesheets arrive, and an unsized SVG explodes to
+  # container width (the giant-chevron FOUC). CSS still overrides everywhere.
+  def heroicon(name, variant: Heroicon.configuration.variant, options: {}, path_options: {})
+    super(name, variant: variant, options: { width: 24, height: 24 }.merge(options), path_options: path_options)
+  end
+
   # Admin is a focused internal workspace, not a marketing surface — it drops the
   # public footer (its persistent nav covers navigation).
   def in_admin?
