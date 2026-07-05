@@ -130,7 +130,8 @@ The two standout layers — both a near-perfect format fit:
 | **Геодезист** (Surveyor) | Underpins roads + construction | СП on геодезические работы; total station, GNSS |
 | **BIM / ТИМ-специалист** (BIM modeller) | Newly mandated (ТИМ); modern + deep | ТИМ постановления; IFC, native modellers |
 | **Дорожник + лабораторный контроль** (Road construction & QC lab) | Aging roads everywhere; thin QC pipeline | СП 78.13330; ГОСТ on асфальтобетон/грунты; укладка, уплотнение, lab testing |
-| **Эксплуатация инженерных сетей ЖКХ** (Municipal water / heat / sewer networks) | Aging municipal infrastructure | СП/СНиП on водоснабжение и теплосети; diagnostics, repair |
+| **Эксплуатация инженерных сетей ЖКХ** (Municipal water / heat / sewer networks) | Aging municipal infrastructure | СП/СНиП on водоснабжение и теплосети; pumps & pumping stations; diagnostics, repair |
+| **Оператор котельной / теплотехник** (Boiler & heat-plant operation) | Every город heats with котельные; aging operators, Ростехнадзор-licensed | ФНП ОРПД, ПТЭ тепловых энергоустановок, СП 89.13330; водоподготовка, безопасность под давлением |
 | **Стройконтроль / технадзор** (Construction QC / technical supervision) | Quality enforcement scarce | СП; входной/операционный контроль; исполнительная документация |
 | **Бетонные и монолитные работы** (Concrete & rebar / formwork) | Core of every build; skilled shortage | ГОСТ on бетон/арматуру; опалубка; технология бетонирования |
 | **Обследование зданий и сооружений** (Structural inspection, incl. bridges) | Safety of aging structures; overlaps NDT | ГОСТ 31937; СП on обследование; defectoscopy methods |
@@ -203,4 +204,6 @@ profession" vision, voiced on `/contribute`, not founder-driven breadth.
   the cheapest safe practice.
 - Update **Status** as content lands; promote/demote freely as demand signals
   arrive. This file is meant to churn — that's its job.
+- A curated public excerpt lives on `/contribute` as the "wanted professions"
+  board (`ru.yml → contribute.wanted`) — refresh it when tiers churn.
 </content>
