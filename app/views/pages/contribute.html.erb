@@ -79,6 +79,31 @@
         </ol>
       </section>
 
+      <%# Wanted board — the public excerpt of docs/PROFESSION_BACKLOG.md:
+          an invitation for co-authors, not a founder commitment. %>
+      <section class="contribute-block">
+        <h2 class="contribute-block__title"><%= t("contribute.wanted.title") %></h2>
+        <p class="contribute-block__lead"><%= t("contribute.wanted.lead") %></p>
+
+        <div class="contribute-wanted">
+          <% t("contribute.wanted.groups").each do |group| %>
+            <div class="contribute-wanted__group">
+              <h3 class="contribute-wanted__group-title"><%= group[:title] %></h3>
+              <ul class="contribute-wanted__list">
+                <% group[:items].each do |item| %>
+                  <li class="contribute-wanted__item"><%= item %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+
+        <p class="contribute-wanted__foot"><%= t("contribute.wanted.foot") %></p>
+        <a href="<%= new_coauthor_application_path %>" class="contribute-way__link">
+          <%= t("contribute.wanted.cta") %><span class="contribute-way__arrow" aria-hidden="true">→</span>
+        </a>
+      </section>
+
       <%# How a suggestion travels — the git-free edit pipeline, as a timeline. %>
       <section class="contribute-block">
         <h2 class="contribute-block__title"><%= t("contribute.pipeline_title") %></h2>

@@ -28,7 +28,17 @@ A free, open platform for industrial professions. Each profession has a structur
 
 ### Core Belief
 
-**Read official standards, practice every day.** Not video courses, not AI summaries — real documents that are required on the job site, and real tasks that build muscle memory. This mirrors The Odin Project's philosophy: read the docs, build the projects, learn by doing.
+**Learn from the truth source, practice every day.** We explain the essentials
+plainly, then send the learner to the best available source for depth — and
+"best" depends on the topic. Where a profession is governed by official
+standards (ПУЭ, ГОСТ, НАКС), those documents are the non-negotiable spine:
+they're what the job site demands, and no retelling replaces them. Where it
+isn't — common for hands-on trades — we curate the world's best books, videos
+and expert write-ups (Germany, Japan, the Netherlands, the US…), honestly
+labeled as best practice, never invented. What we never do: substitute our own
+summary or an AI paraphrase for the source. Ranked links to the real thing,
+plus real tasks that build muscle memory. This mirrors The Odin Project's
+philosophy: read the docs, build the projects, learn by doing.
 
 ## What This Is NOT
 

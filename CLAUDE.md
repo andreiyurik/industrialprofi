@@ -438,7 +438,9 @@ git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
   Sentry/Honeybadger — this + an external `/up` ping is the whole story.
 - **Participation page (`/contribute`):** the open-project page, split from
   `/support_us` (money). Frames the open commons + multi-profession vision; this
-  is the future-co-author surface where the wide vision is voiced.
+  is the future-co-author surface where the wide vision is voiced. Includes the
+  public "wanted professions" board (`ru.yml → contribute.wanted`) — a curated
+  excerpt of `docs/PROFESSION_BACKLOG.md`; refresh it when the backlog churns.
 - **Partners (`/partners`):** adaptive sponsors page (invitation while empty),
   curated constant, independence firewall.
 - **Milestone dialog:** finishing a course/profession opens a celebration
