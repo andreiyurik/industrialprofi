@@ -71,4 +71,4 @@ group :test do
 end
 
 gem "heroicon", "~> 1.0"
-gem "lexxy", "~> 0.9.20"
+gem "lexxy", "~> 0.9.23"
