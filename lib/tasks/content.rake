@@ -5,6 +5,9 @@
 #                                    whole tree (same as db:seed). New content lands
 #                                    as draft (status from the yml is honored); a
 #                                    re-import never overwrites human-edited rows.
+#   bin/rails content:export[slug] — write ONE profession from the DB back into the
+#                                    importer's YAML/Markdown tree (tmp/export/<slug>)
+#                                    — a portable content pack; see CurriculumExporter
 #   bin/rails content:audit        — theory lessons WRITTEN but lacking the self-check
 #                                    questions a theory lesson should end on
 #   bin/rails content:links        — resource links that no longer resolve (they rot
@@ -19,6 +22,14 @@ namespace :content do
   desc "Import one profession seed into the DB (omit slug for all): bin/rails content:import[svarshchik]"
   task :import, [ :slug ] => :environment do |_task, args|
     CurriculumImporter.run(only: args[:slug])
+  end
+
+  desc "Export one profession to the importer's YAML tree: bin/rails content:export[svarshchik]"
+  task :export, [ :slug ] => :environment do |_task, args|
+    path = Path.find_by(slug: args[:slug])
+    abort "Профессия «#{args[:slug]}» не найдена. Использование: content:export[slug]" unless path
+
+    CurriculumExporter.run(path)
   end
 
   desc "Flag written theory lessons missing self-check questions"
