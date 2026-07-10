@@ -75,41 +75,48 @@
           <span class="brand__text"><%= t("site.name") %></span>
         <% end %>
         <div class="header__right">
-          <%# Search is an icon, not a nav word (Writebook pattern): always
-              visible, even on mobile where the rest of the nav collapses.
-              With JS it opens the command palette instead of the page. %>
-          <div class="header__palette" data-controller="palette"
-               data-action="keydown@document->palette#hotkey">
-            <%= link_to search_path, class: "header__search link-quiet", title: t("nav.search"),
-                  data: { action: "palette#open:prevent" },
-                  aria: { current: ("page" if controller_name == "searches") } do %>
-              <%= heroicon "magnifying-glass", variant: :outline %>
-              <span class="for-screen-reader"><%= t("nav.search") %></span>
-              <kbd class="header__kbd" aria-hidden="true">Ctrl K</kbd>
-            <% end %>
-            <%= render "shared/palette" %>
-          </div>
-
           <%# Mobile: a zero-JS <details> disclosure collapses the nav behind a
-              hamburger. Desktop (≥720px): the toggle is hidden and the panel
+              hamburger. Desktop (≥820px): the toggle is hidden and the panel
               flows inline as the nav row — single source of links, no JS. %>
           <details class="header__menu">
             <summary class="header__menu-toggle" aria-label="<%= t("nav.menu") %>">
               <%= heroicon "bars-3", variant: :outline %>
             </summary>
             <div class="header__menu-panel">
-              <%= link_to t("nav.professions"), paths_path, class: "nav__link link-quiet",
-                    aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } %>
-              <%= link_to t("nav.projects"), projects_path, class: "nav__link link-quiet",
-                    aria: { current: ("page" if current_page?(projects_path)) } %>
-              <%= link_to t("nav.calculators"), calculators_path, class: "nav__link link-quiet",
-                    aria: { current: ("page" if controller_name == "calculators") } %>
+              <%# Mobile-only identity header — the dropdown mirrors the desktop
+                  popover's anatomy, so it reads as the same menu. %>
+              <% if signed_in? %>
+                <p class="header__menu-identity account-menu__header">
+                  <%= avatar_tag(Current.user.name) %>
+                  <span class="account-menu__identity">
+                    <span class="account-menu__name"><%= Current.user.name %></span>
+                    <span class="account-menu__email"><%= Current.user.email_address %></span>
+                  </span>
+                </p>
+              <% end %>
+
+              <%# Icons render only in the mobile dropdown (hidden inline on
+                  desktop) and match the palette tiles — one visual language. %>
+              <%= link_to paths_path, class: "nav__link link-quiet",
+                    aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } do %>
+                <%= heroicon "academic-cap", variant: :outline %><%= t("nav.professions") %>
+              <% end %>
+              <%= link_to projects_path, class: "nav__link link-quiet",
+                    aria: { current: ("page" if current_page?(projects_path)) } do %>
+                <%= heroicon "wrench-screwdriver", variant: :outline %><%= t("nav.projects") %>
+              <% end %>
+              <%= link_to calculators_path, class: "nav__link link-quiet",
+                    aria: { current: ("page" if controller_name == "calculators") } do %>
+                <%= heroicon "calculator", variant: :outline %><%= t("nav.calculators") %>
+              <% end %>
               <% if controller.class.module_parent_name == "Admin" %>
                 <span class="badge badge--marker">Admin</span>
               <% end %>
               <% unless signed_in? %>
-                <%= link_to t("auth.sign_in"), new_session_path, class: "nav__link link-quiet",
-                      aria: { current: ("page" if current_page?(new_session_path)) } %>
+                <%= link_to new_session_path, class: "nav__link link-quiet",
+                      aria: { current: ("page" if current_page?(new_session_path)) } do %>
+                  <%= heroicon "arrow-left-on-rectangle", variant: :outline %><%= t("auth.sign_in") %>
+                <% end %>
               <% end %>
 
               <%# Mobile-only: account links duplicated here so they're reachable
@@ -146,6 +153,22 @@
               <% end %>
             </div>
           </details>
+
+          <%# Search is a quiet icon in the utility cluster (search + account)
+              at the corner, after the nav words. Always visible, even on
+              mobile. With JS it opens the command palette instead of the page;
+              the hotkey is advertised by the tooltip and inside the palette. %>
+          <div class="header__palette" data-controller="palette"
+               data-action="keydown@document->palette#hotkey">
+            <%= link_to search_path, class: "header__search link-quiet",
+                  title: "#{t("nav.search")} (Ctrl+K)",
+                  data: { action: "palette#open:prevent" },
+                  aria: { current: ("page" if controller_name == "searches") } do %>
+              <%= heroicon "magnifying-glass", variant: :outline %>
+              <span class="for-screen-reader"><%= t("nav.search") %></span>
+            <% end %>
+            <%= render "shared/palette" %>
+          </div>
 
           <% if signed_in? %>
             <%# Fizzy-style account hub: everything personal lives behind one
