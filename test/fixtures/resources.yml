@@ -22,6 +22,7 @@ zazemlenie_gost:
   kind: document
   required: true
   country_code: RU
+  note: "Только раздел 542 — заземляющие устройства"
   position: 1
 
 universal_video:

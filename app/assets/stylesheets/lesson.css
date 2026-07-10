@@ -343,6 +343,18 @@
   font-style: italic;
 }
 
+.lesson-resource__body {
+  display: grid;
+  gap: 0.15rem;
+}
+
+/* The curator's one-liner: WHAT exactly to read in a 400-page document. */
+.lesson-resource__note {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
 /* Edit prompt + prev/next nav */
 .lesson-edit-prompt {
   color: var(--color-subtle-dark);

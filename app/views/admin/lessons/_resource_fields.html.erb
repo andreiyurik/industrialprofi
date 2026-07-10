@@ -33,6 +33,8 @@
     </div>
 
     <%= f.url_field :url, placeholder: "https://", class: "input input--mono resource-row__url" %>
+    <%= f.text_field :note, placeholder: t("admin.resources.note_placeholder"),
+          maxlength: 200, class: "input resource-row__note" %>
   </div>
 
   <%= f.hidden_field :position, data: { nested_form_target: "position" } %>

@@ -130,7 +130,8 @@ class CurriculumImporter
 
         resource.assign_attributes(
           url: res["url"], kind: res["kind"], required: res.fetch("required", false),
-          country_code: res["country_code"], position: i + 1
+          country_code: res["country_code"], language: res["language"],
+          note: res["note"], position: i + 1
         )
         if resource.new_record?
           resource.origin = @source

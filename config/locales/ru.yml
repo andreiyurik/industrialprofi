@@ -1571,6 +1571,7 @@ ru:
       reorder: "Перетащить"
       required: "Обязательно"
       title_placeholder: "Название..."
+      note_placeholder: "Что именно смотреть: глава, раздел, минуты — например: только гл. 1.7, разделы 1.7.50–1.7.60"
     suggestions_title: "Предложенные правки"
     no_suggestions: "Нет правок на модерации"
     manage_suggestions: "Правки"

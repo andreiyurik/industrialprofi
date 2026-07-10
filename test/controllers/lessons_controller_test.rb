@@ -74,6 +74,11 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_match resources(:pteep_doc).title, response.body
   end
 
+  test "show displays the resource note under its link" do
+    get lesson_path(lessons(:zazemlenie))
+    assert_select ".lesson-resource__note", text: resources(:zazemlenie_gost).note
+  end
+
   test "sidebar shows the current course's contents" do
     get lesson_path(lessons(:gruppy_dopuska))
     assert_match courses(:el_basics).title, response.body  # sidebar header = course
