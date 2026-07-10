@@ -26,4 +26,21 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".search__empty"
   end
+
+  test "palette frame renders compact results" do
+    get search_path(q: "заземлению"), headers: { "Turbo-Frame" => "palette_results" }
+
+    assert_response :success
+    assert_select "turbo-frame#palette_results" do
+      assert_select "a.palette-result[href=?]", lesson_path(lessons(:zazemlenie))
+      assert_select "a.palette__all[href=?]", search_path(q: "заземлению")
+    end
+  end
+
+  test "palette frame with a blank query shows the quick destinations" do
+    get search_path, headers: { "Turbo-Frame" => "palette_results" }
+
+    assert_response :success
+    assert_select "turbo-frame#palette_results .palette__quick a", 3
+  end
 end

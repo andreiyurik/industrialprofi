@@ -1,0 +1,129 @@
+/* Command palette (shared/_palette) — Fizzy's jump menu adapted: a
+   top-anchored <dialog> with live lesson search; the empty state shows quick
+   destinations. Enter/exit animation comes from animation.css. */
+.palette {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75em;
+  color: var(--color-ink);
+  inline-size: min(36rem, calc(100vw - 2rem));
+  margin-block-start: min(12vh, 7rem);
+  margin-inline: auto;
+  padding: 1rem;
+
+  &::backdrop {
+    backdrop-filter: blur(2px);
+    background-color: oklch(var(--lch-always-black) / 0.65);
+  }
+}
+
+.palette__input {
+  font-size: 1.05rem;
+  inline-size: 100%;
+}
+
+/* The list scrolls inside the dialog (Fizzy's scroll container), so the
+   rounded frame, input and colophon stay put. */
+.palette__results {
+  display: block;
+  margin-block-start: 0.75rem;
+  max-block-size: 55vh;
+  overflow-y: auto;
+}
+
+/* Quick destinations — the Fizzy hotkey tiles, minus the number chips. */
+.palette__quick {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.palette__tile {
+  align-items: center;
+  background-color: var(--color-subtle);
+  border: 1px solid transparent;
+  border-radius: 0.5em;
+  color: var(--color-ink);
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  font-weight: 600;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  transition: border-color 200ms ease;
+
+  svg {
+    block-size: 1.4rem;
+    inline-size: 1.4rem;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      border-color: var(--color-subtle-dark);
+    }
+  }
+}
+
+.palette__hint,
+.palette__empty {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-block: 0.75rem 0;
+  text-align: center;
+}
+
+.palette-results {
+  display: grid;
+  gap: 0.15rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.palette-result {
+  border-radius: 0.5em;
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.5rem 0.6rem;
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: var(--color-subtle);
+    }
+  }
+}
+
+.palette-result__title {
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.palette-result__crumbs {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+}
+
+.palette__all {
+  display: block;
+  font-size: 0.85rem;
+  margin-block-start: 0.35rem;
+  padding: 0.5rem 0.6rem;
+}
+
+.palette__colophon {
+  border-block-start: 1px solid var(--color-subtle);
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  margin-block-start: 1rem;
+  padding-block-start: 0.75rem;
+  text-align: center;
+
+  a {
+    color: var(--color-subtle-dark);
+  }
+}

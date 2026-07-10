@@ -1,0 +1,24 @@
+<%# Command palette — Fizzy's jump menu adapted to a learning platform: live
+    FTS5 search on top, quick destinations while the query is empty (the same
+    server view swaps them back in when the input clears). /search remains the
+    full page and the no-JS fallback. %>
+<dialog id="palette" class="palette" data-palette-target="dialog"
+        data-action="click->palette#backdropClose turbo:before-cache@document->palette#close">
+  <%= form_with url: search_path, method: :get, class: "palette__form",
+        data: { controller: "auto-submit", auto_submit_debounce_value: 300,
+                turbo_frame: "palette_results" } do %>
+    <%= search_field_tag :q, nil, id: "palette_q", class: "input palette__input",
+          placeholder: t("palette.placeholder"), autofocus: true,
+          autocomplete: "off", maxlength: 100,
+          data: { palette_target: "input", action: "input->auto-submit#submit" } %>
+  <% end %>
+
+  <%= turbo_frame_tag "palette_results", target: "_top", class: "palette__results" do %>
+    <%= render "shared/palette_home" %>
+  <% end %>
+
+  <footer class="palette__colophon">
+    <%= t("palette.colophon", site: t("site.name")) %> ·
+    <%= link_to t("palette.colophon_link"), contribute_path %>
+  </footer>
+</dialog>

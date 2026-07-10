@@ -76,12 +76,19 @@
         <% end %>
         <div class="header__right">
           <%# Search is an icon, not a nav word (Writebook pattern): always
-              visible, even on mobile where the rest of the nav collapses. %>
-          <%= link_to search_path, class: "header__search link-quiet", title: t("nav.search"),
-                aria: { current: ("page" if controller_name == "searches") } do %>
-            <%= heroicon "magnifying-glass", variant: :outline %>
-            <span class="for-screen-reader"><%= t("nav.search") %></span>
-          <% end %>
+              visible, even on mobile where the rest of the nav collapses.
+              With JS it opens the command palette instead of the page. %>
+          <div class="header__palette" data-controller="palette"
+               data-action="keydown@document->palette#hotkey">
+            <%= link_to search_path, class: "header__search link-quiet", title: t("nav.search"),
+                  data: { action: "palette#open:prevent" },
+                  aria: { current: ("page" if controller_name == "searches") } do %>
+              <%= heroicon "magnifying-glass", variant: :outline %>
+              <span class="for-screen-reader"><%= t("nav.search") %></span>
+              <kbd class="header__kbd" aria-hidden="true">Ctrl K</kbd>
+            <% end %>
+            <%= render "shared/palette" %>
+          </div>
 
           <%# Mobile: a zero-JS <details> disclosure collapses the nav behind a
               hamburger. Desktop (≥720px): the toggle is hidden and the panel
