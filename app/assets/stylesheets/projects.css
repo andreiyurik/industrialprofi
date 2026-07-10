@@ -110,25 +110,28 @@
   text-align: center;
 }
 
-/* ── The difficulty dot ────────────────────────────────────────────── */
+/* ── Difficulty colours ────────────────────────────────────────────── */
 /* Ski-trail convention: green / yellow / red, category colours from the same
-   OKLCH primitives as the resource badges. The filter chips pair the dot with
-   its word, so the mapping needs no legend. */
-.difficulty-dot {
-  background-color: var(--difficulty-color, oklch(var(--lch-green)));
-  border-radius: 50%;
-  block-size: 0.55rem;
-  display: inline-block;
-  flex-shrink: 0;
-  inline-size: 0.55rem;
-}
-
-.difficulty-dot--intermediate {
+   OKLCH primitives as the resource badges. Green is the var fallback. */
+.difficulty-mark--intermediate,
+.project-tile--intermediate {
   --difficulty-color: oklch(var(--lch-yellow));
 }
 
-.difficulty-dot--advanced {
+.difficulty-mark--advanced,
+.project-tile--advanced {
   --difficulty-color: oklch(var(--lch-red));
+}
+
+/* Inline triangle for the filter chips and list rows — the same wedge the
+   tiles wear on their corner, so the legend teaches the card shape. */
+.difficulty-mark {
+  block-size: 0;
+  border-block-start: 0.55rem solid var(--difficulty-color, oklch(var(--lch-green)));
+  border-inline-end: 0.55rem solid transparent;
+  display: inline-block;
+  flex-shrink: 0;
+  inline-size: 0;
 }
 
 /* ── The document: one section per profession ──────────────────────── */
@@ -179,16 +182,26 @@
 }
 
 .project-tile {
+  --panel-border-radius: 3px;   /* square corners — the wedge sits flush */
+  --wedge-size: 0.7rem;       /* corner wedge (difficulty) — tune here */
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   gap: 0.75rem;
+  overflow: hidden;
   padding: 1.1em 1.2em;
+  position: relative;
 }
 
-.project-tile__top {
-  align-items: center;
-  display: flex;
+/* Difficulty lives on the card's own corner — a folded-corner wedge, not an
+   element among the content. Pure CSS, no extra DOM. */
+.project-tile::before {
+  border-block-start: var(--wedge-size) solid var(--difficulty-color, oklch(var(--lch-green)));
+  border-inline-end: var(--wedge-size) solid transparent;
+  content: "";
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  position: absolute;
 }
 
 .project-tile__title {
@@ -196,21 +209,23 @@
   font-size: 0.95rem;
   font-weight: 600;
   line-height: 1.4;
+  /* stay clear of the corner bookmark */
+  padding-inline-end: 1.4rem;
 }
 
 /* Done tasks go dark («мёртвое тише живого») — no badge, the card itself
    reads as extinguished: the fill drains to the page black, the ink and the
-   dot fade. Hover wakes it back up for review. */
+   corner wedge fade. Hover wakes it back up for review. */
 .project-tile--done {
   --panel-background: transparent;
 }
 
-.project-tile--done .project-tile__title {
-  color: var(--color-disabled);
+.project-tile--done::before {
+  opacity: 0.35;
 }
 
-.project-tile--done .difficulty-dot {
-  opacity: 0.35;
+.project-tile--done .project-tile__title {
+  color: var(--color-disabled);
 }
 
 @media (any-hover: hover) {
@@ -222,7 +237,7 @@
     color: var(--color-ink);
   }
 
-  .project-tile--done:hover .difficulty-dot {
+  .project-tile--done:hover::before {
     opacity: 1;
   }
 }
