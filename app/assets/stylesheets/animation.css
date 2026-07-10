@@ -30,6 +30,17 @@
   }
 }
 
+/* Plain fade-in. Pair with an animation-delay for indicators that should skip
+   brief states entirely (a fast form round-trip never flashes its spinner). */
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Toast lifecycle in a single keyframe: a quick rise-and-fade in, a long hold,
    then a fade out timed to land exactly when the element-removal controller
    pulls the node (4s). */

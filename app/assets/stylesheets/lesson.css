@@ -422,8 +422,11 @@
 /* Marking done swaps in a fresh "completed" button (Turbo Stream replace). On
    its own that snaps grey→green; @starting-style (below) gives it a starting
    look identical to the grey "to-do" button, and this slower-than-default
-   transition glides it to green — a deliberate state change, not a snap. */
+   transition glides it to green — a deliberate state change, not a snap.
+   min-inline-size pins both labels («Отметить пройденным» / «Урок пройден»)
+   to one footprint, so the swap never reflows the row — only colour moves. */
 .lesson-complete__toggle {
+  min-inline-size: 15.6em;
   transition-duration: 320ms;
   transition-timing-function: ease-out;
 }

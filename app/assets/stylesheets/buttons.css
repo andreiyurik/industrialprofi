@@ -56,12 +56,18 @@ form[aria-busy="true"] :is(button[type="submit"], button:not([type]), input[type
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* The "working" look waits 250ms: a fast round-trip swaps the button before
+     anything changes, so nothing ever flashes. Only a genuinely slow response
+     hides the label and fades the spinner in. */
   form[aria-busy="true"] :is(button[type="submit"], button:not([type])).btn {
     color: transparent !important;
     position: relative;
+    transition: color 150ms ease 250ms;
 
     &::after {
-      animation: spin 600ms linear infinite;
+      animation:
+        appear 150ms ease-out 250ms both,
+        spin 600ms linear infinite;
       block-size: 1.1em;
       border: 2px solid var(--btn-color, var(--color-ink));
       border-inline-end-color: transparent;
@@ -75,7 +81,7 @@ form[aria-busy="true"] :is(button[type="submit"], button:not([type]), input[type
   }
 
   form[aria-busy="true"] input[type="submit"].btn {
-    animation: pulse 900ms ease-in-out infinite;
+    animation: pulse 900ms ease-in-out 250ms infinite;
   }
 }
 
