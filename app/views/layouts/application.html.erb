@@ -38,7 +38,7 @@
     <meta property="og:type" content="<%= content_for(:og_type) || "website" %>">
     <meta property="og:title" content="<%= content_for?(:og_title) ? content_for(:og_title) : "#{t('site.name')} — #{t('site.tagline')}" %>">
     <meta property="og:description" content="<%= content_for?(:og_description) ? content_for(:og_description) : t('site.description') %>">
-    <meta property="og:url" content="<%= content_for?(:canonical) ? content_for(:canonical) : request.original_url %>">
+    <meta property="og:url" content="<%= og_url %>">
     <% if site_config.og_image.present? %>
       <meta property="og:image" content="<%= site_config.og_image %>">
       <meta property="og:image:width" content="1200">
