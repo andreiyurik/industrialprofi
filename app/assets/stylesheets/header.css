@@ -96,16 +96,13 @@
   row-gap: 0.5rem;
 }
 
-/* Desktop (≥820px): the nav row must always show, even though the <details> is
-   closed. Modern engines hide closed content via ::details-content
-   (content-visibility); older ones via display:none on the content. The panel's
-   display:flex above covers the latter; this reveals it on the former.
-   820px is where the full inline row (logo + 4 links + CTA) stops fitting on
-   one line; below it we switch to the hamburger rather than let the row wrap. */
-@media (min-width: 820px) {
-  .header__menu::details-content {
-    content-visibility: visible;
-  }
+/* The UA hides a closed <details>' content instantly via ::details-content
+   (content-visibility). Turn that off at every width: the desktop inline row
+   must show while the <details> is closed, and the mobile dropdown's exit
+   animation needs the content to survive until the fade finishes — hiding is
+   ours, via the panel's display rule in the ≤819px block below. */
+.header__menu::details-content {
+  content-visibility: visible;
 }
 
 /* Desktop default: account section hidden (popover button is used instead). */
@@ -354,11 +351,7 @@
     inline-size: 1.4rem;
   }
 
-  .header__menu:not([open]) .header__menu-panel {
-    display: none;
-  }
-
-  .header__menu[open] .header__menu-panel {
+  .header__menu-panel {
     align-items: stretch;
     background-color: var(--color-subtle-light);
     border: 1px solid var(--color-subtle);
@@ -376,13 +369,44 @@
     z-index: 50;
   }
 
+  .header__menu:not([open]) .header__menu-panel {
+    display: none;
+  }
+
+  /* Enter/exit — Fizzy's popup--animated, verbatim: a quick uniform grow out
+     of the burger's corner (scale 0.2 → 1, 150ms); allow-discrete holds
+     `display` until the exit shrink finishes. Gated on reduced-motion so the
+     base opacity:0 never strands the menu. */
+  @media (prefers-reduced-motion: no-preference) {
+    .header__menu-panel {
+      opacity: 0;
+      transform: scale(0.2);
+      transform-origin: top right;
+      transition: var(--overlay-duration, 150ms) allow-discrete;
+      transition-property: display, opacity, transform;
+    }
+
+    .header__menu[open] .header__menu-panel {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    @starting-style {
+      .header__menu[open] .header__menu-panel {
+        opacity: 0;
+        transform: scale(0.2);
+      }
+    }
+  }
+
   .header__menu-panel .header__menu-identity {
     display: flex;
   }
 
   /* Nav rows take the popover's row component: icon + label, same metrics —
-     one visual language across the dropdown, the popover and the palette. */
-  .header__menu[open] .header__menu-panel .nav__link {
+     one visual language across the dropdown, the popover and the palette.
+     No [open] qualifier: the styles must hold during the exit fade too. */
+  .header__menu-panel .nav__link {
     align-items: center;
     border-radius: 0.5em;
     color: var(--color-subtle-dark);
@@ -392,12 +416,12 @@
     padding: 0.5rem 0.6rem;
     transition: background-color 150ms ease, color 150ms ease;
   }
-  .header__menu[open] .header__menu-panel .nav__link svg {
+  .header__menu-panel .nav__link svg {
     block-size: 1.05rem;
     display: block;
     inline-size: 1.05rem;
   }
-  .header__menu[open] .header__menu-panel .nav__link[aria-current="page"] {
+  .header__menu-panel .nav__link[aria-current="page"] {
     color: var(--color-ink);
     font-weight: 600;
   }
