@@ -132,6 +132,7 @@ root "paths#index"                                          # signed-in "/" → 
 resource :session, only: [:new, :create, :destroy]          # login (Writebook pattern)
 resources :users, only: [:new, :create]                     # registration
 get "dashboard" => "dashboard#show"                         # "Моё обучение"
+resource :search, only: [:show]                             # full-text lesson search (FTS5)
 resources :paths, only: [:index, :show], param: :slug      # professions (show lists courses)
 resources :courses, only: [:show], param: :slug            # course page (curriculum by stage)
 resources :lessons, only: [:show], param: :slug do         # flat slug URLs
@@ -181,6 +182,9 @@ Path (profession)  author_id (nil = official); status: draft|pending_review|publ
    (`video`), a strong habr.com-style `article`, or the standard `tool`. Don't
    force a normative reference where the topic isn't regulated. Where no standard
    exists, rank best-practice sources, honestly labeled as such, not as binding.
+   Each link takes an optional one-line `note` («что именно смотреть»: chapter,
+   sections, minutes) rendered muted under the link — for a 400-page document
+   it's the difference between reading and closing the tab.
 3. **CLOSE BY USEFULNESS, not a fixed template** — a theory lesson ends with quality
    **self-check questions** (a `> [!ПРОВЕРЬ]` callout — thoughtful, referencing
    the standard, not trivia). A **practical task** is added only where a hands-on
@@ -427,6 +431,19 @@ git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
   published paths, with difficulty filters.
 - **Calculators (`/calculators`):** trade formula tools — code registry (no DB) +
   one Stimulus controller for all math.
+- **Search (`/search`):** SQLite FTS5 (`create_virtual_table`, unicode61) behind
+  the `LessonSearch` PORO — all FTS SQL lives there; `Lesson` commit callbacks
+  keep the index in sync (`bin/rails search:rebuild` rebuilds from scratch, e.g.
+  after a restore). Published-only results, bm25 weighted title > description >
+  body, quoted-prefix terms (Russian morphology + FTS-operator injection safety),
+  `<mark>` snippets. Live form = `auto-submit` debounce into a Turbo Frame; the
+  input stays outside the frame so it keeps focus. Zero new dependencies.
+- **Content export (`content:export[slug]`):** `CurriculumExporter` writes a
+  profession from the DB back into the exact YAML/Markdown tree the importer
+  reads (default `tmp/export/<slug>`) — a portable content pack for on-prem
+  installs, offline expert authoring, and content that outlives the platform.
+  Round-trip (export → clean import) is covered by tests; drag-reordered stages
+  split into consecutive same-title section dirs so import reproduces order.
 - **Retention email (the ONE):** `LearningReminderJob` (daily, Solid Queue
   recurring) nudges stalled learners once per stall — never a drip. Opt-out
   checkbox + tokenized one-click unsubscribe (RFC 8058). Don't add more
@@ -448,8 +465,13 @@ git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
   the one honest share moment; a section keeps the quiet flash pill.
 - **B2B demand sensor (`/business`):** public pitch page for training
   centers/employers + inquiry form → tagged guest `Feedback` (user optional,
-  contact folded into body). A sensor, not a product — build B2B features only
-  from real inquiries.
+  contact folded into body). Carries the paid offer copy (2026-07): on-prem
+  closed-contour deployment for enterprises (lead offer — zero new code, Kamal
+  image on THEIR servers) + closed учебные карты for training centers; license
+  stays AGPL, revenue = внедрение + annual support via ИП. Still a sensor, not
+  a product — first clients get manual bespoke delivery; build B2B features
+  (esp. hosted private tenants — deferred, SQLite/liability) only from real
+  repeated inquiries.
 - **Analytics:** Yandex Metrika, rendered only when `YANDEX_METRIKA_ID` is set
   (`shared/_metrika`). Idle-loaded: the ym() stub queues events, tag.js is
   fetched on requestIdleCallback (3 s cap) so it never competes with rendering;
@@ -492,8 +514,8 @@ git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
   educational detail, no SEO value). Blobs live in `storage/blobs/`, separate
   from the SQLite DBs, and need their own backup rule (`docs/DEPLOY.md`).
 
-**Not built yet (v0.3):** community-authored roadmaps, public profiles, search,
-moderated public portfolio.
+**Not built yet (v0.3):** community-authored roadmaps, public profiles,
+moderated public portfolio, command palette (now unblocked — search shipped).
 
 ## Docs
 

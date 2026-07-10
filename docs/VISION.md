@@ -354,8 +354,8 @@ not the founder:
   lesson → resources/task) with `draft → pending_review → published`; admins
   publish. The suggest-edit → review → immutable-revision pipeline and the
   `member → editor → administrator` trust ladder already exist as the foundation.
-- **Search** across professions, courses, and lessons (also the home for the
-  deferred command palette).
+- ~~**Search** across lessons~~ — shipped July 2026 (SQLite FTS5, `/search`);
+  the deferred command palette now has its home when demand appears.
 - **Public user profiles** — completed paths and authored/contributed content.
 - **Moderated public portfolio** — publishing selected journal entries as a
   public showcase; media, if added, goes **off-disk** (object storage), never
