@@ -31,7 +31,7 @@
   padding: 0;
 }
 
-.business-points__item h2 {
+.business-points__item :is(h2, h3) {
   font-size: 1rem;
   margin-block: 0 0.35rem;
 }
@@ -41,6 +41,28 @@
   font-size: 0.95rem;
   line-height: 1.55;
   margin: 0;
+}
+
+.business__offers-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  font-weight: 800;
+  margin-block: 3rem 0.5rem;
+  text-transform: uppercase;
+}
+
+.business__offers-intro {
+  color: var(--color-subtle-dark);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-block-end: 1.5rem;
+}
+
+.business__offers-note {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin-block: -0.5rem 2.5rem;
 }
 
 .business__ask {

@@ -18,6 +18,20 @@
         <% end %>
       </ul>
 
+      <h2 class="business__offers-title"><%= t("business_inquiries.offers_title") %></h2>
+      <p class="business__offers-intro"><%= t("business_inquiries.offers_intro") %></p>
+
+      <ul class="business-points">
+        <% %w[onprem centers].each do |key| %>
+          <li class="business-points__item panel">
+            <h3><%= t("business_inquiries.offers.#{key}.title") %></h3>
+            <p><%= t("business_inquiries.offers.#{key}.body") %></p>
+          </li>
+        <% end %>
+      </ul>
+
+      <p class="business__offers-note"><%= t("business_inquiries.offers_note") %></p>
+
       <p class="business__ask"><%= t("business_inquiries.ask") %></p>
 
       <%= form_with url: business_path, scope: :business_inquiry, method: :post, class: "feedback__form" do |f| %>
