@@ -37,6 +37,14 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "survives raw unencoded bytes in the query string" do
+    # Sloppy bots send Cyrillic bytes without percent-encoding; Rack keeps the
+    # query string BINARY, which used to crash og:url rendering with a 500.
+    get search_path, env: { "QUERY_STRING" => "q=\xD0\xBF\xD1\x80\xD0\xBE".b }
+
+    assert_response :success
+  end
+
   test "palette frame with a blank query shows the quick destinations" do
     get search_path, headers: { "Turbo-Frame" => "palette_results" }
 

@@ -9,6 +9,12 @@ module SeoHelper
     OG_LOCALES.fetch(I18n.locale, I18n.locale.to_s)
   end
 
+  # Rack keeps the raw query string BINARY, so bot-sent unencoded bytes would
+  # crash UTF-8 template rendering — retag and scrub before echoing the URL.
+  def og_url
+    content_for(:canonical) || request.original_url.force_encoding(Encoding::UTF_8).scrub
+  end
+
   def learning_resource_json_ld(lesson)
     data = {
       "@context": "https://schema.org",
