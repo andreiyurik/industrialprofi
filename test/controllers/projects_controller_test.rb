@@ -23,10 +23,11 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/Черновик/, response.body)
   end
 
-  test "tiles carry the difficulty corner" do
+  test "difficulty wedges live in the filter chips, not on the tiles" do
     get projects_path
-    assert_select ".project-tile.project-tile--advanced"
-    assert_select ".project-tile.project-tile--beginner"
+    assert_select ".filter-chip .difficulty-mark--beginner"
+    assert_select ".filter-chip .difficulty-mark--advanced"
+    assert_select ".project-tile [class*='difficulty']", false
   end
 
   test "filters by difficulty" do
@@ -121,5 +122,13 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     get projects_path
     assert_response :success
     assert_select ".project-tile--done", 1
+    # the electrician set (1 task) is closed -> green counter; welder's is not
+    assert_select ".project-group__count--complete", text: "1 из 1"
+    assert_select ".project-group__count", text: "0 из 1"
+  end
+
+  test "group counters are not shown to guests" do
+    get projects_path
+    assert_select ".project-group__count", false
   end
 end

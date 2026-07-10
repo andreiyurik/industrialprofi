@@ -110,21 +110,18 @@
   text-align: center;
 }
 
-/* ── Difficulty colours ────────────────────────────────────────────── */
+/* ── Difficulty wedges (filter chips + list rows only) ─────────────── */
 /* Ski-trail convention: green / yellow / red, category colours from the same
-   OKLCH primitives as the resource badges. Green is the var fallback. */
-.difficulty-mark--intermediate,
-.project-tile--intermediate {
+   OKLCH primitives as the resource badges. Green is the var fallback. The
+   tiles themselves stay colour-free — the chips carry the level. */
+.difficulty-mark--intermediate {
   --difficulty-color: oklch(var(--lch-yellow));
 }
 
-.difficulty-mark--advanced,
-.project-tile--advanced {
+.difficulty-mark--advanced {
   --difficulty-color: oklch(var(--lch-red));
 }
 
-/* Inline triangle for the filter chips and list rows — the same wedge the
-   tiles wear on their corner, so the legend teaches the card shape. */
 .difficulty-mark {
   block-size: 0;
   border-block-start: 0.55rem solid var(--difficulty-color, oklch(var(--lch-green)));
@@ -142,14 +139,32 @@
 }
 
 .project-group__heading {
+  align-items: baseline;
   border-block-end: 1px solid var(--color-subtle);
+  display: flex;
   font-family: var(--font-display);
   font-size: 0.95rem;
   font-weight: 700;
+  justify-content: space-between;
   letter-spacing: 0.07em;
   margin-block: 0;
   padding-block-end: 0.6rem;
   text-transform: uppercase;
+}
+
+/* Ledger-style set counter at the row's end — plain body type, not display
+   caps. Green fires only when the set closes. */
+.project-group__count {
+  color: var(--color-subtle-dark);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.project-group__count--complete {
+  color: var(--color-positive);
 }
 
 .project-group__link {
@@ -182,26 +197,13 @@
 }
 
 .project-tile {
-  --panel-border-radius: 3px;   /* square corners — the wedge sits flush */
-  --wedge-size: 0.7rem;       /* corner wedge (difficulty) — tune here */
+  --panel-border-radius: 3px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  gap: 0.75rem;
-  overflow: hidden;
+  justify-content: center;   /* the title sits centred — rows read symmetric */
+  min-block-size: 5.25rem;   /* short titles get the same card as two-liners */
   padding: 1.1em 1.2em;
-  position: relative;
-}
-
-/* Difficulty lives on the card's own corner — a folded-corner wedge, not an
-   element among the content. Pure CSS, no extra DOM. */
-.project-tile::before {
-  border-block-start: var(--wedge-size) solid var(--difficulty-color, oklch(var(--lch-green)));
-  border-inline-end: var(--wedge-size) solid transparent;
-  content: "";
-  inset-block-start: 0;
-  inset-inline-start: 0;
-  position: absolute;
 }
 
 .project-tile__title {
@@ -211,17 +213,16 @@
   line-height: 1.4;
   /* stay clear of the corner bookmark */
   padding-inline-end: 1.4rem;
+  text-wrap: balance;   /* even line lengths, no ragged last word */
 }
 
 /* Done tasks go dark («мёртвое тише живого») — no badge, the card itself
-   reads as extinguished: the fill drains to the page black, the ink and the
-   corner wedge fade. Hover wakes it back up for review. */
+   reads as extinguished: the fill drains to the page black, the frame and
+   ink fade. Hover wakes it back up for review (.panel--hover's border wins
+   the cascade on hover). */
 .project-tile--done {
   --panel-background: transparent;
-}
-
-.project-tile--done::before {
-  opacity: 0.35;
+  --panel-border-color: oklch(var(--lch-gray) / 0.45);
 }
 
 .project-tile--done .project-tile__title {
@@ -236,10 +237,6 @@
   .project-tile--done:hover .project-tile__title {
     color: var(--color-ink);
   }
-
-  .project-tile--done:hover::before {
-    opacity: 1;
-  }
 }
 
 .project-tile-wrap .bookmark-toggle {
@@ -253,7 +250,8 @@
   display: none;
 }
 
+/* Corner bookmark: smaller than in lists — a quiet utility, not card content. */
 .project-tile-wrap .bookmark-btn svg {
-  block-size: 1.1rem;
-  inline-size: 1.1rem;
+  block-size: 0.95rem;
+  inline-size: 0.95rem;
 }
