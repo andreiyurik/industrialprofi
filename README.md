@@ -64,9 +64,11 @@ Every lesson follows the same honest, no-fluff structure — read the real sourc
 then prove you can use it:
 
 1. **WHY** — one or two sentences on why this matters on the job site.
-2. **OFFICIAL DOCUMENTS** — curated links to the real standards, ranked
-   (★ required, ○ optional). No paraphrasing — you read the source.
-3. **PRACTICAL TASK** — a concrete, verifiable assignment.
+2. **OFFICIAL DOCUMENTS** — curated links to the real standards, grouped into
+   required and recommended, each with a one-line note on what exactly to read
+   in a 400-page document. No paraphrasing — you read the source.
+3. **PRACTICAL TASK** — a concrete, verifiable assignment where the skill
+   warrants one; thoughtful self-check questions against the standard otherwise.
 4. **✓ Mark as done** — binary progress. Done or not done, nothing in between.
 
 Course progress is simply `completed / total`. No "in progress", no fake
@@ -193,9 +195,11 @@ IndustrialProfi ships in phases — the forward roadmap lives in
 
 - **v0.1 — shipped:** static catalog (professions → courses → lessons, public, SEO-first)
 - **v0.2 — shipped:** accounts, binary progress, dashboard, practice journal,
-  activity heatmap, reader suggestions + revision history, admin panel with roles
-- **v0.3 — next:** community-authored content (draft → review → published),
-  search, public profiles
+  activity heatmap, reader suggestions + revision history, admin panel with
+  roles, full-text search (SQLite FTS5) + command palette, practice projects,
+  calculators, content export
+- **v0.3 — next:** community-authored roadmaps (draft → review → published),
+  public profiles, moderated portfolio
 
 The user-facing roadmap lives at `/roadmap` on the site itself; the full product
 thinking lives in [docs/VISION.md](docs/VISION.md).
@@ -206,10 +210,11 @@ Contributions are welcome — whether you write code or curate the content that
 actually teaches people. Start with [CONTRIBUTING.md](CONTRIBUTING.md).
 
 A quick heads-up on the model: the **platform is and stays open source** under
-AGPL-3.0. A small set of future hosted, employer-facing features (verified
-completion certificates, a candidate/employer board) may be commercial — this
-is a classic **open-core** setup. Contributors sign a lightweight CLA so the
-project keeps the freedom to sustain itself; details in `CONTRIBUTING.md`.
+AGPL-3.0, and the learning content stays free. The project sustains itself with
+services *around* the code — on-prem deployments and support for enterprises
+and training centers — never by closing features or selling the content.
+Contributors sign a lightweight CLA so the project keeps the freedom to sustain
+itself; details in `CONTRIBUTING.md`.
 
 ## License
 
