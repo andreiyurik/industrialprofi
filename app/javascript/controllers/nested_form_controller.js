@@ -72,15 +72,16 @@ export default class extends Controller {
   }
 
   // --- helpers ---
-  // The coloured kind badge mirrors the reader's resource badges, one hue per
-  // kind. Updates live as the kind <select> changes.
+  // The kind dot borrows the reader-facing badge hue (the modifier class sets
+  // `color`; the dot paints itself with currentColor). Updates live as the
+  // kind <select> changes; the word itself lives in the select.
   paintBadge(item) {
     const badge = item?.querySelector("[data-nested-form-target='badge']")
     const kind = item?.querySelector("[data-nested-form-target='kind']")
     if (!badge || !kind) return
     const [modifier, label] = this.kindsValue[kind.value] || ["badge--book", kind.value]
-    badge.className = `badge resource-row__badge ${modifier}`
-    badge.textContent = label
+    badge.className = `resource-row__dot ${modifier}`
+    badge.title = label
   }
 
   renumber() {

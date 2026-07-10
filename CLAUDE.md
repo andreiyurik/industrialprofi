@@ -175,7 +175,8 @@ Path (profession)  author_id (nil = official); status: draft|pending_review|publ
    (≤160 chars). One self-contained sentence ≤155 chars that honestly answers
    *"why spend time on this"* AND opens with the topic in natural search phrasing
    (it does double duty: human motivation + SEO snippet). Don't keyword-stuff.
-2. **FURTHER-STUDY LINKS** — curated, ranked (★ required, ○ optional), and
+2. **FURTHER-STUDY LINKS** — curated, ranked (required vs recommended — plain
+   group captions, NO star glyphs: that mechanic was removed as visual noise), and
    **type-appropriate**: official **`document`**s for regulated / standard /
    protocol / programming-language topics (ГОСТ, ПУЭ, НАКС, IEC, ISO, RFCs, language
    specs); otherwise the most *interesting* quality source — a good YouTube
