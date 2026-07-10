@@ -110,8 +110,14 @@
 /* Slightly tighter inputs than the page default, to keep rows low. */
 .resource-row__title,
 .resource-row__url,
+.resource-row__note,
 .resource-row__kind {
   --input-padding: 0.35rem 0.6rem;
+}
+
+.resource-row__note {
+  font-size: 0.85rem;
+  margin-block-start: 0.3rem;
 }
 
 .resource-editor__add svg {
