@@ -9,13 +9,31 @@
 
   <div class="resource-row__fields">
     <div class="resource-row__head">
-      <span class="badge resource-row__badge" data-nested-form-target="badge"></span>
+      <%# The kind's colour compressed to a dot — the select carries the word,
+          so the reader-facing hue survives without saying "Норматив" twice. %>
+      <span class="resource-row__dot" data-nested-form-target="badge"></span>
       <%= f.select :kind,
             Resource::KINDS.map { |k| [ t("lessons.resource_kinds.#{k}"), k ] },
             {}, class: "input resource-row__kind",
             data: { nested_form_target: "kind", action: "nested-form#refreshBadge" } %>
       <%= f.text_field :title, placeholder: t("admin.resources.title_placeholder"),
             class: "input resource-row__title" %>
+      <button type="button" class="resource-row__remove" data-action="nested-form#removeItem"
+              aria-label="<%= t("admin.resources.remove") %>">
+        <%= heroicon "trash", variant: :outline %>
+      </button>
+    </div>
+
+    <%= f.url_field :url, placeholder: "https://", class: "input input--mono resource-row__url" %>
+
+    <%# Quiet bottom line: the ghost note plus the two flag checkboxes — moved
+        off the head row so the title gets its full width. %>
+    <div class="resource-row__foot">
+      <%# Ghost field: renders like the muted note line the reader gets, so the
+          editor sees what the text is for; the frame returns on focus. The
+          placeholder IS the whole manual — the worked example lives in /guide. %>
+      <%= f.text_field :note, placeholder: t("admin.resources.note_placeholder"),
+            maxlength: 200, class: "input input--ghost resource-row__note" %>
       <%# One-click language marker: checked = English source, unchecked = Russian
           (default). Only EN exists, so a checkbox beats a two-click select. %>
       <label class="resource-row__lang" title="<%= t('lessons.resource_languages.en') %>">
@@ -26,15 +44,7 @@
         <%= f.check_box :required %>
         <span><%= t("admin.resources.required") %></span>
       </label>
-      <button type="button" class="resource-row__remove" data-action="nested-form#removeItem"
-              aria-label="<%= t("admin.resources.remove") %>">
-        <%= heroicon "trash", variant: :outline %>
-      </button>
     </div>
-
-    <%= f.url_field :url, placeholder: "https://", class: "input input--mono resource-row__url" %>
-    <%= f.text_field :note, placeholder: t("admin.resources.note_placeholder"),
-          maxlength: 200, class: "input resource-row__note" %>
   </div>
 
   <%= f.hidden_field :position, data: { nested_form_target: "position" } %>

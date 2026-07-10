@@ -43,6 +43,19 @@ select.input option {
   font-family: var(--font-mono);
 }
 
+/* Ghost field for optional, tertiary text (e.g. the reader-facing link note):
+   frameless at rest, so it reads like the muted output line it produces —
+   the base :focus rule brings the border back, this restores the fill. */
+.input--ghost {
+  --input-background: transparent;
+  --input-border-color: transparent;
+  --input-color: var(--color-subtle-dark);
+
+  &:focus {
+    --input-background: var(--color-subtle-light);
+  }
+}
+
 .input--textarea {
   --input-padding: 0.6em 0.8em;
   /* NB: --input-padding holds TWO values, so it can't be used inside calc() —
