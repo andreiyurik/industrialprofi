@@ -2,10 +2,12 @@
 <%# The tile is one big <a>; the bookmark button is its SIBLING (a button can't
     live inside a link), absolutely positioned over the top-right corner. %>
 <li class="project-tile-wrap">
-  <a href="<%= lesson_path(lesson) %>" class="panel panel--hover project-tile<%= " project-tile--done" if done %>">
-    <span class="project-tile__top">
-      <%= render "shared/difficulty_dot", difficulty: lesson.difficulty %>
-    </span>
+  <%# Difficulty is the corner wedge (a ::before on the tile modifier class);
+      the sr-span + title keep the word for screen readers and hover. %>
+  <a href="<%= lesson_path(lesson) %>"
+     class="panel panel--hover project-tile project-tile--<%= lesson.difficulty %><%= " project-tile--done" if done %>"
+     title="<%= t("lessons.difficulty.#{lesson.difficulty}") %>">
+    <span class="for-screen-reader"><%= t("lessons.difficulty.#{lesson.difficulty}") %></span>
     <span class="project-tile__title"><%= project_title(lesson) %></span>
     <% if done %>
       <span class="for-screen-reader"><%= t("projects.done") %></span>

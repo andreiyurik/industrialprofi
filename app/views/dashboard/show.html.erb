@@ -143,7 +143,7 @@
         <div class="panel dashboard-bookmarks">
           <% @bookmarked_lessons.each do |lesson| %>
             <div class="dashboard-bookmark" id="<%= dom_id(lesson, :bookmark_row) %>">
-              <%= render "shared/difficulty_dot", difficulty: lesson.difficulty %>
+              <%= render "shared/difficulty_mark", difficulty: lesson.difficulty %>
               <%= link_to lesson.title, lesson, class: "dashboard-bookmark__title" %>
               <span class="dashboard-bookmark__path"><%= lesson.path.title %></span>
               <%= button_to lesson_bookmark_path(lesson), method: :delete,

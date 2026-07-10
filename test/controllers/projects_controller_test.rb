@@ -23,10 +23,10 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/Черновик/, response.body)
   end
 
-  test "tiles carry the difficulty dot" do
+  test "tiles carry the difficulty corner" do
     get projects_path
-    assert_select ".project-tile .difficulty-dot--advanced"
-    assert_select ".project-tile .difficulty-dot--beginner"
+    assert_select ".project-tile.project-tile--advanced"
+    assert_select ".project-tile.project-tile--beginner"
   end
 
   test "filters by difficulty" do
