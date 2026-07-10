@@ -62,6 +62,16 @@
           <section class="project-group">
             <h2 class="project-group__heading">
               <%= link_to path.title, path_path(path), class: "project-group__link" %>
+              <%# The honest motivator (goal-gradient): a plain count of the
+                  remaining set, ledger-style at the row's end. Green only at
+                  the earned moment — the set is closed. Signed-in only: a
+                  guest has no progress to count. %>
+              <% if signed_in? %>
+                <% done_count = lessons.count { |l| @completed_ids.include?(l.id) } %>
+                <span class="project-group__count<%= " project-group__count--complete" if done_count == lessons.size %>">
+                  <%= t("projects.group_progress", done: done_count, total: lessons.size) %>
+                </span>
+              <% end %>
             </h2>
             <ul class="project-tiles">
               <% lessons.each do |lesson| %>

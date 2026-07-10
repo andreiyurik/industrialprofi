@@ -204,6 +204,7 @@ ru:
     all_paths: "Все профессии"
     any_difficulty: "Любая сложность"
     done: "Выполнено"
+    group_progress: "%{done} из %{total}"
     found:
       one: "Найдено %{count} задание"
       few: "Найдено %{count} задания"
