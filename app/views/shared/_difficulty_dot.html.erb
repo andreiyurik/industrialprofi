@@ -1,0 +1,9 @@
+<%# locals: (difficulty:, sr_label: true) -%>
+<%# Difficulty as a ski-trail dot (green / yellow / red — the mature-app
+    convention: AllTrails, slope markers). The /projects filter chips pair the
+    same dot with its word, so the legend teaches itself. %>
+<span class="difficulty-dot difficulty-dot--<%= difficulty %>" aria-hidden="true"
+      title="<%= t("lessons.difficulty.#{difficulty}") %>"></span>
+<% if sr_label %>
+  <span class="for-screen-reader"><%= t("lessons.difficulty.#{difficulty}") %></span>
+<% end %>
