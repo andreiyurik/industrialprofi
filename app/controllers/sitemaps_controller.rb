@@ -3,9 +3,11 @@ class SitemapsController < ApplicationController
 
   # Private/auth areas are crawlable-but-pointless (they redirect to login) —
   # keep crawl budget on the content. Everything else stays allowed by default.
+  # /search is disallowed for a different reason: ?q= is an infinite URL space
+  # that bypasses every cache — bots would grind the VPS for nothing.
   DISALLOWED = %w[
     /admin /account /dashboard /journal /session /signup
-    /passwords /unsubscribe /feedbacks /learning_goal
+    /passwords /unsubscribe /feedbacks /learning_goal /search
   ].freeze
 
   def robots

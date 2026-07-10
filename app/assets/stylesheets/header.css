@@ -50,6 +50,24 @@
   row-gap: 0.5rem;
 }
 
+/* Icon-only search entry (Writebook pattern) — a quiet glyph among the nav
+   words, always visible even when the nav collapses into the hamburger. */
+.header__search {
+  align-items: center;
+  color: var(--color-ink);
+  display: inline-flex;
+  padding: 0.3rem;
+}
+
+.header__search svg {
+  block-size: 1.3rem;
+  inline-size: 1.3rem;
+}
+
+.header__search[aria-current="page"] {
+  color: var(--color-link);
+}
+
 /* Desktop: the <details> disclosure is "transparent" — the toggle is hidden and
    the panel always renders as the inline nav row (overriding the UA rule that
    hides a closed <details>'s content). */

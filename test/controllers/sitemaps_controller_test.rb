@@ -52,6 +52,7 @@ class SitemapsControllerTest < ActionDispatch::IntegrationTest
     assert_match(/User-agent: \*/, response.body)
     assert_match(/Crawl-delay: 10/, response.body)
     assert_match(%r{Disallow: /admin}, response.body)
+    assert_match(%r{Disallow: /search}, response.body)
     assert_match %r{Sitemap: .+/sitemap\.xml}, response.body
     assert_not response.body.match?(%r{^Disallow: /$}), "must not blanket-block the whole site"
   end
