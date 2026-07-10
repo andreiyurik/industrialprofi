@@ -1,0 +1,45 @@
+<% meta_title(t("search.title")) %>
+<% meta_description(t("search.meta_description")) %>
+
+<section class="section">
+  <div class="container container--reading search">
+    <h1 class="search__title"><%= t("search.title") %></h1>
+
+    <%# Live search: the input sits OUTSIDE the results frame so it keeps focus
+        while typing; each pause re-submits into the frame and advances the URL
+        (back button and shareable ?q= links work). Plain GET — Enter works
+        without JS too. %>
+    <%= form_with url: search_path, method: :get, class: "search__form",
+          data: { controller: "auto-submit", auto_submit_debounce_value: 300,
+                  turbo_frame: "search_results", turbo_action: "advance" } do %>
+      <%= search_field_tag :q, @query, class: "input search__input",
+            placeholder: t("search.placeholder"), autofocus: true,
+            autocomplete: "off", maxlength: 100,
+            data: { action: "input->auto-submit#submit" } %>
+    <% end %>
+
+    <%= turbo_frame_tag "search_results", target: "_top" do %>
+      <% if @query.blank? %>
+        <p class="search__hint"><%= t("search.hint") %></p>
+      <% elsif @results.empty? %>
+        <p class="search__empty">
+          <%= t("search.empty", query: @query) %>
+          <%= link_to t("search.browse_catalog"), paths_path %>
+        </p>
+      <% else %>
+        <p class="search__count"><%= t("search.found", count: @results.size) %></p>
+        <ul class="search-results">
+          <% @results.each do |result| %>
+            <li>
+              <%= link_to lesson_path(result.lesson), class: "search-result panel" do %>
+                <span class="search-result__crumbs"><%= result.lesson.path.title %> · <%= result.lesson.course.title %></span>
+                <span class="search-result__title"><%= result.lesson.title %></span>
+                <span class="search-result__snippet"><%= sanitize(result.snippet, tags: %w[mark]) %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+  </div>
+</section>

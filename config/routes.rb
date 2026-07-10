@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   get "unsubscribe/:token" => "unsubscribes#show", as: :unsubscribe
   post "unsubscribe/:token" => "unsubscribes#create"
   get "dashboard" => "dashboard#show"
+  resource :search, only: [ :show ]
   resource :learning_goal, only: [ :edit, :update ]
   get "projects" => "projects#index"
   get "resources" => "resources#index"

@@ -1,0 +1,66 @@
+/* /search — lesson full-text search (SQLite FTS5, see LessonSearch). */
+.search__title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  margin-block: 0 1rem;
+  text-transform: uppercase;
+}
+
+.search__form {
+  margin-block-end: 2rem;
+}
+
+.search__input {
+  font-size: 1.1rem;
+  inline-size: 100%;
+  padding-block: 0.7rem;
+}
+
+.search__hint,
+.search__empty,
+.search__count {
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+}
+
+.search__count {
+  font-size: 0.9rem;
+  margin-block-end: 1rem;
+}
+
+.search-results {
+  display: grid;
+  gap: var(--block-space-half);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.search-result {
+  display: grid;
+  gap: 0.35rem;
+  text-decoration: none;
+}
+
+.search-result__crumbs {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+}
+
+.search-result__title {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.search-result__snippet {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.search-result__snippet mark {
+  background: transparent;
+  color: var(--color-link);
+  font-weight: 600;
+}

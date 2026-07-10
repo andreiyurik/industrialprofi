@@ -35,6 +35,9 @@ class Lesson < ApplicationRecord
 
   before_validation { self.path = course.path if course }
 
+  after_save_commit :index_for_search
+  after_destroy_commit :deindex_for_search
+
   has_rich_text :rich_body
   has_rich_text :rich_description
   has_rich_text :rich_task
@@ -170,6 +173,9 @@ class Lesson < ApplicationRecord
   end
 
   private
+    def index_for_search = LessonSearch.index(self)
+    def deindex_for_search = LessonSearch.remove(id)
+
     def body_text
       [ body, rich_body&.to_plain_text ].compact.join(" ")
     end
