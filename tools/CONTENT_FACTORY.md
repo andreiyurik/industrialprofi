@@ -295,12 +295,21 @@ rich-текст        rich_body / rich_*          ← пишет ЧЕЛОВЕК
 ```bash
 bin/rails "content:import[svarshchik]"   # импорт одной профессии (черновик)
 bin/rails content:import                 # импорт всего дерева сидов
+bin/rails "content:export[svarshchik]"   # экспорт профессии из БД в YAML-дерево
+                                         # импортёра (tmp/export/<slug>) — переносимый
+                                         # контент-пак: on-prem, офлайн-авторинг, бэкап
 bin/rails content:check                  # QA: audit + links разом
 bin/rails content:audit                  # теория без самопроверки
 bin/rails content:links                  # мёртвые ссылки (бьёт в сеть, медленно)
+bin/rails search:rebuild                 # перестроить поисковый индекс (FTS5) с нуля
 bin/rails test                           # все тесты
 bin/rubocop                              # линт
 ```
+
+У ссылки-ресурса в frontmatter урока есть необязательное поле `note:` — одна строка
+«что именно смотреть» («только гл. 1.7, разделы 1.7.50–1.7.60»). Читатель видит её
+приглушённой строкой под ссылкой; для документов на сотни страниц она обязательна
+по духу — это разница между «разобрался» и «закрыл вкладку».
 
 ---
 
