@@ -84,17 +84,20 @@
         <span class="for-screen-reader" data-copy-link-target="label"><%= t("lessons.copy_link") %></span>
       </button>
 
+      <%# Icon-only in BOTH states (the exit pill included — a label there is
+          the loudest thing on an otherwise stripped screen). The state text
+          stays for screen readers; sighted users get the title + Esc. %>
       <button type="button" class="lesson__tool lesson-reading-toggle" hidden
               data-reading-mode-target="toggle"
               data-action="reading-mode#toggle"
-              aria-label="<%= t("lessons.reading_mode") %>" title="<%= t("lessons.reading_mode") %>">
+              title="<%= t("lessons.reading_mode") %>">
         <span class="lesson-reading-toggle__enter">
           <%= heroicon "arrows-pointing-out", variant: :outline %>
-          <span class="lesson-reading-toggle__text"><%= t("lessons.reading_mode") %></span>
+          <span class="for-screen-reader"><%= t("lessons.reading_mode") %></span>
         </span>
         <span class="lesson-reading-toggle__exit">
           <%= heroicon "arrows-pointing-in", variant: :outline %>
-          <span class="lesson-reading-toggle__text"><%= t("lessons.reading_mode_exit") %></span>
+          <span class="for-screen-reader"><%= t("lessons.reading_mode_exit") %></span>
         </span>
       </button>
 
