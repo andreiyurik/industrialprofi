@@ -387,7 +387,7 @@
    renders the next lesson already stripped. These rules live at the END of
    this file ON PURPOSE — `.lesson-layout--reading { display: block }` must
    out-cascade the same-specificity grid rules above (source order wins). */
-body:has(.lesson-layout--reading) :is(.header, .support-cta) {
+body:has(.lesson-layout--reading) :is(.header, .support-cta, .footer) {
   display: none;
 }
 
@@ -425,20 +425,27 @@ body:has(.lesson-layout--reading) :is(.header, .support-cta) {
   display: inline-flex;
 }
 
+/* Icon-only corner exit, dimmed to the edge of visibility — it must not pull
+   peripheral vision off the text, only be findable when looked for. Hover or
+   keyboard focus raises it back to a full button. Esc works too. */
 .lesson-layout--reading .lesson-reading-toggle {
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-subtle);
-  border-radius: 2em;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: var(--color-subtle-dark);
   inset-block-start: 1rem;
   inset-inline-end: 1.5rem;
-  padding: 0.5em 1em;
+  padding: 0.6em;
   position: fixed;
+  transition-duration: 200ms;
+  transition-property: color, border-color, background-color;
+  transition-timing-function: ease-out;
   z-index: 40;
 }
 
-/* The toolbar keeps the toggle icon-only, but the corner exit pill needs its
-   label ("Выйти из режима чтения") — chrome is hidden, so an icon alone is too
-   cryptic. Loads after lesson.css, so this wins the equal-specificity cascade. */
-.lesson-layout--reading .lesson-reading-toggle__text {
-  display: inline;
+.lesson-layout--reading .lesson-reading-toggle:focus-visible,
+.lesson-layout--reading .lesson-reading-toggle:hover {
+  background-color: var(--color-bg);
+  border-color: var(--color-subtle);
+  color: var(--color-ink);
 }

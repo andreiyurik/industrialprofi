@@ -123,13 +123,6 @@
   color: var(--color-positive);
 }
 
-/* The reading-mode toggle is icon-only in the toolbar; its label is revealed
-   only once reading mode is on, when the button becomes the corner exit pill
-   (see sidebar.css). */
-.lesson__tools .lesson-reading-toggle__text {
-  display: none;
-}
-
 /* The save-for-later bookmark joins the icon toolbar: keep just the glyph,
    matching the project-card treatment (title/aria-label carry the meaning). */
 .lesson__tools .bookmark-btn__label {
