@@ -1,0 +1,30 @@
+<nav class="palette__quick">
+  <% if signed_in? %>
+    <%= link_to dashboard_path, class: "palette__tile" do %>
+      <%= heroicon "home", variant: :outline %>
+      <span><%= t("nav.dashboard") %></span>
+    <% end %>
+    <%= link_to paths_path, class: "palette__tile" do %>
+      <%= heroicon "academic-cap", variant: :outline %>
+      <span><%= t("nav.professions") %></span>
+    <% end %>
+    <%= link_to journal_entries_path, class: "palette__tile" do %>
+      <%= heroicon "pencil-square", variant: :outline %>
+      <span><%= t("nav.journal") %></span>
+    <% end %>
+  <% else %>
+    <%= link_to paths_path, class: "palette__tile" do %>
+      <%= heroicon "academic-cap", variant: :outline %>
+      <span><%= t("nav.professions") %></span>
+    <% end %>
+    <%= link_to projects_path, class: "palette__tile" do %>
+      <%= heroicon "wrench-screwdriver", variant: :outline %>
+      <span><%= t("nav.projects") %></span>
+    <% end %>
+    <%= link_to calculators_path, class: "palette__tile" do %>
+      <%= heroicon "calculator", variant: :outline %>
+      <span><%= t("nav.calculators") %></span>
+    <% end %>
+  <% end %>
+</nav>
+<p class="palette__hint"><%= t("palette.hint") %></p>

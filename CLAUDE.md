@@ -438,6 +438,14 @@ git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
   body, quoted-prefix terms (Russian morphology + FTS-operator injection safety),
   `<mark>` snippets. Live form = `auto-submit` debounce into a Turbo Frame; the
   input stays outside the frame so it keeps focus. Zero new dependencies.
+- **Command palette (`shared/_palette`):** Fizzy's jump menu adapted — the header
+  search icon (a real link to `/search`, the no-JS fallback), Ctrl/Cmd+K (both
+  layouts: k/л) or `/` opens a `<dialog>`: live FTS5 results in a
+  `palette_results` frame (`SearchesController#show` renders the compact
+  `palette` view for that frame id), quick-destination tiles while the query is
+  blank (guest vs signed-in sets), Fizzy-style colophon → `/contribute`. One
+  small Stimulus controller (`palette`); no arrow-key list navigation on
+  purpose — Enter/click covers it.
 - **Content export (`content:export[slug]`):** `CurriculumExporter` writes a
   profession from the DB back into the exact YAML/Markdown tree the importer
   reads (default `tmp/export/<slug>`) — a portable content pack for on-prem
@@ -495,7 +503,6 @@ git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
 - **Positioning: narrow wedge, wide ceiling.** Marketing copy speaks only about
   industrial trades that exist; the wider "any profession" vision lives on
   `/contribute`, the FAQ, and `/roadmap`. No renaming.
-- **No command palette** until search ships (v0.3) — the palette is search's UI.
 - **No wiki social governance** (arbitration, RfA voting, granular permission
   tiers, checkuser) — «лишние механики» at this scale.
 - **Lesson callouts are blockquote + marker, NOT a custom editor block**
@@ -515,7 +522,7 @@ git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
   from the SQLite DBs, and need their own backup rule (`docs/DEPLOY.md`).
 
 **Not built yet (v0.3):** community-authored roadmaps, public profiles,
-moderated public portfolio, command palette (now unblocked — search shipped).
+moderated public portfolio.
 
 ## Docs
 

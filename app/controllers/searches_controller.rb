@@ -8,5 +8,6 @@ class SearchesController < ApplicationController
   def show
     @query = params[:q].to_s.strip
     @results = LessonSearch.new(@query).results
+    render :palette if turbo_frame_request_id == "palette_results"
   end
 end
