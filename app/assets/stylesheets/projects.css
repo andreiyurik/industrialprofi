@@ -110,36 +110,25 @@
   text-align: center;
 }
 
-/* ── The difficulty ladder ─────────────────────────────────────────── */
-/* Three steps, one filled per level; filled steps take currentColor, so the
-   glyph follows its context (row ink, chip text, inverted selected chip). */
-.difficulty-scale {
-  align-items: flex-end;
-  display: inline-flex;
+/* ── The difficulty dot ────────────────────────────────────────────── */
+/* Ski-trail convention: green / yellow / red, category colours from the same
+   OKLCH primitives as the resource badges. The filter chips pair the dot with
+   its word, so the mapping needs no legend. */
+.difficulty-dot {
+  background-color: var(--difficulty-color, oklch(var(--lch-green)));
+  border-radius: 50%;
+  block-size: 0.55rem;
+  display: inline-block;
   flex-shrink: 0;
-  gap: 2px;
-
-  i {
-    background-color: var(--color-subtle);
-    block-size: 0.35em;
-    border-radius: 1px;
-    display: inline-block;
-    inline-size: 0.3em;
-  }
-
-  i:nth-child(2) {
-    block-size: 0.6em;
-  }
-
-  i:nth-child(3) {
-    block-size: 0.85em;
-  }
+  inline-size: 0.55rem;
 }
 
-.difficulty-scale--beginner i:nth-child(1),
-.difficulty-scale--intermediate i:nth-child(-n + 2),
-.difficulty-scale--advanced i {
-  background-color: currentColor;
+.difficulty-dot--intermediate {
+  --difficulty-color: oklch(var(--lch-yellow));
+}
+
+.difficulty-dot--advanced {
+  --difficulty-color: oklch(var(--lch-red));
 }
 
 /* ── The document: one section per profession ──────────────────────── */
@@ -200,13 +189,6 @@
 .project-tile__top {
   align-items: center;
   display: flex;
-  justify-content: space-between;
-  /* keep the done check clear of the corner bookmark */
-  padding-inline-end: 1.6rem;
-}
-
-.project-tile .difficulty-scale {
-  color: var(--color-ink);
 }
 
 .project-tile__title {
@@ -216,13 +198,32 @@
   line-height: 1.4;
 }
 
-.project-tile__done {
-  color: var(--color-positive);
-  display: inline-flex;
+/* Done tasks go dark («мёртвое тише живого») — no badge, the card itself
+   reads as extinguished: the fill drains to the page black, the ink and the
+   dot fade. Hover wakes it back up for review. */
+.project-tile--done {
+  --panel-background: transparent;
+}
 
-  svg {
-    block-size: 1.1rem;
-    inline-size: 1.1rem;
+.project-tile--done .project-tile__title {
+  color: var(--color-disabled);
+}
+
+.project-tile--done .difficulty-dot {
+  opacity: 0.35;
+}
+
+@media (any-hover: hover) {
+  .project-tile--done:hover {
+    --panel-background: var(--color-subtle-light);
+  }
+
+  .project-tile--done:hover .project-tile__title {
+    color: var(--color-ink);
+  }
+
+  .project-tile--done:hover .difficulty-dot {
+    opacity: 1;
   }
 }
 

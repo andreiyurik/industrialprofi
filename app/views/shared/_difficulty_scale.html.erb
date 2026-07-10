@@ -1,8 +1,0 @@
-<%# locals: (difficulty:, sr_label: true) -%>
-<%# Monochrome difficulty ladder — one filled step per level. The calm
-    replacement for the old traffic-light pills. %>
-<span class="difficulty-scale difficulty-scale--<%= difficulty %>" aria-hidden="true"
-      title="<%= t("lessons.difficulty.#{difficulty}") %>"><i></i><i></i><i></i></span>
-<% if sr_label %>
-  <span class="for-screen-reader"><%= t("lessons.difficulty.#{difficulty}") %></span>
-<% end %>

@@ -7,8 +7,8 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".project-tile", 2
     assert_select ".project-group", 2
     assert_select ".project-group__heading", text: /#{paths(:electrician).title}/
-    assert_match "сборка распределительного щитка", response.body
-    assert_match "первый сварной шов", response.body
+    assert_match "Сборка распределительного щитка", response.body
+    assert_match "Первый сварной шов", response.body
     assert_match I18n.t("projects.found", count: 2), response.body
   end
 
@@ -23,24 +23,24 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/Черновик/, response.body)
   end
 
-  test "rows carry the monochrome difficulty ladder" do
+  test "tiles carry the difficulty dot" do
     get projects_path
-    assert_select ".project-tile .difficulty-scale--advanced"
-    assert_select ".project-tile .difficulty-scale--beginner"
+    assert_select ".project-tile .difficulty-dot--advanced"
+    assert_select ".project-tile .difficulty-dot--beginner"
   end
 
   test "filters by difficulty" do
     get projects_path(difficulty: "beginner")
     assert_select ".project-tile", 1
-    assert_match "первый сварной шов", response.body
-    assert_no_match(/сборка распределительного щитка/, response.body)
+    assert_match "Первый сварной шов", response.body
+    assert_no_match(/Сборка распределительного щитка/, response.body)
   end
 
   test "filters by path" do
     get projects_path(path: paths(:electrician).slug)
     assert_select ".project-tile", 1
-    assert_match "сборка распределительного щитка", response.body
-    assert_no_match(/первый сварной шов/, response.body)
+    assert_match "Сборка распределительного щитка", response.body
+    assert_no_match(/Первый сварной шов/, response.body)
   end
 
   test "empty filter combination offers a reset link" do
@@ -60,8 +60,8 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
     sign_in_as users(:member)
     get projects_path
-    assert_operator response.body.index("первый сварной шов"),
-                    :<, response.body.index("сборка распределительного щитка")
+    assert_operator response.body.index("Первый сварной шов"),
+                    :<, response.body.index("Сборка распределительного щитка")
   end
 
   test "bookmark toggles appear only for signed-in users" do
@@ -80,7 +80,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
     get projects_path(saved: "1")
     assert_select ".project-tile", 1
-    assert_match "сборка распределительного щитка", response.body
+    assert_match "Сборка распределительного щитка", response.body
     assert_select ".bookmark-btn--on"
   end
 
@@ -120,6 +120,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
     get projects_path
     assert_response :success
-    assert_select ".project-tile__done"
+    assert_select ".project-tile--done", 1
   end
 end

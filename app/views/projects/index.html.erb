@@ -38,7 +38,7 @@
           <%= link_to projects_path(path: @selected_path&.slug, difficulty: difficulty, saved: saved_param),
                       class: "filter-chip",
                       "aria-current": (@selected_difficulty == difficulty) || nil do %>
-            <%= render "shared/difficulty_scale", difficulty: difficulty, sr_label: false %>
+            <%= render "shared/difficulty_dot", difficulty: difficulty, sr_label: false %>
             <%= t("lessons.difficulty.#{difficulty}") %>
           <% end %>
         <% end %>
