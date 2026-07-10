@@ -75,10 +75,12 @@
           <span class="brand__text"><%= t("site.name") %></span>
         <% end %>
         <div class="header__right">
-          <%# Mobile: a zero-JS <details> disclosure collapses the nav behind a
-              hamburger. Desktop (≥820px): the toggle is hidden and the panel
-              flows inline as the nav row — single source of links, no JS. %>
-          <details class="header__menu">
+          <%# Mobile: a <details> disclosure collapses the nav behind a
+              hamburger; the details controller adds menu-style light dismiss
+              (click outside / Esc). Desktop (≥820px): the toggle is hidden and
+              the panel flows inline as the nav row — single source of links. %>
+          <details class="header__menu" data-controller="details" data-details-target="details"
+                   data-action="click@document->details#closeOnClickOutside keydown.esc@window->details#close">
             <summary class="header__menu-toggle" aria-label="<%= t("nav.menu") %>">
               <%= heroicon "bars-3", variant: :outline %>
             </summary>
