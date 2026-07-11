@@ -160,6 +160,7 @@
 .account-menu-button {
   align-items: center;
   background: none;
+  position: relative; /* anchors the corner notify-dot */
   border: 1px solid var(--color-subtle);
   border-radius: 999px;
   color: var(--color-ink);
@@ -344,6 +345,7 @@
     justify-content: center;
     list-style: none;
     padding: 0.3rem;
+    position: relative; /* anchors the corner notify-dot */
   }
   .header__menu-toggle::-webkit-details-marker { display: none; }
   .header__menu-toggle svg {

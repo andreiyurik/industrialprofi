@@ -1,0 +1,30 @@
+<%# The contributor's side of the suggest-edit pipeline: what happened to my
+    edits. Rendering a decision here counts as "seen" — the fallback email
+    (SuggestionEmailsJob) then never fires for it. %>
+<section id="dashboard_suggestions" class="dashboard__suggestions">
+  <h2 class="dashboard__others-title"><%= t("dashboard.suggestions_title") %></h2>
+  <p class="dashboard__courses-hint"><%= t("dashboard.suggestions_hint") %></p>
+  <div class="panel dashboard-suggestions">
+    <% @my_suggestions.each do |suggestion| %>
+      <div class="dashboard-suggestion">
+        <div class="dashboard-suggestion__row">
+          <span class="badge <%= { "pending" => "badge--progress", "approved" => "badge--done", "rejected" => "badge--draft" }[suggestion.status] %>">
+            <%= t("dashboard.suggestion_status.#{suggestion.status}") %>
+          </span>
+          <%= link_to suggestion.lesson.title, suggestion.lesson, class: "dashboard-suggestion__title" %>
+          <% if @fresh_suggestion_ids.include?(suggestion.id) %>
+            <span class="notify-dot" title="<%= t("dashboard.suggestion_fresh") %>"></span>
+          <% end %>
+          <span class="dashboard-suggestion__date">
+            <%= l((suggestion.reviewed_at || suggestion.created_at).to_date) %>
+          </span>
+        </div>
+        <% if suggestion.rejected? && suggestion.reviewer_comment.present? %>
+          <p class="dashboard-suggestion__comment">
+            <%= t("dashboard.suggestion_comment") %> <%= suggestion.reviewer_comment %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>

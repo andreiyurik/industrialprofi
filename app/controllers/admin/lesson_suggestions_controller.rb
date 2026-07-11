@@ -22,7 +22,7 @@ module Admin
             source: "suggestion",
             suggestion: @suggestion
           )
-          @suggestion.update!(status: "approved")
+          @suggestion.update!(status: "approved", reviewed_at: Time.current)
           record_admin_action("suggestion_approved", target: @suggestion,
             lesson: @suggestion.lesson.title, section: @suggestion.section)
         end
@@ -35,6 +35,7 @@ module Admin
         ActiveRecord::Base.transaction do
           @suggestion.update!(
             status: "rejected",
+            reviewed_at: Time.current,
             reviewer_comment: params.dig(:lesson_suggestion, :reviewer_comment)
           )
           record_admin_action("suggestion_rejected", target: @suggestion,

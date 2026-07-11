@@ -100,4 +100,48 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_match I18n.t("dashboard.courses_title"), response.body
     assert_match courses(:el_basics).title, response.body
   end
+
+  test "lists my suggestions with the reviewer's comment and marks decisions seen" do
+    users(:member).lesson_suggestions.create!(
+      lesson: lessons(:pteep), section: "body", author_name: "Иван",
+      body_markdown: "Правка", status: "rejected", reviewed_at: 1.hour.ago,
+      reviewer_comment: "Сверьте с ПУЭ."
+    )
+
+    sign_in_as users(:member)
+    get dashboard_path
+
+    assert_select "#dashboard_suggestions" do
+      assert_select ".dashboard-suggestion", 1
+      assert_select ".notify-dot", minimum: 1
+    end
+    assert_match "Сверьте с ПУЭ.", response.body
+    assert users(:member).reload.suggestions_seen_at.present?
+
+    # Second visit: the decision was seen, the fresh marker is gone.
+    get dashboard_path
+    assert_select "#dashboard_suggestions .notify-dot", 0
+  end
+
+  test "hides the suggestions section for users who never suggested" do
+    sign_in_as users(:member)
+    get dashboard_path
+    assert_select "#dashboard_suggestions", false
+    assert_nil users(:member).reload.suggestions_seen_at
+  end
+
+  test "header shows the unseen-decision dot until the dashboard is visited" do
+    users(:member).lesson_suggestions.create!(
+      lesson: lessons(:pteep), section: "body", author_name: "Иван",
+      body_markdown: "Правка", status: "approved", reviewed_at: 1.hour.ago
+    )
+
+    sign_in_as users(:member)
+    get paths_path
+    assert_select ".account-menu-button .notify-dot", 1
+
+    get dashboard_path
+    get paths_path
+    assert_select ".account-menu-button .notify-dot", 0
+  end
 end

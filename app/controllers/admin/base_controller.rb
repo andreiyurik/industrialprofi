@@ -51,9 +51,7 @@ module Admin
       # Suggestions the current user may moderate: all for admins, only their
       # granted professions for editors. Scopes both the nav count and the queue.
       def editable_suggestions
-        return LessonSuggestion.all if Current.user.administrator?
-
-        LessonSuggestion.joins(:lesson).where(lessons: { path_id: Current.user.editorships.select(:path_id) })
+        Current.user.reviewable_suggestions
       end
 
       def pending_suggestions_count

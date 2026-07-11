@@ -44,6 +44,12 @@
               <%= t("account.reminder_emails_label") %>
             </label>
             <p class="account-settings__hint"><%= t("account.reminder_emails_hint") %></p>
+            <label class="account-settings__checkbox">
+              <%= hidden_field_tag "user[suggestion_emails]", "0", id: nil %>
+              <%= check_box_tag "user[suggestion_emails]", "1", Current.user.suggestion_emails? %>
+              <%= t("account.suggestion_emails_label") %>
+            </label>
+            <p class="account-settings__hint"><%= t("account.suggestion_emails_hint") %></p>
           </div>
           <div class="account-settings__actions">
             <%= f.submit t("account.save"), class: "btn btn--reversed btn--small" %>

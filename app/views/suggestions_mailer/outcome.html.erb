@@ -1,0 +1,18 @@
+<p><%= t("suggestions_mailer.outcome.greeting", name: @user.name) %></p>
+
+<p><%= t("suggestions_mailer.outcome.body_#{@suggestion.status}", lesson: @lesson.title) %></p>
+
+<% if @suggestion.rejected? && @suggestion.reviewer_comment.present? %>
+  <p><%= t("suggestions_mailer.outcome.comment_label") %></p>
+  <blockquote><%= @suggestion.reviewer_comment %></blockquote>
+<% end %>
+
+<% if @suggestion.approved? %>
+  <p><%= link_to t("suggestions_mailer.outcome.view_history"), lesson_revisions_url(@lesson) %></p>
+<% else %>
+  <p><%= link_to t("suggestions_mailer.outcome.view_lesson"), lesson_url(@lesson) %></p>
+<% end %>
+
+<p><%= t("suggestions_mailer.outcome.thanks") %></p>
+
+<p><%= link_to t("suggestions_mailer.outcome.unsubscribe"), @unsubscribe_url %></p>
