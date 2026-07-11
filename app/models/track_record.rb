@@ -54,4 +54,26 @@ class TrackRecord
     counts = @suggestions.approved.joins(:lesson).group("lessons.path_id").count
     Path.where(id: counts.keys).ordered.map { |path| [ path, counts[path.id] ] }
   end
+
+  Candidate = Data.define(:user, :path, :accepted)
+
+  # Every (person, profession) pair that has earned an editorship proposal:
+  # TRUSTED_AT accepted edits in that profession and no grant yet. Skips
+  # administrators (who need no grant) and suspended accounts. Feeds the admin
+  # dashboard — the threshold only proposes, a human still decides.
+  def self.editorship_candidates
+    counts = LessonSuggestion.approved
+      .joins(:lesson, :user)
+      .merge(User.active.where.not(role: :administrator))
+      .group(:user_id, "lessons.path_id")
+      .having("COUNT(*) >= ?", TRUSTED_AT)
+      .count
+    granted = Editorship.where(user_id: counts.keys.map(&:first)).pluck(:user_id, :path_id).to_set
+    users = User.where(id: counts.keys.map(&:first)).index_by(&:id)
+    paths = Path.where(id: counts.keys.map(&:last)).index_by(&:id)
+
+    counts.filter_map { |(user_id, path_id), accepted|
+      Candidate.new(user: users[user_id], path: paths[path_id], accepted:) unless granted.include?([ user_id, path_id ])
+    }.sort_by { |candidate| -candidate.accepted }
+  end
 end

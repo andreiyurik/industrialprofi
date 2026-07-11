@@ -18,6 +18,29 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  # ── Header account menu: the quiet role mark + the editors' entry point ──
+
+  test "an editor sees their role badge and the Редактура menu item" do
+    sign_in_as users(:editor)
+    get dashboard_path
+    assert_select ".account-menu__role", text: I18n.t("admin.roles.editor")
+    assert_match I18n.t("nav.editing"), response.body
+    assert_no_match I18n.t("nav.admin"), response.body
+  end
+
+  test "a member gets no role badge" do
+    sign_in_as users(:member)
+    get dashboard_path
+    assert_select ".account-menu__role", count: 0
+  end
+
+  test "an administrator's menu item stays Admin" do
+    sign_in_as users(:admin)
+    get dashboard_path
+    assert_select ".account-menu__role", text: I18n.t("admin.roles.administrator")
+    assert_match I18n.t("nav.admin"), response.body
+  end
+
   test "shows empty state without completions" do
     sign_in_as users(:member)
     get dashboard_path

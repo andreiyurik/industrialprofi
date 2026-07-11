@@ -65,6 +65,43 @@ class Admin::DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_match I18n.t("admin.dashboard.review_now"), response.body
   end
 
+  test "the self-sufficiency compass counts published paths with a non-founder editor" do
+    sign_in_as users(:admin)
+    get admin_root_path
+    # The fixture editor maintains electrician (published) and a draft;
+    # welder has nobody — 1 of 2 published paths is founder-independent.
+    assert_match I18n.t("admin.dashboard.paths_with_editors"), response.body
+    assert_match I18n.t("admin.dashboard.paths_with_editors_count", covered: 1, total: 2), response.body
+  end
+
+  test "a dormant grant does not count toward the compass" do
+    users(:editor).update!(role: :member)
+
+    sign_in_as users(:admin)
+    get admin_root_path
+    assert_match I18n.t("admin.dashboard.paths_with_editors_count", covered: 0, total: 2), response.body
+  end
+
+  test "editorship candidates surface with a link to the user card" do
+    member = users(:member)
+    TrackRecord::TRUSTED_AT.times do
+      member.lesson_suggestions.create!(lesson: lessons(:pteep), author_name: member.name,
+        body_markdown: "Правка", status: "approved")
+    end
+
+    sign_in_as users(:admin)
+    get admin_root_path
+    assert_match I18n.t("admin.dashboard.candidates_title"), response.body
+    assert_match member.name, response.body
+    assert_match admin_user_path(member), response.body
+  end
+
+  test "no candidates block when nobody has earned a proposal" do
+    sign_in_as users(:admin)
+    get admin_root_path
+    assert_no_match I18n.t("admin.dashboard.candidates_title"), response.body
+  end
+
   test "show embeds the vitals frame" do
     sign_in_as users(:admin)
     get admin_root_path

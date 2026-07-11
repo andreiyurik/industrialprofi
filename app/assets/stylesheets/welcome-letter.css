@@ -79,3 +79,10 @@
   gap: 0.75rem;
   margin-block-start: 1.5rem;
 }
+
+/* The editor letter dismisses via real POSTs (button_to) — let the wrapping
+   forms disappear so the buttons lay out as before. */
+.welcome-letter__close-form,
+.welcome-letter__actions form {
+  display: contents;
+}

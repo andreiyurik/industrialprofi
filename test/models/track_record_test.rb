@@ -84,6 +84,44 @@ class TrackRecordTest < ActiveSupport::TestCase
       TrackRecord.for(@user).accepted_by_profession
   end
 
+  # ── Editorship candidates (the admin-dashboard proposal list) ──
+
+  test "a trusted contributor without a grant becomes a candidate for that path" do
+    TrackRecord::TRUSTED_AT.times { suggest @user, @electrician, status: "approved" }
+
+    candidates = TrackRecord.editorship_candidates
+    assert_equal [ [ @user, paths(:electrician), TrackRecord::TRUSTED_AT ] ],
+      candidates.map { |c| [ c.user, c.path, c.accepted ] }
+  end
+
+  test "no candidacy below the trusted threshold" do
+    (TrackRecord::TRUSTED_AT - 1).times { suggest @user, @electrician, status: "approved" }
+    assert_empty TrackRecord.editorship_candidates
+  end
+
+  test "an existing grant removes the candidacy for that path only" do
+    TrackRecord::TRUSTED_AT.times { suggest @user, @electrician, status: "approved" }
+    TrackRecord::TRUSTED_AT.times { suggest @user, @welder, status: "approved" }
+    Editorship.create!(user: @user, path: paths(:electrician))
+
+    assert_equal [ paths(:welder) ], TrackRecord.editorship_candidates.map(&:path)
+  end
+
+  test "administrators and suspended users are never candidates" do
+    TrackRecord::TRUSTED_AT.times { suggest users(:admin), @electrician, status: "approved" }
+    TrackRecord::TRUSTED_AT.times { suggest @user, @welder, status: "approved" }
+    @user.suspend!
+
+    assert_empty TrackRecord.editorship_candidates
+  end
+
+  test "candidates are ordered by earned volume, largest first" do
+    TrackRecord::TRUSTED_AT.times { suggest @user, @electrician, status: "approved" }
+    (TrackRecord::TRUSTED_AT + 2).times { suggest users(:editor), @welder, status: "approved" }
+
+    assert_equal [ users(:editor), @user ], TrackRecord.editorship_candidates.map(&:user)
+  end
+
   private
 
   def suggest(user, lesson, status:, section: "body")

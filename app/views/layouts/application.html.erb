@@ -95,7 +95,7 @@
                 <p class="header__menu-identity account-menu__header">
                   <%= avatar_tag(Current.user.name) %>
                   <span class="account-menu__identity">
-                    <span class="account-menu__name"><%= Current.user.name %></span>
+                    <span class="account-menu__name"><%= Current.user.name %><% unless Current.user.member? %> <span class="badge badge--marker account-menu__role"><%= t("admin.roles.#{Current.user.role}") %></span><% end %></span>
                     <span class="account-menu__email"><%= Current.user.email_address %></span>
                   </span>
                 </p>
@@ -149,7 +149,7 @@
                   <% if Current.user.can_edit_content? %>
                     <%= link_to (Current.user.can_administer? ? admin_root_path : admin_lesson_suggestions_path), class: "account-menu__link" do %>
                       <%= heroicon "cog-6-tooth", variant: :outline %>
-                      Admin
+                      <%= Current.user.can_administer? ? t("nav.admin") : t("nav.editing") %>
                     <% end %>
                   <% end %>
                   <%= button_to session_path, method: :delete, class: "account-menu__link account-menu__signout" do %>
@@ -191,7 +191,7 @@
               <p class="account-menu__header">
                 <%= avatar_tag(Current.user.name) %>
                 <span class="account-menu__identity">
-                  <span class="account-menu__name"><%= Current.user.name %></span>
+                  <span class="account-menu__name"><%= Current.user.name %><% unless Current.user.member? %> <span class="badge badge--marker account-menu__role"><%= t("admin.roles.#{Current.user.role}") %></span><% end %></span>
                   <span class="account-menu__email"><%= Current.user.email_address %></span>
                 </span>
               </p>
@@ -218,7 +218,7 @@
                   <%# Admins land on the overview; editors on their main job — the moderation queue. %>
                   <%= link_to (Current.user.can_administer? ? admin_root_path : admin_lesson_suggestions_path), class: "account-menu__link" do %>
                     <%= heroicon "cog-6-tooth", variant: :outline %>
-                    Admin
+                    <%= Current.user.can_administer? ? t("nav.admin") : t("nav.editing") %>
                   <% end %>
                 <% end %>
               </nav>
@@ -238,6 +238,7 @@
 
     <%= render "shared/flash" %>
     <%= render "shared/welcome_letter" if flash[:welcome_letter] %>
+    <%= render "shared/editor_welcome_letter" if signed_in? && Current.user.needs_editor_welcome? %>
 
     <main class="<%= @layout_class %>">
       <%= yield %>
