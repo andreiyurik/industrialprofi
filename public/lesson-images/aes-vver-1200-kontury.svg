@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" role="img" aria-label="Схема энергоблока ВВЭР-1200: первый радиоактивный контур — реактор, ГЦН, горизонтальный парогенератор; второй контур — турбина, генератор, конденсатор, КЭН, деаэратор, ПЭН; стрелки потока и точки измерения температуры, давления, расхода и уровня">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .sig{stroke:#3d9bff;stroke-width:1.75;fill:none}
+    .icon{stroke:#3d9bff;stroke-width:1.6;fill:none}
+    .ttl{font-size:14px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .lbl{fill:#3d9bff;font-size:10.5px;font-weight:600}
+    .tiny{fill:#a1a1a1;font-size:9.5px}
+    .zone1{fill:#e5484d;fill-opacity:.05;stroke:#e5484d;stroke-opacity:.35;stroke-width:1;stroke-dasharray:4 4}
+    .zlbl{fill:#e5484d;font-size:12px;font-weight:600;opacity:.9}
+    .z2lbl{fill:#a1a1a1;font-size:12px;font-weight:600}
+    .pt{fill:#11161c;stroke:#3d9bff;stroke-width:1.5}
+    .ptl{fill:#3d9bff;font-size:9.5px;font-weight:700;text-anchor:middle}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+    <marker id="ahb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3d9bff"/></marker>
+  </defs>
+
+  <!-- зона первого контура -->
+  <rect class="zone1" x="16" y="48" width="294" height="328" rx="12"/>
+  <g fill="#e5484d" opacity=".9" transform="translate(32,64)">
+    <path d="M0 0 L-3.5 -6.06 A7 7 0 0 1 3.5 -6.06 Z"/>
+    <path d="M0 0 L-3.5 -6.06 A7 7 0 0 1 3.5 -6.06 Z" transform="rotate(120)"/>
+    <path d="M0 0 L-3.5 -6.06 A7 7 0 0 1 3.5 -6.06 Z" transform="rotate(240)"/>
+    <circle r="1.7"/>
+  </g>
+  <text class="zlbl" x="46" y="68">1-й контур — радиоактивен</text>
+  <text class="z2lbl" x="336" y="68">2-й контур — чистая вода и пар</text>
+
+  <!-- Реактор -->
+  <rect class="box" x="36" y="110" width="110" height="160" rx="9"/>
+  <text class="ttl" x="91" y="138" text-anchor="middle">Реактор</text>
+  <text class="sub" x="91" y="155" text-anchor="middle">~3200 МВт тепл.</text>
+  <rect class="icon" x="61" y="172" width="60" height="58" rx="6"/>
+  <path class="icon" d="M73 182 V220 M91 182 V220 M109 182 V220"/>
+  <text class="tiny" x="91" y="248" text-anchor="middle">активная зона</text>
+
+  <!-- ГЦН -->
+  <circle class="dec" cx="180" cy="326" r="20"/>
+  <path class="icon" d="M190 316 L190 336 L168 326 Z"/>
+  <text style="font-size:11px;font-weight:700" x="180" y="360" text-anchor="middle">ГЦН</text>
+  <text class="tiny" x="180" y="373" text-anchor="middle">главный циркуляционный насос</text>
+
+  <!-- Парогенератор (граница контуров) -->
+  <rect class="dec" x="196" y="150" width="224" height="64" rx="9"/>
+  <text class="ttl" x="308" y="172" text-anchor="middle">Парогенератор (ПГ)</text>
+  <text class="sub" x="308" y="188" text-anchor="middle">горизонтальный · граница контуров</text>
+  <path d="M220 202 q8 -9 16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0" stroke="#7d7d7d" stroke-width="1" fill="none" opacity=".55"/>
+
+  <!-- петля первого контура -->
+  <path class="edge" d="M146 170 H196" marker-end="url(#ah)"/>
+  <path class="edge" d="M230 214 V326 H200" marker-end="url(#ah)"/>
+  <path class="edge" d="M160 326 H91 V270" marker-end="url(#ah)"/>
+
+  <!-- пар на турбину -->
+  <path class="sig" d="M420 166 H520" marker-end="url(#ahb)"/>
+  <text class="lbl" x="460" y="128" text-anchor="middle">пар из ПГ</text>
+  <text class="lbl" x="460" y="141" text-anchor="middle">~60 бар, ~280 °C</text>
+
+  <!-- Турбина -->
+  <rect class="box" x="520" y="116" width="170" height="76" rx="9"/>
+  <text class="ttl" x="605" y="140" text-anchor="middle">Турбина</text>
+  <text class="sub" x="605" y="157" text-anchor="middle">ТВД → СПП → ТНД</text>
+  <text class="sub" x="605" y="172" text-anchor="middle">3000 об/мин → 50 Гц</text>
+
+  <!-- вал и генератор -->
+  <path class="edge" d="M690 150 H710 M690 158 H710"/>
+  <rect class="box" x="710" y="122" width="134" height="64" rx="9"/>
+  <text class="ttl" x="777" y="148" text-anchor="middle">Генератор</text>
+  <text class="sub" x="777" y="165" text-anchor="middle">~1200 МВт эл.</text>
+
+  <!-- отработанный пар в конденсатор -->
+  <path class="sig" d="M605 192 V300" marker-end="url(#ahb)"/>
+  <text class="lbl" x="615" y="250">отработанный пар</text>
+
+  <!-- Конденсатор -->
+  <rect class="box" x="520" y="300" width="170" height="64" rx="9"/>
+  <text class="ttl" x="605" y="324" text-anchor="middle">Конденсатор</text>
+  <text class="sub" x="605" y="340" text-anchor="middle">вакуум ~0,05 бар</text>
+  <text class="sub" x="605" y="354" text-anchor="middle">охлаждающая вода</text>
+
+  <!-- конденсат: конденсатор -> КЭН -> деаэратор -->
+  <path class="edge" d="M520 332 H487" marker-end="url(#ah)"/>
+  <circle class="dec" cx="470" cy="332" r="17"/>
+  <path class="icon" d="M478 324 L478 340 L459 332 Z"/>
+  <text class="tiny" x="470" y="362" text-anchor="middle">КЭН</text>
+  <path class="edge" d="M453 332 H430" marker-end="url(#ah)"/>
+  <text class="tiny" x="441" y="322" text-anchor="middle">ПНД</text>
+
+  <!-- Деаэратор -->
+  <rect class="box" x="320" y="300" width="110" height="64" rx="9"/>
+  <text class="ttl" x="375" y="326" text-anchor="middle">Деаэратор</text>
+  <text class="sub" x="375" y="342" text-anchor="middle">удаляет O₂ и CO₂</text>
+  <text class="sub" x="375" y="356" text-anchor="middle">буфер воды</text>
+
+  <!-- питательная вода: деаэратор -> ПЭН -> ПВД -> ПГ -->
+  <path class="edge" d="M375 300 V277" marker-end="url(#ah)"/>
+  <circle class="dec" cx="375" cy="262" r="15"/>
+  <path class="icon" d="M366 269 L384 269 L375 251 Z"/>
+  <text class="tiny" x="352" y="266" text-anchor="end">ПЭН</text>
+  <path class="edge" d="M375 247 V214" marker-end="url(#ah)"/>
+  <text class="tiny" x="360" y="236" text-anchor="end">ПВД</text>
+  <text class="sub" x="395" y="228">питательная вода</text>
+  <text class="sub" x="395" y="242">~220–225 °C, ~70 бар</text>
+
+  <!-- точки измерений -->
+  <g>
+    <circle class="pt" cx="336" cy="150" r="8"/><text class="ptl" x="336" y="153.5">L</text>
+    <circle class="pt" cx="358" cy="150" r="8"/><text class="ptl" x="358" y="153.5">P</text>
+    <circle class="pt" cx="380" cy="150" r="8"/><text class="ptl" x="380" y="153.5">F</text>
+    <circle class="pt" cx="402" cy="150" r="8"/><text class="ptl" x="402" y="153.5">T</text>
+
+    <circle class="pt" cx="446" cy="184" r="8"/><text class="ptl" x="446" y="187.5">P</text>
+    <circle class="pt" cx="468" cy="184" r="8"/><text class="ptl" x="468" y="187.5">T</text>
+    <circle class="pt" cx="490" cy="184" r="8"/><text class="ptl" x="490" y="187.5">F</text>
+
+    <circle class="pt" cx="545" cy="192" r="8"/><text class="ptl" x="545" y="195.5">P</text>
+    <circle class="pt" cx="567" cy="192" r="8"/><text class="ptl" x="567" y="195.5">T</text>
+
+    <circle class="pt" cx="540" cy="300" r="8"/><text class="ptl" x="540" y="303.5">P</text>
+    <circle class="pt" cx="562" cy="300" r="8"/><text class="ptl" x="562" y="303.5">L</text>
+    <circle class="pt" cx="584" cy="300" r="8"/><text class="ptl" x="584" y="303.5">T</text>
+
+    <circle class="pt" cx="345" cy="300" r="8"/><text class="ptl" x="345" y="303.5">L</text>
+  </g>
+
+  <!-- легенда -->
+  <path d="M20 392 H840" stroke="#2e2e2e" stroke-width="1"/>
+  <circle class="pt" cx="44" cy="416" r="8"/><text class="ptl" x="44" y="419.5">T</text>
+  <text class="sub" x="60" y="420">температура</text>
+  <circle class="pt" cx="230" cy="416" r="8"/><text class="ptl" x="230" y="419.5">P</text>
+  <text class="sub" x="246" y="420">давление</text>
+  <circle class="pt" cx="410" cy="416" r="8"/><text class="ptl" x="410" y="419.5">F</text>
+  <text class="sub" x="426" y="420">расход</text>
+  <circle class="pt" cx="570" cy="416" r="8"/><text class="ptl" x="570" y="419.5">L</text>
+  <text class="sub" x="586" y="420">уровень</text>
+  <text class="sub" x="430" y="448" text-anchor="middle">Критичные точки: уровень (L) в парогенераторе и вакуум (P) в конденсаторе</text>
+</svg>

@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 480" role="img" aria-label="Слева логика защиты 2oo3: три независимых канала давления (датчик, сравнение с уставкой, бит) входят в блок голосования «2 из 3», выход — команда защиты SCRAM; один отказ канала не даёт ложного трипа и не блокирует защиту. Справа фрагмент матрицы C&amp;E: строки-причины (каналы A, B, C по давлению первого контура и высокий уровень в компенсаторе давления), столбцы-следствия (SCRAM и открытие клапана сброса), X на пересечениях; SCRAM собирается по логике 2oo3.">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .edge{stroke:#7d7d7d;stroke-width:1.75;fill:none}
+    .grid{stroke:#2e2e2e;stroke-width:1}
+    .ttl{font-size:14px;font-weight:700}
+    .lbl{font-size:12px;font-weight:600}
+    .rowt{font-size:11.5px;font-weight:600}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .col{fill:#3d9bff;font-size:12px;font-weight:600}
+    .colS{fill:#3d9bff;font-size:11px;font-weight:600}
+    .tag{font-size:10.5px;font-weight:700;fill:#a1a1a1}
+    .iccap{fill:#a1a1a1;font-size:9.5px}
+    .x{fill:#3d9bff;font-size:15px;font-weight:700}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7d7d7d"/></marker>
+  </defs>
+
+  <!-- ================= LEFT: 2oo3 voting logic ================= -->
+  <text class="ttl" x="20" y="32">Логика защиты 2oo3</text>
+  <text class="sub" x="20" y="50">три независимых канала одного параметра</text>
+
+  <text class="col" x="52" y="78" text-anchor="middle">датчик</text>
+  <text class="col" x="148" y="78" text-anchor="middle">уставка</text>
+
+  <!-- channel A -->
+  <circle class="box" cx="52" cy="106" r="21"/>
+  <text class="tag" x="52" y="103" text-anchor="middle">PT</text>
+  <text class="lbl" x="52" y="117" text-anchor="middle">A</text>
+  <rect class="box" x="100" y="84" width="96" height="44" rx="9"/>
+  <text class="rowt" x="148" y="110" text-anchor="middle">&gt; уставки?</text>
+  <path class="edge" d="M73 106 H100" marker-end="url(#ah)"/>
+  <path class="edge" d="M196 106 H246" marker-end="url(#ah)"/>
+  <text class="iccap" x="221" y="100" text-anchor="middle">бит</text>
+
+  <!-- channel B -->
+  <circle class="box" cx="52" cy="178" r="21"/>
+  <text class="tag" x="52" y="175" text-anchor="middle">PT</text>
+  <text class="lbl" x="52" y="189" text-anchor="middle">B</text>
+  <rect class="box" x="100" y="156" width="96" height="44" rx="9"/>
+  <text class="rowt" x="148" y="182" text-anchor="middle">&gt; уставки?</text>
+  <path class="edge" d="M73 178 H100" marker-end="url(#ah)"/>
+  <path class="edge" d="M196 178 H246" marker-end="url(#ah)"/>
+  <text class="iccap" x="221" y="172" text-anchor="middle">бит</text>
+
+  <!-- channel C -->
+  <circle class="box" cx="52" cy="250" r="21"/>
+  <text class="tag" x="52" y="247" text-anchor="middle">PT</text>
+  <text class="lbl" x="52" y="261" text-anchor="middle">C</text>
+  <rect class="box" x="100" y="228" width="96" height="44" rx="9"/>
+  <text class="rowt" x="148" y="254" text-anchor="middle">&gt; уставки?</text>
+  <path class="edge" d="M73 250 H100" marker-end="url(#ah)"/>
+  <path class="edge" d="M196 250 H246" marker-end="url(#ah)"/>
+  <text class="iccap" x="221" y="244" text-anchor="middle">бит</text>
+
+  <!-- voter -->
+  <rect class="dec" x="246" y="84" width="96" height="188" rx="9"/>
+  <text class="ttl" x="294" y="174" text-anchor="middle" fill="#3d9bff">2 из 3</text>
+  <text class="sub" x="294" y="192" text-anchor="middle">голосование</text>
+
+  <!-- protection command -->
+  <path class="edge" d="M294 272 V306" marker-end="url(#ah)"/>
+  <rect class="dec" x="182" y="306" width="224" height="52" rx="9"/>
+  <text class="ttl" x="294" y="328" text-anchor="middle" fill="#3d9bff">Команда защиты</text>
+  <text class="sub" x="294" y="346" text-anchor="middle">аварийный останов (SCRAM)</text>
+
+  <text class="sub" x="294" y="390" text-anchor="middle">Почему 2oo3: один отказ канала не даёт</text>
+  <text class="sub" x="294" y="406" text-anchor="middle">ложного трипа и не блокирует защиту</text>
+
+  <!-- ================= RIGHT: C&E matrix fragment ================= -->
+  <text class="ttl" x="440" y="32">Матрица C&amp;E (Cause &amp; Effect)</text>
+  <text class="sub" x="440" y="50">язык, на котором описаны защиты</text>
+
+  <rect class="box" x="440" y="70" width="400" height="224" rx="9"/>
+  <rect x="441.5" y="71.5" width="397" height="46" rx="8" fill="#11161c"/>
+  <path class="grid" d="M656 70 V294"/>
+  <path class="grid" d="M748 70 V294"/>
+  <path class="grid" d="M440 118 H840"/>
+  <path class="grid" d="M440 162 H840"/>
+  <path class="grid" d="M440 206 H840"/>
+  <path class="grid" d="M440 250 H840"/>
+
+  <!-- header row -->
+  <text class="sub" x="452" y="98" font-size="10">причины ↓ · следствия →</text>
+  <text class="col" x="702" y="92" text-anchor="middle">SCRAM</text>
+  <text class="iccap" x="702" y="104" text-anchor="middle">останов</text>
+  <text class="iccap" x="702" y="114" text-anchor="middle">реактора</text>
+  <text class="colS" x="794" y="92" text-anchor="middle">Клапан сброса</text>
+  <text class="iccap" x="794" y="104" text-anchor="middle">давления —</text>
+  <text class="iccap" x="794" y="114" text-anchor="middle">открыть</text>
+
+  <!-- row 1: channel A -->
+  <text class="rowt" x="452" y="138">Давление I контура &gt; уставки</text>
+  <text class="iccap" x="452" y="152">канал A</text>
+  <text class="x" x="702" y="145" text-anchor="middle">X</text>
+
+  <!-- row 2: channel B -->
+  <text class="rowt" x="452" y="182">Давление I контура &gt; уставки</text>
+  <text class="iccap" x="452" y="196">канал B</text>
+  <text class="x" x="702" y="189" text-anchor="middle">X</text>
+
+  <!-- row 3: channel C -->
+  <text class="rowt" x="452" y="226">Давление I контура &gt; уставки</text>
+  <text class="iccap" x="452" y="240">канал C</text>
+  <text class="x" x="702" y="233" text-anchor="middle">X</text>
+
+  <!-- row 4: pressurizer level -->
+  <text class="rowt" x="452" y="270">Высокий уровень в КД</text>
+  <text class="iccap" x="452" y="284">компенсатор давления</text>
+  <text class="x" x="794" y="277" text-anchor="middle">X</text>
+
+  <!-- matrix notes -->
+  <text class="sub" x="440" y="316">X — действие должно произойти; пустая ячейка — действия нет</text>
+  <text class="sub" x="440" y="334">SCRAM выдаётся по логике 2oo3 — любые два из трёх каналов</text>
+  <text class="sub" x="440" y="352">Связь причин: ИЛИ — достаточно одной, И — только вместе</text>
+
+  <!-- footer -->
+  <path class="grid" d="M20 430 H840"/>
+  <text class="sub" x="430" y="454" text-anchor="middle">Проверка каждой строки C&amp;E — отдельное испытание: канал в байпасе, имитация калибратором, протокол</text>
+</svg>
