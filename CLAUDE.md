@@ -521,6 +521,14 @@ git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
   sweeps orphans. **No visible watermark** (contradicts CC BY-SA, clutters the
   educational detail, no SEO value). Blobs live in `storage/blobs/`, separate
   from the SQLite DBs, and need their own backup rule (`docs/DEPLOY.md`).
+- **Lessons have NO draft status — a lesson added to a published course goes
+  live immediately, accepted** (2026-07-11): lesson position is global within
+  the profession (prev/next, "Продолжить", progress bars, counter caches), so
+  filtering drafts would leak into every hot query for a rare scenario. A
+  scoped editor is trusted by definition of the ladder; the safeguard is
+  transparency, not a gate — creating/deleting a lesson in a published course
+  is logged to `AdminAction` ("Живой контент" tab in `/admin/log`). Don't
+  re-propose per-lesson statuses.
 
 **Not built yet (v0.3):** community-authored roadmaps, public profiles,
 moderated public portfolio.

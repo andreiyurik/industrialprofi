@@ -244,6 +244,33 @@ class Admin::LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_equal paths(:electrician).lessons.maximum(:position), lesson.position
   end
 
+  # Lessons have no draft status (recorded decision): creating one in a
+  # published course is reader-visible immediately, so the fact is logged.
+  test "creating a lesson in a published course is logged to the admin log" do
+    assert_difference -> { AdminAction.where(action: "lesson_created_live").count }, 1 do
+      post admin_lessons_path, params: { lesson: {
+        course_id: courses(:el_basics).id, title: "Живой урок", kind: "lesson"
+      } }
+    end
+    entry = AdminAction.where(action: "lesson_created_live").last
+    assert_equal "Живой урок", entry.details["lesson"]
+    assert_equal paths(:electrician).title, entry.details["path"]
+  end
+
+  test "creating a lesson in a draft course is not logged" do
+    assert_no_difference -> { AdminAction.count } do
+      post admin_lessons_path, params: { lesson: {
+        course_id: courses(:draft_course).id, title: "Черновой урок", kind: "lesson"
+      } }
+    end
+  end
+
+  test "deleting a lesson from a published course is logged to the admin log" do
+    assert_difference -> { AdminAction.where(action: "lesson_deleted_live").count }, 1 do
+      delete admin_lesson_path(lessons(:pteep))
+    end
+  end
+
   test "a new practice lesson gets a default difficulty" do
     post admin_lessons_path, params: { lesson: {
       course_id: courses(:el_basics).id, title: "Практика X", kind: "practice"

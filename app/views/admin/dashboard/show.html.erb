@@ -17,6 +17,15 @@
       </a>
     <% end %>
 
+    <% if @pending_review.positive? %>
+      <a href="<%= admin_paths_path %>" class="panel panel--hover admin-callout">
+        <span class="admin-callout__text">
+          <%= t("admin.dashboard.pending_review", count: @pending_review) %>
+        </span>
+        <span class="btn btn--small btn--reversed"><%= t("admin.dashboard.open_program") %></span>
+      </a>
+    <% end %>
+
     <div class="admin-stats">
       <div class="panel admin-stat">
         <span class="admin-stat__value"><%= @users_total %></span>

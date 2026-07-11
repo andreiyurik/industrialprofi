@@ -37,6 +37,7 @@ module Admin
       @lesson.difficulty ||= "beginner" if @lesson.practice?
 
       if @lesson.save
+        log_live_lesson_change("lesson_created_live")
         redirect_to edit_admin_lesson_path(@lesson), notice: I18n.t("flash.lesson_created")
       else
         render :new, status: :unprocessable_entity
@@ -56,11 +57,29 @@ module Admin
 
     def destroy
       path = @lesson.path
-      @lesson.destroy!
+      ActiveRecord::Base.transaction do
+        was_live = live_lesson?
+        @lesson.destroy!
+        log_live_lesson_change("lesson_deleted_live") if was_live
+      end
       redirect_to admin_path_path(path), notice: I18n.t("flash.lesson_deleted")
     end
 
     private
+
+    # Trust, with transparency: lessons carry no draft status (recorded decision
+    # in CLAUDE.md), so adding or deleting one inside a PUBLISHED course changes
+    # reader-visible content immediately. The fact is logged, not gated.
+    def log_live_lesson_change(action)
+      return unless live_lesson?
+
+      record_admin_action(action, target: @lesson,
+        lesson: @lesson.title, path: @lesson.path.title)
+    end
+
+    def live_lesson?
+      @lesson.course&.status == "published" && @lesson.path&.status == "published"
+    end
 
     def set_lesson
       @lesson = Lesson.find_by!(slug: params[:slug])
