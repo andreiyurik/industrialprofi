@@ -3,7 +3,8 @@ class LessonSuggestionsController < ApplicationController
   # trustworthy and lets good contributors be promoted up the trust ladder.
   # Signed-out visitors hit the default require_authentication gate, which
   # stashes the return URL and brings them back to the form after signing in.
-  rate_limit to: 5, within: 1.hour, only: :create
+  rate_limit to: 5, within: 1.hour, only: :create,
+             with: -> { redirect_to lesson_path(params[:lesson_slug]), alert: t("auth.rate_limited") }
 
   def new
     @lesson = Lesson.find_by!(slug: params[:lesson_slug])
@@ -14,12 +15,6 @@ class LessonSuggestionsController < ApplicationController
 
   def create
     @lesson = Lesson.find_by!(slug: params[:lesson_slug])
-
-    # Honeypot: bots fill the hidden "company" field — pretend success, save nothing.
-    if params[:company].present?
-      redirect_to lesson_path(@lesson), notice: I18n.t("flash.suggestion_submitted")
-      return
-    end
 
     @suggestion = @lesson.lesson_suggestions.new(suggestion_params)
     @suggestion.user = Current.user
