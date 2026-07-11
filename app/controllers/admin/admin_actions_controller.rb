@@ -11,6 +11,7 @@ module Admin
     CATEGORIES = {
       "roles"      => %w[user_role_changed user_access_changed],
       "moderation" => %w[suggestion_approved suggestion_rejected lesson_rolled_back],
+      "content"    => %w[lesson_created_live lesson_deleted_live],
       "bans"       => %w[user_suspended user_reinstated]
     }.freeze
 

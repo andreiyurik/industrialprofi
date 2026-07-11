@@ -44,6 +44,21 @@ class Admin::DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_no_match "footer__inner", response.body
   end
 
+  test "pending_review materials surface as a callout to the program" do
+    paths(:draft_path).update!(status: "pending_review")
+
+    sign_in_as users(:admin)
+    get admin_root_path
+    assert_match I18n.t("admin.dashboard.pending_review", count: 1), response.body
+    assert_match admin_paths_path, response.body
+  end
+
+  test "no pending_review callout when nothing awaits publication" do
+    sign_in_as users(:admin)
+    get admin_root_path
+    assert_no_match I18n.t("admin.dashboard.open_program"), response.body
+  end
+
   test "pending suggestions callout links to the moderation queue" do
     sign_in_as users(:admin)
     get admin_root_path

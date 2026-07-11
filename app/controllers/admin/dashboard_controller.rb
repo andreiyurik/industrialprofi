@@ -15,6 +15,11 @@ module Admin
 
       @pending_suggestions = LessonSuggestion.pending.count
 
+      # Editors flip finished drafts to pending_review and wait for the founder —
+      # surface that queue here so the signal doesn't depend on a personal email.
+      @pending_review = Path.where(status: "pending_review").count +
+                        Course.where(status: "pending_review").count
+
       @completions_total = LessonCompletion.count
       @completions_week = LessonCompletion.where(created_at: 7.days.ago..).count
       @journal_entries_total = JournalEntry.count
