@@ -69,17 +69,18 @@ class LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
-  test "create with filled honeypot is silently dropped" do
-    assert_no_difference "LessonSuggestion.count" do
+  # No honeypot on this form: authors are signed in and rate-limited, and a
+  # honeypot tripped by browser autofill silently destroyed real work.
+  test "create ignores a stray company param instead of dropping the edit" do
+    assert_difference "LessonSuggestion.count", 1 do
       post lesson_suggestions_path(lessons(:pteep)), params: {
-        company: "spam-bot",
+        company: "autofilled by a password manager",
         lesson_suggestion: {
           section: "body",
-          body_markdown: "Spam content"
+          body_markdown: "Honest edit"
         }
       }
     end
     assert_redirected_to lesson_path(lessons(:pteep))
-    assert_equal I18n.t("flash.suggestion_submitted"), flash[:notice]
   end
 end
