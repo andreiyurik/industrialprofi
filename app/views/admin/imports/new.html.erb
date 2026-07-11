@@ -23,7 +23,16 @@
       <pre class="import-schema"><code><%= t("admin.imports.schema_example") %></code></pre>
     </details>
 
-    <%= form_with(url: admin_imports_path, method: :post) do |f| %>
+    <%# data-turbo=false: the preview is a plain 200 render on POST, which Turbo
+        silently drops (it expects a redirect). A full page load is right for an
+        admin form with a file upload. %>
+    <%= form_with(url: admin_imports_path, method: :post, multipart: true, data: { turbo: false }) do |f| %>
+      <div class="admin-form__field admin-form__field--lg">
+        <label for="archive"><%= t("admin.imports.archive_label") %></label>
+        <%= file_field_tag :archive, id: "archive", accept: ".zip", class: "input" %>
+        <p class="admin-form__hint"><%= t("admin.imports.archive_hint") %></p>
+      </div>
+
       <div class="admin-form__field admin-form__field--lg">
         <label for="yaml"><%= t("admin.imports.yaml_label") %></label>
         <%= text_area_tag :yaml, @yaml, id: "yaml", rows: 18, class: "input input--textarea input--mono" %>

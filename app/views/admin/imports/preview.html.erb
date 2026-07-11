@@ -18,6 +18,14 @@
 
     <p class="admin-form__hint admin-form__field--lg"><%= t("admin.imports.draft_note") %></p>
 
+    <% if import_warning_messages.any? %>
+      <div class="admin-alert">
+        <% import_warning_messages.each do |message| %>
+          <p><%= message %></p>
+        <% end %>
+      </div>
+    <% end %>
+
     <div class="import-plan">
       <div class="import-plan__path">
         <span class="badge <%= status_badge.(@plan.path_node[:status]) %>"><%= status_label.(@plan.path_node[:status]) %></span>

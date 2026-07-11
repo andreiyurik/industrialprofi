@@ -15,7 +15,9 @@ class CurriculumDocument
   include ImportUpsert
 
   SOURCE = "ai"
-  MAX_BYTES = 512_000
+  # Room for a full profession arriving as a pack (CurriculumPack re-serializes
+  # the tree into this document), not just a pasted draft.
+  MAX_BYTES = 2.megabytes
 
   Result = Struct.new(:path_node, :course_nodes, :counts, :path, keyword_init: true)
 
@@ -162,7 +164,8 @@ class CurriculumDocument
         was_new = resource.new_record?
         resource.assign_attributes(
           url: data["url"], kind: data["kind"].presence || "document",
-          required: data.fetch("required", false), position: index + 1
+          required: data.fetch("required", false), position: index + 1,
+          country_code: data["country_code"], language: data["language"], note: data["note"]
         )
         resource.origin = SOURCE if was_new
         next unless resource.changed?
