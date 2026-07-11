@@ -52,6 +52,7 @@ class Admin::LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
 
     suggestion.reload
     assert_equal "approved", suggestion.status
+    assert suggestion.reviewed_at.present?, "the decision moment feeds the feedback loop"
     assert_includes suggestion.lesson.section_html(:body), suggestion.body_markdown
 
     revision = suggestion.lesson.lesson_revisions.ordered.first
@@ -86,6 +87,7 @@ class Admin::LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
 
     suggestion.reload
     assert_equal "rejected", suggestion.status
+    assert suggestion.reviewed_at.present?, "the decision moment feeds the feedback loop"
     assert_equal "Not accurate", suggestion.reviewer_comment
     assert_redirected_to admin_lesson_suggestions_path
   end

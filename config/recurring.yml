@@ -27,6 +27,13 @@ production:
     class: DiskAlertJob
     schedule: every day at 9am
 
+  # Closes the suggestion feedback loop by email — only for people who didn't
+  # see the news in the app: one outcome letter per decision to its author,
+  # one digest per review stall to the scoped editors. 08:00 UTC = 11:00 МСК.
+  suggestion_emails:
+    class: SuggestionEmailsJob
+    schedule: every day at 8am
+
   # Sweeps orphaned lesson-image uploads (a blob picked then abandoned before
   # save) so the disk never accretes them. Attached images are untouched.
   purge_unattached_uploads:

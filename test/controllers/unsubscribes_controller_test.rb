@@ -25,4 +25,19 @@ class UnsubscribesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert @user.reload.reminder_emails?
   end
+
+  test "kind=suggestions stops suggestion emails and keeps reminders" do
+    get unsubscribe_url(@user.generate_token_for(:email_unsubscribe), kind: "suggestions")
+
+    assert_response :success
+    assert_not @user.reload.suggestion_emails?
+    assert @user.reminder_emails?
+  end
+
+  test "an unknown kind falls back to reminders" do
+    get unsubscribe_url(@user.generate_token_for(:email_unsubscribe), kind: "bogus")
+
+    assert_not @user.reload.reminder_emails?
+    assert @user.suggestion_emails?
+  end
 end

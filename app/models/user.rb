@@ -76,6 +76,15 @@ class User < ApplicationRecord
   # suggest → review pipeline). The gate for every admin content action.
   def can_edit_path?(path) = administrator? || editorships.exists?(path_id: path&.id)
 
+  # Suggestions this user may moderate: all for admins, only their granted
+  # professions for editors. Backs the admin queue, its nav badge, and the
+  # review digest email.
+  def reviewable_suggestions
+    return LessonSuggestion.all if administrator?
+
+    LessonSuggestion.joins(:lesson).where(lessons: { path_id: editorships.select(:path_id) })
+  end
+
   def completed?(lesson)
     lesson_completions.exists?(lesson: lesson)
   end
@@ -127,6 +136,29 @@ class User < ApplicationRecord
     return false if last.nil? || last > REMINDER_AFTER.ago
     return false if reminded_at && reminded_at > last
     focus_path.present? && next_lesson_in(focus_path).present?
+  end
+
+  # ── Suggestion feedback loop (in-app first, email only as the unread fallback) ──
+  # A review queue counts as stalled when its oldest pending edit waited this long.
+  SUGGESTION_DIGEST_AFTER = 48.hours
+
+  # Decisions on this user's suggestions they haven't seen yet — drives the
+  # quiet dot in the header and the "new" markers on the dashboard.
+  def unseen_suggestion_outcomes?
+    scope = lesson_suggestions.decided.where.not(reviewed_at: nil)
+    scope = scope.where("reviewed_at > ?", suggestions_seen_at) if suggestions_seen_at
+    scope.exists?
+  end
+
+  # ONE digest per review stall, never a drip: eligible only when the user
+  # opted in, their queue holds an edit that waited SUGGESTION_DIGEST_AFTER,
+  # and they weren't already digested since that edit arrived. Clearing the
+  # queue resets the cycle.
+  def needs_suggestion_digest?
+    return false unless suggestion_emails?
+    oldest = reviewable_suggestions.pending.minimum(:created_at)
+    return false if oldest.nil? || oldest > SUGGESTION_DIGEST_AFTER.ago
+    suggestion_digest_sent_at.nil? || suggestion_digest_sent_at < oldest
   end
 
   # Activity per calendar day (lesson completions + journal entries) — feeds

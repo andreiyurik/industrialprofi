@@ -1,9 +1,12 @@
-# One-click unsubscribe from reminder emails — reached from an email link, so
-# no login required and the token alone is the authorization.
+# One-click unsubscribe — reached from an email link, so no login required and
+# the token alone is the authorization. ?kind= picks which emails to stop;
+# links without it (all reminder emails ever sent) keep working.
 class UnsubscribesController < ApplicationController
   allow_unauthenticated_access
   # The RFC 8058 one-click POST comes from the mail provider without a CSRF token.
   skip_forgery_protection
+
+  KINDS = { "reminders" => :reminder_emails, "suggestions" => :suggestion_emails }.freeze
 
   def show
     @user = unsubscribe
@@ -18,7 +21,7 @@ class UnsubscribesController < ApplicationController
   private
     def unsubscribe
       user = User.find_by_token_for(:email_unsubscribe, params[:token])
-      user&.update!(reminder_emails: false)
+      user&.update!(KINDS.fetch(params[:kind], :reminder_emails) => false)
       user
     end
 end

@@ -1,0 +1,18 @@
+<p><%= t("suggestions_mailer.review_digest.greeting", name: @user.name) %></p>
+
+<p><%= t("suggestions_mailer.review_digest.body") %></p>
+
+<ul>
+  <% @pending.each do |suggestion| %>
+    <li>
+      «<%= suggestion.lesson.title %>» — <%= suggestion.author_name %>,
+      <%= l(suggestion.created_at.to_date) %>
+    </li>
+  <% end %>
+</ul>
+
+<p><%= link_to t("suggestions_mailer.review_digest.cta"), admin_lesson_suggestions_url %></p>
+
+<p><%= t("suggestions_mailer.review_digest.once") %></p>
+
+<p><%= link_to t("suggestions_mailer.review_digest.unsubscribe"), @unsubscribe_url %></p>

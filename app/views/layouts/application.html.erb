@@ -75,6 +75,9 @@
           <span class="brand__text"><%= t("site.name") %></span>
         <% end %>
         <div class="header__right">
+          <%# A quiet dot = a decision on one of your suggested edits you
+              haven't seen yet; it leads to the dashboard, which clears it. %>
+          <% unseen_outcomes = signed_in? && Current.user.unseen_suggestion_outcomes? %>
           <%# Mobile: a <details> disclosure collapses the nav behind a
               hamburger; the details controller adds menu-style light dismiss
               (click outside / Esc). Desktop (≥820px): the toggle is hidden and
@@ -83,6 +86,7 @@
                    data-action="click@document->details#closeOnClickOutside keydown.esc@window->details#close">
             <summary class="header__menu-toggle" aria-label="<%= t("nav.menu") %>">
               <%= heroicon "bars-3", variant: :outline %>
+              <% if unseen_outcomes %><span class="notify-dot notify-dot--corner"></span><% end %>
             </summary>
             <div class="header__menu-panel">
               <%# Mobile-only identity header — the dropdown mirrors the desktop
@@ -128,6 +132,7 @@
                   <%= link_to dashboard_path, class: "account-menu__link" do %>
                     <%= heroicon "home", variant: :outline %>
                     <%= t("nav.dashboard") %>
+                    <% if unseen_outcomes %><span class="notify-dot"></span><% end %>
                   <% end %>
                   <%= link_to journal_entries_path, class: "account-menu__link" do %>
                     <%= heroicon "pencil-square", variant: :outline %>
@@ -179,6 +184,7 @@
               <%= avatar_tag(Current.user.name) %>
               <span class="account-menu-button__name"><%= Current.user.name %></span>
               <%= heroicon "chevron-down", variant: :outline %>
+              <% if unseen_outcomes %><span class="notify-dot notify-dot--corner"></span><% end %>
             </button>
 
             <div id="account-menu" class="account-menu" popover>
@@ -194,6 +200,7 @@
                 <%= link_to dashboard_path, class: "account-menu__link" do %>
                   <%= heroicon "home", variant: :outline %>
                   <%= t("nav.dashboard") %>
+                  <% if unseen_outcomes %><span class="notify-dot"></span><% end %>
                 <% end %>
                 <%= link_to journal_entries_path, class: "account-menu__link" do %>
                   <%= heroicon "pencil-square", variant: :outline %>

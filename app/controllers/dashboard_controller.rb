@@ -20,5 +20,25 @@ class DashboardController < ApplicationController
                                  .includes(lesson: :path)
                                  .order(created_at: :desc)
                                  .map(&:lesson)
+
+    # «Мои правки»: the contributor's feedback loop. Fresh decisions sort to
+    # the top; rendering them here closes the loop, so the outcome email
+    # (SuggestionEmailsJob) is never sent to someone who saw it in the app.
+    @my_suggestions = Current.user.lesson_suggestions
+                             .includes(:lesson)
+                             .order(Arel.sql("COALESCE(reviewed_at, created_at) DESC"))
+                             .limit(5)
+    @fresh_suggestion_ids = fresh_suggestion_ids
+    Current.user.touch(:suggestions_seen_at) if @fresh_suggestion_ids.any?
+  end
+
+  private
+
+  def fresh_suggestion_ids
+    scope = Current.user.lesson_suggestions.decided.where.not(reviewed_at: nil)
+    if (seen_at = Current.user.suggestions_seen_at)
+      scope = scope.where("reviewed_at > ?", seen_at)
+    end
+    scope.pluck(:id).to_set
   end
 end
