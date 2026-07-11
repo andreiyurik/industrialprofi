@@ -2,7 +2,13 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-import "lexxy"
+import { highlightCode } from "lexxy"
+
+// The editor highlights code live, but SAVED rich text renders as bare
+// <pre data-language> — Lexxy ships highlightCode() for display and leaves
+// calling it to the app. Without this, a lesson loses its code colors the
+// moment an editor's first edit freezes it into rich text.
+document.addEventListener("turbo:load", () => highlightCode())
 
 // Register the service worker so visited lessons stay readable offline.
 if ("serviceWorker" in navigator) {
