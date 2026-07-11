@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 490" role="img" aria-label="Монтаж датчика давления на паропроводе ВВЭР: отбор давления, сифонная трубка с водяной пробкой, импульсная линия 12Х18Н10Т с уклоном, запорный вентиль, датчик давления и МИК-кабель к клеммной коробке">
+  <style>
+    text{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#ededed}
+    .ttl{font-size:14px;font-weight:700}
+    .lbl{font-size:12px;font-weight:700}
+    .sub{fill:#a1a1a1;font-size:11px}
+    .cap{fill:#a1a1a1;font-size:10px}
+    .box{fill:#161616;stroke:#2e2e2e;stroke-width:1.5}
+    .dec{fill:#11161c;stroke:#3d9bff;stroke-width:1.75}
+    .tube{fill:none;stroke:#a1a1a1;stroke-width:2}
+    .cable{fill:none;stroke:#ededed;stroke-width:2.5}
+    .lead{fill:none;stroke:#7d7d7d;stroke-width:1}
+    .flow{fill:none;stroke:#3d9bff;stroke-width:1.75}
+    .valve{fill:none;stroke:#ededed;stroke-width:1.6}
+    .icon{fill:none;stroke:#3d9bff;stroke-width:1.6}
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3d9bff"/></marker>
+  </defs>
+
+  <!-- title -->
+  <text class="ttl" x="20" y="28">Монтаж датчика давления на паропроводе ВВЭР</text>
+
+  <!-- ===== steam pipe ===== -->
+  <text class="lbl" x="22" y="56">Паропровод второго контура</text>
+  <rect class="box" x="20" y="64" width="520" height="36" rx="4"/>
+  <path class="flow" d="M45 82 H140" marker-end="url(#ah)"/>
+  <text class="sub" x="158" y="86">пар 60–80 бар · 220–290 °C</text>
+
+  <!-- pressure tap (штуцер) -->
+  <rect class="box" x="292" y="100" width="16" height="14" rx="2"/>
+  <text class="lbl" x="340" y="126">Отбор давления</text>
+  <path class="lead" d="M336 122 L312 111"/>
+
+  <!-- ===== siphon loop («гусак») ===== -->
+  <path class="tube" d="M300 114 V150"/>
+  <circle class="tube" cx="300" cy="174" r="24"/>
+  <!-- condensate plug in the bottom half of the loop -->
+  <path d="M276 174 A24 24 0 0 0 324 174 Z" fill="#11161c"/>
+  <path d="M278 174 H322" stroke="#3d9bff" stroke-width="1.25"/>
+  <text class="cap" x="332" y="179">конденсат</text>
+  <path class="lead" d="M329 175 L322 174"/>
+
+  <text class="lbl" x="30" y="152">Сифонная трубка («гусак»)</text>
+  <text class="sub" x="30" y="170">петля держит водяную пробку —</text>
+  <text class="sub" x="30" y="186">пар 200+ °C не доходит до мембраны</text>
+  <path class="lead" d="M250 178 L272 175"/>
+
+  <!-- ===== impulse line with slope ===== -->
+  <path class="tube" d="M300 198 V240 L560 320 H573"/>
+  <path class="tube" d="M617 320 H632"/>
+  <path d="M300 240 H420" stroke="#2e2e2e" stroke-width="1" stroke-dasharray="4 4"/>
+  <text class="cap" x="428" y="244">уклон</text>
+
+  <text class="lbl" x="60" y="292">Импульсная линия 12Х18Н10Т</text>
+  <text class="sub" x="60" y="310">нержавеющая сталь, всегда с уклоном</text>
+  <path class="lead" d="M255 296 L424 279"/>
+
+  <!-- shutoff valve -->
+  <path class="valve" d="M575 310 L575 330 L595 320 Z M615 310 L615 330 L595 320 Z"/>
+  <text class="lbl" x="556" y="298" text-anchor="middle">Запорный вентиль</text>
+
+  <!-- ===== pressure transmitter ===== -->
+  <rect class="dec" x="632" y="296" width="84" height="48" rx="9"/>
+  <circle class="icon" cx="674" cy="320" r="11"/>
+  <path class="icon" d="M674 320 L681 312"/>
+  <text class="lbl" x="674" y="368" text-anchor="middle">Датчик давления</text>
+  <text class="sub" x="674" y="384" text-anchor="middle">выход 4–20 мА</text>
+
+  <!-- ===== MIK cable to terminal box ===== -->
+  <path class="cable" d="M690 296 C690 258, 740 252, 795 242"/>
+  <rect class="box" x="760" y="190" width="84" height="52" rx="9"/>
+  <text class="lbl" x="802" y="212" text-anchor="middle">Клеммная</text>
+  <text class="lbl" x="802" y="228" text-anchor="middle">коробка</text>
+
+  <text class="lbl" x="560" y="84">МИК-кабель</text>
+  <text class="sub" x="560" y="102">минеральная изоляция в оболочке из нержавейки</text>
+  <text class="sub" x="560" y="118">держит 250–400 °C и дозы за весь ресурс</text>
+  <text class="sub" x="560" y="134">хрупкий — нельзя гнуть с малым радиусом</text>
+  <path class="lead" d="M640 142 L718 248"/>
+
+  <!-- footer -->
+  <path d="M20 424 H840" stroke="#2e2e2e" stroke-width="1"/>
+  <text class="sub" x="430" y="452" text-anchor="middle">Перед пуском сифон обязательно заполняют водой: без водяной пробки пар попадает на мембрану — датчик выходит из строя</text>
+</svg>
