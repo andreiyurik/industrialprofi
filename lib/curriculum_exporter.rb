@@ -30,6 +30,13 @@ class CurriculumExporter
     root.rmtree if root.exist?
     root.mkpath
 
+    # The pack manifest: a format version lets future importers refuse packs
+    # they don't understand instead of half-reading them. The one place a
+    # timestamp is allowed — everything else must export deterministically.
+    write_yaml root.join("pack.yml"),
+      meta(format: CurriculumPack::FORMAT, exported_at: Time.current.iso8601,
+           courses: @path.courses.count, lessons: @path.lessons.count)
+
     write_yaml root.join("path.yml"),
       meta(title: @path.title, description: @path.description,
            position: @path.position, status: @path.status)

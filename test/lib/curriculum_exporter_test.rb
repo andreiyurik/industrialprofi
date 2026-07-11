@@ -13,6 +13,10 @@ class CurriculumExporterTest < ActiveSupport::TestCase
     assert_equal "Электрик", YAML.safe_load_file(root.join("path.yml"))["title"]
     assert root.join("01-elektrik-osnovy/course.yml").exist?
 
+    manifest = YAML.safe_load_file(root.join("pack.yml"))
+    assert_equal CurriculumPack::FORMAT, manifest["format"]
+    assert_equal paths(:electrician).lessons.count, manifest["lessons"]
+
     lesson_md = root.join("01-elektrik-osnovy/01-section/pteep-osnovy.md")
     data = CurriculumImporter.parse_lesson(lesson_md)
     assert_equal "ПТЭЭП: основы эксплуатации", data["title"]

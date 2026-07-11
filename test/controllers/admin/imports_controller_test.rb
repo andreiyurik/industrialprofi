@@ -53,4 +53,57 @@ class Admin::ImportsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :unprocessable_entity
   end
+
+  # Pack upload (.zip of the exported tree)
+
+  test "uploading a pack shows the same dry-run preview" do
+    assert_no_difference -> { Path.count } do
+      post admin_imports_path, params: { archive: pack_upload }
+    end
+    assert_response :success
+    assert_select ".import-plan"
+    assert_match "Кровельщик", response.body
+  end
+
+  test "a broken archive re-renders the form with the pack error" do
+    file = Tempfile.new([ "pack", ".zip" ])
+    file.write("это не архив")
+    file.rewind
+
+    assert_no_difference -> { Path.count } do
+      post admin_imports_path,
+        params: { archive: Rack::Test::UploadedFile.new(file.path, "application/zip") }
+    end
+    assert_response :unprocessable_entity
+    assert_match I18n.t("admin.imports.errors.not_a_zip"), response.body
+  end
+
+  private
+
+  # A minimal pack: the exporter's tree for one profession, zipped.
+  def pack_upload
+    zip = Zip::OutputStream.write_buffer do |stream|
+      { "krovelshchik/path.yml" => { "title" => "Кровельщик", "description" => "Профессия." }.to_yaml,
+        "krovelshchik/01-kurs/course.yml" => { "slug" => "bazovyi-kurs-krovli", "title" => "Базовый курс кровли" }.to_yaml,
+        "krovelshchik/01-kurs/01-section/section.yml" => { "title" => "Старт" }.to_yaml,
+        "krovelshchik/01-kurs/01-section/vvedenie-v-krovlyu.md" => <<~MD
+          ---
+          title: "Введение в кровлю"
+          ---
+          Зачем нужна кровля.
+          ---
+          Текст урока.
+        MD
+      }.each do |name, content|
+        stream.put_next_entry(name)
+        stream.write(content)
+      end
+    end
+
+    file = Tempfile.new([ "pack", ".zip" ])
+    file.binmode
+    file.write(zip.string)
+    file.rewind
+    Rack::Test::UploadedFile.new(file.path, "application/zip")
+  end
 end

@@ -47,7 +47,12 @@ class CurriculumImporter
   # Parse one lesson .md file into the attributes a Lesson needs: frontmatter +
   # WHY (description) + body + the "## Задание" task block.
   def self.parse_lesson(file_path)
-    content = File.read(file_path)
+    parse_lesson_content(File.read(file_path))
+  end
+
+  # Same parse from a string — for lessons arriving inside a pack (CurriculumPack)
+  # rather than from disk.
+  def self.parse_lesson_content(content)
     frontmatter, body = content.split(/^---\s*$/, 3).reject(&:blank?)
 
     meta = YAML.safe_load(frontmatter, permitted_classes: [ Symbol ])
