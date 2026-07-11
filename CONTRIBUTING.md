@@ -92,6 +92,26 @@ community, and the project can fund its own development.
 A CLA-assistant bot will ask you to accept on your first PR — it's a single
 click, recorded once, and applies to all your future contributions.
 
+## Contributing content — no git required
+
+Most content improvements never touch GitHub; the platform has its own
+contribution pipeline built for practitioners:
+
+- **Fix or improve a lesson.** Every lesson section carries a «Предложить
+  правку» (suggest an edit) link — a free account is all you need. An expert
+  reviews the edit; every accepted change lands in the lesson's public revision
+  history with your name on it, forever. The status of your edits shows up on
+  your dashboard.
+- **The authoring rules** live at [/guide](https://industrialprofi.com/guide) —
+  readers suggesting an edit and editors reviewing one follow the same rules.
+- **Lead a profession.** Practitioners who want to co-author a whole profession
+  map apply via [/contribute](https://industrialprofi.com/contribute). Editors
+  get an in-app curriculum builder, YAML/zip import with a dry-run preview, and
+  everything stays a draft until an administrator publishes it.
+- **Working from the repo?** The full content-factory workflow is documented
+  (in Russian, the language of the content) in
+  [`tools/CONTENT_FACTORY.md`](tools/CONTENT_FACTORY.md).
+
 ## Reporting bugs and ideas
 
 Open an issue. For bugs, include steps to reproduce, what you expected, and
