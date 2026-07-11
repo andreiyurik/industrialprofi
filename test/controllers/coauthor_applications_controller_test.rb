@@ -52,4 +52,11 @@ class CoauthorApplicationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "a[href=?]", new_coauthor_application_path
   end
+
+  test "the contribute page states the trust rules with the real threshold" do
+    get contribute_url
+    assert_response :success
+    assert_match I18n.t("contribute.ladder_rules_title"), response.body
+    assert_match I18n.t("contribute.ladder_rules.propose", threshold: TrackRecord::TRUSTED_AT), response.body
+  end
 end

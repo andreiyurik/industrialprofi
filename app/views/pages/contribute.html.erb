@@ -132,10 +132,21 @@
             <div class="contribute-rung contribute-rung--<%= level %>">
               <span class="contribute-rung__bar" style="--rung-level: <%= level %>" aria-hidden="true"></span>
               <h3 class="contribute-rung__title"><%= t("contribute.ladder.#{role}_title") %></h3>
-              <p class="contribute-rung__desc"><%= t("contribute.ladder.#{role}_desc") %></p>
+              <%# The editor rung states the earned path; the threshold comes from
+                  TrackRecord so the public promise can't drift from the code. %>
+              <p class="contribute-rung__desc"><%= t("contribute.ladder.#{role}_desc", threshold: TrackRecord::TRUSTED_AT) %></p>
             </div>
           <% end %>
         </div>
+
+        <%# The transparent rulebook: how trust is earned and who decides what.
+            Thresholds interpolate from TrackRecord so the promise can't drift. %>
+        <h3 class="contribute-rules__title"><%= t("contribute.ladder_rules_title") %></h3>
+        <ul class="contribute-rules">
+          <% %w[review earn propose scope log].each do |rule| %>
+            <li class="contribute-rules__item"><%= t("contribute.ladder_rules.#{rule}", threshold: TrackRecord::TRUSTED_AT) %></li>
+          <% end %>
+        </ul>
       </section>
 
       <section class="contribute-block">

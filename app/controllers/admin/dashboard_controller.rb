@@ -15,6 +15,10 @@ module Admin
 
       @pending_suggestions = LessonSuggestion.pending.count
 
+      # Contributors whose accepted edits earned an editorship proposal — the
+      # system surfaces them so discovery doesn't hinge on the founder's memory.
+      @editorship_candidates = TrackRecord.editorship_candidates
+
       # Editors flip finished drafts to pending_review and wait for the founder —
       # surface that queue here so the signal doesn't depend on a personal email.
       @pending_review = Path.where(status: "pending_review").count +
@@ -26,6 +30,13 @@ module Admin
 
       @paths_published = Path.published.count
       @paths_total = Path.count
+      # The self-sufficiency compass: published professions maintained by
+      # someone besides the founder. Grants count only while an active editor
+      # role backs them — the same rule can_edit_path? applies.
+      @paths_with_editor = Editorship.joins(:user)
+        .merge(User.active.where(role: :editor))
+        .where(path_id: Path.published.select(:id))
+        .distinct.count(:path_id)
       @courses_total = Course.count
       @lessons_total = Lesson.count
 

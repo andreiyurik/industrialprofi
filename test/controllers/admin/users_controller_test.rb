@@ -132,6 +132,29 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_empty editor.reload.editable_path_ids
   end
 
+  test "granting a profession to a member promotes them to editor in the same stroke" do
+    sign_in_as users(:admin)
+    member = users(:member)
+
+    assert_difference -> { AdminAction.where(action: "user_role_changed").count } do
+      assert_enqueued_email_with EditorshipsMailer, :granted, args: [ member, [ paths(:welder) ] ] do
+        patch admin_user_path(member), params: { user: { editable_path_ids: [ paths(:welder).id ] } }
+      end
+    end
+
+    member.reload
+    assert member.editor?
+    assert_equal [ paths(:welder).id ], member.editable_path_ids
+  end
+
+  test "revoking all access does not demote the editor and sends no letter" do
+    sign_in_as users(:admin)
+    assert_no_enqueued_emails do
+      patch admin_user_path(users(:editor)), params: { user: { editable_path_ids: [ "" ] } }
+    end
+    assert users(:editor).reload.editor?
+  end
+
   # ── User detail card (show) ──
 
   test "show is admin-only" do

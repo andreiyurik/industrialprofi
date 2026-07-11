@@ -241,7 +241,16 @@
 }
 
 .account-menu__name {
+  align-items: center;
+  display: flex;
   font-weight: 600;
+  gap: 0.4rem;
+}
+
+/* The quiet role mark (Эксперт/Администратор) — visible only to its owner,
+   inside the opened menu; deliberately not in the always-on header chrome. */
+.account-menu__role {
+  font-size: 0.65rem;
 }
 
 .account-menu__email {

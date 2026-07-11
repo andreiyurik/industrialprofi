@@ -26,6 +26,25 @@
       </a>
     <% end %>
 
+    <% if @editorship_candidates.any? %>
+      <div class="admin-group">
+        <div class="admin-group__head">
+          <h2 class="admin-group__title"><%= t("admin.dashboard.candidates_title") %></h2>
+          <span class="admin-group__meta"><%= t("admin.dashboard.candidates_hint") %></span>
+        </div>
+        <div class="admin-list">
+          <% @editorship_candidates.each do |candidate| %>
+            <a href="<%= admin_user_path(candidate.user) %>" class="admin-row">
+              <span class="admin-row__title"><%= candidate.user.name %></span>
+              <span class="admin-row__meta">
+                <%= candidate.path.title %> · <%= t("admin.dashboard.candidate_accepted", count: candidate.accepted) %>
+              </span>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
     <div class="admin-stats">
       <div class="panel admin-stat">
         <span class="admin-stat__value"><%= @users_total %></span>
@@ -86,6 +105,12 @@
           <span class="admin-row__title"><%= t("admin.dashboard.content_paths") %></span>
           <span class="admin-row__meta">
             <%= t("admin.dashboard.published_of_total", published: @paths_published, total: @paths_total) %>
+          </span>
+        </a>
+        <a href="<%= admin_users_path(role: "editor") %>" class="admin-row">
+          <span class="admin-row__title"><%= t("admin.dashboard.paths_with_editors") %></span>
+          <span class="admin-row__meta">
+            <%= t("admin.dashboard.paths_with_editors_count", covered: @paths_with_editor, total: @paths_published) %>
           </span>
         </a>
         <a href="<%= admin_courses_path %>" class="admin-row">

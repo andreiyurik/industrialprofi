@@ -12,6 +12,15 @@ class EditorshipTest < ActiveSupport::TestCase
     assert_not editor.can_edit_path?(paths(:welder)), "not granted"
   end
 
+  test "a grant is dormant without the editor role behind it" do
+    editor = users(:editor)
+    editor.update!(role: :member)
+
+    assert editor.editorships.exists?(path: paths(:electrician)), "grant rows survive the demotion"
+    assert_not editor.can_edit_path?(paths(:electrician)), "but grant access only while the role backs them"
+    assert_empty editor.reviewable_suggestions
+  end
+
   test "admins can edit every profession without a grant" do
     admin = users(:admin)
     assert_empty admin.editorships

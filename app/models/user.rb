@@ -55,6 +55,11 @@ class User < ApplicationRecord
 
   def can_edit_content? = editor? || administrator?
 
+  # The founder's one-shot letter to a freshly promoted editor — pending until
+  # explicitly acknowledged (EditorWelcomesController), so it can't be lost to
+  # a missed email. Administrators are never greeted this way.
+  def needs_editor_welcome? = editor? && editor_welcomed_at.nil?
+
   def suspended? = suspended_at.present?
 
   # Ban this account: revoke every session (forces sign-out everywhere) and
@@ -74,13 +79,16 @@ class User < ApplicationRecord
   # Direct edit rights for ONE profession. Admins edit everything; editors only
   # the professions granted to them (cross-profession edits go through the
   # suggest → review pipeline). The gate for every admin content action.
-  def can_edit_path?(path) = administrator? || editorships.exists?(path_id: path&.id)
+  # A grant counts only while the role backs it — a demoted editor's leftover
+  # rows go dormant, they don't leak access.
+  def can_edit_path?(path) = administrator? || (editor? && editorships.exists?(path_id: path&.id))
 
   # Suggestions this user may moderate: all for admins, only their granted
   # professions for editors. Backs the admin queue, its nav badge, and the
   # review digest email.
   def reviewable_suggestions
     return LessonSuggestion.all if administrator?
+    return LessonSuggestion.none unless editor?
 
     LessonSuggestion.joins(:lesson).where(lessons: { path_id: editorships.select(:path_id) })
   end

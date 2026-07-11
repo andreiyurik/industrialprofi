@@ -393,6 +393,40 @@
   margin-block: 0;
 }
 
+/* ---- Trust rules (under the ladder) ------------------------------------ */
+
+.contribute-rules__title {
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin-block: 2rem 0.9rem;
+  text-transform: uppercase;
+}
+
+.contribute-rules {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0;
+  max-inline-size: 44rem;
+  padding: 0;
+}
+
+.contribute-rules__item {
+  color: var(--color-subtle-dark);
+  line-height: 1.55;
+  padding-inline-start: 1.4rem;
+  position: relative;
+}
+
+.contribute-rules__item::before {
+  color: var(--color-link);
+  content: "—";
+  inset-inline-start: 0;
+  position: absolute;
+}
+
 /* ---- Closing CTA ------------------------------------------------------- */
 
 .contribute-cta {

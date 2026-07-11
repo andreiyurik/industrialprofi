@@ -1,0 +1,17 @@
+<p><%= t("editorships_mailer.granted.greeting", name: @user.name) %></p>
+
+<p><%= t("editorships_mailer.granted.body") %></p>
+
+<ul>
+  <% @paths.each do |path| %>
+    <li>«<%= path.title %>»</li>
+  <% end %>
+</ul>
+
+<p><%= t("editorships_mailer.granted.now_you_can") %></p>
+
+<p><%= link_to t("editorships_mailer.granted.cta"), admin_lesson_suggestions_url %></p>
+
+<p><%= t("editorships_mailer.granted.guide_html", link: link_to(t("editorships_mailer.granted.guide_link"), guide_url)) %></p>
+
+<p><%= t("editorships_mailer.granted.thanks") %></p>
