@@ -1743,6 +1743,7 @@ ru:
 
   revisions:
     history: "История изменений"
+    history_updated: "История изменений · обновлено %{date}"
     updated_n_times:
       one: "Обновлено %{count} раз"
       few: "Обновлено %{count} раза"
