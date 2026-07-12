@@ -1,0 +1,10 @@
+<p><%= t("review_requests_mailer.submitted.intro.#{@kind}", title: @record.title, profession: @profession) %></p>
+
+<% if @submitter %>
+  <p><strong><%= t("review_requests_mailer.submitted.by") %>:</strong> <%= @submitter.name %></p>
+<% end %>
+
+<p><%= link_to t("review_requests_mailer.submitted.cta"), @review_url %></p>
+
+<hr>
+<p><%= t("review_requests_mailer.submitted.hint") %></p>

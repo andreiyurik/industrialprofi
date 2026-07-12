@@ -9,9 +9,11 @@ module Admin
 
     # Action groups for the filter tabs — keeps the raw action types readable.
     CATEGORIES = {
-      "roles"      => %w[user_role_changed user_access_changed],
+      "roles"      => %w[user_role_changed user_access_changed coauthor_approved],
       "moderation" => %w[suggestion_approved suggestion_rejected lesson_rolled_back],
-      "content"    => %w[lesson_created_live lesson_deleted_live],
+      "content"    => %w[lesson_created_live lesson_deleted_live
+                          path_created path_status_changed path_deleted
+                          course_created course_status_changed course_deleted],
       "bans"       => %w[user_suspended user_reinstated]
     }.freeze
 

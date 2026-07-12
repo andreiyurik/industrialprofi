@@ -19,6 +19,9 @@ module Admin
       @course.status = sanitized_status(params.dig(:course, :status), current: "draft")
 
       if @course.save
+        record_admin_action("course_created", target: @course, subject: @course.title,
+          path: @course.path&.title, status: @course.status)
+        notify_review_request(@course)
         redirect_to edit_admin_course_path(@course), notice: I18n.t("flash.course_created")
       else
         render :new, status: :unprocessable_entity
@@ -31,7 +34,9 @@ module Admin
     # also clears the course's lessons and their dependents.
     def destroy
       path = @course.path
+      title = @course.title
       @course.destroy!
+      record_admin_action("course_deleted", subject: title, path: path&.title)
       redirect_to admin_path_path(path), notice: I18n.t("flash.course_deleted")
     end
 
@@ -40,6 +45,11 @@ module Admin
       @course.status = sanitized_status(params.dig(:course, :status), current: @course.status_was)
 
       if @course.save
+        if @course.saved_change_to_status?
+          record_admin_action("course_status_changed", target: @course, subject: @course.title,
+            path: @course.path&.title, from_status: @course.status_before_last_save, to_status: @course.status)
+          notify_review_request(@course)
+        end
         redirect_to edit_admin_course_path(@course), notice: I18n.t("flash.course_updated")
       else
         render :edit, status: :unprocessable_entity

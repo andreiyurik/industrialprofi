@@ -1,0 +1,10 @@
+<%= t("review_requests_mailer.submitted.intro.#{@kind}", title: @record.title, profession: @profession) %>
+<% if @submitter -%>
+<%= t("review_requests_mailer.submitted.by") %>: <%= @submitter.name %>
+<% end -%>
+
+<%= t("review_requests_mailer.submitted.cta") %>:
+<%= @review_url %>
+
+---
+<%= t("review_requests_mailer.submitted.hint") %>

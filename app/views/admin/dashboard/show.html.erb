@@ -26,6 +26,15 @@
       </a>
     <% end %>
 
+    <% if @coauthor_applications.positive? %>
+      <a href="<%= admin_feedbacks_path(only: "coauthor") %>" class="panel panel--hover admin-callout">
+        <span class="admin-callout__text">
+          <%= t("admin.dashboard.coauthor_applications", count: @coauthor_applications) %>
+        </span>
+        <span class="btn btn--small btn--reversed"><%= t("admin.dashboard.open_applications") %></span>
+      </a>
+    <% end %>
+
     <% if @editorship_candidates.any? %>
       <div class="admin-group">
         <div class="admin-group__head">

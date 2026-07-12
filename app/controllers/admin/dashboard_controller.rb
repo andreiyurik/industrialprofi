@@ -19,6 +19,10 @@ module Admin
       # system surfaces them so discovery doesn't hinge on the founder's memory.
       @editorship_candidates = TrackRecord.editorship_candidates
 
+      # Practitioners asking to lead a profession (from /contribute) — a recent
+      # count so the founder never has to dig them out of the general inbox.
+      @coauthor_applications = Feedback.coauthor_applications.where(created_at: 30.days.ago..).count
+
       # Editors flip finished drafts to pending_review and wait for the founder —
       # surface that queue here so the signal doesn't depend on a personal email.
       @pending_review = Path.where(status: "pending_review").count +

@@ -105,7 +105,9 @@ Rails.application.routes.draw do
     resources :users, only: [ :index, :show, :update ] do
       resource :suspension, only: [ :create, :destroy ]
     end
-    resources :feedbacks, only: [ :index ]
+    resources :feedbacks, only: [ :index ] do
+      member { post :approve_coauthor }
+    end
     get "log" => "admin_actions#index", as: :log
     resources :lesson_suggestions, only: [ :index, :show ] do
       member do
