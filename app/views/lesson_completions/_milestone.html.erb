@@ -1,11 +1,9 @@
-<%# The loud cheer: a finished course/profession is the one moment a learner
-    has something worth showing — celebrate it and hand over the share link
-    (Telegram is the CIS channel). Rendered into the :flash frame, so the next
-    flash update simply replaces it. %>
-<% subject = milestone == :path ? path : course %>
-<% subject_url = milestone == :path ? "#{site_config.url}/paths/#{path.slug}" : "#{site_config.url}/courses/#{course.slug}" %>
-<% practice_count = subject.lessons.practice.count %>
-<% tg_share = "https://t.me/share/url?#{ { url: subject_url, text: t(".share_text.#{milestone}", title: subject.title) }.to_query }" %>
+<%# The loud cheer — reserved for finishing the whole profession, the one
+    moment a learner has something genuinely worth showing. Rendered into the
+    :flash frame, so the next flash update simply replaces it. %>
+<% path_url = "#{site_config.url}/paths/#{path.slug}" %>
+<% practice_count = path.lessons.practice.count %>
+<% tg_share = "https://t.me/share/url?#{ { url: path_url, text: t(".share_text", title: path.title) }.to_query }" %>
 
 <div data-controller="dialog">
   <dialog class="milestone" data-dialog-target="dialog" data-action="click->dialog#backdropClose">
@@ -16,22 +14,18 @@
 
     <span class="milestone__emblem" aria-hidden="true"><%= heroicon "academic-cap", variant: :outline %></span>
 
-    <p class="milestone__eyebrow"><%= t(".eyebrow.#{milestone}") %></p>
-    <h2 class="milestone__title"><%= subject.title %></h2>
+    <p class="milestone__eyebrow"><%= t(".eyebrow") %></p>
+    <h2 class="milestone__title"><%= path.title %></h2>
 
     <p class="milestone__stats">
-      <%= t("common.lesson", count: subject.lessons_count) %><% if practice_count.positive? %> · <%= t(".practice", count: practice_count) %><% end %>
+      <%= t("common.lesson", count: path.lessons_count) %><% if practice_count.positive? %> · <%= t(".practice", count: practice_count) %><% end %>
     </p>
 
-    <p class="milestone__note"><%= t(".note.#{milestone}") %></p>
+    <p class="milestone__note"><%= t(".note") %></p>
 
     <div class="milestone__actions">
       <a href="<%= tg_share %>" class="btn btn--reversed" target="_blank" rel="noopener"><%= t(".share_telegram") %></a>
-      <% if milestone == :path %>
-        <%= link_to t(".next_path"), paths_path, class: "btn" %>
-      <% else %>
-        <%= link_to t(".continue_path"), path_path(path), class: "btn" %>
-      <% end %>
+      <%= link_to t(".next_path"), paths_path, class: "btn" %>
     </div>
   </dialog>
 </div>

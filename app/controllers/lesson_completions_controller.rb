@@ -32,10 +32,10 @@ class LessonCompletionsController < ApplicationController
       @completed_ids = Current.user.completed_lesson_ids_for_course(@course)
     end
 
-    # The milestone moment: finishing the last lesson of a section, course, or
-    # the whole profession deserves a louder cheer than a silent checkmark.
-    # Ordered most-significant first. A section gets a flash pill; a course or
-    # the whole profession gets the milestone dialog with a share button.
+    # The milestone moment. Ordered most-significant first. A section or a
+    # course gets a quiet flash pill; only finishing the whole profession
+    # earns the milestone dialog with a share button — that stays the one
+    # honest, rare share moment instead of firing on every course.
     def milestone_reached
       path_completed_ids = Current.user.completed_lesson_ids_for(@path)
       if @path.lessons.all? { |lesson| path_completed_ids.include?(lesson.id) }
