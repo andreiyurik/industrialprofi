@@ -4,6 +4,11 @@
 <% content_for(:og_type, "article") %>
 
 <% content_for(:head) do %>
+  <%# Freshness for crawlers (invisible to the reader): pairs with the JSON-LD
+      dateModified and the sitemap <lastmod>, so search engines see when the
+      article was last updated. %>
+  <meta property="article:published_time" content="<%= @lesson.created_at.iso8601 %>">
+  <meta property="article:modified_time" content="<%= @lesson.updated_at.iso8601 %>">
   <%= json_ld_tag(learning_resource_json_ld(@lesson)) %>
   <%= json_ld_tag(breadcrumb_json_ld([
     { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
@@ -72,8 +77,9 @@
           only once the community has actually edited the lesson — out of the
           reading flow, never competing with the end-of-lesson actions. %>
       <% if @lesson.contributor_names.any? %>
+        <% history_title = t("revisions.history_updated", date: l(@lesson.updated_at.to_date)) %>
         <%= link_to lesson_revisions_path(@lesson), class: "lesson__tool",
-              aria: { label: t("revisions.history") }, title: t("revisions.history") do %>
+              aria: { label: t("revisions.history") }, title: history_title do %>
           <%= heroicon "clock", variant: :outline %>
         <% end %>
       <% end %>
