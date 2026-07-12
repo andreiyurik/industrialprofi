@@ -8,11 +8,13 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "структура разделов ТЗ — используй как чек-лист и каркас для мини-ТЗ из задания"
   - title: "ГОСТ Р 59793-2021 — Комплекс стандартов на АС. Стадии создания автоматизированной системы (взамен ГОСТ 34.601-90)"
     url: "https://protect.gost.ru/document.aspx?control=7&id=241692"
     kind: document
     required: true
     country_code: RU
+    note: "перечень и содержание стадий создания АС — сверь с таблицей стадий из урока"
   - title: "ГОСТ Р 59795-2021 — Требования к содержанию документов (взамен РД 50-34.698-90)"
     url: "https://protect.gost.ru/document.aspx?control=7&id=241757"
     kind: document

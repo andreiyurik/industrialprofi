@@ -8,11 +8,13 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "как строятся и обозначаются виды, разрезы и сечения — база для чтения любого чертежа"
   - title: "ГОСТ 2.307-2011 ЕСКД. Нанесение размеров и предельных отклонений"
     url: "https://docs.cntd.ru/document/1200086504"
     kind: norm
     required: true
     country_code: RU
+    note: "правила нанесения размеров — сверяйся, когда размер на чертеже читается неоднозначно"
   - title: "ГОСТ 2.303-68 ЕСКД. Линии"
     url: "https://docs.cntd.ru/document/1200003502"
     kind: norm

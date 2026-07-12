@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "нужна только часть про PCP-приоритеты (Class of Service) в VLAN-теге — остальное для справки"
   - title: "RFC 2475 — An Architecture for Differentiated Services (DiffServ / DSCP для IP-сетей)"
     url: "https://www.rfc-editor.org/rfc/rfc2475"
     kind: norm

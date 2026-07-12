@@ -8,11 +8,13 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "таблицы марок и химсостава качественных сталей (сталь 20, 45) — самое рабочее место документа"
   - title: "ГОСТ 4543-2016. Металлопродукция из конструкционной легированной стали"
     url: "https://example.com/placeholder"
     kind: norm
     required: true
     country_code: RU
+    note: "держи как справочник по маркам легированных сталей — расшифровка обозначений вроде 40Х и 18ХГТ"
   - title: "Справочник технолога-машиностроителя. В 2 томах. Под ред. Косиловой А.Г. и Мещерякова Р.К."
     url: "https://example.com/placeholder"
     kind: book

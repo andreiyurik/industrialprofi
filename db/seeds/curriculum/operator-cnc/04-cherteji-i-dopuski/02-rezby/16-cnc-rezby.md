@@ -8,11 +8,13 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "таблицы диаметров и шагов — по ним проверяешь, какой крупный шаг у резьбы без указания на чертеже"
   - title: "ГОСТ 9150-2002 Резьба метрическая. Профиль"
     url: "https://docs.cntd.ru/document/1200031048"
     kind: norm
     required: true
     country_code: RU
+    note: "профиль метрической резьбы с углом 60° — короткий стандарт про геометрию витка"
   - title: "ГОСТ 6357-81 Основная трубная цилиндрическая резьба"
     url: "https://docs.cntd.ru/document/1200011187"
     kind: norm

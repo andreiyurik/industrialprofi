@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "требование SR 5.1 (сегментация сети) — нормативное обоснование DMZ-архитектуры из урока"
   - title: "NIST SP 800-82 Rev.3 — Guide to Operational Technology (OT) Security (раздел 6.2: Network Architecture)"
     url: "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-82r3.pdf"
     kind: doc

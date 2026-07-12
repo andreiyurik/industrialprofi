@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "механизм ускорения RSTP (Proposal/Agreement) и edge-порты — детали таблицы из урока отсюда"
   - title: "IEC 62439-3:2016 — Industrial communication networks — High availability automation networks — Part 3: Parallel Redundancy Protocol (PRP) and High-availability Seamless Redundancy (HSR)"
     url: "https://webstore.iec.ch/publication/26364"
     kind: norm

@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "структура 802.1Q-тега (TPID, PCP, VID) разобрана в уроке — сам стандарт держи как справочник"
   - title: "IEEE 802.3-2022 — Ethernet (стандарт физического и канального уровня)"
     url: "https://standards.ieee.org/ieee/802.3/10400/"
     kind: norm

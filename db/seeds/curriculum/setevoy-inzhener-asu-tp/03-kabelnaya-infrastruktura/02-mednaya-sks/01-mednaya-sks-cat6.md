@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "классификация экранов (U/UTP…S/FTP) и лимит канала 90+10 м из урока — по этому стандарту"
   - title: "ГОСТ Р 53246-2025 — Информационные технологии. Системы кабельные структурированные. Проектирование основных узлов системы"
     url: "https://example.com/placeholder"
     kind: norm

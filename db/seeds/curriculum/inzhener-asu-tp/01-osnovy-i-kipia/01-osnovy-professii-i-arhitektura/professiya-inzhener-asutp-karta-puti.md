@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "профстандарт раскладывает профессию на трудовые функции — сверь их с обязанностями из вакансий в задании"
   - title: "Учебный центр ОВЕН — бесплатные вводные курсы по CODESYS и АСУ ТП"
     url: "https://owen.ru/edu"
     kind: tool

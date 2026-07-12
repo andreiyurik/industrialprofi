@@ -7,6 +7,7 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "не про технику, а про доказательство качества: клейма, сертификаты присадки, карты контроля"
   - title: "AWS D18.1 — Specification for Welding of Austenitic Stainless Steel Tube and Pipe Systems"
     url: "https://www.aws.org/education/aws-d18-committee"
     kind: norm

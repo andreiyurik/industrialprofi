@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "словарь профессии — сверь, как определены «автоматизированная система» и «комплекс технических средств»"
   - title: "ГОСТ 34.003-90 — Автоматизированные системы. Термины и определения"
     url: "https://docs.cntd.ru/document/1200006979"
     kind: document

@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "читать целиком не нужно — освой навигацию: раздел 1 и гл. 7.1 закрывают 80% задач электрика"
   - title: "Сибикин Ю.Д. «Правила устройства электроустановок с комментариями»"
     url: "https://example.com/placeholder-sibikin-pue"
     kind: document

@@ -7,6 +7,7 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "справочник кодов процессов — запомни хотя бы 141 (ТИГ); коды встретятся в ПТД и на чертежах"
   - title: "ГОСТ 14806-80 — Дуговая сварка алюминия и алюминиевых сплавов в инертных газах"
     url: "https://docs.cntd.ru/document/1200006537"
     kind: norm

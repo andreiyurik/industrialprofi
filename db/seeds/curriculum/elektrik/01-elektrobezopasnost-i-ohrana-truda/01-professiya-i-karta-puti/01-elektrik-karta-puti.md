@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "для этого урока хватит Приложения №1 (группы допуска) — задание строится на строке группы II"
   - title: "Сибикин Ю.Д. — Справочник мастера-электрика"
     url: "https://example.com/placeholder-sibikin"
     kind: document

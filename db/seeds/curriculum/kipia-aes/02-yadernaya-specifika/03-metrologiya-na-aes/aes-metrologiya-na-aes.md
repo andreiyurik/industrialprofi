@@ -8,16 +8,19 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "отсюда нужны классы безопасности каналов — от класса зависят надзор за поверкой и требование EQR"
   - title: "НП-026-16 Требования к системам КИПиА АЭС"
     url: https://docs.cntd.ru/document/456054212
     kind: document
     required: true
     country_code: RU
+    note: "требования к измерительным каналам АЭС — читай в связке с разделом урока о погрешности канала"
   - title: "ГОСТ 8.009-84 Нормируемые метрологические характеристики средств измерений"
     url: https://protect.gost.ru/document.aspx?control=7&id=129982
     kind: document
     required: true
     country_code: RU
+    note: "какие метрологические характеристики нормируются — база для расчёта суммарной погрешности канала"
   - title: "ГОСТ 6651-2009 Термометры сопротивления. Допуски и номинальные характеристики"
     url: https://protect.gost.ru/document.aspx?control=7&id=173416
     kind: document

@@ -8,11 +8,13 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "пока просто пролистай, чтобы увидеть объём требований — детально разберёшь в уроках по охране труда"
   - title: "НАКС — Система аттестации сварочного производства (САСв): официальный сайт"
     url: "https://naks.ru/sasv/"
     kind: norm
     required: true
     country_code: RU
+    note: "глянь, как устроена система аттестации и реестры — подробно НАКС разберёшь в последнем курсе пути"
   - title: "Рыбаков В.М. — Дуговая и газовая сварка: учебник"
     url: "https://example.com/placeholder-rybakov-svarka"
     kind: book

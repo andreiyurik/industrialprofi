@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "юридическая база поверки — пойми, что такое сфера госрегулирования и когда поверка обязательна"
   - title: "ГОСТ 8.401-80 — ГСИ. Классы точности средств измерений. Общие требования"
     url: "https://protect.gost.ru/gost/details/68948bc7-8069-43f3-8da5-d1f5fbe2e07c"
     kind: document

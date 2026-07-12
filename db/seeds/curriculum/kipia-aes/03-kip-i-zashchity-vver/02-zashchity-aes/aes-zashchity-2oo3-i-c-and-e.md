@@ -8,11 +8,13 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "здесь закреплено требование трёх независимых каналов с мажоритарной логикой для систем безопасности"
   - title: "НП-026-16 Требования к системам управления и защиты ядерных реакторов"
     url: https://docs.cntd.ru/document/456025278
     kind: document
     required: true
     country_code: RU
+    note: "требования к системам защиты реактора — нормативная рамка для защит и блокировок из урока"
   - title: "ГОСТ Р МЭК 61511-1-2018 Функциональная безопасность. SIS для технологических процессов"
     url: https://protect.gost.ru/document.aspx?control=7&id=228321
     kind: document

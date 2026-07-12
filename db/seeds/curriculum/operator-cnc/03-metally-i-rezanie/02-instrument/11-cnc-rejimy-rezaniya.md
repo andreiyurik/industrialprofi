@@ -8,6 +8,7 @@ resources:
     kind: book
     required: true
     country_code: RU
+    note: "таблицы режимов резания — самое рабочее место справочника; целиком читать не нужно"
   - title: "ISO 3685:1993. Tool-life testing with single-point turning tools"
     url: "https://example.com/placeholder"
     kind: norm

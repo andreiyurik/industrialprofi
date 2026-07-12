@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "описания стандартных блоков TON, TOF, TP, CTU и CTD — их входы и выходы сверяй по первоисточнику"
   - title: "CODESYS Online Help — стандартная библиотека: таймеры и счётчики"
     url: "https://content.helpme-codesys.com/en/libs/Standard/Current/index.html"
     kind: tool

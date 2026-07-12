@@ -11,6 +11,7 @@ resources:
     url: "https://www.lincolnelectric.com/en/education-center/welding-processes/tig-welding-techniques"
     kind: article
     required: true
+    note: "практическое руководство Lincoln — держи под рукой при отработке подачи присадки и контроля ванны"
   - title: "TIG Welding for Beginners — видео-урок канала Welding Tips and Tricks"
     url: "https://www.youtube.com/watch?v=hBMKX3bpN1w"
     kind: video

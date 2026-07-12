@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "физика поражения разобрана в уроке — правила целиком читать рано, к группам и нарядам вернёшься дальше"
   - title: "ГОСТ Р МЭК 60479-1 — Воздействие тока на человека и домашних животных"
     url: "https://example.com/placeholder-gost-60479"
     kind: document

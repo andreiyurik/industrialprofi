@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "таблица условий присвоения групп II–V — стаж и требования по образованию бери прямо отсюда"
   - title: "ПУЭ 7-е издание — глава 1.1: общие определения"
     url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
     kind: document

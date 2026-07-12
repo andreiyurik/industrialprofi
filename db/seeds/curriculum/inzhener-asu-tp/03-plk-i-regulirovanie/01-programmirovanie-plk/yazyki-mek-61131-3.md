@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "первоисточник по всем пяти языкам — целиком не читай, возвращайся к нужным разделам в уроках LD и ST"
   - title: "CODESYS Online Help — Programming Languages and Editors (справка вендора по LD, FBD, ST, SFC)"
     url: "https://content.helpme-codesys.com/en/CODESYS%20Development%20System/_cds_struct_reference_programming_languages_and_editors.html"
     kind: tool

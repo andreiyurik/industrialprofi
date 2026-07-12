@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "смотри определения категорий, п. 1.2.8 (независимые источники) и п. 1.2.19 (особая группа)"
   - title: "СП 256.1325800.2016 Электроустановки жилых и общественных зданий"
     url: "https://example.com/placeholder-sp-256"
     kind: document

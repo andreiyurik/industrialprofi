@@ -7,6 +7,7 @@ resources:
     url: "https://opcfoundation.org/about/opc-technologies/opc-ua/"
     kind: document
     required: true
+    note: "найди здесь, что такое информационная модель и узлы (Nodes) — это прямо часть задания урока"
   - title: "Статья: «Просто о стандартах OPC DA и OPC UA» — что это, зачем нужен и чем отличается от классики и полевых протоколов (IPC2U)"
     url: "https://ipc2u.ru/articles/prostye-resheniya/prosto-o-standartakh-opc-da-i-opc-ua/"
     kind: article

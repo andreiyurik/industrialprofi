@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "таблица 1.3.4 — самое рабочее место документа: допустимые токи по сечению и способу прокладки"
   - title: "ГОСТ Р 50571.5.52-2011 Выбор и монтаж электрооборудования. Таблицы токовых нагрузок"
     url: "https://docs.cntd.ru/document/1200084880"
     kind: document

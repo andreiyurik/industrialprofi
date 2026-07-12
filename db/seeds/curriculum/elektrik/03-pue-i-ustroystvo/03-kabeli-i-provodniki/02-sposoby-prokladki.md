@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "гл. 2.1 — общие требования к электропроводкам, гл. 7.1 — особенности жилых зданий"
   - title: "СП 76.13330.2016 Электротехнические устройства (актуализированная редакция СНиП 3.05.06-85)"
     url: "https://example.com/placeholder-sp-76"
     kind: document

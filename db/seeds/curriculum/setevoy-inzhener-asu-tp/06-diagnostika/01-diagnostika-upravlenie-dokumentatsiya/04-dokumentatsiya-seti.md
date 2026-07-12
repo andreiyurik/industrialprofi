@@ -8,6 +8,7 @@ resources:
     url: "https://app.diagrams.net/"
     kind: tool
     required: true
+    note: "нужен для задания — логическая схема сети с VLAN, trunk-линками и L3-границей"
   - title: "ГОСТ 34.201-2020 — Информационные технологии. Комплекс стандартов на АС. Виды, комплектность и обозначение документов при создании автоматизированных систем"
     url: "https://protect.gost.ru/document.aspx?control=7&id=237254"
     kind: norm

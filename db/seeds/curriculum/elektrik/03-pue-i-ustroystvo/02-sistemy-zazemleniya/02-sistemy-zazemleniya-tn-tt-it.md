@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "раздел про типы систем заземления; п. 1.7.80 — почему TN-C запрещена в новом строительстве"
   - title: "ГОСТ Р 50571.1-2009 Электроустановки низкого напряжения. Основные положения"
     url: "https://docs.cntd.ru/document/1200073895"
     kind: document

@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "параметры волокна G.652D (затухание, геометрия) из урока — сам стандарт держи как справочник"
   - title: "ITU-T G.651.1 — Characteristics of a 50/125 μm multimode graded-index optical fibre (многомодовое волокно)"
     url: "https://www.itu.int/rec/T-REC-G.651.1"
     kind: norm

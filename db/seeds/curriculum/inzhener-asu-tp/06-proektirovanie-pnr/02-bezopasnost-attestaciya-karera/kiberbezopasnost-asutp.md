@@ -8,11 +8,13 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "категорирование объектов КИИ и обязанности владельцев — пойми, попадает ли твой объект под закон"
   - title: "Приказ ФСТЭК России от 14.03.2014 № 31 — Требования к защите информации в АСУ производственными и технологическими процессами"
     url: "https://www.consultant.ru/document/cons_doc_LAW_165503/"
     kind: document
     required: true
     country_code: RU
+    note: "профильные требования к защите именно АСУ ТП — глянь состав мер, чтобы понять, что применимо на объекте"
   - title: "ГОСТ Р МЭК 62443-3-3-2016 — Требования к системной безопасности и уровни безопасности (SL)"
     url: "https://protect.gost.ru/gost/details/13affc54-24ab-4783-af69-7797b406f709"
     kind: document

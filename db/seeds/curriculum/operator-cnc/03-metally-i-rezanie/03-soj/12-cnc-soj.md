@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "нужны только требования к работе с СОЖ — общие разделы ты уже разбирал в курсе безопасности"
   - title: "СанПиН 2.2.3670-20 «Санитарно-эпидемиологические требования к условиям труда»"
     url: "https://example.com/placeholder"
     kind: norm

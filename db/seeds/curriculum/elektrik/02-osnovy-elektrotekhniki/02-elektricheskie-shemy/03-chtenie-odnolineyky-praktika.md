@@ -9,6 +9,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "нужна только таблица 1.3.4 — по ней проверяешь пару кабель-автомат каждой группы в самопроверке"
   - title: "ГОСТ 2.755-87 Обозначения условные графические в электрических схемах"
     url: "https://docs.cntd.ru/document/1200006513"
     kind: document

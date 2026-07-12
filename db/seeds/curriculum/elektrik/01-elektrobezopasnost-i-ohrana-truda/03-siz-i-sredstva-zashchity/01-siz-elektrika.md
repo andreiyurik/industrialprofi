@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "разделы про средства защиты — какие СИЗ обязательны; классы перчаток и сроки испытаний уже собраны в уроке"
   - title: "ГОСТ Р МЭК 60903-2017 — Перчатки из электроизоляционного материала"
     url: "https://example.com/placeholder-gost-60903"
     kind: document

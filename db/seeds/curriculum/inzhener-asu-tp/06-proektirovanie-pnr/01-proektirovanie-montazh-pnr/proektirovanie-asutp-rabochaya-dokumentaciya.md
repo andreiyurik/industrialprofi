@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "состав комплекта и правила оформления рабочей документации — сверь с таблицей документов из урока"
   - title: "ГОСТ 21.208-2013 — СПДС. Обозначения условные приборов и средств автоматизации в схемах"
     url: "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=STR&n=18231"
     kind: document

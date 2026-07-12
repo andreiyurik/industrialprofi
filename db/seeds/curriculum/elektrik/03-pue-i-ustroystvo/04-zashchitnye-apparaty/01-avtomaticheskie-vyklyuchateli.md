@@ -7,6 +7,7 @@ resources:
     url: "https://example.com/placeholder-gost-60898"
     kind: document
     required: true
+    note: "разделы про характеристики срабатывания B/C/D — стандарт, по которому маркируют бытовые автоматы"
   - title: "ПУЭ 7-е издание, гл. 3.1, гл. 1.3 (допустимые токи нагрузки)"
     url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
     kind: document

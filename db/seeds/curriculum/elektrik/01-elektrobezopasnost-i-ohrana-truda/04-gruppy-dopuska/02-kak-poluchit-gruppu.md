@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "раздел о порядке проверки знаний — плановая раз в год и основания для внеплановой"
   - title: "Ростехнадзор — официальный сайт: аттестация в области промышленной безопасности"
     url: "https://www.gosnadzor.ru/"
     kind: tool

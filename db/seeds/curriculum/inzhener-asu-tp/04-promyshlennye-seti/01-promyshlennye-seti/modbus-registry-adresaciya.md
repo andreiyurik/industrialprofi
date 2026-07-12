@@ -7,6 +7,7 @@ resources:
     url: "https://www.modbus.org/modbus-specifications"
     kind: document
     required: true
+    note: "нужна часть про function codes — какие функции читают и пишут каждый тип данных (пригодится в задании)"
   - title: "Modbus Poll — программа-опросчик Modbus (де-факто стандарт для чтения и отладки регистров; есть демо)"
     url: "https://www.modbustools.com/modbus_poll.html"
     kind: tool
