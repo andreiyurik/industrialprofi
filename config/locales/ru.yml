@@ -1319,6 +1319,18 @@ ru:
       page: "Со страницы"
       reply_hint: "Можно ответить прямо на это письмо — reply-to стоит на адрес пользователя. Все сообщения:"
 
+  review_requests_mailer:
+    submitted:
+      subject:
+        path: "На публикацию: профессия «%{title}» — IndustrialProfi"
+        course: "На публикацию: курс «%{title}» — IndustrialProfi"
+      intro:
+        path: "Профессию «%{title}» отправили на проверку — она ждёт вашей публикации."
+        course: "Курс «%{title}» в профессии «%{profession}» отправили на проверку — он ждёт вашей публикации."
+      by: "Автор"
+      cta: "Открыть и опубликовать"
+      hint: "Опубликовать может только администратор. Пока вы не нажмёте «опубликовать», материал не виден читателям."
+
   unsubscribes:
     title: "Отписка от писем"
     done_title: "Готово — вы отписались"
@@ -1403,6 +1415,17 @@ ru:
     feedback_guest: "Гость (контакт в сообщении)"
     feedback_reply: "Ответить на почту"
     feedback_reply_subject: "Ответ автора IndustrialProfi"
+    coauthor_approve:
+      label: "Заявка соавтора"
+      placeholder: "Название профессии"
+      submit: "Одобрить автором"
+      hint: "Выдаст роль редактора и создаст черновик профессии под именем автора. Публикуете потом вы."
+      confirm: "Выдать права автора и создать черновик профессии?"
+      approved: "%{name} теперь ведёт черновик «%{profession}». Письмо о правах отправлено."
+      already: "«%{profession}» уже создан для этого автора — открыл его."
+      incomplete: "Укажите название профессии."
+      filter_note: "Показаны только заявки соавторов."
+      filter_reset: "Все сообщения"
     nav_label: "Разделы админки"
     users_search_placeholder: "Имя или email"
     users_search: "Найти"
@@ -1485,7 +1508,7 @@ ru:
         all: "Все"
         roles: "Роли и доступ"
         moderation: "Модерация правок"
-        content: "Живой контент"
+        content: "Контент"
         bans: "Блокировки"
       actor_all: "Все администраторы"
       actor_apply: "Показать"
@@ -1500,12 +1523,25 @@ ru:
         lesson_rolled_back: "Откат урока «%{lesson}» к версии %{version}"
         lesson_created_live: "Урок добавлен в опубликованный курс: «%{lesson}» (%{path})"
         lesson_deleted_live: "Урок удалён из опубликованного курса: «%{lesson}» (%{path})"
+        path_created: "Профессия создана: «%{subject}» (%{status})"
+        path_status_changed: "Профессия «%{subject}»: %{from_status} → %{to_status}"
+        path_deleted: "Профессия удалена: «%{subject}»"
+        course_created: "Курс создан: «%{subject}» в «%{path}» (%{status})"
+        course_status_changed: "Курс «%{subject}» в «%{path}»: %{from_status} → %{to_status}"
+        course_deleted: "Курс удалён: «%{subject}» из «%{path}»"
+        coauthor_approved: "Соавтор одобрен: %{subject} ведёт «%{profession}»"
         user_suspended: "Пользователь заблокирован: %{subject}"
         user_reinstated: "Пользователь разблокирован: %{subject}"
       sections:
         body: "содержание"
         task: "задание"
         description: "описание"
+      statuses:
+        draft: "черновик"
+        pending_review: "на проверке"
+        published: "опубликовано"
+        coming_soon: "в разработке"
+        planned: "в планах"
     pagination:
       label: "Постранично"
       newer: "Новее"
@@ -1526,6 +1562,12 @@ ru:
         many: "%{count} материалов со статусом «На проверке» ждут публикации"
         other: "%{count} материала со статусом «На проверке» ждут публикации"
       open_program: "Открыть программу"
+      coauthor_applications:
+        one: "%{count} заявка вести профессию за 30 дней"
+        few: "%{count} заявки вести профессию за 30 дней"
+        many: "%{count} заявок вести профессию за 30 дней"
+        other: "%{count} заявки вести профессию за 30 дней"
+      open_applications: "Открыть заявки"
       candidates_title: "Кандидаты в эксперты"
       candidates_hint: "заработали доверие принятыми правками — решите, дать ли права"
       candidate_accepted:

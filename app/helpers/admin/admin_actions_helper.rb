@@ -8,6 +8,10 @@ module Admin::AdminActionsHelper
 
     options[:from] = t("admin.roles.#{details[:from]}") if details[:from].present?
     options[:to]   = t("admin.roles.#{details[:to]}")   if details[:to].present?
+    # Path/Course lifecycle entries carry raw statuses; localize them at render.
+    %i[status from_status to_status].each do |slot|
+      options[slot] = t("admin.log.statuses.#{details[slot]}", default: details[slot]) if details[slot].present?
+    end
     if details[:section].present?
       options[:section] = t("admin.log.sections.#{details[:section]}", default: details[:section])
     end

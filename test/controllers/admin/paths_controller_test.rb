@@ -178,4 +178,51 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
     patch admin_path_path(paths(:draft_path)), params: { path: { slug: "novyy-chernovik" } }
     assert_equal "novyy-chernovik", paths(:draft_path).reload.slug
   end
+
+  # ── Lifecycle logging (transparency) ──
+
+  test "creating a path logs a path_created entry" do
+    assert_difference -> { AdminAction.where(action: "path_created").count }, 1 do
+      post admin_paths_path, params: { path: { title: "Кузнец" } }
+    end
+    assert_equal "Кузнец", AdminAction.where(action: "path_created").order(:id).last.details["subject"]
+  end
+
+  test "publishing a draft via update logs a path_status_changed entry with both statuses" do
+    assert_difference -> { AdminAction.where(action: "path_status_changed").count }, 1 do
+      patch admin_path_path(paths(:draft_path)), params: { path: { status: "published" } }
+    end
+    entry = AdminAction.where(action: "path_status_changed").order(:id).last
+    assert_equal "draft", entry.details["from_status"]
+    assert_equal "published", entry.details["to_status"]
+  end
+
+  test "an update that does not change status logs nothing" do
+    assert_no_difference -> { AdminAction.count } do
+      patch admin_path_path(paths(:electrician)), params: { path: { description: "Просто текст" } }
+    end
+  end
+
+  test "destroying a path logs a path_deleted entry" do
+    assert_difference -> { AdminAction.where(action: "path_deleted").count }, 1 do
+      delete admin_path_path(paths(:electrician))
+    end
+  end
+
+  # ── Review-request notification (so the founder never misses a submission) ──
+
+  test "an editor submitting a profession for review emails the administrators" do
+    sign_out
+    sign_in_as users(:editor)
+    assert_enqueued_emails 1 do
+      post admin_paths_path, params: { path: { title: "Кровельщик", status: "pending_review" } }
+    end
+  end
+
+  test "an administrator setting pending_review does not send a notification to themselves" do
+    assert_no_enqueued_emails do
+      patch admin_path_path(paths(:draft_path)), params: { path: { status: "published" } }
+      patch admin_path_path(paths(:draft_path)), params: { path: { status: "pending_review" } }
+    end
+  end
 end

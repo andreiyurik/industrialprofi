@@ -71,6 +71,15 @@ module Admin
         AdminAction.create!(actor: Current.user, action: action, target: target, details: details)
       end
 
+      # An editor flipping a profession/course to "на проверке" is waiting for an
+      # administrator to publish. Email the admins so a submission is never missed
+      # sitting on the dashboard. Skip when an admin did it themselves — they know.
+      def notify_review_request(record)
+        return unless record.status == "pending_review" && !Current.user.administrator?
+
+        ReviewRequestsMailer.submitted(record, Current.user).deliver_later
+      end
+
       def ensure_can_edit_content
         redirect_to root_path, alert: t("auth.not_authorized") unless Current.user.can_edit_content?
       end
