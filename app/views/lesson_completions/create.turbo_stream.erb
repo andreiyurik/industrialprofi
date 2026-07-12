@@ -7,11 +7,11 @@
         lessons_by_stage: @lessons_by_stage, completed_ids: @completed_ids %>
 <% end %>
 
-<%# A course or the whole profession earns the milestone dialog (stats + share);
-    a section keeps the quiet flash pill. %>
-<% if @milestone.in?(%i[course path]) %>
+<%# Only finishing the whole profession earns the milestone dialog (stats +
+    share) — a section or a course keeps the quiet flash pill. %>
+<% if @milestone == :path %>
   <%= turbo_stream.update :flash do %>
-    <%= render "lesson_completions/milestone", milestone: @milestone, course: @course, path: @path %>
+    <%= render "lesson_completions/milestone", path: @path %>
   <% end %>
 <% elsif @celebration %>
   <%= turbo_stream.update :flash do %>

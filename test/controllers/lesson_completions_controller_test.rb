@@ -38,17 +38,17 @@ class LessonCompletionsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "completing the last lesson of a course renders the milestone dialog with a share link" do
+  test "completing the last lesson of a course renders the quiet flash pill, not the dialog" do
     sign_in_as users(:member)
     users(:member).lesson_completions.create!(lesson: lessons(:pteep))
 
     post lesson_completion_path(lessons(:gruppy_dopuska)), as: :turbo_stream
     assert_response :success
-    assert_match I18n.t("lesson_completions.milestone.eyebrow.course"), response.body
-    assert_match "t.me/share/url", response.body
+    assert_match I18n.t("lesson_completions.create.course_completed", title: lessons(:gruppy_dopuska).course.title), response.body
+    assert_no_match "t.me/share/url", response.body
   end
 
-  test "completing the last lesson of the profession renders the path milestone" do
+  test "completing the last lesson of the profession renders the milestone dialog with a share link" do
     sign_in_as users(:member)
     %i[pteep gruppy_dopuska zazemlenie].each do |name|
       users(:member).lesson_completions.create!(lesson: lessons(name))
@@ -56,7 +56,7 @@ class LessonCompletionsControllerTest < ActionDispatch::IntegrationTest
 
     post lesson_completion_path(lessons(:praktika_shchitok)), as: :turbo_stream
     assert_response :success
-    assert_match I18n.t("lesson_completions.milestone.eyebrow.path"), response.body
+    assert_match I18n.t("lesson_completions.milestone.eyebrow"), response.body
     assert_match "t.me/share/url", response.body
   end
 
