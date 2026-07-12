@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "три диапазона частных адресов и правила их применения — RFC короткий, можно прочитать целиком"
   - title: "RFC 4632 — Classless Inter-Domain Routing (CIDR)"
     url: "https://www.rfc-editor.org/rfc/rfc4632"
     kind: norm

@@ -7,6 +7,7 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "нужна таблица соответствия отечественных марок ЭВЧ/ЭВЛ/ЭВИ международным WP/WL/WC"
   - title: "ISO 6848:2015 — Arc welding and cutting. Nonconsumable tungsten electrodes"
     url: "https://www.iso.org/standard/63837.html"
     kind: norm

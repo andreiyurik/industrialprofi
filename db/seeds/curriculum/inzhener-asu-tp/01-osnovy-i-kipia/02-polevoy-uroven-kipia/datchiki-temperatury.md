@@ -8,11 +8,13 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "нужны таблицы диапазонов термосопротивлений — по ним сверишь выбор Pt100 в задании"
   - title: "ГОСТ Р 8.585-2001 — ГСИ. Термопары. Номинальные статические характеристики преобразования"
     url: "https://protect.gost.ru/document.aspx?control=7&id=131096"
     kind: document
     required: true
     country_code: RU
+    note: "номинальные характеристики термопар — найди, до какой температуры допустимы типы K и J"
   - title: "Видео: «Сравнение термосопротивления и термопары. Основы измерения температуры» (Emerson)"
     url: "https://www.youtube.com/watch?v=uLI_Je6YVzM"
     kind: video

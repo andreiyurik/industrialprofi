@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "нужен п. 1.1.13 — классификация помещений по условиям среды; по нему выполняется задание урока"
   - title: "ГОСТ 14254-2015 Степени защиты, обеспечиваемые оболочками (код IP)"
     url: "https://example.com/placeholder-gost-14254"
     kind: document

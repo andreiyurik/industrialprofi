@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "трудовые функции и уровни квалификации 6 и 7 — пойми, чем требования к инженеру отличаются от ГИПа"
   - title: "Приказ Ростехнадзора от 09.08.2023 № 285 — Перечень областей аттестации по промышленной безопасности"
     url: "http://publication.pravo.gov.ru/document/0001202309080006"
     kind: document

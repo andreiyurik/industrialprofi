@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "нужны базовые термины и концепции — остальные части серии 62443 ждут тебя в курсе кибербезопасности"
   - title: "ISA-95 — Enterprise-Control System Integration (модель уровней автоматизации)"
     url: "https://www.isa.org/standards-and-publications/isa-standards/isa-standards-committees/isa95"
     kind: norm

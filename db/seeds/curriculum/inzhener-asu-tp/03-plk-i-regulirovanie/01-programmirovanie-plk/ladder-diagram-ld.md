@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "нужен только раздел про язык LD — обозначения контактов и катушек в первоисточнике"
   - title: "OpenPLC Editor — бесплатный софт-ПЛК для практики LD/ST без оборудования"
     url: "https://autonomylogic.com/download"
     kind: tool

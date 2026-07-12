@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "нужно только Приложение №7 — сверяй с ним алгоритм освобождения и СЛР из урока"
   - title: "Сибикин Ю.Д. — Справочник мастера-электрика"
     url: "https://example.com/placeholder-sibikin"
     kind: document

@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "читай как справочник: найди соединение по рисунку и возьми из таблицы зазор, притупление, угол"
   - title: "ГОСТ 11969-79 — Сварка плавлением. Основные положения и их обозначения"
     url: "https://example.com/placeholder-gost-11969"
     kind: norm

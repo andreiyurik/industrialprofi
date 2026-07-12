@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "таблица буквенных обозначений — по первой букве и функциям расшифруешь любой прибор на ФСА"
   - title: "ГОСТ 21.408-2013 — СПДС. Правила выполнения рабочей документации автоматизации технологических процессов"
     url: "https://protect.gost.ru/gost/details/ad7aee01-bcb3-495e-a46f-6393783f864c"
     kind: document

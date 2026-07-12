@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "отсюда требование сохранять работоспособность при МПА — нормативная основа квалификации EQR из урока"
   - title: "ГОСТ 8.586.1–2005 — Измерение расхода и количества жидкостей и газов с помощью стандартных сужающих устройств"
     url: https://protect.gost.ru/document.aspx?control=7&id=131088
     kind: document

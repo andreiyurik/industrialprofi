@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "п. 2.1.21 — короткий пункт: перечень разрешённых соединений и запрет скрутки, сверь по первоисточнику"
   - title: "ГОСТ Р 50571.5.52-2011. Выбор и монтаж электрооборудования. Электропроводки"
     url: "https://example.com/placeholder-gost-50571-5-52"
     kind: document

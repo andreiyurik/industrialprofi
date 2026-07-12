@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "справочник кодов дефектов — шесть групп из урока взяты из этого классификатора"
   - title: "ГОСТ Р ИСО 5817-2021 — Сварка. Сварные соединения из стали, никеля, титана и их сплавов. Уровни качества"
     url: "https://protect.gost.ru/gost/details/ba87ed7d-4825-4539-92b7-cd72f61354da"
     kind: norm

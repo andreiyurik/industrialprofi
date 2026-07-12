@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "нужны части про модель CIP-объектов и два типа соединений (I/O и Explicit) — остальное для справки"
   - title: "EtherNet/IP Quick Start for Vendors — ODVA (краткое практическое введение)"
     url: "https://www.odva.org/portals/0/library/publications_drives/ethernetip_quick_start_for_vendors.pdf"
     kind: norm

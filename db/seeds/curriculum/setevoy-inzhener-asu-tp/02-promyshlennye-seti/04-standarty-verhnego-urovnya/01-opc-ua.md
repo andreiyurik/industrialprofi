@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "архитектура: адресное пространство, сервисы, безопасность — остальные 13 частей серии по мере нужды"
   - title: "IEC 62541 — OPC Unified Architecture (международный стандарт OPC UA, серия из 14 частей)"
     url: "https://webstore.iec.ch/publication/6028"
     kind: norm
@@ -17,6 +18,7 @@ resources:
     url: "https://www.unified-automation.com/products/development-tools/uaexpert.html"
     kind: tool
     required: true
+    note: "нужен для задания — Browse адресного пространства и Subscription на публичном тестовом сервере"
 ---
 OPC UA — универсальный стандарт обмена данными между ПЛК, SCADA, MES и ERP: платформонезависимый, со встроенной безопасностью, он стал главным языком конвергенции IT и OT.
 ---

@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "общие требования к обеспечению ВХР — конкретные уставки pH, кислорода и натрия задаёт проект блока"
   - title: "ГОСТ Р 8.736-2011 Измерения прямые многократные. Методы обработки результатов"
     url: https://protect.gost.ru/document.aspx?control=7&id=179235
     kind: document

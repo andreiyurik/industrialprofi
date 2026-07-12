@@ -8,10 +8,12 @@ resources:
     url: "https://www.wireshark.org/"
     kind: tool
     required: true
+    note: "поставь до начала практики — весь разбор PCAP в уроке делается в нём"
   - title: "Wireshark Sample Captures — официальная библиотека учебных PCAP-файлов"
     url: "https://wiki.wireshark.org/SampleCaptures"
     kind: tool
     required: true
+    note: "отсюда бери PCAP для практики — ищи capture со словом modbus, как в шагах задания"
   - title: "Wireshark Display Filter Reference — справочник по синтаксису фильтров"
     url: "https://www.wireshark.org/docs/dfref/"
     kind: doc

@@ -8,11 +8,13 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "коды функций, модель регистров и exception-коды — таблицы из урока сверяй по этой спецификации"
   - title: "Modbus over Serial Line Specification V1.02 — Modbus Organization (Modbus RTU поверх RS-232/485)"
     url: "https://modbus.org/docs/Modbus_over_serial_line_V1_02.pdf"
     kind: norm
     required: true
     language: en
+    note: "кадр RTU, пауза ≥3,5 символа и требования к шине RS-485 — физика из урока описана здесь"
   - title: "qModMaster — бесплатный Modbus RTU/TCP мастер для диагностики (Windows)"
     url: "https://sourceforge.net/projects/qmodmaster/"
     kind: tool

@@ -7,6 +7,7 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "таблицы соединений алюминия и ориентировочные режимы по толщине — стартовая точка без ПТД"
   - title: "ГОСТ 7871-2019 — Проволока сварочная из алюминия и алюминиевых сплавов"
     url: "https://docs.cntd.ru/document/1200167264"
     kind: norm

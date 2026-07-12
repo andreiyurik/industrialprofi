@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "п. 1.1.30 — цветовая маркировка L/N/PE; перепутаешь PE с фазой — корпус прибора окажется под напряжением"
   - title: "ГОСТ Р МЭК 60228-2006. Жилы токопроводящие кабелей и проводов"
     url: "https://example.com/placeholder-gost-mek-60228-2006"
     kind: document

@@ -7,6 +7,7 @@ resources:
     url: "https://support.industry.siemens.com/cs/document/84922825/"
     kind: doc
     required: true
+    note: "по нему задание урока — найди протоколы резервирования, поддержку PTP и диапазон температур"
   - title: "Moxa EDS-400A Series — User Manual (промышленные коммутаторы Moxa)"
     url: "https://www.moxa.com/products/industrial-network-infrastructure/ethernet-switches/en-50155-switches/eds-400a-series"
     kind: doc

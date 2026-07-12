@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "найди соединения С2, Т1 и Н1 — их геометрия нужна для задания и сравнения с ГОСТ 5264-80"
   - title: "ГОСТ Р ИСО 6947-2020 — Сварка и родственные процессы. Пространственные положения при сварке"
     url: "https://docs.cntd.ru/document/1200176048"
     kind: norm

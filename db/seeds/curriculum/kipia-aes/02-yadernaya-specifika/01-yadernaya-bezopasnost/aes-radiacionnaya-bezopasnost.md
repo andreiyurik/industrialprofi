@@ -8,11 +8,13 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "дозовые пределы для персонала группы А — п. 3.1 и таблица 3.1, на них построено задание урока"
   - title: "НП-001-15 «Общие положения обеспечения безопасности атомных станций» (ОПБ)"
     url: https://docs.cntd.ru/document/420363197
     kind: document
     required: true
     country_code: RU
+    note: "для общего каркаса безопасности АЭС — дозовые пределы и зонирование бери из НРБ-99/2009"
   - title: "СП 2.6.1.2612-10 — Основные санитарные правила обеспечения радиационной безопасности"
     url: https://docs.cntd.ru/document/902210609
     kind: document

@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "система обозначения пластин (CNMG 120408) разобрана в уроке — стандарт держи как полный справочник кодов"
   - title: "Sandvik Coromant Main Catalogue — Turning, Milling, Drilling"
     url: "https://example.com/placeholder"
     kind: doc

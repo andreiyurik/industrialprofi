@@ -7,6 +7,7 @@ resources:
     url: "https://app.diagrams.net/"
     kind: tool
     required: true
+    note: "нужен для сдачи — логическая схема сети с VLAN, trunk-линками и MRP-кольцом рисуется в нём"
   - title: "Cisco Packet Tracer — бесплатный сетевой симулятор для отработки конфигурации"
     url: "https://www.netacad.com/courses/packet-tracer"
     kind: tool

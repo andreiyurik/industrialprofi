@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "разделы про классы реального времени (RT classes) и conformance classes — по ним задание урока"
   - title: "IEC 61158-6-10 / IEC 61784-1 — Industrial communication networks — Fieldbus specifications (формальный стандарт PROFINET)"
     url: "https://webstore.iec.ch/publication/62735"
     kind: norm

@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "иерархия уровней автоматизации — таблица уровней из урока опирается на эту модель"
   - title: "IEC 62443-3-3:2013 — System security requirements and security levels (зоны безопасности в контексте Purdue)"
     url: "https://webstore.iec.ch/publication/7032"
     kind: norm

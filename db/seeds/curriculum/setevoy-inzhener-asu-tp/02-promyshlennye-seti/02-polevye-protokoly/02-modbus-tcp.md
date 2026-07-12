@@ -8,10 +8,12 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "структура MBAP-заголовка и порт 502 — разбор пакета из урока сверяй по этому руководству"
   - title: "Modbus Poll — де-факто стандарт для диагностики Modbus TCP/RTU (Windows)"
     url: "https://www.modbustools.com/modbus_poll.html"
     kind: tool
     required: true
+    note: "нужен для задания — чтение и запись регистров симулятора; trial 30 дней, бесплатная замена — qModMaster"
   - title: "qModMaster — бесплатная альтернатива для Modbus TCP (Windows/Linux)"
     url: "https://sourceforge.net/projects/qmodmaster/"
     kind: tool

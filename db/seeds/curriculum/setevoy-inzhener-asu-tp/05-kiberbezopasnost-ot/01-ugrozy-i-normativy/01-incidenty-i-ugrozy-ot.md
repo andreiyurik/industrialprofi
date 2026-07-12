@@ -8,6 +8,7 @@ resources:
     kind: article
     required: true
     language: en
+    note: "ежегодная картина инцидентов и векторов атак — сопоставь с таблицей векторов из урока"
   - title: "Dragos ICS/OT Cybersecurity Year in Review (ежегодный отчёт Dragos по угрозам OT)"
     url: "https://www.dragos.com/resource/ics-ot-cybersecurity-year-in-review/"
     kind: article

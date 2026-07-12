@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     language: en
+    note: "устройство IP-заголовка (уровень 3 из урока) — читать целиком не нужно, держи как справочник"
   - title: "RFC 793 — Transmission Control Protocol (TCP), IETF"
     url: "https://www.rfc-editor.org/rfc/rfc793"
     kind: norm

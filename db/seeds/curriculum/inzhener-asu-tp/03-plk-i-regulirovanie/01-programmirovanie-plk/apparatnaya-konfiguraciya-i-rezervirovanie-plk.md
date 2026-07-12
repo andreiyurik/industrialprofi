@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "живой пример объявления модулей и адресов ввода-вывода в CODESYS на контроллерах ОВЕН"
   - title: "Видео: «TIA Portal — аппаратная конфигурация ПЛК и периферийных модулей»"
     url: "https://www.youtube.com/watch?v=O2UuDaPy4gA"
     kind: video

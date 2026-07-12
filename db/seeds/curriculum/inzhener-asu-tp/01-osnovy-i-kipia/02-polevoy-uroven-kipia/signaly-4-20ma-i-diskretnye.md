@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "именно здесь узаконен сигнал 4–20 мА — физика петли разобрана в уроке, ГОСТ держи как справочник"
   - title: "Статья: «Как работает токовая петля 4–20 мА» — почему ток, а не напряжение, и как ловит обрыв"
     url: "https://electricalschool.info/automation/2248-kak-rabotaet-tokovaya-petlya-4-20-ma.html"
     kind: article
