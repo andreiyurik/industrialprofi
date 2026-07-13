@@ -72,14 +72,16 @@ class UserTest < ActiveSupport::TestCase
     assert_equal paths(:welder), user.focus_path
   end
 
-  test "activity_by_day merges completions and journal entries" do
+  test "activity_by_day merges completions, journal entries and suggested edits" do
     user = users(:member)
     user.lesson_completions.create!(lesson: lessons(:pteep))
     user.lesson_completions.create!(lesson: lessons(:zazemlenie))
     user.journal_entries.create!(body: "Запись в дневнике")
+    user.lesson_suggestions.create!(lesson: lessons(:pteep), section: "body",
+      author_name: user.name, body_markdown: "Правка")
 
     activity = user.activity_by_day(since: 1.week.ago.to_date)
-    assert_equal 3, activity[Date.current]
+    assert_equal 4, activity[Date.current]
   end
 
   test "activity_by_day ignores actions before the window" do

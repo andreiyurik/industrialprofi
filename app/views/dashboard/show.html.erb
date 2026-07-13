@@ -91,9 +91,9 @@
         <% end %>
       </section>
 
-      <% if @activity.any? %>
-        <%= render "heatmap", activity: @activity, since: @activity_since %>
-      <% end %>
+      <%# Rendered even when empty: a returning learner should see the quiet
+          invitation to fill it, not a missing section. %>
+      <%= render "heatmap", activity: @activity, since: @activity_since %>
 
       <% if @other_paths.any? %>
         <h2 class="dashboard__others-title"><%= t("dashboard.other_paths") %></h2>
@@ -139,7 +139,7 @@
     <% if @bookmarked_lessons.any? %>
       <section id="dashboard_bookmarks" class="dashboard__bookmarks">
         <h2 class="dashboard__others-title"><%= t("dashboard.bookmarks_title") %></h2>
-        <p class="dashboard__courses-hint"><%= t("dashboard.bookmarks_hint") %></p>
+        <p class="dashboard__others-hint"><%= t("dashboard.bookmarks_hint") %></p>
         <div class="panel dashboard-bookmarks">
           <% @bookmarked_lessons.each do |lesson| %>
             <div class="dashboard-bookmark" id="<%= dom_id(lesson, :bookmark_row) %>">

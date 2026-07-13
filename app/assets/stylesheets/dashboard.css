@@ -5,11 +5,15 @@
 }
 
 /* Activity heatmap (GitHub-style): columns = weeks, rows = weekdays.
-   Pure server-rendered divs; green intensity = real actions that day. */
+   Pure server-rendered divs; green intensity = real actions that day.
+   Narrower than the page and centered — full container width left the small
+   grid orphaned in empty space. */
 .heatmap {
   border: 1px solid var(--color-subtle);
   border-radius: 0.75em;
   margin-block-end: 2rem;
+  margin-inline: auto;
+  max-inline-size: 46rem;
   overflow-x: auto;
   padding: 1rem 1.25rem;
 }
@@ -33,16 +37,19 @@
   font-size: 0.8rem;
 }
 
+/* Cells flex between phone-tight and desktop-chunky; aspect-ratio keeps them
+   square whatever width the column resolves to. */
 .heatmap__grid {
   display: grid;
   gap: 3px;
-  grid-auto-columns: 0.72rem;
+  grid-auto-columns: minmax(0.72rem, 1.4rem);
   grid-auto-flow: column;
-  grid-template-rows: repeat(7, 0.72rem);
-  inline-size: max-content;
+  grid-template-rows: repeat(7, auto);
+  justify-content: center;
 }
 
 .heatmap__cell {
+  aspect-ratio: 1;
   background-color: var(--color-subtle-light);
   border-radius: 2px;
 }
@@ -78,6 +85,15 @@
   span:last-child {
     margin-inline-start: 0.3rem;
   }
+}
+
+/* What fills a cell and why regularity beats volume — written out in words:
+   a hover-only "?" would be invisible on touch and undiscoverable anywhere. */
+.heatmap__hint {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  margin-block: 0.9rem 0;
 }
 
 /* The identity card (TOP-style): direction + personal goal, ONE next action.
@@ -282,6 +298,15 @@
   font-size: 0.9rem;
   font-weight: 600;
   margin-block: 2rem 0.75rem;
+}
+
+/* Hint under a left-aligned section title. The centered .dashboard__courses-hint
+   belongs to the centered courses heading only. Negative top margin collapses
+   with the title's 0.75rem into a snug 0.35rem gap. */
+.dashboard__others-hint {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block: -0.4rem 0.75rem;
 }
 
 .dashboard__others {

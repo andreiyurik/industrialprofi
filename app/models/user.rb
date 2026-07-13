@@ -169,15 +169,17 @@ class User < ApplicationRecord
     suggestion_digest_sent_at.nil? || suggestion_digest_sent_at < oldest
   end
 
-  # Activity per calendar day (lesson completions + journal entries) — feeds
-  # the dashboard heatmap. Counts real work, not logins. Grouped by LOCAL date:
-  # SQLite's DATE() works on the UTC-stored timestamp, so grouping in SQL would
-  # bucket late-evening activity into the previous day (the heatmap lost "today"
-  # between 00:00–03:00 MSK). We pluck and group in the app zone instead — a
-  # learner's rows in the window are few, so this stays cheap.
+  # Activity per calendar day (lesson completions + journal entries + suggested
+  # edits) — feeds the dashboard heatmap. Counts real work, not logins; a
+  # suggestion counts when submitted, not when approved — the effort is the
+  # learner's either way. Grouped by LOCAL date: SQLite's DATE() works on the
+  # UTC-stored timestamp, so grouping in SQL would bucket late-evening activity
+  # into the previous day (the heatmap lost "today" between 00:00–03:00 MSK).
+  # We pluck and group in the app zone instead — a learner's rows in the window
+  # are few, so this stays cheap.
   def activity_by_day(since:)
     cutoff = since.to_date.beginning_of_day
-    [ lesson_completions, journal_entries ].flat_map { |scope|
+    [ lesson_completions, journal_entries, lesson_suggestions ].flat_map { |scope|
       scope.where(created_at: cutoff..).pluck(:created_at)
     }.group_by { |timestamp| timestamp.in_time_zone.to_date }
      .transform_values(&:size)

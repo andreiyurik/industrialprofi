@@ -2,127 +2,146 @@
 
 <section class="section">
   <div class="container">
-    <div class="account-settings">
+    <header class="account-settings__masthead">
       <h1 class="account-settings__title"><%= t("account.title") %></h1>
+      <p class="account-settings__subtitle"><%= t("account.profile_subtitle") %></p>
+    </header>
 
-      <%# Имя %>
-      <div class="panel account-settings__card">
-        <% if @name_errors.any? %>
-          <p class="account-settings__error" role="alert"><%= @name_errors.first %></p>
-        <% end %>
-        <%= form_with url: account_path, method: :patch do |f| %>
-          <div class="account-settings__field">
-            <%= f.label :name, t("account.name_label"), class: "account-settings__label" %>
-            <%= f.text_field :name, value: Current.user.name, name: "user[name]",
-                  required: true, autocomplete: "name", class: "input" %>
+    <div class="account-settings">
+      <%# ───────────── Профиль ───────────── %>
+      <div class="panel account-settings__panel">
+        <%# Имя %>
+        <section class="account-settings__section">
+          <div class="account-settings__section-head">
+            <h2 class="account-settings__heading"><%= t("account.name_section") %></h2>
+            <p class="account-settings__desc"><%= t("account.name_desc") %></p>
           </div>
-          <div class="account-settings__actions">
-            <%= f.submit t("account.save"), class: "btn btn--reversed btn--small" %>
-          </div>
-        <% end %>
-      </div>
-
-      <%# Email %>
-      <div class="panel account-settings__card">
-        <div class="account-settings__field">
-          <span class="account-settings__label"><%= t("account.email_section") %></span>
-          <div class="account-settings__email-row">
-            <span class="account-settings__email-value"><%= Current.user.email_address %></span>
-            <%= link_to t("account.change_email"), edit_account_email_path, class: "account-settings__link" %>
-          </div>
-        </div>
-      </div>
-
-      <%# Письма %>
-      <div class="panel account-settings__card">
-        <%= form_with url: account_path, method: :patch do |f| %>
-          <div class="account-settings__field">
-            <span class="account-settings__label"><%= t("account.emails_section") %></span>
-            <label class="account-settings__checkbox">
-              <%= hidden_field_tag "user[reminder_emails]", "0", id: nil %>
-              <%= check_box_tag "user[reminder_emails]", "1", Current.user.reminder_emails? %>
-              <%= t("account.reminder_emails_label") %>
-            </label>
-            <p class="account-settings__hint"><%= t("account.reminder_emails_hint") %></p>
-            <label class="account-settings__checkbox">
-              <%= hidden_field_tag "user[suggestion_emails]", "0", id: nil %>
-              <%= check_box_tag "user[suggestion_emails]", "1", Current.user.suggestion_emails? %>
-              <%= t("account.suggestion_emails_label") %>
-            </label>
-            <p class="account-settings__hint"><%= t("account.suggestion_emails_hint") %></p>
-          </div>
-          <div class="account-settings__actions">
-            <%= f.submit t("account.save"), class: "btn btn--reversed btn--small" %>
-          </div>
-        <% end %>
-      </div>
-
-      <%# Куратор — только для тех, кто ведёт профессии (редакторы/админы) %>
-      <% if Current.user.can_edit_content? %>
-        <div class="panel account-settings__card">
-          <%= form_with url: account_path, method: :patch do |f| %>
+          <% if @name_errors.any? %>
+            <p class="account-settings__error" role="alert"><%= @name_errors.first %></p>
+          <% end %>
+          <%= form_with url: account_path, method: :patch, class: "account-settings__form" do |f| %>
             <div class="account-settings__field">
-              <span class="account-settings__label"><%= t("account.curator_section") %></span>
-              <label class="account-settings__checkbox">
-                <%= hidden_field_tag "user[public_curator]", "0", id: nil %>
-                <%= check_box_tag "user[public_curator]", "1", Current.user.public_curator? %>
-                <%= t("account.public_curator_label") %>
-              </label>
-              <p class="account-settings__hint"><%= t("account.public_curator_hint") %></p>
-            </div>
-            <div class="account-settings__field">
-              <%= f.label :headline, t("account.headline_label"), class: "account-settings__label" %>
-              <%= f.text_field :headline, value: Current.user.headline, name: "user[headline]",
-                    maxlength: 120, placeholder: t("account.headline_placeholder"), class: "input" %>
+              <%= f.label :name, t("account.name_label"), class: "account-settings__label" %>
+              <%= f.text_field :name, value: Current.user.name, name: "user[name]",
+                    required: true, autocomplete: "name", class: "input" %>
             </div>
             <div class="account-settings__actions">
               <%= f.submit t("account.save"), class: "btn btn--reversed btn--small" %>
             </div>
           <% end %>
-        </div>
-      <% end %>
+        </section>
 
-      <%# Пароль %>
-      <div class="panel account-settings__card">
-        <% if @password_errors.any? %>
-          <p class="account-settings__error" role="alert"><%= @password_errors.first %></p>
-        <% end %>
-        <%= form_with url: account_password_path, method: :patch do |f| %>
-          <div class="account-settings__field">
-            <%= f.label :current_password, t("account.current_password"), class: "account-settings__label" %>
-            <%= f.password_field :current_password, required: true,
-                  autocomplete: "current-password", class: "input" %>
+        <%# Email %>
+        <section class="account-settings__section">
+          <div class="account-settings__section-head">
+            <h2 class="account-settings__heading"><%= t("account.email_section") %></h2>
           </div>
-          <div class="account-settings__field">
-            <label class="account-settings__label"><%= t("account.new_password") %></label>
-            <%= tag.input type: "password", name: "user[password]", required: true,
-                  minlength: 8, autocomplete: "new-password", class: "input" %>
+          <div class="account-settings__email-row">
+            <span class="account-settings__email-value"><%= Current.user.email_address %></span>
+            <%= link_to t("account.change_email"), edit_account_email_path, class: "btn btn--small" %>
           </div>
-          <div class="account-settings__field">
-            <label class="account-settings__label"><%= t("auth.password_confirmation") %></label>
-            <%= tag.input type: "password", name: "user[password_confirmation]", required: true,
-                  minlength: 8, autocomplete: "new-password", class: "input" %>
-          </div>
-          <div class="account-settings__actions">
-            <%= f.submit t("account.save_password"), class: "btn btn--reversed btn--small" %>
-          </div>
+        </section>
+
+        <%# Публичный куратор — только редакторам/админам %>
+        <% if Current.user.can_edit_content? %>
+          <section class="account-settings__section">
+            <div class="account-settings__section-head">
+              <h2 class="account-settings__heading"><%= t("account.curator_section") %></h2>
+              <p class="account-settings__desc"><%= t("account.public_curator_hint") %></p>
+            </div>
+            <%= form_with url: account_path, method: :patch, class: "account-settings__form" do |f| %>
+              <label class="account-settings__checkbox">
+                <%= hidden_field_tag "user[public_curator]", "0", id: nil %>
+                <%= check_box_tag "user[public_curator]", "1", Current.user.public_curator? %>
+                <span class="account-settings__checkbox-text"><%= t("account.public_curator_label") %></span>
+              </label>
+              <div class="account-settings__field">
+                <%= f.label :headline, t("account.headline_label"), class: "account-settings__label" %>
+                <%= f.text_field :headline, value: Current.user.headline, name: "user[headline]",
+                      maxlength: 120, placeholder: t("account.headline_placeholder"), class: "input" %>
+              </div>
+              <div class="account-settings__actions">
+                <%= f.submit t("account.save"), class: "btn btn--reversed btn--small" %>
+              </div>
+            <% end %>
+          </section>
         <% end %>
       </div>
 
-      <%# Опасная зона %>
-      <div class="panel account-settings__card account-settings__card--danger">
-        <div class="account-settings__field">
-          <span class="account-settings__label account-settings__label--danger"><%= t("account.danger_zone") %></span>
-          <p class="account-settings__hint"><%= t("account.delete_warning") %></p>
-        </div>
-        <div class="account-settings__actions account-settings__actions--danger">
+      <%# ───────────── Аккаунт ───────────── %>
+      <div class="panel account-settings__panel">
+        <%# Письма %>
+        <section class="account-settings__section">
+          <div class="account-settings__section-head">
+            <h2 class="account-settings__heading"><%= t("account.emails_section") %></h2>
+            <p class="account-settings__desc"><%= t("account.emails_desc") %></p>
+          </div>
+          <%= form_with url: account_path, method: :patch, class: "account-settings__form" do |f| %>
+            <label class="account-settings__checkbox">
+              <%= hidden_field_tag "user[reminder_emails]", "0", id: nil %>
+              <%= check_box_tag "user[reminder_emails]", "1", Current.user.reminder_emails? %>
+              <span class="account-settings__checkbox-text">
+                <%= t("account.reminder_emails_label") %>
+                <span class="account-settings__hint"><%= t("account.reminder_emails_hint") %></span>
+              </span>
+            </label>
+            <label class="account-settings__checkbox">
+              <%= hidden_field_tag "user[suggestion_emails]", "0", id: nil %>
+              <%= check_box_tag "user[suggestion_emails]", "1", Current.user.suggestion_emails? %>
+              <span class="account-settings__checkbox-text">
+                <%= t("account.suggestion_emails_label") %>
+                <span class="account-settings__hint"><%= t("account.suggestion_emails_hint") %></span>
+              </span>
+            </label>
+            <div class="account-settings__actions">
+              <%= f.submit t("account.save"), class: "btn btn--reversed btn--small" %>
+            </div>
+          <% end %>
+        </section>
+
+        <%# Пароль %>
+        <section class="account-settings__section">
+          <div class="account-settings__section-head">
+            <h2 class="account-settings__heading"><%= t("account.password_section") %></h2>
+            <p class="account-settings__desc"><%= t("account.password_desc") %></p>
+          </div>
+          <% if @password_errors.any? %>
+            <p class="account-settings__error" role="alert"><%= @password_errors.first %></p>
+          <% end %>
+          <%= form_with url: account_password_path, method: :patch, class: "account-settings__form" do |f| %>
+            <div class="account-settings__field">
+              <%= f.label :current_password, t("account.current_password"), class: "account-settings__label" %>
+              <%= f.password_field :current_password, required: true,
+                    autocomplete: "current-password", class: "input" %>
+            </div>
+            <div class="account-settings__field">
+              <label class="account-settings__label"><%= t("account.new_password") %></label>
+              <%= tag.input type: "password", name: "user[password]", required: true,
+                    minlength: 8, autocomplete: "new-password", class: "input" %>
+            </div>
+            <div class="account-settings__field">
+              <label class="account-settings__label"><%= t("auth.password_confirmation") %></label>
+              <%= tag.input type: "password", name: "user[password_confirmation]", required: true,
+                    minlength: 8, autocomplete: "new-password", class: "input" %>
+            </div>
+            <div class="account-settings__actions">
+              <%= f.submit t("account.save_password"), class: "btn btn--reversed btn--small" %>
+            </div>
+          <% end %>
+        </section>
+
+        <%# Опасная зона %>
+        <section class="account-settings__section account-settings__section--danger">
+          <div class="account-settings__section-head">
+            <h2 class="account-settings__heading account-settings__heading--danger"><%= t("account.danger_zone") %></h2>
+            <p class="account-settings__desc"><%= t("account.delete_warning") %></p>
+          </div>
           <%= link_to new_account_deletion_path, class: "btn btn--small account-settings__danger-btn" do %>
             <%= heroicon "trash", variant: :outline %>
             <%= t("account.delete_account") %>
           <% end %>
-        </div>
+        </section>
       </div>
-
     </div>
   </div>
 </section>
