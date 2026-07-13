@@ -36,9 +36,9 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", contribute_path
   end
 
-  test "index shows the catalog scale line" do
+  test "index shows the hero headline" do
     get paths_path
-    assert_match I18n.t("paths.stats_free"), response.body
+    assert_match I18n.t("paths.hero.title"), response.body
   end
 
   test "show credits an opted-in curator with their headline" do

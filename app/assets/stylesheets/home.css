@@ -1,25 +1,27 @@
 /* Homepage / catalog landing (paths#index) — the product's front door.
-   Minimal and clean: a compact benefit headline on pure black, then the
-   profession cards right below. No background texture — typography carries it. */
+   A single quiet line states what this is, a small caption says why, and the
+   profession cards begin right below. No eyebrow, no stat line, no texture —
+   typography and restraint carry it. */
 
 .hero {
-  position: relative;
-  padding-block: 2.75rem 2rem;
+  padding-block: 2.25rem 1.5rem;
 
   @media (min-width: 640px) {
-    padding-block: 3.5rem 2.25rem;
+    padding-block: 3rem 1.75rem;
   }
 }
 
 /* Content column. Children rise-in with a light stagger (entrance only). */
 .hero__inner {
-  position: relative;
   text-align: center;
 }
 
 /* The catalog follows the hero directly — the hero's bottom padding is the only
    gap, so the profession cards sit high on the first screen. */
-.home-catalog {
+/* The catalog follows the hero directly — the hero's bottom padding is the only
+   gap. The double class beats `.section { padding-block }` in layout.css, which
+   loads after this file (alphabetical order) and would otherwise re-inject 5rem. */
+.section.home-catalog {
   padding-block-start: 0;
 }
 
@@ -27,68 +29,51 @@
   .hero__inner > * {
     animation: rise-in 600ms ease-out both;
   }
-  .hero__eyebrow { animation-delay: 0ms; }
-  .hero__title { animation-delay: 80ms; }
-  .hero__subtitle { animation-delay: 160ms; }
-  .hero__stats { animation-delay: 240ms; }
+  .hero__title { animation-delay: 0ms; }
+  .hero__subtitle { animation-delay: 100ms; }
 }
 
-.hero__eyebrow {
-  color: var(--color-subtle-dark);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-block: 0 1rem;
-}
-
+/* One statement line — sentence case (a full phrase reads calmer than shouting
+   caps), tight display type, with a hairline blue caret typed at the end. */
 .hero__title {
   font-family: var(--font-display);
-  font-size: clamp(1.9rem, 4.4vw, 3rem);
+  font-size: clamp(1.5rem, 3.4vw, 2.35rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.04;
-  text-transform: uppercase;
+  hyphens: none;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
   margin-block: 0;
+  margin-inline: auto;
+  max-inline-size: 32ch;
+  text-wrap: balance;
 }
 
-.hero__title-line {
-  display: block;
-}
-
-/* Thin blinking caret — a hairline blue "cursor" at the end of the title. */
-.hero__title-line.is-caret::after {
+/* Thin blinking caret — a hairline blue "cursor" typed after the last word. */
+.hero__title.is-caret::after {
   content: "";
   display: inline-block;
-  inline-size: 0.055em;
+  inline-size: 0.05em;
   block-size: 0.82em;
-  margin-inline-start: 0.12em;
+  margin-inline-start: 0.14em;
   background-color: var(--color-link);
-  vertical-align: -0.02em;
+  vertical-align: -0.04em;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero__title-line.is-caret::after {
+  .hero__title.is-caret::after {
     animation: caret-blink 1.05s step-end infinite;
   }
 }
 
 .hero__subtitle {
   color: var(--color-subtle-dark);
-  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  font-size: 0.9rem;
+  hyphens: none;
   line-height: 1.55;
-  max-inline-size: 42rem;
-  margin-block: 1.15rem 0;
+  max-inline-size: 40rem;
+  margin-block: 0.9rem 0;
   margin-inline: auto;
   text-wrap: pretty;
-}
-
-.hero__stats {
-  color: var(--color-disabled);
-  font-size: 0.85rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.01em;
-  margin-block: 1.15rem 0;
 }
 
 /* NOTE: the flat emblem-card styling lives in paths.css (which owns .path-card
