@@ -41,6 +41,27 @@
   }
 }
 
+/* Terminal-style caret blink for the typed hero title (step-end = a hard on/off,
+   not a fade). */
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Homepage hero entrance — a calm rise-and-fade for the headline stack. Paired
+   with per-child animation-delay for a light stagger. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Toast lifecycle in a single keyframe: a quick rise-and-fade in, a long hold,
    then a fade out timed to land exactly when the element-removal controller
    pulls the node (4s). */
