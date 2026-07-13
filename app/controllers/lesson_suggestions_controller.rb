@@ -6,6 +6,14 @@ class LessonSuggestionsController < ApplicationController
   rate_limit to: 5, within: 1.hour, only: :create,
              with: -> { redirect_to lesson_path(params[:lesson_slug]), alert: t("auth.rate_limited") }
 
+  # A standing-backlog cap: one account can hold only so many un-reviewed
+  # suggestions at once. The per-IP rate limit throttles velocity; this throttles
+  # accumulation, so a script can't quietly pile up a huge pending queue over
+  # time. Trusted editors are exempt — they clear the queue, they don't flood it.
+  MAX_PENDING_PER_USER = 20
+
+  before_action :ensure_pending_within_cap, only: :create
+
   def new
     @lesson = Lesson.find_by!(slug: params[:lesson_slug])
     @section = %w[body task description].include?(params[:section]) ? params[:section] : "body"
@@ -30,6 +38,13 @@ class LessonSuggestionsController < ApplicationController
   end
 
   private
+
+  def ensure_pending_within_cap
+    return if Current.user.can_edit_content?
+    return if Current.user.lesson_suggestions.pending.count < MAX_PENDING_PER_USER
+
+    redirect_to lesson_path(params[:lesson_slug]), alert: t("flash.too_many_pending")
+  end
 
   # Snapshot the section as it stood when the edit was submitted, so the
   # moderator can be warned later if the lesson moved on in the meantime.
