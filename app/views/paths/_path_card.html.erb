@@ -1,7 +1,6 @@
-<%# locals: (path:, index: nil, completed_count: 0, courses_count: nil) -%>
+<%# locals: (path:, completed_count: 0, courses_count: nil) -%>
 <% courses_count ||= path.courses_count %>
 <a href="<%= path_path(path) %>" class="panel panel--hover path-card">
-  <% if index %><span class="path-card__index" aria-hidden="true"><%= format("%02d", index) %></span><% end %>
   <h2 class="path-card__title"><%= path.title %></h2>
   <div class="path-card__foot">
     <div class="path-card__meta-row">

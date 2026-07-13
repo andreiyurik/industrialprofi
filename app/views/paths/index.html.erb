@@ -9,13 +9,8 @@
 
 <section class="hero">
   <div class="container hero__inner">
-    <p class="hero__eyebrow"><%= t("paths.hero.eyebrow") %></p>
-    <h1 class="hero__title">
-      <span class="hero__title-line"><%= t("paths.hero.title_pre") %> <%= t("paths.hero.title_mark") %></span>
-      <span class="hero__title-line is-caret"><%= t("paths.hero.title_line_2") %></span>
-    </h1>
+    <h1 class="hero__title is-caret"><%= t("paths.hero.title") %></h1>
     <p class="hero__subtitle"><%= t("paths.hero.subtitle") %></p>
-    <p class="hero__stats"><%= t("paths.stats_professions", count: available.size) %> · <%= russian_pluralize(available.sum(&:lessons_count), :lesson) %> · <%= t("paths.stats_free") %></p>
   </div>
 </section>
 
@@ -36,8 +31,8 @@
     <% end %>
 
     <div class="catalog-grid" id="catalog">
-      <% available.each_with_index do |path, i| %>
-        <%= render "path_card", path: path, index: i + 1,
+      <% available.each do |path| %>
+        <%= render "path_card", path: path,
               completed_count: @completed_counts.fetch(path.id, 0),
               courses_count: @course_counts.fetch(path.id, 0) %>
       <% end %>
