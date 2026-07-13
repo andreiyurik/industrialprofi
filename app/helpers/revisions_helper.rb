@@ -17,4 +17,13 @@ module RevisionsHelper
   def revision_editor(revision)
     revision.editor_name.presence || t("revisions.by_admin")
   end
+
+  # Day heading for the grouped history list: «Сегодня» / «Вчера» / full date.
+  def revision_date_heading(date)
+    case date
+    when Date.current     then t("revisions.dates.today")
+    when Date.current - 1 then t("revisions.dates.yesterday")
+    else l(date)
+    end
+  end
 end

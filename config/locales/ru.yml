@@ -1808,6 +1808,9 @@ ru:
     show_more: "Показать ещё"
     back: "К истории"
     none: "Пока нет изменений"
+    dates:
+      today: "Сегодня"
+      yesterday: "Вчера"
     rollback: "Откатить"
     confirm_rollback: "Откатить урок к версии %{version}?"
     stale_warning: "Урок изменился с момента этой правки — diff показан от текущего текста."

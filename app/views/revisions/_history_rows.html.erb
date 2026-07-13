@@ -1,0 +1,12 @@
+<%# Rows for one page of history, with a day heading before each new date.
+    `boundary_date` is the date already at the tail of the list (nil on first
+    load) — skips a repeated heading when an appended batch continues that day. %>
+<% last_date = boundary_date %>
+<% revisions.each do |revision| %>
+  <% date = revision.created_at.to_date %>
+  <% unless date == last_date %>
+    <li class="lesson-history__date"><%= revision_date_heading(date) %></li>
+    <% last_date = date %>
+  <% end %>
+  <%= render "revisions/revision_row", revision_row: revision %>
+<% end %>
