@@ -1,30 +1,3 @@
-/* Catalog (paths#index) — a dense, roadmap.sh-style grid grouped by readiness.
-   Readiness is signalled by grouping + dimming, not by coloured borders. */
-.catalog-group {
-  margin-block-start: var(--block-space-double);
-}
-
-/* Centered group label with a hairline running through it (── Доступны ──). */
-.catalog-group__label {
-  align-items: center;
-  color: var(--color-subtle-dark);
-  display: flex;
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-weight: 600;
-  gap: 1rem;
-  letter-spacing: 0.04em;
-  margin-block-end: 1.5rem;
-  text-transform: uppercase;
-}
-
-.catalog-group__label::before,
-.catalog-group__label::after {
-  border-block-start: 1px solid var(--color-subtle);
-  content: "";
-  flex: 1;
-}
-
 .catalog-grid {
   display: grid;
   gap: 1rem;
@@ -34,52 +7,65 @@
 
 /* The unbuilt professions: a quiet line-list under the live grid. Readiness is
    a monochrome dot — filled (being built) or hollow (planned) — never a card. */
+/* Unbuilt professions — an open invitation, not a roadmap. A quiet heading, a
+   flat middle-dot list (every name equal: no status dots, no highlighting), then
+   the one call that matters — become a curator. */
 .catalog-soon {
-  margin-block-start: var(--block-space-double);
+  margin-block-start: 3rem;
+  text-align: center;
 }
 
+.catalog-soon__label {
+  color: var(--color-subtle-dark);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin-block: 0 1rem;
+  text-transform: uppercase;
+}
+
+/* Narrow screens: a clean centered column, one profession per line, no
+   separators (a middle-dot on every stacked line just dangles). */
 .catalog-soon__list {
-  color: var(--color-subtle-dark);
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 1.5rem;
-  row-gap: 0.6rem;
-  font-size: 0.9rem;
-  justify-content: center;
-  margin-block: 0;
-}
-
-.catalog-soon__item {
   align-items: center;
-  color: var(--color-disabled);
-  display: inline-flex;
-  gap: 0.5em;
-
-  &::before {
-    border: 1px solid currentColor;
-    border-radius: 50%;
-    block-size: 0.45em;
-    content: "";
-    inline-size: 0.45em;
-  }
-}
-
-.catalog-soon__item--active {
-  color: var(--color-subtle-dark);
-
-  &::before {
-    background-color: currentColor;
-  }
-}
-
-.catalog-soon__actions {
   color: var(--color-subtle-dark);
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+  flex-direction: column;
+  row-gap: 0.4rem;
   font-size: 0.9rem;
-  justify-content: center;
-  margin-block: 1.25rem 0;
+  margin-block: 0;
+  margin-inline: auto;
+  max-inline-size: 52rem;
+}
+
+/* Wider screens: an inline wrapped row with hairline middle-dot separators. */
+@media (min-width: 640px) {
+  .catalog-soon__list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 0.75rem;
+    row-gap: 0.5rem;
+  }
+
+  .catalog-soon__item:not(:last-child)::after {
+    color: var(--color-disabled);
+    content: "·";
+    margin-inline-start: 0.75rem;
+  }
+}
+
+/* The focus: the call to author one of these. */
+.catalog-soon__call {
+  hyphens: none;
+  margin-block: 1.75rem 0;
+}
+
+.catalog-soon__suggest {
+  font-size: 0.85rem;
+  hyphens: none;
+  margin-block: 0.65rem 0;
 }
 
 .catalog-soon__cta {
@@ -91,6 +77,11 @@
       text-decoration: underline;
     }
   }
+}
+
+.catalog-soon__cta--primary {
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 /* Card grid — multi-col layout for path/profession cards (dashboard "other paths") */
