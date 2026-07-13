@@ -1,16 +1,31 @@
 class RevisionsController < ApplicationController
   allow_unauthenticated_access
 
-  PER_PAGE = 10
+  PER_PAGE = 20
 
   before_action :set_lesson
 
-  # Reader-facing change history, loaded lazily into a Turbo Frame. Pagination is
-  # cumulative — "show more" grows the limit so earlier rows stay on screen.
+  # Reader-facing change history. Keyset pagination on `version` (descending):
+  # "показать ещё" appends the next batch via Turbo Stream, so rows already on
+  # screen are never re-queried or re-rendered — the page stays light whether a
+  # lesson has 5 revisions or 5000. Grouped by day for scannability.
   def index
-    @page = [ params[:page].to_i, 1 ].max
-    @revisions = @lesson.lesson_revisions.ordered.limit(@page * PER_PAGE)
-    @more = @lesson.lesson_revisions_count > @page * PER_PAGE
+    scope = @lesson.lesson_revisions.ordered
+    scope = scope.where("version < ?", params[:before]) if params[:before].present?
+
+    rows = scope.limit(PER_PAGE + 1).to_a
+    @more = rows.size > PER_PAGE
+    @revisions = rows.first(PER_PAGE)
+    @next_cursor = @revisions.last&.version
+
+    # Date already at the bottom of the list we're appending to — lets the append
+    # skip a duplicate day heading when the new batch continues the same day.
+    @boundary_date = parse_date(params[:d])
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   def show
@@ -23,5 +38,11 @@ class RevisionsController < ApplicationController
     @lesson = Lesson.joins(:path)
                     .where(paths: { status: "published" })
                     .find_by!(slug: params[:lesson_slug])
+  end
+
+  def parse_date(value)
+    Date.iso8601(value) if value.present?
+  rescue ArgumentError
+    nil
   end
 end

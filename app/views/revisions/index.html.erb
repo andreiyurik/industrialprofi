@@ -7,16 +7,19 @@
     <% end %>
     <h1 class="lesson-history__page-title"><%= t("revisions.history") %></h1>
 
-    <%= turbo_frame_tag "lesson_history" do %>
-      <ol class="lesson-history__list">
-        <%= render partial: "revisions/revision_row", collection: @revisions, as: :revision_row %>
+    <% if @revisions.none? %>
+      <p class="lesson-history__empty"><%= t("revisions.none") %></p>
+    <% else %>
+      <p class="lesson-history__count">
+        <%= t("revisions.updated_n_times", count: @lesson.lesson_revisions_count) %>
+      </p>
+
+      <ol id="revisions_list" class="lesson-history__list">
+        <%= render "revisions/history_rows", revisions: @revisions, boundary_date: nil %>
       </ol>
 
-      <% if @more %>
-        <%= link_to t("revisions.show_more"),
-            lesson_revisions_path(@lesson, page: @page + 1),
-            class: "lesson-history__more" %>
-      <% end %>
+      <%= render "revisions/more", lesson: @lesson, more: @more,
+            next_cursor: @next_cursor, boundary_date: @revisions.last&.created_at&.to_date %>
     <% end %>
   </div>
 </section>
