@@ -118,52 +118,73 @@
   }
 }
 
-/* Profession card (catalog) — the emblem card: the profession's line icon in a
-   bordered plate (like the marking on a control cabinet), the name, one meta
-   line, and a progress bar for a signed-in learner. Description lives on the
-   profession page, not here. */
+/* Profession card (catalog) — Basecamp-style typographic tile: no icon, the
+   profession NAME is the design (big display type), a ghost ordinal bleeds
+   behind it, and one meta line + a hover arrow sit pinned at the bottom. Strict
+   black card, defined by its border, not a grey fill. */
 .path-card {
-  --panel-padding: 1.5em;
+  --panel-padding: 1.75rem;
+  --panel-background: var(--color-bg);
+  --panel-border-radius: 0.5rem;
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 1.25rem;
+  min-block-size: 10.5rem;
+  overflow: hidden;
 }
 
-.path-card__icon {
-  align-items: center;
-  background-color: var(--color-bg);
-  block-size: 2.75rem;
-  border: 1px solid var(--color-subtle);
-  border-radius: 0.6em;
-  color: var(--color-ink);
-  display: inline-flex;
-  flex-shrink: 0;
-  inline-size: 2.75rem;
-  justify-content: center;
-  transition: border-color 200ms ease;
-
-  .topic-badge > :is(svg, img) {
-    block-size: 1.5rem;
-    inline-size: 1.5rem;
+@media (any-hover: hover) {
+  .path-card:hover {
+    --panel-border-color: var(--color-subtle-dark);
   }
 }
 
+/* Oversized ghost ordinal — an editorial numeral bleeding behind the name. */
+.path-card__index {
+  position: absolute;
+  inset-block-start: 0.3rem;
+  inset-inline-end: 1rem;
+  z-index: 0;
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-subtle);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
 .path-card__title {
-  font-size: 1.3rem;
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 2.2vw, 2rem);
+  font-weight: 800;
   /* a profession name hyphenated mid-word («Сетевой ин-женер») reads cheap */
   hyphens: none;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
   margin-block: 0;
 }
 
-/* The status line (meta + progress). Pinned to the card's bottom so every card
-   in a row is the same height (grid stretch) and footers align. */
+/* Bottom block: meta + a Basecamp arrow that slides on hover, then the learner's
+   progress bar. Pinned to the base so cards in a row align. */
 .path-card__foot {
-  display: grid;
-  gap: 0.6rem;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   margin-block-start: auto;
-  padding-block-start: 0.75rem;
+}
+
+.path-card__meta-row {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
 }
 
 .path-card__meta {
@@ -172,13 +193,22 @@
   font-variant-numeric: tabular-nums;
 }
 
+.path-card__go {
+  color: var(--color-subtle-dark);
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: color 200ms ease, transform 200ms ease;
+}
+
 .path-card .progress {
-  margin-block: -0.25rem 0;
+  margin-block: 0;
 }
 
 @media (any-hover: hover) {
-  .path-card:hover .path-card__icon {
-    border-color: var(--color-subtle-dark);
+  .path-card:hover .path-card__go {
+    color: var(--color-link);
+    transform: translateX(3px);
   }
 }
 
