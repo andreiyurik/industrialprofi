@@ -51,6 +51,8 @@ class User < ApplicationRecord
   validates :learning_goal, length: { maximum: 200 }
   validates :headline, length: { maximum: 120 }
 
+  def first_name = name.split.first
+
   def can_administer? = administrator?
 
   def can_edit_content? = editor? || administrator?

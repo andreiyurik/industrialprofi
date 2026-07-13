@@ -1,19 +1,20 @@
 /* "Моё обучение" — the signed-in home, TOP-style: identity card (direction +
-   personal goal + ONE next action), then per-course progress rows. */
-.dashboard .dashboard__greeting {
-  margin-block-end: 2rem;
+   personal goal + ONE next action), then per-course progress rows. Lives in a
+   reading-width column: it's a personal work page, not a catalog. */
+
+/* Warm but quiet — the hero card owns the first screen, not the greeting. */
+.dashboard__greeting {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-block: 0 1.25rem;
 }
 
 /* Activity heatmap (GitHub-style): columns = weeks, rows = weekdays.
-   Pure server-rendered divs; green intensity = real actions that day.
-   Narrower than the page and centered — full container width left the small
-   grid orphaned in empty space. */
+   Pure server-rendered divs; green intensity = real actions that day. */
 .heatmap {
   border: 1px solid var(--color-subtle);
   border-radius: 0.75em;
   margin-block-end: 2rem;
-  margin-inline: auto;
-  max-inline-size: 46rem;
   overflow-x: auto;
   padding: 1rem 1.25rem;
 }
@@ -27,8 +28,10 @@
   margin-block-end: 0.75rem;
 }
 
+/* Same voice as .dashboard__section-title — one heading rhythm per page. */
 .heatmap__title {
-  font-size: 0.95rem;
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
   margin-block: 0;
 }
 
@@ -153,12 +156,6 @@
   }
 }
 
-/* The learner's own goal, TOP-style: to the right of the identity. */
-.dashboard-hero__goal {
-  flex: 1 1 16rem;
-  max-inline-size: 24rem;
-}
-
 .dashboard-hero__action {
   display: flex;
   flex-direction: column;
@@ -185,18 +182,20 @@
   }
 }
 
-/* Per-course progress (TOP's "Skills Progress"): centered heading, then one
-   quiet row per course — ring with the percent always visible. */
-.dashboard__courses-title {
-  font-size: 1.5rem;
-  margin-block: 0;
-  text-align: center;
+/* One heading voice for every dashboard section — quiet, left, out of the
+   content's way. The hint's negative top margin collapses with the title's
+   0.75rem into a snug 0.35rem gap. */
+.dashboard__section-title {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-block: 2rem 0.75rem;
 }
 
-.dashboard__courses-hint {
+.dashboard__section-hint {
   color: var(--color-subtle-dark);
-  margin-block: 0.5rem 1.5rem;
-  text-align: center;
+  font-size: 0.85rem;
+  margin-block: -0.4rem 0.75rem;
 }
 
 .dashboard-courses {
@@ -243,6 +242,19 @@
     block-size: 1.5rem;
     inline-size: 1.5rem;
   }
+}
+
+/* Untouched course: its step number on the route, not a reproachful "0%". */
+.dashboard-course__ring--step {
+  align-items: center;
+  border: 2px solid var(--color-subtle);
+  border-radius: 50%;
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  justify-content: center;
 }
 
 .dashboard-course__info {
@@ -293,22 +305,6 @@
 }
 
 /* Other started paths: present but quiet — one compact row each. */
-.dashboard__others-title {
-  color: var(--color-subtle-dark);
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-block: 2rem 0.75rem;
-}
-
-/* Hint under a left-aligned section title. The centered .dashboard__courses-hint
-   belongs to the centered courses heading only. Negative top margin collapses
-   with the title's 0.75rem into a snug 0.35rem gap. */
-.dashboard__others-hint {
-  color: var(--color-subtle-dark);
-  font-size: 0.85rem;
-  margin-block: -0.4rem 0.75rem;
-}
-
 .dashboard__others {
   display: flex;
   flex-direction: column;
@@ -386,7 +382,8 @@
    Turbo Frame and swaps for the inline form on edit. */
 .learning-goal {
   color: var(--color-subtle-dark);
-  margin-block: 0;
+  font-size: 0.9rem;
+  margin-block: 0.15rem 0;
 }
 
 .learning-goal__text {
@@ -395,13 +392,8 @@
 }
 
 .learning-goal__edit {
-  color: var(--color-subtle-dark);
   font-size: 0.85rem;
   margin-inline-start: 0.5ch;
-}
-
-.learning-goal__prompt {
-  color: var(--color-subtle-dark);
 }
 
 .learning-goal-form {
@@ -409,6 +401,17 @@
   flex-direction: column;
   gap: 0.75rem;
   max-inline-size: 36rem;
+}
+
+/* Inside the hero the open form sits right above the big CTA. A goal is one
+   line, not an essay — a two-line box; and extra air below keeps
+   «Сохранить/Отмена» from clustering with «Продолжить» into one button pile. */
+.dashboard-hero__info .learning-goal-form {
+  margin-block: 0.25rem 1rem;
+
+  .input--textarea {
+    min-block-size: calc(2lh + 1.2em);
+  }
 }
 
 /* Standalone goal block on the empty dashboard (no hero card yet). */
