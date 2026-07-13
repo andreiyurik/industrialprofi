@@ -76,7 +76,8 @@
             <h2 class="account-settings__heading"><%= t("account.emails_section") %></h2>
             <p class="account-settings__desc"><%= t("account.emails_desc") %></p>
           </div>
-          <%= form_with url: account_path, method: :patch, class: "account-settings__form" do |f| %>
+          <%= form_with url: account_path, method: :patch, class: "account-settings__form",
+                data: { controller: "auto-submit", action: "change->auto-submit#submit" } do |f| %>
             <label class="account-settings__checkbox">
               <%= hidden_field_tag "user[reminder_emails]", "0", id: nil %>
               <%= check_box_tag "user[reminder_emails]", "1", Current.user.reminder_emails? %>
@@ -93,9 +94,12 @@
                 <span class="account-settings__hint"><%= t("account.suggestion_emails_hint") %></span>
               </span>
             </label>
-            <div class="account-settings__actions">
-              <%= f.submit t("account.save"), class: "btn btn--reversed btn--small" %>
-            </div>
+            <%# Toggles save instantly (Fizzy idiom); button only for the no-JS path. %>
+            <noscript>
+              <div class="account-settings__actions">
+                <%= f.submit t("account.save"), class: "btn btn--reversed btn--small" %>
+              </div>
+            </noscript>
           <% end %>
         </section>
 
