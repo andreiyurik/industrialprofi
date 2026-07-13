@@ -110,7 +110,7 @@
   text-align: center;
 }
 
-/* ── Difficulty wedges (filter chips + list rows only) ─────────────── */
+/* ── Difficulty swatches (filter chips + list rows only) ───────────── */
 /* Ski-trail convention: green / yellow / red, category colours from the same
    OKLCH primitives as the resource badges. Green is the var fallback. The
    tiles themselves stay colour-free — the chips carry the level. */
@@ -123,12 +123,12 @@
 }
 
 .difficulty-mark {
-  block-size: 0;
-  border-block-start: 0.55rem solid var(--difficulty-color, oklch(var(--lch-green)));
-  border-inline-end: 0.55rem solid transparent;
+  background-color: var(--difficulty-color, oklch(var(--lch-green)));
+  block-size: 0.5rem;
+  border-radius: 1px;
   display: inline-block;
   flex-shrink: 0;
-  inline-size: 0;
+  inline-size: 0.5rem;
 }
 
 /* ── The document: one section per profession ──────────────────────── */

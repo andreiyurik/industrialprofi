@@ -20,12 +20,10 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
                  description: "В работе", locale: "ru", position: 21, status: "coming_soon")
 
     get paths_path
+    # Both appear in the "waiting for a curator" list as plain, equal names —
+    # no readiness badges (the coming_soon/planned distinction is not surfaced).
     assert_match "Будущая профессия", response.body
     assert_match "Скоро профессия", response.body
-    # Both live under the "Скоро" group, each with its own readiness badge:
-    # coming_soon → «В разработке», planned → «В планах».
-    assert_match "В разработке", response.body
-    assert_match "В планах", response.body
     assert_no_match %r{href="/paths/future-prof"}, response.body, "stubs are not links"
   end
 

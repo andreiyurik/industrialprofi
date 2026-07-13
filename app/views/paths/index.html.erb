@@ -38,23 +38,25 @@
       <% end %>
     </div>
 
-    <%# The unbuilt whispers: a quiet line-list, never a grid of dead cards —
-        a catalog of promises reads as an empty catalog. Filled dot = being
-        built, hollow dot = planned. %>
+    <%# Not a roadmap — an open invitation. The unbuilt professions are a flat,
+        equal list (no status dots, no highlighting): each one is waiting for an
+        expert to author it. The call to become that curator is the focus. %>
     <div class="catalog-soon">
       <% if upcoming.any? %>
-        <h2 class="catalog-group__label"><%= t("paths.group_upcoming") %></h2>
+        <h2 class="catalog-soon__label"><%= t("paths.group_upcoming") %></h2>
         <p class="catalog-soon__list">
           <% upcoming.each do |path| %>
-            <span class="catalog-soon__item<%= " catalog-soon__item--active" if path.coming_soon? %>"
-                  title="<%= t("paths.#{path.status}") %>"><%= path.title %><span class="for-screen-reader"> — <%= t("paths.#{path.status}") %></span></span>
+            <span class="catalog-soon__item"><%= path.title %></span>
           <% end %>
         </p>
       <% end %>
-      <p class="catalog-soon__actions">
-        <a href="<%= new_feedback_path(about: "profession", from: paths_path) %>" class="catalog-soon__cta"><%= t("paths.soon_idea") %></a>
-        <span aria-hidden="true">·</span>
-        <a href="<%= contribute_path %>" class="catalog-soon__cta"><%= t("paths.soon_curator") %></a>
+      <p class="catalog-soon__call">
+        <%= link_to contribute_path, class: "catalog-soon__cta catalog-soon__cta--primary" do %>
+          <%= t("paths.soon_curator") %> <span aria-hidden="true">→</span>
+        <% end %>
+      </p>
+      <p class="catalog-soon__suggest">
+        <%= link_to t("paths.soon_idea"), new_feedback_path(about: "profession", from: paths_path), class: "catalog-soon__cta" %>
       </p>
     </div>
   </div>

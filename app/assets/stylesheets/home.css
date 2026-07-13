@@ -11,7 +11,7 @@
   }
 }
 
-/* Content column. Children rise-in with a light stagger (entrance only). */
+/* Content column — static, no entrance animation. */
 .hero__inner {
   text-align: center;
 }
@@ -23,14 +23,6 @@
    loads after this file (alphabetical order) and would otherwise re-inject 5rem. */
 .section.home-catalog {
   padding-block-start: 0;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .hero__inner > * {
-    animation: rise-in 600ms ease-out both;
-  }
-  .hero__title { animation-delay: 0ms; }
-  .hero__subtitle { animation-delay: 100ms; }
 }
 
 /* One statement line — sentence case (a full phrase reads calmer than shouting
