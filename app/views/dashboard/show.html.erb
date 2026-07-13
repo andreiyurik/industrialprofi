@@ -1,8 +1,10 @@
 <% meta_title(t("dashboard.title")) %>
 
 <section class="section">
-  <div class="container dashboard">
-    <h1 class="section-title dashboard__greeting"><%= t("dashboard.greeting", name: Current.user.name) %></h1>
+  <%# Reading-width column: this is a personal work page, not a catalog —
+      narrow keeps each row's label and action next to each other. %>
+  <div class="container container--reading dashboard">
+    <h1 class="dashboard__greeting"><%= t("dashboard.greeting", name: Current.user.first_name) %></h1>
 
     <% if @focus_path %>
       <% completed_ids = @completed_ids_by_path[@focus_path] %>
@@ -17,8 +19,6 @@
             <p class="dashboard__eyebrow"><%= t("dashboard.focus_title") %></p>
             <h2 class="dashboard-hero__title"><%= link_to @focus_path.title, path_path(@focus_path), class: "dashboard-hero__title-link" %></h2>
             <%= render "shared/progress_bar", completed: completed_ids.size, total: @focus_path.lessons_count %>
-          </div>
-          <div class="dashboard-hero__goal">
             <%= render "learning_goal" %>
           </div>
         </div>
@@ -41,10 +41,10 @@
 
       <%# TOP's "Skills Progress": one row per course — ring with the percent
           always visible, counts, and the right verb for the state. %>
-      <h2 class="dashboard__courses-title"><%= t("dashboard.courses_title") %></h2>
-      <p class="dashboard__courses-hint"><%= t("dashboard.courses_hint") %></p>
+      <h2 class="dashboard__section-title"><%= t("dashboard.courses_title") %></h2>
+      <p class="dashboard__section-hint"><%= t("dashboard.courses_hint") %></p>
       <section class="panel dashboard-courses">
-        <% @focus_path.courses.each do |course| %>
+        <% @focus_path.courses.each_with_index do |course, index| %>
           <% if course.coming_soon? %>
             <div class="dashboard-course dashboard-course--soon">
               <span class="dashboard-course__ring dashboard-course__ring--soon"><%= heroicon "lock-closed", variant: :outline %></span>
@@ -60,9 +60,15 @@
             <% lessons_n = course_lessons.count { |lesson| lesson.kind == "lesson" } %>
             <% practice_n = course_lessons.size - lessons_n %>
             <div class="dashboard-course">
-              <span class="dashboard-course__ring">
-                <%= render layout: "shared/progress_ring", locals: { completed: done_count, total: course_lessons.size } do %><% end %>
-              </span>
+              <% if done_count.zero? %>
+                <%# An untouched course shows its step number, not a reproachful
+                    "0%" — the list reads as a route, not a wall of zeros. %>
+                <span class="dashboard-course__ring dashboard-course__ring--step"><%= index + 1 %></span>
+              <% else %>
+                <span class="dashboard-course__ring">
+                  <%= render layout: "shared/progress_ring", locals: { completed: done_count, total: course_lessons.size } do %><% end %>
+                </span>
+              <% end %>
               <div class="dashboard-course__info">
                 <h3 class="dashboard-course__title"><%= link_to course.title, course_path(course), class: "dashboard-course__title-link" %></h3>
                 <div class="course-card__meta">
@@ -96,7 +102,7 @@
       <%= render "heatmap", activity: @activity, since: @activity_since %>
 
       <% if @other_paths.any? %>
-        <h2 class="dashboard__others-title"><%= t("dashboard.other_paths") %></h2>
+        <h2 class="dashboard__section-title"><%= t("dashboard.other_paths") %></h2>
         <div class="dashboard__others">
           <% @other_paths.each do |path| %>
             <% ids = @completed_ids_by_path[path] %>
@@ -138,8 +144,8 @@
 
     <% if @bookmarked_lessons.any? %>
       <section id="dashboard_bookmarks" class="dashboard__bookmarks">
-        <h2 class="dashboard__others-title"><%= t("dashboard.bookmarks_title") %></h2>
-        <p class="dashboard__others-hint"><%= t("dashboard.bookmarks_hint") %></p>
+        <h2 class="dashboard__section-title"><%= t("dashboard.bookmarks_title") %></h2>
+        <p class="dashboard__section-hint"><%= t("dashboard.bookmarks_hint") %></p>
         <div class="panel dashboard-bookmarks">
           <% @bookmarked_lessons.each do |lesson| %>
             <div class="dashboard-bookmark" id="<%= dom_id(lesson, :bookmark_row) %>">
