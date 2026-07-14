@@ -44,15 +44,17 @@
     <div class="catalog-soon">
       <% if upcoming.any? %>
         <h2 class="catalog-soon__label"><%= t("paths.group_upcoming") %></h2>
+        <p class="catalog-soon__lead"><%= t("paths.soon_lead") %></p>
         <p class="catalog-soon__list">
           <% upcoming.each do |path| %>
-            <span class="catalog-soon__item"><%= path.title %></span>
+            <%= link_to path.title, contribute_path, class: "catalog-soon__slot" %>
           <% end %>
         </p>
       <% end %>
       <p class="catalog-soon__call">
-        <%= link_to contribute_path, class: "catalog-soon__cta catalog-soon__cta--primary" do %>
-          <%= t("paths.soon_curator") %> <span aria-hidden="true">→</span>
+        <%= link_to contribute_path, class: "btn" do %>
+          <%= t("paths.soon_curator") %>
+          <%= heroicon "arrow-right", variant: :outline %>
         <% end %>
       </p>
       <p class="catalog-soon__suggest">
