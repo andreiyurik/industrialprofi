@@ -4,7 +4,7 @@ position: 1
 kind: lesson
 resources:
   - title: "НП-001-15 «Общие положения обеспечения безопасности атомных станций» (ОПБ)"
-    url: https://docs.cntd.ru/document/420304490
+    url: https://docs.cntd.ru/document/420329007
     kind: document
     required: true
     country_code: RU

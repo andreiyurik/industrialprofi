@@ -4,11 +4,26 @@ position: 1
 kind: lesson
 resources:
   - title: "НП-001-15 «Общие положения обеспечения безопасности атомных станций» (ОПБ)"
-    url: "https://docs.cntd.ru/"
+    url: "https://docs.cntd.ru/document/420329007"
     kind: document
     required: true
     country_code: RU
     note: "нужен раздел про классификацию систем и элементов — сами принципы деления на классы разобраны в уроке"
+  - title: "IAEA SSG-39 — Design of Instrumentation and Control Systems for Nuclear Power Plants"
+    url: "https://www-pub.iaea.org/MTCD/Publications/PDF/Pub1694_web.pdf"
+    kind: document
+    required: false
+    note: "международный аналог: классификация по безопасности, резервирование, 2oo3 — гл. про safety classification и redundancy"
+  - title: "IAEA SSR-2/1 — Safety of Nuclear Power Plants: Design"
+    url: "https://www-pub.iaea.org/MTCD/Publications/PDF/Pub1116_scr.pdf"
+    kind: document
+    required: false
+    note: "фундаментальные требования МАГАТЭ к проектированию АЭС, на которые опирается НП-001"
+  - title: "IAEA — Instrumentation and Control Systems for Nuclear Power Plants (хаб публикаций)"
+    url: "https://www.iaea.org/topics/operation-and-maintenance/instrumentation-and-control-systems-for-nuclear-power-plants"
+    kind: article
+    required: false
+    note: "сборник всех публикаций МАГАТЭ по КИПиА АЭС — если нужно копнуть глубже одной темы"
 ---
 Классы безопасности АЭС по НП-001: что значит класс 2, 3, 4 прибора КИП, как он диктует резервирование, квалификацию и документацию.
 ---

@@ -10,7 +10,7 @@ resources:
     country_code: RU
     note: "дозовые пределы для персонала группы А — п. 3.1 и таблица 3.1, на них построено задание урока"
   - title: "НП-001-15 «Общие положения обеспечения безопасности атомных станций» (ОПБ)"
-    url: https://docs.cntd.ru/document/420363197
+    url: https://docs.cntd.ru/document/420329007
     kind: document
     required: true
     country_code: RU
