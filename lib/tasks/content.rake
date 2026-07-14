@@ -11,9 +11,11 @@
 #   bin/rails content:audit        — mechanical content gaps: theory lessons missing
 #                                    the self-check block, lessons with no internal
 #                                    /lessons/ links (the wiki fabric), internal links
-#                                    pointing at a slug that doesn't exist, and
-#                                    required long-form documents without a reader
-#                                    note («что именно смотреть»)
+#                                    pointing at a slug that doesn't exist, required
+#                                    long-form documents without a reader note
+#                                    («что именно смотреть»), and placeholder resource
+#                                    URLs (example.com, fake video ids) left over from
+#                                    authoring — never publish a stub link
 #   bin/rails content:links        — resource links that no longer resolve (they rot
 #                                    silently on their own)
 #   bin/rails content:check        — the whole mechanical QA pass: audit + links
@@ -87,6 +89,22 @@ namespace :content do
     else
       puts "Обязательные документы без заметки читателю (#{noteless.size}) — добавь «что именно смотреть»:"
       noteless.each { |resource| puts "  · [#{resource.lesson&.slug}] «#{resource.title.to_s.truncate(70)}»" }
+    end
+
+    # Placeholder URLs left over from authoring — the RFC 2606 reserved
+    # documentation domains (example.com/.org/.net) and a fake YouTube video
+    # id are both real "someone forgot to fill this in" smells, not real
+    # sources. They must never reach a public lesson.
+    placeholder = Resource.where(
+      "url LIKE '%example.com%' OR url LIKE '%example.org%' OR url LIKE '%example.net%' " \
+      "OR url LIKE '%watch?v=example%'"
+    ).includes(:lesson).order(:lesson_id)
+
+    if placeholder.none?
+      puts "✓ Заглушечных ссылок (example.com и фейковых video id) не найдено."
+    else
+      puts "Заглушечные ссылки (#{placeholder.size}) — замени на реальный источник или удали ресурс:"
+      placeholder.each { |resource| puts "  · [#{resource.lesson&.slug}] #{resource.url}  «#{resource.title.to_s.truncate(70)}»" }
     end
   end
 
