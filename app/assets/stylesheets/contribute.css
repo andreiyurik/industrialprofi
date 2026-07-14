@@ -48,6 +48,8 @@
 .contribute-hero__intro {
   color: var(--color-ink);
   font-size: 1.1rem;
+  /* showcase text — a hyphenated «подклю-читься» reads cheap */
+  hyphens: none;
   line-height: 1.65;
   margin-block: 0;
   margin-inline: auto;
@@ -455,4 +457,23 @@
   flex-wrap: wrap;
   gap: 0.75rem;
   justify-content: center;
+}
+
+/* Secondary routes (write to the founder / donate) — present, never competing. */
+.contribute-cta__aside {
+  color: var(--color-disabled);
+  font-size: 0.85rem;
+  margin-block: 1.25rem 0;
+
+  a {
+    color: var(--color-subtle-dark);
+    text-decoration: none;
+
+    @media (any-hover: hover) {
+      &:hover {
+        color: var(--color-ink);
+        text-decoration: underline;
+      }
+    }
+  }
 }
