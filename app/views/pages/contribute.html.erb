@@ -167,16 +167,21 @@
       <div class="contribute-cta panel">
         <h2 class="contribute-cta__title"><%= t("contribute.cta_title") %></h2>
         <p class="contribute-cta__text"><%= t("contribute.cta_text") %></p>
+        <%# The page's one conversion goal leads; browsing is the runner-up. %>
         <div class="contribute-cta__links">
-          <a href="<%= paths_path %>" class="btn btn--reversed"><%= t("contribute.cta_explore") %></a>
-          <% if signed_in? %>
-            <a href="<%= new_feedback_path %>" class="btn"><%= t("contribute.cta_write") %></a>
-          <% else %>
-            <a href="<%= site_config.telegram_url %>" class="btn" target="_blank" rel="noopener"><%= t("contribute.cta_write") %></a>
-          <% end %>
-          <%# Bridge to the separate financial-support page. %>
-          <a href="<%= support_us_path %>" class="btn"><%= t("contribute.cta_support") %></a>
+          <a href="<%= new_coauthor_application_path %>" class="btn btn--reversed"><%= t("contribute.wanted.cta") %></a>
+          <a href="<%= paths_path %>" class="btn"><%= t("contribute.cta_explore") %></a>
         </div>
+        <%# Quiet escape hatches: talk to the founder / the money page. %>
+        <p class="contribute-cta__aside">
+          <% if signed_in? %>
+            <%= link_to t("contribute.cta_write"), new_feedback_path %>
+          <% else %>
+            <a href="<%= site_config.telegram_url %>" target="_blank" rel="noopener"><%= t("contribute.cta_write") %></a>
+          <% end %>
+          <span aria-hidden="true">·</span>
+          <%= link_to t("contribute.cta_support"), support_us_path %>
+        </p>
       </div>
 
     </div>
