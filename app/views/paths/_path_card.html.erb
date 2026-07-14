@@ -2,6 +2,9 @@
 <% courses_count ||= path.courses_count %>
 <a href="<%= path_path(path) %>" class="panel panel--hover path-card">
   <h2 class="path-card__title"><%= path.title %></h2>
+  <% if path.description.present? %>
+    <p class="path-card__desc"><%= path.description %></p>
+  <% end %>
   <div class="path-card__foot">
     <div class="path-card__meta-row">
       <span class="path-card__meta">
