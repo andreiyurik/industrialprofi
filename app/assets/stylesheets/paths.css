@@ -45,47 +45,66 @@
   background: linear-gradient(to left, transparent, var(--color-subtle));
 }
 
-/* Narrow screens: a clean centered column, one profession per line, no
-   separators (a middle-dot on every stacked line just dangles). */
-.catalog-soon__list {
-  align-items: center;
+/* The one line that explains the mechanism: a map is a person's work. */
+.catalog-soon__lead {
   color: var(--color-subtle-dark);
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.4rem;
   font-size: 0.9rem;
+  hyphens: none;
+  line-height: 1.55;
+  margin-block: 0 1.25rem;
+  margin-inline: auto;
+  max-inline-size: 44rem;
+  text-wrap: pretty;
+}
+
+.catalog-soon__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
   margin-block: 0;
   margin-inline: auto;
   max-inline-size: 52rem;
 }
 
-/* Wider screens: an inline wrapped row with hairline middle-dot separators. */
-@media (min-width: 640px) {
-  .catalog-soon__list {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    column-gap: 0.75rem;
-    row-gap: 0.5rem;
-  }
+/* A vacant slot: dashed border = the hidden-contour line of a ГОСТ drawing —
+   a profession that exists but has no map yet. Hover makes the contour solid:
+   it takes a person to make it real. */
+.catalog-soon__slot {
+  border: 1px dashed var(--color-subtle);
+  border-radius: 2rem;
+  color: var(--color-subtle-dark);
+  display: inline-block;
+  font-size: 0.85rem;
+  hyphens: none;
+  padding: 0.35rem 0.9rem;
+  text-decoration: none;
+  transition: border-color 200ms ease, color 200ms ease;
+}
 
-  .catalog-soon__item:not(:last-child)::after {
-    color: var(--color-disabled);
-    content: "·";
-    margin-inline-start: 0.75rem;
+@media (any-hover: hover) {
+  .catalog-soon__slot:hover {
+    border-color: var(--color-subtle-dark);
+    border-style: solid;
+    color: var(--color-ink);
   }
 }
 
 /* The focus: the call to author one of these. */
 .catalog-soon__call {
   hyphens: none;
-  margin-block: 1.75rem 0;
+  margin-block: 2rem 0;
+
+  .btn svg {
+    block-size: 1rem;
+    inline-size: 1rem;
+  }
 }
 
 .catalog-soon__suggest {
   font-size: 0.85rem;
   hyphens: none;
-  margin-block: 0.65rem 0;
+  margin-block: 0.85rem 0;
 }
 
 .catalog-soon__cta {
@@ -97,11 +116,6 @@
       text-decoration: underline;
     }
   }
-}
-
-.catalog-soon__cta--primary {
-  font-size: 1rem;
-  font-weight: 500;
 }
 
 /* Card grid — multi-col layout for path/profession cards (dashboard "other paths") */
