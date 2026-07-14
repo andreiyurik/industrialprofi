@@ -10,7 +10,7 @@ resources:
     language: en
     note: "международная практика оформления петлевой схемы одного измерительного канала — в РФ прямого ГОСТ-аналога нет, см. примечание в уроке"
   - title: "ГОСТ 21.408-2013 — СПДС. Правила выполнения рабочей документации автоматизации технологических процессов"
-    url: "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=STR&n=18254"
+    url: "https://protect.gost.ru/document.aspx?control=7&id=186035"
     kind: norm
     required: false
     country_code: RU

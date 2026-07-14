@@ -4,7 +4,7 @@ position: 3
 kind: lesson
 resources:
   - title: "ПУЭ 7-е изд. Глава 1.2. Категории надёжности электроснабжения"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: false
     country_code: RU

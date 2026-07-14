@@ -9,10 +9,6 @@ resources:
     required: true
     country_code: RU
     note: "нужен только раздел «рабочий цикл прибора» — остальное руководство держи как справочник"
-  - title: "Видео: «ПЛК. Что такое ПЛК? История развития. Варианты применения»"
-    url: "https://www.youtube.com/watch?v=eICujKe55BM"
-    kind: video
-    required: false
   - title: "CODESYS — бесплатная среда разработки со встроенным симулятором ПЛК"
     url: "https://www.codesys.com/ecosystem/services/download/"
     kind: tool

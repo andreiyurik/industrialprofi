@@ -3,10 +3,6 @@ title: "Обратная связь и контуры регулирования
 position: 1
 kind: lesson
 resources:
-  - title: "Статья: «ПИД-регулятор — на пальцах»: обратная связь, уставка, ошибка регулирования (AlexGyver)"
-    url: "https://alexgyver.ru/lessons/pid/"
-    kind: article
-    required: false
   - title: "Энциклопедия АСУ ТП: классический ПИД-регулятор — замкнутый контур, уставка, сигнал рассогласования (RealLab)"
     url: "https://www.reallab.ru/bookasutp/5-pid-regulyatori/5-2-klassicheskii-pid-regulyator/"
     kind: article

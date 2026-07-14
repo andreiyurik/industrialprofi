@@ -9,7 +9,7 @@ resources:
     required: true
     note: "таблица категорий нг-А…нг-Д и суффиксов LS/HF — по ним читается пожарный класс в марке кабеля"
   - title: "ПУЭ 7-е издание, гл. 7.1, п. 7.1.34 (алюминиевые проводники)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU

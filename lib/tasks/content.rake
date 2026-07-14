@@ -13,9 +13,11 @@
 #                                    /lessons/ links (the wiki fabric), internal links
 #                                    pointing at a slug that doesn't exist, required
 #                                    long-form documents without a reader note
-#                                    («что именно смотреть»), and placeholder resource
-#                                    URLs (example.com, fake video ids) left over from
-#                                    authoring — never publish a stub link
+#                                    («что именно смотреть»), placeholder resource URLs
+#                                    (example.com, fake video ids) left over from
+#                                    authoring, and resources on registration/paywalled
+#                                    domains (consultant.ru, garant.ru) that a reader
+#                                    can't actually open for free
 #   bin/rails content:links        — resource links that no longer resolve (they rot
 #                                    silently on their own)
 #   bin/rails content:check        — the whole mechanical QA pass: audit + links
@@ -105,6 +107,23 @@ namespace :content do
     else
       puts "Заглушечные ссылки (#{placeholder.size}) — замени на реальный источник или удали ресурс:"
       placeholder.each { |resource| puts "  · [#{resource.lesson&.slug}] #{resource.url}  «#{resource.title.to_s.truncate(70)}»" }
+    end
+
+    # consultant.ru and garant.ru show a real page (HTTP 200 — content:links
+    # won't catch this) but gate the actual document text behind registration
+    # or a paid subscription. Prefer, in order: publication.pravo.gov.ru
+    # (законы, приказы — бесплатно и постоянно по закону), the issuing
+    # agency's own site (fstec.ru, profstandart.rosmintrud.ru), protect.gost.ru
+    # (ГОСТ), docs.cntd.ru (норм. документы, обычно бесплатно). See the
+    # 2026-07 link migration commit for a worked example of the mapping.
+    paywalled = Resource.where("url LIKE '%consultant.ru%' OR url LIKE '%garant.ru%'")
+                        .includes(:lesson).order(:lesson_id)
+
+    if paywalled.none?
+      puts "✓ Ссылок на consultant.ru/garant.ru (регистрация или платный доступ) не найдено."
+    else
+      puts "Ссылки на consultant.ru/garant.ru (#{paywalled.size}) — читатель не откроет без регистрации/оплаты, замени:"
+      paywalled.each { |resource| puts "  · [#{resource.lesson&.slug}] #{resource.url}  «#{resource.title.to_s.truncate(70)}»" }
     end
   end
 

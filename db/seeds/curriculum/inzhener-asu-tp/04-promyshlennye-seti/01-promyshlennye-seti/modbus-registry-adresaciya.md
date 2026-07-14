@@ -16,10 +16,6 @@ resources:
     url: "https://sourceforge.net/projects/qmodmaster/"
     kind: tool
     required: false
-  - title: "SimplyModbus — лучший разбор типов регистров и функций для новичка (углублённое изучение, англ.)"
-    url: "https://www.simplymodbus.ca/FAQ.htm"
-    kind: article
-    required: false
   - title: "Просто о Modbus RTU — подробное описание протокола с примерами (регистры, функции, адресация), рус."
     url: "https://ipc2u.ru/articles/prostye-resheniya/modbus-rtu/"
     kind: article

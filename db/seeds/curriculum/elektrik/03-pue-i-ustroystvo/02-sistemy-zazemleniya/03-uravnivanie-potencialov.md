@@ -4,7 +4,7 @@ position: 3
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание, гл. 1.7, п. 1.7.82 (уравнивание потенциалов)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU

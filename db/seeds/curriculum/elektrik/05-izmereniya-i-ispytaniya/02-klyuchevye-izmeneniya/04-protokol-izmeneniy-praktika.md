@@ -5,7 +5,7 @@ kind: practice
 difficulty: intermediate
 resources:
   - title: "ПТЭЭП — Приказ Минэнерго № 811"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_428583/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202210070065"
     kind: document
     required: true
 ---

@@ -4,7 +4,7 @@ position: 1
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание, гл. 3.1, гл. 1.3 (допустимые токи нагрузки)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: false
     country_code: RU

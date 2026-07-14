@@ -4,7 +4,7 @@ position: 2
 kind: lesson
 resources:
   - title: "Приказ Минтруда № 903н от 15.12.2020 — порядок проверки знаний и присвоения групп"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
     kind: document
     required: true
     country_code: RU

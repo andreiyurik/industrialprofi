@@ -4,7 +4,7 @@ position: 1
 kind: lesson
 resources:
   - title: "Профессиональный стандарт «Специалист по проектированию автоматизированных систем управления технологическими процессами» (Приказ Минтруда России № 723н от 12.10.2021)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_400546/3eb3562dae2670374c317b028d169a19855d0cc4/"
+    url: "https://profstandart.rosmintrud.ru/obshchiy-informatsionnyy-blok/natsionalnyy-reestr-professionalnykh-standartov/reestr-professionalnykh-standartov/index.php?ELEMENT_ID=111692"
     kind: document
     required: true
     country_code: RU

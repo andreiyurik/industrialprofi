@@ -8,10 +8,6 @@ resources:
     kind: norm
     required: true
     country_code: RU
-  - title: "Справочник по обозначениям сварных швов на чертежах — наглядные примеры"
-    url: "https://svarka.guru/gost-i-normy/oboznacheniya-svarnyh-shvov.html"
-    kind: article
-    required: false
 ---
 Без чтения сварочного чертежа невозможно понять, какой шов требуется, какого размера и в какой позиции: каждый элемент обозначения по ГОСТ 2.312-72 несёт конкретную техническую информацию.
 ---

@@ -5,7 +5,7 @@ kind: practice
 difficulty: beginner
 resources:
   - title: "Приказ Минтруда № 903н от 15.12.2020 — Приложение №7: порядок оказания первой помощи"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
     kind: document
     required: true
     country_code: RU

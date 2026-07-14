@@ -4,11 +4,11 @@ position: 2
 kind: lesson
 resources:
   - title: "ПТЭЭП — Приказ Минэнерго № 811"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_428583/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202210070065"
     kind: document
     required: true
   - title: "ПУЭ 7-е издание, глава 1.8"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: false
     country_code: RU

@@ -3,16 +3,12 @@ title: "Электрика частного дома: от ввода ВЛ до 
 position: 1
 kind: lesson
 resources:
-  - title: "ПУЭ 7-е изд. Глава 2.4. Воздушные линии электропередачи"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+  - title: "ПУЭ 7-е изд. Главы 2.4 (воздушные линии) и 7.1 (электроустановки жилых зданий)"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
-  - title: "ПУЭ 7-е изд. Глава 7.1. Электроустановки жилых зданий"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
-    kind: document
-    required: false
-    country_code: RU
+    note: "оглавление ПУЭ — обе главы нужны для этого урока"
 ---
 Электрика частного дома начинается ещё на столбе: пойми, как электричество доходит от опоры до твоего щита и где в этом пути твоя ответственность.
 ---

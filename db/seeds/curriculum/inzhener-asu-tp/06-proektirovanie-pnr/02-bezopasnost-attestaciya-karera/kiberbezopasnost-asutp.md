@@ -4,13 +4,13 @@ position: 2
 kind: lesson
 resources:
   - title: "Федеральный закон от 26.07.2017 № 187-ФЗ «О безопасности критической информационной инфраструктуры Российской Федерации»"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_220885/"
+    url: "http://publication.pravo.gov.ru/document/view/0001201707260023"
     kind: document
     required: true
     country_code: RU
     note: "категорирование объектов КИИ и обязанности владельцев — пойми, попадает ли твой объект под закон"
   - title: "Приказ ФСТЭК России от 14.03.2014 № 31 — Требования к защите информации в АСУ производственными и технологическими процессами"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_165503/"
+    url: "https://fstec.ru/dokumenty/vse-dokumenty/prikazy/prikaz-fstek-rossii-ot-14-marta-2014-g-n-31"
     kind: document
     required: true
     country_code: RU

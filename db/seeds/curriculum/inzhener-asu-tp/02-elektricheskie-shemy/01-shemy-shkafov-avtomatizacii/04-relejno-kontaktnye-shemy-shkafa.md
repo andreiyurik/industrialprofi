@@ -4,7 +4,7 @@ position: 4
 kind: lesson
 resources:
   - title: "ГОСТ 21.408-2013 — СПДС. Правила выполнения рабочей документации автоматизации технологических процессов"
-    url: "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=STR&n=18254"
+    url: "https://protect.gost.ru/document.aspx?control=7&id=186035"
     kind: norm
     required: true
     country_code: RU
@@ -14,12 +14,6 @@ resources:
     kind: norm
     required: false
     country_code: RU
-  - title: "ГОСТ Р МЭК 60079-25-2012 — Взрывоопасные среды. Часть 25. Искробезопасные системы"
-    url: "http://docs.cntd.ru/document/1200096293"
-    kind: norm
-    required: false
-    country_code: RU
-    note: "только для общего представления о барьерах искрозащиты — тема взрывозащиты отдельная и здесь не раскрывается"
 ---
 Промежуточное реле, НО/НЗ контакты и «сухой контакт» — обвязка, без которой ПЛК физически не сможет управлять реальным оборудованием.
 ---
