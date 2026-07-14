@@ -4,16 +4,11 @@ position: 1
 kind: lesson
 resources:
   - title: "Приказ Минтруда № 903н — Приложение №1: группы по электробезопасности и условия их присвоения"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
     kind: document
     required: true
     country_code: RU
     note: "таблица условий присвоения групп II–V — стаж и требования по образованию бери прямо отсюда"
-  - title: "ПУЭ 7-е издание — глава 1.1: общие определения"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
-    kind: document
-    required: false
-    country_code: RU
 ---
 Группы электробезопасности II–V — это лестница ответственности: каждая ступень даёт новые права и требует новых знаний о работе в электроустановках.
 ---

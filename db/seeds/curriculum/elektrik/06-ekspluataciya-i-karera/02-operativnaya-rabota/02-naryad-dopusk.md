@@ -4,12 +4,12 @@ position: 2
 kind: lesson
 resources:
   - title: "Приказ Минтруда № 903н от 15.12.2020 (ред. 29.04.2025)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
     kind: document
     required: true
     country_code: RU
   - title: "ПТЭЭП — Приказ Минэнерго России от 12.08.2022 № 811"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_428583/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202210070065"
     kind: document
     required: true
     country_code: RU

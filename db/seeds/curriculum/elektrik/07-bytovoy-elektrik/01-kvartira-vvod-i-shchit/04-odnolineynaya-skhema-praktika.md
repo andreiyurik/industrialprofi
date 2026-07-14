@@ -5,7 +5,7 @@ kind: practice
 difficulty: beginner
 resources:
   - title: "ПУЭ 7-е изд. Глава 1.3. Таблица 1.3.4 (допустимые токи кабелей)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU

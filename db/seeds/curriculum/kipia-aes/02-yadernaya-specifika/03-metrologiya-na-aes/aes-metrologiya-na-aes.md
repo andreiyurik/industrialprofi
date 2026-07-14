@@ -4,13 +4,13 @@ position: 1
 kind: lesson
 resources:
   - title: "НП-001-15 «Общие положения обеспечения безопасности атомных станций» (ОПБ)"
-    url: https://docs.cntd.ru/document/420265361
+    url: https://docs.cntd.ru/document/420329007
     kind: document
     required: true
     country_code: RU
     note: "отсюда нужны классы безопасности каналов — от класса зависят надзор за поверкой и требование EQR"
-  - title: "НП-026-16 Требования к системам КИПиА АЭС"
-    url: https://docs.cntd.ru/document/456054212
+  - title: "НП-026-16 Требования к управляющим системам, важным для безопасности атомных станций"
+    url: https://docs.cntd.ru/document/420383903
     kind: document
     required: true
     country_code: RU

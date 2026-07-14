@@ -9,11 +9,6 @@ resources:
     required: true
     country_code: RU
     note: "словарь профессии — сверь, как определены «автоматизированная система» и «комплекс технических средств»"
-  - title: "ГОСТ 34.003-90 — Автоматизированные системы. Термины и определения"
-    url: "https://docs.cntd.ru/document/1200006979"
-    kind: document
-    required: false
-    country_code: RU
   - title: "Видео: «Лекция 2.1. Структура АСУ ТП и АСУ П, полевой уровень» (наглядный разбор архитектуры)"
     url: "https://www.youtube.com/watch?v=J4_Cxh2Q7pM"
     kind: video

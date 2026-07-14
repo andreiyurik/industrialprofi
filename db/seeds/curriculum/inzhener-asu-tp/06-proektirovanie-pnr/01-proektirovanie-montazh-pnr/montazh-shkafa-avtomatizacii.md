@@ -8,7 +8,7 @@ resources:
     kind: video
     required: false
   - title: "ПУЭ, 7-е изд., гл. 1.7 — Заземление и защитные меры электробезопасности (в части шкафов автоматики)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_91542/ab7c1cf635bf724118579930c99b9db6d0eda10b/"
+    url: "https://www.elec.ru/library/direction/pue/razdel-1-7-17.html"
     kind: document
     required: false
     country_code: RU

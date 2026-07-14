@@ -4,12 +4,12 @@ position: 1
 kind: lesson
 resources:
   - title: "Приказ Минтруда России № 903н. Правила по охране труда при эксплуатации электроустановок"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
     kind: document
     required: false
     country_code: RU
   - title: "ПУЭ 7-е изд. Глава 2.1. Электропроводки"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: false
     country_code: RU

@@ -4,7 +4,7 @@ position: 1
 kind: lesson
 resources:
   - title: "Приказ Минтруда № 903н от 15.12.2020 — Правила по охране труда при эксплуатации электроустановок"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
     kind: document
     required: true
     country_code: RU

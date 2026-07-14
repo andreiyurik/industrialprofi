@@ -3,11 +3,6 @@ title: "Куда расти: специализации и смежные про
 position: 3
 kind: lesson
 resources:
-  - title: "Приказ Минтруда № 903н от 15.12.2020 (ред. 29.04.2025)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
-    kind: document
-    required: false
-    country_code: RU
   - title: "Карьера электрика в России: специализации, зарплаты, перспективы"
     url: "https://hh.ru/article/31039"
     kind: article

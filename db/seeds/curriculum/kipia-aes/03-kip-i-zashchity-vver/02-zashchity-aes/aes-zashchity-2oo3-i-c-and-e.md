@@ -9,8 +9,8 @@ resources:
     required: true
     country_code: RU
     note: "здесь закреплено требование трёх независимых каналов с мажоритарной логикой для систем безопасности"
-  - title: "НП-026-16 Требования к системам управления и защиты ядерных реакторов"
-    url: https://docs.cntd.ru/document/456025278
+  - title: "НП-026-16 Требования к управляющим системам, важным для безопасности атомных станций"
+    url: https://docs.cntd.ru/document/420383903
     kind: document
     required: true
     country_code: RU

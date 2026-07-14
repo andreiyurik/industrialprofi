@@ -19,11 +19,6 @@ resources:
     kind: document
     required: false
     note: "фундаментальные требования МАГАТЭ к проектированию АЭС, на которые опирается НП-001"
-  - title: "IAEA — Instrumentation and Control Systems for Nuclear Power Plants (хаб публикаций)"
-    url: "https://www.iaea.org/topics/operation-and-maintenance/instrumentation-and-control-systems-for-nuclear-power-plants"
-    kind: article
-    required: false
-    note: "сборник всех публикаций МАГАТЭ по КИПиА АЭС — если нужно копнуть глубже одной темы"
 ---
 Классы безопасности АЭС по НП-001: что значит класс 2, 3, 4 прибора КИП, как он диктует резервирование, квалификацию и документацию.
 ---
