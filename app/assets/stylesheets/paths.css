@@ -1,7 +1,7 @@
 .catalog-grid {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
   margin-block-start: var(--block-space-double);
 }
 
@@ -11,18 +11,38 @@
    flat middle-dot list (every name equal: no status dots, no highlighting), then
    the one call that matters — become a curator. */
 .catalog-soon {
-  margin-block-start: 3rem;
+  margin-block-start: 3.5rem;
   text-align: center;
 }
 
+/* The label doubles as a section divider: hairlines fading out to each side
+   (Fizzy's divider--fade), so the dead list separates from the live grid. */
 .catalog-soon__label {
+  align-items: center;
   color: var(--color-subtle-dark);
+  display: flex;
   font-family: var(--font-sans);
   font-size: 0.8rem;
   font-weight: 600;
+  gap: 1.25rem;
   letter-spacing: 0.06em;
-  margin-block: 0 1rem;
+  margin-block: 0 1.25rem;
   text-transform: uppercase;
+}
+
+.catalog-soon__label::before,
+.catalog-soon__label::after {
+  block-size: 1px;
+  content: "";
+  flex: 1;
+}
+
+.catalog-soon__label::before {
+  background: linear-gradient(to right, transparent, var(--color-subtle));
+}
+
+.catalog-soon__label::after {
+  background: linear-gradient(to left, transparent, var(--color-subtle));
 }
 
 /* Narrow screens: a clean centered column, one profession per line, no
@@ -101,40 +121,95 @@
   }
 }
 
-/* Profession card (catalog) — Basecamp-style typographic tile: no icon, no
-   ordinal, the profession NAME is the whole design, set in the GOST drafting
-   face (--font-technical) for an engineering-drawing character. One meta line +
-   a hover arrow sit pinned at the bottom. Strict black card, defined by its
-   border, not a grey fill. */
+/* Profession card (catalog) — a drawing-sheet poster: the profession NAME set
+   large in the GOST drafting face (--font-technical) is the design, one line of
+   description fills the middle, meta + a hover arrow pin to the base. Strict
+   black card defined by its hairline border; two corner ticks (an engineering-
+   drawing frame nod) are the single decorative gesture. */
 .path-card {
   --panel-padding: 1.75rem;
   --panel-background: var(--color-bg);
-  --panel-border-radius: 0.5rem;
+  --panel-border-radius: 0.25rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
+  position: relative;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
   /* Low floor only: desktop height is content-/row-stretch-driven, so this just
      stops a lone single-line card (e.g. mobile, one per row) from looking stubby
      without forcing an empty middle the way a tall floor did. */
   min-block-size: 6rem;
 }
 
+/* Corner ticks — diagonal pair (top-left / bottom-right), like the frame corners
+   of a ГОСТ drawing sheet. Hairline, quiet; they brighten with the border. */
+.path-card::before,
+.path-card::after {
+  block-size: 0.85rem;
+  border: 0 solid var(--color-subtle);
+  content: "";
+  inline-size: 0.85rem;
+  pointer-events: none;
+  position: absolute;
+  transition: border-color 200ms ease;
+}
+
+.path-card::before {
+  border-block-start-width: 1px;
+  border-inline-start-width: 1px;
+  inset-block-start: 0.5rem;
+  inset-inline-start: 0.5rem;
+}
+
+.path-card::after {
+  border-block-end-width: 1px;
+  border-inline-end-width: 1px;
+  inset-block-end: 0.5rem;
+  inset-inline-end: 0.5rem;
+}
+
 @media (any-hover: hover) {
   .path-card:hover {
+    /* Stay black on hover (panel--hover's grey fill breaks the poster look);
+       lift = hairline ring + brighter border/ticks + the sliding arrow. */
+    --panel-background: var(--color-bg);
     --panel-border-color: var(--color-subtle-dark);
+    box-shadow: 0 0 0 1px var(--color-subtle-dark);
+  }
+
+  .path-card:hover::before,
+  .path-card:hover::after {
+    border-color: var(--color-subtle-dark);
   }
 }
 
 .path-card__title {
   font-family: var(--font-technical);
-  font-size: clamp(1.35rem, 1.9vw, 1.7rem);
+  /* Large enough for the monoline drafting face to show its character —
+     at body sizes it reads as a broken monospace, at poster size as a drawing */
+  font-size: clamp(1.75rem, 2.4vw, 2.3rem);
   font-weight: 400;
   /* GOST is a monoline drafting face — a hair of tracking lets it breathe */
   letter-spacing: 0.005em;
   /* a profession name hyphenated mid-word («Сетевой ин-женер») reads cheap */
   hyphens: none;
-  line-height: 1.12;
+  line-height: 1.1;
   margin-block: 0;
+  text-wrap: balance;
+}
+
+/* One sentence of what the profession is — fills the card's middle with content
+   instead of void. Clamped so an editor's long description can't break rows. */
+.path-card__desc {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  color: var(--color-subtle-dark);
+  display: -webkit-box;
+  font-size: 0.875rem;
+  hyphens: none;
+  line-height: 1.5;
+  margin-block: 0;
+  overflow: hidden;
 }
 
 /* Bottom block: meta + a Basecamp arrow that slides on hover, then the learner's
