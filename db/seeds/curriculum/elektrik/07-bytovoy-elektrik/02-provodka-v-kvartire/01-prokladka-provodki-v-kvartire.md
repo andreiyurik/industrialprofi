@@ -8,11 +8,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "СП 256.1325800.2016. Электроустановки жилых и общественных зданий"
-    url: "https://example.com/placeholder"
-    kind: document
-    required: false
-    country_code: RU
 ---
 Пойми логику маршрутизации кабелей в квартире: правильно проложенная трасса — это ремонтопригодность через 20 лет и отсутствие сюрпризов при сверлении.
 ---

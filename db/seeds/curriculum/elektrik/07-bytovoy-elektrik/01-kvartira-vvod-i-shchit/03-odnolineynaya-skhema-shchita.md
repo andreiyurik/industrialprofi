@@ -8,11 +8,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "СП 256.1325800.2016. Электроустановки жилых и общественных зданий"
-    url: "https://example.com/placeholder"
-    kind: document
-    required: false
-    country_code: RU
 ---
 Однолинейная схема щита — твоя визитная карточка: по ней коллеги и заказчики судят о твоём профессионализме ещё до того, как видят работу.
 ---

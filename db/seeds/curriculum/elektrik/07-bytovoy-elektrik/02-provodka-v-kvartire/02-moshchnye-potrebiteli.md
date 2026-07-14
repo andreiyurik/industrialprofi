@@ -8,10 +8,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ Р МЭК 60884-1-2013. Вилки и розетки для бытового применения"
-    url: "https://example.com/placeholder"
-    kind: document
-    required: false
 ---
 Четыре прибора, которые «съедают» половину нагрузки квартиры — знай, как подключить каждый правильно, чтобы не было пожара и отказа через год.
 ---

@@ -3,10 +3,6 @@ title: "Закон Ома и законы Кирхгофа: расчёт эле�
 position: 1
 kind: lesson
 resources:
-  - title: "Бессонов Л.А. «Теоретические основы электротехники»"
-    url: "https://example.com/bessonov-toe"
-    kind: document
-    required: false
   - title: "ПУЭ 7-е издание, гл. 1.3 (длительно допустимые токи)"
     url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
     kind: document

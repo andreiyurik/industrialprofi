@@ -12,10 +12,6 @@ resources:
     url: "https://www.consultant.ru/document/cons_doc_LAW_428583/"
     kind: document
     required: true
-  - title: "ГОСТ Р 50571.16-2007 Электроустановки зданий. Испытания"
-    url: "https://example.com/placeholder-gost-50571-16"
-    kind: document
-    required: false
 ---
 Измерить сопротивление изоляции — значит убедиться, что ток идёт только по проводу, а не через изоляцию.
 ---

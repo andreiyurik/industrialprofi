@@ -7,10 +7,6 @@ resources:
     url: "https://www.consultant.ru/document/cons_doc_LAW_428583/"
     kind: document
     required: true
-  - title: "СП 48.13330.2019 Организация строительства"
-    url: "https://example.com/placeholder-sp-48"
-    kind: document
-    required: false
 ---
 Исполнительная документация — это «паспорт» электрики объекта, который сохраняется на весь срок его жизни.
 ---

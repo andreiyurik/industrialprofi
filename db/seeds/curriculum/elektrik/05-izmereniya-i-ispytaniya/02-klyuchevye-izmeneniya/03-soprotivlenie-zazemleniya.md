@@ -8,10 +8,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ 12.1.030-81 ССБТ Электробезопасность. Защитное заземление"
-    url: "https://example.com/placeholder-gost-12-1-030"
-    kind: document
-    required: false
 ---
 Сопротивление заземляющего устройства показывает, насколько быстро ток утечки уйдёт в землю при аварии.
 ---

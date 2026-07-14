@@ -8,14 +8,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ Р 50571.3-2009 Электроустановки зданий. Защитные меры"
-    url: "https://example.com/placeholder-gost-50571-3"
-    kind: document
-    required: false
-  - title: "ГОСТ Р 50571.16-2007 Электроустановки зданий. Испытания"
-    url: "https://example.com/placeholder-gost-50571-16"
-    kind: document
-    required: false
 ---
 Петля фаза-ноль показывает: успеет ли автомат сработать мгновенно, если завтра случится короткое замыкание.
 ---

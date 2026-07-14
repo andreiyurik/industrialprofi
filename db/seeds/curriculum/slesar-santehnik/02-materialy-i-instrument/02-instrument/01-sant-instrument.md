@@ -2,17 +2,6 @@
 title: "Инструмент сантехника: что нужно и для чего"
 position: 9
 kind: lesson
-resources:
-  - title: "СП 73.13330.2016. Внутренние санитарно-технические системы зданий (требования к монтажу)"
-    url: "https://example.com/sp-73-13330-2016"
-    kind: norm
-    required: false
-    country_code: RU
-  - title: "ГОСТ 3262-75. Трубы стальные — нарезка резьбы (приложение)"
-    url: "https://example.com/gost-3262-75"
-    kind: norm
-    required: false
-    country_code: RU
 ---
 Инструмент сантехника — три группы: чем резать и гнуть, чем соединять, чем измерять и проверять.
 ---

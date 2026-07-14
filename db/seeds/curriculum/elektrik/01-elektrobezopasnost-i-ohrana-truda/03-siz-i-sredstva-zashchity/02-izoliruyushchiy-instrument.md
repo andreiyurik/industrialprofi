@@ -9,15 +9,6 @@ resources:
     required: true
     country_code: RU
     note: "смотри нормы комплектования — какие средства защиты и в каком количестве обязаны быть на объекте"
-  - title: "ГОСТ Р 50789-2009 — Средства защиты, используемые в электроустановках"
-    url: "https://example.com/placeholder-gost-50789"
-    kind: document
-    required: false
-    country_code: RU
-  - title: "Сибикин Ю.Д. — Справочник мастера-электрика"
-    url: "https://example.com/placeholder-sibikin"
-    kind: document
-    required: false
 ---
 Изолирующий инструмент и средства защиты — это не набор «на всякий случай», а строго классифицированные приборы с конкретным напряжением допуска и обязательными испытаниями.
 ---

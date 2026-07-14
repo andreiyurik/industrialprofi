@@ -12,10 +12,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "ГОСТ Р 50571.16-2007 Электроустановки зданий. Испытания"
-    url: "https://example.com/placeholder-gost-50571-16"
-    kind: document
-    required: false
 ---
 Три специальных прибора — мегаомметр, измеритель петли и ТКЦ — каждый решает свою задачу при сдаче объекта.
 ---

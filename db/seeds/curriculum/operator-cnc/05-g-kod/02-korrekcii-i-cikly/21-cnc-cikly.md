@@ -2,12 +2,6 @@
 title: "Стандартные постоянные циклы (Canned Cycles)"
 position: 21
 kind: lesson
-resources:
-  - title: "Fanuc Series 0i-MODEL F — Руководство по программированию (B-64304RU)"
-    url: "https://placeholder.example.com/fanuc-0i-f-programming"
-    kind: doc
-    required: true
-    language: en
 ---
 Постоянные циклы сжимают десятки строк повторяющейся обработки в одну команду — от правильного их применения зависит половина твоей производительности.
 ---

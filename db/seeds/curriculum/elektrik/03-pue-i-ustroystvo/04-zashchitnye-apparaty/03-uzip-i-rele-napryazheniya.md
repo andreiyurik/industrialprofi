@@ -3,11 +3,6 @@ title: "УЗИП и реле напряжения: защита от перен�
 position: 3
 kind: lesson
 resources:
-  - title: "ГОСТ Р МЭК 61643-11-2014 Устройства защиты от импульсных перенапряжений (УЗИП)"
-    url: "https://example.com/placeholder-gost-61643"
-    kind: document
-    required: true
-    note: "раздел про классы испытаний I/II/III — по ним читается маркировка УЗИП на корпусе"
   - title: "ПУЭ 7-е издание, гл. 1.7 (заземление и защитные меры)"
     url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
     kind: document

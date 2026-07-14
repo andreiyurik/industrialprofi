@@ -13,11 +13,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "Как заполнить наряд-допуск в электроустановках: разбор типичных ошибок"
-    url: "https://www.youtube.com/watch?v=example-naryad"
-    kind: video
-    required: false
-    country_code: RU
 ---
 Наряд-допуск — не бюрократия, а пошаговая защита от гибели: пять шагов безопасности работ в электроустановке, которые нельзя пропускать.
 ---

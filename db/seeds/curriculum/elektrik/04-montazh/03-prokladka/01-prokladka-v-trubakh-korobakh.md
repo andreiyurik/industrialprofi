@@ -8,10 +8,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "СП 76.13330.2016. Электротехнические устройства"
-    url: "https://example.com/placeholder-sp-76-13330-2016"
-    kind: document
-    required: false
 ---
 Какой способ прокладки выбрать и почему: стальная труба, ПВХ гофра, кабель-канал, лоток — нормы заполнения, радиусы изгиба, разделение цепей.
 ---
