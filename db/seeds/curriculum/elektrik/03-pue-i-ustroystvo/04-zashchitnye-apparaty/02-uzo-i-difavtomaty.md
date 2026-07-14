@@ -3,11 +3,6 @@ title: "УЗО и дифавтоматы: принцип работы, типы 
 position: 2
 kind: lesson
 resources:
-  - title: "ГОСТ Р 51326.1-2011 Выключатели дифференциального тока бытового назначения (УЗО)"
-    url: "https://example.com/placeholder-gost-51326"
-    kind: document
-    required: true
-    note: "раздел про типы AC/A и времена срабатывания — практические правила выбора уже собраны в уроке"
   - title: "ПУЭ 7-е издание, гл. 7.1, п. 7.1.76–7.1.79 (защита УЗО)"
     url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
     kind: document

@@ -40,15 +40,16 @@
   text-wrap: balance;
 }
 
-/* Thin blinking caret — a hairline blue "cursor" typed after the last word. */
+/* Blinking caret — a blue "cursor" typed after the last word. */
 .hero__title.is-caret::after {
   content: "";
   display: inline-block;
-  inline-size: 0.05em;
-  block-size: 0.82em;
+  inline-size: 0.1em;
+  block-size: 0.86em;
   margin-inline-start: 0.14em;
   background-color: var(--color-link);
-  vertical-align: -0.04em;
+  border-radius: 0.03em;
+  vertical-align: -0.06em;
 }
 
 @media (prefers-reduced-motion: no-preference) {

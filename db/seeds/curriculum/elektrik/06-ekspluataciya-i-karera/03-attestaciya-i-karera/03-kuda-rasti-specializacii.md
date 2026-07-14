@@ -13,11 +13,6 @@ resources:
     kind: article
     required: false
     country_code: RU
-  - title: "Специализации электрика: от монтажника до инженера-проектировщика"
-    url: "https://www.youtube.com/watch?v=example-karera-elektrik"
-    kind: video
-    required: false
-    country_code: RU
 ---
 Профессия электрика — не одна дорога, а развилка на шесть направлений с разными требованиями, доходами и образом жизни: выбирай осознанно.
 ---

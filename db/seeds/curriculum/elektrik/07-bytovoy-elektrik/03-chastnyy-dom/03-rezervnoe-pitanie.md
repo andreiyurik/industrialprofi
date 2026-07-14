@@ -8,10 +8,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "ГОСТ Р 51317.3.2-2006. Электромагнитная совместимость. ИБП"
-    url: "https://example.com/placeholder"
-    kind: document
-    required: false
 ---
 Понимать схемы резервного питания — значит уметь объяснить заказчику, что именно купить и как подключить, чтобы котёл и холодильник не замерзали при отключении сети.
 ---

@@ -8,10 +8,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ Р 51322.1-2011 Розетки и вилки бытового назначения"
-    url: "https://example.com/placeholder-gost-51322"
-    kind: document
-    required: false
 ---
 Выключатель всегда рвёт фазу, а не ноль — это ключевое правило безопасности при монтаже.
 ---

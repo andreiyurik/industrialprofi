@@ -9,11 +9,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "СП 256.1325800.2016. Электроустановки жилых и общественных зданий"
-    url: "https://example.com/placeholder"
-    kind: document
-    required: false
-    country_code: RU
 ---
 Составь грамотную однолинейную схему реальной квартиры — по ней другой электрик должен понять всю электроустановку без единого вопроса.
 ---

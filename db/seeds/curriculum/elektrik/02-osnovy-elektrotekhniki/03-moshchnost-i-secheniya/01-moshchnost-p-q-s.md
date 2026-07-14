@@ -2,11 +2,6 @@
 title: "Мощность в однофазных и трёхфазных цепях: P, Q, S и cos φ"
 position: 1
 kind: lesson
-resources:
-  - title: "Бессонов Л.А. «Теоретические основы электротехники»"
-    url: "https://example.com/bessonov-toe"
-    kind: document
-    required: false
 ---
 Треугольник мощностей P–Q–S и cos φ объясняют, почему мотор и нагреватель одинаковой мощности требуют разного сечения кабеля.
 ---

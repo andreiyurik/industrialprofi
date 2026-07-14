@@ -8,10 +8,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "Бессонов Л.А. «Теоретические основы электротехники»"
-    url: "https://example.com/bessonov-toe"
-    kind: document
-    required: false
 ---
 Трёхфазная сеть — основа промышленного электроснабжения: понимая откуда берутся 220 В и 380 В, ты правильно подключаешь любое оборудование.
 ---

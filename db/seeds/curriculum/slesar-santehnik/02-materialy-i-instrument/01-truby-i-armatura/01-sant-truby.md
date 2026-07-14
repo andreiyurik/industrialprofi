@@ -2,27 +2,6 @@
 title: "Трубы для санитарных систем: выбор материала"
 position: 6
 kind: lesson
-resources:
-  - title: "ГОСТ 3262-75. Трубы стальные водогазопроводные. Технические условия"
-    url: "https://example.com/gost-3262-75"
-    kind: norm
-    required: true
-    country_code: RU
-  - title: "ГОСТ 32415-2013. Трубы напорные из термопластов для систем водоснабжения и отопления"
-    url: "https://example.com/gost-32415-2013"
-    kind: norm
-    required: true
-    country_code: RU
-  - title: "ГОСТ 617-2006. Трубы медные и сплавов на основе меди. Технические условия"
-    url: "https://example.com/gost-617-2006"
-    kind: norm
-    required: false
-    country_code: RU
-  - title: "СП 30.13330.2020. Внутренний водопровод и канализация зданий"
-    url: "https://example.com/sp-30-13330-2020"
-    kind: norm
-    required: true
-    country_code: RU
 ---
 Трубы для ХВС, ГВС и отопления: пять материалов с разными характеристиками — как выбрать правильный и не ошибиться при монтаже.
 ---

@@ -8,10 +8,6 @@ resources:
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ Р 50571.7.701-2024. Электроустановки низкого напряжения. Ванные и душевые"
-    url: "https://example.com/placeholder"
-    kind: document
-    required: true
 ---
 Ванная — самое опасное помещение в квартире: вода + электричество. Пойми зоны и IP-требования раз и навсегда, чтобы защитить жизнь заказчика.
 ---

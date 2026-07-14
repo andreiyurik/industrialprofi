@@ -8,10 +8,6 @@ resources:
     kind: document
     required: false
     country_code: RU
-  - title: "ГОСТ Р 50462-2009 Маркировка проводников"
-    url: "https://example.com/placeholder-gost-50462"
-    kind: document
-    required: false
 ---
 Проходной выключатель — три провода и одна ключевая идея: оба выключателя управляют одним светом.
 ---
