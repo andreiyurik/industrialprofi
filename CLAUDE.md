@@ -531,6 +531,28 @@ git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
   transparency, not a gate — creating/deleting a lesson in a published course
   is logged to `AdminAction` ("Живой контент" tab in `/admin/log`). Don't
   re-propose per-lesson statuses.
+- **SQLite backups: periodic `.backup` snapshot + cron, NOT Litestream**
+  (2026-07-15): `production.sqlite3` is backed up via SQLite's own **Online
+  Backup API** (`sqlite3 storage/production.sqlite3 ".backup ..."`) on a
+  host-level cron, mirrored to S3-compatible storage with `rclone` — the same
+  mechanism 37signals' own SQLite reference apps use internally (confirmed by
+  reading `basecamp/once-campfire`'s `script/admin/prepare-backup` and
+  `basecamp/writebook` — **zero** Litestream references in either repo; they
+  don't even use Kamal, deploying instead via 37signals' own `once` tool).
+  Litestream (continuous WAL streaming to S3) was built, tested end-to-end,
+  then deliberately reverted: at this app's actual scale (single-digit-MB DB,
+  pre-launch) its near-zero RPO protects against a risk that doesn't exist
+  yet, while its cost is immediate — a third-party binary baked into the
+  prod image, `-exec`-wrapping the app process so a Litestream fault takes the
+  whole container down with it, plus Dockerfile/entrypoint complexity. Only
+  `production.sqlite3` is backed up at all — `production_cache`/`_cable`
+  (Solid Cache/Cable) are disposable-by-design and Rails regenerates them;
+  `production_queue` (Solid Queue) holds only in-flight job state, not
+  irreplaceable data. `blobs/` (lesson images) is unrelated and always needs
+  its own `rclone sync` cron regardless of this choice — neither approach
+  touches non-SQLite files. **Don't re-propose Litestream** without a real
+  trigger: enough active contributor edits/reviews that losing up to a day of
+  them (the cron interval) becomes a genuine cost, not a theoretical one.
 
 **Not built yet (v0.3):** community-authored roadmaps, public profiles,
 moderated public portfolio.

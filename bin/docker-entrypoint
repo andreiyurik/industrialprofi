@@ -1,13 +1,7 @@
 #!/bin/bash -e
 
-# If running the rails server (via Litestream's -exec wrapper, see Dockerfile
-# CMD), restore production.sqlite3 from its S3 replica first — covers a fresh
-# volume or a new server — then create or migrate as usual.
-if [ "$1" == "litestream" ]; then
-  db=/rails/storage/production.sqlite3
-  if [ ! -f "$db" ]; then
-    litestream restore -if-replica-exists -config /rails/config/litestream.yml "$db"
-  fi
+# If running the rails server then create or migrate existing database
+if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
   ./bin/rails db:prepare
 fi
 
