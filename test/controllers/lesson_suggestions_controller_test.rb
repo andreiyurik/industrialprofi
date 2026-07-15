@@ -35,6 +35,57 @@ class LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal users(:member).name, LessonSuggestion.order(:created_at, :id).last.author_name
   end
 
+  test "a full pending backlog blocks new suggestions with an alert" do
+    cap = LessonSuggestionsController::MAX_PENDING_PER_USER
+    cap.times do
+      users(:member).lesson_suggestions.create!(
+        lesson: lessons(:pteep), author_name: users(:member).name,
+        section: "body", body_markdown: "pending", status: "pending"
+      )
+    end
+
+    assert_no_difference "LessonSuggestion.count" do
+      post lesson_suggestions_path(lessons(:pteep)), params: {
+        lesson_suggestion: { section: "body", body_markdown: "one more" }
+      }
+    end
+    assert_redirected_to lesson_path(lessons(:pteep))
+    assert_equal I18n.t("flash.too_many_pending"), flash[:alert]
+  end
+
+  test "decided suggestions do not count toward the pending cap" do
+    cap = LessonSuggestionsController::MAX_PENDING_PER_USER
+    cap.times do
+      users(:member).lesson_suggestions.create!(
+        lesson: lessons(:pteep), author_name: users(:member).name,
+        section: "body", body_markdown: "old", status: "approved"
+      )
+    end
+
+    assert_difference "LessonSuggestion.count", 1 do
+      post lesson_suggestions_path(lessons(:pteep)), params: {
+        lesson_suggestion: { section: "body", body_markdown: "still allowed" }
+      }
+    end
+  end
+
+  test "trusted editors are exempt from the pending cap" do
+    sign_in_as users(:editor)
+    cap = LessonSuggestionsController::MAX_PENDING_PER_USER
+    cap.times do
+      users(:editor).lesson_suggestions.create!(
+        lesson: lessons(:pteep), author_name: users(:editor).name,
+        section: "body", body_markdown: "pending", status: "pending"
+      )
+    end
+
+    assert_difference "LessonSuggestion.count", 1 do
+      post lesson_suggestions_path(lessons(:pteep)), params: {
+        lesson_suggestion: { section: "body", body_markdown: "editor edit" }
+      }
+    end
+  end
+
   test "signed-out visitors cannot create" do
     sign_out
     assert_no_difference "LessonSuggestion.count" do

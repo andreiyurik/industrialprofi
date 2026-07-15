@@ -1,93 +1,110 @@
-/* Catalog (paths#index) — a dense, roadmap.sh-style grid grouped by readiness.
-   Readiness is signalled by grouping + dimming, not by coloured borders. */
-.catalog-group {
+.catalog-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
   margin-block-start: var(--block-space-double);
 }
 
-/* Centered group label with a hairline running through it (── Доступны ──). */
-.catalog-group__label {
+/* The unbuilt professions: a quiet line-list under the live grid. Readiness is
+   a monochrome dot — filled (being built) or hollow (planned) — never a card. */
+/* Unbuilt professions — an open invitation, not a roadmap. A quiet heading, a
+   flat middle-dot list (every name equal: no status dots, no highlighting), then
+   the one call that matters — become a curator. */
+.catalog-soon {
+  margin-block-start: 3.5rem;
+  text-align: center;
+}
+
+/* The label doubles as a section divider: hairlines fading out to each side
+   (Fizzy's divider--fade), so the dead list separates from the live grid. */
+.catalog-soon__label {
   align-items: center;
   color: var(--color-subtle-dark);
   display: flex;
   font-family: var(--font-sans);
   font-size: 0.8rem;
   font-weight: 600;
-  gap: 1rem;
-  letter-spacing: 0.04em;
-  margin-block-end: 1.5rem;
+  gap: 1.25rem;
+  letter-spacing: 0.06em;
+  margin-block: 0 1.25rem;
   text-transform: uppercase;
 }
 
-.catalog-group__label::before,
-.catalog-group__label::after {
-  border-block-start: 1px solid var(--color-subtle);
+.catalog-soon__label::before,
+.catalog-soon__label::after {
+  block-size: 1px;
   content: "";
   flex: 1;
 }
 
-.catalog-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-  margin-block-start: var(--block-space-double);
+.catalog-soon__label::before {
+  background: linear-gradient(to right, transparent, var(--color-subtle));
 }
 
-/* Catalog scale line under the hero — the honest numbers, engineering-style. */
-.catalog-stats {
+.catalog-soon__label::after {
+  background: linear-gradient(to left, transparent, var(--color-subtle));
+}
+
+/* The one line that explains the mechanism: a map is a person's work. */
+.catalog-soon__lead {
   color: var(--color-subtle-dark);
   font-size: 0.9rem;
-  font-variant-numeric: tabular-nums;
-  margin-block: 0.75rem 0;
-}
-
-/* The unbuilt professions: a quiet line-list under the live grid. Readiness is
-   a monochrome dot — filled (being built) or hollow (planned) — never a card. */
-.catalog-soon {
-  margin-block-start: var(--block-space-double);
+  hyphens: none;
+  line-height: 1.55;
+  margin-block: 0 1.25rem;
+  margin-inline: auto;
+  max-inline-size: 44rem;
+  text-wrap: pretty;
 }
 
 .catalog-soon__list {
-  color: var(--color-subtle-dark);
   display: flex;
   flex-wrap: wrap;
-  column-gap: 1.5rem;
-  row-gap: 0.6rem;
-  font-size: 0.9rem;
+  gap: 0.5rem;
   justify-content: center;
   margin-block: 0;
+  margin-inline: auto;
+  max-inline-size: 52rem;
 }
 
-.catalog-soon__item {
-  align-items: center;
-  color: var(--color-disabled);
-  display: inline-flex;
-  gap: 0.5em;
+/* A vacant slot: dashed border = the hidden-contour line of a ГОСТ drawing —
+   a profession that exists but has no map yet. Hover makes the contour solid:
+   it takes a person to make it real. */
+.catalog-soon__slot {
+  border: 1px dashed var(--color-subtle);
+  border-radius: 2rem;
+  color: var(--color-subtle-dark);
+  display: inline-block;
+  font-size: 0.85rem;
+  hyphens: none;
+  padding: 0.35rem 0.9rem;
+  text-decoration: none;
+  transition: border-color 200ms ease, color 200ms ease;
+}
 
-  &::before {
-    border: 1px solid currentColor;
-    border-radius: 50%;
-    block-size: 0.45em;
-    content: "";
-    inline-size: 0.45em;
+@media (any-hover: hover) {
+  .catalog-soon__slot:hover {
+    border-color: var(--color-subtle-dark);
+    border-style: solid;
+    color: var(--color-ink);
   }
 }
 
-.catalog-soon__item--active {
-  color: var(--color-subtle-dark);
+/* The focus: the call to author one of these. */
+.catalog-soon__call {
+  hyphens: none;
+  margin-block: 2rem 0;
 
-  &::before {
-    background-color: currentColor;
+  .btn svg {
+    block-size: 1rem;
+    inline-size: 1rem;
   }
 }
 
-.catalog-soon__actions {
-  color: var(--color-subtle-dark);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  font-size: 0.9rem;
-  justify-content: center;
-  margin-block: 1.25rem 0;
+.catalog-soon__suggest {
+  font-size: 0.85rem;
+  hyphens: none;
+  margin-block: 0.85rem 0;
 }
 
 .catalog-soon__cta {
@@ -118,52 +135,111 @@
   }
 }
 
-/* Profession card (catalog) — the emblem card: the profession's line icon in a
-   bordered plate (like the marking on a control cabinet), the name, one meta
-   line, and a progress bar for a signed-in learner. Description lives on the
-   profession page, not here. */
+/* Profession card (catalog) — a drawing-sheet poster: the profession NAME set
+   large in the GOST drafting face (--font-technical) is the design, one line of
+   description fills the middle, meta + a hover arrow pin to the base. Strict
+   black card defined by its hairline border; two corner ticks (an engineering-
+   drawing frame nod) are the single decorative gesture. */
 .path-card {
-  --panel-padding: 1.5em;
+  --panel-padding: 1.75rem;
+  --panel-background: var(--color-bg);
+  --panel-border-radius: 0.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 1rem;
+  position: relative;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+  /* Low floor only: desktop height is content-/row-stretch-driven, so this just
+     stops a lone single-line card (e.g. mobile, one per row) from looking stubby
+     without forcing an empty middle the way a tall floor did. */
+  min-block-size: 6rem;
 }
 
-.path-card__icon {
-  align-items: center;
-  background-color: var(--color-bg);
-  block-size: 2.75rem;
-  border: 1px solid var(--color-subtle);
-  border-radius: 0.6em;
-  color: var(--color-ink);
-  display: inline-flex;
-  flex-shrink: 0;
-  inline-size: 2.75rem;
-  justify-content: center;
+/* Corner ticks — diagonal pair (top-left / bottom-right), like the frame corners
+   of a ГОСТ drawing sheet. Hairline, quiet; they brighten with the border. */
+.path-card::before,
+.path-card::after {
+  block-size: 0.85rem;
+  border: 0 solid var(--color-subtle);
+  content: "";
+  inline-size: 0.85rem;
+  pointer-events: none;
+  position: absolute;
   transition: border-color 200ms ease;
+}
 
-  .topic-badge > :is(svg, img) {
-    block-size: 1.5rem;
-    inline-size: 1.5rem;
+.path-card::before {
+  border-block-start-width: 1px;
+  border-inline-start-width: 1px;
+  inset-block-start: 0.5rem;
+  inset-inline-start: 0.5rem;
+}
+
+.path-card::after {
+  border-block-end-width: 1px;
+  border-inline-end-width: 1px;
+  inset-block-end: 0.5rem;
+  inset-inline-end: 0.5rem;
+}
+
+@media (any-hover: hover) {
+  .path-card:hover {
+    /* Stay black on hover (panel--hover's grey fill breaks the poster look);
+       lift = hairline ring + brighter border/ticks + the sliding arrow. */
+    --panel-background: var(--color-bg);
+    --panel-border-color: var(--color-subtle-dark);
+    box-shadow: 0 0 0 1px var(--color-subtle-dark);
+  }
+
+  .path-card:hover::before,
+  .path-card:hover::after {
+    border-color: var(--color-subtle-dark);
   }
 }
 
 .path-card__title {
-  font-size: 1.3rem;
+  font-family: var(--font-technical);
+  /* Large enough for the monoline drafting face to show its character —
+     at body sizes it reads as a broken monospace, at poster size as a drawing */
+  font-size: clamp(1.75rem, 2.4vw, 2.3rem);
+  font-weight: 400;
+  /* GOST is a monoline drafting face — a hair of tracking lets it breathe */
+  letter-spacing: 0.005em;
   /* a profession name hyphenated mid-word («Сетевой ин-женер») reads cheap */
   hyphens: none;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
+  line-height: 1.1;
   margin-block: 0;
+  text-wrap: balance;
 }
 
-/* The status line (meta + progress). Pinned to the card's bottom so every card
-   in a row is the same height (grid stretch) and footers align. */
+/* One sentence of what the profession is — fills the card's middle with content
+   instead of void. Clamped so an editor's long description can't break rows. */
+.path-card__desc {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  color: var(--color-subtle-dark);
+  display: -webkit-box;
+  font-size: 0.875rem;
+  hyphens: none;
+  line-height: 1.5;
+  margin-block: 0;
+  overflow: hidden;
+}
+
+/* Bottom block: meta + a Basecamp arrow that slides on hover, then the learner's
+   progress bar. Pinned to the base so cards in a row align. */
 .path-card__foot {
-  display: grid;
-  gap: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   margin-block-start: auto;
-  padding-block-start: 0.75rem;
+}
+
+.path-card__meta-row {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
 }
 
 .path-card__meta {
@@ -172,13 +248,22 @@
   font-variant-numeric: tabular-nums;
 }
 
+.path-card__go {
+  color: var(--color-subtle-dark);
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: color 200ms ease, transform 200ms ease;
+}
+
 .path-card .progress {
-  margin-block: -0.25rem 0;
+  margin-block: 0;
 }
 
 @media (any-hover: hover) {
-  .path-card:hover .path-card__icon {
-    border-color: var(--color-subtle-dark);
+  .path-card:hover .path-card__go {
+    color: var(--color-link);
+    transform: translateX(3px);
   }
 }
 
@@ -248,13 +333,26 @@
   text-align: center;
 }
 
+/* GOST, same drafting face as the catalog card poster this page was opened
+   from — the profession name carries the same identity at every size it
+   appears. */
 .path__title {
+  font-family: var(--font-technical);
   font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  line-height: 1.1;
+  margin-block: 0;
+  text-transform: uppercase;
+}
+
+/* Course page reuses the hero markup but keeps the regular display face —
+   GOST is reserved for the profession identity, not every hero underneath it. */
+.path__title--course {
+  font-family: var(--font-display);
   font-weight: 800;
   letter-spacing: -0.025em;
   line-height: 1.02;
-  margin-block: 0;
-  text-transform: uppercase;
 }
 
 /* Overview block — left-aligned for readability, sits just above the curriculum */

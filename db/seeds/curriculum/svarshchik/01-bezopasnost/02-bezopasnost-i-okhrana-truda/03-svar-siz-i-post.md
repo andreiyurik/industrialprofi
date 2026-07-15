@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "требования к рабочим местам и СИЗ — понадобятся для задания со схемой сварочного поста"
   - title: "ГОСТ 12.4.035-78 — Щитки защитные лицевые для электросварщиков"
     url: "https://docs.cntd.ru/document/1200005093"
     kind: norm

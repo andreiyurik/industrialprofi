@@ -4,14 +4,10 @@ position: 3
 kind: lesson
 resources:
   - title: "ПУЭ 7-е изд. п. 7.1.76. Электрооборудование ванных комнат"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ Р 50571.7.701-2024. Электроустановки низкого напряжения. Ванные и душевые"
-    url: "https://example.com/placeholder"
-    kind: document
-    required: true
 ---
 Ванная — самое опасное помещение в квартире: вода + электричество. Пойми зоны и IP-требования раз и навсегда, чтобы защитить жизнь заказчика.
 ---

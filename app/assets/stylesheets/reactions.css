@@ -1,0 +1,102 @@
+/* One ❤️ per reader — a quiet outlined pill that fills red when active. Shared
+   by news posts and lessons, so it reads the same everywhere. align-items is
+   explicit at every nesting level (form included) — left to the flexbox
+   default of `stretch`, the heart drifts off the baseline of whatever row
+   it sits in. */
+.reaction {
+  align-items: center;
+  display: inline-flex;
+}
+
+.reaction__form {
+  align-items: center;
+  display: inline-flex;
+  margin: 0;
+}
+
+.reaction__btn {
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid var(--color-subtle);
+  border-radius: 2em;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.9rem;
+  font-weight: 600;
+  gap: 0.4em;
+  line-height: 1;
+  padding: 0.45em 0.9em;
+  text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+@media (any-hover: hover) {
+  .reaction__btn:hover {
+    border-color: var(--color-negative);
+    color: var(--color-negative);
+  }
+}
+
+.reaction__btn--on {
+  border-color: var(--color-negative);
+  color: var(--color-negative);
+}
+
+.reaction__heart {
+  align-items: center;
+  display: inline-flex;
+}
+
+.reaction__heart svg {
+  block-size: 1.15em;
+  inline-size: 1.15em;
+}
+
+.reaction__count {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reaction__heart--pop {
+    animation: pop 300ms ease;
+  }
+}
+
+/* A reaction joining a bare icon-tool row (the news article footer). Border,
+   count and the pill's own font-size drop away so it's a glyph like its
+   neighbors — the row sets the actual icon size. Hover previews ink, same as
+   any other tool — red is reserved for "already reacted", not for "you're
+   merely pointing at it". */
+.reaction--bare-icon {
+  display: inline-flex;
+}
+
+.reaction--bare-icon .reaction__btn {
+  border: 0;
+  font-size: inherit;
+  padding: 0;
+}
+
+.reaction--bare-icon .reaction__count {
+  display: none;
+}
+
+@media (any-hover: hover) {
+  .reaction--bare-icon .reaction__btn:hover {
+    color: var(--color-ink);
+  }
+}
+
+.reaction--bare-icon .reaction__btn--on {
+  color: var(--color-negative);
+}
+
+@media (any-hover: hover) {
+  .reaction--bare-icon .reaction__btn--on:hover {
+    color: var(--color-negative);
+  }
+}

@@ -2,17 +2,6 @@
 title: "Коррекции инструмента: длина и радиус"
 position: 20
 kind: lesson
-resources:
-  - title: "Fanuc Series 0i-MODEL F — Руководство по программированию (B-64304RU)"
-    url: "https://placeholder.example.com/fanuc-0i-f-programming"
-    kind: doc
-    required: true
-    language: en
-  - title: "Siemens Sinumerik 840D sl — Основы программирования (BA)"
-    url: "https://placeholder.example.com/siemens-sinumerik-840d-programming"
-    kind: doc
-    required: false
-    language: en
 ---
 Коррекции инструмента — это механизм, который позволяет программе работать с любым инструментом без переписывания координат: ты меняешь резец, вводишь новые значения в таблицу — и программа не трогается.
 ---

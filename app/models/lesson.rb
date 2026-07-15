@@ -76,6 +76,15 @@ class Lesson < ApplicationRecord
     has_body? && !body_text.match?(SELF_CHECK_PATTERN)
   end
 
+  # The wiki fabric `content:audit` watches: /lessons/<slug> links inside the
+  # body. Scans the raw sources (markdown + rich-text HTML) — to_plain_text
+  # would drop the hrefs.
+  INTERNAL_LINK_PATTERN = %r{/lessons/([a-z0-9\-]+)}
+
+  def linked_lesson_slugs
+    [ body.to_s, rich_body&.body.to_s ].join(" ").scan(INTERNAL_LINK_PATTERN).flatten.uniq - [ slug ]
+  end
+
   def prev_in_path
     path.lessons.where("position < ?", position).ordered.last
   end

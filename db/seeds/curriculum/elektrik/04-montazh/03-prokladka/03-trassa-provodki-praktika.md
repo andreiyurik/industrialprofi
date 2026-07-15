@@ -5,14 +5,10 @@ kind: practice
 difficulty: beginner
 resources:
   - title: "ПУЭ 7-е изд. Глава 7.1. Электроустановки жилых зданий"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
-  - title: "Сибикин Ю.Д. Справочник по эксплуатации электроустановок промышленных предприятий"
-    url: "https://example.com/placeholder-sibikin-spravochnik"
-    kind: document
-    required: false
 ---
 По плану квартиры разметь все кабельные трассы, расставь распаечные коробки и розетки, рассчитай количество кабеля с запасом.
 ---

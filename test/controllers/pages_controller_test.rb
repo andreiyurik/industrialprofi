@@ -40,8 +40,16 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
   test "about page links to professions and support" do
     get about_path
-    assert_select ".about-letter__cta a[href=?]", paths_path
-    assert_select ".about-letter__cta a[href=?]", support_us_path
+    assert_select ".about-cta a[href=?]", paths_path
+    assert_select ".about-cta a[href=?]", support_us_path
+  end
+
+  test "about page states the three goals and the honest comparison" do
+    get about_path
+    assert_select ".about-letter__goals-list li", count: 3
+    assert_select ".about-compare table tbody tr", count: 6
+    # the honesty row: we don't hand out certificates and say so
+    assert_includes @response.body, "готовит прийти на аттестацию"
   end
 
   test "footer exposes the about link on every page" do

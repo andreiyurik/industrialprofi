@@ -4,18 +4,14 @@ position: 1
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание, п. 1.8.34 — Нормы испытаний изоляции"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
   - title: "ПТЭЭП — Приказ Минэнерго № 811"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_428583/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202210070065"
     kind: document
     required: true
-  - title: "ГОСТ Р 50571.16-2007 Электроустановки зданий. Испытания"
-    url: "https://example.com/placeholder-gost-50571-16"
-    kind: document
-    required: false
 ---
 Измерить сопротивление изоляции — значит убедиться, что ток идёт только по проводу, а не через изоляцию.
 ---

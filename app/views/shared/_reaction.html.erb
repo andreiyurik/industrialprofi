@@ -1,0 +1,27 @@
+<%# locals: (reactable:, reacted: nil, popped: false) -%>
+<%# The one engagement affordance on posts: a heart that toggles. `reacted` is
+    resolved here when not passed, so the same partial serves the first render
+    and the Turbo re-render. `popped` is set only by the fresh-toggle stream,
+    so the heart pops when earned but not on every page load. Guests see the
+    count and a nudge to sign in — never a dead button. -%>
+<% reacted = reactable.reacted_by?(Current.user) if reacted.nil? %>
+<% count = reactable.reactions_count %>
+<div id="<%= dom_id(reactable, :reaction) %>" class="reaction">
+  <% if signed_in? %>
+    <%= button_to polymorphic_path([ reactable, :reaction ]),
+          method: (reacted ? :delete : :post),
+          class: class_names("reaction__btn", "reaction__btn--on" => reacted),
+          form_class: "reaction__form",
+          aria: { pressed: reacted.to_s, label: (reacted ? t("reactions.remove") : t("reactions.add")) },
+          title: (reacted ? t("reactions.remove") : t("reactions.add")) do %>
+      <span class="reaction__heart<%= " reaction__heart--pop" if popped %>"><%= heroicon "heart", variant: (reacted ? :solid : :outline) %></span>
+      <span class="reaction__count"><%= count %></span>
+    <% end %>
+  <% else %>
+    <%= link_to new_session_path, class: "reaction__btn reaction__btn--guest",
+          title: t("reactions.sign_in") do %>
+      <span class="reaction__heart"><%= heroicon "heart", variant: :outline %></span>
+      <span class="reaction__count"><%= count %></span>
+    <% end %>
+  <% end %>
+</div>

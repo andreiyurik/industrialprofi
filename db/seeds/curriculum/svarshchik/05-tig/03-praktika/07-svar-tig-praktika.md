@@ -8,6 +8,7 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "критерии уровня B — по ним построена самопроверка шва в конце задания"
   - title: "ГОСТ 14806-80 — Дуговая сварка алюминия и алюминиевых сплавов в инертных газах"
     url: "https://docs.cntd.ru/document/1200006537"
     kind: norm

@@ -1,12 +1,17 @@
 <%# locals: (path:, completed_count: 0, courses_count: nil) -%>
 <% courses_count ||= path.courses_count %>
 <a href="<%= path_path(path) %>" class="panel panel--hover path-card">
-  <span class="path-card__icon"><%= render "shared/topic_badge", token: path_icon_token(path) %></span>
   <h2 class="path-card__title"><%= path.title %></h2>
+  <% if path.description.present? %>
+    <p class="path-card__desc"><%= path.description %></p>
+  <% end %>
   <div class="path-card__foot">
-    <span class="path-card__meta">
-      <% if courses_count.positive? %><%= russian_pluralize(courses_count, :course) %> · <% end %><%= russian_pluralize(path.lessons_count, :lesson) %>
-    </span>
+    <div class="path-card__meta-row">
+      <span class="path-card__meta">
+        <% if courses_count.positive? %><%= russian_pluralize(courses_count, :course) %> · <% end %><%= russian_pluralize(path.lessons_count, :lesson) %>
+      </span>
+      <span class="path-card__go" aria-hidden="true">→</span>
+    </div>
     <% if completed_count.positive? %>
       <%= render "shared/progress_bar", completed: completed_count, total: path.lessons_count %>
     <% end %>

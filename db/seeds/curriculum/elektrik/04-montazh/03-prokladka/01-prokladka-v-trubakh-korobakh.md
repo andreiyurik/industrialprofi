@@ -4,14 +4,10 @@ position: 1
 kind: lesson
 resources:
   - title: "ПУЭ 7-е изд. Глава 2.1. Электропроводки"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
-  - title: "СП 76.13330.2016. Электротехнические устройства"
-    url: "https://example.com/placeholder-sp-76-13330-2016"
-    kind: document
-    required: false
 ---
 Какой способ прокладки выбрать и почему: стальная труба, ПВХ гофра, кабель-канал, лоток — нормы заполнения, радиусы изгиба, разделение цепей.
 ---

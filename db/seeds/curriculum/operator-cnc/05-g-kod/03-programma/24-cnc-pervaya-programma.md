@@ -3,12 +3,6 @@ title: "Практика: пишем первую программу точен�
 position: 24
 kind: practice
 difficulty: beginner
-resources:
-  - title: "Fanuc Series 0i-MODEL F — Руководство по программированию (B-64304RU)"
-    url: "https://placeholder.example.com/fanuc-0i-f-programming"
-    kind: doc
-    required: true
-    language: en
 ---
 Напиши от руки полную программу Fanuc для токарного ЧПУ: заготовка, режимы, циклы, M-коды — всё вместе в одной реальной задаче.
 ---

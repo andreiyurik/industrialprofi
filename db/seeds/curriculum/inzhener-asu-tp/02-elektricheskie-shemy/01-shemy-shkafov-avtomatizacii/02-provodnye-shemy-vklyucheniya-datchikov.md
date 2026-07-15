@@ -4,7 +4,7 @@ position: 2
 kind: lesson
 resources:
   - title: "ГОСТ 21.408-2013 — СПДС. Правила выполнения рабочей документации автоматизации технологических процессов"
-    url: "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=STR&n=18254"
+    url: "https://protect.gost.ru/document.aspx?control=7&id=186035"
     kind: norm
     required: true
     country_code: RU

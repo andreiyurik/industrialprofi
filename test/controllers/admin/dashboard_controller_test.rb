@@ -136,4 +136,13 @@ class Admin::DashboardControllerTest < ActionDispatch::IntegrationTest
     get admin_root_path
     assert_no_match I18n.t("admin.dashboard.review_now"), response.body
   end
+
+  test "a recent coauthor application surfaces as a dashboard callout to the filtered inbox" do
+    Feedback.create!(user: users(:member), body: "Профессия: Пекарь",
+                     page_url: Feedback::COAUTHOR_APPLICATION_PATH)
+    sign_in_as users(:admin)
+    get admin_root_path
+    assert_match I18n.t("admin.dashboard.open_applications"), response.body
+    assert_select "a[href=?]", admin_feedbacks_path(only: "coauthor")
+  end
 end

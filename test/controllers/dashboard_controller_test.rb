@@ -95,7 +95,7 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/#{I18n.t("dashboard.suggested")}/, response.body)
   end
 
-  test "shows activity heatmap once there is activity" do
+  test "shows activity heatmap with the explainer once a path is started" do
     sign_in_as users(:member)
     get dashboard_path
     assert_no_match(/heatmap__grid/, response.body)
@@ -104,6 +104,16 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     get dashboard_path
     assert_match "heatmap__grid", response.body
     assert_match "heatmap__cell--l1", response.body
+    assert_match I18n.t("dashboard.heatmap_hint"), response.body
+  end
+
+  test "shows an empty heatmap to a returning learner, not a missing section" do
+    users(:member).lesson_completions.create!(lesson: lessons(:pteep), created_at: 20.weeks.ago)
+
+    sign_in_as users(:member)
+    get dashboard_path
+    assert_match "heatmap__grid", response.body
+    assert_match I18n.t("dashboard.heatmap_summary", count: 0), response.body
   end
 
   test "header shows the account menu for signed-in users" do

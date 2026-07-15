@@ -4,14 +4,10 @@ position: 2
 kind: lesson
 resources:
   - title: "ПУЭ 7-е изд. Глава 7.1 п. 7.1.37. Прокладка проводов и кабелей в жилых зданиях"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
-  - title: "СП 256.1325800.2016. Электроустановки жилых и общественных зданий. Правила проектирования и монтажа"
-    url: "https://example.com/placeholder-sp-256-2016"
-    kind: document
-    required: false
 ---
 Скрытая проводка в квартире — только горизонтально и вертикально, только в гофре, с планом трасс до замоноличивания: разбираем нормы ПУЭ 7.1.37 и технологию.
 ---

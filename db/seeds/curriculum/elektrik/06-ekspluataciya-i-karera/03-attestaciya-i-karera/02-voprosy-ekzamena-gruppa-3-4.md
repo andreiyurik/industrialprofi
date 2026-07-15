@@ -5,17 +5,17 @@ kind: practice
 difficulty: intermediate
 resources:
   - title: "Приказ Минтруда № 903н от 15.12.2020 (ред. 29.04.2025)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
     kind: document
     required: true
     country_code: RU
   - title: "ПТЭЭП — Приказ Минэнерго России от 12.08.2022 № 811"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_428583/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202210070065"
     kind: document
     required: true
     country_code: RU
   - title: "ПУЭ 7-е издание — глава 1.7 (заземление и защитные меры)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: false
     country_code: RU
@@ -69,11 +69,11 @@ resources:
 
 ---
 
-**Вопрос 3.** Какое минимальное сопротивление заземляющего устройства допускается для нейтрали трансформатора мощностью 100 кВА в сети 380/220 В (TN)?
+**Вопрос 3.** Какое максимальное сопротивление заземляющего устройства нейтрали трансформатора допускается в сети 380/220 В (TN)?
 
-**Ответ:** Не более **4 Ом** (при мощности трансформатора свыше 100 кВА — не более 2 Ом).
+**Ответ:** Не более **4 Ом** (норма зависит от линейного напряжения, а не от мощности трансформатора: для 660 В — не более 2 Ом, для 220 В — не более 8 Ом).
 
-**Где найти:** ПУЭ, гл. 1.7, п. 1.7.101.
+**Где найти:** ПУЭ, гл. 1.7, п. 1.7.101, табл. 1.7.4.
 
 **Почему важно:** это норма, которую проверяют при испытаниях — знай цифру наизусть.
 

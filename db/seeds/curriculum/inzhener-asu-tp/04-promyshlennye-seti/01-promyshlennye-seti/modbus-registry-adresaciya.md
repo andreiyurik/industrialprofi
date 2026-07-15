@@ -7,6 +7,7 @@ resources:
     url: "https://www.modbus.org/modbus-specifications"
     kind: document
     required: true
+    note: "нужна часть про function codes — какие функции читают и пишут каждый тип данных (пригодится в задании)"
   - title: "Modbus Poll — программа-опросчик Modbus (де-факто стандарт для чтения и отладки регистров; есть демо)"
     url: "https://www.modbustools.com/modbus_poll.html"
     kind: tool
@@ -14,10 +15,6 @@ resources:
   - title: "qModMaster — бесплатный опросчик Modbus RTU/TCP с открытым исходным кодом"
     url: "https://sourceforge.net/projects/qmodmaster/"
     kind: tool
-    required: false
-  - title: "SimplyModbus — лучший разбор типов регистров и функций для новичка (углублённое изучение, англ.)"
-    url: "https://www.simplymodbus.ca/FAQ.htm"
-    kind: article
     required: false
   - title: "Просто о Modbus RTU — подробное описание протокола с примерами (регистры, функции, адресация), рус."
     url: "https://ipc2u.ru/articles/prostye-resheniya/modbus-rtu/"

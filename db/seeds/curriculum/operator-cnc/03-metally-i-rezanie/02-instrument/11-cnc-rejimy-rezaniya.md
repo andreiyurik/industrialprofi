@@ -2,17 +2,6 @@
 title: "Режимы резания — Vc, f, ap: расчёт и выбор"
 position: 11
 kind: lesson
-resources:
-  - title: "Справочник технолога-машиностроителя. Том 2. Под ред. Косиловой А.Г. и Мещерякова Р.К."
-    url: "https://example.com/placeholder"
-    kind: book
-    required: true
-    country_code: RU
-  - title: "ISO 3685:1993. Tool-life testing with single-point turning tools"
-    url: "https://example.com/placeholder"
-    kind: norm
-    required: false
-    language: en
 ---
 Грамотно выставить режимы резания — значит получить нужную деталь без поломки инструмента и с предсказуемым временем обработки.
 ---

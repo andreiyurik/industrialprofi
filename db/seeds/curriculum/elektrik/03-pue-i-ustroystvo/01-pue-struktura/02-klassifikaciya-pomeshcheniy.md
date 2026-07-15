@@ -4,14 +4,11 @@ position: 2
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание, гл. 1.1 (термины и определения)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ 14254-2015 Степени защиты, обеспечиваемые оболочками (код IP)"
-    url: "https://example.com/placeholder-gost-14254"
-    kind: document
-    required: false
+    note: "нужен п. 1.1.13 — классификация помещений по условиям среды; по нему выполняется задание урока"
 ---
 Тип помещения определяет класс защиты оборудования: в ванной нельзя ставить то, что работает в офисе.
 ---

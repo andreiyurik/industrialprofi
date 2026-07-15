@@ -4,14 +4,10 @@ position: 2
 kind: lesson
 resources:
   - title: "ПУЭ 7-е изд. Глава 7.1. Электроустановки жилых и общественных зданий"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: false
     country_code: RU
-  - title: "Ростехнадзор — надзорный орган в сфере электроэнергетики"
-    url: "https://www.gosnadzor.ru/"
-    kind: tool
-    required: false
 ---
 Знай, кто за что отвечает в коммунальной электрике: это убережёт тебя от ответственности за чужую работу и поможет отстоять права заказчика.
 ---

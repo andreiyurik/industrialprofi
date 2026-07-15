@@ -4,16 +4,16 @@ position: 1
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание, глава 1.8 — Нормы приёмо-сдаточных испытаний"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
   - title: "ПТЭЭП — Приказ Минэнерго № 811 (Правила технической эксплуатации)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_428583/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202210070065"
     kind: document
     required: true
   - title: "Приказ Минтруда № 903н — Правила по охране труда при эксплуатации электроустановок"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
     kind: document
     required: false
 ---

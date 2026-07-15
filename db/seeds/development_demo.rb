@@ -223,6 +223,57 @@ unless LessonSuggestion.where(author_name: DEMO_CONTRIBUTORS).exists?
   end
 end
 
+# ── News posts — the founder's «проект живёт» channel ───────────────────────
+POSTS = [
+  { slug: "zapusk-poiska-po-urokam", days: 4,
+    title: "Запустили поиск по урокам",
+    excerpt: "Полнотекстовый поиск по всем урокам платформы — ищите тему, термин или номер документа.",
+    body: "<p>Добавили полнотекстовый поиск по всем опубликованным урокам — на SQLite FTS5, без единого нового сервиса. Ищите тему, термин или номер документа, найденное подсвечивается прямо в сниппете.</p><p>Быстрое окно поиска открывается с любой страницы — значок в шапке, Ctrl+K или «/».</p>" },
+  { slug: "elektrik-put-do-kontsa", days: 12,
+    title: "«Электрик» — полный путь от новичка до допуска",
+    excerpt: "Первая профессия на платформе полностью укомплектована — от электробезопасности до сдачи объекта.",
+    body: "<p>Курс «Электрик» теперь покрывает весь путь: электробезопасность и группы допуска, основы электротехники, ПУЭ и устройство сетей, монтаж, измерения и испытания, охрана труда и эксплуатация.</p><p>Дальше — углубляем контент и добавляем схемы там, где они реально нужны.</p>" },
+  { slug: "doverie-ekspertov", days: 20,
+    title: "Замкнули цепочку доверия для экспертов",
+    excerpt: "Кандидаты в эксперты теперь видны в админке, а роль поднимается автоматически при выдаче прав на профессию.",
+    body: "<p>Проект держится на практиках, а не на одном человеке. Теперь кандидаты в эксперты появляются в админке по реальным правкам, а роль «Эксперт» присваивается автоматически при выдаче прав на профессию — без ручной рутины.</p><p>Публичные правила доверия — на странице «Чем помочь».</p>" },
+  { slug: "kipia-aes-profession", days: 30,
+    title: "Вторая профессия: КИПиА на АЭС",
+    excerpt: "Добавили путь для специалистов контрольно-измерительных приборов и автоматики атомных станций.",
+    body: "<p>КИПиА на АЭС — вторая профессия на платформе, с полным набором уроков и схем. Область требовательная и узкая — рады, что теперь она тоже здесь.</p>" },
+  { slug: "chistka-ssylok-pered-zapuskom", days: 2,
+    title: "Почистили ссылки на источники перед запуском",
+    excerpt: "Убрали платные и битые ссылки, заменили их на бесплатные официальные источники.",
+    body: "<p>Прошлись по всем профессиям и заменили ссылки на consultant.ru/garant.ru (требуют платную регистрацию) на бесплатные официальные источники — pravo.gov.ru, сайты издающих ведомств, protect.gost.ru.</p><p>Заодно убрали случайные повторы и слабые ссылки, которые просто пересказывали урок.</p>" }
+].freeze
+POSTS.each do |p|
+  next if Post.exists?(slug: p[:slug])
+  Post.create!(title: p[:title], slug: p[:slug], excerpt: p[:excerpt],
+    status: "published", published_at: p[:days].days.ago, rich_body: p[:body])
+end
+
+# A draft, to check /admin/posts shows it and it stays off the public /news feed.
+unless Post.exists?(slug: "chto-gotovim-dalshe")
+  Post.create!(title: "Что готовим дальше", slug: "chto-gotovim-dalshe", status: "draft",
+    rich_body: "<p>Черновик анонса следующего этапа — ещё не опубликован.</p>")
+end
+
+# A few ❤️ reactions, so the counter and the "already reacted" state aren't empty.
+REACTIONS = {
+  "zapusk-poiska-po-urokam" => %w[ivan.petrov@example.com maria.kuznetsova@example.com viktor.expert@example.com],
+  "elektrik-put-do-kontsa"  => %w[aleksey.smirnov@example.com egor.vasilev@example.com],
+  "doverie-ekspertov"       => %w[dmitry.expert@example.com]
+}
+REACTIONS.each do |slug, emails|
+  post = Post.find_by(slug: slug)
+  next unless post
+  emails.each do |email|
+    user = User.find_by(email_address: email)
+    next unless user
+    Reaction.find_or_create_by!(user: user, reactable: post)
+  end
+end
+
 # ── A suspended account — shows moderation (the reversible ban) in action ────
 spammer = upsert_user(name: "Аноним Рекламный", email: "spammer@example.com", role: "member", joined_days_ago: 9)
 if spammer.feedbacks.none?
@@ -258,5 +309,6 @@ puts <<~SUMMARY
     suspended: #{User.suspended.pluck(:email_address).join(", ")}
   Activity   : #{LessonCompletion.count} completions · #{JournalEntry.count} journal entries
   Community  : #{LessonSuggestion.where(status: "approved").count} approved / #{LessonSuggestion.pending.count} pending edits · #{Feedback.unread.count} unread messages
+  News       : #{Post.published.count} published / #{Post.where(status: "draft").count} draft · #{Reaction.count} reactions
   Admin log  : #{AdminAction.count} entries
 SUMMARY

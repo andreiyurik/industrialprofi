@@ -5,10 +5,11 @@ kind: practice
 difficulty: beginner
 resources:
   - title: "ПУЭ 7-е изд. Глава 2.1 п. 2.1.21. Соединения проводников"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
+    note: "п. 2.1.21 — норма, по которой оцениваешь свои четыре образца; скрутка здесь только для сравнения"
 ---
 Сделай четыре соединения — WAGO, гильза, клеммная колодка, скрутка для сравнения — и проверь каждое мультиметром и усилием на отрыв.
 ---

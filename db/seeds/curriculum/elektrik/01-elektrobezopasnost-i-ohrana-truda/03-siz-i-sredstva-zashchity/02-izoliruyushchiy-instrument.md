@@ -4,19 +4,11 @@ position: 2
 kind: lesson
 resources:
   - title: "Приказ Минтруда № 903н от 15.12.2020 — Приложение №7: средства защиты, нормы комплектования"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ Р 50789-2009 — Средства защиты, используемые в электроустановках"
-    url: "https://example.com/placeholder-gost-50789"
-    kind: document
-    required: false
-    country_code: RU
-  - title: "Сибикин Ю.Д. — Справочник мастера-электрика"
-    url: "https://example.com/placeholder-sibikin"
-    kind: document
-    required: false
+    note: "смотри нормы комплектования — какие средства защиты и в каком количестве обязаны быть на объекте"
 ---
 Изолирующий инструмент и средства защиты — это не набор «на всякий случай», а строго классифицированные приборы с конкретным напряжением допуска и обязательными испытаниями.
 ---

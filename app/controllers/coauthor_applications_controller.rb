@@ -24,7 +24,7 @@ class CoauthorApplicationsController < ApplicationController
       return render :new, status: :unprocessable_entity
     end
 
-    feedback = Current.user.feedbacks.create!(body: compose_message, page_url: new_coauthor_application_path)
+    feedback = Current.user.feedbacks.create!(body: compose_message, page_url: Feedback::COAUTHOR_APPLICATION_PATH)
     FeedbackMailer.new_message(feedback).deliver_later
     redirect_to dashboard_path, notice: t("coauthor_applications.sent", email: Current.user.email_address)
   end

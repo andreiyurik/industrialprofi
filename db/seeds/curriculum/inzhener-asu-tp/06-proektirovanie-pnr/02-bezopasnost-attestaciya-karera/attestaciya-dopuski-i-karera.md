@@ -4,17 +4,18 @@ position: 3
 kind: lesson
 resources:
   - title: "Профессиональный стандарт «Специалист по проектированию АСУ ТП» (Приказ Минтруда России № 723н от 12.10.2021)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_400546/"
+    url: "https://profstandart.rosmintrud.ru/obshchiy-informatsionnyy-blok/natsionalnyy-reestr-professionalnykh-standartov/reestr-professionalnykh-standartov/index.php?ELEMENT_ID=111692"
     kind: document
     required: true
     country_code: RU
+    note: "трудовые функции и уровни квалификации 6 и 7 — пойми, чем требования к инженеру отличаются от ГИПа"
   - title: "Приказ Ростехнадзора от 09.08.2023 № 285 — Перечень областей аттестации по промышленной безопасности"
     url: "http://publication.pravo.gov.ru/document/0001202309080006"
     kind: document
     required: false
     country_code: RU
   - title: "Правила по охране труда при эксплуатации электроустановок (Приказ Минтруда России № 903н от 15.12.2020) — группы по электробезопасности"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
     kind: document
     required: false
     country_code: RU
@@ -52,8 +53,6 @@ resources:
 
 ## Карьерная лестница
 
-![Карьерная лестница инженера АСУ ТП в виде восходящих ступеней: «Инженер (junior)» → «Инженер II/I категории» → «Ведущий инженер» → «Главный специалист / руководитель группы» → «ГИП (главный инженер проекта)». Сбоку подписи, что добавляется на каждой ступени: опыт, аттестации, внесение в Национальный реестр специалистов (НРС).](/lesson-images/asutp-karernaya-lestnica.svg)
-*Рис. 1. Путь роста: от инженера до главного инженера проекта.*
 
 Для проектных организаций есть ещё ориентир — **Национальный реестр специалистов (НРС НОПРИЗ)**: внесение в него (профильное образование + стаж, обычно от нескольких лет) — это «проектировочный аттестат», нужный для допуска к ответственным проектам. Членство в **СРО** требуется организации, а не отдельному инженеру.
 

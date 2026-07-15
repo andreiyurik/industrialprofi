@@ -4,14 +4,11 @@ position: 2
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание, гл. 2.1 (электропроводки), гл. 7.1 (жилые здания)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
-  - title: "СП 76.13330.2016 Электротехнические устройства (актуализированная редакция СНиП 3.05.06-85)"
-    url: "https://example.com/placeholder-sp-76"
-    kind: document
-    required: false
+    note: "гл. 2.1 — общие требования к электропроводкам, гл. 7.1 — особенности жилых зданий"
 ---
 Способ прокладки кабеля — не вопрос эстетики, а требование безопасности: ПУЭ прямо указывает, где нужна металлическая труба, а где можно обойтись гофрой.
 ---

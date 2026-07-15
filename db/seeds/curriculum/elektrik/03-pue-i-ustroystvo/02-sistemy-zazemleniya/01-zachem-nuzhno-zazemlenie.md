@@ -4,10 +4,11 @@ position: 1
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание, гл. 1.7 (заземление и защитные меры)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
+    note: "физика разобрана в уроке — из гл. 1.7 пока хватит общих положений, системы заземления ждут в следующем уроке"
   - title: "ГОСТ Р 50571.3-2009 (МЭК 60364-4-41) Защита от поражения электрическим током"
     url: "https://docs.cntd.ru/document/1200082016"
     kind: document

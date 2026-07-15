@@ -7,15 +7,12 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "справочник кодов процессов — запомни хотя бы 141 (ТИГ); коды встретятся в ПТД и на чертежах"
   - title: "ГОСТ 14806-80 — Дуговая сварка алюминия и алюминиевых сплавов в инертных газах"
     url: "https://docs.cntd.ru/document/1200006537"
     kind: norm
     required: false
     country_code: RU
-  - title: "TIG Welding — Lincoln Electric: принцип процесса и выбор оборудования"
-    url: "https://www.lincolnelectric.com/en/education-center/welding-processes/tig-welding"
-    kind: article
-    required: false
 ---
 Понять из чего состоит ТИГ-установка и как запускается дуга — без этого не настроить ни один режим и не выбрать правильный аппарат.
 ---

@@ -26,6 +26,8 @@ module Admin
 
       if @path.save
         grant_editorship(@path)
+        record_admin_action("path_created", target: @path, subject: @path.title, status: @path.status)
+        notify_review_request(@path)
         redirect_to edit_admin_path_path(@path), notice: I18n.t("flash.path_created")
       else
         render :new, status: :unprocessable_entity
@@ -40,6 +42,7 @@ module Admin
       return redirect_to(admin_path_path(@path), alert: t("auth.not_authorized")) unless Current.user.can_administer?
 
       @path.destroy!
+      record_admin_action("path_deleted", subject: @path.title)
       redirect_to admin_paths_path, notice: I18n.t("flash.path_deleted")
     end
 
@@ -48,6 +51,11 @@ module Admin
       @path.status = sanitized_status(params.dig(:path, :status), current: @path.status_was)
 
       if @path.save
+        if @path.saved_change_to_status?
+          record_admin_action("path_status_changed", target: @path, subject: @path.title,
+            from_status: @path.status_before_last_save, to_status: @path.status)
+          notify_review_request(@path)
+        end
         redirect_to edit_admin_path_path(@path), notice: I18n.t("flash.path_updated")
       else
         render :edit, status: :unprocessable_entity

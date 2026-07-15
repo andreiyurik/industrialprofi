@@ -4,14 +4,10 @@ position: 2
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание, глава 7.1"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: false
     country_code: RU
-  - title: "ГОСТ Р 50462-2009 Маркировка проводников"
-    url: "https://example.com/placeholder-gost-50462"
-    kind: document
-    required: false
 ---
 Проходной выключатель — три провода и одна ключевая идея: оба выключателя управляют одним светом.
 ---

@@ -19,6 +19,10 @@ module Admin
       # system surfaces them so discovery doesn't hinge on the founder's memory.
       @editorship_candidates = TrackRecord.editorship_candidates
 
+      # Practitioners asking to lead a profession (from /contribute) — a recent
+      # count so the founder never has to dig them out of the general inbox.
+      @coauthor_applications = Feedback.coauthor_applications.where(created_at: 30.days.ago..).count
+
       # Editors flip finished drafts to pending_review and wait for the founder —
       # surface that queue here so the signal doesn't depend on a personal email.
       @pending_review = Path.where(status: "pending_review").count +
@@ -39,6 +43,14 @@ module Admin
         .distinct.count(:path_id)
       @courses_total = Course.count
       @lessons_total = Lesson.count
+
+      # What readers actually want to keep — the save-for-later signal, ranked.
+      # An inner join naturally drops anything with zero bookmarks.
+      @top_bookmarked_lessons = Lesson.joins(:lesson_bookmarks)
+        .select("lessons.*, COUNT(lesson_bookmarks.id) AS bookmarks_count")
+        .group("lessons.id")
+        .order(Arel.sql("COUNT(lesson_bookmarks.id) DESC"))
+        .limit(10)
 
       # Acquisition (signups) next to engagement (lesson completions) — the two
       # together answer "are people arriving AND actually learning?".

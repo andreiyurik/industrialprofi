@@ -8,18 +8,30 @@ class RevisionsControllerTest < ActionDispatch::IntegrationTest
     @revision = @lesson.lesson_revisions.ordered.first
   end
 
-  test "index lists the lesson's revisions" do
+  test "index lists the lesson's revisions grouped by day" do
     get lesson_revisions_path(@lesson)
     assert_response :success
     assert_match "первая правка", response.body
     assert_match "Иван", response.body
+    assert_match I18n.t("revisions.dates.today"), response.body
   end
 
-  test "index is paginated and offers show more" do
-    12.times { |i| @lesson.revise!(section: "body", html: "<p>v#{i}</p>", editor_name: "A", edit_reason: nil, source: "admin") }
+  test "index is paginated and offers show more past one page" do
+    25.times { |i| @lesson.revise!(section: "body", html: "<p>v#{i}</p>", editor_name: "A", edit_reason: nil, source: "admin") }
     get lesson_revisions_path(@lesson)
     assert_response :success
     assert_match I18n.t("revisions.show_more"), response.body
+  end
+
+  test "show more appends the next page as a turbo stream, not a full render" do
+    25.times { |i| @lesson.revise!(section: "body", html: "<p>v#{i}</p>", editor_name: "A", edit_reason: nil, source: "admin") }
+    cursor = @lesson.lesson_revisions.ordered.limit(RevisionsController::PER_PAGE).to_a.last.version
+
+    get lesson_revisions_path(@lesson, before: cursor), as: :turbo_stream
+    assert_response :success
+    assert_equal "text/vnd.turbo-stream.html", response.media_type
+    assert_match %r{<turbo-stream action="append" target="revisions_list">}, response.body
+    assert_match %r{<turbo-stream action="replace" target="revisions_more">}, response.body
   end
 
   test "show renders the diff for a revision" do

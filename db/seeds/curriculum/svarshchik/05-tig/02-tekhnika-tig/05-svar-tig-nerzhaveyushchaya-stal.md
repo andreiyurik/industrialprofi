@@ -7,13 +7,10 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "не про технику, а про доказательство качества: клейма, сертификаты присадки, карты контроля"
   - title: "AWS D18.1 — Specification for Welding of Austenitic Stainless Steel Tube and Pipe Systems"
     url: "https://www.aws.org/education/aws-d18-committee"
     kind: norm
-    required: false
-  - title: "Сварка нержавеющей стали — проблемы и решения, статья ESAB"
-    url: "https://www.esabna.com/us/en/education/blog/how-to-tig-weld-stainless-steel.cfm"
-    kind: article
     required: false
 ---
 Нержавейка не прощает спешки: сенсибилизация, деформации и цвета побежалости — три проблемы, которые возникают из-за избыточного тепловложения, и все три решаются правильным режимом.

@@ -4,14 +4,11 @@ position: 3
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание, гл. 1.2 (категории надёжности)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
-  - title: "СП 256.1325800.2016 Электроустановки жилых и общественных зданий"
-    url: "https://example.com/placeholder-sp-256"
-    kind: document
-    required: false
+    note: "смотри определения категорий, п. 1.2.8 (независимые источники) и п. 1.2.19 (особая группа)"
 ---
 Категория надёжности определяет, сколько источников питания нужно объекту и насколько быстро можно восстановить электроснабжение.
 ---

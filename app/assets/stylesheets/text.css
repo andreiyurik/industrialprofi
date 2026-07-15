@@ -198,6 +198,12 @@ hr {
   border: 0;
   margin-block: 3.2lh;
   opacity: 0.6;
+
+  /* On a phone 3.2lh each side reads as an empty screen between sections —
+     keep the jewel, halve the air. */
+  @media (max-width: 640px) {
+    margin-block: 1.8lh;
+  }
 }
 
 table {

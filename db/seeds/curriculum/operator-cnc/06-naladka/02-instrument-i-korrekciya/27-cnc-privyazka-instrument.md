@@ -2,12 +2,6 @@
 title: "Привязка инструмента — длина, радиус, износ"
 position: 27
 kind: lesson
-resources:
-  - title: "FANUC Series 0i/0i Mate-MODEL D — Operator's Manual"
-    url: "https://example.com/placeholder"
-    kind: doc
-    required: true
-    language: en
 ---
 Привязка инструмента — это измерение его реальных размеров и запись в стойку: без этого станок не знает, где кончается инструмент и начинается деталь.
 ---

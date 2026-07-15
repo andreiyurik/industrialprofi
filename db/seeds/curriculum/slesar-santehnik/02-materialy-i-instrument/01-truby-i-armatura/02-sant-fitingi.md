@@ -2,22 +2,6 @@
 title: "Фитинги и соединительные детали"
 position: 7
 kind: lesson
-resources:
-  - title: "СП 30.13330.2020. Внутренний водопровод и канализация зданий"
-    url: "https://example.com/sp-30-13330-2020"
-    kind: norm
-    required: true
-    country_code: RU
-  - title: "СП 73.13330.2016. Внутренние санитарно-технические системы зданий"
-    url: "https://example.com/sp-73-13330-2016"
-    kind: norm
-    required: false
-    country_code: RU
-  - title: "ГОСТ 32415-2013. Трубы напорные из термопластов (требования к фитингам)"
-    url: "https://example.com/gost-32415-2013"
-    kind: norm
-    required: false
-    country_code: RU
 ---
 Фитинги — переходники между трубами: правильный выбор по материалу, форме и давлению исключает течи и разрушение системы.
 ---
