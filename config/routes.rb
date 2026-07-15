@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   root "paths#index"
   get "about" => "pages#about"
   get "contribute" => "pages#contribute"
+  # The recruitment landing for practitioners — what a master gets by leading a
+  # profession; funnels into the co-author application.
+  get "authors" => "pages#authors"
   get "faq" => "pages#faq"
   # The author's reference — public like the content itself: readers suggesting
   # an edit and editors reviewing one read the SAME rules.

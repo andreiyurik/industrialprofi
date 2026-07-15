@@ -1,0 +1,251 @@
+/* /authors — the recruitment landing for practitioners. Speaks from the
+   master's point of view: what you get by leading a profession. Shares the
+   house vocabulary with /contribute (typographic hero, numbered blocks, one
+   blue accent, otherwise monochrome) and funnels into the co-author form. */
+
+.authors {
+  margin-inline: auto;
+  max-inline-size: 44rem;
+}
+
+/* ---- Hero -------------------------------------------------------------- */
+
+.authors-hero {
+  margin-block-end: 3.5rem;
+  text-align: center;
+}
+
+.authors-hero__eyebrow {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-block: 0;
+  text-transform: uppercase;
+}
+
+.authors-hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-block: 0.5rem 1.25rem;
+  text-transform: uppercase;
+}
+
+.authors-hero__intro {
+  color: var(--color-ink);
+  font-size: 1.1rem;
+  hyphens: none;
+  line-height: 1.65;
+  margin-block: 0;
+  margin-inline: auto;
+  max-inline-size: 36rem;
+}
+
+/* ---- Framing note ------------------------------------------------------ */
+
+.authors-frame {
+  color: var(--color-ink);
+  font-size: 1.075rem;
+  line-height: 1.75;
+  margin-block-end: 4rem;
+}
+
+.authors-frame p {
+  margin-block: 0 1.35rem;
+}
+
+.authors-frame__highlight {
+  border-inline-start: 3px solid var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-block: 1.9rem;
+  padding-inline-start: 1.1rem;
+}
+
+/* ---- Shared block scaffolding ------------------------------------------ */
+
+.authors-block {
+  margin-block-end: 4rem;
+}
+
+.authors-block__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 4vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-block: 0 0.5rem;
+  text-transform: uppercase;
+}
+
+.authors-block__lead {
+  color: var(--color-subtle-dark);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-block: 0 1.75rem;
+  max-inline-size: 40rem;
+}
+
+/* ---- Benefits — bordered cards anchored by a ghosted numeral ----------- */
+
+.authors-benefits {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 44rem) {
+  .authors-benefits {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.authors-benefit {
+  background: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.authors-benefit__index {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  opacity: 0.28;
+}
+
+.authors-benefit__title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-block: 0.6rem 0.5rem;
+}
+
+.authors-benefit__text {
+  color: var(--color-ink);
+  hyphens: none;
+  line-height: 1.6;
+  margin-block: 0;
+  text-wrap: pretty;
+}
+
+/* ---- Who it's for — plain honest checklist ----------------------------- */
+
+.authors-who {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.authors-who__item {
+  border-inline-start: 3px solid var(--color-subtle);
+  color: var(--color-ink);
+  line-height: 1.6;
+  padding-inline-start: 1rem;
+}
+
+/* ---- How to start (vertical timeline, mirrors the edit pipeline) ------- */
+
+.authors-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.authors-steps__step {
+  display: flex;
+  gap: 1rem;
+  padding-block-end: 1.75rem;
+  position: relative;
+}
+
+.authors-steps__step:last-child {
+  padding-block-end: 0;
+}
+
+.authors-steps__step:not(:last-child)::before {
+  background: var(--color-subtle);
+  content: "";
+  inline-size: 1px;
+  inset-block: 2.25rem 0;
+  inset-inline-start: 1.1rem;
+  position: absolute;
+}
+
+.authors-steps__num {
+  align-items: center;
+  background: var(--color-bg);
+  border: 1px solid var(--color-subtle);
+  border-radius: 50%;
+  block-size: 2.25rem;
+  color: var(--color-ink);
+  display: inline-flex;
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  inline-size: 2.25rem;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.authors-steps__body {
+  padding-block-start: 0.2rem;
+}
+
+.authors-steps__title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-block: 0 0.25rem;
+}
+
+.authors-steps__desc {
+  color: var(--color-subtle-dark);
+  line-height: 1.55;
+  margin-block: 0;
+}
+
+/* ---- Closing CTA ------------------------------------------------------- */
+
+.authors-cta {
+  text-align: center;
+}
+
+.authors-cta__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 4vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-block: 0 0.5rem;
+  text-transform: uppercase;
+}
+
+.authors-cta__text {
+  color: var(--color-subtle-dark);
+  line-height: 1.6;
+  margin-block: 0 1.5rem;
+  margin-inline: auto;
+  max-inline-size: 36rem;
+}
+
+.authors-cta__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
