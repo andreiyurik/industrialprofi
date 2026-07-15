@@ -309,7 +309,7 @@ GEM
     ruby-vips (2.3.0)
       ffi (~> 1.12)
       logger
-    rubyzip (2.4.1)
+    rubyzip (3.4.1)
     securerandom (0.4.1)
     selenium-webdriver (4.46.0)
       base64 (~> 0.2)
@@ -408,7 +408,7 @@ DEPENDENCIES
   rouge
   rubocop-rails-omakase
   ruby-vips (~> 2.2)
-  rubyzip (~> 2.4)
+  rubyzip (~> 3.4)
   selenium-webdriver
   solid_cable
   solid_cache
