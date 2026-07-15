@@ -66,6 +66,15 @@
   padding-inline-start: 1.1rem;
 }
 
+/* Mission "why now" paragraph — shares the framing-note voice. */
+.authors-why__body {
+  color: var(--color-ink);
+  font-size: 1.075rem;
+  line-height: 1.75;
+  margin-block: 0;
+  max-inline-size: 40rem;
+}
+
 /* ---- Shared block scaffolding ------------------------------------------ */
 
 .authors-block {
@@ -137,6 +146,100 @@
   hyphens: none;
   line-height: 1.6;
   margin-block: 0;
+  text-wrap: pretty;
+}
+
+/* ---- Tooling showcase — a live illustration, not a screenshot ----------
+   Built from the real .badge components (badges.css), so it matches the app
+   pixel-for-pixel and can never rot. Shows what the source constructor produces
+   plus the immutable-history strip that backs the "saved forever, like git"
+   claim. Framed slightly narrower and centred so it reads as a specimen. */
+
+.authors-showcase {
+  margin: 2.5rem auto 0;
+  max-inline-size: 34rem;
+}
+
+.authors-sources {
+  background: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.35rem;
+}
+
+.authors-sources__label {
+  color: var(--color-subtle-dark);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin-block: 0 1rem;
+  text-transform: uppercase;
+}
+
+.authors-sources__list {
+  display: grid;
+  gap: 0.9rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.authors-sources__item {
+  align-items: start;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: auto 1fr;
+}
+
+/* Nudge the badge to sit on the title's baseline row. */
+.authors-sources__item .badge {
+  margin-block-start: 0.15rem;
+}
+
+.authors-sources__body {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.authors-sources__title {
+  color: var(--color-link);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.authors-sources__note {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-block-start: 0.15rem;
+  text-wrap: pretty;
+}
+
+/* The git-like history strip: a hairline-separated footer with a clock glyph. */
+.authors-sources__history {
+  align-items: center;
+  border-block-start: 1px solid var(--color-subtle);
+  color: var(--color-subtle-dark);
+  display: flex;
+  font-size: 0.85rem;
+  gap: 0.45rem;
+  margin-block: 1.1rem 0;
+  padding-block-start: 0.9rem;
+}
+
+.authors-sources__history svg {
+  block-size: 1rem;
+  flex-shrink: 0;
+  inline-size: 1rem;
+}
+
+.authors-showcase__cap {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin-block-start: 0.9rem;
+  text-align: center;
   text-wrap: pretty;
 }
 
