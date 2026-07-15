@@ -84,28 +84,47 @@ ADMIN_EMAIL=... ADMIN_PASSWORD=... bin/kamal app exec "bin/rails db:seed"
 
 - **Backups — mandatory, before any real users exist.** Everything lives on the
   host in the docker volume `/var/lib/docker/volumes/industrialprofi_storage/_data`,
-  which holds **two** kinds of data that need **two** backup rules:
-  1. the SQLite databases (`*.sqlite3`) — the whole catalog, progress, accounts;
-  2. `blobs/` — Active Storage files, i.e. editor-uploaded **lesson images**
-     (no longer ≈0 since editors can attach images to lessons).
+  which holds **two** kinds of data that need **two** different backup mechanisms:
+  1. `production.sqlite3` — the whole catalog, progress, accounts. Replicated
+     **continuously** by **Litestream**, baked straight into the app image and
+     wrapping the server process (`Dockerfile` CMD + `bin/docker-entrypoint`,
+     config in `config/litestream.yml`) — not a separate Kamal accessory. It
+     streams to an S3-compatible bucket, keeps 7 days of point-in-time
+     recovery, and **restores automatically on boot** if `production.sqlite3`
+     is missing (a fresh volume or a new server). The S3 provider/bucket/region
+     are deliberately **not named here** — same reasoning as `KAMAL_WEB_IP`
+     never being committed: keep infrastructure specifics out of a repo that
+     may be public. All five values
+     (`LITESTREAM_ACCESS_KEY_ID`/`LITESTREAM_SECRET_ACCESS_KEY`/
+     `LITESTREAM_S3_BUCKET`/`LITESTREAM_S3_ENDPOINT`/`LITESTREAM_S3_REGION`)
+     live in `.kamal/secrets`, pulled from your shell env, never committed.
 
-  A daily cron on the server (`apt install sqlite3 rclone`) must cover both —
-  miss the second and a restore yields lessons with broken images:
-  ```bash
-  vol=/var/lib/docker/volumes/industrialprofi_storage/_data
-  # 1. DBs: .backup is consistent even under load (SQLite online backup API).
-  for db in production production_cache production_queue production_cable; do
-    sqlite3 "$vol/$db.sqlite3" ".backup /root/backups/$db-$(date +%F).sqlite3"
-  done
-  # 2. Image blobs: plain files, a mirror is enough (separate dir, never the DBs).
-  rclone sync "$vol/blobs" remote:industrialprofi-backups/blobs
-  rclone sync /root/backups remote:industrialprofi-backups/db
-  ```
-  The better option for the DBs is Litestream (streaming SQLite replication to
-  S3) as a Kamal accessory — but note **Litestream replicates only the SQLite
-  databases, not `blobs/`**, so the `rclone sync` of `blobs/` stays required
-  either way. A backup you've never restored isn't a backup — restore a dump
-  (and a few blobs) locally once a quarter.
+     `production_cache.sqlite3` and `production_cable.sqlite3` (Solid
+     Cache/Cable) are deliberately **not** replicated — disposable-by-design,
+     Rails regenerates them. `production_queue.sqlite3` (Solid Queue) is also
+     skipped — losing it drops in-flight jobs, not irreplaceable data. This
+     keeps S3 storage to roughly a quarter of what backing up all four DBs
+     would cost, for zero loss of anything that actually matters.
+  2. `blobs/` — Active Storage files, i.e. editor-uploaded **lesson images**
+     (no longer ≈0 since editors can attach images to lessons). Litestream
+     doesn't touch this (it only replicates SQLite databases), so a daily
+     **host-level cron** mirrors it to the same S3 bucket used above. On the
+     server: `apt install rclone`, then `rclone config create` an `s3backup:`
+     remote (endpoint/region/keys — provider stays out-of-band, see a password
+     manager, not this file). `/root/backup-blobs.sh`, cron at 03:17 server time:
+     ```bash
+     # Active Storage creates blobs/ lazily on first upload — mkdir keeps a
+     # pre-upload sync from erroring instead of no-op-ing.
+     mkdir -p /var/lib/docker/volumes/industrialprofi_storage/_data/blobs
+     rclone sync /var/lib/docker/volumes/industrialprofi_storage/_data/blobs \
+       s3backup:<your-bucket>/blobs
+     ```
+     A plain mirror is enough here — no versioning, no snapshots — because
+     blobs are immutable once uploaded (rewritten only by upload/delete, both
+     already logged elsewhere).
+
+  A backup you've never restored isn't a backup — restore `production.sqlite3`
+  via `litestream restore` and a few blobs locally once a quarter.
 - **External uptime monitoring:** UptimeRobot (free) on
   `https://industrialprofi.com/up`, alerting to email/Telegram. Internal error
   monitoring is already built in (`lib/error_subscriber.rb` emails admins).

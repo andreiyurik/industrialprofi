@@ -36,6 +36,15 @@ registry:
 env:
   secret:
     - RAILS_MASTER_KEY
+    # S3 provider details for Litestream's continuous replication of
+    # production.sqlite3 (see config/litestream.yml, docs/DEPLOY.md). Bucket/
+    # endpoint/region go through `secret` too, not `clear` — provider identity
+    # stays out of the repo the same way KAMAL_WEB_IP does.
+    - LITESTREAM_ACCESS_KEY_ID
+    - LITESTREAM_SECRET_ACCESS_KEY
+    - LITESTREAM_S3_BUCKET
+    - LITESTREAM_S3_ENDPOINT
+    - LITESTREAM_S3_REGION
   clear:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.

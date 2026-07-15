@@ -1,0 +1,24 @@
+# Continuous replication of the primary database to S3-compatible storage,
+# wrapping the app process via `litestream replicate -exec` (see Dockerfile
+# CMD + bin/docker-entrypoint). Only production.sqlite3 is replicated:
+# production_cache/production_cable (Solid Cache/Cable) are disposable-by-design
+# and Rails regenerates them; production_queue holds only in-flight job state,
+# not irreplaceable data — see docs/DEPLOY.md.
+#
+# All provider specifics (bucket/endpoint/region, not just credentials) come
+# from env vars — never commit the actual S3 provider/bucket to this file.
+access-key-id: ${LITESTREAM_ACCESS_KEY_ID}
+secret-access-key: ${LITESTREAM_SECRET_ACCESS_KEY}
+
+snapshot:
+  interval: 24h
+  retention: 168h # 7 days of point-in-time recovery
+
+dbs:
+  - path: /rails/storage/production.sqlite3
+    replica:
+      type: s3
+      bucket: ${LITESTREAM_S3_BUCKET}
+      path: litestream/production
+      endpoint: ${LITESTREAM_S3_ENDPOINT}
+      region: ${LITESTREAM_S3_REGION}
