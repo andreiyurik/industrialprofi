@@ -32,6 +32,31 @@
             </li>
           <% end %>
         </ol>
+
+        <%# A rot-proof illustration of the source constructor + immutable
+            history, built from the app's own badge components — not a
+            screenshot, so it can never drift from the real UI. %>
+        <figure class="authors-showcase" aria-labelledby="authors-showcase-cap">
+          <div class="authors-sources">
+            <p class="authors-sources__label"><%= t("authors.showcase.label") %></p>
+            <ul class="authors-sources__list">
+              <% t("authors.showcase.sources").each do |src| %>
+                <li class="authors-sources__item">
+                  <span class="badge badge--<%= src[:type] %>"><%= src[:kind] %></span>
+                  <span class="authors-sources__body">
+                    <span class="authors-sources__title"><%= src[:title] %></span>
+                    <span class="authors-sources__note"><%= src[:note] %></span>
+                  </span>
+                </li>
+              <% end %>
+            </ul>
+            <p class="authors-sources__history">
+              <%= heroicon "clock", variant: :outline %>
+              <%= t("authors.showcase.history") %>
+            </p>
+          </div>
+          <figcaption id="authors-showcase-cap" class="authors-showcase__cap"><%= t("authors.showcase.caption") %></figcaption>
+        </figure>
       </section>
 
       <%# Who it's for — the honest gate, kept short. %>
@@ -60,6 +85,14 @@
             </li>
           <% end %>
         </ol>
+      </section>
+
+      <%# Mission crescendo — lifts from personal benefit to the shared "why now"
+          right before the call to act. Kept to one grounded paragraph. %>
+      <section class="authors-block">
+        <h2 class="authors-block__title"><%= t("authors.why_now_title") %></h2>
+        <p class="authors-why__body"><%= t("authors.why_now_body") %></p>
+        <p class="authors-frame__highlight"><%= t("authors.why_now_highlight") %></p>
       </section>
 
       <div class="authors-cta panel">
