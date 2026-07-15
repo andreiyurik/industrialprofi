@@ -59,6 +59,49 @@
   padding-inline-start: 1.1rem;
 }
 
+/* The letter's promise in a ten-second scan — three numbered goals for the
+   skimmer; the letter below unfolds them, never repeats them. */
+.about-letter__goals {
+  border-block: 1px solid var(--color-subtle);
+  margin-block: 2.25rem;
+  padding-block: 1.4rem 1.6rem;
+}
+
+.about-letter__goals-title {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-block: 0 1rem;
+  text-transform: uppercase;
+}
+
+.about-letter__goals-list {
+  counter-reset: goal;
+  display: grid;
+  gap: 0.9rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.about-letter__goals-list > li {
+  column-gap: 0.9rem;
+  counter-increment: goal;
+  display: grid;
+  grid-template-columns: 1.4rem 1fr;
+  line-height: 1.55;
+}
+
+.about-letter__goals-list > li::before {
+  color: var(--color-subtle-dark);
+  content: counter(goal);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
 .about-letter__signature {
   margin-block-start: 2.5rem;
 }
@@ -84,9 +127,79 @@
   padding-block-start: 1.5rem;
 }
 
-.about-letter__cta {
+/* Appendix after the letter: an honest comparison of ways to learn a trade —
+   categories, never competitors' names, so it stays fair and doesn't go stale.
+   Full reading-container width; the letter column above stays 40rem. */
+.about-compare {
+  margin-block-start: 4rem;
+}
+
+.about-compare__title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin-block: 0 0.75rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.about-compare__lead {
+  color: var(--color-subtle-dark);
+  margin-block: 0 1.75rem;
+  margin-inline: auto;
+  max-inline-size: 40rem;
+  text-align: center;
+}
+
+.about-compare__scroll {
+  max-inline-size: 100%;
+  overflow-x: auto;
+}
+
+.about-compare table {
+  font-size: 0.9rem;
+  inline-size: 100%;
+  line-height: 1.5;
+  margin: 0;
+  min-inline-size: 52rem;
+}
+
+.about-compare :is(th, td) {
+  vertical-align: top;
+}
+
+/* The label column (and its corner header) stays put while the table scrolls
+   on a phone. Opaque background + box-shadow edge, because collapsed borders
+   don't travel with sticky cells. */
+.about-compare :is(th[scope="row"], thead th:first-child) {
+  background-color: var(--color-bg);
+  box-shadow: inset -1px 0 0 var(--color-subtle-dark);
+  inset-inline-start: 0;
+  position: sticky;
+  z-index: 1;
+}
+
+.about-compare th[scope="row"] {
+  color: var(--color-subtle-dark);
+  font-weight: 600;
+  max-inline-size: 8.5rem; /* on a phone the sticky column must not eat the scrollport */
+
+  @media (min-width: 640px) {
+    max-inline-size: none;
+    white-space: nowrap;
+  }
+}
+
+/* Our column — elevated surface, same monochrome language as panels. */
+.about-compare :is(th, td):last-child {
+  background-color: var(--color-subtle-light);
+}
+
+.about-cta {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-block-start: 2rem;
+  justify-content: center;
+  margin-block-start: 2.5rem;
 }

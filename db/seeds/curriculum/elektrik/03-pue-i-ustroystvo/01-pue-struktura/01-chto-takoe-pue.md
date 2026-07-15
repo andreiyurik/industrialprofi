@@ -4,14 +4,11 @@ position: 1
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание (полный текст)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
-  - title: "Сибикин Ю.Д. «Правила устройства электроустановок с комментариями»"
-    url: "https://example.com/placeholder-sibikin-pue"
-    kind: document
-    required: false
+    note: "читать целиком не нужно — освой навигацию: раздел 1 и гл. 7.1 закрывают 80% задач электрика"
 ---
 ПУЭ — это «конституция» российской электрики: всё, что ты монтируешь или проектируешь, должно ей соответствовать.
 ---

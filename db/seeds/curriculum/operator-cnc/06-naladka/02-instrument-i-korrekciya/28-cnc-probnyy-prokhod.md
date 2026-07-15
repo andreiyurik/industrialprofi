@@ -2,12 +2,6 @@
 title: "Пробный проход, замер и подналадка"
 position: 28
 kind: lesson
-resources:
-  - title: "FANUC Series 0i/0i Mate-MODEL D — Operator's Manual"
-    url: "https://example.com/placeholder"
-    kind: doc
-    required: true
-    language: en
 ---
 Пробный проход — это страховочный шаг между «кажется, всё настроено» и «точно правильно»: он защищает от брака на первой детали.
 ---

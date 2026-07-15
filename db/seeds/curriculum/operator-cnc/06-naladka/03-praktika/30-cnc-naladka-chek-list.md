@@ -9,11 +9,6 @@ resources:
     kind: norm
     required: true
     country_code: RU
-  - title: "FANUC Series 0i/0i Mate-MODEL D — Operator's Manual"
-    url: "https://example.com/placeholder"
-    kind: doc
-    required: false
-    language: en
 ---
 Практика для среднего уровня: выполни полную наладку токарного ЧПУ для новой детали по шагам — от чертежа до серийного пуска.
 ---

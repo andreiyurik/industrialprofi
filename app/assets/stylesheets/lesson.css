@@ -49,6 +49,10 @@
   scroll-margin-block-start: 5rem;
 }
 
+/* Regular display face (Inter Tight), not GOST: this is the single most-read
+   heading on the site, often safety-critical content — clarity and reading
+   speed win over the "engineered" identity, which stays on the profession
+   card/hero where a reader only glances at it once. */
 .lesson__title {
   /* Capped at 2.1rem (was 2.5): long multi-word technical titles read as a
      calmer landmark, not a wall, while staying the clear primary heading. */
@@ -86,7 +90,7 @@
   color: var(--color-subtle-dark);
   display: flex;
   flex-shrink: 0;
-  gap: 0.9rem;
+  gap: 0.65rem;
 }
 
 /* A bare icon button — a quiet tertiary utility, never competing with the

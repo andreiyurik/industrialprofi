@@ -5,10 +5,11 @@ kind: practice
 difficulty: beginner
 resources:
   - title: "ПУЭ 7-е издание, гл. 1.3, таблица 1.3.4 (длительно допустимые токи)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
+    note: "нужна только таблица 1.3.4 — по ней проверяешь пару кабель-автомат каждой группы в самопроверке"
   - title: "ГОСТ 2.755-87 Обозначения условные графические в электрических схемах"
     url: "https://docs.cntd.ru/document/1200006513"
     kind: document

@@ -2,17 +2,6 @@
 title: "Режущий инструмент — твердосплавные пластины, геометрия, маркировка ISO"
 position: 10
 kind: lesson
-resources:
-  - title: "ISO 1832:2017. Indexable inserts for cutting tools — Designation"
-    url: "https://example.com/placeholder"
-    kind: norm
-    required: true
-    language: en
-  - title: "Sandvik Coromant Main Catalogue — Turning, Milling, Drilling"
-    url: "https://example.com/placeholder"
-    kind: doc
-    required: false
-    language: en
 ---
 Понять маркировку твердосплавной пластины — значит уметь выбрать правильный инструмент под материал и операцию, не угадывая.
 ---

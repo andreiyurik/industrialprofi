@@ -2,8 +2,8 @@
     edits. Rendering a decision here counts as "seen" — the fallback email
     (SuggestionEmailsJob) then never fires for it. %>
 <section id="dashboard_suggestions" class="dashboard__suggestions">
-  <h2 class="dashboard__others-title"><%= t("dashboard.suggestions_title") %></h2>
-  <p class="dashboard__courses-hint"><%= t("dashboard.suggestions_hint") %></p>
+  <h2 class="dashboard__section-title"><%= t("dashboard.suggestions_title") %></h2>
+  <p class="dashboard__section-hint"><%= t("dashboard.suggestions_hint") %></p>
   <div class="panel dashboard-suggestions">
     <% @my_suggestions.each do |suggestion| %>
       <div class="dashboard-suggestion">

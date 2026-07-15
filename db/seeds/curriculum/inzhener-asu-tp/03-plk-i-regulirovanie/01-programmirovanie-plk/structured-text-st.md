@@ -8,6 +8,7 @@ resources:
     kind: document
     required: true
     country_code: RU
+    note: "нужен только раздел про язык ST — синтаксис и типы данных в первоисточнике"
   - title: "CODESYS Online Help — Structured Text (ST), Extended Structured Text (ExST)"
     url: "https://content.helpme-codesys.com/en/CODESYS%20Development%20System/_cds_f_programming_language_st.html"
     kind: tool

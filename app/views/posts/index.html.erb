@@ -1,0 +1,25 @@
+<% meta_title(t("news.title")) %>
+<% meta_description(t("news.subtitle")) %>
+<% canonical_url("#{site_config.url}/news") %>
+
+<section class="section">
+  <div class="container container--reading">
+    <header class="news-index__header">
+      <h1 class="news-index__title"><%= t("news.title") %></h1>
+      <p class="news-index__subtitle"><%= t("news.subtitle") %></p>
+    </header>
+
+    <% if @posts.any? %>
+      <% @posts.group_by { |post| post_month_label(post.published_at.to_date) }.each do |month, posts| %>
+        <section class="news-group">
+          <h2 class="news-group__title"><%= month %></h2>
+          <div class="news-list">
+            <%= render partial: "posts/card", collection: posts, as: :post %>
+          </div>
+        </section>
+      <% end %>
+    <% else %>
+      <p class="news-empty"><%= t("news.empty") %></p>
+    <% end %>
+  </div>
+</section>

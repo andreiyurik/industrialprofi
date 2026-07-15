@@ -1,7 +1,7 @@
 <%# locals: (difficulty:, sr_label: true) -%>
-<%# Inline difficulty wedge — the same corner triangle the /projects tiles
-    wear, so the filter-chip legend teaches the card shape. Colours: green /
-    yellow / red (ski-trail convention), set in projects.css. %>
+<%# Inline difficulty swatch — a small colour square (green / yellow / red,
+    ski-trail convention) marking the level on filter chips and list rows.
+    Colours set in projects.css. %>
 <span class="difficulty-mark difficulty-mark--<%= difficulty %>" aria-hidden="true"
       title="<%= t("lessons.difficulty.#{difficulty}") %>"></span>
 <% if sr_label %>

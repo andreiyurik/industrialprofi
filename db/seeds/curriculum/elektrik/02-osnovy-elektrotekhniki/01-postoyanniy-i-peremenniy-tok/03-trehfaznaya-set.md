@@ -4,14 +4,10 @@ position: 3
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание, гл. 1.2 (термины и определения)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: false
     country_code: RU
-  - title: "Бессонов Л.А. «Теоретические основы электротехники»"
-    url: "https://example.com/bessonov-toe"
-    kind: document
-    required: false
 ---
 Трёхфазная сеть — основа промышленного электроснабжения: понимая откуда берутся 220 В и 380 В, ты правильно подключаешь любое оборудование.
 ---

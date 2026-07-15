@@ -763,6 +763,34 @@
   }
 }
 
+/* Coauthor application → one-gesture approval block */
+.inbox__approve {
+  margin-block: 0 var(--block-space);
+}
+
+.inbox__approve-label {
+  margin-block: 0 var(--block-space-half);
+  font-weight: 600;
+  font-size: 0.8125rem;
+}
+
+.inbox__approve-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--inline-space-half);
+  align-items: center;
+}
+
+.inbox__approve-form .input {
+  flex: 1 1 14rem;
+}
+
+.inbox__approve-hint {
+  margin-block: var(--block-space-half) 0;
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+}
+
 /* ── Persistent section nav (tabs) ── */
 
 .admin-nav {

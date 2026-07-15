@@ -3,17 +3,6 @@ title: "Практика: резка трубы и нарезка резьбы �
 position: 10
 kind: practice
 difficulty: beginner
-resources:
-  - title: "ГОСТ 3262-75. Трубы стальные водогазопроводные (резьба, допуски)"
-    url: "https://example.com/gost-3262-75"
-    kind: norm
-    required: true
-    country_code: RU
-  - title: "ГОСТ 6357-81. Основные нормы взаимозаменяемости. Резьба трубная цилиндрическая"
-    url: "https://example.com/gost-6357-81"
-    kind: norm
-    required: false
-    country_code: RU
 ---
 Освоить два базовых навыка — резать стальную трубу роликовым резаком ровно и нарезать резьбу G½" плашкой вручную.
 ---

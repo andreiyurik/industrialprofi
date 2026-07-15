@@ -8,10 +8,6 @@ resources:
     kind: norm
     required: true
     country_code: RU
-  - title: "Дефекты сварных швов и причины их возникновения — разбор с иллюстрациями"
-    url: "https://www.svarschik.ru/defekty-svarnyh-shvov/"
-    kind: article
-    required: false
 ---
 Умение назвать дефект его кодом по ИСО 6520-1 — это профессиональный язык: именно эти числа стоят в актах НК, протоколах РК и заключениях УЗК на любом объекте.
 ---

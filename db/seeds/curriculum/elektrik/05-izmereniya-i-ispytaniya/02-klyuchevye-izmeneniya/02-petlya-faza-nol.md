@@ -4,18 +4,10 @@ position: 2
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание, глава 1.8"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ Р 50571.3-2009 Электроустановки зданий. Защитные меры"
-    url: "https://example.com/placeholder-gost-50571-3"
-    kind: document
-    required: false
-  - title: "ГОСТ Р 50571.16-2007 Электроустановки зданий. Испытания"
-    url: "https://example.com/placeholder-gost-50571-16"
-    kind: document
-    required: false
 ---
 Петля фаза-ноль показывает: успеет ли автомат сработать мгновенно, если завтра случится короткое замыкание.
 ---

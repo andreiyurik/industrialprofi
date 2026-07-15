@@ -4,14 +4,11 @@ position: 2
 kind: lesson
 resources:
   - title: "ПУЭ 7-е изд. Глава 2.1 п. 2.1.21. Соединения проводников"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ Р 50571.5.52-2011. Выбор и монтаж электрооборудования. Электропроводки"
-    url: "https://example.com/placeholder-gost-50571-5-52"
-    kind: document
-    required: false
+    note: "п. 2.1.21 — короткий пункт: перечень разрешённых соединений и запрет скрутки, сверь по первоисточнику"
 ---
 ПУЭ 2.1.21 прямо запрещает скрутку — разбираем, какие методы разрешены, чем WAGO отличается от гильзы и когда что применять.
 ---

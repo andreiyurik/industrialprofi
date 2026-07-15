@@ -4,15 +4,11 @@ position: 1
 kind: lesson
 resources:
   - title: "Приказ Минтруда № 903н от 15.12.2020 — требования к СИЗ при работе в электроустановках"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ Р МЭК 60903-2017 — Перчатки из электроизоляционного материала"
-    url: "https://example.com/placeholder-gost-60903"
-    kind: document
-    required: false
-    country_code: RU
+    note: "разделы про средства защиты — какие СИЗ обязательны; классы перчаток и сроки испытаний уже собраны в уроке"
 ---
 СИЗ электрика — последний барьер между тобой и током, который срабатывает только тогда, когда все остальные защиты уже провалились.
 ---

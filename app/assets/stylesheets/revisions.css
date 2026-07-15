@@ -12,6 +12,17 @@
   margin-block: 0 1rem;
 }
 
+.lesson-history__count {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block: 0 1rem;
+}
+
+.lesson-history__empty {
+  color: var(--color-subtle-dark);
+  margin-block: 0.5rem 0;
+}
+
 .lesson-history__list {
   display: flex;
   flex-direction: column;
@@ -19,6 +30,21 @@
   list-style: none;
   margin-block: 0;
   padding-inline-start: 0;
+}
+
+/* Day heading separating grouped revisions (Сегодня / Вчера / date). */
+.lesson-history__date {
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-block: 1rem 0.15rem;
+  padding-inline: 0.75rem;
+  text-transform: uppercase;
+}
+
+.lesson-history__date:first-child {
+  margin-block-start: 0;
 }
 
 .lesson-history__link {
@@ -73,6 +99,16 @@
   font-size: 0.85rem;
   margin-block-start: 1rem;
   text-decoration: underline;
+}
+
+/* "Показать ещё" is a submit button now — strip the native button chrome so it
+   reads as the same quiet text link it replaced. */
+.lesson-history__more {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
 }
 
 .lesson-history__back {

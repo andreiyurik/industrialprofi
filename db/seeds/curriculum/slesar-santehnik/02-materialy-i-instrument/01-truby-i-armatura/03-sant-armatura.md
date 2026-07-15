@@ -2,22 +2,6 @@
 title: "Трубопроводная арматура: краны, редукторы, обратные клапаны"
 position: 8
 kind: lesson
-resources:
-  - title: "ГОСТ 30815-2002. Арматура трубопроводная. Термины и определения"
-    url: "https://example.com/gost-30815-2002"
-    kind: norm
-    required: true
-    country_code: RU
-  - title: "СП 30.13330.2020. Внутренний водопровод и канализация. Разд. 10 (арматура)"
-    url: "https://example.com/sp-30-13330-2020"
-    kind: norm
-    required: true
-    country_code: RU
-  - title: "СП 73.13330.2016. Внутренние санитарно-технические системы зданий"
-    url: "https://example.com/sp-73-13330-2016"
-    kind: norm
-    required: false
-    country_code: RU
 ---
 Арматура управляет потоком воды: правильно подобранная — это безопасность, ремонтопригодность и стабильное давление во всей системе.
 ---

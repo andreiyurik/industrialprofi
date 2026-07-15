@@ -99,4 +99,47 @@ class Admin::CoursesControllerTest < ActionDispatch::IntegrationTest
     patch admin_course_path(courses(:draft_course)), params: { course: { slug: "pereimenovannyy" } }
     assert_equal "pereimenovannyy", courses(:draft_course).reload.slug
   end
+
+  # ── Lifecycle logging (transparency) ──
+
+  test "creating a course logs a course_created entry carrying its profession" do
+    assert_difference -> { AdminAction.where(action: "course_created").count }, 1 do
+      post admin_courses_path, params: { course: { title: "Пайка", path_id: paths(:electrician).id } }
+    end
+    entry = AdminAction.where(action: "course_created").order(:id).last
+    assert_equal "Пайка", entry.details["subject"]
+    assert_equal paths(:electrician).title, entry.details["path"]
+  end
+
+  test "publishing a draft course via update logs a course_status_changed entry" do
+    assert_difference -> { AdminAction.where(action: "course_status_changed").count }, 1 do
+      patch admin_course_path(courses(:draft_course)), params: { course: { status: "published" } }
+    end
+    entry = AdminAction.where(action: "course_status_changed").order(:id).last
+    assert_equal "draft", entry.details["from_status"]
+    assert_equal "published", entry.details["to_status"]
+  end
+
+  test "destroying a course logs a course_deleted entry" do
+    assert_difference -> { AdminAction.where(action: "course_deleted").count }, 1 do
+      delete admin_course_path(courses(:draft_course))
+    end
+  end
+
+  # ── Review-request notification ──
+
+  test "an editor submitting a course for review emails the administrators" do
+    sign_out
+    sign_in_as users(:editor)
+    assert_enqueued_emails 1 do
+      post admin_courses_path,
+        params: { course: { title: "Пайка", path_id: paths(:electrician).id, status: "pending_review" } }
+    end
+  end
+
+  test "an administrator submitting a course does not notify themselves" do
+    assert_no_enqueued_emails do
+      patch admin_course_path(courses(:draft_course)), params: { course: { status: "pending_review" } }
+    end
+  end
 end

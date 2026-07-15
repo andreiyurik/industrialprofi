@@ -4,10 +4,11 @@ position: 2
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание, гл. 1.7 (системы заземления)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
+    note: "раздел про типы систем заземления; п. 1.7.80 — почему TN-C запрещена в новом строительстве"
   - title: "ГОСТ Р 50571.1-2009 Электроустановки низкого напряжения. Основные положения"
     url: "https://docs.cntd.ru/document/1200073895"
     kind: document

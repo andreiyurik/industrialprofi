@@ -78,9 +78,9 @@
           <%# A quiet dot = a decision on one of your suggested edits you
               haven't seen yet; it leads to the dashboard, which clears it. %>
           <% unseen_outcomes = signed_in? && Current.user.unseen_suggestion_outcomes? %>
-          <%# Mobile: a <details> disclosure collapses the nav behind a
-              hamburger; the details controller adds menu-style light dismiss
-              (click outside / Esc). Desktop (≥820px): the toggle is hidden and
+          <%# Compact (≤1023px): a <details> disclosure collapses the nav behind
+              a hamburger; the details controller adds menu-style light dismiss
+              (click outside / Esc). Wide (≥1024px): the toggle is hidden and
               the panel flows inline as the nav row — single source of links. %>
           <details class="header__menu" data-controller="details" data-details-target="details"
                    data-action="click@document->details#closeOnClickOutside keydown.esc@window->details#close">
@@ -280,11 +280,13 @@
           <a href="<%= faq_path %>" class="footer__link link-quiet"><%= t("nav.faq") %></a>
           <a href="<%= roadmap_path %>" class="footer__link link-quiet"><%= t("nav.roadmap") %></a>
           <a href="<%= business_path %>" class="footer__link link-quiet"><%= t("nav.business") %></a>
+          <a href="<%= posts_path %>" class="footer__link link-quiet"><%= t("nav.news") %></a>
         </div>
 
         <div class="footer__col">
           <p class="footer__heading"><%= t("footer.col_support") %></p>
           <a href="<%= contribute_path %>" class="footer__link link-quiet"><%= t("nav.contribute") %></a>
+          <a href="<%= authors_path %>" class="footer__link link-quiet"><%= t("nav.authors") %></a>
           <a href="<%= support_us_path %>" class="footer__link link-quiet"><%= t("nav.support") %></a>
           <a href="<%= partners_path %>" class="footer__link link-quiet"><%= t("nav.partners") %></a>
           <%# Signed-in readers write to the founder right on the site; guests go to Telegram. %>

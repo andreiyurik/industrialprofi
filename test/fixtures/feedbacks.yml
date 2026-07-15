@@ -7,3 +7,8 @@ read_message:
   user: editor
   body: "Хочу помочь с проверкой материалов по сварке."
   read_at: <%= 2.days.ago %>
+
+coauthor_application:
+  user: member
+  body: "Заявка стать соавтором\n\nПрофессия: Агроном\n\nОпыт и квалификация: 12 лет в поле\n\nПочему и что хочет дать: собрать опыт для коллег"
+  page_url: "/coauthor_application/new"

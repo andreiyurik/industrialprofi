@@ -4,14 +4,11 @@ position: 2
 kind: lesson
 resources:
   - title: "ПУЭ 7-е издание, гл. 1.3, таблица 1.3.4 (длительно допустимые токи)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ Р 50571.5.52-2011 Выбор и монтаж электрооборудования. Таблицы токовых нагрузок"
-    url: "https://docs.cntd.ru/document/1200084880"
-    kind: document
-    required: false
+    note: "таблица 1.3.4 — самое рабочее место документа: допустимые токи по сечению и способу прокладки"
 ---
 Выбор сечения кабеля и номинала автомата по ПУЭ — главный расчёт электрика: неправильный выбор ведёт к пожару или ложным отключениям.
 ---

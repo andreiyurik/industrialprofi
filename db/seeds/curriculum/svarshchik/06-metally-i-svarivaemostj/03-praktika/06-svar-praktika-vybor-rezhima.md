@@ -9,6 +9,7 @@ resources:
     kind: norm
     required: true
     country_code: RU
+    note: "понадобится только тип С2 для сценария 3 — остальное ты уже разбирал в курсе МИГ/МАГ"
   - title: "ГОСТ 380-2005 — Сталь углеродистая обыкновенного качества. Марки"
     url: "https://docs.cntd.ru/document/1200036217"
     kind: norm

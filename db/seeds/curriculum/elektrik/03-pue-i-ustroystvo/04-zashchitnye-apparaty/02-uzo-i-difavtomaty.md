@@ -3,15 +3,12 @@ title: "УЗО и дифавтоматы: принцип работы, типы 
 position: 2
 kind: lesson
 resources:
-  - title: "ГОСТ Р 51326.1-2011 Выключатели дифференциального тока бытового назначения (УЗО)"
-    url: "https://example.com/placeholder-gost-51326"
-    kind: document
-    required: true
   - title: "ПУЭ 7-е издание, гл. 7.1, п. 7.1.76–7.1.79 (защита УЗО)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: true
     country_code: RU
+    note: "п. 7.1.76–7.1.79 — где УЗО обязательно; таблица в уроке построена прямо по ним"
 ---
 УЗО — единственная защита от поражения током при утечке на корпус: оно реагирует на ток в 500 раз меньше того, при котором сработает автомат.
 ---

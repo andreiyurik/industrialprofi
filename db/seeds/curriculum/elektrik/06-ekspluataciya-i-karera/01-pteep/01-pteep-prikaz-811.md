@@ -4,12 +4,12 @@ position: 1
 kind: lesson
 resources:
   - title: "ПТЭЭП — Приказ Минэнерго России от 12.08.2022 № 811"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_428583/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202210070065"
     kind: document
     required: true
     country_code: RU
   - title: "ПТЭЭП 2003 — Приказ Минэнерго № 6 (утратил силу с 07.01.2023)"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_40035/"
+    url: "https://docs.cntd.ru/document/901839683"
     kind: document
     required: false
     country_code: RU

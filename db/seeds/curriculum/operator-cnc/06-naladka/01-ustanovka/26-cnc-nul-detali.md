@@ -2,12 +2,6 @@
 title: "Установка нуля детали (Work Zero, G54)"
 position: 26
 kind: lesson
-resources:
-  - title: "FANUC Series 0i/0i Mate-MODEL D — Operator's Manual"
-    url: "https://example.com/placeholder"
-    kind: doc
-    required: true
-    language: en
 ---
 Нуль детали — это точка, от которой станок считает все координаты программы: без неё G-код «не знает», где находится заготовка.
 ---

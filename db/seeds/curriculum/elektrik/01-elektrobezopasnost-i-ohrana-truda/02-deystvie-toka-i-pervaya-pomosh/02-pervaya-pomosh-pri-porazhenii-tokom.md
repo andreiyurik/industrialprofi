@@ -4,14 +4,11 @@ position: 2
 kind: lesson
 resources:
   - title: "Приказ Минтруда № 903н от 15.12.2020 — Приложение №7: первая помощь при поражении током"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
     kind: document
     required: true
     country_code: RU
-  - title: "Сибикин Ю.Д. — Справочник мастера-электрика"
-    url: "https://example.com/placeholder-sibikin"
-    kind: document
-    required: false
+    note: "нужно только Приложение №7 — сверяй с ним алгоритм освобождения и СЛР из урока"
 ---
 Правильная первая помощь при поражении током — это три последовательных действия: безопасно освободить, оценить состояние, начать СЛР — и каждое промедление стоит жизни.
 ---

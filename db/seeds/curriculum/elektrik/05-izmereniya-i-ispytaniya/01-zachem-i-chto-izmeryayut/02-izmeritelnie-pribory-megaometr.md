@@ -4,18 +4,14 @@ position: 2
 kind: lesson
 resources:
   - title: "ПТЭЭП — Приказ Минэнерго № 811"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_428583/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202210070065"
     kind: document
     required: true
   - title: "ПУЭ 7-е издание, глава 1.8"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_98464/"
+    url: "https://www.elec.ru/library/direction/pue/contents.html"
     kind: document
     required: false
     country_code: RU
-  - title: "ГОСТ Р 50571.16-2007 Электроустановки зданий. Испытания"
-    url: "https://example.com/placeholder-gost-50571-16"
-    kind: document
-    required: false
 ---
 Три специальных прибора — мегаомметр, измеритель петли и ТКЦ — каждый решает свою задачу при сдаче объекта.
 ---
@@ -40,7 +36,7 @@ resources:
 
 | Модель | Напряжение испытания | Диапазон | Примечания |
 |---|---|---|---|
-| ЭСО 210/2G | 100 / 500 / 1000 В | до 100 ГОм | Классика в СНГ |
+| ЭС0210/2Г | 500 / 1000 В | до 100 ГОм | Классика в СНГ |
 | UNI-T UT-512 | 500 / 1000 В | до 2 ГОм | Доступная цена |
 | Fluke 1507 | 50–1000 В | до 10 ГОм | Профессиональный |
 

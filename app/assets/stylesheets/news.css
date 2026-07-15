@@ -1,0 +1,287 @@
+/* News — the founder's «проект живёт» channel: a technical log, not a social
+   feed. Index is a reading-width register grouped by month — hairline rules
+   between entries, not boxed cards — with headlines set in the GOST drafting
+   face (--font-technical), the same one the profession cards use. The article
+   is single-column and quiet: one small reaction tucked in the corner, an
+   equal-weight copy-link/share pair, and a chronological older/newer nav
+   instead of a "more posts" rail. */
+
+/* Index */
+.news-index__header {
+  margin-block-end: 2.5rem;
+  text-align: center;
+}
+
+.news-index__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.news-index__subtitle {
+  color: var(--color-subtle-dark);
+  margin-block-start: 0.75rem;
+}
+
+.news-group + .news-group {
+  margin-block-start: 3rem;
+}
+
+.news-group__title {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin: 0 0 1rem;
+  text-transform: uppercase;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* A hairline register: each entry is a rule, not a panel. */
+.news-row {
+  align-items: baseline;
+  border-block-end: 1px solid var(--color-subtle);
+  color: inherit;
+  display: flex;
+  gap: 1.5rem;
+  padding-block: 1.25rem;
+  text-decoration: none;
+}
+
+.news-list .news-row:first-child {
+  border-block-start: 1px solid var(--color-subtle);
+}
+
+@media (any-hover: hover) {
+  .news-row:hover {
+    border-color: var(--color-subtle-dark);
+  }
+
+  .news-row:hover .news-row__title {
+    color: var(--color-link);
+  }
+}
+
+.news-row__date {
+  color: var(--color-subtle-dark);
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  inline-size: 6.5rem;
+}
+
+.news-row__body {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+/* GOST — the same drafting face the profession cards use, so news reads as
+   part of the same "engineered by practitioners" identity, not a generic list. */
+.news-row__title {
+  font-family: var(--font-technical);
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 0.001em;
+  line-height: 1.2;
+  margin: 0;
+  transition: color 150ms ease;
+}
+
+.news-row__excerpt {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  margin-block: 0.35rem 0;
+}
+
+.news-row__reactions {
+  align-items: center;
+  align-self: center;
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  gap: 0.3em;
+}
+
+.news-row__reactions svg {
+  block-size: 1em;
+  inline-size: 1em;
+}
+
+.news-empty {
+  color: var(--color-subtle-dark);
+  text-align: center;
+}
+
+/* Article — single column, reading width; no "more posts" rail. */
+.news-article__back {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  font-size: 0.85rem;
+  gap: 0.3em;
+  margin-block-end: 2rem;
+}
+
+.news-article__back svg {
+  block-size: 1.05em;
+  inline-size: 1.05em;
+}
+
+.news-article__date {
+  color: var(--color-subtle-dark);
+  display: block;
+  font-size: 0.85rem;
+  margin-block-end: 0.75rem;
+}
+
+.news-article__title {
+  font-family: var(--font-technical);
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  line-height: 1.1;
+  margin: 0 0 1.5rem;
+}
+
+.news-article__hero {
+  block-size: auto;
+  border-radius: 0.75em;
+  display: block;
+  inline-size: 100%;
+  margin-block-end: 2rem;
+}
+
+.news-article__body {
+  margin-block-end: 2.5rem;
+}
+
+.news-article__footer {
+  align-items: center;
+  border-block-start: 1px solid var(--color-subtle);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+  padding-block: 1.5rem;
+}
+
+/* Bare icon tools — same quiet voice as the lesson topbar's .lesson__tool
+   (no border, no fill, just the glyph). The label is a native `title` plus a
+   screen-reader-only span, same as every other icon on the site. */
+.news-article__tool {
+  align-items: center;
+  background: none;
+  border: 0;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  padding: 0;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.news-article__tool svg {
+  block-size: 1.2rem;
+  inline-size: 1.2rem;
+}
+
+/* The reaction heart joins the same row, at the same size (see reactions.css
+   .reaction--bare-icon for the shared border/count/hover rules). */
+.news-article__footer .reaction--bare-icon .reaction__heart svg {
+  block-size: 1.2rem;
+  inline-size: 1.2rem;
+}
+
+@media (any-hover: hover) {
+  .news-article__tool:hover {
+    color: var(--color-ink);
+  }
+}
+
+.news-article__copy-icon--done,
+.news-article__copy--copied .news-article__copy-icon--default {
+  display: none;
+}
+
+.news-article__copy--copied .news-article__copy-icon--done {
+  display: inline-flex;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .news-article__copy--copied .news-article__copy-icon--done svg {
+    animation: pop 300ms ease;
+  }
+}
+
+.news-article__copy--copied {
+  color: var(--color-positive);
+}
+
+/* Older/newer — chronological neighbors, replacing a "more posts" rail. */
+.news-article__nav {
+  border-block-start: 1px solid var(--color-subtle);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-block-start: 1rem;
+}
+
+.news-article__nav-link {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  gap: 0.6em;
+  max-inline-size: 22rem;
+  padding-block: 1.25rem;
+  text-decoration: none;
+}
+
+.news-article__nav-link--newer {
+  margin-inline-start: auto;
+  text-align: end;
+}
+
+.news-article__nav-link svg {
+  block-size: 1.1em;
+  color: var(--color-subtle-dark);
+  flex-shrink: 0;
+  inline-size: 1.1em;
+}
+
+.news-article__nav-label {
+  color: var(--color-subtle-dark);
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.news-article__nav-title {
+  display: block;
+  font-weight: 500;
+  margin-block-start: 0.15rem;
+  transition: color 150ms ease;
+}
+
+@media (any-hover: hover) {
+  .news-article__nav-link:hover .news-article__nav-title {
+    color: var(--color-link);
+  }
+}
+
+/* Admin: hero-image preview thumbnail in the post form. */
+.admin-form__preview {
+  block-size: auto;
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.5em;
+  display: block;
+  margin-block-end: 0.75rem;
+  max-inline-size: 320px;
+}

@@ -47,7 +47,7 @@ The server IP is **not** committed (this is a public repo). `deploy.yml` reads i
 from your shell, so set it once locally:
 
 ```bash
-echo 'export KAMAL_WEB_IP=82.202.158.50' >> ~/.bashrc && source ~/.bashrc
+echo 'export KAMAL_WEB_IP=203.0.113.10' >> ~/.bashrc && source ~/.bashrc   # your real server IP here
 ```
 
 Every `bin/kamal` command then picks it up; if it's unset, Kamal fails fast with

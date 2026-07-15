@@ -13,6 +13,15 @@
         <p><%= t("about.intro1") %></p>
         <p><%= t("about.intro2") %></p>
 
+        <div class="about-letter__goals">
+          <p class="about-letter__goals-title"><%= t("about.goals_title") %></p>
+          <ol class="about-letter__goals-list">
+            <% t("about.goals").each do |goal| %>
+              <li><%= goal %></li>
+            <% end %>
+          </ol>
+        </div>
+
         <h2 class="about-letter__heading"><%= t("about.problem_title") %></h2>
         <p><%= t("about.problem1") %></p>
         <p><%= t("about.problem2_html") %></p>
@@ -46,15 +55,42 @@
       <p class="about-letter__contact">
         <%= t("about.contact_html", telegram_url: site_config.telegram_url) %>
       </p>
-
-      <div class="about-letter__cta">
-        <a href="<%= paths_path %>" class="btn btn--reversed btn--large">
-          <%= t("about.cta_explore") %>
-        </a>
-        <a href="<%= support_us_path %>" class="btn btn--large">
-          <%= t("about.cta_support") %>
-        </a>
-      </div>
     </article>
+
+    <div class="about-compare">
+      <h2 class="about-compare__title"><%= t("about.compare.title") %></h2>
+      <p class="about-compare__lead"><%= t("about.compare.lead") %></p>
+      <div class="about-compare__scroll">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <% t("about.compare.cols").each do |col| %>
+                <th scope="col"><%= col %></th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% t("about.compare.rows").each do |row| %>
+              <tr>
+                <th scope="row"><%= row[:label] %></th>
+                <% row[:cells].each do |cell| %>
+                  <td><%= cell %></td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="about-cta">
+      <a href="<%= paths_path %>" class="btn btn--reversed btn--large">
+        <%= t("about.cta_explore") %>
+      </a>
+      <a href="<%= support_us_path %>" class="btn btn--large">
+        <%= t("about.cta_support") %>
+      </a>
+    </div>
   </div>
 </section>

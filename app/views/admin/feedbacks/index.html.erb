@@ -5,8 +5,14 @@
     <%= render "admin/shared/nav" %>
 
     <div class="admin-header">
-      <div class="admin-header__title-group">
+      <div class="admin-header__title-group admin-header__title-group--stacked">
         <h1 class="admin-header__title"><%= t("admin.manage_feedbacks") %></h1>
+        <% if @coauthor_only %>
+          <p class="admin-header__subtitle">
+            <%= t("admin.coauthor_approve.filter_note") %>
+            · <%= link_to t("admin.coauthor_approve.filter_reset"), admin_feedbacks_path, class: "link-quiet" %>
+          </p>
+        <% end %>
       </div>
     </div>
 
@@ -41,6 +47,23 @@
                   <% end %>
                 </p>
                 <div class="inbox__body"><%= simple_format(feedback.body) %></div>
+
+                <%# Coauthor application → one-gesture approval: confirm the
+                    profession name, and role + draft + editorship land together. %>
+                <% if feedback.coauthor_application? && feedback.user %>
+                  <div class="inbox__approve panel">
+                    <p class="inbox__approve-label"><%= t("admin.coauthor_approve.label") %></p>
+                    <%= form_with url: approve_coauthor_admin_feedback_path(feedback), method: :post, class: "inbox__approve-form" do %>
+                      <%= text_field_tag :profession_title, feedback.suggested_profession,
+                            placeholder: t("admin.coauthor_approve.placeholder"),
+                            class: "input", required: true, aria: { label: t("admin.coauthor_approve.placeholder") } %>
+                      <%= submit_tag t("admin.coauthor_approve.submit"), class: "btn btn--small btn--reversed",
+                            data: { turbo_confirm: t("admin.coauthor_approve.confirm") } %>
+                    <% end %>
+                    <p class="inbox__approve-hint"><%= t("admin.coauthor_approve.hint") %></p>
+                  </div>
+                <% end %>
+
                 <% if feedback.user %>
                   <a href="mailto:<%= feedback.user.email_address %>?subject=<%= u t('admin.feedback_reply_subject') %>"
                      class="btn btn--small btn--reversed">

@@ -4,15 +4,11 @@ position: 1
 kind: lesson
 resources:
   - title: "Приказ Минтруда № 903н от 15.12.2020 — Правила по охране труда при эксплуатации электроустановок"
-    url: "https://www.consultant.ru/document/cons_doc_LAW_372952/"
+    url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
     kind: document
     required: true
     country_code: RU
-  - title: "ГОСТ Р МЭК 60479-1 — Воздействие тока на человека и домашних животных"
-    url: "https://example.com/placeholder-gost-60479"
-    kind: document
-    required: false
-    country_code: RU
+    note: "физика поражения разобрана в уроке — правила целиком читать рано, к группам и нарядам вернёшься дальше"
 ---
 Электрический ток убивает не напряжением, а силой тока через тело — понимание этого механизма объясняет, почему одни ситуации смертельны, а другие нет.
 ---

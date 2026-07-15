@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   root "paths#index"
   get "about" => "pages#about"
   get "contribute" => "pages#contribute"
+  # The recruitment landing for practitioners — what a master gets by leading a
+  # profession; funnels into the co-author application.
+  get "authors" => "pages#authors"
   get "faq" => "pages#faq"
   # The author's reference — public like the content itself: readers suggesting
   # an edit and editors reviewing one read the SAME rules.
@@ -67,6 +70,12 @@ Rails.application.routes.draw do
   get "business" => "business_inquiries#new", as: :business
   post "business" => "business_inquiries#create"
 
+  # News — the founder's «проект живёт» channel. Read-only public pages under
+  # /news; the one engagement affordance is a ❤️ (no comments, zero moderation).
+  resources :posts, path: "news", only: [ :index, :show ], param: :slug do
+    resource :reaction, only: [ :create, :destroy ]
+  end
+
   resources :paths, only: [ :index, :show ], param: :slug
   resources :courses, only: [ :show ], param: :slug
   resources :lessons, only: [ :show ], param: :slug do
@@ -98,6 +107,7 @@ Rails.application.routes.draw do
       end
     end
     resources :courses, only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug
+    resources :posts, path: "news", only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug
     resources :imports, only: [ :new, :create ]
     # The guide went public (readers suggesting edits need it too) — old
     # editor bookmarks land on the new home.
@@ -105,7 +115,9 @@ Rails.application.routes.draw do
     resources :users, only: [ :index, :show, :update ] do
       resource :suspension, only: [ :create, :destroy ]
     end
-    resources :feedbacks, only: [ :index ]
+    resources :feedbacks, only: [ :index ] do
+      member { post :approve_coauthor }
+    end
     get "log" => "admin_actions#index", as: :log
     resources :lesson_suggestions, only: [ :index, :show ] do
       member do

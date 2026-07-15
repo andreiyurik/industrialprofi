@@ -1,0 +1,13 @@
+<%# "Показать ещё" — a GET form that asks for a Turbo Stream (data-turbo-stream),
+    so the next batch is appended instead of navigating. `d` carries the last
+    date on screen so the appended batch can de-dupe its first day heading. %>
+<div id="revisions_more" class="lesson-history__more-wrap">
+  <% if more %>
+    <%= form_with url: lesson_revisions_path(lesson), method: :get,
+          data: { turbo_stream: true } do %>
+      <%= hidden_field_tag :before, next_cursor %>
+      <%= hidden_field_tag :d, boundary_date&.iso8601 %>
+      <%= submit_tag t("revisions.show_more"), class: "lesson-history__more" %>
+    <% end %>
+  <% end %>
+</div>

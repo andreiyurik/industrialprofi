@@ -2,22 +2,6 @@
 title: "Алюминий, чугун, нержавейка — особенности обработки"
 position: 9
 kind: lesson
-resources:
-  - title: "ГОСТ 4784-2019. Алюминий и сплавы алюминиевые деформируемые. Марки"
-    url: "https://example.com/placeholder"
-    kind: norm
-    required: true
-    country_code: RU
-  - title: "ГОСТ 1412-85. Чугун с пластинчатым графитом для отливок. Марки"
-    url: "https://example.com/placeholder"
-    kind: norm
-    required: true
-    country_code: RU
-  - title: "ГОСТ 5632-2014. Нержавеющие стали и сплавы коррозионно-стойкие, жаростойкие и жаропрочные. Марки"
-    url: "https://example.com/placeholder"
-    kind: norm
-    required: true
-    country_code: RU
 ---
 Алюминий, чугун и нержавейка — три материала, которые ведут себя на станке совершенно по-разному и требуют разного подхода к инструменту и режимам.
 ---

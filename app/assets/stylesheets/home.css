@@ -1,0 +1,73 @@
+/* Homepage / catalog landing (paths#index) — the product's front door.
+   A single quiet line states what this is, a small caption says why, and the
+   profession cards begin right below. No eyebrow, no stat line, no texture —
+   typography and restraint carry it. */
+
+.hero {
+  padding-block: 2.25rem 1.5rem;
+
+  @media (min-width: 640px) {
+    padding-block: 3rem 1.75rem;
+  }
+}
+
+/* Content column — static, no entrance animation. */
+.hero__inner {
+  text-align: center;
+}
+
+/* The catalog follows the hero directly — the hero's bottom padding is the only
+   gap, so the profession cards sit high on the first screen. */
+/* The catalog follows the hero directly — the hero's bottom padding is the only
+   gap. The double class beats `.section { padding-block }` in layout.css, which
+   loads after this file (alphabetical order) and would otherwise re-inject 5rem. */
+.section.home-catalog {
+  padding-block-start: 0;
+}
+
+/* One statement line — sentence case (a full phrase reads calmer than shouting
+   caps), tight display type, with a hairline blue caret typed at the end. */
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.4vw, 2.35rem);
+  font-weight: 800;
+  hyphens: none;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin-block: 0;
+  margin-inline: auto;
+  max-inline-size: 32ch;
+  text-wrap: balance;
+}
+
+/* Blinking caret — a blue "cursor" typed after the last word. */
+.hero__title.is-caret::after {
+  content: "";
+  display: inline-block;
+  inline-size: 0.1em;
+  block-size: 0.86em;
+  margin-inline-start: 0.14em;
+  background-color: var(--color-link);
+  border-radius: 0.03em;
+  vertical-align: -0.06em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero__title.is-caret::after {
+    animation: caret-blink 1.05s step-end infinite;
+  }
+}
+
+.hero__subtitle {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  hyphens: none;
+  line-height: 1.55;
+  max-inline-size: 40rem;
+  margin-block: 0.9rem 0;
+  margin-inline: auto;
+  text-wrap: pretty;
+}
+
+/* NOTE: the flat emblem-card styling lives in paths.css (which owns .path-card
+   and loads after this file — same-specificity overrides would lose here). */

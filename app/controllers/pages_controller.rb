@@ -26,6 +26,9 @@ class PagesController < ApplicationController
   def contribute
   end
 
+  def authors
+  end
+
   def faq
   end
 
