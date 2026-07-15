@@ -67,6 +67,12 @@ Rails.application.routes.draw do
   get "business" => "business_inquiries#new", as: :business
   post "business" => "business_inquiries#create"
 
+  # News — the founder's «проект живёт» channel. Read-only public pages under
+  # /news; the one engagement affordance is a ❤️ (no comments, zero moderation).
+  resources :posts, path: "news", only: [ :index, :show ], param: :slug do
+    resource :reaction, only: [ :create, :destroy ]
+  end
+
   resources :paths, only: [ :index, :show ], param: :slug
   resources :courses, only: [ :show ], param: :slug
   resources :lessons, only: [ :show ], param: :slug do
@@ -98,6 +104,7 @@ Rails.application.routes.draw do
       end
     end
     resources :courses, only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug
+    resources :posts, path: "news", only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug
     resources :imports, only: [ :new, :create ]
     # The guide went public (readers suggesting edits need it too) — old
     # editor bookmarks land on the new home.

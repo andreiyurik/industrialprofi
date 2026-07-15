@@ -1,0 +1,38 @@
+<% meta_title(t("admin.news_title")) %>
+
+<section class="admin-page">
+  <div class="container">
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-header">
+      <h1 class="admin-header__title"><%= t("admin.news_title") %></h1>
+      <div class="admin-header__actions">
+        <a href="<%= new_admin_post_path %>" class="btn btn--small btn--reversed">
+          <%= heroicon("plus", variant: :outline) %>
+          <span><%= t("admin.new_post") %></span>
+        </a>
+      </div>
+    </div>
+
+    <% if @posts.any? %>
+      <div class="admin-list">
+        <% @posts.each do |post| %>
+          <a href="<%= edit_admin_post_path(post) %>" class="admin-row">
+            <span class="admin-row__lead">
+              <span class="admin-row__title"><%= post.title %></span>
+              <span class="badge <%= post.published? ? 'badge--link' : 'badge--draft' %>">
+                <%= t("admin.statuses.#{post.status}") %>
+              </span>
+            </span>
+            <span class="admin-row__meta">
+              <% if post.published_at %><span><%= l(post.published_at.to_date) %></span><% end %>
+              <%= heroicon("pencil-square", variant: :outline) %>
+            </span>
+          </a>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="panel"><%= t("admin.news_empty") %></div>
+    <% end %>
+  </div>
+</section>

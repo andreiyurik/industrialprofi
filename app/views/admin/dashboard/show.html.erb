@@ -133,6 +133,25 @@
       </div>
     </div>
 
+    <% if @top_bookmarked_lessons.any? %>
+      <div class="admin-group">
+        <div class="admin-group__head">
+          <h2 class="admin-group__title"><%= t("admin.dashboard.top_bookmarked_title") %></h2>
+          <span class="admin-group__meta"><%= t("admin.dashboard.top_bookmarked_hint") %></span>
+        </div>
+        <div class="admin-list">
+          <% @top_bookmarked_lessons.each do |lesson| %>
+            <%= link_to edit_admin_lesson_path(lesson), class: "admin-row" do %>
+              <span class="admin-row__title"><%= lesson.title %></span>
+              <span class="admin-row__meta">
+                <%= t("admin.dashboard.bookmarks_count", count: lesson.bookmarks_count) %>
+              </span>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
     <div class="admin-group">
       <div class="admin-group__head">
         <h2 class="admin-group__title"><%= t("admin.dashboard.recent_users") %></h2>

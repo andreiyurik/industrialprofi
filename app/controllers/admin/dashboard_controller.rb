@@ -44,6 +44,14 @@ module Admin
       @courses_total = Course.count
       @lessons_total = Lesson.count
 
+      # What readers actually want to keep — the save-for-later signal, ranked.
+      # An inner join naturally drops anything with zero bookmarks.
+      @top_bookmarked_lessons = Lesson.joins(:lesson_bookmarks)
+        .select("lessons.*, COUNT(lesson_bookmarks.id) AS bookmarks_count")
+        .group("lessons.id")
+        .order(Arel.sql("COUNT(lesson_bookmarks.id) DESC"))
+        .limit(10)
+
       # Acquisition (signups) next to engagement (lesson completions) — the two
       # together answer "are people arriving AND actually learning?".
       @signups_by_week = weekly_counts(User.all, CHART_WEEKS)
