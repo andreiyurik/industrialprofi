@@ -87,7 +87,7 @@
   font-family: var(--font-technical);
   font-size: 1.3rem;
   font-weight: 400;
-  letter-spacing: 0.005em;
+  letter-spacing: 0.001em;
   line-height: 1.2;
   margin: 0;
   transition: color 150ms ease;

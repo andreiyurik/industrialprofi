@@ -333,13 +333,26 @@
   text-align: center;
 }
 
+/* GOST, same drafting face as the catalog card poster this page was opened
+   from — the profession name carries the same identity at every size it
+   appears. */
 .path__title {
+  font-family: var(--font-technical);
   font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  line-height: 1.1;
+  margin-block: 0;
+  text-transform: uppercase;
+}
+
+/* Course page reuses the hero markup but keeps the regular display face —
+   GOST is reserved for the profession identity, not every hero underneath it. */
+.path__title--course {
+  font-family: var(--font-display);
   font-weight: 800;
   letter-spacing: -0.025em;
   line-height: 1.02;
-  margin-block: 0;
-  text-transform: uppercase;
 }
 
 /* Overview block — left-aligned for readability, sits just above the curriculum */
