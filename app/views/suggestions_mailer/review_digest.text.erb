@@ -1,6 +1,6 @@
 <%= t("suggestions_mailer.review_digest.greeting", name: @user.name) %>
 
-<%= t("suggestions_mailer.review_digest.body") %>
+<%= t("suggestions_mailer.review_digest.body", count: @pending.size) %>
 
 <% @pending.each do |suggestion| %>
 - «<%= suggestion.lesson.title %>» — <%= suggestion.author_name %>, <%= l(suggestion.created_at.to_date) %>

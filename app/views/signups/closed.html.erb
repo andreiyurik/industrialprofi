@@ -1,0 +1,17 @@
+<% meta_title(t("auth.sign_up_title")) %>
+<% @layout_class = "main--auth" %>
+
+<section class="section">
+  <div class="container">
+    <div class="auth">
+      <%= render "shared/auth_brand" %>
+      <h1 class="auth__title"><%= t("signup.closed_title") %></h1>
+      <p class="auth__hint"><%= t("signup.closed_hint") %></p>
+
+      <p class="auth__alt">
+        <%= t("auth.have_account") %>
+        <%= link_to t("auth.sign_in"), new_session_path %>
+      </p>
+    </div>
+  </div>
+</section>

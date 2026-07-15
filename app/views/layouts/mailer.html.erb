@@ -1,13 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= I18n.locale %>">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%# The app is black-first; tell clients not to "helpfully" invert it. %>
+    <meta name="color-scheme" content="dark">
+    <meta name="supported-color-schemes" content="dark">
     <style>
-      /* Email styles need to be inline */
+      /* Fizzy's mail resets. Only rules that are safe to lose live here — a
+         client that strips <style> must still get a readable letter. */
+      html {
+        -ms-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+      }
+
+      img {
+        border: 0 none;
+        height: auto;
+        line-height: 100%;
+        outline: none;
+        text-decoration: none;
+      }
+
+      table, td {
+        border-collapse: collapse;
+      }
     </style>
   </head>
 
-  <body>
-    <%= yield %>
+  <body style="margin: 0; padding: 0; width: 100%; background-color: <%= MailerHelper::BACKGROUND %>;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="<%= MailerHelper::BACKGROUND %>" style="background-color: <%= MailerHelper::BACKGROUND %>;">
+      <tr>
+        <td align="center" valign="top" style="padding: 48px 24px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="520" style="width: 520px; max-width: 100%;">
+            <tr>
+              <td align="center" style="padding-bottom: 36px;">
+                <%# The RJ45 plug alone, sized up as a seal — the app's own answer
+                    (auth__brand-mark, and the mobile header) for where the
+                    wordmark would crowd the row. A big mark plus the wordmark
+                    can't fit a 320px phone, and email can't be trusted with the
+                    media query that fixes it. The alt carries the name, so
+                    images-off still reads as the brand. %>
+                <a href="<%= root_url %>"><img src="<%= image_url("logo-ethernet.png") %>" width="128" height="48" alt="<%= t("site.name") %>" style="display: block; width: 128px; height: 48px; border: 0; font-family: <%= MailerHelper::FONT_STACK %>; font-size: 21px; font-weight: 700; letter-spacing: -0.01em; color: <%= MailerHelper::INK %>; text-decoration: none;"></a>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <%= yield %>
+              </td>
+            </tr>
+
+            <%# Fizzy's .footer: a hairline, then the quiet housekeeping. %>
+            <tr>
+              <td style="padding-top: 24px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="<%= mail_style(:rule) %>">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="padding-top: 24px;">
+                      <%= yield :mailer_footer %>
+                      <p style="<%= mail_style(:muted) %> color: <%= MailerHelper::INK %>; padding-bottom: 4px;"><%= t("site.encyclopedia") %></p>
+                      <p style="<%= mail_style(:muted) %> padding-bottom: 0;"><%= t("site.tagline") %></p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
