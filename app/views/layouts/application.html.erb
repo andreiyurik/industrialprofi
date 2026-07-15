@@ -115,6 +115,10 @@
                     aria: { current: ("page" if controller_name == "calculators") } do %>
                 <%= heroicon "calculator", variant: :outline %><%= t("nav.calculators") %>
               <% end %>
+              <%= link_to posts_path, class: "nav__link link-quiet",
+                    aria: { current: ("page" if controller_name == "posts") } do %>
+                <%= heroicon "newspaper", variant: :outline %><%= t("nav.news") %>
+              <% end %>
               <% if controller.class.module_parent_name == "Admin" %>
                 <span class="badge badge--marker">Admin</span>
               <% end %>
@@ -272,6 +276,7 @@
           <a href="<%= projects_path %>" class="footer__link link-quiet"><%= t("nav.projects") %></a>
           <a href="<%= resources_path %>" class="footer__link link-quiet"><%= t("nav.library") %></a>
           <a href="<%= calculators_path %>" class="footer__link link-quiet"><%= t("nav.calculators") %></a>
+          <a href="<%= posts_path %>" class="footer__link link-quiet"><%= t("nav.news") %></a>
         </div>
 
         <div class="footer__col">

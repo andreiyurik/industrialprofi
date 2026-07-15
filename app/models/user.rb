@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :bookmarked_lessons, through: :lesson_bookmarks, source: :lesson
   has_many :journal_entries, dependent: :destroy
   has_many :feedbacks, dependent: :destroy
+  has_many :reactions, dependent: :destroy
   # Per-profession edit grants (see Editorship). Admins edit all and need none.
   has_many :editorships, dependent: :destroy
   has_many :editable_paths, through: :editorships, source: :path

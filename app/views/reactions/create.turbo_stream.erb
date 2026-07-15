@@ -1,0 +1,3 @@
+<%= turbo_stream.replace dom_id(@reactable, :reaction) do %>
+  <%= render "shared/reaction", reactable: @reactable, reacted: true, popped: true %>
+<% end %>

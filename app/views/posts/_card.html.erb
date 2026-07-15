@@ -1,0 +1,15 @@
+<%= link_to post_path(post), class: "news-row" do %>
+  <time class="news-row__date" datetime="<%= post.published_at.to_date.iso8601 %>"><%= l(post.published_at.to_date, format: "%-d %B") %></time>
+  <div class="news-row__body">
+    <h3 class="news-row__title"><%= post.title %></h3>
+    <% if post.excerpt.present? %>
+      <p class="news-row__excerpt"><%= post.excerpt %></p>
+    <% end %>
+  </div>
+  <% if post.reactions_count.positive? %>
+    <span class="news-row__reactions" aria-label="<%= t("reactions.count", count: post.reactions_count) %>">
+      <%= heroicon "heart", variant: :solid %>
+      <span><%= post.reactions_count %></span>
+    </span>
+  <% end %>
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_12_004641) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_15_120002) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -213,6 +213,30 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_12_004641) do
     t.index ["status"], name: "index_paths_on_status"
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "excerpt"
+    t.datetime "published_at"
+    t.integer "reactions_count", default: 0, null: false
+    t.string "slug", null: false
+    t.string "status", default: "draft", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["published_at"], name: "index_posts_on_published_at"
+    t.index ["slug"], name: "index_posts_on_slug", unique: true
+  end
+
+  create_table "reactions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "reactable_id", null: false
+    t.string "reactable_type", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["reactable_type", "reactable_id"], name: "index_reactions_on_reactable"
+    t.index ["user_id", "reactable_type", "reactable_id"], name: "index_reactions_on_user_and_reactable", unique: true
+    t.index ["user_id"], name: "index_reactions_on_user_id"
+  end
+
   create_table "resources", force: :cascade do |t|
     t.string "country_code"
     t.datetime "created_at", null: false
@@ -281,6 +305,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_12_004641) do
   add_foreign_key "lesson_suggestions", "users"
   add_foreign_key "lessons", "courses"
   add_foreign_key "lessons", "paths"
+  add_foreign_key "reactions", "users"
   add_foreign_key "resources", "lessons"
   add_foreign_key "sessions", "users"
 

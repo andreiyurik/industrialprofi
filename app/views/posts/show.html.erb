@@ -1,0 +1,84 @@
+<% meta_title(@post.title) %>
+<% meta_description(@post.excerpt.presence || @post.title) %>
+<% canonical_url("#{site_config.url}/news/#{@post.slug}") %>
+<% content_for(:og_type, "article") %>
+<% content_for(:head) do %>
+  <meta property="article:published_time" content="<%= @post.published_at.iso8601 %>">
+  <meta property="article:modified_time" content="<%= @post.updated_at.iso8601 %>">
+<% end %>
+
+<% post_url = "#{site_config.url}/news/#{@post.slug}" %>
+
+<section class="section">
+  <div class="container container--reading">
+    <article class="news-article">
+      <%= link_to posts_path, class: "news-article__back link-quiet" do %>
+        <%= heroicon "arrow-left", variant: :outline %><%= t("news.all_news") %>
+      <% end %>
+
+      <header class="news-article__header">
+        <time class="news-article__date" datetime="<%= @post.published_at.to_date.iso8601 %>"><%= l(@post.published_at.to_date) %></time>
+      </header>
+
+      <h1 class="news-article__title"><%= @post.title %></h1>
+
+      <% if @post.hero_image.attached? %>
+        <% if ApplicationHelper.variant_processing_available? %>
+          <%= image_tag @post.hero_image.variant(resize_to_limit: [ 1200, nil ], format: :webp),
+                class: "news-article__hero", alt: @post.title, loading: "lazy" %>
+        <% else %>
+          <%= image_tag @post.hero_image, class: "news-article__hero", alt: @post.title, loading: "lazy" %>
+        <% end %>
+      <% end %>
+
+      <div class="prose news-article__body"><%= post_body(@post) %></div>
+
+      <footer class="news-article__footer"
+              data-controller="copy-link"
+              data-copy-link-url-value="<%= post_url %>"
+              data-copy-link-label-value="<%= t("news.copy_link") %>"
+              data-copy-link-copied-value="<%= t("news.link_copied") %>">
+        <div class="reaction--bare-icon">
+          <%= render "shared/reaction", reactable: @post %>
+        </div>
+        <button type="button" class="news-article__tool news-article__copy" hidden
+                data-copy-link-target="button"
+                data-action="copy-link#copy"
+                aria-label="<%= t("news.copy_link") %>" title="<%= t("news.copy_link") %>">
+          <span class="news-article__copy-icon news-article__copy-icon--default"><%= heroicon "link", variant: :outline %></span>
+          <span class="news-article__copy-icon news-article__copy-icon--done"><%= heroicon "check", variant: :outline %></span>
+          <span class="for-screen-reader" data-copy-link-target="label"><%= t("news.copy_link") %></span>
+        </button>
+        <a href="<%= telegram_share_url(url: post_url, text: t("news.share_text", title: @post.title)) %>"
+           class="news-article__tool news-article__share"
+           aria-label="<%= t("news.share_telegram") %>" title="<%= t("news.share_telegram") %>" target="_blank" rel="noopener">
+          <%= heroicon "paper-airplane", variant: :outline %>
+          <span class="for-screen-reader"><%= t("news.share_telegram") %></span>
+        </a>
+      </footer>
+
+      <% if @older_post || @newer_post %>
+        <nav class="news-article__nav" aria-label="<%= t("news.title") %>">
+          <% if @older_post %>
+            <%= link_to post_path(@older_post), class: "news-article__nav-link news-article__nav-link--older" do %>
+              <%= heroicon "arrow-left", variant: :outline %>
+              <span class="news-article__nav-text">
+                <span class="news-article__nav-label"><%= t("news.older") %></span>
+                <span class="news-article__nav-title"><%= @older_post.title %></span>
+              </span>
+            <% end %>
+          <% end %>
+          <% if @newer_post %>
+            <%= link_to post_path(@newer_post), class: "news-article__nav-link news-article__nav-link--newer" do %>
+              <span class="news-article__nav-text">
+                <span class="news-article__nav-label"><%= t("news.newer") %></span>
+                <span class="news-article__nav-title"><%= @newer_post.title %></span>
+              </span>
+              <%= heroicon "arrow-right", variant: :outline %>
+            <% end %>
+          <% end %>
+        </nav>
+      <% end %>
+    </article>
+  </div>
+</section>

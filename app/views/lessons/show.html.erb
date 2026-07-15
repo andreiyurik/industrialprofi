@@ -110,8 +110,9 @@
         </span>
       </button>
 
-      <%# Save-for-later: a practice task often waits for tools/materials. %>
-      <% if @lesson.practice? && signed_in? %>
+      <%# Save-for-later — any lesson, not just practice: a reader may want to
+          come back to a theory lesson just as much as one waiting on tools. %>
+      <% if signed_in? %>
         <%= render "lessons/bookmark_button", lesson: @lesson,
               bookmarked: Current.user.lesson_bookmarks.exists?(lesson: @lesson) %>
       <% end %>
