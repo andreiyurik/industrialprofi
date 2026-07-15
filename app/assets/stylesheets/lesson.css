@@ -49,24 +49,18 @@
   scroll-margin-block-start: 5rem;
 }
 
-/* GOST — the same drafting face as the profession-card poster and the news
-   headlines, so the lesson's own title (the most-read heading on the site)
-   carries the same "engineered by practitioners" identity, not just the
-   occasional landing surface. Uppercase (same move as the task-brief rubrics
-   below): we only self-host GOST's regular weight, and faux-bolding a thin
-   monoline face looks smudged — caps read heavier and steadier at this
-   length without touching font-weight, and it's the face's native register
-   (ГОСТ 2.304 drafting labels are set in caps, not lowercase running text). */
+/* Regular display face (Inter Tight), not GOST: this is the single most-read
+   heading on the site, often safety-critical content — clarity and reading
+   speed win over the "engineered" identity, which stays on the profession
+   card/hero where a reader only glances at it once. */
 .lesson__title {
-  font-family: var(--font-technical);
   /* Capped at 2.1rem (was 2.5): long multi-word technical titles read as a
      calmer landmark, not a wall, while staying the clear primary heading. */
   font-size: clamp(1.75rem, 4.5vw, 2.1rem);
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
   margin-block: 0;
-  text-transform: uppercase;
 }
 
 /* Top toolbar: breadcrumb trail on the left, quiet icon-only utilities on the
