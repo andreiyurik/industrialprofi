@@ -60,7 +60,11 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "industrialprofi.com" }
+  config.action_mailer.default_url_options = { host: "industrialprofi.com", protocol: "https" }
+
+  # Emails carry the brand logo, and `image_url` falls back to a relative path
+  # (unresolvable in a mail client) unless it has an absolute host of its own.
+  config.action_mailer.asset_host = "https://industrialprofi.com"
 
   # Outgoing SMTP server — all values come from the encrypted credentials
   # (`bin/rails credentials:edit`, the smtp: block). See docs/DEPLOY.md.

@@ -1,17 +1,17 @@
-<p><%= t("editorships_mailer.granted.greeting", name: @user.name) %></p>
+<h1 style="<%= mail_style(:title) %>"><%= t("editorships_mailer.granted.greeting", name: @user.name) %></h1>
 
-<p><%= t("editorships_mailer.granted.body") %></p>
+<p style="<%= mail_style(:subtitle) %>"><%= t("editorships_mailer.granted.body") %></p>
 
-<ul>
+<ul style="<%= mail_style(:list) %>">
   <% @paths.each do |path| %>
-    <li>«<%= path.title %>»</li>
+    <li style="<%= mail_style(:list_item) %>">«<%= path.title %>»</li>
   <% end %>
 </ul>
 
-<p><%= t("editorships_mailer.granted.now_you_can") %></p>
+<p style="<%= mail_style(:paragraph) %>"><%= t("editorships_mailer.granted.now_you_can") %></p>
 
-<p><%= link_to t("editorships_mailer.granted.cta"), admin_lesson_suggestions_url %></p>
+<%= render "shared/mailer/button", text: t("editorships_mailer.granted.cta"), url: admin_lesson_suggestions_url %>
 
-<p><%= t("editorships_mailer.granted.guide_html", link: link_to(t("editorships_mailer.granted.guide_link"), guide_url)) %></p>
+<p style="<%= mail_style(:muted) %>"><%= t("editorships_mailer.granted.guide_html", link: mail_link_to(t("editorships_mailer.granted.guide_link"), guide_url)) %></p>
 
-<p><%= t("editorships_mailer.granted.thanks") %></p>
+<p style="<%= mail_style(:muted) %>"><%= t("editorships_mailer.granted.thanks") %></p>

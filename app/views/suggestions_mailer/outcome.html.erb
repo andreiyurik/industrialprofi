@@ -1,18 +1,20 @@
-<p><%= t("suggestions_mailer.outcome.greeting", name: @user.name) %></p>
+<% content_for :mailer_footer do %>
+  <p style="<%= mail_style(:muted) %>"><%= mail_link_to t("suggestions_mailer.outcome.unsubscribe"), @unsubscribe_url %></p>
+<% end %>
 
-<p><%= t("suggestions_mailer.outcome.body_#{@suggestion.status}", lesson: @lesson.title) %></p>
+<h1 style="<%= mail_style(:title) %>"><%= t("suggestions_mailer.outcome.greeting", name: @user.name) %></h1>
+
+<p style="<%= mail_style(:subtitle) %>"><%= t("suggestions_mailer.outcome.body_#{@suggestion.status}", lesson: @lesson.title) %></p>
 
 <% if @suggestion.rejected? && @suggestion.reviewer_comment.present? %>
-  <p><%= t("suggestions_mailer.outcome.comment_label") %></p>
-  <blockquote><%= @suggestion.reviewer_comment %></blockquote>
+  <p style="<%= mail_style(:muted) %>"><%= t("suggestions_mailer.outcome.comment_label") %></p>
+  <blockquote style="<%= mail_style(:quote) %>"><%= @suggestion.reviewer_comment %></blockquote>
 <% end %>
 
 <% if @suggestion.approved? %>
-  <p><%= link_to t("suggestions_mailer.outcome.view_history"), lesson_revisions_url(@lesson) %></p>
+  <%= render "shared/mailer/button", text: t("suggestions_mailer.outcome.view_history"), url: lesson_revisions_url(@lesson) %>
 <% else %>
-  <p><%= link_to t("suggestions_mailer.outcome.view_lesson"), lesson_url(@lesson) %></p>
+  <%= render "shared/mailer/button", text: t("suggestions_mailer.outcome.view_lesson"), url: lesson_url(@lesson) %>
 <% end %>
 
-<p><%= t("suggestions_mailer.outcome.thanks") %></p>
-
-<p><%= link_to t("suggestions_mailer.outcome.unsubscribe"), @unsubscribe_url %></p>
+<p style="<%= mail_style(:muted) %>"><%= t("suggestions_mailer.outcome.thanks") %></p>

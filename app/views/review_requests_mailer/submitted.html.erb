@@ -1,10 +1,11 @@
-<p><%= t("review_requests_mailer.submitted.intro.#{@kind}", title: @record.title, profession: @profession) %></p>
+<p style="<%= mail_style(:subtitle) %>"><%= t("review_requests_mailer.submitted.intro.#{@kind}", title: @record.title, profession: @profession) %></p>
 
 <% if @submitter %>
-  <p><strong><%= t("review_requests_mailer.submitted.by") %>:</strong> <%= @submitter.name %></p>
+  <p style="<%= mail_style(:muted) %>"><strong style="color: <%= MailerHelper::INK %>;"><%= t("review_requests_mailer.submitted.by") %>:</strong> <%= @submitter.name %></p>
 <% end %>
 
-<p><%= link_to t("review_requests_mailer.submitted.cta"), @review_url %></p>
+<%= render "shared/mailer/button", text: t("review_requests_mailer.submitted.cta"), url: @review_url %>
 
-<hr>
-<p><%= t("review_requests_mailer.submitted.hint") %></p>
+<hr style="<%= mail_style(:divider) %>">
+
+<p style="<%= mail_style(:muted) %>"><%= t("review_requests_mailer.submitted.hint") %></p>
