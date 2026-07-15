@@ -84,34 +84,30 @@ ADMIN_EMAIL=... ADMIN_PASSWORD=... bin/kamal app exec "bin/rails db:seed"
 
 - **Backups — mandatory, before any real users exist.** Everything lives on the
   host in the docker volume `/var/lib/docker/volumes/industrialprofi_storage/_data`,
-  which holds **two** kinds of data that need **two** different backup mechanisms:
-  1. `production.sqlite3` — the whole catalog, progress, accounts. Replicated
-     **continuously** by **Litestream**, baked straight into the app image and
-     wrapping the server process (`Dockerfile` CMD + `bin/docker-entrypoint`,
-     config in `config/litestream.yml`) — not a separate Kamal accessory. It
-     streams to an S3-compatible bucket, keeps 7 days of point-in-time
-     recovery, and **restores automatically on boot** if `production.sqlite3`
-     is missing (a fresh volume or a new server). The S3 provider/bucket/region
-     are deliberately **not named here** — same reasoning as `KAMAL_WEB_IP`
-     never being committed: keep infrastructure specifics out of a repo that
-     may be public. All five values
-     (`LITESTREAM_ACCESS_KEY_ID`/`LITESTREAM_SECRET_ACCESS_KEY`/
-     `LITESTREAM_S3_BUCKET`/`LITESTREAM_S3_ENDPOINT`/`LITESTREAM_S3_REGION`)
-     live in `.kamal/secrets`, pulled from your shell env, never committed.
-
-     `production_cache.sqlite3` and `production_cable.sqlite3` (Solid
-     Cache/Cable) are deliberately **not** replicated — disposable-by-design,
-     Rails regenerates them. `production_queue.sqlite3` (Solid Queue) is also
-     skipped — losing it drops in-flight jobs, not irreplaceable data. This
-     keeps S3 storage to roughly a quarter of what backing up all four DBs
-     would cost, for zero loss of anything that actually matters.
+  which holds **two** kinds of data, each with its own daily host-level cron —
+  no Kamal accessory, no extra binary baked into the app image (see the
+  "SQLite backups" recorded decision above for why Litestream was tried and
+  reverted). Both crons `apt install`'d `rclone` on the server and configured
+  one `s3backup:` remote (`rclone config create` — endpoint/region/keys stay
+  out-of-band in a password manager, never in this file or `deploy.yml`'s
+  `clear:` env, same reasoning as `KAMAL_WEB_IP` never being committed):
+  1. `production.sqlite3` — the whole catalog, progress, accounts.
+     `/root/backup-db.sh`, cron at 03:10 server time, using SQLite's own
+     **Online Backup API** (consistent snapshot even under concurrent writes):
+     ```bash
+     vol=/var/lib/docker/volumes/industrialprofi_storage/_data
+     mkdir -p /root/backups
+     sqlite3 "$vol/production.sqlite3" ".backup /root/backups/production-$(date +%F).sqlite3"
+     rclone sync /root/backups s3backup:<your-bucket>/db
+     find /root/backups -name '*.sqlite3' -mtime +3 -delete # S3 is the durable copy
+     ```
+     `production_cache.sqlite3`/`production_cable.sqlite3` (Solid Cache/Cable)
+     are deliberately **not** backed up — disposable-by-design, Rails
+     regenerates them. `production_queue.sqlite3` (Solid Queue) is skipped too
+     — losing it drops in-flight jobs, not irreplaceable data.
   2. `blobs/` — Active Storage files, i.e. editor-uploaded **lesson images**
-     (no longer ≈0 since editors can attach images to lessons). Litestream
-     doesn't touch this (it only replicates SQLite databases), so a daily
-     **host-level cron** mirrors it to the same S3 bucket used above. On the
-     server: `apt install rclone`, then `rclone config create` an `s3backup:`
-     remote (endpoint/region/keys — provider stays out-of-band, see a password
-     manager, not this file). `/root/backup-blobs.sh`, cron at 03:17 server time:
+     (no longer ≈0 since editors can attach images to lessons).
+     `/root/backup-blobs.sh`, cron at 03:17 server time:
      ```bash
      # Active Storage creates blobs/ lazily on first upload — mkdir keeps a
      # pre-upload sync from erroring instead of no-op-ing.
@@ -123,8 +119,9 @@ ADMIN_EMAIL=... ADMIN_PASSWORD=... bin/kamal app exec "bin/rails db:seed"
      blobs are immutable once uploaded (rewritten only by upload/delete, both
      already logged elsewhere).
 
-  A backup you've never restored isn't a backup — restore `production.sqlite3`
-  via `litestream restore` and a few blobs locally once a quarter.
+  A backup you've never restored isn't a backup — `rclone copy` a
+  `production-*.sqlite3` back down and open it with `sqlite3` (or restore a
+  few blobs) locally once a quarter.
 - **External uptime monitoring:** UptimeRobot (free) on
   `https://industrialprofi.com/up`, alerting to email/Telegram. Internal error
   monitoring is already built in (`lib/error_subscriber.rb` emails admins).

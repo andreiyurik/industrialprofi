@@ -20,11 +20,6 @@ RUN apt-get update -qq && \
     ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Litestream: continuous SQLite replication to S3 (see config/litestream.yml).
-ARG LITESTREAM_VERSION=0.5.14
-RUN curl -fsSL --retry 3 "https://github.com/benbjohnson/litestream/releases/download/v${LITESTREAM_VERSION}/litestream-${LITESTREAM_VERSION}-linux-x86_64.tar.gz" \
-      | tar -xz -C /usr/local/bin litestream
-
 # Set production environment variables and enable jemalloc for reduced memory usage and latency.
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
@@ -77,8 +72,6 @@ COPY --chown=rails:rails --from=build /rails /rails
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-# Start server via Thruster, wrapped by Litestream so production.sqlite3
-# replicates continuously to S3 for the life of the process (restore-on-boot
-# logic lives in bin/docker-entrypoint). This can be overwritten at runtime.
+# Start server via Thruster by default, this can be overwritten at runtime
 EXPOSE 80
-CMD ["litestream", "replicate", "-config", "/rails/config/litestream.yml", "-exec", "./bin/thrust ./bin/rails server"]
+CMD ["./bin/thrust", "./bin/rails", "server"]
