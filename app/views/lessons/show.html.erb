@@ -93,7 +93,17 @@
         <span class="for-screen-reader" data-copy-link-target="label"><%= t("lessons.copy_link") %></span>
       </button>
 
-      <%# Icon-only in BOTH states (the exit pill included — a label there is
+      <%# Save-for-later — any lesson, not just practice: a reader may want to
+          come back to a theory lesson just as much as one waiting on tools. %>
+      <% if signed_in? %>
+        <%= render "lessons/bookmark_button", lesson: @lesson,
+              bookmarked: Current.user.lesson_bookmarks.exists?(lesson: @lesson) %>
+      <% end %>
+
+      <%# Reading mode sits last, at the far edge — it's the one tool that
+          changes the whole screen, not just this lesson, so it reads as a
+          deliberate step away from the row rather than one of the cluster.
+          Icon-only in BOTH states (the exit pill included — a label there is
           the loudest thing on an otherwise stripped screen). The state text
           stays for screen readers; sighted users get the title + Esc. %>
       <button type="button" class="lesson__tool lesson-reading-toggle" hidden
@@ -109,13 +119,6 @@
           <span class="for-screen-reader"><%= t("lessons.reading_mode_exit") %></span>
         </span>
       </button>
-
-      <%# Save-for-later — any lesson, not just practice: a reader may want to
-          come back to a theory lesson just as much as one waiting on tools. %>
-      <% if signed_in? %>
-        <%= render "lessons/bookmark_button", lesson: @lesson,
-              bookmarked: Current.user.lesson_bookmarks.exists?(lesson: @lesson) %>
-      <% end %>
     </div>
   </div>
 
