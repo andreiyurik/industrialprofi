@@ -1,11 +1,13 @@
-<p><%= t("reminders_mailer.continue_learning.greeting", name: @user.name) %></p>
+<% content_for :mailer_footer do %>
+  <p style="<%= mail_style(:muted) %>"><%= mail_link_to t("reminders_mailer.continue_learning.unsubscribe"), @unsubscribe_url %></p>
+<% end %>
 
-<p><%= t("reminders_mailer.continue_learning.body", path: @path.title, lesson: @lesson.title) %></p>
+<h1 style="<%= mail_style(:title) %>"><%= t("reminders_mailer.continue_learning.greeting", name: @user.name) %></h1>
 
-<p><%= link_to t("reminders_mailer.continue_learning.cta"), lesson_url(@lesson) %></p>
+<p style="<%= mail_style(:subtitle) %>"><%= t("reminders_mailer.continue_learning.body", path: @path.title, lesson: @lesson.title) %></p>
 
-<p><%= t("reminders_mailer.continue_learning.once") %></p>
+<%= render "shared/mailer/button", text: t("reminders_mailer.continue_learning.cta"), url: lesson_url(@lesson) %>
 
-<p><%= link_to t("reminders_mailer.continue_learning.feedback"), new_feedback_url %></p>
+<p style="<%= mail_style(:muted) %>"><%= t("reminders_mailer.continue_learning.once") %></p>
 
-<p><%= link_to t("reminders_mailer.continue_learning.unsubscribe"), @unsubscribe_url %></p>
+<p style="<%= mail_style(:muted) %>"><%= mail_link_to t("reminders_mailer.continue_learning.feedback"), new_feedback_url %></p>

@@ -4,4 +4,5 @@ class ApplicationMailer < ActionMailer::Base
           # Unset → the header is simply omitted.
           reply_to: ENV["MAIL_REPLY_TO"]
   layout "mailer"
+  helper MailerHelper
 end
