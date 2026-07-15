@@ -1,9 +1,9 @@
-<p><%= t("passwords_mailer.reset.greeting", name: @user.name) %></p>
+<h1 style="<%= mail_style(:title) %>"><%= t("passwords_mailer.reset.greeting", name: @user.name) %></h1>
 
-<p><%= t("passwords_mailer.reset.body") %></p>
+<p style="<%= mail_style(:subtitle) %>"><%= t("passwords_mailer.reset.body") %></p>
 
-<p><%= link_to t("passwords_mailer.reset.link_text"), edit_password_url(@user.password_reset_token) %></p>
+<%= render "shared/mailer/button", text: t("passwords_mailer.reset.link_text"), url: edit_password_url(@user.password_reset_token) %>
 
-<p><%= t("passwords_mailer.reset.expires") %></p>
+<p style="<%= mail_style(:muted) %>"><%= t("passwords_mailer.reset.expires") %></p>
 
-<p><%= t("passwords_mailer.reset.ignore") %></p>
+<p style="<%= mail_style(:muted) %>"><%= t("passwords_mailer.reset.ignore") %></p>

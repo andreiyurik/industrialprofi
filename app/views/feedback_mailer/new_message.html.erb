@@ -1,11 +1,12 @@
 <% if @user %>
-  <p><strong><%= t("feedback_mailer.new_message.from") %>:</strong> <%= @user.name %> (<%= @user.email_address %>)</p>
+  <p style="<%= mail_style(:meta) %>"><strong style="color: <%= MailerHelper::INK %>;"><%= t("feedback_mailer.new_message.from") %>:</strong> <%= @user.name %> (<%= @user.email_address %>)</p>
 <% end %>
 <% if @feedback.page_url.present? %>
-  <p><strong><%= t("feedback_mailer.new_message.page") %>:</strong> <%= link_to @feedback.page_url, @feedback.page_url %></p>
+  <p style="<%= mail_style(:meta) %>"><strong style="color: <%= MailerHelper::INK %>;"><%= t("feedback_mailer.new_message.page") %>:</strong> <%= mail_link_to @feedback.page_url, @feedback.page_url %></p>
 <% end %>
 
-<%= simple_format(@feedback.body) %>
+<%= simple_format @feedback.body, style: mail_style(:paragraph) %>
 
-<hr>
-<p><%= t("feedback_mailer.new_message.reply_hint") %> <%= link_to t("admin.manage_feedbacks"), admin_feedbacks_url %></p>
+<hr style="<%= mail_style(:divider) %>">
+
+<p style="<%= mail_style(:meta) %>"><%= t("feedback_mailer.new_message.reply_hint") %> <%= mail_link_to t("admin.manage_feedbacks"), admin_feedbacks_url %></p>

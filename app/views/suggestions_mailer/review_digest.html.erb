@@ -1,18 +1,20 @@
-<p><%= t("suggestions_mailer.review_digest.greeting", name: @user.name) %></p>
+<% content_for :mailer_footer do %>
+  <p style="<%= mail_style(:muted) %>"><%= mail_link_to t("suggestions_mailer.review_digest.unsubscribe"), @unsubscribe_url %></p>
+<% end %>
 
-<p><%= t("suggestions_mailer.review_digest.body") %></p>
+<h1 style="<%= mail_style(:title) %>"><%= t("suggestions_mailer.review_digest.greeting", name: @user.name) %></h1>
 
-<ul>
+<p style="<%= mail_style(:subtitle) %>"><%= t("suggestions_mailer.review_digest.body", count: @pending.size) %></p>
+
+<ul style="<%= mail_style(:list) %>">
   <% @pending.each do |suggestion| %>
-    <li>
+    <li style="<%= mail_style(:list_item) %>">
       «<%= suggestion.lesson.title %>» — <%= suggestion.author_name %>,
       <%= l(suggestion.created_at.to_date) %>
     </li>
   <% end %>
 </ul>
 
-<p><%= link_to t("suggestions_mailer.review_digest.cta"), admin_lesson_suggestions_url %></p>
+<%= render "shared/mailer/button", text: t("suggestions_mailer.review_digest.cta"), url: admin_lesson_suggestions_url %>
 
-<p><%= t("suggestions_mailer.review_digest.once") %></p>
-
-<p><%= link_to t("suggestions_mailer.review_digest.unsubscribe"), @unsubscribe_url %></p>
+<p style="<%= mail_style(:muted) %>"><%= t("suggestions_mailer.review_digest.once") %></p>

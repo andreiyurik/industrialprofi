@@ -1,6 +1,8 @@
 class SignupsController < ApplicationController
   include SignupFlow
 
+  before_action -> { render :closed }, unless: :signup_open?
+
   rate_limit to: 10, within: 3.minutes, only: :create,
              with: -> { redirect_to new_signup_path, alert: t("auth.rate_limited") }
 
