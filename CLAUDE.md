@@ -279,7 +279,9 @@ per file; cascade is filename-alphabetical (prefix bedrock with `_`).
   abstractions reference them via `oklch(var(--lch-*))` (`--color-bg`,
   `--color-ink`, `--color-link`, `--color-positive`/`-negative`, etc). **Any new
   colour is added as an OKLCH primitive here first.** Historical names hold dark
-  values (`--lch-black` = near-white ink, `--lch-white` = pure-black bg).
+  values (`--lch-black` = near-white ink, `--lch-white` = near-black bg — never
+  literal 0% lightness, so grays stay legible across real HDR/SDR displays,
+  GitHub Primer dark-theme style).
 - **Dark, black-first foundation — but usability comes first.** Single dark theme
   (`color-scheme: dark` only), no light mode. The guiding principle is **"make it
   maximally clear, convenient and intuitive for the user, using proven design
