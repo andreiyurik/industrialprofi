@@ -27,11 +27,10 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match %r{href="/paths/future-prof"}, response.body, "stubs are not links"
   end
 
-  test "index invites a profession idea and a co-author" do
+  test "index invites a co-author with a single call" do
     get paths_path
-    assert_match I18n.t("paths.soon_idea"), response.body
-    assert_select "a[href=?]", new_feedback_path(about: "profession", from: paths_path)
-    assert_select "a[href=?]", contribute_path
+    assert_select ".catalog-soon a", count: 1
+    assert_select ".catalog-soon a[href=?]", contribute_path
   end
 
   test "index shows the hero headline" do
