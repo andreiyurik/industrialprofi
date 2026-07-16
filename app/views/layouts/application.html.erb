@@ -96,6 +96,14 @@
                 <%= heroicon "x-mark", variant: :outline %>
               </button>
 
+              <%# Guest sheet only: a quiet RJ45 mark faces the ✕, where a
+                  signed-in reader gets the identity row. Signed in, this slot is
+                  taken; on desktop the whole panel is the inline nav, so it's
+                  hidden there too. %>
+              <% unless signed_in? %>
+                <%= image_tag "logo-ethernet.png", alt: "", class: "header__menu-mark", aria: { hidden: "true" } %>
+              <% end %>
+
               <%# Mobile-only identity header — the dropdown mirrors the desktop
                   popover's anatomy, so it reads as the same menu. %>
               <% if signed_in? %>
