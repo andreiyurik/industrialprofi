@@ -11,4 +11,13 @@ class Editorship < ApplicationRecord
   belongs_to :path
 
   validates :user_id, uniqueness: { scope: :path_id }
+
+  # The self-sufficiency compass: how many published professions are maintained
+  # by someone besides the founder. Counts only while an active editor role
+  # backs the grant — the same rule User#can_edit_path? applies.
+  def self.count_published_paths_with_editor
+    joins(:user).merge(User.active.where(role: :editor))
+                .where(path_id: Path.published.select(:id))
+                .distinct.count(:path_id)
+  end
 end

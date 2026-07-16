@@ -22,6 +22,17 @@ class Feedback < ApplicationRecord
     page_url == COAUTHOR_APPLICATION_PATH
   end
 
+  # Folds a structured form (business inquiry, coauthor application, …) into a
+  # readable body, with an i18n header line that makes the message recognizable
+  # among ordinary feedback in the founder's inbox.
+  def self.compose_message(i18n_scope, fields:, values:)
+    lines = [ I18n.t("#{i18n_scope}.message.header") ]
+    fields.each do |field|
+      lines << "#{I18n.t("#{i18n_scope}.message.#{field}")}: #{values[field]}"
+    end
+    lines.join("\n\n")
+  end
+
   # The profession the applicant named, parsed from the structured body so the
   # approve form can prefill it. Uses the same i18n label the body was composed
   # with; a miss just leaves the field blank for the admin to type.

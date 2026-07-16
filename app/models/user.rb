@@ -74,7 +74,6 @@ class User < ApplicationRecord
     end
   end
 
-  # Lift the ban; the user can sign in again.
   def reinstate!
     update!(suspended_at: nil)
   end
@@ -85,6 +84,23 @@ class User < ApplicationRecord
   # A grant counts only while the role backs it — a demoted editor's leftover
   # rows go dormant, they don't leak access.
   def can_edit_path?(path) = administrator? || (editor? && editorships.exists?(path_id: path&.id))
+
+  # A first editorship grant carries the role with it: a member handed a
+  # profession becomes an editor in the same transaction, so role and access
+  # can't drift apart. Revoking access never demotes — that stays a human call.
+  # Call after the Editorship row(s) exist; returns whether it promoted.
+  def promote_to_editor_if_granted!
+    return false unless member? && editorships.exists?
+    update!(role: :editor)
+    true
+  end
+
+  # The handshake letter — only for newly granted professions, never on
+  # revoke. Called after the granting transaction commits.
+  def notify_editorship_grant(paths)
+    paths = paths.to_a
+    EditorshipsMailer.granted(self, paths).deliver_later if paths.any?
+  end
 
   # Suggestions this user may moderate: all for admins, only their granted
   # professions for editors. Backs the admin queue, its nav badge, and the
@@ -102,15 +118,14 @@ class User < ApplicationRecord
 
   # One lesson_id Set per path — the unit every progress bar is computed from.
   def completed_lesson_ids_for(path)
-    lesson_completions.joins(:lesson).where(lessons: { path_id: path.id }).pluck(:lesson_id).to_set
+    completed_lesson_ids_where(path_id: path.id)
   end
 
   # Same, scoped to a single course — drives course-level progress bars.
   def completed_lesson_ids_for_course(course)
-    lesson_completions.joins(:lesson).where(lessons: { course_id: course.id }).pluck(:lesson_id).to_set
+    completed_lesson_ids_where(course_id: course.id)
   end
 
-  # Paths the user has at least one completion in, in catalog order.
   def started_paths
     Path.published.where(id: lesson_completions.joins(:lesson).select("lessons.path_id")).ordered
   end
@@ -187,4 +202,17 @@ class User < ApplicationRecord
     }.group_by { |timestamp| timestamp.in_time_zone.to_date }
      .transform_values(&:size)
   end
+
+  # How many distinct users did real work (a completion or a journal entry)
+  # since `time` — the admin dashboard's "active users" tile. Same "active"
+  # definition as #last_active_at, just counted across everyone at once.
+  def self.active_count_since(time)
+    (LessonCompletion.where(created_at: time..).distinct.pluck(:user_id) |
+      JournalEntry.where(created_at: time..).distinct.pluck(:user_id)).size
+  end
+
+  private
+    def completed_lesson_ids_where(condition)
+      lesson_completions.joins(:lesson).where(lessons: condition).pluck(:lesson_id).to_set
+    end
 end

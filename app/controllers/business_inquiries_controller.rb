@@ -27,7 +27,8 @@ class BusinessInquiriesController < ApplicationController
       return render :new, status: :unprocessable_entity
     end
 
-    feedback = Feedback.create!(user: Current.user, body: compose_message, page_url: business_path)
+    body = Feedback.compose_message(:business_inquiries, fields: FIELDS, values: @inquiry)
+    feedback = Feedback.create!(user: Current.user, body: body, page_url: business_path)
     FeedbackMailer.new_message(feedback).deliver_later
     redirect_to business_path, notice: t("business_inquiries.sent")
   end
@@ -35,15 +36,5 @@ class BusinessInquiriesController < ApplicationController
   private
     def inquiry_params
       params.expect(business_inquiry: FIELDS)
-    end
-
-    # Fold the structured fields into a readable Feedback body. The header line
-    # makes business inquiries recognizable among ordinary messages.
-    def compose_message
-      lines = [ t("business_inquiries.message.header") ]
-      FIELDS.each do |field|
-        lines << "#{t("business_inquiries.message.#{field}")}: #{@inquiry[field]}"
-      end
-      lines.join("\n\n")
     end
 end

@@ -1,9 +1,7 @@
 module Admin
   # Messages to the founder — administrator-only (unlike content sections,
   # these are personal mail, not editorial work).
-  class FeedbacksController < BaseController
-    before_action :ensure_can_administer
-
+  class FeedbacksController < AdministratorController
     PER_PAGE = 50
 
     def index
@@ -49,14 +47,14 @@ module Admin
       ActiveRecord::Base.transaction do
         path = Path.create!(title: title, author_id: applicant.id, status: "draft",
                             position: (Path.maximum(:position) || 0) + 1)
-        applicant.update!(role: :editor) if applicant.member?
         applicant.editorships.create!(path: path)
+        applicant.promote_to_editor_if_granted!
         record_admin_action("coauthor_approved", target: applicant,
           subject: applicant.name, profession: path.title)
         feedback.update!(read_at: Time.current) if feedback.read_at.nil?
       end
 
-      EditorshipsMailer.granted(applicant, [ path ]).deliver_later
+      applicant.notify_editorship_grant([ path ])
       redirect_to edit_admin_path_path(path),
         notice: t("admin.coauthor_approve.approved", name: applicant.name, profession: path.title)
     end

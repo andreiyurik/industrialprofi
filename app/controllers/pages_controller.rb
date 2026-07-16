@@ -32,7 +32,10 @@ class PagesController < ApplicationController
   def faq
   end
 
+  REFERENCE_LESSON_SLUGS = %w[chtenie-shem-i-ugo soedinenie-provodov sborka-shchita].freeze
+
   def guide
+    @reference_lessons = Lesson.where(slug: REFERENCE_LESSON_SLUGS).ordered
   end
 
   def roadmap

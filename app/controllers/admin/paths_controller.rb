@@ -51,11 +51,7 @@ module Admin
       @path.status = sanitized_status(params.dig(:path, :status), current: @path.status_was)
 
       if @path.save
-        if @path.saved_change_to_status?
-          record_admin_action("path_status_changed", target: @path, subject: @path.title,
-            from_status: @path.status_before_last_save, to_status: @path.status)
-          notify_review_request(@path)
-        end
+        log_and_notify_status_change(@path, "path_status_changed", subject: @path.title)
         redirect_to edit_admin_path_path(@path), notice: I18n.t("flash.path_updated")
       else
         render :edit, status: :unprocessable_entity

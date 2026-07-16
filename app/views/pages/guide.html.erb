@@ -62,13 +62,12 @@
         </ol>
       </section>
 
-      <% reference_lessons = Lesson.where(slug: %w[chtenie-shem-i-ugo soedinenie-provodov sborka-shchita]).ordered %>
-      <% if reference_lessons.any? %>
+      <% if @reference_lessons.any? %>
         <section class="section">
           <h2 class="guide__heading">Эталоны</h2>
           <p class="guide__lead">Быстрее любой памятки — посмотреть, как устроены образцовые уроки:</p>
           <ul class="guide-steps">
-            <% reference_lessons.each do |lesson| %>
+            <% @reference_lessons.each do |lesson| %>
               <li><%= link_to lesson.title, lesson_path(lesson) %></li>
             <% end %>
           </ul>
