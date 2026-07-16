@@ -51,6 +51,11 @@
   --color-subtle: oklch(var(--lch-gray));
   --color-disabled: oklch(var(--lch-gray-mid));
   --color-subtle-dark: oklch(var(--lch-gray-dark));
+  /* --color-subtle only reaches 1.9:1 against the page background — fine for
+     decorative hairlines, but below WCAG 1.4.11's 3:1 floor for a UI control's
+     own boundary (an outlined button/input has no fill to fall back on). Same
+     primitive as --color-disabled (--lch-gray-mid), named for its real job. */
+  --color-border-interactive: oklch(var(--lch-gray-mid));
   --color-selected: oklch(var(--lch-blue-light));
   --color-selected-dark: oklch(var(--lch-blue-dark));
   /* Text selection: hi-vis safety-yellow + black ink — the industrial signal
