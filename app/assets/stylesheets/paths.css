@@ -5,16 +5,15 @@
   margin-block-start: var(--block-space-double);
 }
 
-/* Unbuilt professions — an open invitation, not a roadmap. A quiet heading, a
-   flat list (every name equal: no status dots, no highlighting), then the one
-   call that matters — become a curator. */
+/* An open invitation, not a roadmap — a flat list, every name equal (no
+   status dots, no highlighting), ending in one call: become a curator. */
 .catalog-soon {
   margin-block-start: 3.5rem;
   text-align: center;
 }
 
-/* The label doubles as a section divider: hairlines fading out to each side
-   (Fizzy's divider--fade), so the dead list separates from the live grid. */
+/* The label doubles as a section divider — fading hairlines (Fizzy's
+   divider--fade) separate the dead list from the live grid. */
 .catalog-soon__label {
   align-items: center;
   color: var(--color-subtle-dark);
@@ -53,8 +52,8 @@
   max-inline-size: 52rem;
 }
 
-/* A vacant slot: dashed border = the hidden-contour line of a ГОСТ drawing —
-   a profession that exists but has no map yet. Not a link: the block has one. */
+/* Dashed border = the hidden-contour line of a ГОСТ drawing. Not a link
+   itself — the block below carries the CTA link. */
 .catalog-soon__slot {
   border: 1px dashed var(--color-subtle);
   border-radius: 2rem;
@@ -65,7 +64,6 @@
   padding: 0.35rem 0.9rem;
 }
 
-/* The focus: the call to author one of these. */
 .catalog-soon__call {
   hyphens: none;
   margin-block: 2rem 0;
@@ -93,11 +91,9 @@
   }
 }
 
-/* Profession card (catalog) — a drawing-sheet poster: the profession NAME set
-   large in the GOST drafting face (--font-technical) is the design, one line of
-   description fills the middle, meta + a hover arrow pin to the base. Strict
-   black card defined by its hairline border; two corner ticks (an engineering-
-   drawing frame nod) are the single decorative gesture. */
+/* A drawing-sheet poster: the profession NAME in the GOST drafting face
+   (--font-technical) is the design; corner ticks are the one decorative nod
+   to an engineering-drawing frame. */
 .path-card {
   --panel-padding: 1.75rem;
   --panel-background: var(--color-bg);
@@ -107,14 +103,11 @@
   gap: 1rem;
   position: relative;
   transition: border-color 200ms ease, box-shadow 200ms ease;
-  /* Low floor only: desktop height is content-/row-stretch-driven, so this just
-     stops a lone single-line card (e.g. mobile, one per row) from looking stubby
-     without forcing an empty middle the way a tall floor did. */
+  /* Low floor only — desktop height is content-/row-stretch-driven; this just
+     stops a lone single-line card from looking stubby. */
   min-block-size: 6rem;
 }
 
-/* Corner ticks — diagonal pair (top-left / bottom-right), like the frame corners
-   of a ГОСТ drawing sheet. Hairline, quiet; they brighten with the border. */
 .path-card::before,
 .path-card::after {
   block-size: 0.85rem;
@@ -142,8 +135,7 @@
 
 @media (any-hover: hover) {
   .path-card:hover {
-    /* Stay black on hover (panel--hover's grey fill breaks the poster look);
-       lift = hairline ring + brighter border/ticks + the sliding arrow. */
+    /* Stay black on hover — panel--hover's grey fill would break the poster look. */
     --panel-background: var(--color-bg);
     --panel-border-color: var(--color-subtle-dark);
     box-shadow: 0 0 0 1px var(--color-subtle-dark);
@@ -170,8 +162,7 @@
   text-wrap: balance;
 }
 
-/* One sentence of what the profession is — fills the card's middle with content
-   instead of void. Clamped so an editor's long description can't break rows. */
+/* Clamped so an editor's long description can't break the card's row alignment. */
 .path-card__desc {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
@@ -184,8 +175,7 @@
   overflow: hidden;
 }
 
-/* Bottom block: meta + a Basecamp arrow that slides on hover, then the learner's
-   progress bar. Pinned to the base so cards in a row align. */
+/* margin-block-start: auto pins this to the card's base so cards in a row align. */
 .path-card__foot {
   display: flex;
   flex-direction: column;
@@ -225,7 +215,6 @@
   }
 }
 
-/* Subtitle under a centered section heading (catalog page intro) */
 .section-subtitle {
   color: var(--color-subtle-dark);
   margin-block: 1rem 0;
@@ -234,9 +223,8 @@
   text-align: center;
 }
 
-/* The unified topic badge: the line icon centred in its disc — one quiet house
-   style for every course/path circle. The framing circle comes from the context
-   (progress ring, bordered badge, hero circle). */
+/* One quiet icon style for every course/path circle — the framing circle itself
+   comes from the caller's context (progress ring, bordered badge, hero circle). */
 .topic-badge {
   block-size: 100%;
   display: inline-grid;
@@ -267,9 +255,7 @@
   }
 }
 
-/* Hero icon wrapped in a course-progress ring (course page, signed-in):
-   bigger than the plain hero badge — TOP renders its course-page circle at
-   7rem. The ring's track replaces the static border. */
+/* Bigger than the plain hero badge — TOP renders its course-page circle at 7rem. */
 .topic-hero-icon--ring {
   block-size: 7rem;
   border: none;
@@ -286,14 +272,12 @@
   }
 }
 
-/* Profession hero — centered badge + title (the brand moment) */
 .path-hero {
   text-align: center;
 }
 
-/* GOST, same drafting face as the catalog card poster this page was opened
-   from — the profession name carries the same identity at every size it
-   appears. */
+/* Same GOST face as the catalog card poster — the profession name keeps one
+   identity at every size it appears. */
 .path__title {
   font-family: var(--font-technical);
   font-size: clamp(2rem, 5vw, 3rem);
@@ -304,8 +288,7 @@
   text-transform: uppercase;
 }
 
-/* Course page reuses the hero markup but keeps the regular display face —
-   GOST is reserved for the profession identity, not every hero underneath it. */
+/* GOST is reserved for the profession identity, not every hero underneath it. */
 .path__title--course {
   font-family: var(--font-display);
   font-weight: 800;
@@ -313,7 +296,6 @@
   line-height: 1.02;
 }
 
-/* Overview block — left-aligned for readability, sits just above the curriculum */
 .path__overview {
   margin-block: 2.5rem 2rem;
 }
@@ -328,8 +310,6 @@
   text-align: center;
 }
 
-/* Opt-in public curator credit — who maintains this map. Quiet, centered, a
-   trust signal under the overview. */
 .path__curators {
   align-items: center;
   display: flex;
@@ -370,8 +350,8 @@
   font-size: 0.8rem;
 }
 
-/* Catalog attention guard: a learner mid-path sees their direction (and one
-   "continue" action) before any new profession competes for attention. */
+/* A learner mid-path sees their direction before any new profession competes
+   for attention. */
 .focus-banner {
   align-items: center;
   display: flex;
@@ -398,8 +378,6 @@
   text-decoration-color: var(--color-subtle);
 }
 
-/* Start / continue block between the overview and the curriculum: the one
-   primary action on the page, with the reader's progress right above it. */
 .path__start {
   display: flex;
   flex-direction: column;

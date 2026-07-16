@@ -7,9 +7,8 @@
   z-index: 40;
 }
 
-/* Auto-hide (TOP-style): the header-reveal controller adds this once the page
-   is scrolled past the header's height, sliding it up out of view. It returns
-   only when scrolled back to the very top. */
+/* Auto-hide (TOP-style): the header-reveal controller hides this past the
+   header's height, showing it again only at the very top. */
 .header--hidden {
   transform: translateY(-100%);
 }
@@ -20,13 +19,10 @@
   }
 }
 
-/* DHH-canon public header: wordmark anchored left (the home affordance lives
-   where users expect it), navigation right. The top bar carries ONLY the
-   "use the product" links (Профессии · Проекты · Калькуляторы) — everything
-   "about the project" lives in the footer. The inline nav shows only where it
-   comfortably fits (≥1024px); below that it collapses behind the hamburger
-   (the ≤1023px block) so the row never wraps onto a second line. nowrap is
-   enforced in both compact blocks — this default keeps a safety valve only. */
+/* The top bar carries ONLY "use the product" links (Профессии · Проекты ·
+   Калькуляторы) — everything "about the project" lives in the footer. Inline
+   nav shows ≥1024px; below that it collapses behind the hamburger so the row
+   never wraps — nowrap is enforced in both compact blocks as a safety valve. */
 .header__nav {
   align-items: center;
   column-gap: 1.5rem;
@@ -42,9 +38,8 @@
   margin-inline-end: auto;
 }
 
-/* Grouping via spacing, no dividers: nav words keep 1.5rem air between them
-   (панель), while search + account read as one tight utility cluster in the
-   corner. The menu's trailing margin separates words from utilities. */
+/* Grouping via spacing, no dividers: nav words keep 1.5rem air; search +
+   account read as one tight cluster, separated by the menu's trailing margin. */
 .header__right {
   align-items: center;
   column-gap: 0.75rem;

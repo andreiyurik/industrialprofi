@@ -27,7 +27,7 @@
   text-align: center;
 }
 
-/* ── A tier section (only rendered when it has entries) ───────────────── */
+/* A tier section — only rendered when it has entries. */
 .partners-tier {
   margin-block-start: 3rem;
 }
@@ -92,7 +92,6 @@
   text-align: center;
 }
 
-/* ── Independence firewall + CTA panels ──────────────────────────────── */
 .partners-independence {
   margin-block-start: 3rem;
 }

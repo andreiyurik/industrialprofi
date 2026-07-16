@@ -88,7 +88,6 @@ a:not([class]) {
   list-style: none;
 }
 
-/* Printing */
 @page {
   margin: 1in;
 }
@@ -99,7 +98,6 @@ a:not([class]) {
   }
 }
 
-/* Turbo */
 turbo-frame {
   display: contents;
 }

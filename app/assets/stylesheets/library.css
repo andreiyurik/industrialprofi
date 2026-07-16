@@ -35,7 +35,7 @@
   margin: 0;
 }
 
-/* "в N уроках" — muted, pushed to the row's end. */
+/* Renders "в N уроках". */
 .library-count {
   color: var(--color-subtle-dark);
   font-size: 0.8rem;

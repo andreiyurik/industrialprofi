@@ -1,8 +1,6 @@
-/* One ❤️ per reader — a quiet outlined pill that fills red when active. Shared
-   by news posts and lessons, so it reads the same everywhere. align-items is
-   explicit at every nesting level (form included) — left to the flexbox
-   default of `stretch`, the heart drifts off the baseline of whatever row
-   it sits in. */
+/* align-items is explicit at every nesting level (form included) — left to
+   the flexbox default of `stretch`, the heart drifts off the baseline of
+   whatever row it sits in. */
 .reaction {
   align-items: center;
   display: inline-flex;
@@ -66,11 +64,8 @@
   }
 }
 
-/* A reaction joining a bare icon-tool row (the news article footer). Border,
-   count and the pill's own font-size drop away so it's a glyph like its
-   neighbors — the row sets the actual icon size. Hover previews ink, same as
-   any other tool — red is reserved for "already reacted", not for "you're
-   merely pointing at it". */
+/* Hover previews ink, same as any other tool in the row — red stays reserved
+   for "already reacted", not for "you're merely pointing at it". */
 .reaction--bare-icon {
   display: inline-flex;
 }

@@ -4,9 +4,8 @@
   padding-block: 1.75rem 0;
 }
 
-/* Grown-up footer: a wide brand column + grouped, labelled link columns.
-   CSS grid only — mobile stacks, tablet shows the 3 link columns under the
-   brand, desktop puts the brand as the leftmost column. */
+/* Mobile stacks; tablet shows the 3 link columns under the brand; desktop
+   puts the brand as the leftmost column. */
 .footer__inner {
   display: grid;
   gap: 1.4rem 2rem;
@@ -17,7 +16,6 @@
   .footer__inner {
     grid-template-columns: repeat(3, 1fr);
   }
-  /* Brand sits on its own row above the three link columns. */
   .footer__brand-block {
     grid-column: 1 / -1;
   }
@@ -47,16 +45,14 @@
   max-inline-size: 22rem;
 }
 
-/* A link group: small uppercase label over a stack of quiet links. */
 .footer__col {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
 }
 
-/* Column label: a bright, crisp small-caps marker — deliberately distinct from
-   the muted links below it, so the eye scans categories first, then the quiet
-   links brighten on hover. Bright heading + muted links = clear hierarchy. */
+/* Bright heading over muted links, deliberately distinct — the eye scans
+   categories first, then the quiet links brighten on hover. */
 .footer__heading {
   color: var(--color-ink);
   font-family: var(--font-sans);
@@ -88,9 +84,8 @@
   }
 }
 
-/* Legal bottom bar (colophon): a quiet fine-print row — credit + licence left,
-   privacy right, aligned to the FIRST line so the bar reads as a clean grid, not
-   a floating link. Whisper-sized on purpose; stacks centred on mobile. */
+/* align-items: baseline pins privacy to the credit line's FIRST line, so the
+   bar reads as a clean grid, not a floating link. */
 .footer__bottom {
   align-items: baseline;
   border-block-start: 1px solid var(--color-subtle);
@@ -102,7 +97,6 @@
   padding-block: 1rem;
 }
 
-/* Bottom-left stack: copyright above the open-source/license line. */
 .footer__legal {
   display: flex;
   flex-direction: column;

@@ -1,10 +1,6 @@
-/* Rouge syntax highlighting for fenced code blocks in markdown lessons.
-   Rendered server-side by kramdown + rouge (no JS, no build step). The block
-   chrome (background, border, padding, scroll) comes from the generic pre/code
-   rules in text.css — this file only colors the tokens. Palette follows The
-   Odin Project's dark Prism theme, mapped onto our OKLCH primitives:
-   keywords purple, strings green, numbers orange, functions blue, tags rose,
-   operators teal, comments muted gray. */
+/* Rouge syntax highlighting for fenced code blocks (kramdown + rouge, server-side,
+   no JS). Block chrome lives in text.css — this file only colors the tokens.
+   Palette follows The Odin Project's dark Prism theme. */
 .highlight {
   /* comments */
   .c, .c1, .cm, .cs, .cd {

@@ -90,7 +90,6 @@
   font-size: 0.85rem;
 }
 
-/* Generic list + row */
 .admin-list {
   display: flex;
   flex-direction: column;
@@ -217,7 +216,6 @@
   letter-spacing: 0.03em;
 }
 
-/* Empty state */
 .admin-empty {
   color: var(--color-subtle-dark);
   padding-block: 4rem;
@@ -313,15 +311,14 @@
   padding: 1rem;
 
   @media (min-width: 640px) {
-    /* Bottom-align so the primary Approve button and the Reject button sit on
-       one line (the reject label floats above its input) — no more "crooked"
-       approve hovering at the top of a stretched form. */
+    /* Bottom-align so Approve and Reject sit on one line — the reject label
+       floats above its input, so top-align left Approve looking "crooked". */
     align-items: flex-end;
     flex-direction: row;
   }
 }
 
-/* The button_to wrapper around Approve — a plain flex item, no growing. */
+/* The button_to wrapper around Approve. */
 .admin-decision__approve {
   flex: 0 0 auto;
 }
@@ -343,11 +340,9 @@
   flex: 1;
 }
 
-/* Form layout */
-/* Keep simple create/edit forms a comfortable column width on the wide admin
-   container — the page stays full-width (so the section nav never shifts between
-   pages), only the form content is capped. Wide content (lesson rich editor,
-   YAML import) opts out by not using this class. */
+/* Comfortable column width on the wide admin container — page stays full-width
+   (section nav never shifts between pages), only form content is capped. Wide
+   content (lesson rich editor, YAML import) opts out by not using this class. */
 .admin-form {
   max-inline-size: 44rem;
 }
@@ -394,7 +389,6 @@
   margin-block: 0;
 }
 
-/* Inline alert / error block */
 .admin-alert {
   border: 1px solid;
   border-radius: 0.5em;
@@ -463,8 +457,7 @@
   }
 }
 
-/* Role filter tabs — chips with a live count; the active one fills like a
-   primary button so the current scope is unmistakable. */
+/* The active filter fills like a primary button so the current scope is unmistakable. */
 .admin-filters {
   display: flex;
   flex-wrap: wrap;
@@ -516,8 +509,7 @@
   margin-block: 0 var(--block-space-half);
 }
 
-/* Log filters: category tabs on one side, the actor picker on the other;
-   wraps to stacked rows when the viewport is tight. */
+/* Category tabs on one side, the actor picker on the other. */
 .admin-log-filters {
   align-items: center;
   display: flex;
@@ -547,7 +539,7 @@
   gap: var(--inline-space);
 }
 
-/* Role form + suspend/reinstate button, kept on one line, wrapping when tight. */
+/* Role form + suspend/reinstate button, side by side. */
 .admin-row__actions {
   display: flex;
   flex-shrink: 0;
@@ -579,8 +571,7 @@
   margin-block-end: var(--block-space);
 }
 
-/* Dense control-room tiles: tighter padding than a default panel, so more KPIs
-   fit per row and above the fold. */
+/* Tighter padding than a default panel, so more KPIs fit per row and above the fold. */
 .admin-stat {
   --panel-padding: 0.9rem 1rem;
 }
@@ -680,8 +671,7 @@
 }
 
 /* ── Founder inbox (admin/feedbacks) ── */
-/* Dense, scannable list: one compact row per message, full text revealed on
-   click (native <details>, no JS). Built to stay manageable at volume. */
+/* One compact row per message, full text revealed on click (native <details>, no JS). */
 .inbox {
   list-style: none;
   margin: 0;
@@ -728,7 +718,6 @@
   font-weight: 600;
 }
 
-/* The one-line preview takes the slack and truncates with an ellipsis. */
 .inbox__snippet {
   flex: 1;
   min-inline-size: 0;
@@ -871,11 +860,8 @@
   gap: var(--inline-space-half);
 }
 
-/* In-editor cheatsheet: a native popover opened from the form hint line, so an
-   author can glance at the block markers and image rules without leaving the
-   page. Visual model mirrors .term-info__pop (centred, backdrop, zero JS). The
-   marker chips reuse the callout accent tokens, so each marker is coloured by
-   meaning, exactly like the rendered lesson. */
+/* Native popover (zero JS), visual model mirrors .term-info__pop; marker chips
+   reuse the callout accent tokens, so each marker matches the rendered lesson. */
 .editor-cheatsheet__trigger {
   background: none;
   border: none;
@@ -1016,9 +1002,8 @@
   display: inline-flex;
 }
 
-/* Suggestion-queue rows: the info is its own link that grows, with inline
-   approve/reject quick-action buttons pinned to the end (the row no longer
-   links as a whole, so it uses .admin-row--static). */
+/* The row no longer links as a whole (see .admin-row--static) — this link
+   grows to fill the row, with approve/reject buttons pinned to the end. */
 .admin-row__main {
   color: var(--color-ink);
   flex: 1;

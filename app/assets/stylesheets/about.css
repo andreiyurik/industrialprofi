@@ -48,7 +48,6 @@
   text-transform: uppercase;
 }
 
-/* A key thought pulled out of the flow — ink rail, larger and bolder. */
 .about-letter__highlight {
   border-inline-start: 3px solid var(--color-ink);
   font-family: var(--font-display);
@@ -169,9 +168,8 @@
   vertical-align: top;
 }
 
-/* The label column (and its corner header) stays put while the table scrolls
-   on a phone. Opaque background + box-shadow edge, because collapsed borders
-   don't travel with sticky cells. */
+/* Sticky label column: opaque background + box-shadow edge, since collapsed
+   borders don't travel with sticky cells. */
 .about-compare :is(th[scope="row"], thead th:first-child) {
   background-color: var(--color-bg);
   box-shadow: inset -1px 0 0 var(--color-subtle-dark);

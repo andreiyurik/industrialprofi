@@ -80,10 +80,7 @@ kbd {
   }
 }
 
-/* Copy-code affordance — a quiet button parked at the block's top-right corner.
-   Server-rendered structure, the copy-code Stimulus controller only reveals it.
-   On pointer devices it stays hidden until the block is hovered (or the button
-   is focused); on touch (no hover) it's always shown. */
+/* Server-rendered structure — the copy-code Stimulus controller only reveals it. */
 .code-block {
   position: relative;
 }
@@ -166,15 +163,10 @@ hr {
   margin: 2lh auto;
 }
 
-/* Logo divider — the brand RJ45 mark "plugged in" at the centre of a fine
-   hairline, our take on the Rails Guides logo separator. Scoped to prose so the
-   plain <hr> above still serves mailers and other contexts.
-
-   The premium move: the hairline is CRISP where it meets the mark (a clean,
-   hard-edged gap — no muddy centre fade) and instead dissolves gently to nothing
-   toward the column edges, so the rule reads as "drawn" around a centred jewel.
-   Generous vertical breathing room finishes the effect. Two stacked backgrounds
-   (top-most first): the mark, then the tapered hairline with its centre gap. */
+/* Logo divider — the RJ45 mark centred on a hairline that's CRISP at the gap
+   (no muddy centre fade) but dissolves toward the column edges, so it reads as
+   "drawn" around the mark. Scoped to .prose so the plain <hr> still serves
+   mailers. Two stacked backgrounds (mark, then the tapered hairline). */
 .prose hr {
   --mark-size: 0.6em;    /* the RJ45 logo height — the single knob to resize it */
   --divider-gap: 1.1em;  /* half-gap each side of centre — clears the mark */
@@ -236,11 +228,8 @@ ins {
   color: var(--color-positive);
 }
 
-/* Quiet link — muted by default, brightens to ink on hover. The single source
-   for the recurring "secondary text link" voice (footer, breadcrumbs, nav, meta
-   actions). Compose with --underline when the link should also carry a subtle
-   underline that brightens with it. Structural props (font-size, icon layout)
-   stay on the component class; this carries only colour + hover. */
+/* The single source for the "secondary text link" voice — carries only colour +
+   hover; structural props (font-size, icon layout) stay on the component class. */
 .link-quiet {
   color: var(--color-subtle-dark);
   text-decoration: none;
@@ -265,7 +254,6 @@ ins {
   }
 }
 
-/* Page titles — the display-type moment: Inter Tight, uppercase, big & tight. */
 .page-title {
   font-size: clamp(2.25em, 7vw, 4.25em);
   font-weight: 800;
@@ -286,9 +274,7 @@ ins {
   text-transform: uppercase;
 }
 
-/* Long-form prose: markdown-rendered lesson content, etc. Tuned for comfortable
-   long reading — larger type, generous line-height, headings that breathe,
-   callouts and tables that read as what they are. */
+/* Long-form prose (rendered lesson content) — tuned for comfortable long reading. */
 .prose {
   font-size: 1.05rem;
   line-height: 1.7;
@@ -332,8 +318,7 @@ ins {
     text-decoration-color: oklch(var(--lch-blue) / 0.4);
   }
 
-  /* Callout — our `> **Важно:** …` safety notes. Stands out via a fill and a
-     warm accent edge, not a heavy box. */
+  /* Callout — stands out via a fill and a warm accent edge, not a heavy box. */
   blockquote {
     background-color: var(--color-subtle-light);
     border-inline-start: 3px solid oklch(var(--lch-yellow));
@@ -364,7 +349,6 @@ ins {
     text-align: center;
   }
 
-  /* Tables: roomier cells and a filled header row so columns read clearly. */
   th {
     background-color: var(--color-subtle-light);
   }

@@ -1,14 +1,12 @@
-/* Auth screens — Fizzy-style adaptation: one narrow centered column, one
-   question per screen, visually-hidden labels (placeholders carry the prompt),
-   one pill-shaped action.
+/* Auth screens — Fizzy-style: one narrow centered column, one question per
+   screen.
    NOTE: .auth must live INSIDE .container, never on the same element —
    layout.css sorts after auth.css, so .container's max-inline-size would win
    the cascade and stretch the column to 72rem. */
 
-/* Auth pages center the form in the viewport: <main> is the 1fr grid row
-   between header and footer, so we fill it and center the section's content.
-   The .auth padding-block stays as a min gap so the form never kisses the
-   header/footer on short screens. */
+/* <main> is the 1fr grid row between header and footer; flex fills it and
+   centers content. .auth's padding-block is a min gap so the form never
+   kisses the header/footer on short screens. */
 main.main--auth {
   display: flex;
   flex-direction: column;
@@ -31,8 +29,7 @@ main.main--auth {
   text-align: center;
 }
 
-/* Brand mark above the form — the RJ45 plug alone, sized up like a seal,
-   centered, with breathing room before the title. */
+/* Brand mark: the RJ45 plug icon, sized up like a seal. */
 .auth__brand {
   align-self: center;
   display: block;
@@ -142,9 +139,8 @@ main.main--auth {
   text-decoration-color: var(--color-subtle);
 }
 
-/* Three-dot step progress for the signup wizard. Sits between the brand mark
-   and the page title — quiet, centered, purely visual. Screen readers get the
-   aria-current + sr-only text. */
+/* Three-dot step progress for the signup wizard — purely visual; screen
+   readers get aria-current + sr-only text instead. */
 .auth-steps {
   align-items: center;
   display: flex;

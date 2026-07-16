@@ -1,5 +1,4 @@
-/* Дорожная карта — transparent, status-grouped project roadmap. Reading column,
-   each group headed by a coloured status badge, items as title + muted note. */
+/* Дорожная карта — status-grouped, each group headed by a coloured badge. */
 .roadmap {
   margin-inline: auto;
   max-inline-size: 44rem;

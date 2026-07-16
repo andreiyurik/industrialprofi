@@ -1,6 +1,5 @@
-/* Lesson figures (markdown diagrams) + the full-screen image viewer. The figure
-   groups image and caption tightly; the lightbox (a native <dialog> built by the
-   lightbox Stimulus controller) lets readers inspect fine text on diagrams. */
+/* Lesson figures (markdown diagrams) + the full-screen image viewer, a native
+   <dialog> built by the lightbox Stimulus controller. */
 
 .prose-figure {
   position: relative;
@@ -14,7 +13,6 @@
   inline-size: 100%; /* fill the text column, not the image's intrinsic width */
 }
 
-/* Caption sits right under the image, quiet and clearly secondary. */
 .prose-figure__caption {
   margin-block-start: 0.5lh;
   color: var(--color-subtle-dark);
@@ -53,7 +51,6 @@
   border-color: var(--color-subtle-dark);
 }
 
-/* Full-screen viewer. */
 .lightbox {
   inline-size: 100vw;
   block-size: 100dvh;
@@ -85,7 +82,6 @@
   cursor: zoom-in;
 }
 
-/* Zoomed: show at full resolution and let the stage scroll. */
 .lightbox--zoomed .lightbox__stage {
   place-items: start;
 }
