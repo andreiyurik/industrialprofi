@@ -156,6 +156,21 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_select "#dashboard_suggestions .notify-dot", 0
   end
 
+  test "celebrates an approved edit that raised the map's maturity" do
+    users(:member).lesson_suggestions.create!(
+      lesson: lessons(:svarka_intro), section: "body", author_name: "Иван",
+      body_markdown: "Правка", status: "approved", reviewed_at: 1.hour.ago,
+      raised_path_stage: 2
+    )
+
+    sign_in_as users(:member)
+    get dashboard_path
+
+    assert_select ".dashboard-suggestion__raise", 1
+    assert_match I18n.t("dashboard.suggestion_raised_stage",
+                        path: paths(:welder).title, stage: 2, total: 4), response.body
+  end
+
   test "hides the suggestions section for users who never suggested" do
     sign_in_as users(:member)
     get dashboard_path

@@ -19,6 +19,13 @@
             <%= l((suggestion.reviewed_at || suggestion.created_at).to_date) %>
           </span>
         </div>
+        <% if suggestion.approved? && suggestion.raised_path_stage %>
+          <p class="dashboard-suggestion__raise">
+            <%= t("dashboard.suggestion_raised_stage",
+                  path: suggestion.lesson.path.title,
+                  stage: suggestion.raised_path_stage, total: Path::Maturity::MATURITY_STAGES) %>
+          </p>
+        <% end %>
         <% if suggestion.rejected? && suggestion.reviewer_comment.present? %>
           <p class="dashboard-suggestion__comment">
             <%= t("dashboard.suggestion_comment") %> <%= suggestion.reviewer_comment %>

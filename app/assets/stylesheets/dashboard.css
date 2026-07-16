@@ -549,6 +549,13 @@
   margin-block: 0.35rem 0;
 }
 
+/* The collective-achievement line: this edit moved the map's maturity needle. */
+.dashboard-suggestion__raise {
+  color: var(--color-positive);
+  font-size: 0.85rem;
+  margin-block: 0.35rem 0;
+}
+
 @media (max-width: 639.98px) {
   .dashboard-suggestion__date {
     display: none; /* keep rows one-line on phones */

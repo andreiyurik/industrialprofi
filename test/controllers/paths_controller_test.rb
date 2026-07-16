@@ -92,6 +92,28 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "show renders the maturity gauge at the computed stage" do
+    get path_path(paths(:electrician))
+    assert_select ".maturity--stage-3 .maturity__gauge"
+    assert_match I18n.t("paths.maturity.stages.s3"), response.body
+  end
+
+  test "show renders the verified stage with its date" do
+    paths(:electrician).verify!(users(:editor))
+    get path_path(paths(:electrician))
+    assert_select ".maturity--stage-4"
+    assert_match I18n.t("paths.maturity.stages.s4"), response.body
+  end
+
+  test "maturity popover offers the expert mark only to a granted editor" do
+    get path_path(paths(:electrician))
+    assert_no_match I18n.t("paths.maturity.verify"), response.body
+
+    sign_in_as users(:editor)
+    get path_path(paths(:electrician))
+    assert_match I18n.t("paths.maturity.verify"), response.body
+  end
+
   test "show lists the path's courses, including coming-soon stubs" do
     get path_path(paths(:electrician))
     assert_match courses(:el_basics).title, response.body

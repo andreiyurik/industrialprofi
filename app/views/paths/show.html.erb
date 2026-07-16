@@ -41,6 +41,8 @@
       </div>
     <% end %>
 
+    <%= render "maturity", path: @path, curators: @curators %>
+
     <div class="path__start">
       <% if signed_in? && @completed_ids.any? %>
         <%= render "shared/progress_bar", completed: @completed_ids.size, total: @path.lessons_count %>
