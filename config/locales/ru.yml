@@ -565,8 +565,8 @@ ru:
     sign_up_title: "Регистрация"
     sign_up_subtitle: "Бесплатно и навсегда. Аккаунт нужен только для отслеживания прогресса."
     sign_out: "Выйти"
-    sign_in_action: "войдите"
-    sign_up_action: "Создайте бесплатный аккаунт"
+    sign_in_action: "Войти"
+    sign_up_action: "заведите бесплатный аккаунт"
     email: "Email"
     password: "Пароль"
     password_placeholder: "Пароль (минимум 8 символов)"
@@ -756,7 +756,7 @@ ru:
       title: "Первая открытая свободная энциклопедия прикладных профессий"
       subtitle: "Независимый открытый проект: профессии создаёт, редактирует и проверяет сообщество. Предложить правку может каждый, стать автором или куратором — любой опытный специалист."
     group_upcoming: "Пока не написаны"
-    soon_curator: "Соберите карту"
+    soon_curator: "Соберите свою карту профессии"
     # A vacancy board, not a queue: plain copy, deliberately NOT Path rows — an
     # empty Path is admin noise, and a DB-driven list only ever shows whatever
     # stubs happen to exist (which is how this list turned all-АСУ-ТП). Order is
@@ -868,7 +868,7 @@ ru:
     back_to_path: "К карте профессии"
     back_to_course: "К курсу"
     sidebar_label: "Содержание курса"
-    sign_in_to_track_html: "%{sign_up_link}, чтобы отмечать пройденные уроки и видеть прогресс. Уже есть аккаунт — %{sign_in_link}."
+    sign_in_to_track_html: "Отмечайте прогресс — %{sign_up_link}. Уже есть? %{sign_in_link}."
     previous_lesson: "Предыдущий урок"
     next_lesson: "Следующий урок"
     found_error_question: "Нашли ошибку?"

@@ -109,11 +109,13 @@
   content-visibility: visible;
 }
 
-/* Desktop default: account section, the guest orientation group and the sheet's
-   ✕ are hidden (the inline nav row and the popover button are used instead). */
+/* Desktop default: account section, guest orientation group, the sheet's ✕ and
+   its RJ45 mark are hidden (the inline nav row and the popover button are used
+   instead). */
 .header__menu-account,
 .header__menu-guest,
-.header__menu-close {
+.header__menu-close,
+.header__menu-mark {
   display: none;
 }
 
@@ -490,6 +492,21 @@
   .header__menu-close svg {
     block-size: 1.4rem;
     inline-size: 1.4rem;
+  }
+
+  /* The guest sheet's quiet RJ45 mark: vertically centred against the ✕ box
+     (2.75rem tall from 0.5rem → centre 1.875rem, so a 1.5rem mark sits at
+     1.125rem), left-aligned to the nav rows' icon column. Dimmed so it reads as
+     a mark, not a second logo competing with the header's. */
+  .header__menu-mark {
+    block-size: 1.5rem;
+    display: block;
+    inline-size: auto;
+    inset-block-start: 1.125rem;
+    inset-inline-start: 1.25rem;
+    opacity: 0.6;
+    position: absolute;
+    z-index: 1;
   }
 
   /* Signed in, the ✕ shares the identity row — reserve its full width (0.5rem
