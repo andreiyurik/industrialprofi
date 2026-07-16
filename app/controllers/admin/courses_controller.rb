@@ -45,11 +45,8 @@ module Admin
       @course.status = sanitized_status(params.dig(:course, :status), current: @course.status_was)
 
       if @course.save
-        if @course.saved_change_to_status?
-          record_admin_action("course_status_changed", target: @course, subject: @course.title,
-            path: @course.path&.title, from_status: @course.status_before_last_save, to_status: @course.status)
-          notify_review_request(@course)
-        end
+        log_and_notify_status_change(@course, "course_status_changed",
+          subject: @course.title, path: @course.path&.title)
         redirect_to edit_admin_course_path(@course), notice: I18n.t("flash.course_updated")
       else
         render :edit, status: :unprocessable_entity

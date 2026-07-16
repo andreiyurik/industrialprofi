@@ -27,7 +27,7 @@ class LessonSuggestionsController < ApplicationController
     @suggestion = @lesson.lesson_suggestions.new(suggestion_params)
     @suggestion.user = Current.user
     @suggestion.author_name = Current.user.name
-    capture_base_content
+    @suggestion.capture_base_content
 
     if @suggestion.save
       redirect_to lesson_path(@lesson), notice: I18n.t("flash.suggestion_submitted")
@@ -44,14 +44,6 @@ class LessonSuggestionsController < ApplicationController
     return if Current.user.lesson_suggestions.pending.count < MAX_PENDING_PER_USER
 
     redirect_to lesson_path(params[:lesson_slug]), alert: t("flash.too_many_pending")
-  end
-
-  # Snapshot the section as it stood when the edit was submitted, so the
-  # moderator can be warned later if the lesson moved on in the meantime.
-  def capture_base_content
-    return unless LessonRevision::SECTIONS.include?(@suggestion.section)
-
-    @suggestion.base_content = @lesson.section_html(@suggestion.section)
   end
 
   def prepopulate_rich_body

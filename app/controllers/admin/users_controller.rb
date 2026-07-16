@@ -1,7 +1,5 @@
 module Admin
-  class UsersController < BaseController
-    before_action :ensure_can_administer
-
+  class UsersController < AdministratorController
     PER_PAGE = 50
 
     def index
@@ -80,26 +78,18 @@ module Admin
 
       # Which professions this editor may edit directly. The has_many :through
       # setter creates/destroys the Editorship rows to match the ticked boxes.
-      # A first grant carries the role with it: a member handed a profession
-      # becomes an editor in the same transaction, so role and access can't
-      # drift apart. Revoking access never demotes — that stays a human call.
       def update_access(user)
         previous_path_ids = user.editable_path_ids
         promoted = false
         ActiveRecord::Base.transaction do
           user.editable_path_ids = Array(params[:user][:editable_path_ids]).reject(&:blank?)
-          if user.member? && user.editorships.reload.any?
-            user.update!(role: :editor)
-            record_admin_action("user_role_changed", target: user,
-              subject: user.name, from: "member", to: user.role)
-            promoted = true
-          end
+          promoted = user.promote_to_editor_if_granted!
+          record_admin_action("user_role_changed", target: user,
+            subject: user.name, from: "member", to: user.role) if promoted
           record_admin_action("user_access_changed", target: user,
             subject: user.name, paths: user.editable_paths.reload.map(&:title))
         end
-        # The handshake letter — only for newly granted professions, never on revoke.
-        granted = user.editable_paths.where.not(id: previous_path_ids).to_a
-        EditorshipsMailer.granted(user, granted).deliver_later if granted.any?
+        user.notify_editorship_grant(user.editable_paths.where.not(id: previous_path_ids))
         notice_key = promoted ? "admin.users.access_updated_promoted" : "admin.users.access_updated"
         redirect_to admin_user_path(user), notice: t(notice_key, name: user.name)
       end

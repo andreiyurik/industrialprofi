@@ -1,6 +1,5 @@
 module Admin
   module Paths
-    # Inline rename of a course title from the builder tree.
     class CourseNamesController < Admin::BaseController
       def update
         return head :unprocessable_entity if params[:value].blank?

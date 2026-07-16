@@ -80,6 +80,16 @@ module Admin
         ReviewRequestsMailer.submitted(record, Current.user).deliver_later
       end
 
+      # Logs a status transition on a just-saved Path/Course and requests review
+      # if it needs one. A no-op when the update didn't touch status.
+      def log_and_notify_status_change(record, action, **details)
+        return unless record.saved_change_to_status?
+
+        record_admin_action(action, target: record, from_status: record.status_before_last_save,
+          to_status: record.status, **details)
+        notify_review_request(record)
+      end
+
       def ensure_can_edit_content
         redirect_to root_path, alert: t("auth.not_authorized") unless Current.user.can_edit_content?
       end

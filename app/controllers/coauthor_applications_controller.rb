@@ -24,7 +24,8 @@ class CoauthorApplicationsController < ApplicationController
       return render :new, status: :unprocessable_entity
     end
 
-    feedback = Current.user.feedbacks.create!(body: compose_message, page_url: Feedback::COAUTHOR_APPLICATION_PATH)
+    body = Feedback.compose_message(:coauthor_applications, fields: FIELDS, values: @application)
+    feedback = Current.user.feedbacks.create!(body: body, page_url: Feedback::COAUTHOR_APPLICATION_PATH)
     FeedbackMailer.new_message(feedback).deliver_later
     redirect_to dashboard_path, notice: t("coauthor_applications.sent", email: Current.user.email_address)
   end
@@ -32,16 +33,5 @@ class CoauthorApplicationsController < ApplicationController
   private
     def application_params
       params.expect(coauthor_application: FIELDS)
-    end
-
-    # Fold the structured fields into a readable Feedback body. The header line
-    # makes co-author applications recognizable among ordinary messages.
-    def compose_message
-      lines = [ t("coauthor_applications.message.header") ]
-      FIELDS.each do |field|
-        value = @application[field]
-        lines << "#{t("coauthor_applications.message.#{field}")}: #{value}" if value.present?
-      end
-      lines.join("\n\n")
     end
 end

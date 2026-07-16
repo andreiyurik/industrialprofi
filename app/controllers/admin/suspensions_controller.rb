@@ -1,8 +1,7 @@
 module Admin
   # Suspend (create) / reinstate (destroy) a user account — a reversible ban.
   # Administrator-only, like role and access management.
-  class SuspensionsController < BaseController
-    before_action :ensure_can_administer
+  class SuspensionsController < AdministratorController
     before_action :set_user
 
     def create

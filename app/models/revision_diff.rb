@@ -15,7 +15,6 @@ class RevisionDiff
     @after  = tokenize(plain_text(after_html))
   end
 
-  # Marked-up HTML, safe to render.
   def to_html
     segments.map do |op, text|
       escaped = CGI.escapeHTML(text)

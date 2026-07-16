@@ -14,6 +14,5 @@ class AdminAction < ApplicationRecord
 
   scope :ordered, -> { order(created_at: :desc, id: :desc) }
 
-  # Immutable: an audit entry can be created (and read), never edited.
   def readonly? = persisted?
 end

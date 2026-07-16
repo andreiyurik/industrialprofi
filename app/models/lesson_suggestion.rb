@@ -36,6 +36,12 @@ class LessonSuggestion < ApplicationRecord
     base_content.present? && !RevisionDiff.new(base_content, lesson.section_html(section)).identical?
   end
 
+  # Snapshot the section as it stands right now, so a moderator can later be
+  # warned if the lesson moved on in the meantime (see #stale?).
+  def capture_base_content
+    self.base_content = lesson.section_html(section) if LessonRevision::SECTIONS.include?(section)
+  end
+
   # ── Outcome email (in-app first, email only as the unread fallback) ──
   # Grace period before the outcome email: a day for the author to see the
   # decision on their dashboard, which makes the email unnecessary.

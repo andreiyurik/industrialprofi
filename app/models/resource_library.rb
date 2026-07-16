@@ -26,7 +26,6 @@ class ResourceLibrary
     def notable? = lesson_count >= NOTABLE_USAGE
   end
 
-  # A lesson that references the resource — just enough to link back to it.
   LessonRef = Struct.new(:slug, :title, keyword_init: true)
 
   def self.for(path: nil, version: nil) = new(path:, version:).entries
