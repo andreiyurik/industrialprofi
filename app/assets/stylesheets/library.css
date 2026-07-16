@@ -35,12 +35,142 @@
   margin: 0;
 }
 
-/* Renders "в N уроках". */
-.library-count {
+/* The quiet bridge from a library row back to its lesson(s). Pushed to the row's
+   right edge; muted, so the document link stays the row's main action. */
+.lesson-resource__source {
   color: var(--color-subtle-dark);
+  flex-shrink: 0;
   font-size: 0.8rem;
   margin-inline-start: auto;
   white-space: nowrap;
+}
+
+/* Single lesson: a plain "↗ к уроку" link. */
+a.lesson-resource__source {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.2rem;
+  text-decoration: none;
+
+  svg {
+    block-size: 0.9em;
+    inline-size: 0.9em;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+/* Several lessons: a native <details> disclosure opening a small floating menu
+   of lesson links — no JS beyond the shared click-outside/esc controller. */
+.lesson-resource__source--menu {
+  position: relative;
+
+  > summary {
+    align-items: center;
+    cursor: pointer;
+    display: inline-flex;
+    gap: 0.3rem;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    /* caret */
+    &::after {
+      border: 0.28em solid transparent;
+      border-block-start-color: currentColor;
+      content: "";
+      margin-block-start: 0.28em;
+      transition: transform 150ms ease;
+    }
+
+    @media (any-hover: hover) {
+      &:hover {
+        color: var(--color-ink);
+      }
+    }
+  }
+
+  &[open] > summary::after {
+    transform: rotate(180deg);
+  }
+}
+
+/* Phones: three things (badge · long title · "в N уроках") can't share one
+   row without squeezing. Give the title the full width and drop the lesson
+   bridge to a quiet meta line beneath it — vertical hierarchy, nothing
+   abbreviated. Desktop keeps the single-row layout. */
+@media (max-width: 40rem) {
+  .lesson-resource--library {
+    align-items: start;
+    column-gap: 0.6rem;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    row-gap: 0.2rem;
+  }
+
+  .lesson-resource--library > .lesson-resource__badge {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .lesson-resource--library > .lesson-resource__link {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .lesson-resource--library > .lesson-resource__source {
+    grid-column: 2;
+    grid-row: 2;
+    margin-inline-start: 0;
+  }
+
+  /* The source now sits on the left, so its menu opens from the left edge. */
+  .lesson-resource--library .lesson-resource__lessons {
+    inset-inline: 0 auto;
+  }
+}
+
+.lesson-resource__lessons {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.6rem;
+  box-shadow:
+    0 12px 32px -8px oklch(var(--lch-always-black) / 0.5),
+    0 4px 8px -4px oklch(var(--lch-always-black) / 0.4);
+  inset-block-start: calc(100% + 0.4rem);
+  inset-inline-end: 0;
+  list-style: none;
+  margin: 0;
+  max-inline-size: 20rem;
+  min-inline-size: 13rem;
+  padding: 0.35rem;
+  position: absolute;
+  white-space: normal;
+  z-index: 20;
+
+  a {
+    border-radius: 0.4em;
+    color: var(--color-subtle-dark);
+    display: block;
+    font-size: 0.85rem;
+    line-height: 1.35;
+    padding: 0.45rem 0.55rem;
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease;
+
+    @media (any-hover: hover) {
+      &:hover {
+        background-color: var(--color-subtle);
+        color: var(--color-ink);
+      }
+    }
+  }
 }
 
 .path__library {

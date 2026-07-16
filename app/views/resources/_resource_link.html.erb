@@ -1,13 +1,29 @@
-<%# One library row: type badge + link + how many lessons reference it.
-    `entry` is a ResourceLibrary::Entry (responds to kind/title like a Resource). %>
-<li class="lesson-resource <%= entry.required? ? "lesson-resource--required" : "lesson-resource--optional" %>">
+<%# One library row: type badge + link out to the document + a bridge back to
+    the lesson(s) that reference it. `entry` is a ResourceLibrary::Entry. %>
+<li class="lesson-resource lesson-resource--library <%= entry.required? ? "lesson-resource--required" : "lesson-resource--optional" %>">
   <%= resource_kind_badge(entry) %>
   <% if entry.url.present? %>
     <a href="<%= entry.url %>" class="lesson-resource__link" target="_blank" rel="noopener"><%= entry.title %></a>
   <% else %>
     <span class="lesson-resource__link lesson-resource__link--pending"><%= entry.title %></span>
   <% end %>
-  <% if entry.notable? %>
-    <span class="library-count"><%= t("resources.used_in", count: entry.lesson_count) %></span>
+
+  <%# Bridge to context: one lesson → a direct link; several → a quiet native
+      disclosure listing them all (zero JS). %>
+  <% if entry.lessons.one? %>
+    <%= link_to lesson_path(entry.lessons.first.slug), class: "lesson-resource__source" do %>
+      <%= heroicon "arrow-up-right", variant: :outline %><%= t("resources.in_lesson") %>
+    <% end %>
+  <% elsif entry.lessons.many? %>
+    <details class="lesson-resource__source lesson-resource__source--menu"
+             data-controller="details" data-details-target="details"
+             data-action="click@document->details#closeOnClickOutside keydown.esc@window->details#close">
+      <summary><%= t("resources.used_in", count: entry.lesson_count) %></summary>
+      <ul class="lesson-resource__lessons">
+        <% entry.lessons.each do |ref| %>
+          <li><%= link_to ref.title, lesson_path(ref.slug), class: "link-quiet" %></li>
+        <% end %>
+      </ul>
+    </details>
   <% end %>
 </li>

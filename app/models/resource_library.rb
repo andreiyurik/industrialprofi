@@ -16,10 +16,18 @@ class ResourceLibrary
   # public display (and ignored when de-duplicating).
   AUTHORING_NOTE = /\s*\((?:для аудита|для самопроверки|аудит|черновик)\)\s*/i
 
-  Entry = Struct.new(:url, :title, :kind, :required, :lesson_count, keyword_init: true) do
+  # Bump when Entry's shape changes, so a deploy doesn't hand back cached
+  # Entries built by the old code (Solid Cache survives deploys).
+  CACHE_VERSION = 2
+
+  Entry = Struct.new(:url, :title, :kind, :required, :lessons, keyword_init: true) do
     def required? = required
+    def lesson_count = lessons.size
     def notable? = lesson_count >= NOTABLE_USAGE
   end
+
+  # A lesson that references the resource — just enough to link back to it.
+  LessonRef = Struct.new(:slug, :title, keyword_init: true)
 
   def self.for(path: nil, version: nil) = new(path:, version:).entries
 
@@ -54,13 +62,18 @@ class ResourceLibrary
 
     # Same document entered under different URLs (a common content slip) collapses
     # to one entry. Conservative: only identical normalized titles merge, so
-    # multi-part standards ("…(часть 1)" vs "…(часть 2)") stay separate.
+    # multi-part standards ("…(часть 1)" vs "…(часть 2)") stay separate. The
+    # representative url/title/kind come from the required (or most-repeated) row;
+    # the lessons are every distinct lesson across the merged rows.
     def merge(group)
-      url, title, kind, = group.max_by { |(_u, _t, _k, required, count)| [ type_boolean(required) ? 1 : 0, count ] }
+      best = group.max_by { |(url, _t, _k, required, _s, _lt)| [ type_boolean(required) ? 1 : 0, group.count { |r| r[0] == url } ] }
+      lessons = group.map { |(_u, _t, _k, _r, slug, title)| LessonRef.new(slug:, title:) }
+                     .uniq(&:slug)
+                     .sort_by { |ref| ref.title.to_s.downcase }
       Entry.new(
-        url:, kind:, title: display_title(title),
-        required: group.any? { |(_u, _t, _k, required, _c)| type_boolean(required) },
-        lesson_count: group.sum { |(_u, _t, _k, _r, count)| count }
+        url: best[0], kind: best[2], title: display_title(best[1]),
+        required: group.any? { |(_u, _t, _k, required, _s, _lt)| type_boolean(required) },
+        lessons: lessons
       )
     end
 
@@ -72,13 +85,16 @@ class ResourceLibrary
       display_title(title).downcase.gsub(/[^a-zа-яё0-9]+/, " ").squeeze(" ").strip
     end
 
+    # One row per resource (grouping/dedup happens in Ruby by normalized title),
+    # carrying the parent lesson so the library can link back to it.
     def rows
-      scope.group(:url).pluck(
+      scope.pluck(
         Arel.sql("resources.url"),
-        Arel.sql("MIN(resources.title)"),
-        Arel.sql("MIN(resources.kind)"),
-        Arel.sql("MAX(resources.required)"),
-        Arel.sql("COUNT(DISTINCT resources.lesson_id)")
+        Arel.sql("resources.title"),
+        Arel.sql("resources.kind"),
+        Arel.sql("resources.required"),
+        Arel.sql("lessons.slug"),
+        Arel.sql("lessons.title")
       )
     end
 
@@ -92,7 +108,7 @@ class ResourceLibrary
     # a shared @version so it doesn't recompute the stamp per profession.
     def cache_key
       stamp = @version || [ scope.count, scope.maximum(:updated_at)&.to_f ]
-      [ "resource_library", @path&.id || "all:#{I18n.locale}", *stamp ]
+      [ "resource_library", CACHE_VERSION, @path&.id || "all:#{I18n.locale}", *stamp ]
     end
 
     def type_boolean(value) = ActiveModel::Type::Boolean.new.cast(value)

@@ -28,6 +28,22 @@ class ResourceLibraryTest < ActiveSupport::TestCase
     assert matches.first.required?, "required if any merged source is required"
   end
 
+  test "carries the referencing lessons (deduped, for linking back)" do
+    course = courses(:el_basics)
+    url = "https://example.com/back-link"
+    a = course.lessons.create!(title: "Back A", slug: "back-a", stage: "S", kind: "lesson")
+    b = course.lessons.create!(title: "Back B", slug: "back-b", stage: "S", kind: "lesson")
+    # Same lesson referencing the URL twice must not double-count it.
+    a.resources.create!(title: "Общий док", url:, kind: "document")
+    a.resources.create!(title: "Общий док", url:, kind: "document")
+    b.resources.create!(title: "Общий док", url:, kind: "document")
+
+    entry = ResourceLibrary.for(path: paths(:electrician)).find { |e| e.url == url }
+    assert_equal %w[back-a back-b], entry.lessons.map(&:slug).sort, "one ref per distinct lesson"
+    assert_equal entry.lessons.size, entry.lesson_count
+    assert_includes entry.lessons.map(&:title), "Back A", "the lesson title comes along for the link label"
+  end
+
   test "excludes resources from unpublished content" do
     draft_lesson = courses(:draft_course).lessons.create!(
       title: "Draft Lib Lesson", slug: "draft-lib-lesson", stage: "S", kind: "lesson"
