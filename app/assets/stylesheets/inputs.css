@@ -2,7 +2,7 @@
   accent-color: var(--input-accent-color, var(--color-ink));
   background-color: var(--input-background, var(--color-subtle-light));
   border-radius: var(--input-border-radius, 0.5em);
-  border: var(--input-border-size, 1px) solid var(--input-border-color, var(--color-subtle));
+  border: var(--input-border-size, 1px) solid var(--input-border-color, var(--color-border-interactive));
   color: var(--input-color, var(--color-ink));
   font-size: max(16px, 1em);
   inline-size: 100%;

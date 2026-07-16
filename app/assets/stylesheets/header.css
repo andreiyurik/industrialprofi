@@ -1,7 +1,5 @@
 .header {
-  background-color: oklch(var(--lch-white) / 0.7);
-  backdrop-filter: saturate(180%) blur(12px);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  background-color: var(--color-bg);
   border-block-end: 1px solid var(--color-subtle);
   position: sticky;
   inset-block-start: 0;

@@ -2,7 +2,7 @@
   align-items: center;
   background-color: var(--btn-background, transparent);
   border-radius: var(--btn-border-radius, 0.5em);
-  border: var(--btn-border-size, 1px) solid var(--btn-border-color, var(--color-subtle));
+  border: var(--btn-border-size, 1px) solid var(--btn-border-color, var(--color-border-interactive));
   color: var(--btn-color, var(--color-ink));
   cursor: pointer;
   display: inline-flex;
