@@ -26,6 +26,10 @@ module Admin
       @pending_review = Path.where(status: "pending_review").count +
                         Course.where(status: "pending_review").count
 
+      # Expert marks past their shelf life (Path::Maturity::VERIFICATION_TTL) —
+      # the founder nudges the curator; the map already fell back to stage 3.
+      @verifications_expired = Path.published.verification_expired.count
+
       @completions_total = LessonCompletion.count
       @completions_week = LessonCompletion.where(created_at: 7.days.ago..).count
       @journal_entries_total = JournalEntry.count

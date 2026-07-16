@@ -6,6 +6,10 @@
 
 <p style="<%= mail_style(:subtitle) %>"><%= t("suggestions_mailer.outcome.body_#{@suggestion.status}", lesson: @lesson.title) %></p>
 
+<% if @suggestion.approved? && @suggestion.raised_path_stage %>
+  <p style="<%= mail_style(:muted) %>"><%= t("suggestions_mailer.outcome.raised_stage", path: @lesson.path.title, stage: @suggestion.raised_path_stage, total: Path::Maturity::MATURITY_STAGES) %></p>
+<% end %>
+
 <% if @suggestion.rejected? && @suggestion.reviewer_comment.present? %>
   <p style="<%= mail_style(:muted) %>"><%= t("suggestions_mailer.outcome.comment_label") %></p>
   <blockquote style="<%= mail_style(:quote) %>"><%= @suggestion.reviewer_comment %></blockquote>

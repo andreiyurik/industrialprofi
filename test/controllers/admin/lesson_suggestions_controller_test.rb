@@ -63,6 +63,26 @@ class Admin::LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to admin_lesson_suggestions_path
   end
 
+  test "approve records the maturity stage this edit raised the map to" do
+    # The welder map sits on stage 1 (no approved edits, no curator) —
+    # its first approved edit lifts it to «улучшается сообществом».
+    suggestion = lesson_suggestions(:welder_suggestion)
+    assert_equal 1, suggestion.lesson.path.maturity_stage
+
+    patch approve_admin_lesson_suggestion_path(suggestion)
+
+    assert_equal 2, suggestion.reload.raised_path_stage
+  end
+
+  test "approve records no stage raise when the map already stands higher" do
+    # Electrician is curated (stage 3) — one more approved edit moves nothing.
+    suggestion = lesson_suggestions(:pending_suggestion)
+
+    patch approve_admin_lesson_suggestion_path(suggestion)
+
+    assert_nil suggestion.reload.raised_path_stage
+  end
+
   test "inline approve from the queue responds with a Turbo Stream, no reload" do
     suggestion = lesson_suggestions(:pending_suggestion)
 

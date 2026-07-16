@@ -11,6 +11,7 @@ module Admin
       "moderation" => %w[suggestion_approved suggestion_rejected lesson_rolled_back],
       "content"    => %w[lesson_created_live lesson_deleted_live
                           path_created path_status_changed path_deleted
+                          path_verified path_unverified
                           course_created course_status_changed course_deleted],
       "bans"       => %w[user_suspended user_reinstated]
     }.freeze

@@ -26,6 +26,15 @@
       </a>
     <% end %>
 
+    <% if @verifications_expired.positive? %>
+      <a href="<%= admin_paths_path %>" class="panel panel--hover admin-callout">
+        <span class="admin-callout__text">
+          <%= t("admin.dashboard.verifications_expired", count: @verifications_expired) %>
+        </span>
+        <span class="btn btn--small btn--reversed"><%= t("admin.dashboard.open_program") %></span>
+      </a>
+    <% end %>
+
     <% if @coauthor_applications.positive? %>
       <a href="<%= admin_feedbacks_path(only: "coauthor") %>" class="panel panel--hover admin-callout">
         <span class="admin-callout__text">

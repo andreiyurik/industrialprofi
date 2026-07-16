@@ -3,6 +3,7 @@ class Path < ApplicationRecord
   include Importable
   include Sluggable
   include Curriculum
+  include Maturity
 
   SLUG_FORMAT = /\A[a-z0-9]+(-[a-z0-9]+)*\z/
 

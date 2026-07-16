@@ -104,6 +104,8 @@ Rails.application.routes.draw do
         resources :lesson_names, only: :update
         resources :course_names, only: :update
         resource  :stage_rename, only: :update
+        # The curator's hand-set «проверено экспертом» mark (see Path::Maturity).
+        resource  :verification, only: [ :create, :destroy ]
       end
     end
     resources :courses, only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug

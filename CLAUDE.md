@@ -432,6 +432,14 @@ the code already records, while CLAUDE.md holds decisions and conventions.
   locale edit, not a DB migration + a prod position-sync script.
 - **No wiki social governance** (arbitration, RfA voting, granular permission
   tiers, checkuser) — «лишние механики» at this scale.
+- **No notification bell / notification center** (2026-07-16): the TOP-style
+  header bell was considered and declined. The loop it would serve is already
+  closed cheaper: `notify-dot` on the hamburger/account button → dashboard
+  «Мои правки» (renders = seen) → outcome email fires ONLY as the unread-24h
+  fallback. A Notification model would add a per-user table, fan-out, read
+  state and a list UI for the ONE event type that exists (suggestion
+  outcomes) — and an empty bell reads as a dead platform pre-launch. Revisit
+  only when there are 3+ real event types AND daily actives to feed it.
 - **Lesson callouts are blockquote + marker, NOT a custom editor block**
   (2026-06-27): the Lexxy editor stores a quote whose first line is `[!ВАЖНО]`;
   `ApplicationHelper#enrich_prose` (shared by rich-text and the markdown

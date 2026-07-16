@@ -14,6 +14,7 @@ module Admin
     def approve
       if @suggestion.status == "pending"
         ActiveRecord::Base.transaction do
+          stage_before = @suggestion.lesson.path.maturity_stage
           @suggestion.lesson.revise!(
             section: @suggestion.section,
             html: @suggestion.proposed_html,
@@ -23,6 +24,12 @@ module Admin
             suggestion: @suggestion
           )
           @suggestion.update!(status: "approved", reviewed_at: Time.current)
+          # This edit moved the map up the maturity ladder — keep that fact on
+          # the suggestion so the author's dashboard and outcome email can say
+          # so (the collective-achievement half of «recognition, not competition»).
+          if (stage_after = @suggestion.lesson.path.maturity_stage) > stage_before
+            @suggestion.update!(raised_path_stage: stage_after)
+          end
           record_admin_action("suggestion_approved", target: @suggestion,
             lesson: @suggestion.lesson.title, section: @suggestion.section)
         end

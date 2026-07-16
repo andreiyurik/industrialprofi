@@ -1,6 +1,10 @@
 <%= t("suggestions_mailer.outcome.greeting", name: @user.name) %>
 
 <%= t("suggestions_mailer.outcome.body_#{@suggestion.status}", lesson: @lesson.title) %>
+<% if @suggestion.approved? && @suggestion.raised_path_stage %>
+
+<%= t("suggestions_mailer.outcome.raised_stage", path: @lesson.path.title, stage: @suggestion.raised_path_stage, total: Path::Maturity::MATURITY_STAGES) %>
+<% end %>
 <% if @suggestion.rejected? && @suggestion.reviewer_comment.present? %>
 
 <%= t("suggestions_mailer.outcome.comment_label") %>

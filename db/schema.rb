@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_15_120002) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_16_200000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -156,6 +156,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_15_120002) do
     t.text "edit_reason"
     t.integer "lesson_id", null: false
     t.datetime "outcome_notified_at"
+    t.integer "raised_path_stage"
     t.datetime "reviewed_at"
     t.text "reviewer_comment"
     t.string "section", default: "body", null: false
@@ -206,6 +207,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_15_120002) do
     t.string "status", default: "published", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.datetime "verified_at"
+    t.integer "verified_by_id"
     t.index ["author_id"], name: "index_paths_on_author_id"
     t.index ["locale"], name: "index_paths_on_locale"
     t.index ["position"], name: "index_paths_on_position"
