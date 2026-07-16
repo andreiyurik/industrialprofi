@@ -57,6 +57,22 @@ if it serves retention/engagement **without** adding cost or complexity — «р
 столько механик, сколько нужно, и ничего лишнего». The real bus-factor risk is
 **ops continuity**, not a missing feature (`docs/VISION.md`).
 
+## How to work here — read third
+
+Behaviour, not architecture (that's `Code rules` below). Bias toward caution over
+speed; for trivial edits, use judgment.
+
+- **Think before coding.** State your assumptions; on real ambiguity ask instead
+  of guessing, and if two readings exist name both. If a simpler path exists, say
+  so — pushing back is the job, not friction.
+- **Surgical diffs.** Change only what the request needs. Don't reformat, rename,
+  or "improve" adjacent code; match the local style even where you'd write it
+  differently. Remove orphans your change created; surface pre-existing dead code,
+  don't delete it unasked.
+- **Verify the way the change demands.** For multi-step work state a short plan and
+  check each step — but per this repo: exercise Ruby/ERB/`.yml` changes (tests or a
+  real run), verify CSS visually, never test Rails itself.
+
 ## Stack
 
 - Ruby 4.0.5 / Rails 8.1.3
@@ -220,8 +236,9 @@ content-factory doc — architecture + step-by-step authoring) and the rest of `
 - **HTML-first.** Server-render everything. Turbo Frames for partial updates,
   Turbo Streams for real-time pushes. Stimulus only for behavior that needs JS.
 - **ERB only.** No Haml, Slim, ViewComponent. Partials for reuse.
-- **Skinny controllers, fat models.** Extract to concerns at ~200 lines. No
-  service objects for simple CRUD. No `before_action` chain longer than 2.
+- **Skinny controllers, fat models.** Extract to a concern only past ~200 lines —
+  premature extraction is worse than duplication. No service objects for simple
+  CRUD. No `before_action` chain longer than 2.
 - **RESTful routes.** 7 standard actions first; custom actions only when REST
   doesn't fit.
 - **i18n from day one.** All user-facing strings via `I18n.t`. Russian first,
@@ -252,8 +269,7 @@ content-factory doc — architecture + step-by-step authoring) and the rest of `
 - **Self-hosted web fonts only** — no Google Fonts, no CDN. Inter + Inter Tight in
   `app/assets/fonts/`, declared in `_fonts.css`. No other typefaces.
 - No raw hex/rgb/hsl — colors come from OKLCH primitives in `colors.css`.
-- No concerns until a model exceeds ~200 lines. Premature extraction is worse
-  than duplication.
+  (The ~200-line concern threshold lives in Code rules, above.)
 
 ## UI — Canonical DHH style (Writebook canon)
 
@@ -312,11 +328,9 @@ per file; cascade is filename-alphabetical (prefix bedrock with `_`).
 
 ## Fizzy idioms — the bigger-app Hotwire reference
 
-When a task needs a richer Hotwire/Stimulus/CSS pattern than Writebook shows,
-copy **how Fizzy does it** (`/home/pingvinus/dhh-references/fizzy/`). Take the
-idiom, **not** the parts that break our hard constraints — Fizzy is a themed,
-multi-user, npm-bundled app; we are single-dark-theme, mostly single-reader, and
-importmap-only. The "don't adopt" list at the end is load-bearing.
+When a task needs a richer Hotwire/Stimulus/CSS pattern than Writebook shows, copy
+**how Fizzy does it** (roles defined under `UI` above) — the idiom, **not** the
+parts that break our constraints (the "don't adopt" list at the end is load-bearing).
 
 **Stimulus controllers** (`auto_save_controller.js`, `form_controller.js`):
 - **True ES private fields/methods** — `#timer`, `#save()`, private getters
@@ -337,9 +351,6 @@ an export only when a real caller exists (no speculative utilities). Ours lives 
 `helpers/timing_helpers.js`.
 
 **CSS** (`dialog.css`, `buttons.css`, `animation.css`):
-- **Component-local custom properties with fallback defaults** —
-  `var(--btn-background, var(--color-canvas))`; modifiers just override the vars
-  (this is also the Writebook canon — reinforced here).
 - **Named keyframes centralized** in `animation.css`. Enter/exit transitions for
   top-layer surfaces use `@starting-style` + `transition-behavior: allow-discrete`
   and transition `display`/`overlay` (our `animation.css` already does this for
@@ -349,32 +360,26 @@ an export only when a real caller exists (no speculative utilities). Ours lives 
   children (`> * { visibility: hidden }`) and overlays a masked `::after` spinner
   (we generalized this in `buttons.css`).
 
-**Rails controllers** (`cards/reactions_controller.rb`): skinny + RESTful;
-`respond_to { |format| format.turbo_stream { render "…" } }` (add `format.json`
-only with a real consumer — our rule). `before_action :set_x`, `with_options
-only:` to scope filters, a `private` section of `set_*`/`ensure_*` helpers,
-`params.expect(...)`. Extract a **reusable render helper** for a turbo replacement
-done from several actions (Fizzy's `render_card_replacement`).
+**Rails controllers** (`cards/reactions_controller.rb`): beyond skinny/RESTful, the
+Fizzy shape is `before_action :set_x` with `with_options only:` to scope filters, a
+`private` section of `set_*`/`ensure_*` helpers, `params.expect(...)`, and a
+**reusable render helper** for a turbo replacement done from several actions
+(Fizzy's `render_card_replacement`).
 
 **Rails models** (`card.rb`): the destination shape for a fat model is **many
 single-purpose concerns** (`extend ActiveSupport::Concern` → `included do … end`
 → `private`), one behaviour each, plus heavy **scopes** (incl. `case`-dispatch
 scopes like `indexed_by`). Member order: includes → associations → callbacks →
-scopes → publics → private. **But our threshold holds — extract a concern only
-past ~200 lines**; Fizzy shows the target, not a licence to pre-split.
+scopes → publics → private. Fizzy shows the target shape, not a licence to
+pre-split — the ~200-line threshold (Code rules) still gates extraction.
 
 **Turbo**: `loading: :lazy`/eager frames for server-expensive fragments; a flash
 helper that does `turbo_stream.replace(:flash, …)` from a concern
 (`turbo_flash.rb`); disable View Transitions on a same-URL refresh to avoid a
 jarring re-animate (`view_transitions.rb`).
 
-**Don't adopt (these conflict with our constraints):**
-- **`@layer components { … }` / `@import` between CSS** — Fizzy wraps every file
-  in a cascade layer; we forbid it. Our cascade is filename load order; write
-  bare rules.
-- **Theme switching** — Fizzy keys off `html[data-theme]` / `prefers-color-scheme`
-  light mode. We ship a **single dark theme** by decree; no `data-theme`, no light
-  variants.
+**Don't adopt** (the CSS-layer and light-theme bans already live in
+Anti-patterns/UI; these two are Fizzy-specific):
 - **Extra npm deps** Fizzy pins (`@rails/request.js`, `hotwire-native-bridge`,
   passkey lib) — stay importmap-minimal; use native `fetch` / `requestSubmit()`.
 - **`broadcasts_refreshes` realtime, Web Push, reactions, kanban** — app-domain
@@ -384,110 +389,9 @@ jarring re-animate (`view_transitions.rb`).
 
 ## Feature map
 
-Each line is one shipped subsystem. For *when* and the full commit rationale, use
-git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
-`docs/VISION.md → Roadmap & scope`.
-
-- **Accounts & progress (v0.2):** registration/login, binary `LessonCompletion`
-  ("Отметить пройденным" via Turbo Stream), per-stage/per-path progress bars,
-  `/dashboard` with continue links, desktop two-column lesson layout.
-- **Signup flow:** Fizzy pattern — email → emailed 6-char code (15 min) → name +
-  password; state in encrypted session (`Signup` PORO, no table); User created
-  only at the final step. **Production signup REQUIRES working SMTP.** Login stays
-  password-based on purpose. Post-signup founder welcome letter (`<dialog>`).
-- **Password reset:** `generates_token_for`, `PasswordsController` + mailer.
-- **Editing pipeline:** signed-in readers *suggest* an edit to a lesson section
-  (rate-limited + honeypot); an editor reviews; every applied change appends an
-  immutable `LessonRevision`; reader-facing `/revisions`. Rollback = a new
-  revision, never a rewrite.
-- **Roles trust ladder:** `member` → `editor` («Эксперт», `can_edit_content?`) →
-  `administrator` (`can_administer?`, `/admin/users`, can't change own role).
-  `Editorship` join scopes editor rights to granted professions; only admins
-  publish. First admin via `ADMIN_EMAIL`/`ADMIN_PASSWORD` seed.
-- **Admin dashboard (`/admin`, admin-only):** signups + 12-week CSS bar chart,
-  active-this-week, pending suggestions, completions, journal volume, content
-  health, `SystemStatus` vitals (disk safety + SQLite footprint, Solid Queue
-  health, `MailMetrics` 7-day mail flow). Plain group/count queries, no charting
-  JS, no admin gems; scaling seam is `Rails.cache.fetch`.
-- **Admin action log (`/admin/log`):** `AdminAction` append-only transparency log
-  of people/moderation actions (role changes, grants, suggestion approve/reject,
-  rollback, suspend) — second audit trail alongside `LessonRevision`. Immutable,
-  denormalized `details` JSON, keyset pagination + category/actor filters (Fizzy
-  feed pattern), no free-text search. Adopt wiki *data* mechanics (immutable
-  history + transparency), NOT its social governance machine.
-- **User detail card (`/admin/users/:id`):** profile + role/suspend controls,
-  snapshot, progress, active sessions (force-logout data), recent activity.
-- **User suspension:** `users.suspended_at`; `suspend!` revokes sessions and
-  `User.active.authenticate_by` blocks login; reversible (`reinstate!`),
-  self-suspend lockout guard. No durations/IP/partial blocks.
-- **Practice journal + heatmap:** `JournalEntry` (`/journal`) — private,
-  **text-only** work log (rich text + optional lesson link, rate-limited). The
-  GitHub-style 16-week heatmap counts completions + journal entries. **No photo
-  uploads** (see north star).
-- **Focus direction:** `User#focus_path` (derived from latest completion, no
-  stored setting) drives the dashboard hero, catalog banner, and `/projects` sort.
-  Defaults, not walls — nothing is locked.
-- **Contributor attribution:** muted "Статью улучшили" credit under each lesson,
-  derived from `LessonRevision` (founder's direct edits store `editor_name: nil`,
-  so he never appears). Generated-initials avatars (`AvatarsHelper`), no uploads.
-- **Projects (`/projects`):** aggregator of all `kind: practice` lessons across
-  published paths, with difficulty filters.
-- **Calculators (`/calculators`):** trade formula tools — code registry (no DB) +
-  one Stimulus controller for all math.
-- **Search (`/search`):** SQLite FTS5 (`create_virtual_table`, unicode61) behind
-  the `LessonSearch` PORO — all FTS SQL lives there; `Lesson` commit callbacks
-  keep the index in sync (`bin/rails search:rebuild` rebuilds from scratch, e.g.
-  after a restore). Published-only results, bm25 weighted title > description >
-  body, quoted-prefix terms (Russian morphology + FTS-operator injection safety),
-  `<mark>` snippets. Live form = `auto-submit` debounce into a Turbo Frame; the
-  input stays outside the frame so it keeps focus. Zero new dependencies.
-- **Command palette (`shared/_palette`):** Fizzy's jump menu adapted — the header
-  search icon (a real link to `/search`, the no-JS fallback), Ctrl/Cmd+K (both
-  layouts: k/л) or `/` opens a `<dialog>`: live FTS5 results in a
-  `palette_results` frame (`SearchesController#show` renders the compact
-  `palette` view for that frame id), quick-destination tiles while the query is
-  blank (guest vs signed-in sets), Fizzy-style colophon → `/contribute`. One
-  small Stimulus controller (`palette`); no arrow-key list navigation on
-  purpose — Enter/click covers it.
-- **Content export (`content:export[slug]`):** `CurriculumExporter` writes a
-  profession from the DB back into the exact YAML/Markdown tree the importer
-  reads (default `tmp/export/<slug>`) — a portable content pack for on-prem
-  installs, offline expert authoring, and content that outlives the platform.
-  Round-trip (export → clean import) is covered by tests; drag-reordered stages
-  split into consecutive same-title section dirs so import reproduces order.
-- **Retention email (the ONE):** `LearningReminderJob` (daily, Solid Queue
-  recurring) nudges stalled learners once per stall — never a drip. Opt-out
-  checkbox + tokenized one-click unsubscribe (RFC 8058). Don't add more
-  lifecycle emails without an explicit founder decision.
-- **Feedback line («Написать автору»):** async `Feedback` model → founder reads at
-  `/admin/feedbacks` (unread badge) + email per message. NOT a chat.
-- **Error monitoring (gem-free):** `ErrorSubscriber` on `Rails.error` emails
-  administrators on unhandled exceptions (throttled via Solid Cache). No
-  Sentry/Honeybadger — this + an external `/up` ping is the whole story.
-- **Participation page (`/contribute`):** the open-project page, split from
-  `/support_us` (money). Frames the open commons + multi-profession vision; this
-  is the future-co-author surface where the wide vision is voiced. Includes the
-  public "wanted professions" board (`ru.yml → contribute.wanted`) — a curated
-  excerpt of `docs/PROFESSION_BACKLOG.md`; refresh it when the backlog churns.
-- **Partners (`/partners`):** adaptive sponsors page (invitation while empty),
-  curated constant, independence firewall.
-- **Milestone dialog:** finishing a course/profession opens a celebration
-  `<dialog>` (stats + «Поделиться в Telegram») via the completion Turbo Stream —
-  the one honest share moment; a section keeps the quiet flash pill.
-- **B2B demand sensor (`/business`):** public pitch page for training
-  centers/employers + inquiry form → tagged guest `Feedback` (user optional,
-  contact folded into body). Carries the paid offer copy (2026-07): on-prem
-  closed-contour deployment for enterprises (lead offer — zero new code, Kamal
-  image on THEIR servers) + closed учебные карты for training centers; license
-  stays AGPL, revenue = внедрение + annual support via ИП. Still a sensor, not
-  a product — first clients get manual bespoke delivery; build B2B features
-  (esp. hosted private tenants — deferred, SQLite/liability) only from real
-  repeated inquiries.
-- **Analytics:** Yandex Metrika, rendered only when `YANDEX_METRIKA_ID` is set
-  (`shared/_metrika`). Idle-loaded: the ym() stub queues events, tag.js is
-  fetched on requestIdleCallback (3 s cap) so it never competes with rendering;
-  hits fire per `turbo:load`. Disclosed in `/privacy` — keep that page truthful
-  if the provider ever changes. GA rejected (152-ФЗ + no Google Ads in RU).
+Moved to `docs/ARCHITECTURE.md` — the map of shipped subsystems and the
+constraints each carries. Kept out of this file on purpose: it inventories what
+the code already records, while CLAUDE.md holds decisions and conventions.
 
 ## Recorded decisions — don't re-propose
 
@@ -592,6 +496,7 @@ history covers "when").
 
 - `docs/VISION.md` — what we're building, for whom, why (incl. business model +
   the forward roadmap and the "not building" list)
+- `docs/ARCHITECTURE.md` — map of shipped subsystems + the constraint each carries
 - `docs/PROFESSION_BACKLOG.md` — the prioritized to-do of which professions to
   package next, with selection criteria and per-profession status
 - `docs/SOURCING.md` — where to draw best practice from, by country and trade
