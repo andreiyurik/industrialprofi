@@ -11,14 +11,14 @@
      their shipped dark.css, converted to OKLCH): background never touches 0%
      lightness — it stays out of the near-black range where HDR tone-mapping
      and cheap-panel black-crush make grays unreliable across real screens.
-     A faint cool tint (H~255-258, same family as --lch-blue) ties the whole
-     neutral scale to the accent instead of flat achromatic gray. */
-  --lch-black: 97% 0.01 248;         /* primary ink — near-white, not pure white */
-  --lch-white: 18% 0.014 258;        /* page background — near-black, not pure black */
-  --lch-gray-light: 22% 0.018 256;   /* elevated surfaces: cards, panels, inputs */
-  --lch-gray: 38% 0.018 255;         /* hairline borders + row hover fill */
-  --lch-gray-mid: 55% 0.016 255;     /* dimmed/disabled text — quieter than muted, still legible */
-  --lch-gray-dark: 68% 0.0155 255;   /* muted / secondary text */
+     Flat achromatic gray throughout — no hue at all — so the neutral scale
+     stays fully neutral; --lch-blue is the one and only hue in the palette. */
+  --lch-black: 92% 0 0;              /* primary ink — flat neutral off-white (#e3e3e3) */
+  --lch-white: 17% 0 0;              /* page background — flat neutral near-black (#0f0f0f) */
+  --lch-gray-light: 22% 0 0;         /* elevated surfaces: cards, panels, inputs */
+  --lch-gray: 38% 0 0;               /* hairline borders + row hover fill */
+  --lch-gray-mid: 55% 0 0;           /* dimmed/disabled text — quieter than muted, still legible */
+  --lch-gray-dark: 68% 0 0;          /* muted / secondary text */
   --lch-blue: 66% 0.17 248;    /* the one accent — links / interactive only */
   --lch-blue-light: 26% 0.06 248;
   --lch-blue-dark: 44% 0.09 248;
