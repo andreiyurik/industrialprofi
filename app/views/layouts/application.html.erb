@@ -89,6 +89,13 @@
               <% if unseen_outcomes %><span class="notify-dot notify-dot--corner"></span><% end %>
             </summary>
             <div class="header__menu-panel">
+              <%# Touch-only: the sheet covers the header, so the ✕ stands in for
+                  the hamburger. Hover devices dismiss by clicking outside. %>
+              <button type="button" class="header__menu-close" data-action="details#close"
+                      aria-label="<%= t("common.close") %>">
+                <%= heroicon "x-mark", variant: :outline %>
+              </button>
+
               <%# Mobile-only identity header — the dropdown mirrors the desktop
                   popover's anatomy, so it reads as the same menu. %>
               <% if signed_in? %>

@@ -13,6 +13,12 @@
   transform: translateY(-100%);
 }
 
+/* The mobile sheet is a child of the header, so a hidden header would drag it
+   off-screen with it. Outranks .header--hidden by specificity. */
+.header:has(.header__menu[open]) {
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .header {
     transition: none;
@@ -99,8 +105,10 @@
   content-visibility: visible;
 }
 
-/* Desktop default: account section hidden (popover button is used instead). */
-.header__menu-account {
+/* Desktop default: account section and the sheet's ✕ are hidden (the inline nav
+   row and the popover button are used instead). */
+.header__menu-account,
+.header__menu-close {
   display: none;
 }
 
@@ -352,20 +360,32 @@
     inline-size: 1.4rem;
   }
 
+  /* A modal bottom sheet. Fizzy's popup is top-anchored (popup.css: `inset: 0
+     auto auto 50%`) — but its nav is a hotkey-driven jump menu that merely
+     tolerates touch, so its geometry isn't authority for a mobile-first menu.
+     Anchored to the bottom, every row lands in the thumb's arc; top-anchored
+     put the most-used link in the hardest-to-reach corner and wasted a third
+     of the screen on dead backdrop. Fizzy's actual anatomy — modal, capped,
+     scrolling inside, touch-only ✕ — is kept. */
   .header__menu-panel {
     align-items: stretch;
     background-color: var(--color-subtle-light);
     border: 1px solid var(--color-subtle);
-    border-radius: 0.75rem;
+    border-radius: 1rem;
     box-shadow:
-      0 12px 32px -8px oklch(var(--lch-always-black) / 0.5),
-      0 4px 8px -4px oklch(var(--lch-always-black) / 0.4);
+      0 -12px 32px -8px oklch(var(--lch-always-black) / 0.5),
+      0 -4px 8px -4px oklch(var(--lch-always-black) / 0.4);
     flex-direction: column;
-    inset-block-start: calc(100% + 0.6rem);
-    inset-inline-end: 0;
-    min-inline-size: 15rem;
+    /* Clears the iOS home indicator, which would otherwise sit on «Выйти». */
+    inset-block-end: max(var(--block-space-half), env(safe-area-inset-bottom));
+    inset-block-start: auto;
+    inset-inline: var(--block-space-half);
+    margin-inline: auto;
+    max-block-size: calc(100dvh - var(--block-space-double));
+    max-inline-size: 26rem;
+    overflow-y: auto;
     padding: 0.5rem;
-    position: absolute;
+    position: fixed;
     row-gap: 0.125rem;
     z-index: 50;
   }
@@ -374,30 +394,119 @@
     display: none;
   }
 
-  /* Enter/exit — Fizzy's popup--animated, verbatim: a quick uniform grow out
-     of the burger's corner (scale 0.2 → 1, 150ms); allow-discrete holds
-     `display` until the exit shrink finishes. Gated on reduced-motion so the
-     base opacity:0 never strands the menu. */
+  /* The sheet rises from the bottom edge it's anchored to — one straight
+     slide, nothing scaled or zoomed (Fizzy's scale(0.2) zoom is unreadable
+     mid-flight at this size). allow-discrete holds `display` until the exit
+     slide finishes. Gated on reduced-motion so the base opacity:0 never
+     strands the menu. */
   @media (prefers-reduced-motion: no-preference) {
     .header__menu-panel {
       opacity: 0;
-      transform: scale(0.2);
-      transform-origin: top right;
-      transition: var(--overlay-duration, 150ms) allow-discrete;
+      transform: translateY(100%);
+      transition: var(--sheet-duration, 220ms) ease-out allow-discrete;
       transition-property: display, opacity, transform;
     }
 
     .header__menu[open] .header__menu-panel {
       opacity: 1;
-      transform: scale(1);
+      transform: translateY(0);
     }
 
     @starting-style {
       .header__menu[open] .header__menu-panel {
         opacity: 0;
-        transform: scale(0.2);
+        transform: translateY(100%);
       }
     }
+  }
+
+  /* Backdrop — what turns the sheet into a mode instead of a floating block.
+     It hangs off the SUMMARY on purpose: a click on it targets the toggle
+     itself, so the native <details> flips shut. Hanging it off .header__menu
+     would read as "inside" to the details controller's outside-click check and
+     the sheet would never close. */
+  .header__menu-toggle::before {
+    /* Fizzy dims with a plain black veil, but it sits on a light canvas. Ours
+       is already black, so a veil alone only bites on bright elements (the
+       footer wordmark kept competing with the sheet) — the blur is what
+       actually pushes the page onto a plane behind. */
+    -webkit-backdrop-filter: blur(5px); /* iOS Safari < 18 */
+    backdrop-filter: blur(5px);
+    background-color: oklch(var(--lch-always-black) / 0.65);
+    content: "";
+    display: none;
+    inset: 0;
+    opacity: 0;
+    position: fixed;
+    z-index: 45;
+  }
+
+  .header__menu[open] .header__menu-toggle::before {
+    display: block;
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .header__menu-toggle::before {
+      transition: var(--sheet-duration, 220ms) ease-out allow-discrete;
+      transition-property: display, opacity;
+    }
+
+    @starting-style {
+      .header__menu[open] .header__menu-toggle::before {
+        opacity: 0;
+      }
+    }
+  }
+
+  /* Sits in the sheet's top-right corner, where the hamburger just was. */
+  .header__menu-close {
+    align-items: center;
+    background: none;
+    border: 0;
+    border-radius: 0.5em;
+    color: var(--color-subtle-dark);
+    cursor: pointer;
+    display: inline-flex;
+    inset-block-start: 0.5rem;
+    inset-inline-end: 0.5rem;
+    justify-content: center;
+    min-block-size: 2.75rem;
+    min-inline-size: 2.75rem;
+    padding: 0;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .header__menu-close svg {
+    block-size: 1.4rem;
+    inline-size: 1.4rem;
+  }
+
+  /* Signed in, the ✕ shares the identity row — reserve its full width (0.5rem
+     offset + 2.75rem) so a long name can't run under it. Signed out there's no
+     identity, so the sheet reserves the corner vertically instead. */
+  .header__menu-panel .header__menu-identity {
+    padding-inline-end: 3.25rem;
+  }
+
+  /* Must clear the ✕'s own offset (0.5rem) plus its height (2.75rem), or the
+     first nav row slides under it. */
+  .header__menu-panel:not(:has(.header__menu-identity)) {
+    padding-block-start: 3.5rem;
+  }
+
+  /* Pointer devices dismiss by clicking outside; the ✕ is for touch, where
+     there's nothing to hover and no Esc (Fizzy's .nav__close). */
+  @media (any-hover: hover) {
+    .header__menu-close {
+      display: none;
+    }
+  }
+
+  /* The page must not scroll under an open sheet — pure CSS, no controller. */
+  html:has(.header__menu[open]) {
+    overflow: hidden;
   }
 
   .header__menu-panel .header__menu-identity {
@@ -405,7 +514,7 @@
   }
 
   /* Nav rows take the popover's row component: icon + label, same metrics —
-     one visual language across the dropdown, the popover and the palette.
+     one visual language across the sheet, the popover and the palette.
      No [open] qualifier: the styles must hold during the exit fade too. */
   .header__menu-panel .nav__link {
     align-items: center;
@@ -421,6 +530,19 @@
     block-size: 1.05rem;
     display: block;
     inline-size: 1.05rem;
+  }
+
+  /* Every row in the sheet clears the 44px touch minimum — the old 36px rows
+     were the real reason it felt cramped. Both row components, one rule. */
+  .header__menu-panel :is(.nav__link, .account-menu__link) {
+    font-size: 1rem;
+    gap: 0.75rem;
+    min-block-size: 2.75rem;
+    padding-inline: 0.75rem;
+  }
+  .header__menu-panel :is(.nav__link, .account-menu__link) svg {
+    block-size: 1.2rem;
+    inline-size: 1.2rem;
   }
   .header__menu-panel .nav__link[aria-current="page"] {
     color: var(--color-ink);
