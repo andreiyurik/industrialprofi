@@ -78,8 +78,7 @@
   padding: 0.1em 0.5em;
 }
 
-/* Roadmap status badges — conventional status colours (done/in-progress/
-   planned/future). "not_now" reuses .badge--draft (muted gray). */
+/* Roadmap status badges; "not_now" reuses .badge--draft (muted gray). */
 .badge--done {
   background-color: oklch(var(--lch-green) / 0.18);
   color: oklch(var(--lch-green));

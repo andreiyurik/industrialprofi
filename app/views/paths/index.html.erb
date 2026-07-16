@@ -5,8 +5,6 @@
   <%= json_ld_tag(organization_json_ld) %>
 <% end %>
 
-<% available, upcoming = @paths.partition { |path| !path.stub? } %>
-
 <section class="hero">
   <div class="container hero__inner">
     <h1 class="hero__title is-caret"><%= t("paths.hero.title") %></h1>
@@ -31,7 +29,7 @@
     <% end %>
 
     <div class="catalog-grid" id="catalog">
-      <% available.each do |path| %>
+      <% @paths.each do |path| %>
         <%= render "path_card", path: path,
               completed_count: @completed_counts.fetch(path.id, 0),
               courses_count: @course_counts.fetch(path.id, 0) %>
@@ -42,14 +40,12 @@
         left out on purpose: what survives is the one thing said nowhere else on
         this page — the names of the vacant professions. Heading, list, one link. %>
     <div class="catalog-soon">
-      <% if upcoming.any? %>
-        <h2 class="catalog-soon__label"><%= t("paths.group_upcoming") %></h2>
-        <p class="catalog-soon__list">
-          <% upcoming.each do |path| %>
-            <span class="catalog-soon__slot"><%= path.title %></span>
-          <% end %>
-        </p>
-      <% end %>
+      <h2 class="catalog-soon__label"><%= t("paths.group_upcoming") %></h2>
+      <p class="catalog-soon__list">
+        <% t("paths.soon_wanted").each do |title| %>
+          <span class="catalog-soon__slot"><%= title %></span>
+        <% end %>
+      </p>
       <p class="catalog-soon__call">
         <%= link_to contribute_path, class: "btn" do %>
           <%= t("paths.soon_curator") %>

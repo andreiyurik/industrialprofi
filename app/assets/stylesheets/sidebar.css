@@ -1,15 +1,11 @@
 /* Course-contents sidebar, TOP-style. Two presentations of one element:
-   ≥1280px — a full-height rail docked to the viewport's left edge (the layout
-   is full-bleed, NOT inside .container — exactly like theodinproject.com: the
-   rail owns the screen edge, the lesson column centers in the remaining space);
-   <1280px — an off-canvas drawer opened by the "Содержание курса" button.
-   Stages are native <details> accordions: the current one starts open.
+   ≥1280px — a full-height rail docked to the viewport's left edge, full-bleed
+   (NOT inside .container, like theodinproject.com); <1280px — an off-canvas
+   drawer. Stages are native <details> accordions: the current one starts open.
 
-   The 1280px breakpoint is The Odin Project's single `xl` threshold: BOTH the
-   left rail and the right "В этом уроке" TOC appear together only when the
-   viewport is wide enough for all three columns (20 + ~44 + 15rem). Below it
-   there is no half-docked middle zone — the rail is a toggled drawer and the
-   TOC is hidden, so the lesson reads full-width. */
+   1280px is The Odin Project's single `xl` threshold: the left rail and the
+   right TOC appear together only when the viewport fits all three columns
+   (20 + ~44 + 15rem) — below it there's no half-docked middle zone. */
 .lesson-layout {
   display: block;
 }
@@ -18,9 +14,6 @@
   .lesson-layout {
     align-items: start;
     display: grid;
-    /* Three columns appear together: left rail + lesson + right TOC. The TOC
-       (.lesson-toc) reveals at this same 1280px, so its 15rem track is never
-       an empty gap. */
     grid-template-columns: 20rem minmax(0, 1fr) 15rem;
   }
 
@@ -37,7 +30,6 @@
     position: sticky;
   }
 
-  /* Drawer chrome is mobile-only. */
   .lesson-sidebar__close,
   .lesson-sidebar-backdrop {
     display: none;
@@ -111,9 +103,8 @@
     }
   }
 
-  /* Desktop always shows the rail, so the toggle disappears. Lives HERE, after
-     the base rule — an earlier `display: none` would lose the same-specificity
-     cascade to the base `display: inline-flex` below it. */
+  /* Lives HERE, after the base rule: an earlier `display: none` would lose
+     the same-specificity cascade to `display: inline-flex` below it. */
   @media (min-width: 1280px) {
     display: none;
   }
@@ -381,11 +372,11 @@
 }
 
 /* ── Reading mode ──────────────────────────────────────────────────────
-   The quietest possible page: chrome off, words on. Toggled by the
-   reading-mode Stimulus controller, persisted in a cookie so the server
-   renders the next lesson already stripped. These rules live at the END of
-   this file ON PURPOSE — `.lesson-layout--reading { display: block }` must
-   out-cascade the same-specificity grid rules above (source order wins). */
+   Chrome off, words on. Toggled by the reading-mode Stimulus controller,
+   persisted in a cookie so the server renders the next lesson already
+   stripped. These rules live at the END of this file ON PURPOSE —
+   `.lesson-layout--reading { display: block }` must out-cascade the
+   same-specificity grid rules above (source order wins). */
 body:has(.lesson-layout--reading) :is(.header, .support-cta, .footer) {
   display: none;
 }

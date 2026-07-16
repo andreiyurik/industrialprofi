@@ -56,7 +56,6 @@
   max-inline-size: 36rem;
 }
 
-/* A slow float + soft glow on the "?" — playful but calm, and motion-safe. */
 @media (prefers-reduced-motion: no-preference) {
   .contribute-hero__mark {
     animation: contribute-float 5s ease-in-out infinite;
@@ -121,10 +120,7 @@
 }
 
 /* ---- Three ways — editorial numbered index -----------------------------
-   Full-width rows separated by hairlines, each anchored by a large ghosted
-   numeral and closed by an arrow link. Replaces the three boxed cards: the
-   text gets full measure (no cramped multi-column hyphenation) and the result
-   reads as a designed index rather than a generic card grid. */
+   Replaces the three boxed cards: full-measure text, no cramped hyphenation. */
 
 .contribute-ways {
   border-block-start: 1px solid var(--color-subtle);
@@ -200,8 +196,7 @@
   transition: transform 200ms ease;
 }
 
-/* Way 03 share actions: the Telegram-share link + the copy-link button, side by
-   side. The copy button is a link-styled button reset (matches __link). */
+/* The copy button is a link-styled button reset (matches __link). */
 .contribute-way__share {
   align-items: center;
   column-gap: 1.5rem;
@@ -241,9 +236,7 @@
 }
 
 /* ---- Wanted-professions board -------------------------------------------
-   Grouped quiet chips: an honest queue, not a promise. Chips are plain <li>
-   (not links — there is nothing to open yet); the single CTA below leads to
-   the co-author application. */
+   Chips are plain <li>, not links — there's nothing to open yet. */
 
 .contribute-wanted {
   display: grid;

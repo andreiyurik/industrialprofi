@@ -120,7 +120,6 @@
   --input-padding: 0.35rem 0.6rem;
 }
 
-/* Bottom line: ghost note flexes, flag checkboxes sit quietly at the end. */
 .resource-row__foot {
   align-items: center;
   display: flex;

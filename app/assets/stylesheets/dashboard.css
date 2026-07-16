@@ -9,8 +9,8 @@
   margin-block: 0 1.25rem;
 }
 
-/* Activity heatmap (GitHub-style): columns = weeks, rows = weekdays.
-   Pure server-rendered divs; green intensity = real actions that day. */
+/* Activity heatmap (GitHub-style): server-rendered divs, no canvas/JS;
+   green intensity = real actions that day. */
 .heatmap {
   border: 1px solid var(--color-subtle);
   border-radius: 0.75em;
@@ -182,9 +182,8 @@
   }
 }
 
-/* One heading voice for every dashboard section — quiet, left, out of the
-   content's way. The hint's negative top margin collapses with the title's
-   0.75rem into a snug 0.35rem gap. */
+/* The hint's negative top margin collapses with the title's 0.75rem margin
+   into a snug 0.35rem gap. */
 .dashboard__section-title {
   color: var(--color-subtle-dark);
   font-size: 0.9rem;
@@ -304,7 +303,6 @@
   text-transform: uppercase;
 }
 
-/* Other started paths: present but quiet — one compact row each. */
 .dashboard__others {
   display: flex;
   flex-direction: column;
@@ -377,9 +375,7 @@
   margin-block: 0 1rem;
 }
 
-/* Personal learning goal (TOP's "What's your learning goal?") — the
-   learner's own words inside the hero card. The whole block lives in a
-   Turbo Frame and swaps for the inline form on edit. */
+/* Lives in a Turbo Frame; swaps for the inline edit form on click. */
 .learning-goal {
   color: var(--color-subtle-dark);
   font-size: 0.9rem;
@@ -403,9 +399,8 @@
   max-inline-size: 36rem;
 }
 
-/* Inside the hero the open form sits right above the big CTA. A goal is one
-   line, not an essay — a two-line box; and extra air below keeps
-   «Сохранить/Отмена» from clustering with «Продолжить» into one button pile. */
+/* Extra bottom margin keeps «Сохранить/Отмена» from clustering with
+   «Продолжить» into one button pile. */
 .dashboard-hero__info .learning-goal-form {
   margin-block: 0.25rem 1rem;
 
@@ -436,9 +431,8 @@
   margin-block: 0;
 }
 
-/* ── «Отложенные задания» — the saved-practice queue ─────────────────
-   Compact rows; the remove ✕ unbookmarks via Turbo Stream (row disappears,
-   whole section goes with the last row). */
+/* ── «Отложенные задания» — the remove ✕ unbookmarks via Turbo Stream
+   (row disappears; whole section goes with the last row). ───────────── */
 .dashboard__bookmarks {
   margin-block-start: 3rem;
 }

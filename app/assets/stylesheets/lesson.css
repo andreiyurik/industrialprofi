@@ -1,4 +1,3 @@
-/* Draft preview banner — shown to an editor viewing an unpublished lesson. */
 .lesson__preview-banner {
   background-color: oklch(var(--lch-yellow) / 0.12);
   border: 1px solid oklch(var(--lch-yellow) / 0.4);
@@ -9,8 +8,8 @@
   padding: 0.6rem 0.9rem;
 }
 
-/* Placeholder for an image whose asset is missing (e.g. a not-yet-drawn
-   "TODO-*.png"), so one pending illustration never crashes the lesson. */
+/* Fallback for a missing image asset (e.g. a not-yet-drawn "TODO-*.png")
+   so one pending illustration never breaks the lesson. */
 .attachment__missing {
   align-items: center;
   background-color: var(--color-subtle-light);
@@ -54,8 +53,8 @@
    speed win over the "engineered" identity, which stays on the profession
    card/hero where a reader only glances at it once. */
 .lesson__title {
-  /* Capped at 2.1rem (was 2.5): long multi-word technical titles read as a
-     calmer landmark, not a wall, while staying the clear primary heading. */
+  /* Capped at 2.1rem (was 2.5) so long multi-word technical titles read as a
+     calmer landmark, not a wall. */
   font-size: clamp(1.75rem, 4.5vw, 2.1rem);
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -63,10 +62,6 @@
   margin-block: 0;
 }
 
-/* Top toolbar: breadcrumb trail on the left, quiet icon-only utilities on the
-   right (copy link, reading mode, bookmark). Replaces the old action row that
-   sat between the title and the lesson — keeping the title → intro → content
-   flow clean, TOP-style. */
 .lesson__topbar {
   align-items: center;
   display: flex;
@@ -75,8 +70,6 @@
   margin-block-end: 0.75rem;
 }
 
-/* Left half of the meta row: contents toggle + breadcrumb trail as one quiet
-   line (the trail wraps under the toggle on narrow screens). */
 .lesson__trail {
   align-items: center;
   display: flex;
@@ -93,8 +86,6 @@
   gap: 0.65rem;
 }
 
-/* A bare icon button — a quiet tertiary utility, never competing with the
-   heading or the breadcrumb beside it. */
 .lesson__tool {
   align-items: center;
   background: none;
@@ -118,8 +109,8 @@
   }
 }
 
-/* Copy-link feedback is icon-only here: the link glyph briefly swaps to a green
-   check (the controller toggles `--copied` + updates the screen-reader label). */
+/* Copy-link feedback is icon-only: the glyph briefly swaps to a green check
+   (the controller toggles `--copied` + updates the screen-reader label). */
 .lesson__copy-icon {
   display: inline-flex;
 }
@@ -137,8 +128,8 @@
   color: var(--color-positive);
 }
 
-/* The save-for-later bookmark joins the icon toolbar: keep just the glyph,
-   matching the project-card treatment (title/aria-label carry the meaning). */
+/* Bookmark keeps just the glyph here, matching the project-card treatment —
+   title/aria-label carry the meaning. */
 .lesson__tools .bookmark-btn__label {
   display: none;
 }
@@ -177,8 +168,7 @@
   margin-block-start: 0;
 }
 
-/* Section heading — the strongest landmark in the body, a step above the
-   in-prose ## subheadings. */
+/* A step above the in-prose ## subheadings in the hierarchy. */
 .lesson__heading {
   color: var(--color-ink);
   font-family: var(--font-display);
@@ -215,10 +205,8 @@
 }
 
 /* When the brief is the last block before the end-of-lesson action bar, the
-   bar's own top border is the divider — so drop the brief's closing hairline
-   (and its bottom padding) to avoid a stacked double line. The action bar's
-   border stays the single, consistent "content → actions" divider on every
-   lesson, with or without a practice brief. */
+   bar's own top border already serves as the divider — so drop the brief's
+   closing hairline (and its bottom padding) to avoid a stacked double line. */
 .lesson__section:has(+ .lesson-complete) .lesson__task {
   border-block-end: 0;
   padding-block-end: 0;
@@ -226,9 +214,8 @@
 
 /* GOST is a thin, narrow monoline face with wide built-in side-bearings, so it
    reads "airy" by default. To match Inter's density we drop the extra tracking
-   and word-spacing entirely, keep compact spec-sheet leading, and hold a modest
-   size. The hairline text-stroke thickens the one (light) weight to Inter 400's
-   typographic colour, otherwise this block reads lighter than the body text. */
+   and word-spacing, keep compact leading, and hold a modest size. The hairline
+   text-stroke thickens the light weight to Inter 400's typographic colour. */
 .lesson__task .prose {
   -webkit-text-stroke: 0.25px currentColor;
   font-family: var(--font-technical);
@@ -237,9 +224,8 @@
   line-height: 1.45;
 }
 
-/* In-brief headings read as the ruled rubrics of a printed form. All are bright
-   (ink) — a heading must never be dimmer than the text it leads — uppercase, and
-   set in the technical face; hierarchy comes from size, not colour. */
+/* All in-brief headings stay bright (ink) — a heading must never be dimmer
+   than the text it leads; hierarchy comes from size, not colour. */
 .lesson__task .prose :is(h2, h3, h4) {
   color: var(--color-ink);
   font-family: var(--font-technical);
@@ -247,8 +233,6 @@
   text-transform: uppercase;
 }
 
-/* Section rubrics (Шаги / Что сдать / Самопроверка) — larger, with a hairline
-   beneath, like a ruled section label on a form. */
 .lesson__task .prose :is(h2, h3) {
   border-block-end: 1px solid var(--color-subtle);
   font-size: 1.15rem;
@@ -257,8 +241,7 @@
   padding-block-end: 0.35rem;
 }
 
-/* Sub-steps (Шаг 1 / Шаг 2 …) — one level down, marked with a leading tick
-   like a drawing annotation. */
+/* Sub-steps get a leading tick via ::before, like a drawing annotation mark. */
 .lesson__task .prose h4 {
   align-items: baseline;
   display: flex;
@@ -276,15 +259,13 @@
   transform: translateY(-0.35em);
 }
 
-/* Callouts keep their own component voice (sans) so a safety [!ОПАСНО] block
-   stays instantly recognisable inside the document — and must NOT inherit the
-   GOST stroke-thickening (they're already Inter, at Inter's weight). */
+/* Callouts keep their own sans voice so a safety [!ОПАСНО] block stays
+   recognisable — must NOT inherit the GOST stroke-thickening (already Inter). */
 .lesson__task .callout {
   -webkit-text-stroke: 0;
   font-family: var(--font-sans);
 }
 
-/* Practice submission: log the work to the journal. */
 .lesson-task-journal {
   margin-block-start: 1.25rem;
 
@@ -294,7 +275,6 @@
   }
 }
 
-/* Resources list */
 .lesson-resources {
   list-style: none;
   margin-block: 0;
@@ -311,8 +291,7 @@
   margin-block-start: 0.6rem;
 }
 
-/* Coloured type pill (Документ / Видео / Статья / Инструмент) before the link.
-   Sits at the top-left so it stays put when a long title wraps. */
+/* Sits at the top-left so the badge stays put when a long title wraps. */
 .lesson-resource__badge {
   gap: 0.3em;
   margin-block-start: 0.1em;
@@ -362,17 +341,15 @@
   line-height: 1.5;
 }
 
-/* Edit prompt + prev/next nav */
 .lesson-edit-prompt {
   color: var(--color-subtle-dark);
   font-size: 0.9rem;
   margin-block-start: 2.5rem;
 }
 
-/* Per-section "suggest edit" affordance under each editable lesson section.
-   Kept deliberately quiet: faint by default (so touch users can still find it),
-   and on pointer devices it stays hidden until the reader hovers the section
-   or tabs to it — discoverable, but never visual noise. */
+/* Faint by default so touch users can still find it; on pointer devices it
+   stays hidden until the reader hovers the section or tabs to it —
+   discoverable, never visual noise. */
 .lesson-section-edit {
   font-size: 0.8rem;
   margin-block: 1rem 0;
@@ -404,10 +381,8 @@
   gap: 0.25rem;
 }
 
-/* TOP-style end-of-lesson bar: the completion toggle on the left, "next
-   lesson" always available on the right — marking done is encouraged, never
-   required to move on. The toggle is one button that flips between
-   "Отметить пройденным" (primary) and a green "Урок пройден" (click = undo). */
+/* TOP-style: completion toggle on the left, "next lesson" always available
+   on the right — marking done is encouraged, never required to move on. */
 .lesson-complete {
   align-items: center;
   border-block-start: 1px solid var(--color-subtle);
@@ -490,8 +465,8 @@
   gap: 1rem;
 }
 
-/* The quiet byline before the completion bar — who stands behind the material
-   (curators + accepted contributors). Renders only when someone real exists. */
+/* Renders only when someone real stands behind the material (curators +
+   accepted contributors). */
 .lesson-attribution {
   color: var(--color-subtle-dark);
   display: flex;

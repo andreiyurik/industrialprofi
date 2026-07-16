@@ -44,7 +44,6 @@
   flex-direction: column;
 }
 
-/* A hairline register: each entry is a rule, not a panel. */
 .news-row {
   align-items: baseline;
   border-block-end: 1px solid var(--color-subtle);
@@ -81,8 +80,6 @@
   min-inline-size: 0;
 }
 
-/* GOST — the same drafting face the profession cards use, so news reads as
-   part of the same "engineered by practitioners" identity, not a generic list. */
 .news-row__title {
   font-family: var(--font-technical);
   font-size: 1.3rem;
@@ -119,7 +116,7 @@
   text-align: center;
 }
 
-/* Article — single column, reading width; no "more posts" rail. */
+/* Article */
 .news-article__back {
   align-items: center;
   color: var(--color-subtle-dark);
@@ -192,8 +189,7 @@
   inline-size: 1.2rem;
 }
 
-/* The reaction heart joins the same row, at the same size (see reactions.css
-   .reaction--bare-icon for the shared border/count/hover rules). */
+/* Same row/size as .news-article__tool (see reactions.css .reaction--bare-icon for shared border/count/hover rules). */
 .news-article__footer .reaction--bare-icon .reaction__heart svg {
   block-size: 1.2rem;
   inline-size: 1.2rem;
@@ -224,7 +220,6 @@
   color: var(--color-positive);
 }
 
-/* Older/newer — chronological neighbors, replacing a "more posts" rail. */
 .news-article__nav {
   border-block-start: 1px solid var(--color-subtle);
   display: flex;
@@ -276,7 +271,6 @@
   }
 }
 
-/* Admin: hero-image preview thumbnail in the post form. */
 .admin-form__preview {
   block-size: auto;
   border: 1px solid var(--color-subtle);

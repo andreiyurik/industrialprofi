@@ -1,7 +1,6 @@
 /* Curriculum builder — the profession tree (courses → stage → lessons) with
    drag-and-drop reordering. Driven by curriculum_controller.js. */
 
-/* Landing: a grid of profession cards, each opening its builder. */
 .builder-cards {
   display: grid;
   gap: 0.75rem;
@@ -44,8 +43,7 @@
   font-size: 0.8rem;
 }
 
-/* Danger zone — destructive actions on the edit/settings pages, kept off the
-   tree so the builder itself stays for reorganizing. */
+/* Destructive actions on the edit/settings pages, kept off the tree so the builder stays for reorganizing. */
 .admin-danger {
   border-block-start: 1px solid var(--color-subtle);
   margin-block-start: 2rem;
@@ -59,7 +57,6 @@
   margin-block: 0 0.75rem;
 }
 
-/* Tree */
 .builder__hint {
   margin-block-end: 1rem;
 }
@@ -234,7 +231,6 @@
   padding: 0.15rem 0.4rem;
 }
 
-/* Drag handle + inline edit affordances */
 .builder__handle {
   color: var(--color-subtle-dark);
   cursor: grab;

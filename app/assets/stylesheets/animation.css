@@ -1,7 +1,4 @@
-/* Shared animation primitives — reusable keyframes plus the entrance/exit for
-   native top-layer surfaces (dialogs, popovers). The Basecamp/Fizzy "feel" is
-   that nothing snaps; this is the one place that polish lives, so a component
-   never re-authors a spinner or a fade. Pure CSS, no JS, no build step. */
+/* Shared keyframes, so no component re-authors its own spinner or fade. */
 
 @keyframes spin {
   to {
@@ -15,9 +12,8 @@
   }
 }
 
-/* A calm one-shot "pop" for an element that's already on screen (it morphs in
-   place, so no opacity fade — that would blink). Used for the lesson-complete
-   check the moment it's earned; scale-only, like The Odin Project's heartbeat. */
+/* Scale-only, no opacity — the element is already on screen, so a fade would
+   blink it. Used for the lesson-complete check the moment it's earned. */
 @keyframes pop {
   0% {
     scale: 1;
@@ -30,8 +26,8 @@
   }
 }
 
-/* Plain fade-in. Pair with an animation-delay for indicators that should skip
-   brief states entirely (a fast form round-trip never flashes its spinner). */
+/* Pair with an animation-delay so brief states can skip it entirely — a fast
+   form round-trip never flashes its spinner. */
 @keyframes appear {
   from {
     opacity: 0;
@@ -41,16 +37,15 @@
   }
 }
 
-/* Terminal-style caret blink for the typed hero title (step-end = a hard on/off,
-   not a fade). */
+/* For the typed hero title; step-end elsewhere gives a hard on/off, not a fade. */
 @keyframes caret-blink {
   50% {
     opacity: 0;
   }
 }
 
-/* Homepage hero entrance — a calm rise-and-fade for the headline stack. Paired
-   with per-child animation-delay for a light stagger. */
+/* Homepage hero headline stack; pair with per-child animation-delay for a
+   light stagger. */
 @keyframes rise-in {
   from {
     opacity: 0;
@@ -62,9 +57,8 @@
   }
 }
 
-/* Toast lifecycle in a single keyframe: a quick rise-and-fade in, a long hold,
-   then a fade out timed to land exactly when the element-removal controller
-   pulls the node (4s). */
+/* Toast lifecycle in one keyframe, timed to land exactly when the
+   element-removal controller pulls the node (4s). */
 @keyframes appear-then-fade {
   0% {
     opacity: 0;
@@ -81,12 +75,10 @@
   }
 }
 
-/* Dialogs & popovers scale + fade in/out instead of appearing instantly.
-   :where() keeps specificity at zero, so any component is still free to set its
-   own transform-origin, duration (--overlay-duration), or other styles.
-   allow-discrete + @starting-style do the whole reveal in CSS; browsers without
-   support just show the surface immediately. Gated on reduced-motion so the
-   base opacity:0 never leaves a surface invisible when motion is off. */
+/* :where() keeps specificity at zero, so a component can still override
+   transform-origin/--overlay-duration. Gated on reduced-motion so the base
+   opacity:0 never leaves a surface invisible when motion is off; browsers
+   without allow-discrete/@starting-style support just show it instantly. */
 @media (prefers-reduced-motion: no-preference) {
   :where(dialog, [popover]) {
     opacity: 0;

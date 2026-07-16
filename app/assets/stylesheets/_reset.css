@@ -3,14 +3,12 @@
  * @link https://github.com/hankchizljaw/modern-css-reset
 */
 
-/* Box sizing rules */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-/* Remove default margin */
 body,
 h1,
 h2,
@@ -27,18 +25,14 @@ h1,
 h2,
 h3,
 h4 {
-  /* Help prevent overflow of long words/names/URLs */
   word-break: break-word;
 
   /* Optional, not supported for all languages */
   /* hyphens: auto; */
 }
 
-/* NOTE: page-level overflow + scroll-behavior live in base.css.
-   A `overflow-x: hidden` here would clip the sticky header (header.css),
-   so it's deliberately omitted — base.css owns those rules. */
-
-/* Set core body defaults */
+/* Page-level overflow + scroll-behavior live in base.css; an `overflow-x: hidden`
+   here would clip the sticky header (header.css), so it's deliberately omitted. */
 body {
   min-height: 100dvh;
   font-family: sans-serif;
@@ -47,13 +41,11 @@ body {
   text-rendering: optimizeSpeed;
 }
 
-/* Make images easier to work with */
 img {
   display: block;
   max-inline-size: 100%;
 }
 
-/* Inherit fonts for inputs and buttons */
 input,
 button,
 textarea,
@@ -61,7 +53,6 @@ select {
   font: inherit;
 }
 
-/* Remove all animations and transitions for people that prefer not to see them */
 @media (prefers-reduced-motion: reduce) {
 
   *,

@@ -503,9 +503,29 @@ git history; for the *forward* roadmap (v0.3 + what we refuse to build), see
 - **Monetization deferred** (June 2026): v0.4 certificates deferred; materials
   stay free/open forever; retention before revenue. Most promising path = B2B
   (training centers / employers). See `docs/VISION.md`.
-- **Positioning: narrow wedge, wide ceiling.** Marketing copy speaks only about
-  industrial trades that exist; the wider "any profession" vision lives on
-  `/contribute`, the FAQ, and `/roadmap`. No renaming.
+- **Positioning: narrow wedge, wide ceiling — the wedge binds CLAIMS, not the
+  INVITATION** (revised 2026-07-16): copy that says what we *teach* still names
+  only trades that exist; there is no "any profession" promise anywhere. But the
+  catalog's «Эти карты ждут автора» list is a vacancy board, not a claim — it
+  asks rather than promises, so it deliberately spans mass trades far outside
+  automation (автомеханик, агроном, геодезист, механизатор, зоотехник) and its
+  FIRST row is ordered to be the least industrial. The old rule (wide vision
+  confined to `/contribute`/FAQ/`/roadmap`) was reversed because it cost more
+  than it protected: every stub happened to be АСУ ТП/ПЛК/Linux, so the homepage
+  read as a site for automation engineers only and bounced every other trade's
+  expert in seconds. Entries still clear the `docs/VISION.md` gates (depth + a
+  real shortage of *quality* people + an apprentice→expert ladder) — which is why
+  «фермер» is not on the list and «механизатор» is. No renaming.
+- **An unwritten profession is COPY, never an empty `Path`** (2026-07-16): the
+  vacancy board lives in `ru.yml → paths.soon_wanted` (mirrored by
+  `contribute.wanted` and `docs/PROFESSION_BACKLOG.md`). Empty `Path` rows were
+  how it used to work and it was wrong twice over — 13 contentless rows polluted
+  every admin list/picker, and the list rendered "whatever stubs exist" rather
+  than what we want to say, which is exactly how it silently became all-АСУ-ТП.
+  So `Path` has no `coming_soon`/`planned` status (`Course` still does — a real
+  specialization stub inside a real profession), and `Path::STATUSES` is back to
+  the documented `draft|pending_review|published`. Reordering the board is a
+  locale edit, not a DB migration + a prod position-sync script.
 - **No wiki social governance** (arbitration, RfA voting, granular permission
   tiers, checkuser) — «лишние механики» at this scale.
 - **Lesson callouts are blockquote + marker, NOT a custom editor block**

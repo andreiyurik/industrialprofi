@@ -151,9 +151,7 @@
 
 /* ---- Tooling showcase — a live illustration, not a screenshot ----------
    Built from the real .badge components (badges.css), so it matches the app
-   pixel-for-pixel and can never rot. Shows what the source constructor produces
-   plus the immutable-history strip that backs the "saved forever, like git"
-   claim. Framed slightly narrower and centred so it reads as a specimen. */
+   pixel-for-pixel and can never rot. */
 
 .authors-showcase {
   margin: 2.5rem auto 0;
@@ -216,7 +214,6 @@
   text-wrap: pretty;
 }
 
-/* The git-like history strip: a hairline-separated footer with a clock glyph. */
 .authors-sources__history {
   align-items: center;
   border-block-start: 1px solid var(--color-subtle);

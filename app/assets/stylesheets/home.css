@@ -1,7 +1,5 @@
 /* Homepage / catalog landing (paths#index) — the product's front door.
-   A single quiet line states what this is, a small caption says why, and the
-   profession cards begin right below. No eyebrow, no stat line, no texture —
-   typography and restraint carry it. */
+   No eyebrow, no stat line, no texture: typography and restraint carry it. */
 
 .hero {
   padding-block: 2.25rem 1.5rem;
@@ -16,8 +14,6 @@
   text-align: center;
 }
 
-/* The catalog follows the hero directly — the hero's bottom padding is the only
-   gap, so the profession cards sit high on the first screen. */
 /* The catalog follows the hero directly — the hero's bottom padding is the only
    gap. The double class beats `.section { padding-block }` in layout.css, which
    loads after this file (alphabetical order) and would otherwise re-inject 5rem. */
@@ -40,7 +36,6 @@
   text-wrap: balance;
 }
 
-/* Blinking caret — a blue "cursor" typed after the last word. */
 .hero__title.is-caret::after {
   content: "";
   display: inline-block;

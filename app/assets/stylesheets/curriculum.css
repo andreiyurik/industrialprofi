@@ -22,8 +22,8 @@
   position: relative;
 }
 
-/* Numbered milestone on the rail; turns into a green check once the reader
-   finishes every lesson in the stage. Page-bg fill masks the line behind it. */
+/* Numbered milestone on the rail — background-color: var(--color-bg) masks
+   the rail line passing behind it. */
 .curriculum__marker {
   align-items: center;
   background-color: var(--color-bg);

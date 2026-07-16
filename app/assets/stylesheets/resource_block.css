@@ -1,6 +1,5 @@
 /* The lesson's "Документы и ресурсы" block — a panel that gives the reading
-   list weight, paralleling the "Проверь себя" card. Groups carry the same
-   ★/☆ importance language as the public library. */
+   list weight, paralleling the "Проверь себя" card. */
 .resource-block {
   background: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);

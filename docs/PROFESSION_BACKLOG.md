@@ -54,10 +54,13 @@ one's best practice from** (by country and trade).
 
 ## Status legend
 
-- **Live** — seeded with substantial real content.
-- **Draft** — partially seeded / flagship course only.
-- **Stub** — directory/skeleton exists, content pending.
-- **Planned** — not started.
+- **Live** — seeded with substantial real content, `status: published`.
+- **Draft** — real content seeded but not yet public (`status: draft`).
+- **Planned** — not started. There is **no empty-stub state**: a profession with
+  no content gets no seed directory and no `Path` row (both would be pure admin
+  noise). Until someone writes it, it exists only as copy — on the catalog's
+  vacancy board (`ru.yml → paths.soon_wanted`), on `/contribute`
+  (`contribute.wanted`) and here.
 
 ## Tier 1 — core hands-on trades (the wedge)
 
@@ -67,9 +70,10 @@ far as it stays high-quality; depth beats a long shallow catalogue.
 | Profession | Status | Deficit driver | Depth anchor |
 |---|---|---|---|
 | **Электрик** (Electrician) | **Live** (`elektrik`) | Mandatory licensing everywhere; aging workforce | ПУЭ, ПТЭЭП, группы допуска 2–5 |
-| **Сварщик** (Welder) | **Stub** (`svarshchik`) | Chronic global shortage; highest international mobility | НАКС, ГОСТ, ISO 9606, ASME IX |
+| **Сварщик** (Welder) | **Live** (`svarshchik`) | Chronic global shortage; highest international mobility | НАКС, ГОСТ, ISO 9606, ASME IX |
 | **Холодильщик / HVACR** (Refrigeration & HVAC) | **Planned** | Cold chain + data-centre cooling + climate | F-gas/refrigerant regs, ГОСТ, EN 378 |
-| **Сантехник / трубопроводчик** (Plumber / pipefitter) | **Planned** | Every construction site; low entry, high need | СП 30.13330, СНиП |
+| **Сантехник / трубопроводчик** (Plumber / pipefitter) | **Draft** (`slesar-santehnik`) | Every construction site; low entry, high need | СП 30.13330, СНиП |
+| **Автомеханик** (Automotive technician) | **Planned** | Every town has the demand; the diagnostician half is scarce everywhere | ГОСТ Р 51709, ТР ТС 018/2011, OBD-II — *teach diagnosis (scanner, scope, CAN), not part-swapping; a vendor manual is not a profession* |
 
 ## Tier 2 — industrial automation / OT cluster (our moat)
 
@@ -82,10 +86,10 @@ industrial/OT lens; the moment one drifts into generic IT it loses the wedge.
 | Profession | Status | Deficit driver | Depth anchor |
 |---|---|---|---|
 | **Инженер АСУ ТП** (Industrial automation / ICS) | **Live** (`inzhener-asu-tp`) | Automation everywhere; few who can commission it | PLC, SCADA, Modbus/OPC UA, IEC 61131-3 |
-| **КИПиА** (Instrumentation & control, incl. АЭС) | **Draft** (`kipia-aes`) | Metrology + functional safety scarce | СИ/поверка, SIL, IEC 61508/61511, НП-001 |
-| **Безопасность АСУ ТП** (ICS/OT cybersecurity) | **Stub** (`bezopasnost-asu-tp`) | Acute, very current; regulated | IEC 62443, ФСТЭК приказы |
-| **Промышленные сети** (Industrial networking) | **Stub** (`setevoy-inzhener`) | OT/IT convergence | Industrial Ethernet, PROFINET, Modbus TCP — *keep OT-framed, not generic CCNA* |
-| **Linux/edge для автоматики** (Edge Linux for automation) | **Stub** (`sysadmin-linux`) | Edge compute in АСУ ТП | *keep tied to SCADA/edge gateways, else it competes with TOP and dilutes the niche* |
+| **КИПиА** (Instrumentation & control, incl. АЭС) | **Live** (`kipia-aes`) | Metrology + functional safety scarce | СИ/поверка, SIL, IEC 61508/61511, НП-001 |
+| **Безопасность АСУ ТП** (ICS/OT cybersecurity) | **Planned** | Acute, very current; regulated | IEC 62443, ФСТЭК приказы |
+| **Промышленные сети** (Industrial networking) | **Planned** | OT/IT convergence | Industrial Ethernet, PROFINET, Modbus TCP — *keep OT-framed, not generic CCNA* |
+| **Linux/edge для автоматики** (Edge Linux for automation) | **Planned** | Edge compute in АСУ ТП | *keep tied to SCADA/edge gateways, else it competes with TOP and dilutes the niche* |
 | **Робототехника / интеграция роботов** (Industrial robotics) | **Planned** | Automation + reshoring; integrators scarce | ISO 10218, ISO 13849 safety; KRL/RAPID; offline sim — *teach standardized integration & safety, name KUKA/FANUC/ABB as tools, don't be a vendor manual* |
 
 ## Tier 3 — deep certification trades (best standards-fit, clear deficit)
@@ -96,7 +100,7 @@ the read-the-standard + practice format.
 | Profession | Status | Deficit driver | Depth anchor |
 |---|---|---|---|
 | **Дефектоскопист / NDT** (Non-destructive testing) | **Planned** | Used across welding, oil & gas, aviation, nuclear; laddered certification | ISO 9712, ASNT, Ростехнадзор; UT/RT/MT/PT |
-| **Оператор ЧПУ** (CNC machinist) | **Planned** | Manufacturing reshoring; thin pipeline | G-code, GD&T, metrology, materials |
+| **Оператор ЧПУ** (CNC machinist) | **Live** (`operator-cnc`) | Manufacturing reshoring; thin pipeline | G-code, GD&T, metrology, materials |
 | **Промышленный механик / наладчик** (Millwright / maintenance) | **Planned** | Keeps plants running; aging workforce | Hydraulics, pneumatics, alignment, vibration |
 | **Релейная защита / подстанции** (Power systems / protection) | **Planned** | Grid expansion + energy transition | ПУЭ, ПТЭЭП, РЗА, substation practice |
 | **Схемотехник / разработчик электроники** (PCB & embedded hardware) | **Planned** | Hardware-talent gap; import-substitution push | ЕСКД (УГО), IPC-2221/7351, EMC — *standards-rich but not a licensed trade; KiCad makes practice cheap* |
@@ -161,6 +165,14 @@ profession" vision, voiced on `/contribute`, not founder-driven breadth.
 - **Агроном / точное земледелие** (Agronomist / precision agriculture) — food
   security; the canonical wide-ceiling example. Precision-ag (sensors, GNSS,
   drones, GIS) is the most "industrial" slice and the easiest to package.
+- **Механизатор** (Agricultural machinery operator) — the practical twin of the
+  agronomist and the easier of the two to package: tractors, combines, seeding and
+  tillage rigs — setup, regulation, fault-finding, GNSS guidance and section
+  control. Machinery is documented (manuals, regulation charts) where biology is
+  tacit, so the standards-spine problem below largely doesn't apply. Note the
+  scope: this is the **operator-mechanic trade**, not «фермер» — a farmer is a
+  business role that decomposes into this, the agronomist and the zootechnician,
+  and would enter as one shallow path (the rule at the top of this file).
 - **Зоотехник / животновод** (Livestock specialist) — deep and in demand, but two
   honest caveats: agriculture is **less standards-driven** than the trades (more
   tacit, condition-dependent biology than read-the-ГОСТ), and **cheap, safe

@@ -1,11 +1,8 @@
-/* Practice journal: the reader's own work log — private by default.
-   Entries are quiet text panels. */
 /* Centred hero, matching every other section title on the site. */
 .journal__intro {
   margin-block-end: 2.5rem;
 }
 
-/* "New entry" sits above the list as a quiet toolbar action. */
 .journal__toolbar {
   display: flex;
   justify-content: flex-end;

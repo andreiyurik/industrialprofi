@@ -1,11 +1,5 @@
-/* /calculators — practical tools (converters, sizing) for the trades. The
-   index is a categorised card grid; each tool is a server-rendered form whose
-   live math runs in the single `calculator` Stimulus controller. Layout and
-   tokens follow the rest of the app (panels, inputs, OKLCH colours). */
-
-/* ── Index: a compact, divided directory of tools — deliberately list-like,
-   NOT the panel-card grid used for paths/courses, so the tools page reads as
-   a reference index. Narrow column, hairline dividers, one row per tool. ── */
+/* ── Index: deliberately list-like, NOT the panel-card grid used for
+   paths/courses — narrow column, hairline dividers, reads as a reference index. ── */
 .calc-group {
   margin-block-start: 2.75rem;
   margin-inline: auto;
@@ -86,9 +80,8 @@
 }
 
 /* ── Show: title + intro + the calculator panel ────────────────────── */
-/* A tool-page heading, NOT the big uppercase marketing `.page-title`:
-   sentence case, lighter, left-aligned — so the long SEO-tuned titles stay
-   one or two calm lines instead of a giant hyphenated caps block. */
+/* NOT the big uppercase marketing `.page-title` — sentence case and lighter,
+   so long SEO-tuned titles stay calm instead of a giant hyphenated caps block. */
 .calc-title {
   font-size: clamp(1.55rem, 4vw, 2.1rem);
   font-weight: 700;
@@ -109,7 +102,6 @@
   --panel-padding: 1.75em;
 }
 
-/* Two columns on wide screens (inputs | results), stacked on narrow. */
 .calc__grid {
   display: grid;
   gap: 2rem;
@@ -148,14 +140,12 @@
   padding-block-start: 0.9rem;
 }
 
-/* Two inputs side by side (range pairs in the 4–20 mA tool). */
 .calc__row {
   display: grid;
   gap: 1rem;
   grid-template-columns: 1fr 1fr;
 }
 
-/* The two conversion directions of the mA tool, divided on wide screens. */
 .calc__pair {
   display: grid;
   gap: 2rem;
@@ -244,7 +234,6 @@
   font-size: 0.85rem;
 }
 
-/* The headline answer of a tool — larger, accent-coloured. */
 .calc-result--primary .calc-result__value strong {
   color: var(--color-link);
   font-size: 1.5rem;
@@ -259,7 +248,6 @@
   color: var(--color-negative);
 }
 
-/* Copy-to-clipboard button on a headline result. */
 .calc-copy {
   --btn-background: transparent;
   align-items: center;
@@ -297,10 +285,8 @@
   }
 }
 
-/* ── "?" term glossary: a tiny circular button revealing a plain-language
-   definition for jargon a beginner won't know. Opens a native popover on
-   click/tap — same everywhere, top layer (never clips), dismissed by tapping
-   the backdrop or Esc. Zero JS, one element, no clutter for pros. ──────── */
+/* ── "?" term glossary: opens a native popover (top layer, never clips,
+   dismissed via backdrop tap or Esc) — zero JS, one element. ──────────── */
 .term-info {
   appearance: none;
   background: none;

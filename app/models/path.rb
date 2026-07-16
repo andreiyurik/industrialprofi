@@ -6,9 +6,10 @@ class Path < ApplicationRecord
 
   SLUG_FORMAT = /\A[a-z0-9]+(-[a-z0-9]+)*\z/
 
-  # draft/pending_review = not public; published = live; coming_soon = stub being
-  # built ("В разработке"); planned = stub merely planned ("В планах").
-  STATUSES = %w[draft pending_review published coming_soon planned].freeze
+  # draft/pending_review = not public; published = live. A profession with no
+  # content is not a Path: the catalog's "ждут автора" list is plain copy
+  # (ru.yml → paths.soon_wanted), so nothing empty lives in the DB or the admin.
+  STATUSES = %w[draft pending_review published].freeze
 
   # role = full career path from scratch ("Электрик", "Инженер АСУ ТП");
   # skill = specific tool/technology for working professionals ("Siemens TIA Portal", "SCADA").
@@ -41,8 +42,6 @@ class Path < ApplicationRecord
   validates :locale, presence: true, format: { with: /\A[a-z]{2}\z/ }
 
   scope :published, -> { where(status: "published") }
-  # Catalog shows real maps + the "not yet" stubs (being built and merely planned).
-  scope :listable, -> { where(status: %w[published coming_soon planned]) }
   scope :official, -> { where(author_id: nil) }
   scope :community, -> { where.not(author_id: nil) }
   scope :ordered, -> { order(:position) }
@@ -60,20 +59,6 @@ class Path < ApplicationRecord
   # (the courses_count counter cache also counts coming-soon stubs).
   def self.published_course_counts
     Course.where(status: "published").group(:path_id).count
-  end
-
-  def coming_soon?
-    status == "coming_soon"
-  end
-
-  def planned?
-    status == "planned"
-  end
-
-  # A not-yet-available map shown in the catalog as a non-clickable stub —
-  # either actively being built (coming_soon) or merely planned.
-  def stub?
-    coming_soon? || planned?
   end
 
   def to_param

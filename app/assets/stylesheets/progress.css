@@ -1,5 +1,4 @@
-/* Binary lesson progress, Odin-style: completed / total as a thin bar.
-   Green = completion state (the sanctioned positive hue), label in muted ink. */
+/* Binary lesson progress, Odin-style: completed / total as a thin bar. */
 .progress {
   display: flex;
   flex-direction: column;
@@ -31,10 +30,9 @@
   color: var(--color-positive);
 }
 
-/* Circular course progress — design copied from The Odin Project's
-   ProgressCircle component (viewBox 20, 1.3 track / 1.4 rounded arc). The
-   content sits on an opaque disc stacked over the always-rendered percent
-   label; hovering the circle fades the disc out, revealing "N% пройдено". */
+/* Design copied from The Odin Project's ProgressCircle. Content sits on an
+   opaque disc stacked over the always-rendered percent label; hovering the
+   circle fades the disc out, revealing "N% пройдено". */
 .progress-ring {
   block-size: 100%;
   display: inline-grid;
@@ -83,9 +81,9 @@
   text-align: center;
 }
 
-/* The disc hiding the label: opaque, slightly smaller than the ring (the
-   gap TOP leaves between artwork and ring). Background must match the
-   surface the circle sits on — override per context. */
+/* Opaque, slightly smaller than the ring (the gap TOP leaves between artwork
+   and ring). Background must match the surface it sits on — override per
+   context. */
 .progress-ring__body {
   align-items: center;
   background-color: var(--progress-ring-body-bg, var(--color-bg));

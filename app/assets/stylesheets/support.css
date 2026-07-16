@@ -45,9 +45,8 @@
   text-wrap: balance;
 }
 
-/* Body copy in the hero shares ONE narrower measure with balanced wrapping and
-   no mid-word hyphenation, so the centered lines break evenly and symmetrically
-   instead of zig-zagging with stray "ся." orphans (the "криво" look). */
+/* One narrower measure + balanced wrap + no mid-word hyphenation, so centered
+   lines break evenly instead of zig-zagging with stray "ся." orphans. */
 .support-hero__lede,
 .support-hero__signal {
   hyphens: manual;
@@ -71,8 +70,7 @@
   text-transform: uppercase;
 }
 
-/* The motivational core: a donation is a vote of confidence + an early-adopter
-   invitation. Brighter than the lede so it lands. */
+/* Brighter than the lede so the motivational line lands. */
 .support-hero__signal {
   color: var(--color-ink);
   margin-block: 1.25rem 0;
@@ -87,8 +85,7 @@
   margin-block-start: 2rem;
 }
 
-/* Donate/GitHub buttons: the canonical .btn with a gentle hover lift so the
-   primary ask feels a touch more alive than a plain link. */
+/* Gentle hover lift so the primary ask feels a touch more alive than a plain link. */
 .support-btn {
   transition: transform 150ms ease, background-color 150ms ease, border-color 150ms ease;
 
@@ -99,8 +96,8 @@
   }
 }
 
-/* The hand-heart glyph carries more detail than a plain icon — give it a touch
-   more room so it stays legible at button scale. */
+/* The hand-heart glyph carries more detail than a plain icon — needs more room
+   to stay legible at button scale. */
 .support-btn--give {
   --btn-icon-size: 1.35em;
 }
@@ -230,15 +227,13 @@
   margin-block: 0 1rem;
 }
 
-/* auto-fit so the group lays out evenly whether it holds 3 (recurring) or 4
-   (one-time) cards — 2 per row on phones, all-in-a-row on wider screens. */
+/* auto-fit so the group lays out evenly whether it holds 3 or 4 cards. */
 .support-amounts {
   display: grid;
   gap: 0.75rem;
   grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
 }
 
-/* A quiet card-button: the sum anchors, the caption frames the impact. */
 .support-amount {
   align-items: center;
   background-color: var(--color-bg);
@@ -286,9 +281,7 @@
   margin-block: 2rem 0;
 }
 
-/* Direct-transfer requisites (ЮMoney / card) — quiet rows: method label, the
-   number, and the actions (open form / copy) to the right. Left-aligned inside
-   the otherwise-centered give section so the numbers read cleanly. */
+/* Left-aligned inside the otherwise-centered give section so the numbers read cleanly. */
 .support-direct {
   display: flex;
   flex-direction: column;

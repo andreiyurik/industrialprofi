@@ -1,6 +1,5 @@
-/* Command palette (shared/_palette) — Fizzy's jump menu adapted: a
-   top-anchored <dialog> with live lesson search; the empty state shows quick
-   destinations. Enter/exit animation comes from animation.css. */
+/* Command palette — a top-anchored <dialog>; enter/exit animation comes from
+   animation.css. */
 .palette {
   background-color: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);

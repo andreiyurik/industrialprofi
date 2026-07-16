@@ -13,18 +13,20 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/Черновик/, response.body)
   end
 
-  test "index shows planned and in-development paths as non-clickable stubs" do
-    Path.create!(title: "Будущая профессия", slug: "future-prof",
-                 description: "Заготовка", locale: "ru", position: 20, status: "planned")
-    Path.create!(title: "Скоро профессия", slug: "soon-prof",
-                 description: "В работе", locale: "ru", position: 21, status: "coming_soon")
-
+  test "index lists the wanted professions as plain copy, not paths" do
     get paths_path
-    # Both appear in the "waiting for a curator" list as plain, equal names —
-    # no readiness badges (the coming_soon/planned distinction is not surfaced).
-    assert_match "Будущая профессия", response.body
-    assert_match "Скоро профессия", response.body
-    assert_no_match %r{href="/paths/future-prof"}, response.body, "stubs are not links"
+    # The vacancy board is ru.yml, not the DB — an empty Path would be admin
+    # noise, and a DB-driven list only shows whatever stubs happen to exist.
+    wanted = I18n.t("paths.soon_wanted")
+    assert_equal wanted.size, css_select(".catalog-soon__slot").size
+    wanted.each { |title| assert_match title, response.body }
+    assert_no_match %r{catalog-soon__slot[^>]*href}, response.body, "slots are not links"
+  end
+
+  test "index catalog shows only paths with content" do
+    get paths_path
+    # Every card links somewhere real: no empty stubs reach the grid.
+    assert_equal Path.published.localized.count, css_select(".catalog-grid .path-card").size
   end
 
   test "index invites a co-author with a single call" do

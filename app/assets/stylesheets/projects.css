@@ -31,8 +31,7 @@
   flex-wrap: nowrap;
 }
 
-/* The axes after the first get a hairline divider on wide screens so each reads
-   as a separate control. */
+/* The axes after the first get a hairline divider on wide screens so each reads as a separate control. */
 @media (min-width: 640px) {
   .project-filters__paths + .project-filters__group,
   .project-filters__group + .project-filters__group {
@@ -41,8 +40,7 @@
   }
 }
 
-/* Profession picker — a pill that matches the chip row but carries the native
-   dropdown arrow (themed by color-scheme: dark) as its "more options" affordance. */
+/* Profession picker — a pill matching the chip row, but with the native dropdown arrow (themed via color-scheme: dark) as its "more options" affordance. */
 .filter-select {
   background-color: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);
@@ -87,8 +85,7 @@
   }
 }
 
-/* Selected filter — filled ink, same state language as the course sidebar's
-   current row. */
+/* Selected filter — filled ink, same state language as the course sidebar's current row. */
 .filter-chip[aria-current] {
   background-color: var(--color-ink);
   border-color: var(--color-ink);
@@ -96,7 +93,6 @@
   font-weight: 600;
 }
 
-/* The «Сохранённые» chip carries a bookmark glyph. */
 .filter-chip--saved svg {
   block-size: 1em;
   inline-size: 1em;
@@ -131,7 +127,7 @@
   inline-size: 0.5rem;
 }
 
-/* ── The document: one section per profession ──────────────────────── */
+/* ── Project groups ──────────────────────────────────────────────── */
 .project-groups {
   display: grid;
   gap: 2.75rem;
@@ -152,8 +148,7 @@
   text-transform: uppercase;
 }
 
-/* Ledger-style set counter at the row's end — plain body type, not display
-   caps. Green fires only when the set closes. */
+/* Ledger-style set counter — plain body type, not display caps; green fires only when the set closes. */
 .project-group__count {
   color: var(--color-subtle-dark);
   font-family: var(--font-sans);
@@ -178,8 +173,7 @@
   }
 }
 
-/* Compact tiles: ladder + title, no description — the WHY lives on the lesson
-   page; the catalog stays a scannable board, not an article. */
+/* Compact tiles: ladder + title, no description — the WHY lives on the lesson page; the catalog stays a scannable board. */
 .project-tiles {
   display: grid;
   gap: 0.9rem;
@@ -189,8 +183,7 @@
   padding: 0;
 }
 
-/* The tile is one big <a>; the bookmark button is its SIBLING (a button can't
-   live inside a link), absolutely positioned over the top-right corner. */
+/* The tile is one big <a>; the bookmark button is its SIBLING (a button can't live inside a link), absolutely positioned over the top-right corner. */
 .project-tile-wrap {
   display: flex; /* the inner tile stretches to the grid row height */
   position: relative;
@@ -201,7 +194,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  justify-content: center;   /* the title sits centred — rows read symmetric */
+  justify-content: center;   /* rows read symmetric */
   min-block-size: 5.25rem;   /* short titles get the same card as two-liners */
   padding: 1.1em 1.2em;
 }
@@ -213,13 +206,11 @@
   line-height: 1.4;
   /* stay clear of the corner bookmark */
   padding-inline-end: 1.4rem;
-  text-wrap: balance;   /* even line lengths, no ragged last word */
+  text-wrap: balance;
 }
 
-/* Done tasks go dark («мёртвое тише живого») — no badge, the card itself
-   reads as extinguished: the fill drains to the page black, the frame and
-   ink fade. Hover wakes it back up for review (.panel--hover's border wins
-   the cascade on hover). */
+/* Done tasks go dark («мёртвое тише живого») — no badge; the card itself reads
+   as extinguished. Hover wakes it back up for review. */
 .project-tile--done {
   --panel-background: transparent;
   --panel-border-color: oklch(var(--lch-gray) / 0.45);

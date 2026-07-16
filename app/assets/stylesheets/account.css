@@ -19,7 +19,6 @@
   margin-block: 0.35rem 0;
 }
 
-/* Two balanced columns on desktop, stacked on mobile */
 .account-settings {
   display: grid;
   gap: var(--block-space-double);
@@ -42,7 +41,6 @@
   overflow: hidden;
 }
 
-/* Sections within a panel, divided by hairlines */
 .account-settings__section {
   display: flex;
   flex-direction: column;
@@ -78,7 +76,6 @@
   margin: 0;
 }
 
-/* Forms */
 .account-settings__form {
   display: flex;
   flex-direction: column;
@@ -103,7 +100,6 @@
   justify-content: flex-start;
 }
 
-/* Checkbox rows — box beside a stacked label + hint */
 .account-settings__checkbox {
   align-items: start;
   color: var(--color-ink);
@@ -133,7 +129,6 @@
   line-height: 1.4;
 }
 
-/* Email display row */
 .account-settings__email-row {
   align-items: center;
   display: flex;
@@ -157,7 +152,6 @@
   padding: 0.65rem 0.9rem;
 }
 
-/* Danger zone */
 .account-settings__section--danger {
   background: oklch(var(--lch-red) / 0.04);
 }

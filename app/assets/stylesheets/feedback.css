@@ -13,8 +13,7 @@ main.main--centered {
   justify-content: center;
 }
 
-/* «Написать автору» — a focused, single-purpose contact page: a narrow centred
-   column, a calm (not marketing-sized) title, a tidy form. */
+/* «Написать автору» — deliberately calm, not marketing-sized. */
 .feedback {
   margin-inline: auto;
   max-inline-size: 40rem;
@@ -58,7 +57,6 @@ main.main--centered {
   font-weight: 500;
 }
 
-/* Natural-width primary action, centred under the field. */
 .feedback__form .btn {
   align-self: center;
 }

@@ -8,13 +8,10 @@
   --block-space-double: calc(var(--block-space) * 2);
 }
 
-/* Text */
 .txt-align-center { text-align: center; }
 
-/* Visibility */
 [hidden] { display: none; }
 
-/* Accessibility */
 .for-screen-reader {
   block-size: 1px;
   clip-path: inset(50%);
