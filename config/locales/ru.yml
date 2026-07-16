@@ -248,6 +248,7 @@ ru:
       few: "в %{count} уроках"
       many: "в %{count} уроках"
       other: "в %{count} уроках"
+    in_lesson: "к уроку"
     category:
       norm: "Нормативы и стандарты"
       book: "Книги и справочники"
