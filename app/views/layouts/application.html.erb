@@ -118,6 +118,11 @@
                     aria: { current: ("page" if current_page?(projects_path)) } do %>
                 <%= heroicon "wrench-screwdriver", variant: :outline %><%= t("nav.projects") %>
               <% end %>
+              <%# Ordered as the footer's "Обучение" column, which this mirrors. %>
+              <%= link_to resources_path, class: "nav__link link-quiet",
+                    aria: { current: ("page" if controller_name == "resources") } do %>
+                <%= heroicon "rectangle-stack", variant: :outline %><%= t("nav.library") %>
+              <% end %>
               <%= link_to calculators_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if controller_name == "calculators") } do %>
                 <%= heroicon "calculator", variant: :outline %><%= t("nav.calculators") %>
@@ -126,7 +131,30 @@
                 <span class="badge badge--marker">Admin</span>
               <% end %>
               <% unless signed_in? %>
-                <%= link_to new_session_path, class: "nav__link link-quiet",
+                <%# Orientation for guests — mobile only. On desktop the top bar
+                    stays product-only and these live in the footer, but there
+                    the footer is a scroll away and this sheet is the only nav,
+                    while "what is this site?" is a guest's first question. %>
+                <div class="header__menu-guest">
+                  <%= link_to about_path, class: "account-menu__link",
+                        aria: { current: ("page" if current_page?(about_path)) } do %>
+                    <%= heroicon "light-bulb", variant: :outline %>
+                    <%= t("nav.about") %>
+                  <% end %>
+                  <%= link_to faq_path, class: "account-menu__link",
+                        aria: { current: ("page" if current_page?(faq_path)) } do %>
+                    <%= heroicon "question-mark-circle", variant: :outline %>
+                    <%= t("nav.faq") %>
+                  <% end %>
+                  <%# The recruit-an-expert door. Cheap to place, existential to
+                      miss — a master who never finds it never authors a path. %>
+                  <%= link_to authors_path, class: "account-menu__link",
+                        aria: { current: ("page" if current_page?(authors_path)) } do %>
+                    <%= heroicon "user-group", variant: :outline %>
+                    <%= t("nav.authors") %>
+                  <% end %>
+                </div>
+                <%= link_to new_session_path, class: "nav__link link-quiet header__menu-signin",
                       aria: { current: ("page" if current_page?(new_session_path)) } do %>
                   <%= heroicon "arrow-left-on-rectangle", variant: :outline %><%= t("auth.sign_in") %>
                 <% end %>

@@ -25,10 +25,14 @@
   }
 }
 
-/* The top bar carries ONLY "use the product" links (Профессии · Проекты ·
-   Калькуляторы) — everything "about the project" lives in the footer. Inline
-   nav shows ≥1024px; below that it collapses behind the hamburger so the row
-   never wraps — nowrap is enforced in both compact blocks as a safety valve. */
+/* The top bar carries ONLY "use the product" links (Профессии · Практика ·
+   Библиотека · Калькуляторы) — everything "about the project" lives in the
+   footer. ONE exception, and only in the mobile sheet: a guest gets О проекте
+   + Частые вопросы (.header__menu-guest). The rule guards the DESKTOP row,
+   where space is scarce and the footer is one scroll away; in the sheet the
+   footer is a whole catalog away and it's a guest's only nav. Inline nav shows
+   ≥1024px; below that it collapses behind the hamburger so the row never
+   wraps — nowrap is enforced in both compact blocks as a safety valve. */
 .header__nav {
   align-items: center;
   column-gap: 1.5rem;
@@ -105,9 +109,10 @@
   content-visibility: visible;
 }
 
-/* Desktop default: account section and the sheet's ✕ are hidden (the inline nav
-   row and the popover button are used instead). */
+/* Desktop default: account section, the guest orientation group and the sheet's
+   ✕ are hidden (the inline nav row and the popover button are used instead). */
 .header__menu-account,
+.header__menu-guest,
 .header__menu-close {
   display: none;
 }
@@ -376,6 +381,10 @@
       0 -12px 32px -8px oklch(var(--lch-always-black) / 0.5),
       0 -4px 8px -4px oklch(var(--lch-always-black) / 0.4);
     flex-direction: column;
+    /* The desktop nav row wraps; a height-capped column must NOT — flex would
+       spill the overflow into a second column instead of scrolling it
+       (landscape phones lost half the menu off the right edge). */
+    flex-wrap: nowrap;
     /* Clears the iOS home indicator, which would otherwise sit on «Выйти». */
     inset-block-end: max(var(--block-space-half), env(safe-area-inset-bottom));
     inset-block-start: auto;
@@ -551,11 +560,19 @@
 
   /* Account section under a hairline, ending with sign-out — same anatomy
      as the desktop popover. */
-  .header__menu-account {
+  .header__menu-account,
+  .header__menu-guest {
     border-block-start: 1px solid var(--color-subtle);
     display: flex;
     flex-direction: column;
     gap: 0.125rem;
+    margin-block-start: 0.4rem;
+    padding-block-start: 0.4rem;
+  }
+
+  /* «Войти» closes the guest sheet the way «Выйти» closes the member's one. */
+  .header__menu-panel .header__menu-signin {
+    border-block-start: 1px solid var(--color-subtle);
     margin-block-start: 0.4rem;
     padding-block-start: 0.4rem;
   }
