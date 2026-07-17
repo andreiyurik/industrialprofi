@@ -57,6 +57,8 @@ Rails.application.routes.draw do
   get "projects" => "projects#index"
   get "resources" => "resources#index"
   resources :calculators, only: [ :index, :show ], param: :slug
+  # Professional abbreviations decoded — a static reference page (see Glossary).
+  resource :glossary, only: [ :show ], controller: "glossaries"
   resources :journal_entries, path: "journal", except: [ :show ]
   resources :feedbacks, only: [ :new, :create ]
   # Expert-entry gate (loop #1): a structured "become a co-author" application.

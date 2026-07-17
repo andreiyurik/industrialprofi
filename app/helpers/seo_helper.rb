@@ -72,6 +72,22 @@ module SeoHelper
     data.to_json
   end
 
+  # /glossary — one DefinedTermSet over every profession's abbreviations, so
+  # each расшифровка is machine-readable for the long-tail «X расшифровка» SERP.
+  def glossary_json_ld(groups)
+    data = {
+      "@context": "https://schema.org",
+      "@type": "DefinedTermSet",
+      name: I18n.t("glossary.title"),
+      url: "#{site_url}/glossary",
+      inLanguage: I18n.locale.to_s,
+      hasDefinedTerm: groups.flat_map do |_path, terms|
+        terms.map { |term| { "@type": "DefinedTerm", name: term.abbr, description: term.full } }
+      end
+    }
+    data.to_json
+  end
+
   def website_json_ld
     data = {
       "@context": "https://schema.org",

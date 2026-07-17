@@ -1,0 +1,265 @@
+/* /glossary — professional abbreviations, decoded. A reading page: one group
+   per profession, a definition list of terms inside. */
+
+.glossary-toolbar {
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+  margin-block-start: var(--block-space-double);
+}
+
+.glossary-toolbar__input {
+  max-inline-size: 24rem;
+}
+
+/* The script toggle (все / рус / межд) — chip-shaped radio buttons; the
+   pressed one gets the interactive border + a filled ground. */
+.glossary-scripts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+
+  button {
+    background: none;
+    border: 1px solid var(--color-subtle);
+    border-radius: 2rem;
+    color: var(--color-subtle-dark);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.9rem;
+    transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+
+    @media (any-hover: hover) {
+      &:hover {
+        border-color: var(--color-subtle-dark);
+        color: var(--color-ink);
+      }
+    }
+
+    &[aria-pressed="true"] {
+      background-color: var(--color-subtle-light);
+      border-color: var(--color-border-interactive);
+      color: var(--color-ink);
+    }
+  }
+}
+
+.glossary-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.glossary-chip {
+  border: 1px solid var(--color-subtle);
+  border-radius: 2rem;
+  color: var(--color-ink);
+  font-size: 0.85rem;
+  padding: 0.35rem 0.9rem;
+  text-decoration: none;
+  transition: border-color 150ms ease, background-color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: var(--color-subtle-light);
+      border-color: var(--color-subtle-dark);
+    }
+  }
+}
+
+.glossary-chip__count {
+  color: var(--color-disabled);
+  font-variant-numeric: tabular-nums;
+}
+
+.glossary-empty {
+  color: var(--color-subtle-dark);
+  margin-block-start: var(--block-space-double);
+  text-align: center;
+
+  a {
+    color: var(--color-link);
+    text-decoration: underline;
+  }
+}
+
+.glossary-group {
+  margin-block-start: 3.5rem;
+}
+
+.glossary-group__head {
+  align-items: baseline;
+  border-block-end: 1px solid var(--color-subtle);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  justify-content: space-between;
+  padding-block-end: 0.75rem;
+}
+
+.glossary-group__title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-block: 0;
+}
+
+.glossary-group__path-link {
+  font-size: 0.85rem;
+}
+
+.glossary {
+  margin-block: 0;
+}
+
+/* Row anatomy: term | body | one compact action at the right edge (the
+   repeated full-sentence link read as noise; a small uniform control doesn't).
+   Mobile-first: tighter rows — a lookup page earns its keep by entries
+   per screen. */
+.glossary__entry {
+  align-items: start;
+  border-block-end: 1px solid var(--color-subtle-light);
+  display: grid;
+  gap: 0.15rem 1.25rem;
+  grid-template-areas:
+    "term action"
+    "body body";
+  grid-template-columns: 1fr auto;
+  padding-block: 0.85rem;
+  /* Anchor jumps land below the sticky header. */
+  scroll-margin-block-start: calc(var(--header-height) + 1rem);
+
+  @media (min-width: 640px) {
+    gap: 0.2rem 2rem;
+    grid-template-areas: "term body action";
+    grid-template-columns: 9rem 1fr auto;
+    padding-block: 1.1rem;
+  }
+}
+
+/* The abbr is the SCAN KEY — it must out-weigh the расшифровка below it,
+   especially on mobile where there is no dedicated left rail. The GOST face
+   is monoline (reads thin), so it gets size instead of weight. */
+.glossary__term {
+  font-size: 1.3rem;
+  grid-area: term;
+  hyphens: none;
+  margin-block: 0;
+
+  @media (min-width: 640px) {
+    font-size: 1.15rem;
+  }
+}
+
+/* The equipment-nameplate chip: a quiet plate around the abbreviation gives
+   the scanning eye a repeated SHAPE to latch onto — monochrome, no color to
+   shout or to impersonate a link. */
+.glossary__term-plate {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.35rem;
+  display: inline-block;
+  font-family: var(--font-technical);
+  padding: 0.1em 0.45em;
+}
+
+.glossary__action {
+  align-self: center;
+  grid-area: action;
+  margin-inline-start: 0;
+
+  /* Ghost action: borderless and muted, so the only outlined shape in the row
+     is the term plate — content outranks control. Uniform width keeps the
+     column reading as one rail. */
+  .btn {
+    --btn-border-color: transparent;
+    --btn-hover-border: transparent;
+    --btn-color: var(--color-subtle-dark);
+    --btn-padding: 0.3em 0.5em;
+    --btn-gap: 0.3em;
+    font-size: 0.8rem;
+    justify-content: center;
+    min-inline-size: 4.5rem;
+
+    @media (any-hover: hover) {
+      &:hover {
+        --btn-color: var(--color-ink);
+      }
+    }
+  }
+
+  svg {
+    block-size: 0.85rem;
+    inline-size: 0.85rem;
+  }
+}
+
+/* The cross-system counterpart («АВ ≈ MCB») — an analog, honestly, never a
+   "translation": most terms have none and carry no mark at all. Inline with
+   the term, so it costs the entry no extra line. */
+.glossary__analog {
+  color: var(--color-disabled);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  margin-inline-start: 0.35rem;
+}
+
+.glossary__analog-link {
+  color: var(--color-subtle-dark);
+  text-decoration: none;
+  transition: color 150ms ease;
+
+  &:visited {
+    color: var(--color-subtle-dark);
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+.glossary__body {
+  display: grid;
+  gap: 0.2rem;
+  grid-area: body;
+  margin-inline-start: 0;
+}
+
+/* Medium, not bold — the расшифровка must not out-shout the term above it. */
+.glossary__full {
+  font-weight: 500;
+}
+
+.glossary__note {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  margin-block: 0;
+}
+
+.glossary-sub__title {
+  color: var(--color-disabled);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-block: 1.75rem 0;
+  text-transform: uppercase;
+}
+
+/* The «нашли неточность» footnote — same quiet register as path__library-link. */
+.glossary-feedback {
+  border-block-start: 1px solid var(--color-subtle);
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block-start: var(--block-space-double);
+  padding-block-start: var(--block-space);
+
+  a {
+    color: var(--color-link);
+    text-decoration: underline;
+  }
+}

@@ -8,7 +8,9 @@
 <div class="maturity maturity--stage-<%= stage %>">
   <button type="button" class="maturity__line" popovertarget="path-maturity">
     <span class="maturity__dot" aria-hidden="true"></span>
-    <%= t(".popover_title", stage: stage, total: Path::Maturity::MATURITY_STAGES) %> · <%= t(".stages.s#{stage}") %>
+    <span><%= t(".popover_title", stage: stage, total: Path::Maturity::MATURITY_STAGES) %> ·</span>
+    <span class="maturity__stage-name"><%= t(".stages.s#{stage}") %></span>
+    <%= heroicon "chevron-down", variant: :outline %>
   </button>
 
   <div id="path-maturity" class="maturity-popover" popover>

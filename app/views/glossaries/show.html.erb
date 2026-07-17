@@ -1,0 +1,119 @@
+<% meta_title(t("glossary.title")) %>
+<% meta_description(t("glossary.description")) %>
+<% canonical_url("#{site_config.url}/glossary") %>
+
+<% content_for(:head) do %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+    { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
+    { title: t("glossary.title"), url: "#{site_config.url}/glossary" }
+  ])) %>
+  <%= json_ld_tag(glossary_json_ld(@groups)) %>
+<% end %>
+
+<section class="section">
+  <div class="container container--reading" data-controller="glossary-filter">
+    <div class="txt-align-center">
+      <h1 class="section-title"><%= t("glossary.title") %></h1>
+      <p class="section-subtitle"><%= t("glossary.intro") %></p>
+    </div>
+
+    <%# Filter is pure client-side DOM (glossary_filter_controller) — the page
+        is one server render however long the list grows; the VPS never hears
+        a keystroke. No-JS readers still have anchors and Ctrl+F. %>
+    <div class="glossary-toolbar">
+      <input type="search" class="input glossary-toolbar__input"
+             placeholder="<%= t("glossary.filter_placeholder") %>"
+             aria-label="<%= t("glossary.filter_placeholder") %>"
+             data-action="input->glossary-filter#filter">
+      <div class="glossary-scripts" role="group" aria-label="<%= t("glossary.scripts_label") %>">
+        <% { "all" => t("glossary.script_all"), "ru" => t("glossary.script_ru"), "int" => t("glossary.script_int") }.each do |script, label| %>
+          <button type="button" aria-pressed="<%= script == "all" %>"
+                  data-glossary-filter-target="scriptTab"
+                  data-action="glossary-filter#setScript"
+                  data-glossary-filter-script-param="<%= script %>"><%= label %></button>
+        <% end %>
+      </div>
+      <% if @groups.many? %>
+        <nav class="glossary-chips" aria-label="<%= t("glossary.chips_label") %>">
+          <% @groups.each do |path, terms| %>
+            <a href="#<%= path.slug %>" class="glossary-chip">
+              <%= path.title %> <span class="glossary-chip__count"><%= terms.size %></span>
+            </a>
+          <% end %>
+        </nav>
+      <% end %>
+    </div>
+
+    <% @groups.each do |path, terms| %>
+      <section class="glossary-group" id="<%= path.slug %>" data-glossary-filter-target="group">
+        <div class="glossary-group__head">
+          <h2 class="glossary-group__title"><%= path.title %></h2>
+          <%= link_to t("glossary.to_path"), path, class: "link-quiet glossary-group__path-link" %>
+        </div>
+        <% index = terms.index_by(&:abbr) %>
+        <% terms.group_by(&:script).slice("ru", "int").each do |script, subset| %>
+          <div class="glossary-sub" data-glossary-filter-target="subgroup" data-script="<%= script %>">
+            <h3 class="glossary-sub__title"><%= t("glossary.script_#{script}") %></h3>
+            <dl class="glossary">
+              <% subset.each do |term| %>
+                <div class="glossary__entry" id="<%= path.slug %>-<%= term.anchor %>"
+                     data-glossary-filter-target="entry"
+                     data-text="<%= "#{term.abbr} #{term.full} #{term.note} #{term.analog}".downcase %>">
+                  <dt class="glossary__term">
+                    <span class="glossary__term-plate"><%= term.abbr %></span>
+                    <%# «≈ RCD» — аналог в другой системе обозначений: ссылка-якорь,
+                        когда аналог есть в словаре записью, иначе просто текст. %>
+                    <%# The class on the anchor also opts it out of the global
+                        a:not([class]) link styling — no blue, no :visited blue. %>
+                    <% if term.analog %>
+                      <span class="glossary__analog">≈
+                        <% if (target = index[term.analog]) %>
+                          <a class="glossary__analog-link" href="#<%= path.slug %>-<%= target.anchor %>"><%= term.analog %></a>
+                        <% else %>
+                          <%= term.analog %>
+                        <% end %>
+                      </span>
+                    <% end %>
+                  </dt>
+                  <dd class="glossary__body">
+                    <span class="glossary__full"><%= term.full %></span>
+                    <% if term.note.present? %>
+                      <p class="glossary__note"><%= term.note %></p>
+                    <% end %>
+                  </dd>
+                  <dd class="glossary__action">
+                    <% if term.lesson %>
+                      <%= link_to term.lesson, class: "btn btn--small", title: term.lesson.title do %>
+                        <%= heroicon "book-open", variant: :outline %>
+                        <%= t("glossary.lesson_button") %>
+                      <% end %>
+                    <% else %>
+                      <%= link_to search_path(q: term.abbr), class: "btn btn--small" do %>
+                        <%= heroicon "magnifying-glass", variant: :outline %>
+                        <%= t("glossary.search_button") %>
+                      <% end %>
+                    <% end %>
+                  </dd>
+                </div>
+              <% end %>
+            </dl>
+          </div>
+        <% end %>
+      </section>
+    <% end %>
+
+    <p class="glossary-empty" hidden data-glossary-filter-target="empty">
+      <%= t("glossary.empty") %>
+      <a href="<%= search_path %>" data-glossary-filter-target="searchLink"><%= t("glossary.search_lessons") %></a>
+    </p>
+
+    <p class="glossary-feedback">
+      <%= t("glossary.feedback") %>
+      <% if signed_in? %>
+        <%= link_to t("glossary.feedback_link"), new_feedback_path %>
+      <% else %>
+        <a href="<%= site_config.telegram_url %>" target="_blank" rel="noopener"><%= t("glossary.feedback_link") %></a>
+      <% end %>
+    </p>
+  </div>
+</section>
