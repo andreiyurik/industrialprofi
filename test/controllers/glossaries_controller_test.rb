@@ -28,10 +28,10 @@ class GlossariesControllerTest < ActionDispatch::IntegrationTest
     assert_select "[data-controller='glossary-filter']"
     assert_select ".glossary-toolbar__input"
     assert_select ".glossary-empty[hidden]"
-    # Two populated professions in fixtures (электрик + сварщик) → quick-jump
-    # chips render, one per group, each with its term count.
-    assert_select ".glossary-chips .glossary-chip", 2
-    assert_select ".glossary-chip[href='#svarshchik']", text: /Сварщик/
+    # Two populated professions in fixtures (электрик + сварщик) → chips
+    # render: «Все» + one per profession, each a server-side filter link.
+    assert_select ".glossary-chips .glossary-chip", 3
+    assert_select ".glossary-chip[href=?]", glossary_path(path: "svarshchik"), text: /Сварщик/
   end
 
   test "terms split into russian and international subsections with a toggle" do
@@ -51,6 +51,49 @@ class GlossariesControllerTest < ActionDispatch::IntegrationTest
     # ЭДС ≈ EMF — no EMF entry, so the mark stays plain text.
     assert_select "#elektrik-ЭДС .glossary__analog", text: /EMF/
     assert_select "#elektrik-ЭДС .glossary__analog a", 0
+  end
+
+  test "path param renders one profession's focused page" do
+    get glossary_path(path: "svarshchik")
+    assert_response :success
+    assert_select ".glossary-group", 1
+    assert_select ".glossary-group__title", text: paths(:welder).title
+    # Chips still list every profession, the active one marked.
+    assert_select ".glossary-chip", 3
+    assert_select ".glossary-chip.is-active[href=?]", glossary_path(path: "svarshchik")
+    assert_match "glossary?path=svarshchik", css_select("link[rel=canonical]").first["href"]
+  end
+
+  test "unknown or uncovered path 404s" do
+    get glossary_path(path: "nonexistent")
+    assert_response :not_found
+
+    uncovered = Path.create!(title: "Геодезист", slug: "geodezist", description: "x",
+                             position: 9, status: "published")
+    get glossary_path(path: uncovered.slug)
+    assert_response :not_found
+  end
+
+  test "sitemap lists the focused glossary pages" do
+    get "/sitemap.xml"
+    assert_match "/glossary</loc>", response.body
+    assert_match "/glossary?path=elektrik</loc>", response.body
+    assert_no_match "/glossary?path=draft-path", response.body
+  end
+
+  test "re-crawls get a render-free 304 for visitors" do
+    get glossary_path
+    assert_response :success
+    assert response.headers["Last-Modified"].present?
+
+    get glossary_path, headers: { "HTTP_IF_MODIFIED_SINCE" => response.headers["Last-Modified"] }
+    assert_response :not_modified
+  end
+
+  test "signed-in readers always render fresh" do
+    sign_in_as users(:member)
+    get glossary_path, headers: { "HTTP_IF_MODIFIED_SINCE" => Time.current.httpdate }
+    assert_response :success
   end
 
   test "entries carry shareable anchors" do

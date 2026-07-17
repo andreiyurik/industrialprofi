@@ -19,11 +19,19 @@ class Glossary
     def script = abbr.match?(/\p{Cyrillic}/) ? "ru" : "int"
   end
 
+  # Professions the registry covers — backs the sitemap's per-profession URLs
+  # and the 404 for a published path that has no glossary yet.
+  def self.path_slugs = data.keys
+
+  def self.data
+    YAML.load_file(Rails.root.join("config/glossary.yml")) || {}
+  end
+
   # => [[Path, [Term, …]], …] in catalog order. Groups whose profession isn't
   # published are skipped; a term whose lesson slug doesn't resolve keeps
   # lesson: nil and the page falls back to search — links never rot.
   def self.grouped
-    data = YAML.load_file(Rails.root.join("config/glossary.yml")) || {}
+    data = self.data
     lessons = Lesson.where(slug: data.values.flatten.filter_map { it["lesson"] }).index_by(&:slug)
 
     Path.published.localized.where(slug: data.keys).ordered.map do |path|

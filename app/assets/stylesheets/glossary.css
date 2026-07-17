@@ -69,6 +69,11 @@
   }
 }
 
+.glossary-chip.is-active {
+  background-color: var(--color-subtle-light);
+  border-color: var(--color-border-interactive);
+}
+
 .glossary-chip__count {
   color: var(--color-disabled);
   font-variant-numeric: tabular-nums;
