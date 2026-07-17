@@ -8,7 +8,9 @@
 class Glossary
   Term = Data.define(:abbr, :full, :note, :lesson, :analog) do
     # Anchor within the group («elektrik-ПУЭ») — Cyrillic ids are valid HTML.
-    def anchor = abbr.gsub(/[\s,]+/, "-")
+    # Slashes are folded too («МИГ/МАГ» → «МИГ-МАГ»): a "/" id works for
+    # fragment navigation but breaks CSS selectors and reads poorly in URLs.
+    def anchor = abbr.gsub(%r{[\s,/]+}, "-")
 
     # Derived, not authored: any Cyrillic in the abbreviation marks it as
     # русскоязычное (ГОСТ/приказы, incl. mixed marks like ВВГнг(А)-LS),
