@@ -14,13 +14,23 @@
   </button>
 
   <div id="path-maturity" class="maturity-popover" popover>
-    <svg class="maturity__gauge" viewBox="0 0 200 96" aria-hidden="true"
+    <%# Basecamp's Needle, re-drawn for the dark theme: an outlined cell-track,
+        the fill up to the needle, and the flag-shaped pointer with grip lines. %>
+    <svg class="maturity__gauge" viewBox="0 0 372 124" aria-hidden="true"
          style="--gauge-angle: <%= maturity_needle_angle(stage) %>deg">
-      <% maturity_gauge_segments(stage).each do |segment| %>
-        <path d="<%= segment[:d] %>" <% if segment[:filled] %>class="is-filled"<% end %> />
-      <% end %>
+      <path class="maturity__fill" d="<%= maturity_fill_path(stage) %>"/>
+      <g class="maturity__ticks">
+        <% maturity_ticks.each do |x1, y1, x2, y2| %>
+          <line x1="<%= x1 %>" y1="<%= y1 %>" x2="<%= x2 %>" y2="<%= y2 %>"/>
+        <% end %>
+      </g>
+      <path class="maturity__track" d="<%= maturity_track_path %>"/>
       <g class="maturity__needle">
-        <rect x="-3.5" y="-98.5" width="7" height="25" rx="3.5" transform="translate(100 104)"/>
+        <g transform="translate(186 290)">
+          <path class="maturity__needle-flag" d="M -5 -250 L 5 -250 L 0 -228 Z"/>
+          <rect class="maturity__needle-flag" x="-8" y="-278" width="16" height="32" rx="5.5"/>
+          <path class="maturity__needle-grips" d="M -3.5 -270 v 16 M 0 -270 v 16 M 3.5 -270 v 16"/>
+        </g>
       </g>
     </svg>
 

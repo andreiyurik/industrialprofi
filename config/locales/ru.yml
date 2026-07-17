@@ -805,15 +805,15 @@ ru:
     # stage 4 is hand-set by a curator (Path::Maturity).
     maturity:
       stages:
-        s1: "Черновик"
+        s1: "Первая версия"
         s2: "Улучшается сообществом"
         s3: "Есть куратор"
         s4: "Проверено экспертом"
       popover_title: "Зрелость карты: %{stage} из %{total}"
       crit_draft:
-        one: "Черновик создан — %{count} урок"
-        few: "Черновик создан — %{count} урока"
-        many: "Черновик создан — %{count} уроков"
+        one: "Материал собран — %{count} урок"
+        few: "Материал собран — %{count} урока"
+        many: "Материал собран — %{count} уроков"
       crit_edits:
         one: "Принята %{count} правка читателей"
         few: "Приняты %{count} правки читателей"

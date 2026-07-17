@@ -80,28 +80,54 @@
   background: oklch(var(--lch-always-black) / 0.35);
 }
 
+/* The Basecamp Needle anatomy, dark-adapted: hairline cell-track, tone fill,
+   flag pointer with grip lines. Geometry comes from PathsHelper. */
 .maturity__gauge {
   block-size: auto;
   display: block;
-  inline-size: 12.5rem;
-  margin-block-end: 0.5rem;
+  inline-size: 17rem;
+  margin-block-end: 0.75rem;
   margin-inline: auto;
+  max-inline-size: 100%;
+}
 
-  path {
-    fill: none;
-    stroke: oklch(var(--lch-gray));
-    stroke-width: 13;
-  }
+.maturity__track {
+  fill: none;
+  stroke: var(--color-subtle);
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
 
-  path.is-filled {
-    stroke: var(--gauge-tone);
-  }
+.maturity__fill {
+  fill: var(--gauge-tone);
+}
+
+.maturity__ticks {
+  stroke: var(--color-subtle);
+  stroke-width: 1.5;
+}
+
+/* The dark contour cuts the flag out of whatever is behind it — the filled
+   band is the same tone, so without the rim the pointer melts into it. The
+   flag itself runs a step brighter than the band (Basecamp shades its needle
+   darker on white; on black we invert) — older browsers keep the plain tone. */
+.maturity__needle-flag {
+  fill: var(--gauge-tone);
+  fill: oklch(from var(--gauge-tone) calc(l + 0.14) c h);
+  stroke: var(--color-bg);
+  stroke-width: 2.5;
+}
+
+.maturity__needle-grips {
+  fill: none;
+  stroke: var(--color-ink-reversed);
+  stroke-linecap: round;
+  stroke-width: 1.5;
 }
 
 .maturity__needle {
-  fill: var(--gauge-tone);
   transform: rotate(var(--gauge-angle));
-  transform-origin: 100px 104px;
+  transform-origin: 186px 290px;
 }
 
 /* The one flourish: the needle sweeps in from zero. The popover's children
@@ -114,7 +140,7 @@
 
   @starting-style {
     .maturity__needle {
-      transform: rotate(-65deg);
+      transform: rotate(-40deg);
     }
   }
 }
