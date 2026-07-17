@@ -16,25 +16,39 @@
 .maturity--stage-3 { --gauge-tone: oklch(var(--lch-blue)); }
 .maturity--stage-4 { --gauge-tone: var(--color-positive); }
 
+/* Reads as a control, not a caption: interactive-grade border + chevron.
+   Still a size below the primary CTA button underneath. */
 .maturity__line {
   align-items: center;
   background: none;
-  border: 0;
+  border: 1px solid var(--color-border-interactive);
   border-radius: 2rem;
   color: var(--color-subtle-dark);
   cursor: pointer;
   display: inline-flex;
   font-size: 0.85rem;
-  gap: 0.5rem;
-  padding: 0.35rem 0.85rem;
-  transition: color 150ms ease, background-color 150ms ease;
+  gap: 0.45rem;
+  padding: 0.45rem 0.8rem 0.45rem 0.9rem;
+  transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
+
+  svg {
+    block-size: 0.85rem;
+    color: var(--color-subtle-dark);
+    inline-size: 0.85rem;
+  }
 
   @media (any-hover: hover) {
     &:hover {
       background-color: var(--color-subtle-light);
+      border-color: var(--color-subtle-dark);
       color: var(--color-ink);
     }
   }
+}
+
+.maturity__stage-name {
+  color: var(--color-ink);
+  font-weight: 600;
 }
 
 .maturity__dot {
@@ -69,7 +83,7 @@
 .maturity__gauge {
   block-size: auto;
   display: block;
-  inline-size: 10rem;
+  inline-size: 12.5rem;
   margin-block-end: 0.5rem;
   margin-inline: auto;
 

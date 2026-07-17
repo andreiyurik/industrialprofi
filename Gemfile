@@ -46,7 +46,7 @@ gem "ruby-vips", "~> 2.2", require: false
 
 # Reading uploaded profession packs (.zip of the exported YAML/Markdown tree).
 # Pure Ruby, no native extensions — zip is the transport, the tree is the format.
-gem "rubyzip", "~> 2.4", require: "zip"
+gem "rubyzip", "~> 3.4", require: "zip"
 
 # Markdown rendering (GFM)
 gem "kramdown"
