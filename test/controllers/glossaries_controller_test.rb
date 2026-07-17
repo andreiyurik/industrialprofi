@@ -28,8 +28,10 @@ class GlossariesControllerTest < ActionDispatch::IntegrationTest
     assert_select "[data-controller='glossary-filter']"
     assert_select ".glossary-toolbar__input"
     assert_select ".glossary-empty[hidden]"
-    # A single populated profession needs no quick-jump chips.
-    assert_select ".glossary-chips", 0
+    # Two populated professions in fixtures (электрик + сварщик) → quick-jump
+    # chips render, one per group, each with its term count.
+    assert_select ".glossary-chips .glossary-chip", 2
+    assert_select ".glossary-chip[href='#svarshchik']", text: /Сварщик/
   end
 
   test "terms split into russian and international subsections with a toggle" do
