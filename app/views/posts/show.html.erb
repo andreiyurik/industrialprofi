@@ -37,7 +37,8 @@
               data-controller="copy-link"
               data-copy-link-url-value="<%= post_url %>"
               data-copy-link-label-value="<%= t("news.copy_link") %>"
-              data-copy-link-copied-value="<%= t("news.link_copied") %>">
+              data-copy-link-copied-value="<%= t("news.link_copied") %>"
+              data-copy-link-copied-class="news-article__copy--copied">
         <div class="reaction--bare-icon">
           <%= render "shared/reaction", reactable: @post %>
         </div>

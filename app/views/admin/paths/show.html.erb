@@ -44,5 +44,52 @@
         <span><%= t("admin.builder.add_course") %></span>
       </a>
     </div>
+
+    <%# The profession's team — the Adminland-style people slice, scoped to one
+        map: who holds a grant, who is publicly a curator, who verified. Grants
+        themselves are managed in the user card (admins only). %>
+    <div class="admin-group admin-group--spaced">
+      <div class="admin-group__head">
+        <h2 class="admin-group__title"><%= t("admin.builder.team_title") %></h2>
+        <% if Current.user.can_administer? %>
+          <a href="<%= admin_users_path %>" class="btn btn--small"><%= t("admin.builder.team_grant") %></a>
+        <% end %>
+      </div>
+
+      <% if @editorships.any? %>
+        <div class="admin-list">
+          <% @editorships.each do |editorship| %>
+            <% editor = editorship.user %>
+            <%= content_tag(Current.user.can_administer? ? :a : :div,
+                  Current.user.can_administer? ? { href: admin_user_path(editor), class: "admin-row" } : { class: "admin-row admin-row--static" }) do %>
+              <span class="admin-row__column">
+                <span class="admin-row__title admin-row__title--person">
+                  <%= avatar_tag(editor.name) %>
+                  <%= editor.name %>
+                  <% if editor.administrator? %>
+                    <span class="badge badge--marker"><%= t("admin.roles.administrator") %></span>
+                  <% end %>
+                  <% if editor.suspended? %>
+                    <span class="badge badge--draft"><%= t("admin.builder.team_suspended") %></span>
+                  <% elsif !editor.can_edit_content? %>
+                    <span class="badge badge--draft"><%= t("admin.builder.team_dormant") %></span>
+                  <% end %>
+                </span>
+                <p class="admin-row__subtle">
+                  <%= [ editor.headline.presence,
+                        (t("admin.builder.team_public_curator") if editor.public_curator?),
+                        (t("admin.builder.team_verified", date: l(@path.verified_at.to_date)) if @path.verified_by == editor && @path.verified_at) ]
+                        .compact.join(" · ").presence || editor.email_address %>
+                </p>
+              </span>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="admin-empty">
+          <p class="admin-empty__text"><%= t("admin.builder.team_empty") %></p>
+        </div>
+      <% end %>
+    </div>
   </div>
 </section>

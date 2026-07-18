@@ -12,6 +12,19 @@ class SignupsFlowTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.last.subject[CODE_PATTERN]
   end
 
+  test "verification page warns about the spam folder" do
+    request_code
+    get new_signup_verification_path
+    assert_response :success
+    assert_match "Спам", response.body
+  end
+
+  test "password reset page warns about the spam folder" do
+    get new_password_path
+    assert_response :success
+    assert_match "Спам", response.body
+  end
+
   test "full flow: email, code, profile — signed in with a welcome letter" do
     code = request_code
     assert_redirected_to new_signup_verification_path

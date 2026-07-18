@@ -19,6 +19,12 @@
         <% end %>
       <% end %>
 
+      <%# Та же беда со спамом, что и на регистрации, — а здесь человек ещё и
+          без доступа к аккаунту, теряется окончательно. %>
+      <p class="auth__hint">
+        <%= t("signup.spam_hint_html") %>
+      </p>
+
       <p class="auth__alt">
         <%= link_to t("auth.back_to_sign_in"), new_session_path %>
       </p>

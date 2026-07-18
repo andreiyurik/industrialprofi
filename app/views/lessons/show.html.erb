@@ -48,7 +48,8 @@
        data-controller="copy-link"
        data-copy-link-url-value="<%= "#{site_config.url}/lessons/#{@lesson.slug}" %>"
        data-copy-link-label-value="<%= t("lessons.copy_link") %>"
-       data-copy-link-copied-value="<%= t("lessons.link_copied") %>">
+       data-copy-link-copied-value="<%= t("lessons.link_copied") %>"
+       data-copy-link-copied-class="lesson__copy--copied">
     <div class="lesson__trail">
       <button type="button" class="lesson-contents-toggle" data-action="lesson-sidebar#open"
               title="<%= t("lessons.sidebar_label") %>">

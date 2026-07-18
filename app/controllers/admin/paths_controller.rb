@@ -12,6 +12,8 @@ module Admin
     def show
       @path = Path.editable_by(Current.user).find_by!(slug: params[:slug])
       @courses = @path.courses.ordered.includes(:lessons)
+      # The profession's team — everyone holding a direct-edit grant here.
+      @editorships = @path.editorships.includes(:user).joins(:user).merge(User.order(:name))
     end
 
     def new
