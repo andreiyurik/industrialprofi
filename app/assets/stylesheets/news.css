@@ -201,6 +201,12 @@
   }
 }
 
+/* Inline-flex collapses the span to its glyph, so the icon centres in the
+   button row like its siblings instead of riding the text baseline. */
+.news-article__copy-icon {
+  display: inline-flex;
+}
+
 .news-article__copy-icon--done,
 .news-article__copy--copied .news-article__copy-icon--default {
   display: none;

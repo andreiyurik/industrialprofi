@@ -18,6 +18,11 @@
         <p class="auth__hint">
           <%= t("signup.code_sent_to_html", email: content_tag(:strong, signup.email_address)) %>
         </p>
+        <%# Google периодически кладёт наши письма в спам — без этой строки
+            человек просто теряется и уходит. %>
+        <p class="auth__hint">
+          <%= t("signup.spam_hint_html") %>
+        </p>
 
         <%= form.button class: "btn btn--reversed btn--large auth__submit" do %>
           <%= t("signup.verify") %>

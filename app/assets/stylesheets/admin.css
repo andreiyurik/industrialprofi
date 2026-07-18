@@ -142,6 +142,21 @@
   text-align: end;
 }
 
+/* Person rows (a profession's team): avatar + name + status badges inline. */
+.admin-row__title--person {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.6rem;
+
+  .avatar {
+    --avatar-size: 1.75rem;
+  }
+
+  .badge {
+    flex: none;
+  }
+}
+
 .admin-row__title {
   color: var(--color-ink);
   font-size: 0.95rem;
@@ -185,6 +200,16 @@
 /* Path grouping — shared by the lessons index and the moderation queue */
 .admin-group + .admin-group {
   margin-block-start: var(--block-space);
+}
+
+/* A group standing after non-group content (the builder tree): give it air
+   and let the head's action sit at the far edge. */
+.admin-group--spaced {
+  margin-block-start: var(--block-space-double);
+
+  .admin-group__head {
+    justify-content: space-between;
+  }
 }
 
 .admin-group__head {

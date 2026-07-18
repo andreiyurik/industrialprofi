@@ -32,6 +32,28 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
     assert_match lessons(:pteep).title, response.body
   end
 
+  test "show lists the profession's team with a grant link for admins" do
+    get admin_path_path(paths(:electrician))
+    assert_select ".admin-group__title", text: I18n.t("admin.builder.team_title")
+    assert_select ".admin-row__title--person", text: /#{users(:editor).name}/
+    assert_select "a.admin-row[href=?]", admin_user_path(users(:editor))
+    assert_select "a[href=?]", admin_users_path, text: I18n.t("admin.builder.team_grant")
+  end
+
+  test "show reports an empty team honestly" do
+    get admin_path_path(paths(:welder))
+    assert_match I18n.t("admin.builder.team_empty"), response.body
+  end
+
+  test "an editor sees the team without user-card links or the grant button" do
+    sign_out
+    sign_in_as users(:editor)
+    get admin_path_path(paths(:electrician))
+    assert_select ".admin-row__title--person", text: /#{users(:editor).name}/
+    assert_select "a.admin-row", 0
+    assert_select "a[href=?]", admin_users_path, 0
+  end
+
   test "an editor cannot open the builder for an ungranted profession" do
     sign_out
     sign_in_as users(:editor)
