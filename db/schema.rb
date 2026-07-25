@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_16_200000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_25_173649) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -240,6 +240,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_16_200000) do
     t.index ["user_id"], name: "index_reactions_on_user_id"
   end
 
+  create_table "resource_suggestions", force: :cascade do |t|
+    t.string "author_name", null: false
+    t.datetime "created_at", null: false
+    t.string "kind", default: "article", null: false
+    t.integer "lesson_id", null: false
+    t.string "note"
+    t.datetime "reviewed_at"
+    t.text "reviewer_comment"
+    t.string "status", default: "pending", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.string "url", null: false
+    t.integer "user_id"
+    t.index ["lesson_id"], name: "index_resource_suggestions_on_lesson_id"
+    t.index ["status"], name: "index_resource_suggestions_on_status"
+    t.index ["user_id"], name: "index_resource_suggestions_on_user_id"
+  end
+
   create_table "resources", force: :cascade do |t|
     t.string "country_code"
     t.datetime "created_at", null: false
@@ -309,6 +327,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_16_200000) do
   add_foreign_key "lessons", "courses"
   add_foreign_key "lessons", "paths"
   add_foreign_key "reactions", "users"
+  add_foreign_key "resource_suggestions", "lessons"
+  add_foreign_key "resource_suggestions", "users"
   add_foreign_key "resources", "lessons"
   add_foreign_key "sessions", "users"
 

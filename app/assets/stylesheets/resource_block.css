@@ -46,3 +46,10 @@
 .resource-block__group:first-of-type {
   margin-block-start: 0;
 }
+
+/* Shown when a lesson has no sources yet — the block becomes an invitation. */
+.resource-block__empty {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  margin-block: 0;
+}

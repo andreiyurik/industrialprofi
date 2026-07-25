@@ -85,6 +85,9 @@ Rails.application.routes.draw do
     resource :bookmark, only: [ :create, :destroy ], controller: "lesson_bookmarks"
     resources :revisions, only: [ :index, :show ]
     resources :suggestions, only: [ :new, :create ], controller: "lesson_suggestions"
+    # Reader-proposed sources (the community links half) — a structured link
+    # goes to its own moderation queue, unlike the text-section suggestions above.
+    resources :resource_suggestions, only: [ :new, :create ]
   end
 
   namespace :admin do
@@ -124,6 +127,13 @@ Rails.application.routes.draw do
     end
     get "log" => "admin_actions#index", as: :log
     resources :lesson_suggestions, only: [ :index, :show ] do
+      member do
+        patch :approve
+        patch :reject
+      end
+    end
+    # Reader-proposed sources queue: approving creates the Resource on the lesson.
+    resources :resource_suggestions, only: [ :index ] do
       member do
         patch :approve
         patch :reject

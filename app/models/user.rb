@@ -16,6 +16,9 @@ class User < ApplicationRecord
   # on delete keeps the suggestion and its denormalized author_name, so the
   # immutable revision trail stays intact (history kept, like suspension).
   has_many :lesson_suggestions, dependent: :nullify
+  # Sources this person proposed. Nullify on delete, like lesson_suggestions —
+  # the suggestion keeps its denormalized author_name.
+  has_many :resource_suggestions, dependent: :nullify
 
   # The trust ladder: member → editor («Эксперт» — reviews suggestions, edits
   # content) → administrator (everything, incl. users and roles).
@@ -110,6 +113,15 @@ class User < ApplicationRecord
     return LessonSuggestion.none unless editor?
 
     LessonSuggestion.joins(:lesson).where(lessons: { path_id: editorships.select(:path_id) })
+  end
+
+  # Proposed sources this user may moderate — same profession scoping as
+  # reviewable_suggestions, for the resource-suggestion queue and its nav badge.
+  def reviewable_resource_suggestions
+    return ResourceSuggestion.all if administrator?
+    return ResourceSuggestion.none unless editor?
+
+    ResourceSuggestion.joins(:lesson).where(lessons: { path_id: editorships.select(:path_id) })
   end
 
   def completed?(lesson)
