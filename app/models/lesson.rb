@@ -95,6 +95,17 @@ class Lesson < ApplicationRecord
     [ body.to_s, rich_body&.body.to_s ].join(" ").scan(INTERNAL_LINK_PATTERN).flatten.uniq - [ slug ]
   end
 
+  # Author image placeholders not yet replaced with a real picture: a markdown
+  # image whose target is a "TODO-*.png" or "placeholder: …" stand-in. The brief
+  # for the illustrator lives in the alt text — that's what /admin/illustrations
+  # lists. Scanned from the raw markdown body/task, where seed placeholders live;
+  # a lesson edited into rich_body no longer carries them.
+  PENDING_IMAGE_PATTERN = /!\[(?<brief>[^\]]*)\]\(\s*(?:TODO|placeholder)[^)]*\)/i
+
+  def pending_illustration_briefs
+    [ body.to_s, task.to_s ].flat_map { |md| md.scan(PENDING_IMAGE_PATTERN) }.flatten
+  end
+
   def prev_in_path
     path.lessons.where("position < ?", position).ordered.last
   end

@@ -3,7 +3,8 @@
     section is highlighted; «Правки» carries the moderation-queue count. %>
 <% section = { "dashboard" => "dashboard",
                "paths" => "program", "courses" => "program", "lessons" => "program", "revisions" => "program",
-               "lesson_suggestions" => "suggestions", "imports" => "imports", "posts" => "news",
+               "lesson_suggestions" => "suggestions", "illustrations" => "illustrations",
+               "imports" => "imports", "posts" => "news",
                "users" => "users", "feedbacks" => "feedbacks", "admin_actions" => "log" }[controller_name] %>
 
 <nav class="admin-nav" aria-label="<%= t("admin.nav_label") %>">
@@ -20,6 +21,9 @@
     <%= t("admin.manage_suggestions") %>
     <%= render "admin/shared/suggestions_count" %>
   <% end %>
+
+  <%= link_to t("admin.manage_illustrations"), admin_illustrations_path, class: "admin-nav__link",
+        aria: { current: ("page" if section == "illustrations") } %>
 
   <%= link_to t("admin.manage_imports"), new_admin_import_path, class: "admin-nav__link",
         aria: { current: ("page" if section == "imports") } %>
