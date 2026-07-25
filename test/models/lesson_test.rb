@@ -201,6 +201,13 @@ class LessonTest < ActiveSupport::TestCase
     assert lesson.reload.revised?
   end
 
+  test "partitioning preloaded resources fires no extra query (hot-path guard)" do
+    lesson = Lesson.includes(:resources).find(lessons(:pteep).id)
+    assert_no_queries do
+      lesson.resources.to_a.partition(&:required?)
+    end
+  end
+
   test "resource contributors are credited and gate the history link" do
     lesson = lessons(:pteep)
     refute lesson.community_credited?

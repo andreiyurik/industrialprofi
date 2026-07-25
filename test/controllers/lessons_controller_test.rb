@@ -190,4 +190,34 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     get lesson_path(lessons(:pteep))
     assert_select "div.lesson-layout--reading"
   end
+
+  test "show renders both required and optional resource groups" do
+    get lesson_path(lessons(:pteep))
+    assert_response :success
+    assert_match I18n.t("lessons.required_group"), response.body
+    assert_match I18n.t("lessons.optional_group"), response.body
+    assert_match resources(:pteep_doc).title, response.body
+    assert_match resources(:pteep_article).title, response.body
+  end
+
+  test "a url-less resource explains it is name-only, not a broken link" do
+    lessons(:pteep).resources.create!(title: "ГОСТ без ссылки", url: nil,
+      kind: "norm", origin: "seed", required: false, position: 9)
+
+    get lesson_path(lessons(:pteep))
+    assert_response :success
+    assert_match I18n.t("lessons.resource_pending"), response.body
+  end
+
+  test "the propose-source CTA tells a guest to sign in first" do
+    get lesson_path(lessons(:pteep))
+    assert_match I18n.t("resource_suggestions.cta_guest"), response.body
+  end
+
+  test "a signed-in reader sees the plain propose-source CTA" do
+    sign_in_as users(:member)
+    get lesson_path(lessons(:pteep))
+    assert_match I18n.t("resource_suggestions.cta"), response.body
+    assert_no_match(/#{I18n.t("resource_suggestions.cta_guest")}/, response.body)
+  end
 end
