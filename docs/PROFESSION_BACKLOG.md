@@ -73,7 +73,7 @@ far as it stays high-quality; depth beats a long shallow catalogue.
 | **Сварщик** (Welder) | **Live** (`svarshchik`) | Chronic global shortage; highest international mobility | НАКС, ГОСТ, ISO 9606, ASME IX |
 | **Холодильщик / HVACR** (Refrigeration & HVAC) | **Planned** | Cold chain + data-centre cooling + climate | F-gas/refrigerant regs, ГОСТ, EN 378 |
 | **Сантехник / трубопроводчик** (Plumber / pipefitter) | **Draft** (`slesar-santehnik`) | Every construction site; low entry, high need | СП 30.13330, СНиП |
-| **Автомеханик** (Automotive technician) | **Planned** | Every town has the demand; the diagnostician half is scarce everywhere | ГОСТ Р 51709, ТР ТС 018/2011, OBD-II — *teach diagnosis (scanner, scope, CAN), not part-swapping; a vendor manual is not a profession* |
+| **Автомеханик** (Automotive technician) | **Draft** (`avtomehanik`) | Every town has the demand; the diagnostician half is scarce everywhere | ГОСТ 33997-2016 (superseded ГОСТ Р 51709-2001 in 2018), ТР ТС 018/2011, OBD-II — *teach diagnosis (scanner, scope, CAN), not part-swapping; a vendor manual is not a profession*. Engine rebuild, alt-powertrain (gas/hybrid/EV) and motorcycle service ship as separate `coming_soon` course specializations, not folded into the core path. |
 
 ## Tier 2 — industrial automation / OT cluster (our moat)
 
