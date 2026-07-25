@@ -7,7 +7,7 @@ resources:
     kind: book
     required: true
     language: en
-    note: "проверь точное издание/ISBN перед публикацией — базовый американский учебник, на котором строится подготовка сертифицированных техников ASE"
+    note: "базовый американский учебник, на котором строится подготовка сертифицированных техников ASE"
   - title: "ASE (National Institute for Automotive Service Excellence) — сертификация A6 (Electrical/Electronic Systems) и A8 (Engine Performance)"
     kind: course
     required: false
