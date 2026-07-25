@@ -143,6 +143,10 @@ Rails.application.routes.draw do
     # real picture, with its illustrator brief and a link into the editor.
     resources :illustrations, only: :index
 
+    # Feeds the editor's @-mention picker for internal lesson links: returns
+    # matching lessons as <lexxy-prompt-item> HTML for a given ?filter=.
+    resources :lesson_links, only: :index
+
     post "preview", to: "preview#create"
     # Editor/admin-only image uploads for lesson rich text — a gated, validating
     # replacement for the open ActiveStorage direct-upload endpoint.

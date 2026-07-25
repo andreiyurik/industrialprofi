@@ -92,6 +92,15 @@ class Lesson < ApplicationRecord
   # would drop the hrefs.
   INTERNAL_LINK_PATTERN = %r{/lessons/([a-z0-9\-]+)}
 
+  # Title match for the editor's @-mention link picker (Admin::LessonLinksController).
+  # Titles aren't sensitive, so it spans every profession — cross-links are the
+  # point of the wiki fabric. Blank filter → nothing (the prompt shows its empty
+  # state until the author types).
+  scope :title_search, ->(filter) {
+    query = filter.to_s.strip
+    query.present? ? where("title LIKE ?", "%#{sanitize_sql_like(query)}%").order(:title) : none
+  }
+
   def linked_lesson_slugs
     [ body.to_s, rich_body&.body.to_s ].join(" ").scan(INTERNAL_LINK_PATTERN).flatten.uniq - [ slug ]
   end
