@@ -18,6 +18,11 @@ class RevisionsController < ApplicationController
     @revisions = rows.first(PER_PAGE)
     @next_cursor = @revisions.last&.version
 
+    # Community-added sources credited on this lesson (approved link suggestions).
+    # Shown once, above the revision log — the open credit for source contributors,
+    # who have no revision row of their own.
+    @credited_sources = @lesson.resources.where.not(contributor_name: [ nil, "" ]).order(:created_at)
+
     # Date already at the bottom of the list we're appending to — lets the append
     # skip a duplicate day heading when the new batch continues the same day.
     @boundary_date = parse_date(params[:d])

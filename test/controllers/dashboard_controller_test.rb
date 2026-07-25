@@ -192,4 +192,32 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     get paths_path
     assert_select ".account-menu-button .notify-dot", 0
   end
+
+  test "dashboard lists the member's proposed source" do
+    users(:member).resource_suggestions.create!(
+      lesson: lessons(:pteep), author_name: users(:member).name,
+      url: "https://ya.ru/g", title: "ГОСТ Тест-источник", kind: "norm"
+    )
+
+    sign_in_as users(:member)
+    get dashboard_path
+    assert_response :success
+    assert_match "ГОСТ Тест-источник", response.body
+  end
+
+  test "a decided source lights the header dot until the dashboard is visited" do
+    users(:member).resource_suggestions.create!(
+      lesson: lessons(:pteep), author_name: "Иван",
+      url: "https://ya.ru/g", title: "Источник", kind: "norm",
+      status: "approved", reviewed_at: 1.hour.ago
+    )
+
+    sign_in_as users(:member)
+    get paths_path
+    assert_select ".account-menu-button .notify-dot", 1
+
+    get dashboard_path
+    get paths_path
+    assert_select ".account-menu-button .notify-dot", 0
+  end
 end

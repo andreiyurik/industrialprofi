@@ -7,10 +7,23 @@ class SuggestionEmailsJob < ApplicationJob
 
   def perform
     notify_authors
+    notify_resource_authors
     notify_reviewers
   end
 
   private
+
+  # Same close-the-loop rule as text edits, for proposed sources: one email per
+  # decision after a day's grace, only if the author didn't see it in-app.
+  def notify_resource_authors
+    ResourceSuggestion.decided
+                      .where(outcome_notified_at: nil, reviewed_at: ..ResourceSuggestion::OUTCOME_EMAIL_AFTER.ago)
+                      .where.not(user_id: nil)
+                      .includes(:user, :lesson).find_each do |suggestion|
+      SuggestionsMailer.resource_outcome(suggestion).deliver_later if suggestion.needs_outcome_email?
+      suggestion.touch(:outcome_notified_at)
+    end
+  end
 
   # One email per decision, after a day's grace for the author to see it on
   # their dashboard. outcome_notified_at is set either way — seen in the app,

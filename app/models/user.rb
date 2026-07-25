@@ -180,12 +180,11 @@ class User < ApplicationRecord
   # A review queue counts as stalled when its oldest pending edit waited this long.
   SUGGESTION_DIGEST_AFTER = 48.hours
 
-  # Decisions on this user's suggestions they haven't seen yet — drives the
-  # quiet dot in the header and the "new" markers on the dashboard.
+  # Decisions on this user's contributions — proposed edits AND proposed sources
+  # — they haven't seen yet. Drives the quiet dot in the header and the touch
+  # that closes the loop on the dashboard.
   def unseen_suggestion_outcomes?
-    scope = lesson_suggestions.decided.where.not(reviewed_at: nil)
-    scope = scope.where("reviewed_at > ?", suggestions_seen_at) if suggestions_seen_at
-    scope.exists?
+    [ lesson_suggestions, resource_suggestions ].any? { |relation| unseen_decisions?(relation) }
   end
 
   # ONE digest per review stall, never a drip: eligible only when the user
@@ -226,5 +225,13 @@ class User < ApplicationRecord
   private
     def completed_lesson_ids_where(condition)
       lesson_completions.joins(:lesson).where(lessons: condition).pluck(:lesson_id).to_set
+    end
+
+    # Any decided contribution in `relation` the user hasn't seen since — shared
+    # by the header dot across both suggestion kinds.
+    def unseen_decisions?(relation)
+      scope = relation.decided.where.not(reviewed_at: nil)
+      scope = scope.where("reviewed_at > ?", suggestions_seen_at) if suggestions_seen_at
+      scope.exists?
     end
 end

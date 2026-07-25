@@ -42,7 +42,9 @@ class Admin::ResourceSuggestionsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_equal "approved", @suggestion.reload.status
-    assert @lesson.resources.exists?(title: "ГОСТ 166-89", origin: "human")
+    resource = @lesson.resources.find_by(title: "ГОСТ 166-89", origin: "human")
+    assert resource
+    assert_equal @suggestion.author_name, resource.contributor_name
   end
 
   test "reject closes it without creating a resource" do

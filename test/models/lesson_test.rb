@@ -200,4 +200,15 @@ class LessonTest < ActiveSupport::TestCase
     lesson.revise!(section: "body", html: "<p>x</p>", editor_name: "A", edit_reason: nil, source: "admin")
     assert lesson.reload.revised?
   end
+
+  test "resource contributors are credited and gate the history link" do
+    lesson = lessons(:pteep)
+    refute lesson.community_credited?
+
+    lesson.resources.create!(title: "Src", url: "https://x.ru", kind: "norm",
+      origin: "human", contributor_name: "Аня", position: 99)
+
+    assert_includes lesson.resource_contributor_names, "Аня"
+    assert lesson.community_credited?
+  end
 end

@@ -1,5 +1,9 @@
 class Resource < ApplicationRecord
   belongs_to :lesson
+  # The community member whose approved ResourceSuggestion became this resource;
+  # nil for founder/seed/AI-authored rows. contributor_name is the denormalized
+  # credit that survives the account, like lesson_revisions.editor_name.
+  belongs_to :contributor, class_name: "User", optional: true, foreign_key: "user_id"
 
   # The two axes of a resource. KINDS = what it is (one per link). `document` is a
   # legacy kind kept valid for old rows — it splits to norm/book by title sniffing

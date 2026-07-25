@@ -1,0 +1,16 @@
+<% content_for :mailer_footer do %>
+  <p style="<%= mail_style(:muted) %>"><%= mail_link_to t("suggestions_mailer.resource_outcome.unsubscribe"), @unsubscribe_url %></p>
+<% end %>
+
+<h1 style="<%= mail_style(:title) %>"><%= t("suggestions_mailer.resource_outcome.greeting", name: @user.name) %></h1>
+
+<p style="<%= mail_style(:subtitle) %>"><%= t("suggestions_mailer.resource_outcome.body_#{@suggestion.status}", title: @suggestion.title, lesson: @lesson.title) %></p>
+
+<% if @suggestion.rejected? && @suggestion.reviewer_comment.present? %>
+  <p style="<%= mail_style(:muted) %>"><%= t("suggestions_mailer.resource_outcome.comment_label") %></p>
+  <blockquote style="<%= mail_style(:quote) %>"><%= @suggestion.reviewer_comment %></blockquote>
+<% end %>
+
+<%= render "shared/mailer/button", text: t("suggestions_mailer.resource_outcome.view_lesson"), url: lesson_url(@lesson) %>
+
+<p style="<%= mail_style(:muted) %>"><%= t("suggestions_mailer.resource_outcome.thanks") %></p>
