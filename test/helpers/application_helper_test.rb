@@ -52,6 +52,21 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_not_includes result, "prose-figure"
   end
 
+  test "a not-yet-drawn TODO placeholder renders a calm stand-in, never a broken img" do
+    result = markdown("![Схема щита](TODO-elektrik-shchit.png)\n\n*Рис. 1. Щит.*")
+    assert_includes result, "attachment__missing"
+    assert_includes result, "Иллюстрация готовится"
+    assert_includes result, "prose-figure--pending"
+    assert_includes result, 'aria-label="Схема щита"' # the illustrator brief survives
+    assert_not_includes result, "<img" # no 404-ing image tag reaches the reader
+  end
+
+  test "a bare 'placeholder:' src (stripped by the sanitizer) also becomes a stand-in" do
+    result = markdown("![Схема](placeholder: художник рисует щит)")
+    assert_includes result, "attachment__missing"
+    assert_not_includes result, "<img"
+  end
+
   test "markdown renders links" do
     result = markdown("[link](https://example.com)")
     assert_includes result, '<a href="https://example.com"'
