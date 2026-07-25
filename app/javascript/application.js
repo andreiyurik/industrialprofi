@@ -2,7 +2,28 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-import { highlightCode } from "lexxy"
+import { configure, highlightCode } from "lexxy"
+import { registerStructuredText } from "helpers/prism_st"
+
+// Teach Lexxy's bundled Prism our industrial language: IEC 61131-3 Structured
+// Text (PLC). Importing lexxy above populates window.Prism, so this registers
+// the `st` grammar for both the editor and rendered code (highlightCode).
+registerStructuredText()
+
+// App-wide editor defaults (merged into Lexxy's `default` preset, so every
+// rich_text_area inherits them — one place, per the maintenance goal):
+//   • upload button = image only (we never allow arbitrary file attachments);
+//   • headings limited to h2/h3, matching our lesson format (## sections, on
+//     which enrich_prose builds anchors) — h1 clashes with the page title;
+//   • no text-colour highlight buttons — content is monochrome-first, colour
+//     carries meaning only in badges, never as decorative coloured prose.
+configure({
+  default: {
+    toolbar: { upload: "image" },
+    headings: [ "h2", "h3" ],
+    highlight: { buttons: { color: [], "background-color": [] } }
+  }
+})
 
 // The editor highlights code live, but SAVED rich text renders as bare
 // <pre data-language> — Lexxy ships highlightCode() for display and leaves

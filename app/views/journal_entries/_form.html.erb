@@ -29,7 +29,8 @@
     <p class="journal-form__hint"><%= t("journal.body_hint") %></p>
     <%# Journal is text-only by design (no uploads on the SQLite disk) — disable
         Lexxy attachments so there's no broken image button. Lessons keep theirs. %>
-    <%= form.rich_text_area :body, class: "lexxy-content", attachments: "false" %>
+    <%= form.rich_text_area :body, class: "lexxy-content", attachments: "false",
+          placeholder: t("journal.placeholder") %>
   </div>
 
   <div class="journal-form__actions">
