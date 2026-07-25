@@ -57,3 +57,27 @@ lexxy-editor blockquote {
   padding: 0.4lh 2ch;
   font-style: normal;
 }
+
+/* The @-mention picker for internal lesson links. Lexxy's prompt menu is built
+   for "avatar + short name"; our lesson TITLES are long, so widen it a touch and
+   stack each row as title-over-profession instead of a squished flex pair. */
+.lexxy-prompt-menu {
+  min-inline-size: 26ch;
+  max-inline-size: min(40ch, calc(100% - var(--lexxy-prompt-offset-x, 0)));
+}
+
+.lesson-link-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-inline-size: 0;
+}
+
+.lesson-link-item__title {
+  line-height: 1.3;
+}
+
+.lesson-link-item__path {
+  color: var(--lexxy-color-ink-medium);
+  font-size: 0.85em;
+}

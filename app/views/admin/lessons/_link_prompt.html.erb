@@ -1,0 +1,11 @@
+<%# The @-mention picker for internal lesson links. Dropped inside a Lexxy
+    editor (as its block child): typing "@" opens a live title search served by
+    Admin::LessonLinksController; picking a lesson inserts an editable
+    /lessons/:slug link. remote-filtering = server-side FTS on each keystroke;
+    insert-editable-text = insert the <a> from the item's editor template. %>
+<lexxy-prompt trigger="@"
+  src="<%= admin_lesson_links_path %>"
+  remote-filtering
+  insert-editable-text
+  supports-space-in-searches
+  empty-results="<%= t("admin.lesson_links.empty") %>"></lexxy-prompt>
