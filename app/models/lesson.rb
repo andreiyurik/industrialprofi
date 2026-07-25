@@ -22,6 +22,7 @@ class Lesson < ApplicationRecord
   # revisions have to go first.
   has_many :lesson_revisions, dependent: :delete_all
   has_many :lesson_suggestions, dependent: :destroy
+  has_many :resource_suggestions, dependent: :destroy
   # Learner-side records vanish with the lesson; journal entries survive (their
   # lesson link is optional) and are just unlinked.
   has_many :lesson_completions, dependent: :delete_all

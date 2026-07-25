@@ -146,41 +146,57 @@
       </section>
     <% end %>
 
-    <% if @lesson.has_resources? %>
-      <% required_resources = @lesson.resources.required %>
-      <% optional_resources = @lesson.resources.optional %>
-      <section id="resources" class="lesson__section lesson__section--plain">
-        <div class="resource-block">
-          <div class="resource-block__head">
-            <span class="resource-block__icon"><%= heroicon "document-text", variant: :outline %></span>
-            <h2 class="resource-block__title"><%= t("lessons.resources_section") %></h2>
-            <%# Editors jump straight to the link editor (anchored to the resources
-                fields), so fixing a dead/wrong link is one click from the article. %>
-            <% if Current.user&.can_edit_path?(@lesson.path) %>
-              <%= link_to edit_admin_lesson_path(@lesson, anchor: "resources-editor"),
-                    class: "lesson__tool resource-block__edit",
-                    aria: { label: t("lessons.edit_resources") }, title: t("lessons.edit_resources") do %>
-                <%= heroicon "pencil-square", variant: :outline %>
-              <% end %>
+    <%# The resources block is ALWAYS rendered: where a lesson has no sources yet,
+        it becomes an invitation to contribute one (self-developing content). %>
+    <% required_resources = @lesson.resources.required %>
+    <% optional_resources = @lesson.resources.optional %>
+    <% can_edit_resources = Current.user&.can_edit_path?(@lesson.path) %>
+    <section id="resources" class="lesson__section lesson__section--plain">
+      <div class="resource-block">
+        <div class="resource-block__head">
+          <span class="resource-block__icon"><%= heroicon "document-text", variant: :outline %></span>
+          <h2 class="resource-block__title"><%= t("lessons.resources_section") %></h2>
+          <%# Editors jump straight to the link editor (anchored to the resources
+              fields), so fixing a dead/wrong link is one click from the article. %>
+          <% if can_edit_resources %>
+            <%= link_to edit_admin_lesson_path(@lesson, anchor: "resources-editor"),
+                  class: "lesson__tool resource-block__edit",
+                  aria: { label: t("lessons.edit_resources") }, title: t("lessons.edit_resources") do %>
+              <%= heroicon "pencil-square", variant: :outline %>
             <% end %>
-          </div>
-
-          <% if required_resources.any? %>
-            <h3 class="resource-block__group"><%= t("lessons.required_group") %></h3>
-            <ul class="lesson-resources">
-              <%= render required_resources %>
-            </ul>
-          <% end %>
-
-          <% if optional_resources.any? %>
-            <h3 class="resource-block__group"><%= t("lessons.optional_group") %></h3>
-            <ul class="lesson-resources">
-              <%= render optional_resources %>
-            </ul>
           <% end %>
         </div>
-      </section>
-    <% end %>
+
+        <% if required_resources.any? %>
+          <h3 class="resource-block__group"><%= t("lessons.required_group") %></h3>
+          <ul class="lesson-resources">
+            <%= render required_resources %>
+          </ul>
+        <% end %>
+
+        <% if optional_resources.any? %>
+          <h3 class="resource-block__group"><%= t("lessons.optional_group") %></h3>
+          <ul class="lesson-resources">
+            <%= render optional_resources %>
+          </ul>
+        <% end %>
+
+        <% unless @lesson.has_resources? %>
+          <p class="resource-block__empty"><%= t("resource_suggestions.block_empty") %></p>
+        <% end %>
+
+        <%# Readers propose a source (experts get the pencil above instead). %>
+        <% unless can_edit_resources %>
+          <p class="lesson-section-edit">
+            <%= link_to new_lesson_resource_suggestion_path(@lesson),
+                  class: "lesson-edit-link link-quiet link-quiet--underline" do %>
+              <%= heroicon "plus-circle", variant: :outline %>
+              <span><%= t("resource_suggestions.cta") %></span>
+            <% end %>
+          </p>
+        <% end %>
+      </div>
+    </section>
 
     <% if @lesson.has_task? %>
       <section id="task" class="lesson__section">
