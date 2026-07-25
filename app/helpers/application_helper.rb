@@ -322,6 +322,8 @@ module ApplicationHelper
   def resource_kind_badge(resource)
     meta = resource_badge_meta(resource)
     label = t("lessons.resource_kinds.#{meta[:label]}", default: meta[:label].to_s.humanize)
+    # Icon + word: the label keeps the type intuitive for everyone (no reliance on
+    # learning icons or on hover, which mobile lacks).
     tag.span(class: "badge #{meta[:modifier]} lesson-resource__badge") do
       safe_join([ heroicon(meta[:icon], variant: :outline), tag.span(label) ])
     end
