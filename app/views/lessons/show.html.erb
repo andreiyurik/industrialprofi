@@ -187,6 +187,12 @@
           <p class="resource-block__empty"><%= t("resource_suggestions.block_empty") %></p>
         <% end %>
 
+        <%# One quiet footnote for the whole block when some sources are name-only,
+            instead of repeating the same line under every row. %>
+        <% if (required_resources + optional_resources).any? { |r| r.url.blank? } %>
+          <p class="resource-block__pending-note"><%= t("lessons.resource_pending_note") %></p>
+        <% end %>
+
         <%# Readers propose a source (experts get the pencil above instead). A calm
             dashed tile — an inviting slot, not a loud button. %>
         <% unless can_edit_resources %>
