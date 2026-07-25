@@ -97,4 +97,37 @@ class SuggestionEmailsJobTest < ActiveJob::TestCase
       body_markdown: "Уточнение", status: "approved", reviewed_at: reviewed_at
     )
   end
+
+  # ── Outcome emails to source proposers ──
+
+  test "emails a decided source suggestion once" do
+    suggestion = decided_resource_suggestion(reviewed_at: 2.days.ago)
+
+    assert_enqueued_emails 1 do
+      SuggestionEmailsJob.perform_now
+    end
+    assert suggestion.reload.outcome_notified_at.present?
+
+    assert_no_enqueued_emails do
+      SuggestionEmailsJob.perform_now
+    end
+  end
+
+  test "skips the source email when the author already saw it in the app" do
+    suggestion = decided_resource_suggestion(reviewed_at: 2.days.ago)
+    @member.update!(suggestions_seen_at: 1.day.ago)
+
+    assert_no_enqueued_emails do
+      SuggestionEmailsJob.perform_now
+    end
+    assert suggestion.reload.outcome_notified_at.present?
+  end
+
+  def decided_resource_suggestion(reviewed_at:)
+    @member.resource_suggestions.create!(
+      lesson: lessons(:pteep), author_name: @member.name,
+      url: "https://ya.ru/g", title: "ГОСТ Тест", kind: "norm",
+      status: "approved", reviewed_at: reviewed_at
+    )
+  end
 end
