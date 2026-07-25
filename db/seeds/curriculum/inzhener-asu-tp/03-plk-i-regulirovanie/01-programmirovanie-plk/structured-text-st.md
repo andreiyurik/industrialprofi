@@ -35,7 +35,7 @@ ST похож на обычные языки программирования (�
 | `REAL` | число с дробной частью | `level_m : REAL;` |
 | `TIME` | интервал времени | `delay : TIME := T#5S;` |
 
-```pascal
+```st
 VAR
     start_btn : BOOL;       // кнопка пуск (DI)
     level_raw : INT;        // сырое значение с входа AI
@@ -50,7 +50,7 @@ END_VAR
 
 `IF` ветвит логику по условию:
 
-```pascal
+```st
 IF level_m > 2.8 THEN
     pump_on := FALSE;       // бак почти полон — выключить насос
 ELSIF level_m < 0.5 THEN
@@ -60,7 +60,7 @@ END_IF;
 
 `CASE` удобен, когда вариантов много (например, режимы работы):
 
-```pascal
+```st
 CASE mode OF
     0: pump_on := FALSE;            // стоп
     1: pump_on := TRUE;             // ручной
