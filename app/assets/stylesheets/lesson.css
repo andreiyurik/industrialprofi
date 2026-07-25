@@ -94,6 +94,11 @@
   cursor: pointer;
   display: inline-flex;
   font: inherit;
+  /* 44px hit area (a11y/mobile-first) — the glyph stays small but each button
+     fills a full touch target, so neighbours never overlap or mis-tap. */
+  justify-content: center;
+  min-block-size: 2.75rem;
+  min-inline-size: 2.75rem;
   padding: 0;
   transition: color 200ms ease;
 
@@ -327,6 +332,13 @@
   color: var(--color-subtle);
   text-decoration: none;
   font-style: italic;
+}
+
+/* Tells the reader a name-only source is intentional (find it by its exact
+   title), so the non-link never reads as a dead link. */
+.lesson-resource__pending-note {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
 }
 
 .lesson-resource__body {

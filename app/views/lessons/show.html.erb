@@ -148,8 +148,10 @@
 
     <%# The resources block is ALWAYS rendered: where a lesson has no sources yet,
         it becomes an invitation to contribute one (self-developing content). %>
-    <% required_resources = @lesson.resources.required %>
-    <% optional_resources = @lesson.resources.optional %>
+    <%# Partition the PRELOADED resources in Ruby — calling the .required/.optional
+        scopes here would discard the controller's includes(:resources) and fire
+        two fresh queries on the hottest page. %>
+    <% required_resources, optional_resources = @lesson.resources.to_a.partition(&:required?) %>
     <% can_edit_resources = Current.user&.can_edit_path?(@lesson.path) %>
     <section id="resources" class="lesson__section lesson__section--plain">
       <div class="resource-block">
@@ -188,9 +190,11 @@
         <%# Readers propose a source (experts get the pencil above instead). A calm
             dashed tile — an inviting slot, not a loud button. %>
         <% unless can_edit_resources %>
+          <%# Guests see they'll need to sign in first, so the login redirect
+              (which already carries a return-URL + alert) is never a surprise. %>
           <%= link_to new_lesson_resource_suggestion_path(@lesson), class: "resource-block__suggest" do %>
             <%= heroicon "plus-circle", variant: :outline %>
-            <span class="resource-block__suggest-label"><%= t("resource_suggestions.cta") %></span>
+            <span class="resource-block__suggest-label"><%= t(signed_in? ? "resource_suggestions.cta" : "resource_suggestions.cta_guest") %></span>
           <% end %>
         <% end %>
       </div>
