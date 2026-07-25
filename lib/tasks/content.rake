@@ -15,7 +15,9 @@
 #                                    long-form documents without a reader note
 #                                    («что именно смотреть»), placeholder resource URLs
 #                                    (example.com, fake video ids) left over from
-#                                    authoring, and resources on registration/paywalled
+#                                    authoring, url-less resources still waiting for a
+#                                    real link (the curation queue — not an error), and
+#                                    resources on registration/paywalled
 #                                    domains (consultant.ru, garant.ru) that a reader
 #                                    can't actually open for free
 #   bin/rails content:links        — resource links that no longer resolve (they rot
@@ -107,6 +109,19 @@ namespace :content do
     else
       puts "Заглушечные ссылки (#{placeholder.size}) — замени на реальный источник или удали ресурс:"
       placeholder.each { |resource| puts "  · [#{resource.lesson&.slug}] #{resource.url}  «#{resource.title.to_s.truncate(70)}»" }
+    end
+
+    # Resources with no URL are VALID and intentional: authoring leaves a norm/
+    # book/doc as a name-only entry (rendered non-clickable) rather than inventing
+    # a link — «качественная ссылка или никакой». This is not an error, it's the
+    # curation queue: the list of document names still waiting for a real URL.
+    urlless = Resource.where(url: [ nil, "" ]).includes(:lesson).order(:lesson_id)
+
+    if urlless.none?
+      puts "✓ Ресурсов без URL нет — у каждого либо реальная ссылка, либо он снят."
+    else
+      puts "Ресурсы без URL (#{urlless.size}) — названия ждут реальной ссылки (норма, не ошибка):"
+      urlless.each { |resource| puts "  · [#{resource.lesson&.slug}] #{resource.kind}  «#{resource.title.to_s.truncate(70)}»" }
     end
 
     # consultant.ru and garant.ru show a real page (HTTP 200 — content:links
