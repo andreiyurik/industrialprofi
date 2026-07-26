@@ -8,3 +8,4 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 pin_all_from "app/javascript/helpers", under: "helpers"
 pin "lexxy", to: "lexxy.min.js"
 pin "@rails/activestorage", to: "activestorage.esm.js"
+pin "rough-notation", to: "rough-notation.js" # vendored, self-hosted (vendor/javascript)

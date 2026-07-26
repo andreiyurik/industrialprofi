@@ -144,6 +144,7 @@
 
 .nav__link {
   font-size: 0.9rem;
+  position: relative;
 }
 
 /* Nav icons exist for the mobile dropdown (they match the palette tiles);
@@ -156,6 +157,45 @@
 .nav__link[aria-current="page"] {
   color: var(--color-ink);
   font-weight: 600;
+}
+
+/* Off-screen holder for the shared hand-drawn <path> (referenced via <use>). */
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Hand-drawn underline that draws itself in on hover/focus of a desktop nav word
+   (CodeMyUI technique: one shared <path>, reused per link via <use>, revealed by
+   animating stroke-dashoffset — a big absolute dash sidesteps the non-scaling-stroke
+   marching artifact). Same blue + hand-drawn language as the hero underline.
+   Absolute, so it never shifts the row; hidden on the mobile sheet below. */
+.nav__link .nav__underline {
+  display: block;
+  position: absolute;
+  left: 0;
+  inline-size: 100%;
+  block-size: 0.6em;
+  inset-block-end: -0.26em;
+  overflow: visible;
+  pointer-events: none;
+  stroke: var(--color-link);
+  stroke-width: 2;
+  stroke-dasharray: 650;
+  stroke-dashoffset: 650;
+}
+
+.nav__link:hover .nav__underline,
+.nav__link:focus-visible .nav__underline {
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nav__link .nav__underline {
+    transition: stroke-dashoffset 420ms ease-out;
+  }
 }
 
 /* Identity header inside the hamburger dropdown — mobile-only (desktop shows
@@ -556,6 +596,10 @@
     block-size: 1.05rem;
     display: block;
     inline-size: 1.05rem;
+  }
+  /* The hover underline is a desktop affordance — keep it out of the touch sheet. */
+  .header__menu-panel .nav__link .nav__underline {
+    display: none;
   }
 
   /* Every row in the sheet clears the 44px touch minimum — the old 36px rows

@@ -47,6 +47,7 @@
   --color-negative: oklch(var(--lch-red));
   --color-positive: oklch(var(--lch-green));
   --color-marker: var(--color-ink);   /* monochrome: no chromatic accent — emphasis is ink (brightness), not hue */
+  --color-highlight: oklch(var(--lch-yellow) / 0.35);   /* rough-notation marker behind the two trust-ladder words; translucent so near-white ink stays readable on the dark theme */
   --color-subtle-light: oklch(var(--lch-gray-light));
   --color-subtle: oklch(var(--lch-gray));
   --color-disabled: oklch(var(--lch-gray-mid));

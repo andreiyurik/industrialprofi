@@ -111,10 +111,10 @@ tools/                     # reusable content & quality tooling (RU: authoring +
 ## Content architecture
 
 **Four-level hierarchy, exact parity with The Odin Project**
-(`Профессия → Курс → Раздел → Урок`):
+(`Профессия → Глава → Раздел → Урок`):
 
 ```
-Path (profession)   → Course (курс)        → Lesson#stage (раздел)        → Lesson (урок)
+Path (profession)   → Course (глава)       → Lesson#stage (раздел)        → Lesson (урок)
 (Электрик)            (Электромонтаж)         ("Правила устройства")          (ПУЭ глава 1.7)
 /paths/:slug          /courses/:slug          (a string heading, no model)    /lessons/:slug
 ```

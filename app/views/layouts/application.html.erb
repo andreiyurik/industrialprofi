@@ -66,6 +66,15 @@
   </head>
 
   <body>
+    <%# Hand-drawn line reused by every nav word's hover underline (via <use>).
+        One rough double-stroke path; CodeMyUI "hand-drawn underline" technique. %>
+    <svg width="0" height="0" aria-hidden="true" class="svg-defs">
+      <defs>
+        <path id="hand-line" fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"
+              d="M2 2c49.7 2.6 100 3.1 150 1.7-46.5 2-93 4.4-139.2 7.3 45.2-1.5 90.6-1.8 135.8-.6"></path>
+      </defs>
+    </svg>
+
     <header class="header"
             data-controller="header-reveal"
             data-header-reveal-hidden-class="header--hidden">
@@ -120,20 +129,20 @@
                   desktop) and match the palette tiles — one visual language. %>
               <%= link_to paths_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } do %>
-                <%= heroicon "academic-cap", variant: :outline %><%= t("nav.professions") %>
+                <%= heroicon "academic-cap", variant: :outline %><%= t("nav.professions") %><%= render "shared/nav_underline" %>
               <% end %>
               <%= link_to projects_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if current_page?(projects_path)) } do %>
-                <%= heroicon "wrench-screwdriver", variant: :outline %><%= t("nav.projects") %>
+                <%= heroicon "wrench-screwdriver", variant: :outline %><%= t("nav.projects") %><%= render "shared/nav_underline" %>
               <% end %>
               <%# Ordered as the footer's "Обучение" column, which this mirrors. %>
               <%= link_to resources_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if controller_name == "resources") } do %>
-                <%= heroicon "rectangle-stack", variant: :outline %><%= t("nav.library") %>
+                <%= heroicon "rectangle-stack", variant: :outline %><%= t("nav.library") %><%= render "shared/nav_underline" %>
               <% end %>
               <%= link_to calculators_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if controller_name == "calculators") } do %>
-                <%= heroicon "calculator", variant: :outline %><%= t("nav.calculators") %>
+                <%= heroicon "calculator", variant: :outline %><%= t("nav.calculators") %><%= render "shared/nav_underline" %>
               <% end %>
               <% if controller.class.module_parent_name == "Admin" %>
                 <span class="badge badge--marker">Admin</span>
