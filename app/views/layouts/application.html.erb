@@ -105,12 +105,15 @@
               <%= heroicon "x-mark", variant: :outline %>
             </button>
             <div class="header__menu-panel">
-              <%# Guest sheet only: a quiet RJ45 mark opens the drawer, where a
-                  signed-in reader gets the identity row. Signed in, this slot is
-                  taken; on desktop the whole panel is the inline nav, so it's
-                  hidden there too. %>
+              <%# Guest drawer opens on the full brand (mark + wordmark), like
+                  TOP's logo slot — on phones the header shows only the mark, so
+                  this is the one nav surface carrying the project's name. A
+                  signed-in reader gets the identity row in this slot instead. %>
               <% unless signed_in? %>
-                <%= image_tag "logo-ethernet.png", alt: "", class: "header__menu-mark", aria: { hidden: "true" } %>
+                <%= link_to root_path, class: "brand header__menu-brand" do %>
+                  <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", aria: { hidden: "true" } %>
+                  <span class="brand__text"><%= t("site.name") %></span>
+                <% end %>
               <% end %>
 
               <%# Mobile-only identity header — the dropdown mirrors the desktop
@@ -129,7 +132,7 @@
                   desktop) and match the palette tiles — one visual language. %>
               <%= link_to paths_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } do %>
-                <%= heroicon "academic-cap", variant: :outline %><%= t("nav.professions") %><%= render "shared/nav_underline" %>
+                <%= heroicon "map", variant: :outline %><%= t("nav.professions") %><%= render "shared/nav_underline" %>
               <% end %>
               <%= link_to projects_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if current_page?(projects_path)) } do %>
@@ -138,7 +141,7 @@
               <%# Ordered as the footer's "Обучение" column, which this mirrors. %>
               <%= link_to resources_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if controller_name == "resources") } do %>
-                <%= heroicon "rectangle-stack", variant: :outline %><%= t("nav.library") %><%= render "shared/nav_underline" %>
+                <%= heroicon "book-open", variant: :outline %><%= t("nav.library") %><%= render "shared/nav_underline" %>
               <% end %>
               <%= link_to calculators_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if controller_name == "calculators") } do %>
@@ -155,22 +158,35 @@
                 <div class="header__menu-guest">
                   <%= link_to about_path, class: "account-menu__link",
                         aria: { current: ("page" if current_page?(about_path)) } do %>
-                    <%= heroicon "light-bulb", variant: :outline %>
+                    <%= heroicon "information-circle", variant: :outline %>
                     <%= t("nav.about") %>
+                  <% end %>
+                  <%# The recruit-an-expert door. Cheap to place, existential to
+                      miss — a master who never finds it never authors a path. %>
+                  <%= link_to authors_path, class: "account-menu__link",
+                        aria: { current: ("page" if current_page?(authors_path)) } do %>
+                    <%= heroicon "users", variant: :outline %>
+                    <%= t("nav.authors") %>
                   <% end %>
                   <%= link_to faq_path, class: "account-menu__link",
                         aria: { current: ("page" if current_page?(faq_path)) } do %>
                     <%= heroicon "question-mark-circle", variant: :outline %>
                     <%= t("nav.faq") %>
                   <% end %>
-                  <%# The recruit-an-expert door. Cheap to place, existential to
-                      miss — a master who never finds it never authors a path. %>
-                  <%= link_to authors_path, class: "account-menu__link",
-                        aria: { current: ("page" if current_page?(authors_path)) } do %>
-                    <%= heroicon "user-group", variant: :outline %>
-                    <%= t("nav.authors") %>
+                  <%# TOP keeps Support Us right in the drawer — for a
+                      donation-run project that placement is a decision. %>
+                  <%= link_to support_us_path, class: "account-menu__link",
+                        aria: { current: ("page" if current_page?(support_us_path)) } do %>
+                    <%= heroicon "heart", variant: :outline %>
+                    <%= t("nav.support") %>
                   <% end %>
                 </div>
+                <%# TOP's guest pair: Get started + Sign in. The signup row is
+                    drawer-only (the desktop header has the CTA pill). %>
+                <%= link_to new_signup_path, class: "nav__link link-quiet header__menu-signup",
+                      aria: { current: ("page" if current_page?(new_signup_path)) } do %>
+                  <%= heroicon "user-plus", variant: :outline %><%= t("auth.sign_up") %>
+                <% end %>
                 <%= link_to new_session_path, class: "nav__link link-quiet header__menu-signin",
                       aria: { current: ("page" if current_page?(new_session_path)) } do %>
                   <%= heroicon "arrow-left-on-rectangle", variant: :outline %><%= t("auth.sign_in") %>

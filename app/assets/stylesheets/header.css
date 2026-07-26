@@ -109,13 +109,14 @@
   content-visibility: visible;
 }
 
-/* Desktop default: account section, guest orientation group, the sheet's ✕ and
-   its RJ45 mark are hidden (the inline nav row and the popover button are used
-   instead). */
+/* Desktop default: account section, guest orientation group, the drawer's ✕,
+   its brand slot and the signup row are hidden (the inline nav row, the CTA
+   pill and the popover button are used instead). */
 .header__menu-account,
 .header__menu-guest,
 .header__menu-close,
-.header__menu-mark {
+.brand.header__menu-brand, /* must outgun .brand's display, declared below */
+.header__menu-signup {
   display: none;
 }
 
@@ -468,6 +469,12 @@
     display: none;
   }
 
+  /* The inline nav's "Admin" context badge would stretch into a full-width
+     banner here — and the identity row already names the role. */
+  .header__menu-panel .badge {
+    display: none;
+  }
+
   /* The drawer slides in from the left edge it's anchored to (TOP's
      -translate-x-full → translate-x-0) — one straight slide, nothing scaled.
      allow-discrete holds `display` until the exit slide finishes. Gated on
@@ -555,17 +562,14 @@
     padding: 0.625rem;
   }
 
-  /* TOP's logo slot verbatim: px-4, h-12 w-auto, then nav mt-3. Guest only; a
-     signed-in reader gets the identity row in this slot instead. The RJ45 mark
-     is a very wide image — cap it inside the px-4 column. */
-  .header__menu-mark {
-    block-size: 3rem;
-    display: block;
+  /* TOP's logo slot: px-4 column, then nav mt-3 — but the full brand
+     (mark + wordmark), reusing the header's .brand component. Guest only; a
+     signed-in reader gets the identity row in this slot instead. */
+  .brand.header__menu-brand {
+    --brand-mark-height: 1.75rem;
+    align-self: start;
+    display: flex;
     margin: 0 1rem 0.75rem;
-    max-inline-size: calc(100% - 2rem);
-    object-fit: contain;
-    object-position: left center;
-    opacity: 0.85;
   }
 
   /* The ✕ lives in the strip now, not over the panel — the identity row only
@@ -618,9 +622,21 @@
     margin-inline: 0.5rem;
     padding: 0.5rem;
   }
+  /* One tone quieter than the label (TOP: icon text-gray-400 vs label
+     gray-300) — the icon accompanies, the word leads. Hover and the active
+     row lift it back to the row's colour. */
   .header__menu-panel :is(.nav__link, .account-menu__link) svg {
     block-size: 1.5rem;
+    color: var(--color-disabled);
     inline-size: 1.5rem;
+  }
+  .header__menu-panel .nav__link[aria-current="page"] svg {
+    color: inherit;
+  }
+  @media (any-hover: hover) {
+    .header__menu-panel :is(.nav__link, .account-menu__link):hover svg {
+      color: inherit;
+    }
   }
   /* TOP's Nav::ItemComponent states: the active row is a filled pill
      (dark:bg-gray-700/60), hover fills quieter — hierarchy by fill, not
@@ -652,11 +668,12 @@
     padding-block-start: 1rem;
   }
 
-  /* «Войти» closes the guest sheet the way «Выйти» closes the member's one.
-     The row carries its own divider, so it sheds the row inset — the hairline
-     must run full width like the group dividers (TOP's hr). */
-  .header__menu-panel .header__menu-signin {
+  /* TOP's guest pair (Get started + Sign in) sits under the last divider —
+     the signup row opens the group and carries the hairline, which sheds the
+     row inset to run full width like the group dividers (TOP's hr). */
+  .header__menu-panel .header__menu-signup {
     border-block-start: 1px solid var(--color-subtle);
+    display: flex;
     margin-block-start: 1rem;
     margin-inline: 0;
     padding-block-start: 1rem;
