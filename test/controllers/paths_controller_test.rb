@@ -37,7 +37,7 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
 
   test "index shows the hero headline" do
     get paths_path
-    assert_match I18n.t("paths.hero.title"), response.body
+    assert_match I18n.t("paths.hero.title_html"), response.body
   end
 
   test "show credits an opted-in curator with their headline" do

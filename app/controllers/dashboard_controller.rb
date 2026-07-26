@@ -20,24 +20,25 @@ class DashboardController < ApplicationController
                                  .order(created_at: :desc)
                                  .map(&:lesson)
 
-    # «Мои правки»: the contributor's feedback loop. Fresh decisions sort to
-    # the top; rendering them here closes the loop, so the outcome email
-    # (SuggestionEmailsJob) is never sent to someone who saw it in the app.
-    @my_suggestions = Current.user.lesson_suggestions
-                             .includes(:lesson)
-                             .order(Arel.sql("COALESCE(reviewed_at, created_at) DESC"))
-                             .limit(5)
-    @fresh_suggestion_ids = fresh_suggestion_ids
-    Current.user.touch(:suggestions_seen_at) if @fresh_suggestion_ids.any?
+    # «Мои правки»: the contributor's feedback loop — proposed text edits AND
+    # proposed sources, newest-decision first. Rendering them here closes the
+    # loop, so the outcome email (SuggestionEmailsJob) is never sent to someone
+    # who already saw it. Both ride one seen-timestamp; capture it before the
+    # visit marks everything seen, so a fresh decision still gets its dot now.
+    # Capture the seen-timestamp before the visit marks everything seen, so a
+    # fresh decision still gets its per-row dot now; the touch (below) then
+    # clears the header dot and lets the outcome email be skipped.
+    @seen_before = Current.user.suggestions_seen_at
+    @my_contributions = my_contributions
+    Current.user.touch(:suggestions_seen_at) if Current.user.unseen_suggestion_outcomes?
   end
 
   private
 
-  def fresh_suggestion_ids
-    scope = Current.user.lesson_suggestions.decided.where.not(reviewed_at: nil)
-    if (seen_at = Current.user.suggestions_seen_at)
-      scope = scope.where("reviewed_at > ?", seen_at)
-    end
-    scope.pluck(:id).to_set
+  def my_contributions
+    (Current.user.lesson_suggestions.includes(:lesson).to_a +
+     Current.user.resource_suggestions.includes(:lesson).to_a)
+      .sort_by { |contribution| contribution.reviewed_at || contribution.created_at }
+      .reverse.first(6)
   end
 end

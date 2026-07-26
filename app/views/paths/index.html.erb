@@ -7,8 +7,8 @@
 
 <section class="hero">
   <div class="container hero__inner">
-    <h1 class="hero__title is-caret"><%= t("paths.hero.title") %></h1>
-    <p class="hero__subtitle"><%= t("paths.hero.subtitle") %></p>
+    <h1 class="hero__title is-caret"><%= t("paths.hero.title_html") %></h1>
+    <p class="hero__subtitle"><%= t("paths.hero.subtitle_html") %></p>
   </div>
 </section>
 
@@ -47,7 +47,11 @@
         <% end %>
       </p>
       <p class="catalog-soon__call">
-        <%= link_to contribute_path, class: "btn" do %>
+        <%= link_to contribute_path, class: "btn",
+              data: { controller: "rough-annotation",
+                      rough_annotation_type_value: "circle",
+                      rough_annotation_stroke_width_value: "2",
+                      rough_annotation_padding_value: "10" } do %>
           <%= t("paths.soon_curator") %>
           <%= heroicon "arrow-right", variant: :outline %>
         <% end %>

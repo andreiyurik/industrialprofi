@@ -1,34 +1,41 @@
-<%# The contributor's side of the suggest-edit pipeline: what happened to my
-    edits. Rendering a decision here counts as "seen" — the fallback email
-    (SuggestionEmailsJob) then never fires for it. %>
+<%# The contributor's side of the pipeline: what happened to my proposed edits
+    AND my proposed sources. Rendering a decision here counts as "seen" — the
+    fallback email (SuggestionEmailsJob) then never fires for it. %>
 <section id="dashboard_suggestions" class="dashboard__suggestions">
   <h2 class="dashboard__section-title"><%= t("dashboard.suggestions_title") %></h2>
   <p class="dashboard__section-hint"><%= t("dashboard.suggestions_hint") %></p>
   <div class="panel dashboard-suggestions">
-    <% @my_suggestions.each do |suggestion| %>
+    <% @my_contributions.each do |contribution| %>
+      <% is_source = contribution.is_a?(ResourceSuggestion) %>
       <div class="dashboard-suggestion">
         <div class="dashboard-suggestion__row">
-          <span class="badge <%= { "pending" => "badge--progress", "approved" => "badge--done", "rejected" => "badge--draft" }[suggestion.status] %>">
-            <%= t("dashboard.suggestion_status.#{suggestion.status}") %>
+          <span class="badge <%= { "pending" => "badge--progress", "approved" => "badge--done", "rejected" => "badge--draft" }[contribution.status] %>">
+            <%= t("dashboard.suggestion_status.#{contribution.status}") %>
           </span>
-          <%= link_to suggestion.lesson.title, suggestion.lesson, class: "dashboard-suggestion__title" %>
-          <% if @fresh_suggestion_ids.include?(suggestion.id) %>
+          <%= link_to contribution.lesson.title, contribution.lesson, class: "dashboard-suggestion__title" %>
+          <% if contribution.freshly_decided?(@seen_before) %>
             <span class="notify-dot" title="<%= t("dashboard.suggestion_fresh") %>"></span>
           <% end %>
           <span class="dashboard-suggestion__date">
-            <%= l((suggestion.reviewed_at || suggestion.created_at).to_date) %>
+            <%= l((contribution.reviewed_at || contribution.created_at).to_date) %>
           </span>
         </div>
-        <% if suggestion.approved? && suggestion.raised_path_stage %>
+
+        <% if is_source %>
+          <p class="dashboard-suggestion__kind"><%= t("dashboard.suggestion_source", title: contribution.title) %></p>
+        <% end %>
+
+        <% if !is_source && contribution.approved? && contribution.raised_path_stage %>
           <p class="dashboard-suggestion__raise">
             <%= t("dashboard.suggestion_raised_stage",
-                  path: suggestion.lesson.path.title,
-                  stage: suggestion.raised_path_stage, total: Path::Maturity::MATURITY_STAGES) %>
+                  path: contribution.lesson.path.title,
+                  stage: contribution.raised_path_stage, total: Path::Maturity::MATURITY_STAGES) %>
           </p>
         <% end %>
-        <% if suggestion.rejected? && suggestion.reviewer_comment.present? %>
+
+        <% if contribution.rejected? && contribution.reviewer_comment.present? %>
           <p class="dashboard-suggestion__comment">
-            <%= t("dashboard.suggestion_comment") %> <%= suggestion.reviewer_comment %>
+            <%= t("dashboard.suggestion_comment") %> <%= contribution.reviewer_comment %>
           </p>
         <% end %>
       </div>

@@ -77,7 +77,7 @@
       <%# History lives in the utility bar (Wikipedia-style "View history"), shown
           only once the community has actually edited the lesson — out of the
           reading flow, never competing with the end-of-lesson actions. %>
-      <% if @lesson.contributor_names.any? %>
+      <% if @lesson.community_credited? %>
         <% history_title = t("revisions.history_updated", date: l(@lesson.updated_at.to_date)) %>
         <%= link_to lesson_revisions_path(@lesson), class: "lesson__tool",
               aria: { label: t("revisions.history") }, title: history_title do %>
@@ -146,41 +146,65 @@
       </section>
     <% end %>
 
-    <% if @lesson.has_resources? %>
-      <% required_resources = @lesson.resources.required %>
-      <% optional_resources = @lesson.resources.optional %>
-      <section id="resources" class="lesson__section lesson__section--plain">
-        <div class="resource-block">
-          <div class="resource-block__head">
-            <span class="resource-block__icon"><%= heroicon "document-text", variant: :outline %></span>
-            <h2 class="resource-block__title"><%= t("lessons.resources_section") %></h2>
-            <%# Editors jump straight to the link editor (anchored to the resources
-                fields), so fixing a dead/wrong link is one click from the article. %>
-            <% if Current.user&.can_edit_path?(@lesson.path) %>
-              <%= link_to edit_admin_lesson_path(@lesson, anchor: "resources-editor"),
-                    class: "lesson__tool resource-block__edit",
-                    aria: { label: t("lessons.edit_resources") }, title: t("lessons.edit_resources") do %>
-                <%= heroicon "pencil-square", variant: :outline %>
-              <% end %>
+    <%# The resources block is ALWAYS rendered: where a lesson has no sources yet,
+        it becomes an invitation to contribute one (self-developing content). %>
+    <%# Partition the PRELOADED resources in Ruby — calling the .required/.optional
+        scopes here would discard the controller's includes(:resources) and fire
+        two fresh queries on the hottest page. %>
+    <% required_resources, optional_resources = @lesson.resources.to_a.partition(&:required?) %>
+    <% can_edit_resources = Current.user&.can_edit_path?(@lesson.path) %>
+    <section id="resources" class="lesson__section lesson__section--plain">
+      <div class="resource-block">
+        <div class="resource-block__head">
+          <span class="resource-block__icon"><%= heroicon "document-text", variant: :outline %></span>
+          <h2 class="resource-block__title"><%= t("lessons.resources_section") %></h2>
+          <%# Editors jump straight to the link editor (anchored to the resources
+              fields), so fixing a dead/wrong link is one click from the article. %>
+          <% if can_edit_resources %>
+            <%= link_to edit_admin_lesson_path(@lesson, anchor: "resources-editor"),
+                  class: "lesson__tool resource-block__edit",
+                  aria: { label: t("lessons.edit_resources") }, title: t("lessons.edit_resources") do %>
+              <%= heroicon "pencil-square", variant: :outline %>
             <% end %>
-          </div>
-
-          <% if required_resources.any? %>
-            <h3 class="resource-block__group"><%= t("lessons.required_group") %></h3>
-            <ul class="lesson-resources">
-              <%= render required_resources %>
-            </ul>
-          <% end %>
-
-          <% if optional_resources.any? %>
-            <h3 class="resource-block__group"><%= t("lessons.optional_group") %></h3>
-            <ul class="lesson-resources">
-              <%= render optional_resources %>
-            </ul>
           <% end %>
         </div>
-      </section>
-    <% end %>
+
+        <% if required_resources.any? %>
+          <h3 class="resource-block__group"><%= t("lessons.required_group") %></h3>
+          <ul class="lesson-resources">
+            <%= render required_resources %>
+          </ul>
+        <% end %>
+
+        <% if optional_resources.any? %>
+          <h3 class="resource-block__group"><%= t("lessons.optional_group") %></h3>
+          <ul class="lesson-resources">
+            <%= render optional_resources %>
+          </ul>
+        <% end %>
+
+        <% unless @lesson.has_resources? %>
+          <p class="resource-block__empty"><%= t("resource_suggestions.block_empty") %></p>
+        <% end %>
+
+        <%# One quiet footnote for the whole block when some sources are name-only,
+            instead of repeating the same line under every row. %>
+        <% if (required_resources + optional_resources).any? { |r| r.url.blank? } %>
+          <p class="resource-block__pending-note"><%= t("lessons.resource_pending_note") %></p>
+        <% end %>
+
+        <%# Readers propose a source (experts get the pencil above instead). A calm
+            dashed tile — an inviting slot, not a loud button. %>
+        <% unless can_edit_resources %>
+          <%# Guests see they'll need to sign in first, so the login redirect
+              (which already carries a return-URL + alert) is never a surprise. %>
+          <%= link_to new_lesson_resource_suggestion_path(@lesson), class: "resource-block__suggest" do %>
+            <%= heroicon "plus-circle", variant: :outline %>
+            <span class="resource-block__suggest-label"><%= t(signed_in? ? "resource_suggestions.cta" : "resource_suggestions.cta_guest") %></span>
+          <% end %>
+        <% end %>
+      </div>
+    </section>
 
     <% if @lesson.has_task? %>
       <section id="task" class="lesson__section">

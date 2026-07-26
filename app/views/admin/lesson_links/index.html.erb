@@ -1,0 +1,10 @@
+<%# Prompt items for the Lexxy @-mention picker. Lexxy fetches this fragment,
+    reads each <lexxy-prompt-item> and its two templates: `menu` is how the row
+    looks in the dropdown, `editor` is what gets inserted (an internal link, via
+    the prompt's insert-editable-text). %>
+<% @lessons.each do |lesson| %>
+  <lexxy-prompt-item search="<%= lesson.title %>">
+    <template type="menu"><span class="lesson-link-item"><span class="lesson-link-item__title"><%= lesson.title %></span><span class="lesson-link-item__path"><%= lesson.path.title %></span></span></template>
+    <template type="editor"><a href="<%= lesson_path(lesson) %>"><%= lesson.title %></a></template>
+  </lexxy-prompt-item>
+<% end %>

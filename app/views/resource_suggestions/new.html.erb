@@ -1,0 +1,60 @@
+<% meta_title(t("resource_suggestions.page_title")) %>
+
+<section class="admin-page">
+  <div class="container container--reading">
+    <%= render "shared/breadcrumbs", crumbs: [
+      { title: @lesson.path.title, path: path_path(@lesson.path) },
+      { title: @lesson.title, path: lesson_path(@lesson) },
+      { title: t("resource_suggestions.breadcrumb") }
+    ] %>
+
+    <header class="admin-header">
+      <h1 class="admin-header__title"><%= t("resource_suggestions.title") %></h1>
+    </header>
+
+    <p class="lesson-edit-prompt"><%= t("resource_suggestions.subtitle", lesson: @lesson.title) %></p>
+
+    <% if @suggestion.errors.any? %>
+      <div class="admin-alert admin-alert--error">
+        <% @suggestion.errors.full_messages.each do |msg| %>
+          <p><%= msg %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= form_with(model: @suggestion, url: lesson_resource_suggestions_path(@lesson)) do |f| %>
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("resource_suggestions.field_url") %></label>
+        <p class="admin-form__hint"><%= t("resource_suggestions.field_url_hint") %></p>
+        <%= f.url_field :url, placeholder: "https://", class: "input input--mono", autofocus: true %>
+      </div>
+
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("resource_suggestions.field_title") %></label>
+        <p class="admin-form__hint"><%= t("resource_suggestions.field_title_hint") %></p>
+        <%= f.text_field :title, class: "input" %>
+      </div>
+
+      <div class="admin-form__field">
+        <label><%= t("resource_suggestions.field_kind") %></label>
+        <%= f.select :kind,
+              Resource::KINDS.map { |kind| [ t("lessons.resource_kinds.#{kind}"), kind ] },
+              { selected: @suggestion.kind || "article" }, class: "input" %>
+      </div>
+
+      <div class="admin-form__field admin-form__field--lg">
+        <label><%= t("resource_suggestions.field_note") %></label>
+        <p class="admin-form__hint"><%= t("resource_suggestions.field_note_hint") %></p>
+        <%= f.text_field :note, class: "input" %>
+      </div>
+
+      <p class="admin-form__hint admin-form__field--lg"><%= t("suggestions.signed_as", name: Current.user.name) %></p>
+      <p class="admin-form__hint admin-form__field--lg"><%= t("resource_suggestions.review_note") %></p>
+
+      <div class="admin-form__actions">
+        <%= f.submit t("resource_suggestions.submit"), class: "btn btn--reversed" %>
+        <a href="<%= lesson_path(@lesson) %>" class="btn"><%= t("admin.cancel") %></a>
+      </div>
+    <% end %>
+  </div>
+</section>

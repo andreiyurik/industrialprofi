@@ -22,6 +22,7 @@ class Lesson < ApplicationRecord
   # revisions have to go first.
   has_many :lesson_revisions, dependent: :delete_all
   has_many :lesson_suggestions, dependent: :destroy
+  has_many :resource_suggestions, dependent: :destroy
   # Learner-side records vanish with the lesson; journal entries survive (their
   # lesson link is optional) and are just unlinked.
   has_many :lesson_completions, dependent: :delete_all
@@ -91,8 +92,42 @@ class Lesson < ApplicationRecord
   # would drop the hrefs.
   INTERNAL_LINK_PATTERN = %r{/lessons/([a-z0-9\-]+)}
 
+  # Title match for the editor's @-mention link picker (Admin::LessonLinksController).
+  # Titles aren't sensitive, so it spans every profession — cross-links are the
+  # point of the wiki fabric. Blank filter → nothing (the prompt shows its empty
+  # state until the author types).
+  scope :title_search, ->(filter) {
+    query = filter.to_s.strip
+    query.present? ? where("title LIKE ?", "%#{sanitize_sql_like(query)}%").order(:title) : none
+  }
+
   def linked_lesson_slugs
     [ body.to_s, rich_body&.body.to_s ].join(" ").scan(INTERNAL_LINK_PATTERN).flatten.uniq - [ slug ]
+  end
+
+  # Author image placeholders not yet replaced with a real picture: a markdown
+  # image whose target is a "TODO-*.png" or "placeholder: …" stand-in. The brief
+  # for the illustrator lives in the alt text — that's what /admin/illustrations
+  # lists. Scanned from the raw markdown body/task, where seed placeholders live;
+  # a lesson edited into rich_body no longer carries them.
+  PENDING_IMAGE_PATTERN = /!\[(?<brief>[^\]]*)\]\(\s*(?:TODO|placeholder)[^)]*\)/i
+
+  def pending_illustration_briefs
+    [ body.to_s, task.to_s ].flat_map { |md| md.scan(PENDING_IMAGE_PATTERN) }.flatten
+  end
+
+  # Names credited for community-added sources (approved ResourceSuggestions that
+  # became resources), earliest-first — the resource half of the open credit that
+  # contributor_names (Revisable) gives text edits. Separate because a source
+  # addition isn't a revision; both surface on the lesson's history page.
+  def resource_contributor_names
+    resources.where.not(contributor_name: [ nil, "" ]).order(:created_at).pluck(:contributor_name).uniq
+  end
+
+  # Whether the community is credited on this lesson at all — gates the quiet
+  # "history" link (text contributors via revisions OR source contributors).
+  def community_credited?
+    contributor_names.any? || resource_contributor_names.any?
   end
 
   def prev_in_path

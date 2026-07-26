@@ -111,10 +111,10 @@ tools/                     # reusable content & quality tooling (RU: authoring +
 ## Content architecture
 
 **Four-level hierarchy, exact parity with The Odin Project**
-(`Профессия → Курс → Раздел → Урок`):
+(`Профессия → Глава → Раздел → Урок`):
 
 ```
-Path (profession)   → Course (курс)        → Lesson#stage (раздел)        → Lesson (урок)
+Path (profession)   → Course (глава)       → Lesson#stage (раздел)        → Lesson (урок)
 (Электрик)            (Электромонтаж)         ("Правила устройства")          (ПУЭ глава 1.7)
 /paths/:slug          /courses/:slug          (a string heading, no model)    /lessons/:slug
 ```
@@ -515,8 +515,9 @@ history covers "when").
   factory architecture (diagrams, the freeze invariant, the slug guards) + the
   step-by-step canon for creating a quality profession, with a command cheat-sheet
 - `tools/AUTHOR_PROFESSION.md` / `DEEPEN_LESSON.md` / `LESSON_IMAGES.md` /
-  `QA_REVIEW.md` / `ARCHITECTURE_REVIEW.md` — the reusable Russian prompts the
-  factory runs on (authoring, deepening, images, content QA, code review)
+  `QA_REVIEW.md` / `ARCHITECTURE_REVIEW.md` / `INTERNAL_LINKS.md` — the reusable
+  Russian prompts the factory runs on (authoring, deepening, images, content QA,
+  code review, SEO internal-link/wiki-fabric pass per profession)
 - The public roadmap is the `/roadmap` page (`ru.yml → roadmap:`) — update it when
   shipping user-visible features
 </content>

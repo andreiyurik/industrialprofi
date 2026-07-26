@@ -29,6 +29,7 @@
      type pills on lesson resources, never for general UI. */
   --lch-purple: 70% 0.17 300;
   --lch-yellow: 84% 0.14 95;
+  --lch-amber: 75% 0.15 80;          /* honey marker — hue 95 turns olive when translucent on black */
   --lch-teal: 78% 0.11 195;
   --lch-cyan: 74% 0.12 225;    /* doc / datasheet badge */
   --lch-pink: 74% 0.16 350;    /* software (ПО) badge */
@@ -47,6 +48,7 @@
   --color-negative: oklch(var(--lch-red));
   --color-positive: oklch(var(--lch-green));
   --color-marker: var(--color-ink);   /* monochrome: no chromatic accent — emphasis is ink (brightness), not hue */
+  --color-highlight: oklch(var(--lch-amber) / 0.45);   /* rough-notation marker behind the trust-ladder phrase; translucent so near-white ink stays readable on the dark theme */
   --color-subtle-light: oklch(var(--lch-gray-light));
   --color-subtle: oklch(var(--lch-gray));
   --color-disabled: oklch(var(--lch-gray-mid));

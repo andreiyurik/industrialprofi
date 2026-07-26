@@ -94,6 +94,11 @@
   cursor: pointer;
   display: inline-flex;
   font: inherit;
+  /* 44px hit area (a11y/mobile-first) — the glyph stays small but each button
+     fills a full touch target, so neighbours never overlap or mis-tap. */
+  justify-content: center;
+  min-block-size: 2.75rem;
+  min-inline-size: 2.75rem;
   padding: 0;
   transition: color 200ms ease;
 
@@ -323,10 +328,21 @@
   font-weight: 600;
 }
 
+/* A name-only source: readable (the exact title IS the value), just not a link —
+   ink colour + no underline reads as "reference", the blue links read as clickable. */
 .lesson-resource__link--pending {
-  color: var(--color-subtle);
+  color: var(--color-ink);
   text-decoration: none;
-  font-style: italic;
+}
+
+/* Tells the reader a name-only source is intentional (find it by its exact
+   title), so the non-link never reads as a dead link. */
+/* One quiet footnote for the whole block (not repeated per row) when some
+   sources have no direct link. */
+.resource-block__pending-note {
+  margin-block-start: 1.25rem;
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
 }
 
 .lesson-resource__body {

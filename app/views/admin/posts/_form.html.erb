@@ -35,20 +35,12 @@
   </div>
 
   <%# Images enabled on the body, routed through the same validating, gated
-      upload endpoint the lesson editor uses (image-only, size-capped). %>
-  <% max_upload = LessonImageUpload::MAX_BYTES
-     image_opts = {
-       "permitted-attachment-types" => LessonImageUpload.accept_attribute,
-       data: {
-         direct_upload_url: admin_uploads_path,
-         controller: "lexxy-uploads",
-         "lexxy-uploads-max-bytes-value": max_upload,
-         "lexxy-uploads-message-value": t("admin.uploads.too_large", max: number_to_human_size(max_upload))
-       }
-     } %>
+      upload endpoint the lesson editor uses (image-only, size-capped) — shared
+      via lexxy_image_options. %>
   <div class="admin-form__field admin-form__field--lg">
     <label><%= t("admin.field_body") %></label>
-    <%= f.rich_text_area :rich_body, class: "lexxy-content", **image_opts %>
+    <%= f.rich_text_area :rich_body, class: "lexxy-content",
+          placeholder: t("admin.placeholders.post_body"), **lexxy_image_options %>
     <p class="admin-form__hint"><%= t("admin.uploads.hint") %></p>
   </div>
 

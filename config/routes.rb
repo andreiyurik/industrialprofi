@@ -85,6 +85,9 @@ Rails.application.routes.draw do
     resource :bookmark, only: [ :create, :destroy ], controller: "lesson_bookmarks"
     resources :revisions, only: [ :index, :show ]
     resources :suggestions, only: [ :new, :create ], controller: "lesson_suggestions"
+    # Reader-proposed sources (the community links half) — a structured link
+    # goes to its own moderation queue, unlike the text-section suggestions above.
+    resources :resource_suggestions, only: [ :new, :create ]
   end
 
   namespace :admin do
@@ -129,6 +132,21 @@ Rails.application.routes.draw do
         patch :reject
       end
     end
+    # Reader-proposed sources queue: approving creates the Resource on the lesson.
+    resources :resource_suggestions, only: [ :index ] do
+      member do
+        patch :approve
+        patch :reject
+      end
+    end
+    # Content-health queue: every lesson image placeholder still waiting for a
+    # real picture, with its illustrator brief and a link into the editor.
+    resources :illustrations, only: :index
+
+    # Feeds the editor's @-mention picker for internal lesson links: returns
+    # matching lessons as <lexxy-prompt-item> HTML for a given ?filter=.
+    resources :lesson_links, only: :index
+
     post "preview", to: "preview#create"
     # Editor/admin-only image uploads for lesson rich text — a gated, validating
     # replacement for the open ActiveStorage direct-upload endpoint.

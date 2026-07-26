@@ -11,6 +11,18 @@ class SuggestionsMailer < ApplicationMailer
          subject: t("suggestions_mailer.outcome.subject_#{suggestion.status}", lesson: @lesson.title)
   end
 
+  # The decision on a reader's proposed source — same in-app-first rule as
+  # #outcome, but a link has no revision to view, so it points back to the lesson.
+  def resource_outcome(suggestion)
+    @suggestion = suggestion
+    @user = suggestion.user
+    @lesson = suggestion.lesson
+    unsubscribe_headers_for(@user)
+
+    mail to: @user.email_address,
+         subject: t("suggestions_mailer.resource_outcome.subject_#{suggestion.status}", lesson: @lesson.title)
+  end
+
   # Pending edits that waited too long in this reviewer's queue — one digest
   # per stall (User#needs_suggestion_digest?), never a drip.
   def review_digest(user)

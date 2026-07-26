@@ -6,7 +6,8 @@ module Admin
 
     # The moderation-queue size shown in the persistent admin nav (and the
     # dashboard callout) — one cheap COUNT per admin page render.
-    helper_method :pending_suggestions_count, :unread_feedbacks_count, :can_publish?,
+    helper_method :pending_suggestions_count, :pending_resource_suggestions_count,
+                  :unread_feedbacks_count, :can_publish?,
                   :slug_locked?, :status_live?, :can_edit_path?
 
     LIVE_STATUSES = %w[published coming_soon].freeze
@@ -56,6 +57,10 @@ module Admin
 
       def pending_suggestions_count
         @pending_suggestions_count ||= editable_suggestions.pending.count
+      end
+
+      def pending_resource_suggestions_count
+        @pending_resource_suggestions_count ||= Current.user.reviewable_resource_suggestions.pending.count
       end
 
       def unread_feedbacks_count

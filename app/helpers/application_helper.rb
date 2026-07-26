@@ -172,14 +172,36 @@ module ApplicationHelper
   # no blank — how lessons are authored, so kramdown joins them with a <br>) or in
   # its own following <em> paragraph. Runs post-sanitize (our own markup).
   def wrap_figures(html)
-    html.gsub(%r{<p>(<img\b[^>]*?>)\s*(?:<br\s*/?>\s*)?(?:<em>(.*?)</em>)?</p>(?:\s*<p><em>(.*?)</em></p>)?}m) do
+    html = html.gsub(%r{<p>(<img\b[^>]*?>)\s*(?:<br\s*/?>\s*)?(?:<em>(.*?)</em>)?</p>(?:\s*<p><em>(.*?)</em></p>)?}m) do
       image = Regexp.last_match(1)
       caption = Regexp.last_match(2).presence || Regexp.last_match(3)
-      figure = +%(<figure class="prose-figure">#{image})
+      pending = placeholder_image?(image)
+      figure = +%(<figure class="prose-figure#{" prose-figure--pending" if pending}">#{pending ? pending_illustration(image) : image})
       figure << %(<figcaption class="prose-figure__caption">#{caption}</figcaption>) if caption.present?
       figure << "</figure>"
       figure
     end
+    # A placeholder <img> not caught above (e.g. inline, no caption) still 404s —
+    # swap it too, so a not-yet-drawn illustration never shows a broken-image icon.
+    html.gsub(%r{<img\b[^>]*?>}) { |img| placeholder_image?(img) ? pending_illustration(img) : img }
+  end
+
+  # An illustration the author has only briefed, not drawn: a "TODO-*.png" src
+  # 404s; a "placeholder: …" src is stripped by the sanitizer, leaving a src-less
+  # <img>. Either way it's a not-yet-drawn image, not a broken asset.
+  def placeholder_image?(img_tag)
+    src = img_tag[/\ssrc=(["'])(.*?)\1/, 2]
+    src.blank? || src.match?(/\ATODO/i)
+  end
+
+  # Calm dashed stand-in for a pending illustration — the same muted box the
+  # rich-text path shows for a missing attachment (.attachment__missing), so the
+  # markdown and editor paths look identical. The author's alt brief rides along
+  # as the accessible label. Runs post-sanitize, so aria-* survive.
+  def pending_illustration(img_tag)
+    alt = img_tag[/\salt=(["'])(.*?)\1/, 2]
+    label = alt.present? ? %( role="img" aria-label="#{alt}" title="#{alt}") : ""
+    %(<span class="attachment__missing"#{label}>Иллюстрация готовится</span>)
   end
 
   # Wrap each fenced code block in a copy-button affordance. Runs post-sanitize
@@ -300,6 +322,8 @@ module ApplicationHelper
   def resource_kind_badge(resource)
     meta = resource_badge_meta(resource)
     label = t("lessons.resource_kinds.#{meta[:label]}", default: meta[:label].to_s.humanize)
+    # Icon + word: the label keeps the type intuitive for everyone (no reliance on
+    # learning icons or on hover, which mobile lacks).
     tag.span(class: "badge #{meta[:modifier]} lesson-resource__badge") do
       safe_join([ heroicon(meta[:icon], variant: :outline), tag.span(label) ])
     end

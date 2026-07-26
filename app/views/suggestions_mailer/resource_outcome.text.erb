@@ -1,0 +1,14 @@
+<%= t("suggestions_mailer.resource_outcome.greeting", name: @user.name) %>
+
+<%= t("suggestions_mailer.resource_outcome.body_#{@suggestion.status}", title: @suggestion.title, lesson: @lesson.title) %>
+<% if @suggestion.rejected? && @suggestion.reviewer_comment.present? %>
+
+<%= t("suggestions_mailer.resource_outcome.comment_label") %>
+<%= @suggestion.reviewer_comment %>
+<% end %>
+
+<%= t("suggestions_mailer.resource_outcome.view_lesson") %>: <%= lesson_url(@lesson) %>
+
+<%= t("suggestions_mailer.resource_outcome.thanks") %>
+
+<%= t("suggestions_mailer.resource_outcome.unsubscribe") %>: <%= @unsubscribe_url %>

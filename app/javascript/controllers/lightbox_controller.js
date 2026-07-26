@@ -12,6 +12,7 @@ export default class extends Controller {
   connect() {
     this.element.querySelectorAll(".prose-figure").forEach((figure) => {
       if (figure.querySelector(".prose-figure__zoom")) return
+      if (!figure.querySelector("img")) return // a not-yet-drawn placeholder — nothing to zoom
       const button = document.createElement("button")
       button.type = "button"
       button.className = "prose-figure__zoom"

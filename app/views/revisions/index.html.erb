@@ -7,19 +7,35 @@
     <% end %>
     <h1 class="lesson-history__page-title"><%= t("revisions.history") %></h1>
 
-    <% if @revisions.none? %>
+    <% if @revisions.none? && @credited_sources.none? %>
       <p class="lesson-history__empty"><%= t("revisions.none") %></p>
     <% else %>
-      <p class="lesson-history__count">
-        <%= t("revisions.updated_n_times", count: @lesson.lesson_revisions_count) %>
-      </p>
+      <% if @credited_sources.any? %>
+        <section class="lesson-history__sources">
+          <h2 class="lesson-history__sources-title"><%= t("revisions.sources_credited") %></h2>
+          <ul class="lesson-history__sources-list">
+            <% @credited_sources.each do |resource| %>
+              <li class="lesson-history__source">
+                <span class="lesson-history__source-title"><%= resource.title %></span>
+                <span class="lesson-history__source-by"><%= t("revisions.source_added_by", name: resource.contributor_name) %></span>
+              </li>
+            <% end %>
+          </ul>
+        </section>
+      <% end %>
 
-      <ol id="revisions_list" class="lesson-history__list">
-        <%= render "revisions/history_rows", revisions: @revisions, boundary_date: nil %>
-      </ol>
+      <% if @revisions.any? %>
+        <p class="lesson-history__count">
+          <%= t("revisions.updated_n_times", count: @lesson.lesson_revisions_count) %>
+        </p>
 
-      <%= render "revisions/more", lesson: @lesson, more: @more,
-            next_cursor: @next_cursor, boundary_date: @revisions.last&.created_at&.to_date %>
+        <ol id="revisions_list" class="lesson-history__list">
+          <%= render "revisions/history_rows", revisions: @revisions, boundary_date: nil %>
+        </ol>
+
+        <%= render "revisions/more", lesson: @lesson, more: @more,
+              next_cursor: @next_cursor, boundary_date: @revisions.last&.created_at&.to_date %>
+      <% end %>
     <% end %>
   </div>
 </section>

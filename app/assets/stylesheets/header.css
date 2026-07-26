@@ -109,13 +109,14 @@
   content-visibility: visible;
 }
 
-/* Desktop default: account section, guest orientation group, the sheet's ✕ and
-   its RJ45 mark are hidden (the inline nav row and the popover button are used
-   instead). */
+/* Desktop default: account section, guest orientation group, the drawer's ✕,
+   its brand slot and the signup row are hidden (the inline nav row, the CTA
+   pill and the popover button are used instead). */
 .header__menu-account,
 .header__menu-guest,
 .header__menu-close,
-.header__menu-mark {
+.brand.header__menu-brand, /* must outgun .brand's display, declared below */
+.header__menu-signup {
   display: none;
 }
 
@@ -144,6 +145,7 @@
 
 .nav__link {
   font-size: 0.9rem;
+  position: relative;
 }
 
 /* Nav icons exist for the mobile dropdown (they match the palette tiles);
@@ -156,6 +158,45 @@
 .nav__link[aria-current="page"] {
   color: var(--color-ink);
   font-weight: 600;
+}
+
+/* Off-screen holder for the shared hand-drawn <path> (referenced via <use>). */
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Hand-drawn underline that draws itself in on hover/focus of a desktop nav word
+   (CodeMyUI technique: one shared <path>, reused per link via <use>, revealed by
+   animating stroke-dashoffset — a big absolute dash sidesteps the non-scaling-stroke
+   marching artifact). Same blue + hand-drawn language as the hero underline.
+   Absolute, so it never shifts the row; hidden on the mobile sheet below. */
+.nav__link .nav__underline {
+  display: block;
+  position: absolute;
+  left: 0;
+  inline-size: 100%;
+  block-size: 0.6em;
+  inset-block-end: -0.26em;
+  overflow: visible;
+  pointer-events: none;
+  stroke: var(--color-link);
+  stroke-width: 2;
+  stroke-dasharray: 650;
+  stroke-dashoffset: 650;
+}
+
+.nav__link:hover .nav__underline,
+.nav__link:focus-visible .nav__underline {
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nav__link .nav__underline {
+    transition: stroke-dashoffset 420ms ease-out;
+  }
 }
 
 /* Identity header inside the hamburger dropdown — mobile-only (desktop shows
@@ -362,71 +403,99 @@
     position: relative; /* anchors the corner notify-dot */
   }
   .header__menu-toggle::-webkit-details-marker { display: none; }
+
+  /* Open, the ✕ floating in the strip lands almost exactly on the veiled
+     hamburger — hide the glyph while its job is taken. */
+  .header__menu[open] .header__menu-toggle :is(svg, .notify-dot) {
+    opacity: 0;
+  }
   .header__menu-toggle svg {
     block-size: 1.4rem;
     inline-size: 1.4rem;
   }
 
-  /* A modal bottom sheet. Fizzy's popup is top-anchored (popup.css: `inset: 0
-     auto auto 50%`) — but its nav is a hotkey-driven jump menu that merely
-     tolerates touch, so its geometry isn't authority for a mobile-first menu.
-     Anchored to the bottom, every row lands in the thumb's arc; top-anchored
-     put the most-used link in the hardest-to-reach corner and wasted a third
-     of the screen on dead backdrop. Fizzy's actual anatomy — modal, capped,
-     scrolling inside, touch-only ✕ — is kept. */
+  /* The sheet's ✕ sets the house rule — every touch control clears 44px. The
+     compact header's three controls keep their quiet 30–33px look; an invisible
+     overlay extends the hit area to the standard. */
+  .header__search,
+  .header__cta {
+    position: relative;
+  }
+  .header__search::after,
+  .header__menu-toggle::after {
+    content: "";
+    inset: -7px;
+    position: absolute;
+  }
+  /* The CTA is already wide; growing it sideways would eat the search icon's
+     share of the gap between them. */
+  .header__cta::after {
+    content: "";
+    inset: -7px 0;
+    position: absolute;
+  }
+
+  /* A full-height left drawer — The Odin Project's off-canvas menu
+     (Overlays::DrawerComponent), adopted 2026-07-26 over the earlier bottom
+     sheet. Same modal anatomy (veil, scroll-lock, ✕); the geometry trades the
+     bottom sheet's thumb-arc reach for the app-drawer pattern every mobile
+     user already knows. A ~4.5rem strip of the page stays visible and
+     tappable on the right (TOP's `mr-16`), so the page never fully vanishes. */
+  /* Geometry and spacing lifted verbatim from TOP's off-canvas menu:
+     w-full max-w-xs (20rem) with an mr-16 (4rem) strip; the panel itself is
+     flat — no border, no shadow, the veil does the separation. pt-3 pb-4,
+     rows spaced by space-y-1. */
   .header__menu-panel {
     align-items: stretch;
     background-color: var(--color-subtle-light);
-    border: 1px solid var(--color-subtle);
-    border-radius: 1rem;
-    box-shadow:
-      0 -12px 32px -8px oklch(var(--lch-always-black) / 0.5),
-      0 -4px 8px -4px oklch(var(--lch-always-black) / 0.4);
     flex-direction: column;
-    /* The desktop nav row wraps; a height-capped column must NOT — flex would
-       spill the overflow into a second column instead of scrolling it
-       (landscape phones lost half the menu off the right edge). */
+    /* A height-capped column must not wrap — flex would spill the overflow
+       into a second column instead of scrolling it. */
     flex-wrap: nowrap;
-    /* Clears the iOS home indicator, which would otherwise sit on «Выйти». */
-    inset-block-end: max(var(--block-space-half), env(safe-area-inset-bottom));
-    inset-block-start: auto;
-    inset-inline: var(--block-space-half);
-    margin-inline: auto;
-    max-block-size: calc(100dvh - var(--block-space-double));
-    max-inline-size: 26rem;
+    inline-size: min(20rem, calc(100vw - 4rem));
+    inset-block: 0;
+    inset-inline-start: 0;
     overflow-y: auto;
-    padding: 0.5rem;
+    padding: max(0.75rem, env(safe-area-inset-top)) 0
+             max(1rem, env(safe-area-inset-bottom));
     position: fixed;
-    row-gap: 0.125rem;
+    row-gap: 0.25rem;
     z-index: 50;
   }
 
-  .header__menu:not([open]) .header__menu-panel {
+  /* The ✕ is a direct <details> child now (not inside the panel), so the
+     closed state must hide it explicitly too. */
+  .header__menu:not([open]) :is(.header__menu-panel, .header__menu-close) {
     display: none;
   }
 
-  /* The sheet rises from the bottom edge it's anchored to — one straight
-     slide, nothing scaled or zoomed (Fizzy's scale(0.2) zoom is unreadable
-     mid-flight at this size). allow-discrete holds `display` until the exit
-     slide finishes. Gated on reduced-motion so the base opacity:0 never
-     strands the menu. */
+  /* The inline nav's "Admin" context badge would stretch into a full-width
+     banner here — and the identity row already names the role. */
+  .header__menu-panel .badge {
+    display: none;
+  }
+
+  /* The drawer slides in from the left edge it's anchored to (TOP's
+     -translate-x-full → translate-x-0) — one straight slide, nothing scaled.
+     allow-discrete holds `display` until the exit slide finishes. Gated on
+     reduced-motion so the base transform never strands the menu. */
   @media (prefers-reduced-motion: no-preference) {
     .header__menu-panel {
       opacity: 0;
-      transform: translateY(100%);
-      transition: var(--sheet-duration, 220ms) ease-out allow-discrete;
+      transform: translateX(-100%);
+      transition: var(--sheet-duration, 200ms) ease-in-out allow-discrete;
       transition-property: display, opacity, transform;
     }
 
     .header__menu[open] .header__menu-panel {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(0);
     }
 
     @starting-style {
       .header__menu[open] .header__menu-panel {
         opacity: 0;
-        transform: translateY(100%);
+        transform: translateX(-100%);
       }
     }
   }
@@ -437,13 +506,8 @@
      would read as "inside" to the details controller's outside-click check and
      the sheet would never close. */
   .header__menu-toggle::before {
-    /* Fizzy dims with a plain black veil, but it sits on a light canvas. Ours
-       is already black, so a veil alone only bites on bright elements (the
-       footer wordmark kept competing with the sheet) — the blur is what
-       actually pushes the page onto a plane behind. */
-    -webkit-backdrop-filter: blur(5px); /* iOS Safari < 18 */
-    backdrop-filter: blur(5px);
-    background-color: oklch(var(--lch-always-black) / 0.65);
+    /* TOP's veil verbatim: a plain dark:bg-black/70, no blur. */
+    background-color: oklch(var(--lch-always-black) / 0.7);
     content: "";
     display: none;
     inset: 0;
@@ -459,7 +523,8 @@
 
   @media (prefers-reduced-motion: no-preference) {
     .header__menu-toggle::before {
-      transition: var(--sheet-duration, 220ms) ease-out allow-discrete;
+      /* TOP: transition-opacity ease-linear duration-200 */
+      transition: var(--sheet-duration, 200ms) linear allow-discrete;
       transition-property: display, opacity;
     }
 
@@ -470,64 +535,47 @@
     }
   }
 
-  /* Sits in the sheet's top-right corner, where the hamburger just was. */
+  /* TOP's close button verbatim: floats in the 4rem strip right of the panel
+     (`absolute left-full top-0 w-16 justify-center pt-5`), white ✕ h-6 w-6,
+     p-2.5 tap padding. Fixed to the viewport; a closed <details> hides it. */
   .header__menu-close {
-    align-items: center;
+    align-items: flex-start;
     background: none;
     border: 0;
-    border-radius: 0.5em;
-    color: var(--color-subtle-dark);
+    color: var(--color-ink);
     cursor: pointer;
-    display: inline-flex;
-    inset-block-start: 0.5rem;
-    inset-inline-end: 0.5rem;
+    display: flex;
+    inline-size: 4rem;
+    inset-block-start: 0;
+    inset-inline-start: min(20rem, calc(100vw - 4rem));
     justify-content: center;
-    min-block-size: 2.75rem;
-    min-inline-size: 2.75rem;
-    padding: 0;
-    position: absolute;
-    z-index: 1;
+    /* pt-5 on the strip minus the button's -m-2.5: icon lands 1.25rem down. */
+    padding: 0.625rem 0 0;
+    position: fixed;
+    z-index: 50;
   }
 
   .header__menu-close svg {
-    block-size: 1.4rem;
-    inline-size: 1.4rem;
-  }
-
-  /* The guest sheet's quiet RJ45 mark: vertically centred against the ✕ box
-     (2.75rem tall from 0.5rem → centre 1.875rem, so a 1.5rem mark sits at
-     1.125rem), left-aligned to the nav rows' icon column. Dimmed so it reads as
-     a mark, not a second logo competing with the header's. */
-  .header__menu-mark {
     block-size: 1.5rem;
-    display: block;
-    inline-size: auto;
-    inset-block-start: 1.125rem;
-    inset-inline-start: 1.25rem;
-    opacity: 0.6;
-    position: absolute;
-    z-index: 1;
+    box-sizing: content-box;
+    inline-size: 1.5rem;
+    padding: 0.625rem;
   }
 
-  /* Signed in, the ✕ shares the identity row — reserve its full width (0.5rem
-     offset + 2.75rem) so a long name can't run under it. Signed out there's no
-     identity, so the sheet reserves the corner vertically instead. */
+  /* TOP's logo slot: px-4 column, then nav mt-3 — but the full brand
+     (mark + wordmark), reusing the header's .brand component. Guest only; a
+     signed-in reader gets the identity row in this slot instead. */
+  .brand.header__menu-brand {
+    --brand-mark-height: 1.75rem;
+    align-self: start;
+    display: flex;
+    margin: 0 1rem 0.75rem;
+  }
+
+  /* The ✕ lives in the strip now, not over the panel — the identity row only
+     needs the same px-4 column as the logo slot. */
   .header__menu-panel .header__menu-identity {
-    padding-inline-end: 3.25rem;
-  }
-
-  /* Must clear the ✕'s own offset (0.5rem) plus its height (2.75rem), or the
-     first nav row slides under it. */
-  .header__menu-panel:not(:has(.header__menu-identity)) {
-    padding-block-start: 3.5rem;
-  }
-
-  /* Pointer devices dismiss by clicking outside; the ✕ is for touch, where
-     there's nothing to hover and no Esc (Fizzy's .nav__close). */
-  @media (any-hover: hover) {
-    .header__menu-close {
-      display: none;
-    }
+    padding-inline: 1rem;
   }
 
   /* The page must not scroll under an open sheet — pure CSS, no controller. */
@@ -544,7 +592,6 @@
      No [open] qualifier: the styles must hold during the exit fade too. */
   .header__menu-panel .nav__link {
     align-items: center;
-    border-radius: 0.5em;
     color: var(--color-subtle-dark);
     display: flex;
     font-size: 0.9rem;
@@ -557,41 +604,80 @@
     display: block;
     inline-size: 1.05rem;
   }
+  /* The hover underline is a desktop affordance — keep it out of the touch sheet. */
+  .header__menu-panel .nav__link .nav__underline {
+    display: none;
+  }
 
-  /* Every row in the sheet clears the 44px touch minimum — the old 36px rows
-     were the real reason it felt cramped. Both row components, one rule. */
+  /* TOP's Nav::ItemComponent verbatim: rows are `px-2 py-2 text-base
+     font-medium` inside a `px-2` container — square corners, fill inset
+     0.5rem from the drawer edges, text starting at 1rem. Icons at Heroicons'
+     native 24px (w-6 h-6) with the mr-4 gap; scaling them down was what made
+     them thin. */
   .header__menu-panel :is(.nav__link, .account-menu__link) {
+    border-radius: 0;
     font-size: 1rem;
-    gap: 0.75rem;
-    min-block-size: 2.75rem;
-    padding-inline: 0.75rem;
+    font-weight: 500;
+    gap: 1rem;
+    margin-inline: 0.5rem;
+    padding: 0.5rem;
   }
+  /* One tone quieter than the label (TOP: icon text-gray-400 vs label
+     gray-300) — the icon accompanies, the word leads. Hover and the active
+     row lift it back to the row's colour. */
   .header__menu-panel :is(.nav__link, .account-menu__link) svg {
-    block-size: 1.2rem;
-    inline-size: 1.2rem;
+    block-size: 1.5rem;
+    color: var(--color-disabled);
+    inline-size: 1.5rem;
   }
+  .header__menu-panel .nav__link[aria-current="page"] svg {
+    color: inherit;
+  }
+  @media (any-hover: hover) {
+    .header__menu-panel :is(.nav__link, .account-menu__link):hover svg {
+      color: inherit;
+    }
+  }
+  /* TOP's Nav::ItemComponent states: the active row is a filled pill
+     (dark:bg-gray-700/60), hover fills quieter — hierarchy by fill, not
+     just weight. */
   .header__menu-panel .nav__link[aria-current="page"] {
+    background-color: oklch(var(--lch-gray) / 0.4);
     color: var(--color-ink);
     font-weight: 600;
   }
 
+  @media (any-hover: hover) {
+    .header__menu-panel :is(.nav__link, .account-menu__link):hover {
+      background-color: oklch(var(--lch-gray) / 0.25);
+      color: var(--color-ink);
+    }
+  }
+
   /* Account section under a hairline, ending with sign-out — same anatomy
      as the desktop popover. */
+  /* TOP's group divider: a full-width hr with my-4 — 1rem of air on both
+     sides of the hairline. */
   .header__menu-account,
   .header__menu-guest {
     border-block-start: 1px solid var(--color-subtle);
     display: flex;
     flex-direction: column;
-    gap: 0.125rem;
-    margin-block-start: 0.4rem;
-    padding-block-start: 0.4rem;
+    gap: 0.25rem;
+    margin-block-start: 1rem;
+    padding-block-start: 1rem;
   }
 
-  /* «Войти» closes the guest sheet the way «Выйти» closes the member's one. */
-  .header__menu-panel .header__menu-signin {
+  /* TOP's guest pair (Get started + Sign in) sits under the last divider —
+     the signup row opens the group and carries the hairline, which sheds the
+     row inset to run full width like the group dividers (TOP's hr). */
+  .header__menu-panel .header__menu-signup {
     border-block-start: 1px solid var(--color-subtle);
-    margin-block-start: 0.4rem;
-    padding-block-start: 0.4rem;
+    display: flex;
+    margin-block-start: 1rem;
+    margin-inline: 0;
+    padding-block-start: 1rem;
+    padding-inline: 1rem;
   }
 
   /* button_to wraps sign-out in a <form> — make it fill the row. */

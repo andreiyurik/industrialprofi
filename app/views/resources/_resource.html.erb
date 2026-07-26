@@ -7,6 +7,9 @@
         <%= resource.title %>
       </a>
     <% else %>
+      <%# Name-only source (no vetted URL). Rendered readable (not a greyed-out
+          "disabled" look) — the exact title IS the value. One block-level note
+          below explains the missing link, instead of repeating on every row. %>
       <span class="lesson-resource__link lesson-resource__link--pending"><%= resource.title %></span>
     <% end %>
     <% if resource.note.present? %>
