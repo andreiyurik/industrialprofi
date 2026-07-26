@@ -26,7 +26,7 @@ class Path < ApplicationRecord
   # This association stays for total counts / catalog-wide lesson queries.
   has_many :lessons, -> { order(:position) }
   # Practice lessons only — the journal links a practice task you did, not theory,
-  # which keeps the "Связанный урок" picker short (see journal form).
+  # which keeps the "Связанная статья" picker short (see journal form).
   has_many :practice_lessons, -> { practice.ordered }, class_name: "Lesson"
   # Editors granted direct edit access to this profession (see Editorship).
   has_many :editorships, dependent: :destroy

@@ -305,7 +305,7 @@
   color: var(--color-positive);
 }
 
-/* ── Right rail: "В этом уроке" (TOP's "Lesson contents") ──────────────
+/* ── Right rail: "В этой статье" (TOP's "Lesson contents") ──────────────
    The lesson's own table of contents — fixed sections + its ## headings.
    Wide screens only; sticky, with a left border rail and the current entry
    marked by the lesson-toc Stimulus controller (aria-current). */

@@ -281,7 +281,7 @@ module ApplicationHelper
       end.to_s.html_safe
   end
 
-  # Entries for the right-rail "В этом уроке" TOC: the body's ## headings.
+  # Entries for the right-rail "В этой статье" TOC: the body's ## headings.
   # Works for rich text and markdown alike — both now flow through enrich_prose,
   # which anchors every <h2>, so the rail no longer degrades on edited lessons.
   def lesson_toc(lesson)

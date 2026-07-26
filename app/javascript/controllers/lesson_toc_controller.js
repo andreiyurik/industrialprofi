@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import { rafThrottle } from "helpers/timing_helpers"
 
-// The lesson TOC ("В этом уроке"). Two jobs:
+// The lesson TOC ("В этой статье"). Two jobs:
 //  - mark the entry for the section under the reading line (30% down the
 //    viewport), tracked with a passive scroll listener;
 //  - on click, glide to the section smoothly, mark the clicked entry at once

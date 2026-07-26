@@ -45,7 +45,7 @@ class CurriculumExporter
       export_course(course, root, number)
     end
 
-    @io.puts "Экспортировано в #{root}: #{@path.courses.count} курсов, #{@path.lessons.count} уроков."
+    @io.puts "Экспортировано в #{root}: #{@path.courses.count} курсов, #{@path.lessons.count} статей."
     root
   end
 
