@@ -73,11 +73,11 @@
   text-wrap: pretty;
 }
 
-/* Two words lift out of the muted subtitle by brightness + weight, not hue —
-   the house rule for emphasis (see --color-marker in colors.css). */
-.hero__subtitle strong {
+/* The marker-swept phrase lifts out of the muted subtitle by brightness alone —
+   the house rule for emphasis (see --color-marker in colors.css). No bold: a
+   real marker doesn't change the letters it covers. */
+.hero__sweep {
   color: var(--color-marker);
-  font-weight: 600;
 }
 
 /* NOTE: the flat emblem-card styling lives in paths.css (which owns .path-card

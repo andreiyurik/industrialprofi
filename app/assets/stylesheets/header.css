@@ -407,6 +407,27 @@
     inline-size: 1.4rem;
   }
 
+  /* The sheet's ✕ sets the house rule — every touch control clears 44px. The
+     compact header's three controls keep their quiet 30–33px look; an invisible
+     overlay extends the hit area to the standard. */
+  .header__search,
+  .header__cta {
+    position: relative;
+  }
+  .header__search::after,
+  .header__menu-toggle::after {
+    content: "";
+    inset: -7px;
+    position: absolute;
+  }
+  /* The CTA is already wide; growing it sideways would eat the search icon's
+     share of the gap between them. */
+  .header__cta::after {
+    content: "";
+    inset: -7px 0;
+    position: absolute;
+  }
+
   /* A modal bottom sheet. Fizzy's popup is top-anchored (popup.css: `inset: 0
      auto auto 50%`) — but its nav is a hotkey-driven jump menu that merely
      tolerates touch, so its geometry isn't authority for a mobile-first menu.

@@ -68,9 +68,28 @@
   hyphens: none;
   margin-block: 2rem 0;
 
+  /* The rough-notation oval IS this button's frame — the default capsule
+     border would draw a frame around a frame. Hover nudges the arrow
+     instead of decorating the (invisible) box. */
+  .btn {
+    --btn-border-color: transparent;
+  }
+
   .btn svg {
     block-size: 1rem;
     inline-size: 1rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .btn svg {
+      transition: transform 150ms ease-out;
+    }
+  }
+
+  @media (any-hover: hover) {
+    .btn:hover svg {
+      transform: translateX(0.2em);
+    }
   }
 }
 
