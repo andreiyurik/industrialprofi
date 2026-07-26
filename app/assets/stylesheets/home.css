@@ -29,7 +29,7 @@
   font-weight: 800;
   hyphens: none;
   letter-spacing: -0.025em;
-  line-height: 1.1;
+  line-height: 1.15;
   margin-block: 0;
   margin-inline: auto;
   max-inline-size: 32ch;
@@ -42,7 +42,9 @@
   inline-size: 0.1em;
   block-size: 0.86em;
   margin-inline-start: 0.14em;
-  background-color: var(--color-link);
+  /* Subtitle-gray, not link-blue: the caret is the page's one perpetual motion
+     and must not compete with the annotation underline for the blue accent. */
+  background-color: var(--color-subtle-dark);
   border-radius: 0.03em;
   vertical-align: -0.06em;
 }
@@ -51,6 +53,13 @@
   .hero__title.is-caret::after {
     animation: caret-blink 1.05s step-end infinite;
   }
+}
+
+/* The thesis phrase gets a hand-drawn Rough Notation underline on load
+   (rough_annotation_controller.js draws its own overlay SVG). nowrap keeps the
+   phrase on one line so the annotation underlines one continuous span. */
+.hero__mark {
+  white-space: nowrap;
 }
 
 .hero__subtitle {
@@ -62,6 +71,13 @@
   margin-block: 0.9rem 0;
   margin-inline: auto;
   text-wrap: pretty;
+}
+
+/* Two words lift out of the muted subtitle by brightness + weight, not hue —
+   the house rule for emphasis (see --color-marker in colors.css). */
+.hero__subtitle strong {
+  color: var(--color-marker);
+  font-weight: 600;
 }
 
 /* NOTE: the flat emblem-card styling lives in paths.css (which owns .path-card
