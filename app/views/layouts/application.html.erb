@@ -97,15 +97,15 @@
               <%= heroicon "bars-3", variant: :outline %>
               <% if unseen_outcomes %><span class="notify-dot notify-dot--corner"></span><% end %>
             </summary>
+            <%# The ✕ floats in the strip right of the drawer (TOP's DrawerComponent:
+                `absolute left-full w-16 pt-5`) — outside the scrolling panel, or its
+                overflow would clip it. A closed <details> hides it natively. %>
+            <button type="button" class="header__menu-close" data-action="details#close"
+                    aria-label="<%= t("common.close") %>">
+              <%= heroicon "x-mark", variant: :outline %>
+            </button>
             <div class="header__menu-panel">
-              <%# Touch-only: the sheet covers the header, so the ✕ stands in for
-                  the hamburger. Hover devices dismiss by clicking outside. %>
-              <button type="button" class="header__menu-close" data-action="details#close"
-                      aria-label="<%= t("common.close") %>">
-                <%= heroicon "x-mark", variant: :outline %>
-              </button>
-
-              <%# Guest sheet only: a quiet RJ45 mark faces the ✕, where a
+              <%# Guest sheet only: a quiet RJ45 mark opens the drawer, where a
                   signed-in reader gets the identity row. Signed in, this slot is
                   taken; on desktop the whole panel is the inline nav, so it's
                   hidden there too. %>
