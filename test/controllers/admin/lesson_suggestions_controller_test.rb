@@ -112,6 +112,16 @@ class Admin::LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to admin_lesson_suggestions_path
   end
 
+  test "reject without a reason is refused — the author must learn why" do
+    suggestion = lesson_suggestions(:pending_suggestion)
+
+    patch reject_admin_lesson_suggestion_path(suggestion),
+      params: { lesson_suggestion: { reviewer_comment: "  " } }
+
+    assert_equal "pending", suggestion.reload.status
+    assert_redirected_to admin_lesson_suggestion_path(suggestion)
+  end
+
   # Per-profession access (editorships)
 
   test "an editor's queue holds only suggestions for their granted professions" do

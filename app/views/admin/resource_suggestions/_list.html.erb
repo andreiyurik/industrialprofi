@@ -23,6 +23,9 @@
                   <%= suggestion.author_name %> · <%= time_ago_in_words(suggestion.created_at) %> <%= t("admin.ago") %>
                 </p>
               </span>
+              <%# Rejection carries a required reason inline — links have no
+                  review page of their own, so the reason field lives right in
+                  the queue row. %>
               <div class="admin-row__actions">
                 <%= button_to approve_admin_resource_suggestion_path(suggestion), method: :patch,
                       class: "btn btn--small btn--reversed admin-row__action",
@@ -30,11 +33,15 @@
                       aria: { label: t("admin.approve") }, title: t("admin.approve") do %>
                   <%= heroicon "check", variant: :outline %>
                 <% end %>
-                <%= button_to reject_admin_resource_suggestion_path(suggestion), method: :patch,
-                      class: "btn btn--small btn--negative admin-row__action",
-                      form: { class: "admin-row__action-form" },
-                      aria: { label: t("admin.reject") }, title: t("admin.reject") do %>
-                  <%= heroicon "x-mark", variant: :outline %>
+                <%= form_with url: reject_admin_resource_suggestion_path(suggestion), method: :patch,
+                      class: "admin-row__reject-form" do |f| %>
+                  <%= f.text_field "resource_suggestion[reviewer_comment]",
+                        placeholder: t("admin.reject_comment"), class: "input admin-row__reject-input",
+                        required: true, aria: { label: t("admin.reject_comment") } %>
+                  <%= f.button class: "btn btn--small btn--negative admin-row__action",
+                        aria: { label: t("admin.reject") }, title: t("admin.reject") do %>
+                    <%= heroicon "x-mark", variant: :outline %>
+                  <% end %>
                 <% end %>
               </div>
             </div>

@@ -1039,3 +1039,17 @@
 .admin-row__action-form {
   margin: 0;
 }
+
+/* Inline reject-with-reason (resource queue): the reason field rides next to
+   the reject button, since links have no separate review page. */
+.admin-row__reject-form {
+  display: flex;
+  align-items: center;
+  gap: var(--inline-space-half);
+  margin: 0;
+}
+
+.admin-row__reject-input {
+  inline-size: 13rem;
+  max-inline-size: 100%;
+}

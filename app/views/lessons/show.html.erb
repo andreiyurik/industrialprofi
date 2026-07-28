@@ -74,15 +74,14 @@
         <% end %>
       <% end %>
 
-      <%# History lives in the utility bar (Wikipedia-style "View history"), shown
-          only once the community has actually edited the lesson — out of the
-          reading flow, never competing with the end-of-lesson actions. %>
-      <% if @lesson.community_credited? %>
-        <% history_title = t("revisions.history_updated", date: l(@lesson.updated_at.to_date)) %>
-        <%= link_to lesson_revisions_path(@lesson), class: "lesson__tool",
-              aria: { label: t("revisions.history") }, title: history_title do %>
-          <%= heroicon "clock", variant: :outline %>
-        <% end %>
+      <%# History lives in the utility bar (Wikipedia-style "View history") —
+          always present, public to guests and crawlers alike: the article stays
+          minimal, but anyone who wants the provenance and contributor credit
+          can reach it in one click. The history page handles the empty case. %>
+      <% history_title = t("revisions.history_updated", date: l(@lesson.updated_at.to_date)) %>
+      <%= link_to lesson_revisions_path(@lesson), class: "lesson__tool",
+            aria: { label: t("revisions.history") }, title: history_title do %>
+        <%= heroicon "clock", variant: :outline %>
       <% end %>
 
       <button type="button" class="lesson__tool lesson__copy" hidden

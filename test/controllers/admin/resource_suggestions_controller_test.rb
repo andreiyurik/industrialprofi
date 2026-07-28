@@ -57,6 +57,13 @@ class Admin::ResourceSuggestionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "не по теме", @suggestion.reload.reviewer_comment
   end
 
+  test "reject without a reason is refused" do
+    patch reject_admin_resource_suggestion_path(@suggestion)
+
+    assert_equal "pending", @suggestion.reload.status
+    assert_redirected_to admin_resource_suggestions_path
+  end
+
   test "an editor may moderate a granted profession" do
     sign_out
     sign_in_as users(:editor) # granted electrician in fixtures

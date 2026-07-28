@@ -31,9 +31,19 @@ class DashboardController < ApplicationController
     @seen_before = Current.user.suggestions_seen_at
     @my_contributions = my_contributions
     Current.user.touch(:suggestions_seen_at) if Current.user.unseen_suggestion_outcomes?
+
+    # The contributor's own view of the earned-trust ladder /contribute promises:
+    # the same TrackRecord math the admin dashboard uses, sliced to this person's
+    # strongest profession. Members only — an editor has already crossed the door.
+    @trust_progress = trust_progress
   end
 
   private
+
+  def trust_progress
+    return unless Current.user.member? && @my_contributions.any?
+    TrackRecord.for(Current.user).accepted_by_profession.max_by(&:last)
+  end
 
   def my_contributions
     (Current.user.lesson_suggestions.includes(:lesson).to_a +

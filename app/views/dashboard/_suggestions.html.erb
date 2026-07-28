@@ -41,4 +41,19 @@
       </div>
     <% end %>
   </div>
+
+  <%# Progress toward the earned editorship /contribute promises («после N принятых
+      правок система сама предложит права») — visible to the person earning it,
+      not just to admins. The threshold interpolates from TrackRecord so the
+      public promise can't drift from the code. %>
+  <% if @trust_progress %>
+    <% trust_path, accepted = @trust_progress %>
+    <p class="dashboard__section-hint">
+      <% if accepted >= TrackRecord::TRUSTED_AT %>
+        <%= t("dashboard.trust_earned", path: trust_path.title, count: accepted) %>
+      <% else %>
+        <%= t("dashboard.trust_progress", path: trust_path.title, count: accepted, threshold: TrackRecord::TRUSTED_AT) %>
+      <% end %>
+    </p>
+  <% end %>
 </section>

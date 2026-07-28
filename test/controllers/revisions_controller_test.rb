@@ -40,6 +40,23 @@ class RevisionsControllerTest < ActionDispatch::IntegrationTest
     assert_select "div.revision-diff ins", text: "Версия"
   end
 
+  test "index credits community-added sources by contributor name" do
+    @lesson.resources.create!(title: "Src", url: "https://x.ru", kind: "norm",
+      origin: "human", contributor_name: "Аня", position: 99)
+
+    get lesson_revisions_path(@lesson)
+    assert_response :success
+    assert_match I18n.t("revisions.sources_credited"), response.body
+    assert_match "Аня", response.body
+  end
+
+  test "index of an untouched lesson renders the empty state for guests" do
+    untouched = lessons(:gruppy_dopuska)
+    get lesson_revisions_path(untouched)
+    assert_response :success
+    assert_match I18n.t("revisions.none"), response.body
+  end
+
   test "revisions of an unpublished lesson are not found" do
     paths(:electrician).update!(status: "draft")
     get lesson_revisions_path(@lesson)

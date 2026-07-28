@@ -14,4 +14,6 @@
 
 <p style="<%= mail_style(:muted) %>"><%= t("editorships_mailer.granted.guide_html", link: mail_link_to(t("editorships_mailer.granted.guide_link"), guide_url)) %></p>
 
+<p style="<%= mail_style(:muted) %>"><%= t("editorships_mailer.granted.curator_hint") %> <%= mail_link_to(t("account.title"), account_url) %></p>
+
 <p style="<%= mail_style(:muted) %>"><%= t("editorships_mailer.granted.thanks") %></p>

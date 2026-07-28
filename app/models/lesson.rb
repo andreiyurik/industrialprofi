@@ -116,20 +116,6 @@ class Lesson < ApplicationRecord
     [ body.to_s, task.to_s ].flat_map { |md| md.scan(PENDING_IMAGE_PATTERN) }.flatten
   end
 
-  # Names credited for community-added sources (approved ResourceSuggestions that
-  # became resources), earliest-first — the resource half of the open credit that
-  # contributor_names (Revisable) gives text edits. Separate because a source
-  # addition isn't a revision; both surface on the lesson's history page.
-  def resource_contributor_names
-    resources.where.not(contributor_name: [ nil, "" ]).order(:created_at).pluck(:contributor_name).uniq
-  end
-
-  # Whether the community is credited on this lesson at all — gates the quiet
-  # "history" link (text contributors via revisions OR source contributors).
-  def community_credited?
-    contributor_names.any? || resource_contributor_names.any?
-  end
-
   def prev_in_path
     path.lessons.where("position < ?", position).ordered.last
   end

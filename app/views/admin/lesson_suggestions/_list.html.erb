@@ -32,8 +32,10 @@
                   </p>
                 </span>
               </a>
-              <%# Quick approve/reject without leaving the queue (params[:inline]);
-                  the row's link still opens the full diff for a careful review. %>
+              <%# Quick approve without leaving the queue (params[:inline]).
+                  Rejection deliberately has no one-click shortcut: it goes
+                  through the row's review page, where the full diff and the
+                  required reason field live — the author always learns why. %>
               <div class="admin-row__actions">
                 <%= button_to approve_admin_lesson_suggestion_path(suggestion), method: :patch,
                       params: { inline: true, order: @order },
@@ -41,13 +43,6 @@
                       form: { class: "admin-row__action-form" },
                       aria: { label: t("admin.approve") }, title: t("admin.approve") do %>
                   <%= heroicon "check", variant: :outline %>
-                <% end %>
-                <%= button_to reject_admin_lesson_suggestion_path(suggestion), method: :patch,
-                      params: { inline: true, order: @order },
-                      class: "btn btn--small btn--negative admin-row__action",
-                      form: { class: "admin-row__action-form" },
-                      aria: { label: t("admin.reject") }, title: t("admin.reject") do %>
-                  <%= heroicon "x-mark", variant: :outline %>
                 <% end %>
               </div>
             </div>
