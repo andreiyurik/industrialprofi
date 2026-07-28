@@ -1,0 +1,28 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/format_select" %>
+    <%= render "calculators/select", field: "coc", label: t("calculators.fields.sharpness"), selected: "1",
+          info: t("calculators.hyperfocal.info.c"),
+          options: [["1", t("calculators.options.coc_normal")],
+                    ["1.5", t("calculators.options.coc_strict")],
+                    ["2", t("calculators.options.coc_max")]] %>
+    <div class="calc__row">
+      <%= render "calculators/field", field: "f", label: t("calculators.fields.focal"), unit: "мм", value: 25 %>
+      <%= render "calculators/field", field: "n", label: t("calculators.fields.aperture"), unit: "f/", value: 8 %>
+    </div>
+    <%= render "calculators/field", field: "s", label: t("calculators.fields.focus_distance"), unit: "м", value: 3 %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "h", label: t("calculators.hyperfocal.result_h"),
+          strong: true, info: t("calculators.hyperfocal.info.h") %>
+    <%= render "calculators/result", output: "near", label: t("calculators.hyperfocal.result_near") %>
+    <%= render "calculators/result", output: "far", label: t("calculators.hyperfocal.result_far"),
+          info: t("calculators.hyperfocal.info.far") %>
+    <%= render "calculators/result", output: "dof", label: t("calculators.hyperfocal.result_dof") %>
+    <%= render "calculators/result", output: "c", label: t("calculators.hyperfocal.result_c") %>
+    <p class="calc__note"><%= t("calculators.hyperfocal.note") %></p>
+  </div>
+</div>

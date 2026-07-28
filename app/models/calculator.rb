@@ -11,7 +11,7 @@
 # app/views/calculators/forms/_<slug>.html.erb and the math in the single
 # calculator Stimulus controller.
 class Calculator
-  CATEGORIES = %w[electrician kipia network].freeze
+  CATEGORIES = %w[electrician kipia network photo].freeze
 
   attr_reader :slug, :category, :lesson_slug
 
@@ -36,7 +36,16 @@ class Calculator
     new("valve-kv",            category: "kipia",       lesson: "ispolnitelnye-mehanizmy-i-chastotniki"),
     new("twisted-pair-line",   category: "network",     lesson: "osnovy-setey-osi-ip-kabeli"),
     new("subnet",              category: "network",     lesson: "osnovy-setey-osi-ip-kabeli"),
-    new("modbus-rtu",          category: "network",     lesson: "modbus-registry-adresaciya")
+    new("modbus-rtu",          category: "network",     lesson: "modbus-registry-adresaciya"),
+    # Фото/видео: здесь норматива в духе ПУЭ нет, опора — физика и статья
+    # (как у ohms-law, где в `norm` стоит сама формула, а не стандарт).
+    new("hyperfocal",          category: "photo",       lesson: "03-fv-grip-i-giperfokal"),
+    new("nd-filter",           category: "photo",       lesson: "02-fv-pravilo-180-i-nd"),
+    new("crop-factor",         category: "photo",       lesson: "02-fv-fokusnoe-eto-tochka-zreniya"),
+    new("exposure-ev",         category: "photo",       lesson: "03-fv-skolko-sveta-v-stsene"),
+    new("diffraction",         category: "photo",       lesson: "03-fv-grip-i-giperfokal"),
+    new("golden-hour",         category: "photo",       lesson: "03-fv-efemeridy-i-planirovanie"),
+    new("timelapse",           category: "photo",       lesson: "03-fv-banki-nastroek")
   ].freeze
 
   def self.all = ALL

@@ -1,0 +1,18 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/format_select" %>
+    <%= render "calculators/field", field: "mp", label: t("calculators.fields.megapixels"), unit: "МП", value: 24 %>
+    <%= render "calculators/field", field: "n", label: t("calculators.fields.aperture"), unit: "f/", value: 8 %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "pitch", label: t("calculators.diffraction.result_pitch"), unit: "мкм" %>
+    <%= render "calculators/result", output: "airy", label: t("calculators.diffraction.result_airy"), unit: "мкм" %>
+    <%= render "calculators/result", output: "ratio", label: t("calculators.diffraction.result_ratio"), unit: "раз" %>
+    <%= render "calculators/result", output: "nlimit", label: t("calculators.diffraction.result_nlimit"), unit: "f/",
+          strong: true, info: t("calculators.diffraction.info.nlimit") %>
+    <p class="calc__note"><%= t("calculators.diffraction.note") %></p>
+  </div>
+</div>

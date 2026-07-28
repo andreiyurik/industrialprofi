@@ -1,0 +1,20 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/field", field: "interval", label: t("calculators.fields.interval"), unit: "с", value: 5 %>
+    <%= render "calculators/field", field: "duration", label: t("calculators.fields.shoot_duration"), unit: "мин", value: 60 %>
+    <%= render "calculators/field", field: "fps", label: t("calculators.fields.clip_fps"), unit: "к/с", value: 25 %>
+    <%= render "calculators/field", field: "size", label: t("calculators.fields.frame_size"), unit: "МБ", value: 25 %>
+    <%= render "calculators/field", field: "wantclip", label: t("calculators.fields.want_clip"), unit: "с", value: 20 %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "frames", label: t("calculators.timelapse.result_frames"), unit: "кадров" %>
+    <%= render "calculators/result", output: "clip", label: t("calculators.timelapse.result_clip"), unit: "с", strong: true %>
+    <%= render "calculators/result", output: "disk", label: t("calculators.timelapse.result_disk"), unit: "ГБ" %>
+    <%= render "calculators/result", output: "needint", label: t("calculators.timelapse.result_needint"), unit: "с",
+          info: t("calculators.timelapse.info.needint") %>
+    <p class="calc__note"><%= t("calculators.timelapse.note") %></p>
+  </div>
+</div>
