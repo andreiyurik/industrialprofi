@@ -179,6 +179,17 @@ profession" vision, voiced on `/contribute`, not founder-driven breadth.
   practice is harder to design** (land and animals, not a bench). Genuinely
   co-author-gated — the founder can't fake depth here; add it when a practitioner
   brings both the knowledge *and* a workable practice design.
+- **Фотограф-видеограф** (Photographer / videographer) — **Live** (`fotograf-videograf`).
+  The list's first non-industrial entry, added deliberately. It clears depth (optics,
+  sensor physics, colorimetry, exposure) and has a real standards spine — ISO 12232 /
+  12233, ITU-R BT.709 / BT.1886 / BT.2100, CIE 015, EBU R 128 and Tech 3355 — plus
+  documented best practice (ASC Manual, Hunter/Biver/Fuqua, Adams, Block) where no
+  standard exists. Practice is near-free: measurements of one's own camera and lens,
+  ephemeris-planned light, deliberate constraint exercises. **The honest caveat:** it
+  is a creative-services trade, not a hands-on industrial one, so it stretches the
+  wedge further than anything else here. It earns the slot only because the path is
+  built around the *measurable and sourceable* half — physics, protocol, verifiable
+  practice — and explicitly refuses the taste-and-vibes framing.
 - **Градостроитель / урбанист** (Urban planner) — a real regulated design
   profession (СП 42.13330, master/transport planning, zoning) with genuine depth,
   and a topic the founder cares about. **The honest caveat — this is the list's
