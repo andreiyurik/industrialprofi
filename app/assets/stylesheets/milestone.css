@@ -93,3 +93,14 @@
   gap: 0.75rem;
   justify-content: center;
 }
+
+/* The quiet thank-you line under the actions — peak-gratitude donation ask. */
+.milestone__support {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block: 1.25rem 0;
+}
+
+.milestone__support-link {
+  color: var(--color-link);
+}

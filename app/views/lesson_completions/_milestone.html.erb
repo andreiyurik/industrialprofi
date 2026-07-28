@@ -27,5 +27,11 @@
       <a href="<%= tg_share %>" class="btn btn--reversed" target="_blank" rel="noopener"><%= t(".share_telegram") %></a>
       <%= link_to t(".next_path"), paths_path, class: "btn" %>
     </div>
+
+    <%# The peak-gratitude moment: the one honest place to invite a thank-you
+        donation — after the value was delivered in full, never before. %>
+    <p class="milestone__support">
+      <%= t(".support_html", link: link_to(t(".support_link"), support_us_path, class: "milestone__support-link")) %>
+    </p>
   </dialog>
 </div>

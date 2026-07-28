@@ -24,6 +24,11 @@ class LessonsController < ApplicationController
     @lessons_by_stage = @course.lessons.group_by(&:stage)
     @completed_ids = signed_in? ? Current.user.completed_lesson_ids_for_course(@course) : Set.new
 
+    # The practice loop, closed both ways: did → logged → the log is visible
+    # right where the task lives on the next visit.
+    @my_journal_entries =
+      @lesson.practice? && signed_in? ? Current.user.journal_entries.where(lesson: @lesson).ordered : []
+
     respond_to do |format|
       format.html
       format.md { render plain: @lesson.to_markdown, content_type: "text/markdown" }

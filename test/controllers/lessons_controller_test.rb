@@ -177,6 +177,21 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/Наталья Орлова/, response.body)
   end
 
+  test "a practice lesson shows the signed-in learner their own journal entries for it" do
+    lesson = lessons(:praktika_shchitok)
+    users(:member).journal_entries.create!(lesson: lesson, title: "Собрал щиток", body: "Получилось")
+
+    sign_in_as users(:member)
+    get lesson_path(lesson)
+    assert_match I18n.t("lessons.journal_entries_title"), response.body
+    assert_match "Собрал щиток", response.body
+
+    # A guest sees neither the entries nor the block.
+    sign_out
+    get lesson_path(lesson)
+    assert_no_match(/Собрал щиток/, response.body)
+  end
+
   test "reading mode cookie renders the stripped layout server-side" do
     get lesson_path(lessons(:pteep))
     assert_select "div.lesson-layout--reading", false

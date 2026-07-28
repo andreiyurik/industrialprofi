@@ -220,6 +220,18 @@
               <%= heroicon "pencil-square", variant: :outline %>
               <%= t("lessons.log_result") %>
             <% end %>
+            <% if @my_journal_entries.any? %>
+              <div class="lesson-task-entries">
+                <p class="lesson-task-entries__title"><%= t("lessons.journal_entries_title") %></p>
+                <ul class="lesson-task-entries__list">
+                  <% @my_journal_entries.each do |entry| %>
+                    <li>
+                      <%= link_to journal_entries_path, class: "link-quiet link-quiet--underline" do %><%= l(entry.created_at.to_date) %><% if entry.title.present? %> — <%= entry.title %><% end %><% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
           <% end %>
         </div>
         <%= render "lessons/edit_link", section: "task" %>
