@@ -783,8 +783,9 @@ ru:
       # The <span> gets a hand-drawn Rough Notation underline on load
       # (rough_annotation_controller.js). Same words as the email colophon copy below.
       title_html: 'Первая открытая <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">свободная энциклопедия</span> прикладных профессий'
-      subtitle_html: 'Независимый открытый проект: профессии создаёт, редактирует и проверяет сообщество. Предложить правку может каждый, стать <span class="hero__sweep" data-controller="rough-annotation" data-rough-annotation-type-value="highlight" data-rough-annotation-color-value="--color-highlight" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="1200" data-rough-annotation-duration-value="700">автором или куратором</span> — любой опытный специалист.'
+      subtitle_html: 'Независимый открытый проект: профессии создаёт, редактирует и проверяет сообщество. Прозрачная удобная структура с качественными ссылками по теме в конце статей. Предложить правку может каждый, стать <span class="hero__sweep" data-controller="rough-annotation" data-rough-annotation-type-value="highlight" data-rough-annotation-color-value="--color-highlight" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="1200" data-rough-annotation-duration-value="700">автором или куратором</span> — любой опытный специалист.'
     group_upcoming: "В планах"
+    soon_full_list: "Весь список"
     soon_curator: "Соберите свою карту профессии"
     # A vacancy board, not a queue: plain copy, deliberately NOT Path rows — an
     # empty Path is admin noise, and a DB-driven list only ever shows whatever
@@ -1089,7 +1090,7 @@ ru:
     eyebrow: "Открытый проект"
     title: "Чем помочь"
     intro: "IndustrialProfi — независимый проект с открытым кодом: и код, и материалы свободны. Карты профессий не обязательно писать с нуля — главное, что их проверяют и корректируют практики. Наша цель — дать для этого платформу и удобный конструктор. Вот как подключиться на любом уровне."
-    manifesto1: "К сожалению, ни один человек на Земле физически не опишет десятки профессий так, чтобы это было точно и полезно. Я хорошо знаю только то, в чём работал сам. Поэтому проект устроен как общий и открытый: код — под свободной лицензией AGPL-3.0, материалы — под CC BY-SA 4.0. Если со мной что-то случится, проект можно форкнуть и продолжить — он не умрёт вместе с основателем."
+    manifesto1: "К сожалению, ни один человек на Земле физически не опишет десятки профессий так, чтобы это было точно, качественно и полезно. Я хорошо знаю только то, в чём работал сам. Поэтому проект устроен как общий и открытый: код — под свободной лицензией AGPL-3.0, материалы — под CC BY-SA 4.0. Если со мной что-то случится, проект можно форкнуть и продолжить — он не умрёт вместе с основателем."
     manifesto_highlight: "Это общий ресурс, который мы строим вместе и который должен в теории пережить любого из нас."
     manifesto2: "Платформа намеренно сделана так, чтобы вместить любую сложную современную профессию — где решают навыки и практика. Сегодня это электрик, сварщик, киповец; завтра — агроном, фермер, механик. Карту профессии может проверить и валидировать только тот, кто прошёл её сам. Если твоего ремесла здесь ещё нет — его карта начнётся с тебя: опыт, собранный за годы, станет дорогой для тех, кто идёт следом."
     ways_title: "Уровни участия"

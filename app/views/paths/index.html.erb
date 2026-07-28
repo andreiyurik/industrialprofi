@@ -46,6 +46,9 @@
           <span class="catalog-soon__slot"><%= title %></span>
         <% end %>
       </p>
+      <p class="catalog-soon__all">
+        <%= link_to t("paths.soon_full_list"), contribute_path(anchor: "wanted"), class: "link-quiet" %>
+      </p>
       <p class="catalog-soon__call">
         <%= link_to contribute_path, class: "btn",
               data: { controller: "rough-annotation",
