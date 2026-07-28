@@ -31,8 +31,11 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
 
   test "index invites a co-author with a single call" do
     get paths_path
-    assert_select ".catalog-soon a", count: 1
-    assert_select ".catalog-soon a[href=?]", contribute_path
+    # One CTA button, never several competing ones. The quiet "весь список"
+    # link next to it is navigation to the full wanted board, not a second call.
+    assert_select ".catalog-soon .btn", count: 1
+    assert_select ".catalog-soon .btn[href=?]", contribute_path
+    assert_select ".catalog-soon a.link-quiet[href=?]", contribute_path(anchor: "wanted")
   end
 
   test "index shows the hero headline" do
