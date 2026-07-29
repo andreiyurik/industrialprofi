@@ -45,6 +45,18 @@
   white-space: nowrap;
 }
 
+/* Narrow screens: title + subtitle side by side crushed the title to one
+   letter — let the group wrap and the title breathe on its own line. */
+@media (max-width: 40rem) {
+  .admin-header__title-group {
+    flex-wrap: wrap;
+  }
+
+  .admin-header__title {
+    white-space: normal;
+  }
+}
+
 /* Stacked header: back-link / title / subtitle in a column (user card, log). */
 .admin-header__title-group--stacked {
   align-items: flex-start;
@@ -1052,4 +1064,94 @@
 .admin-row__reject-input {
   inline-size: 13rem;
   max-inline-size: 100%;
+}
+
+/* ── Illustration center ── */
+
+/* Narrow screens: the health chips drop below the profession title instead
+   of crushing it into an ellipsis. The title link's flex: 1 means basis 0 —
+   force it onto its own full-width line so the chips wrap under it. */
+@media (max-width: 40rem) {
+  .illustration-row {
+    flex-wrap: wrap;
+  }
+
+  .illustration-row .admin-row__main {
+    flex-basis: 100%;
+  }
+}
+
+/* Per-profession health line: quiet count chips, broken in red. */
+.illustration-health {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  gap: var(--inline-space-half);
+}
+
+.illustration-health__stat {
+  background-color: var(--color-subtle-light);
+  border-radius: 1em;
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.1rem 0.6rem;
+  white-space: nowrap;
+}
+
+.illustration-health__stat--broken {
+  background-color: color-mix(in oklab, var(--color-negative) 18%, transparent);
+  color: var(--color-negative);
+}
+
+.admin-group__title--negative {
+  color: var(--color-negative);
+}
+
+/* Gallery: one column on a phone, tiles on wider screens. */
+.illustration-grid {
+  display: grid;
+  gap: var(--inline-space);
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+
+.illustration-card {
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75em;
+  margin: 0;
+  overflow: hidden;
+}
+
+.illustration-card__thumb {
+  aspect-ratio: 4 / 3;
+  background-color: var(--color-subtle-light);
+  display: block;
+  inline-size: 100%;
+  object-fit: contain;
+}
+
+.illustration-card__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.6rem 0.75rem;
+}
+
+.illustration-card__alt {
+  color: var(--color-ink);
+  font-size: 0.85rem;
+  margin-block: 0;
+}
+
+.illustration-card__external {
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+  margin-inline-start: 0.35rem;
+}
+
+.illustration-card__meta {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  margin-block: 0;
 }
