@@ -31,8 +31,13 @@ configure({
 // moment an editor's first edit freezes it into rich text.
 document.addEventListener("turbo:load", () => highlightCode())
 
-// Register the service worker so visited lessons stay readable offline.
-if ("serviceWorker" in navigator) {
+// Register the service worker so visited lessons stay readable offline. HTTPS only,
+// which in practice means production (kamal-proxy terminates SSL): a browser treats
+// http://localhost as a secure origin too, so without this the worker installs in
+// development — where offline reading is pointless and its one behaviour is to answer
+// every failed navigation with offline.html. A restarted dev server then reads as
+// "нет подключения к интернету" instead of "the server is down".
+if ("serviceWorker" in navigator && location.protocol === "https:") {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("/service-worker").catch(() => {})
   })
