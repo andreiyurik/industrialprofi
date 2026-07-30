@@ -81,10 +81,6 @@ group :development do
   # Names what the profiler only shows: N+1 queries and needless eager loading.
   # Configured in config/environments/development.rb — inert without it.
   gem "bullet"
-
-  # Writes the table's columns as a comment atop each model, so the schema is
-  # where you read the model instead of 200 lines away in db/schema.rb.
-  gem "annotaterb", require: false
 end
 
 group :test do
