@@ -72,6 +72,19 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  # Speed badge on every page: total time, each SQL query, and the line that
+  # issued it. The metric that decides whether one small VPS holds is queries per
+  # page, and this is the cheapest way to see it while writing the page.
+  gem "rack-mini-profiler"
+
+  # Names what the profiler only shows: N+1 queries and needless eager loading.
+  # Configured in config/environments/development.rb — inert without it.
+  gem "bullet"
+
+  # Writes the table's columns as a comment atop each model, so the schema is
+  # where you read the model instead of 200 lines away in db/schema.rb.
+  gem "annotaterb", require: false
 end
 
 group :test do
