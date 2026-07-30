@@ -52,7 +52,7 @@ a.lesson-resource__source {
   gap: 0.2rem;
   text-decoration: none;
 
-  svg {
+  .icon {
     block-size: 0.9em;
     inline-size: 0.9em;
   }

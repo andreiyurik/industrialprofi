@@ -7,14 +7,14 @@
     <%= button_to lesson_bookmark_path(lesson), method: :delete,
           class: "bookmark-btn bookmark-btn--on",
           title: t("bookmarks.remove"), "aria-label": t("bookmarks.remove") do %>
-      <%= heroicon "bookmark", variant: :solid %>
+      <%= icon_tag "bookmark-simple-fill" %>
       <span class="bookmark-btn__label"><%= t("bookmarks.saved") %></span>
     <% end %>
   <% else %>
     <%= button_to lesson_bookmark_path(lesson), method: :post,
           class: "bookmark-btn",
           title: t("bookmarks.add"), "aria-label": t("bookmarks.add") do %>
-      <%= heroicon "bookmark", variant: :outline %>
+      <%= icon_tag "bookmark-simple" %>
       <span class="bookmark-btn__label"><%= t("bookmarks.add") %></span>
     <% end %>
   <% end %>

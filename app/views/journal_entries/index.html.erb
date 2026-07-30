@@ -10,7 +10,7 @@
     <% if @entries.any? %>
       <div class="journal__toolbar">
         <%= link_to new_journal_entry_path, class: "btn btn--reversed" do %>
-          <%= heroicon "plus", variant: :outline %>
+          <%= icon_tag "plus" %>
           <%= t("journal.new_entry") %>
         <% end %>
       </div>
@@ -41,7 +41,7 @@
       </div>
     <% else %>
       <div class="journal__empty">
-        <span class="journal__empty-icon"><%= heroicon "pencil-square", variant: :outline %></span>
+        <span class="journal__empty-icon"><%= icon_tag "pencil-simple" %></span>
         <p class="journal__empty-text"><%= t("journal.empty") %></p>
         <%= link_to t("journal.new_entry"), new_journal_entry_path, class: "btn btn--reversed btn--large" %>
       </div>

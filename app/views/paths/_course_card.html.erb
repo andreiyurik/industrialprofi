@@ -7,7 +7,7 @@
   <% if done %>
     <div class="course-card__completed">
       <%= t("courses.completed") %>
-      <%= heroicon "check-circle", variant: :solid %>
+      <%= icon_tag "check-circle-fill" %>
     </div>
   <% end %>
 
@@ -15,10 +15,10 @@
     <span class="course-card__badge<%= " course-card__badge--plain" unless ring %>">
       <% if ring %>
         <%= render layout: "shared/progress_ring", locals: { completed: completed, total: total } do %>
-          <%= render "shared/topic_badge", token: course_icon_token(course) %>
+          <%= render "shared/topic_badge", token: course.emblem %>
         <% end %>
       <% else %>
-        <%= render "shared/topic_badge", token: course_icon_token(course) %>
+        <%= render "shared/topic_badge", token: course.emblem %>
       <% end %>
     </span>
 
@@ -32,12 +32,12 @@
       </h2>
       <div class="course-card__meta">
         <span class="course-card__meta-item">
-          <%= heroicon "book-open", variant: :outline %>
+          <%= icon_tag "book-open" %>
           <%= t("courses.lessons_count", count: lessons_n) %>
         </span>
         <% if practice_n.positive? %>
           <span class="course-card__meta-item">
-            <%= heroicon "wrench-screwdriver", variant: :outline %>
+            <%= icon_tag "wrench" %>
             <%= t("courses.practice_count", count: practice_n) %>
           </span>
         <% end %>

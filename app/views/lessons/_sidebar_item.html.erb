@@ -5,12 +5,12 @@
         class: "lesson-sidebar__item#{" lesson-sidebar__item--done" if done}",
         aria: { current: ("page" if lesson.id == current_lesson.id) } do %>
     <span class="lesson-sidebar__kind" aria-hidden="true">
-      <%= heroicon(lesson.kind == "practice" ? "wrench-screwdriver" : "book-open", variant: :outline) %>
+      <%= icon_tag(lesson.kind == "practice" ? "wrench" : "book-open") %>
     </span>
     <span class="lesson-sidebar__item-title"><%= lesson.title %></span>
     <% if signed_in? %>
       <span class="lesson-sidebar__status" title="<%= done ? t("lessons.completed") : t("lessons.not_completed") %>">
-        <%= heroicon "check-circle", variant: :solid %>
+        <%= icon_tag "check-circle-fill" %>
       </span>
     <% end %>
   <% end %>

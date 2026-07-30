@@ -32,14 +32,14 @@
     <% norm = t("calculators.#{@calculator.slug}.norm", default: "") %>
     <% if norm.present? %>
       <p class="calc-norm">
-        <%= heroicon "document-text", variant: :outline %>
+        <%= icon_tag "file-text" %>
         <span><%= norm %></span>
       </p>
     <% end %>
 
     <div class="callout callout--important calc-disclaimer">
       <p class="callout__label">
-        <%= heroicon "information-circle", variant: :outline %>
+        <%= icon_tag "info" %>
         <span><%= t("calculators.disclaimer_label") %></span>
       </p>
       <p><%= t("calculators.disclaimer") %></p>
@@ -50,14 +50,14 @@
         <span class="calc-lesson-link__eyebrow"><%= t("calculators.related_lesson") %></span>
         <span class="calc-lesson-link__title">
           <%= @calculator.lesson.title %>
-          <%= heroicon "arrow-right", variant: :outline %>
+          <%= icon_tag "arrow-right" %>
         </span>
       </a>
     <% end %>
 
     <p class="calc-back">
       <%= link_to calculators_path, class: "link-quiet" do %>
-        <%= heroicon "arrow-left", variant: :outline %>
+        <%= icon_tag "arrow-left" %>
         <%= t("calculators.all_calculators") %>
       <% end %>
     </p>

@@ -12,7 +12,7 @@
       disclosure listing them all (zero JS). %>
   <% if entry.lessons.one? %>
     <%= link_to lesson_path(entry.lessons.first.slug), class: "lesson-resource__source" do %>
-      <%= heroicon "arrow-up-right", variant: :outline %><%= t("resources.in_lesson") %>
+      <%= icon_tag "arrow-up-right" %><%= t("resources.in_lesson") %>
     <% end %>
   <% elsif entry.lessons.many? %>
     <details class="lesson-resource__source lesson-resource__source--menu"

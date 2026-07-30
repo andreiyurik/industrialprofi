@@ -18,4 +18,16 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
   end
+
+  # Sign in through the real form. Waits on LEAVING the login page rather than on
+  # the submit button disappearing: a negative assertion can match the old body
+  # before Turbo swaps it in, which made this flake only in a full suite run. The
+  # destination varies (post_authenticating_url), so the path is what we assert.
+  def sign_in_as(user, password: "password")
+    visit new_session_path
+    fill_in "email_address", with: user.email_address
+    fill_in "password", with: password
+    find(".auth__submit").click
+    assert_no_current_path new_session_path, wait: 10
+  end
 end

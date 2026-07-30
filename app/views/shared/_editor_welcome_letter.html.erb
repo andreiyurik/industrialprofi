@@ -13,7 +13,7 @@
     <%= button_to editor_welcome_path, method: :delete, class: "welcome-letter__close",
           form: { class: "welcome-letter__close-form" },
           aria: { label: t("common.close") } do %>
-      <%= heroicon "x-mark", variant: :outline %>
+      <%= icon_tag "x" %>
     <% end %>
 
     <span class="welcome-letter__avatar" aria-hidden="true">АЮ</span>

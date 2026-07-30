@@ -1,0 +1,29 @@
+<%# Emblem picker. The choice is visual, so it's a grid of the glyphs themselves
+    rather than a select of names — nobody can judge «frame-corners-light» from the
+    string. Native radios, no JS: the checked ring comes from :has() in CSS.
+
+    The blank option is a real answer, not an empty state: a chapter with no emblem
+    of its own inherits its profession's, and repeating one glyph across sibling
+    chapters looks like a bug. `f` is the form builder, `record` the path or course. %>
+<div class="admin-form__field admin-form__field--lg">
+  <label><%= t("admin.field_icon") %></label>
+
+  <div class="icon-picker">
+    <label class="icon-picker__option icon-picker__option--blank">
+      <%= f.radio_button :icon, "" %>
+      <%= icon_tag record.is_a?(Course) && record.path ? record.path.emblem : Icon::DEFAULT_EMBLEM %>
+      <span class="icon-picker__caption">
+        <%= record.is_a?(Course) ? t("admin.icon_inherited") : t("admin.icon_default") %>
+      </span>
+    </label>
+
+    <% Icon.emblems.each do |name| %>
+      <label class="icon-picker__option" title="<%= name %>">
+        <%= f.radio_button :icon, name %>
+        <%= icon_tag name %>
+      </label>
+    <% end %>
+  </div>
+
+  <p class="admin-form__hint"><%= t("admin.icon_hint") %></p>
+</div>

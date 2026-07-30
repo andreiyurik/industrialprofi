@@ -9,10 +9,10 @@
   <dialog class="milestone" data-dialog-target="dialog" data-action="click->dialog#backdropClose">
     <button type="button" class="milestone__close" data-action="dialog#close"
             aria-label="<%= t("common.close") %>">
-      <%= heroicon "x-mark", variant: :outline %>
+      <%= icon_tag "x" %>
     </button>
 
-    <span class="milestone__emblem" aria-hidden="true"><%= heroicon "academic-cap", variant: :outline %></span>
+    <span class="milestone__emblem" aria-hidden="true"><%= icon_tag "graduation-cap" %></span>
 
     <p class="milestone__eyebrow"><%= t(".eyebrow") %></p>
     <h2 class="milestone__title"><%= path.title %></h2>

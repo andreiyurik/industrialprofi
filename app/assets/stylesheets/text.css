@@ -100,7 +100,7 @@ kbd {
   position: absolute;
   transition: color 150ms ease, border-color 150ms ease, opacity 150ms ease;
 
-  svg {
+  .icon {
     block-size: 1.05em;
     inline-size: 1.05em;
   }

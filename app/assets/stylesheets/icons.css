@@ -1,0 +1,137 @@
+/*
+ * Icons — Phosphor (https://phosphoricons.com, MIT), self-hosted in
+ * app/assets/images/icons. The glyph is a CSS mask painted with currentColor, so
+ * `icon_tag` emits a bare <span> and no SVG reaches the HTML (our lesson pages
+ * render ~20 icons and are cached — inlining them would bloat every cache entry).
+ *
+ * Size comes from --icon-size, defaulting to 1em: an icon in a line of text
+ * scales with the text and needs no rule of its own. Set --icon-size on the
+ * CONTEXT, never on the icon.
+ *
+ * Weight is part of the name, and follows one rule: a filled glyph reads heavier
+ * than our type, so anything ≥32px (profession/chapter emblems) uses `-light`,
+ * everything smaller uses regular. `-fill` is reserved for STATE — done, active,
+ * saved — never for decoration.
+ */
+
+.icon {
+  background-color: currentColor;
+  block-size: var(--icon-size, 1em);
+  display: inline-block;
+  flex-shrink: 0;
+  inline-size: var(--icon-size, 1em);
+  mask-image: var(--svg);
+  /* content-box, not the default border-box: where padding is a hit area (the
+     sheet's ✕), a border-box mask would blow the glyph up to fill it. Padding
+     stays padding. */
+  mask-origin: content-box;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  pointer-events: none;
+  user-select: none;
+  /* Sits an icon on the text baseline in plain inline context; flex rows ignore it. */
+  vertical-align: -0.125em;
+}
+
+/* ── Service glyphs (regular) ──────────────────────────────────────────────── */
+.icon--arrow-left { --svg: url("icons/arrow-left.svg"); }
+.icon--arrow-right { --svg: url("icons/arrow-right.svg"); }
+.icon--arrow-up-right { --svg: url("icons/arrow-up-right.svg"); }
+.icon--arrows-in { --svg: url("icons/arrows-in.svg"); }
+.icon--arrows-out { --svg: url("icons/arrows-out.svg"); }
+.icon--book-open { --svg: url("icons/book-open.svg"); }
+.icon--bookmark-simple { --svg: url("icons/bookmark-simple.svg"); }
+.icon--calculator { --svg: url("icons/calculator.svg"); }
+.icon--caret-down { --svg: url("icons/caret-down.svg"); }
+.icon--caret-left { --svg: url("icons/caret-left.svg"); }
+.icon--caret-right { --svg: url("icons/caret-right.svg"); }
+.icon--chat-circle-dots { --svg: url("icons/chat-circle-dots.svg"); }
+.icon--check { --svg: url("icons/check.svg"); }
+.icon--check-circle { --svg: url("icons/check-circle.svg"); }
+.icon--clipboard { --svg: url("icons/clipboard.svg"); }
+.icon--clipboard-text { --svg: url("icons/clipboard-text.svg"); }
+.icon--clock { --svg: url("icons/clock.svg"); }
+.icon--copy { --svg: url("icons/copy.svg"); }
+.icon--cpu { --svg: url("icons/cpu.svg"); }
+.icon--file-text { --svg: url("icons/file-text.svg"); }
+.icon--gear-six { --svg: url("icons/gear-six.svg"); }
+.icon--graduation-cap { --svg: url("icons/graduation-cap.svg"); }
+.icon--heart { --svg: url("icons/heart.svg"); }
+.icon--house { --svg: url("icons/house.svg"); }
+.icon--info { --svg: url("icons/info.svg"); }
+.icon--lightbulb { --svg: url("icons/lightbulb.svg"); }
+.icon--link { --svg: url("icons/link.svg"); }
+.icon--list { --svg: url("icons/list.svg"); }
+.icon--lock { --svg: url("icons/lock.svg"); }
+.icon--magnifying-glass { --svg: url("icons/magnifying-glass.svg"); }
+.icon--map-trifold { --svg: url("icons/map-trifold.svg"); }
+.icon--minus-circle { --svg: url("icons/minus-circle.svg"); }
+.icon--newspaper { --svg: url("icons/newspaper.svg"); }
+.icon--paper-plane-tilt { --svg: url("icons/paper-plane-tilt.svg"); }
+.icon--pencil-simple { --svg: url("icons/pencil-simple.svg"); }
+.icon--plus { --svg: url("icons/plus.svg"); }
+.icon--plus-circle { --svg: url("icons/plus-circle.svg"); }
+.icon--question { --svg: url("icons/question.svg"); }
+.icon--sign-in { --svg: url("icons/sign-in.svg"); }
+.icon--sign-out { --svg: url("icons/sign-out.svg"); }
+.icon--star { --svg: url("icons/star.svg"); }
+.icon--trash { --svg: url("icons/trash.svg"); }
+.icon--user-circle { --svg: url("icons/user-circle.svg"); }
+.icon--user-plus { --svg: url("icons/user-plus.svg"); }
+.icon--users { --svg: url("icons/users.svg"); }
+.icon--video-camera { --svg: url("icons/video-camera.svg"); }
+.icon--warning { --svg: url("icons/warning.svg"); }
+.icon--wrench { --svg: url("icons/wrench.svg"); }
+.icon--x { --svg: url("icons/x.svg"); }
+
+/* ── State (fill) ──────────────────────────────────────────────────────────── */
+.icon--bookmark-simple-fill { --svg: url("icons/bookmark-simple-fill.svg"); }
+.icon--check-circle-fill { --svg: url("icons/check-circle-fill.svg"); }
+.icon--heart-fill { --svg: url("icons/heart-fill.svg"); }
+
+/* ── Profession / chapter emblems (light, always ≥32px) ────────────────────── */
+.icon--aperture-light { --svg: url("icons/aperture-light.svg"); }
+.icon--atom-light { --svg: url("icons/atom-light.svg"); }
+.icon--battery-charging-light { --svg: url("icons/battery-charging-light.svg"); }
+.icon--book-bookmark-light { --svg: url("icons/book-bookmark-light.svg"); }
+.icon--camera-light { --svg: url("icons/camera-light.svg"); }
+.icon--certificate-light { --svg: url("icons/certificate-light.svg"); }
+.icon--chart-line-up-light { --svg: url("icons/chart-line-up-light.svg"); }
+.icon--circuitry-light { --svg: url("icons/circuitry-light.svg"); }
+.icon--code-light { --svg: url("icons/code-light.svg"); }
+.icon--cpu-light { --svg: url("icons/cpu-light.svg"); }
+.icon--cube-light { --svg: url("icons/cube-light.svg"); }
+.icon--drop-light { --svg: url("icons/drop-light.svg"); }
+.icon--engine-light { --svg: url("icons/engine-light.svg"); }
+.icon--eye-light { --svg: url("icons/eye-light.svg"); }
+.icon--factory-light { --svg: url("icons/factory-light.svg"); }
+.icon--file-text-light { --svg: url("icons/file-text-light.svg"); }
+.icon--film-slate-light { --svg: url("icons/film-slate-light.svg"); }
+.icon--frame-corners-light { --svg: url("icons/frame-corners-light.svg"); }
+.icon--gauge-light { --svg: url("icons/gauge-light.svg"); }
+.icon--gear-light { --svg: url("icons/gear-light.svg"); }
+.icon--grid-four-light { --svg: url("icons/grid-four-light.svg"); }
+.icon--hand-heart-light { --svg: url("icons/hand-heart-light.svg"); }
+.icon--hard-drives-light { --svg: url("icons/hard-drives-light.svg"); }
+.icon--hard-hat-light { --svg: url("icons/hard-hat-light.svg"); }
+.icon--house-light { --svg: url("icons/house-light.svg"); }
+.icon--lightning-light { --svg: url("icons/lightning-light.svg"); }
+.icon--list-checks-light { --svg: url("icons/list-checks-light.svg"); }
+.icon--magnifying-glass-light { --svg: url("icons/magnifying-glass-light.svg"); }
+.icon--monitor-light { --svg: url("icons/monitor-light.svg"); }
+.icon--motorcycle-light { --svg: url("icons/motorcycle-light.svg"); }
+.icon--pipe-light { --svg: url("icons/pipe-light.svg"); }
+.icon--pipe-wrench-light { --svg: url("icons/pipe-wrench-light.svg"); }
+.icon--radioactive-light { --svg: url("icons/radioactive-light.svg"); }
+.icon--ruler-light { --svg: url("icons/ruler-light.svg"); }
+.icon--seal-check-light { --svg: url("icons/seal-check-light.svg"); }
+.icon--shield-check-light { --svg: url("icons/shield-check-light.svg"); }
+.icon--sliders-light { --svg: url("icons/sliders-light.svg"); }
+.icon--sun-light { --svg: url("icons/sun-light.svg"); }
+.icon--thermometer-light { --svg: url("icons/thermometer-light.svg"); }
+.icon--toilet-light { --svg: url("icons/toilet-light.svg"); }
+.icon--toolbox-light { --svg: url("icons/toolbox-light.svg"); }
+.icon--tree-structure-light { --svg: url("icons/tree-structure-light.svg"); }
+.icon--waveform-light { --svg: url("icons/waveform-light.svg"); }
+.icon--wrench-light { --svg: url("icons/wrench-light.svg"); }

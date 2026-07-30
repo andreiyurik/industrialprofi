@@ -31,13 +31,14 @@
   text-transform: uppercase;
 }
 
-.callout__label svg {
-  background-color: color-mix(in oklab, var(--callout-accent) 16%, transparent);
-  block-size: 1.9em;
-  border-radius: 0.45em;
+/* One element: the glyph IS the mark, at the label's full accent (currentColor).
+   No tinted chip behind it — a masked .icon paints its glyph with
+   background-color, so a chip fill on the same element becomes the glyph's own
+   colour and fades it to the tint's alpha. */
+.callout__label .icon {
+  --icon-size: 1.7em;
+
   flex-shrink: 0;
-  inline-size: 1.9em;
-  padding: 0.35em;
 }
 
 .callout--danger    { --callout-accent: oklch(var(--lch-red)); }

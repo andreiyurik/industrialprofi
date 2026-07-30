@@ -49,7 +49,7 @@
   display: inline-flex;
 }
 
-.reaction__heart svg {
+.reaction__heart .icon {
   block-size: 1.15em;
   inline-size: 1.15em;
 }

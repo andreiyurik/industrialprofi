@@ -8,7 +8,7 @@
   </div>
   <% if post.reactions_count.positive? %>
     <span class="news-row__reactions" aria-label="<%= t("reactions.count", count: post.reactions_count) %>">
-      <%= heroicon "heart", variant: :solid %>
+      <%= icon_tag "heart-fill" %>
       <span><%= post.reactions_count %></span>
     </span>
   <% end %>

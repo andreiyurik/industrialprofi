@@ -15,11 +15,11 @@
                 data-controller="copy" data-copy-text-value="[!<%= marker %>]" data-action="copy#copy"
                 title="<%= t('admin.editor_cheatsheet.copy') %>">
           <code class="editor-cheatsheet__marker">[!<%= marker %>]</code>
-          <span class="editor-cheatsheet__copy-icon editor-cheatsheet__copy-icon--copy"><%= heroicon "document-duplicate", variant: :outline %></span>
-          <span class="editor-cheatsheet__copy-icon editor-cheatsheet__copy-icon--done"><%= heroicon "check", variant: :outline %></span>
+          <span class="editor-cheatsheet__copy-icon editor-cheatsheet__copy-icon--copy"><%= icon_tag "copy" %></span>
+          <span class="editor-cheatsheet__copy-icon editor-cheatsheet__copy-icon--done"><%= icon_tag "check" %></span>
         </button>
         <span class="editor-cheatsheet__meaning">
-          <%= heroicon cfg[:icon], variant: :outline %><%= cfg[:label] %>
+          <%= icon_tag cfg[:icon] %><%= cfg[:label] %>
         </span>
       </li>
     <% end %>

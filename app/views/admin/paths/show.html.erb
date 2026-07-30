@@ -7,7 +7,7 @@
     <div class="admin-header">
       <div class="admin-header__title-group">
         <a href="<%= admin_paths_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
-          <%= heroicon("arrow-left", variant: :outline) %>
+          <%= icon_tag("arrow-left") %>
         </a>
         <h1 class="admin-header__title"><%= @path.title %></h1>
         <span class="badge <%= @path.status == 'published' ? 'badge--link' : 'badge--draft' %>"><%= @path.status %></span>
@@ -15,7 +15,7 @@
       <div class="admin-header__actions">
         <a href="<%= path_path(@path) %>" class="admin-header__view-live link-quiet" target="_blank"><%= t("admin.view_live") %> ↗</a>
         <a href="<%= edit_admin_path_path(@path) %>" class="btn btn--small">
-          <%= heroicon "cog-6-tooth", variant: :outline %>
+          <%= icon_tag "gear-six" %>
           <span><%= t("admin.builder.settings") %></span>
         </a>
       </div>
@@ -40,7 +40,7 @@
       <% end %>
 
       <a href="<%= new_admin_course_path(path_id: @path.id) %>" class="builder__add">
-        <%= heroicon "plus", variant: :outline %>
+        <%= icon_tag "plus" %>
         <span><%= t("admin.builder.add_course") %></span>
       </a>
     </div>

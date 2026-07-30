@@ -112,6 +112,7 @@ ru:
       blank: "не может быть пустым"
       taken: "уже занят"
       invalid: "имеет неверный формат"
+      inclusion: "содержит недопустимое значение"
       too_short: "слишком короткий (минимум %{count} символов)"
       confirmation: "не совпадает с полем «%{attribute}»"
 
@@ -941,7 +942,7 @@ ru:
       title_html: 'Первая открытая <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">свободная энциклопедия</span> прикладных профессий'
       subtitle_html: 'Независимый открытый проект: профессии создаёт, редактирует и проверяет сообщество. Прозрачная удобная структура с качественными ссылками по теме в конце статей. Предложить правку может каждый, стать <span class="hero__sweep" data-controller="rough-annotation" data-rough-annotation-type-value="highlight" data-rough-annotation-color-value="--color-highlight" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="1200" data-rough-annotation-duration-value="700">автором или куратором</span> — любой опытный специалист. Помогаем быстро освоиться в новом или структурировать имеющиеся знания.'
     group_upcoming: "В планах"
-    soon_full_list: "Весь список"
+    soon_full_list: "Весь список..."
     soon_curator: "Соберите свою карту профессии"
     # A vacancy board, not a queue: plain copy, deliberately NOT Path rows — an
     # empty Path is admin noise, and a DB-driven list only ever shows whatever
@@ -2127,6 +2128,10 @@ ru:
     kind_lesson: "Урок"
     kind_practice: "Практика"
     field_status: "Статус"
+    field_icon: "Эмблема"
+    icon_default: "По умолчанию"
+    icon_inherited: "Как у профессии"
+    icon_hint: "Знак в круге на карточке и в шапке. Если ни один не подходит по смыслу — оставьте первый вариант, лишняя эмблема хуже унаследованной."
     new_path: "Создать профессию"
     new_course: "Создать главу"
     new_lesson: "Создать статью"

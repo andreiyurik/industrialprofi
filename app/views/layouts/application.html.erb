@@ -94,7 +94,7 @@
           <details class="header__menu" data-controller="details" data-details-target="details"
                    data-action="click@document->details#closeOnClickOutside keydown.esc@window->details#close">
             <summary class="header__menu-toggle" aria-label="<%= t("nav.menu") %>">
-              <%= heroicon "bars-3", variant: :outline %>
+              <%= icon_tag "list" %>
               <% if unseen_outcomes %><span class="notify-dot notify-dot--corner"></span><% end %>
             </summary>
             <%# The ✕ floats in the strip right of the drawer (TOP's DrawerComponent:
@@ -102,7 +102,7 @@
                 overflow would clip it. A closed <details> hides it natively. %>
             <button type="button" class="header__menu-close" data-action="details#close"
                     aria-label="<%= t("common.close") %>">
-              <%= heroicon "x-mark", variant: :outline %>
+              <%= icon_tag "x" %>
             </button>
             <div class="header__menu-panel">
               <%# Guest drawer opens on the full brand (mark + wordmark), like
@@ -116,39 +116,33 @@
                 <% end %>
               <% end %>
 
-              <%# Mobile-only identity header — the dropdown mirrors the desktop
-                  popover's anatomy, so it reads as the same menu. %>
+              <%# Mobile-only identity header — the SAME partial the desktop popover
+                  renders, so the two menus read as one. %>
               <% if signed_in? %>
-                <p class="header__menu-identity account-menu__header">
-                  <%= avatar_tag(Current.user.name) %>
-                  <span class="account-menu__identity">
-                    <span class="account-menu__name"><%= Current.user.name %><% unless Current.user.member? %> <span class="badge badge--marker account-menu__role"><%= t("admin.roles.#{Current.user.role}") %></span><% end %></span>
-                    <span class="account-menu__email"><%= Current.user.email_address %></span>
-                  </span>
-                </p>
+                <%= render "shared/account_identity", extra_class: "header__menu-identity" %>
               <% end %>
 
               <%# Icons render only in the mobile dropdown (hidden inline on
                   desktop) and match the palette tiles — one visual language. %>
               <%= link_to paths_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } do %>
-                <%= heroicon "map", variant: :outline %><%= t("nav.professions") %><%= render "shared/nav_underline" %>
+                <%= icon_tag "map-trifold" %><%= t("nav.professions") %><%= render "shared/nav_underline" %>
               <% end %>
               <%= link_to projects_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if current_page?(projects_path)) } do %>
-                <%= heroicon "wrench-screwdriver", variant: :outline %><%= t("nav.projects") %><%= render "shared/nav_underline" %>
+                <%= icon_tag "wrench" %><%= t("nav.projects") %><%= render "shared/nav_underline" %>
               <% end %>
               <%# Ordered as the footer's "Обучение" column, which this mirrors. %>
               <%= link_to resources_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if controller_name == "resources") } do %>
-                <%= heroicon "book-open", variant: :outline %><%= t("nav.library") %><%= render "shared/nav_underline" %>
+                <%= icon_tag "book-open" %><%= t("nav.library") %><%= render "shared/nav_underline" %>
               <% end %>
               <%= link_to calculators_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if controller_name == "calculators") } do %>
-                <%= heroicon "calculator", variant: :outline %><%= t("nav.calculators") %><%= render "shared/nav_underline" %>
+                <%= icon_tag "calculator" %><%= t("nav.calculators") %><%= render "shared/nav_underline" %>
               <% end %>
               <% if controller.class.module_parent_name == "Admin" %>
-                <span class="badge badge--marker">Admin</span>
+                <span class="badge badge--marker header__context-badge">Admin</span>
               <% end %>
               <% unless signed_in? %>
                 <%# Orientation for guests — mobile only. On desktop the top bar
@@ -158,26 +152,26 @@
                 <div class="header__menu-guest">
                   <%= link_to about_path, class: "account-menu__link",
                         aria: { current: ("page" if current_page?(about_path)) } do %>
-                    <%= heroicon "information-circle", variant: :outline %>
+                    <%= icon_tag "info" %>
                     <%= t("nav.about") %>
                   <% end %>
                   <%# The recruit-an-expert door. Cheap to place, existential to
                       miss — a master who never finds it never authors a path. %>
                   <%= link_to authors_path, class: "account-menu__link",
                         aria: { current: ("page" if current_page?(authors_path)) } do %>
-                    <%= heroicon "users", variant: :outline %>
+                    <%= icon_tag "users" %>
                     <%= t("nav.authors") %>
                   <% end %>
                   <%= link_to faq_path, class: "account-menu__link",
                         aria: { current: ("page" if current_page?(faq_path)) } do %>
-                    <%= heroicon "question-mark-circle", variant: :outline %>
+                    <%= icon_tag "question" %>
                     <%= t("nav.faq") %>
                   <% end %>
                   <%# TOP keeps Support Us right in the drawer — for a
                       donation-run project that placement is a decision. %>
                   <%= link_to support_us_path, class: "account-menu__link",
                         aria: { current: ("page" if current_page?(support_us_path)) } do %>
-                    <%= heroicon "heart", variant: :outline %>
+                    <%= icon_tag "heart" %>
                     <%= t("nav.support") %>
                   <% end %>
                 </div>
@@ -185,47 +179,19 @@
                     drawer-only (the desktop header has the CTA pill). %>
                 <%= link_to new_signup_path, class: "nav__link link-quiet header__menu-signup",
                       aria: { current: ("page" if current_page?(new_signup_path)) } do %>
-                  <%= heroicon "user-plus", variant: :outline %><%= t("auth.sign_up") %>
+                  <%= icon_tag "user-plus" %><%= t("auth.sign_up") %>
                 <% end %>
                 <%= link_to new_session_path, class: "nav__link link-quiet header__menu-signin",
                       aria: { current: ("page" if current_page?(new_session_path)) } do %>
-                  <%= heroicon "arrow-left-on-rectangle", variant: :outline %><%= t("auth.sign_in") %>
+                  <%= icon_tag "sign-in" %><%= t("auth.sign_in") %>
                 <% end %>
               <% end %>
 
-              <%# Mobile-only: account links duplicated here so they're reachable
-                  from the hamburger. On desktop the popover button covers this. %>
+              <%# The personal menu, reachable from the hamburger on a phone. Same
+                  partial as the desktop popover — one list, two containers. %>
               <% if signed_in? %>
                 <div class="header__menu-account">
-                  <%# The workspace link leads the list, separated from the
-                      personal items — an admin/editor reaches for it daily. %>
-                  <% if Current.user.can_edit_content? %>
-                    <%= link_to (Current.user.can_administer? ? admin_root_path : admin_lesson_suggestions_path), class: "account-menu__link account-menu__link--work" do %>
-                      <%= heroicon "cog-6-tooth", variant: :outline %>
-                      <%= Current.user.can_administer? ? t("nav.admin") : t("nav.editing") %>
-                    <% end %>
-                  <% end %>
-                  <%= link_to dashboard_path, class: "account-menu__link" do %>
-                    <%= heroicon "home", variant: :outline %>
-                    <%= t("nav.dashboard") %>
-                    <% if unseen_outcomes %><span class="notify-dot"></span><% end %>
-                  <% end %>
-                  <%= link_to journal_entries_path, class: "account-menu__link" do %>
-                    <%= heroicon "pencil-square", variant: :outline %>
-                    <%= t("nav.journal") %>
-                  <% end %>
-                  <%= link_to account_path, class: "account-menu__link" do %>
-                    <%= heroicon "user-circle", variant: :outline %>
-                    <%= t("nav.account") %>
-                  <% end %>
-                  <%= link_to new_feedback_path, class: "account-menu__link" do %>
-                    <%= heroicon "chat-bubble-left-ellipsis", variant: :outline %>
-                    <%= t("nav.feedback") %>
-                  <% end %>
-                  <%= button_to session_path, method: :delete, class: "account-menu__link account-menu__signout" do %>
-                    <%= heroicon "arrow-right-on-rectangle", variant: :outline %>
-                    <%= t("auth.sign_out") %>
-                  <% end %>
+                  <%= render "shared/account_links", unseen_outcomes: unseen_outcomes %>
                 </div>
               <% end %>
             </div>
@@ -241,7 +207,7 @@
                   title: "#{t("nav.search")} (Ctrl+K)",
                   data: { action: "palette#open:prevent" },
                   aria: { current: ("page" if controller_name == "searches") } do %>
-              <%= heroicon "magnifying-glass", variant: :outline %>
+              <%= icon_tag "magnifying-glass" %>
               <span class="for-screen-reader"><%= t("nav.search") %></span>
             <% end %>
             <%= render "shared/palette" %>
@@ -253,53 +219,13 @@
             <button type="button" class="account-menu-button" popovertarget="account-menu">
               <%= avatar_tag(Current.user.name) %>
               <span class="account-menu-button__name"><%= Current.user.name %></span>
-              <%= heroicon "chevron-down", variant: :outline %>
+              <%= icon_tag "caret-down" %>
               <% if unseen_outcomes %><span class="notify-dot notify-dot--corner"></span><% end %>
             </button>
 
             <div id="account-menu" class="account-menu" popover>
-              <p class="account-menu__header">
-                <%= avatar_tag(Current.user.name) %>
-                <span class="account-menu__identity">
-                  <span class="account-menu__name"><%= Current.user.name %><% unless Current.user.member? %> <span class="badge badge--marker account-menu__role"><%= t("admin.roles.#{Current.user.role}") %></span><% end %></span>
-                  <span class="account-menu__email"><%= Current.user.email_address %></span>
-                </span>
-              </p>
-
-              <nav class="account-menu__nav">
-                <% if Current.user.can_edit_content? %>
-                  <%# The workspace link leads the list, separated from the
-                      personal items — an admin/editor reaches for it daily.
-                      Admins land on the overview; editors on their main job —
-                      the moderation queue. %>
-                  <%= link_to (Current.user.can_administer? ? admin_root_path : admin_lesson_suggestions_path), class: "account-menu__link account-menu__link--work" do %>
-                    <%= heroicon "cog-6-tooth", variant: :outline %>
-                    <%= Current.user.can_administer? ? t("nav.admin") : t("nav.editing") %>
-                  <% end %>
-                <% end %>
-                <%= link_to dashboard_path, class: "account-menu__link" do %>
-                  <%= heroicon "home", variant: :outline %>
-                  <%= t("nav.dashboard") %>
-                  <% if unseen_outcomes %><span class="notify-dot"></span><% end %>
-                <% end %>
-                <%= link_to journal_entries_path, class: "account-menu__link" do %>
-                  <%= heroicon "pencil-square", variant: :outline %>
-                  <%= t("nav.journal") %>
-                <% end %>
-                <%= link_to account_path, class: "account-menu__link" do %>
-                  <%= heroicon "user-circle", variant: :outline %>
-                  <%= t("nav.account") %>
-                <% end %>
-                <%= link_to new_feedback_path, class: "account-menu__link" do %>
-                  <%= heroicon "chat-bubble-left-ellipsis", variant: :outline %>
-                  <%= t("nav.feedback") %>
-                <% end %>
-              </nav>
-
-              <%= button_to session_path, method: :delete, class: "account-menu__link account-menu__signout" do %>
-                <%= heroicon "arrow-right-on-rectangle", variant: :outline %>
-                <%= t("auth.sign_out") %>
-              <% end %>
+              <%= render "shared/account_identity" %>
+              <%= render "shared/account_links", unseen_outcomes: unseen_outcomes %>
             </div>
           <% else %>
             <%# The primary CTA stays visible on mobile (not buried in the menu). %>

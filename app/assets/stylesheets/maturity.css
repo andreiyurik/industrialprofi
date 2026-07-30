@@ -31,7 +31,7 @@
   padding: 0.45rem 0.8rem 0.45rem 0.9rem;
   transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
 
-  svg {
+  .icon {
     block-size: 0.85rem;
     color: var(--color-subtle-dark);
     inline-size: 0.85rem;
@@ -174,21 +174,21 @@
     gap: 0.6rem;
   }
 
-  svg {
+  .icon {
     align-self: center;
     block-size: 1.05rem;
     flex: none;
     inline-size: 1.05rem;
   }
 
-  .is-done svg {
+  .is-done .icon {
     color: var(--color-positive);
   }
 
   .is-todo {
     color: var(--color-subtle-dark);
 
-    svg {
+    .icon {
       color: var(--color-disabled);
     }
   }

@@ -22,7 +22,7 @@
         <% if @focus_next_lesson %>
           <%= link_to @focus_next_lesson, class: "btn btn--small btn--reversed" do %>
             <%= t("dashboard.continue") %>
-            <%= heroicon "arrow-right", variant: :outline %>
+            <%= icon_tag "arrow-right" %>
           <% end %>
         <% end %>
       </div>
@@ -45,9 +45,12 @@
         <% t("paths.soon_wanted").each do |title| %>
           <span class="catalog-soon__slot"><%= title %></span>
         <% end %>
-      </p>
-      <p class="catalog-soon__all">
-        <%= link_to t("paths.soon_full_list"), contribute_path(anchor: "wanted"), class: "link-quiet" %>
+        <%# Last in the same wrapping row, so the list ends where it ends instead of
+            handing off to a stray line below it. %>
+        <%= link_to contribute_path(anchor: "wanted"), class: "catalog-soon__more link-quiet" do %>
+          <%= t("paths.soon_full_list") %>
+          <%= icon_tag "arrow-right" %>
+        <% end %>
       </p>
       <p class="catalog-soon__call">
         <%= link_to contribute_path, class: "btn",
@@ -56,7 +59,7 @@
                       rough_annotation_stroke_width_value: "2",
                       rough_annotation_padding_value: "10" } do %>
           <%= t("paths.soon_curator") %>
-          <%= heroicon "arrow-right", variant: :outline %>
+          <%= icon_tag "arrow-right" %>
         <% end %>
       </p>
     </div>

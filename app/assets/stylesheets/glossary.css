@@ -195,7 +195,7 @@
     }
   }
 
-  svg {
+  .icon {
     block-size: 0.85rem;
     inline-size: 0.85rem;
   }

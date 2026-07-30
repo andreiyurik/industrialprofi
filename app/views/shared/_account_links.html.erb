@@ -1,0 +1,38 @@
+<%# locals: (unseen_outcomes: false) -%>
+<%# The personal menu, rendered by BOTH surfaces — the hamburger drawer and the
+    desktop popover. One list, so an item can never exist in one menu and not the
+    other. The containers stay different on purpose: a full-height sheet on a phone,
+    an anchored popover on a wide screen. %>
+<nav class="account-menu__nav">
+  <%# The workspace link leads the list, separated from the personal items — an
+      admin/editor reaches for it daily. Admins land on the overview; editors on
+      their main job, the moderation queue. %>
+  <% if Current.user.can_edit_content? %>
+    <%= link_to (Current.user.can_administer? ? admin_root_path : admin_lesson_suggestions_path), class: "account-menu__link account-menu__link--work" do %>
+      <%= icon_tag "gear-six" %>
+      <%= Current.user.can_administer? ? t("nav.admin") : t("nav.editing") %>
+    <% end %>
+  <% end %>
+  <%= link_to dashboard_path, class: "account-menu__link" do %>
+    <%= icon_tag "house" %>
+    <%= t("nav.dashboard") %>
+    <% if unseen_outcomes %><span class="notify-dot"></span><% end %>
+  <% end %>
+  <%= link_to journal_entries_path, class: "account-menu__link" do %>
+    <%= icon_tag "pencil-simple" %>
+    <%= t("nav.journal") %>
+  <% end %>
+  <%= link_to account_path, class: "account-menu__link" do %>
+    <%= icon_tag "user-circle" %>
+    <%= t("nav.account") %>
+  <% end %>
+  <%= link_to new_feedback_path, class: "account-menu__link" do %>
+    <%= icon_tag "chat-circle-dots" %>
+    <%= t("nav.feedback") %>
+  <% end %>
+</nav>
+
+<%= button_to session_path, method: :delete, class: "account-menu__link account-menu__signout" do %>
+  <%= icon_tag "sign-out" %>
+  <%= t("auth.sign_out") %>
+<% end %>

@@ -102,7 +102,7 @@
   padding: 0;
   transition: color 200ms ease;
 
-  svg {
+  .icon {
     block-size: 1.05rem;
     inline-size: 1.05rem;
   }
@@ -197,7 +197,7 @@
   text-transform: uppercase;
 }
 
-.lesson__heading--task svg {
+.lesson__heading--task .icon {
   block-size: 1.25em;
   color: var(--color-subtle-dark);
   flex-shrink: 0;
@@ -274,7 +274,7 @@
 .lesson-task-journal {
   margin-block-start: 1.25rem;
 
-  svg {
+  .icon {
     block-size: 1.1rem;
     inline-size: 1.1rem;
   }
@@ -323,7 +323,7 @@
   margin-block-start: 0.1em;
 }
 
-.lesson-resource__badge svg {
+.lesson-resource__badge .icon {
   block-size: 0.95em;
   flex-shrink: 0;
   inline-size: 0.95em;
@@ -393,7 +393,7 @@
   opacity: 0.4;
   transition: opacity 200ms ease;
 
-  .lesson-edit-link svg {
+  .lesson-edit-link .icon {
     block-size: 0.9rem;
     inline-size: 0.9rem;
   }
@@ -439,7 +439,7 @@
     font-size: 1em;
   }
 
-  .btn svg {
+  .btn .icon {
     block-size: 1.1rem;
     inline-size: 1.1rem;
   }

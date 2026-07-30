@@ -48,7 +48,7 @@
           <%= link_to projects_path(path: @selected_path&.slug, difficulty: @selected_difficulty,
                                     saved: @saved_only ? nil : "1"),
                       class: "filter-chip filter-chip--saved", "aria-current": @saved_only || nil do %>
-            <%= heroicon "bookmark", variant: @saved_only ? :solid : :outline %>
+            <%= icon_tag @saved_only ? "bookmark-simple-fill" : "bookmark-simple" %>
             <%= t("projects.saved_filter") %>
           <% end %>
         </div>

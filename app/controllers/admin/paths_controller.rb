@@ -76,7 +76,7 @@ module Admin
     # status is handled separately via sanitized_status (trust ladder); slug is
     # locked once the path is live (see slug_locked?).
     def path_params
-      permitted = [ :title, :description ]
+      permitted = [ :title, :description, :icon ]
       permitted << :slug unless slug_locked?(@path)
       params.require(:path).permit(*permitted)
     end

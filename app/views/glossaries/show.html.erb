@@ -99,12 +99,12 @@
                   <dd class="glossary__action">
                     <% if term.lesson %>
                       <%= link_to term.lesson, class: "btn btn--small", title: term.lesson.title do %>
-                        <%= heroicon "book-open", variant: :outline %>
+                        <%= icon_tag "book-open" %>
                         <%= t("glossary.lesson_button") %>
                       <% end %>
                     <% else %>
                       <%= link_to search_path(q: term.abbr), class: "btn btn--small" do %>
-                        <%= heroicon "magnifying-glass", variant: :outline %>
+                        <%= icon_tag "magnifying-glass" %>
                         <%= t("glossary.search_button") %>
                       <% end %>
                     <% end %>

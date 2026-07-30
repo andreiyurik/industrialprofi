@@ -125,8 +125,6 @@ GEM
       raabro (~> 1.4)
     globalid (1.4.0)
       activesupport (>= 6.1)
-    heroicon (1.0.0)
-      rails (>= 5.2)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     image_processing (2.0.2)
@@ -395,7 +393,6 @@ DEPENDENCIES
   bundler-audit
   capybara
   debug
-  heroicon (~> 1.0)
   image_processing (~> 2.0)
   importmap-rails
   kamal

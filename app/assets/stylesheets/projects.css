@@ -93,7 +93,7 @@
   font-weight: 600;
 }
 
-.filter-chip--saved svg {
+.filter-chip--saved .icon {
   block-size: 1em;
   inline-size: 1em;
 }
@@ -242,7 +242,7 @@
 }
 
 /* Corner bookmark: smaller than in lists — a quiet utility, not card content. */
-.project-tile-wrap .bookmark-btn svg {
+.project-tile-wrap .bookmark-btn .icon {
   block-size: 0.95rem;
   inline-size: 0.95rem;
 }

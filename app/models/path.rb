@@ -20,7 +20,9 @@ class Path < ApplicationRecord
   # is the stable key, not content.
   IMPORTABLE_FIELDS = %w[title description position status kind].freeze
 
-  has_many :courses, -> { order(:position) }, dependent: :destroy
+  # inverse_of is explicit because a scoped has_many gets no automatic detection —
+  # without it `course.icon` falling back to `path.icon` would re-query per card.
+  has_many :courses, -> { order(:position) }, dependent: :destroy, inverse_of: :path
   # NO dependent: :destroy here on purpose — Course owns the lesson destroy chain
   # (path → courses → lessons). Adding it back would destroy each lesson twice.
   # This association stays for total counts / catalog-wide lesson queries.
@@ -38,6 +40,7 @@ class Path < ApplicationRecord
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: SLUG_FORMAT }
   validates :status, inclusion: { in: STATUSES }
+  validates :icon, inclusion: { in: ->(_) { Icon.emblems } }, allow_blank: true
   validates :kind, inclusion: { in: KINDS }
   validates :position, numericality: { greater_than_or_equal_to: 0 }
   validates :locale, presence: true, format: { with: /\A[a-z]{2}\z/ }
@@ -64,6 +67,13 @@ class Path < ApplicationRecord
 
   def to_param
     slug
+  end
+
+  # `icon` is the stored choice and may be blank; `emblem` is what to render. Kept
+  # separate on purpose — overriding the attribute reader would make `allow_blank`
+  # and form checkedness read the fallback instead of the choice.
+  def emblem
+    icon.presence || Icon::DEFAULT_EMBLEM
   end
 
   private

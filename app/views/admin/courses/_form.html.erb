@@ -38,6 +38,8 @@
     <%= f.text_area :description, rows: 4, class: "input input--textarea" %>
   </div>
 
+  <%= render "admin/shared/icon_field", f: f, record: course %>
+
   <%= render "admin/shared/status_field", f: f, record: course %>
 
   <div class="admin-form__actions">

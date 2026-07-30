@@ -7,7 +7,7 @@
     <div class="admin-header">
       <div class="admin-header__title-group">
         <a href="<%= @lesson.course ? admin_path_path(@lesson.course.path) : admin_paths_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
-          <%= heroicon("arrow-left", variant: :outline) %>
+          <%= icon_tag("arrow-left") %>
         </a>
         <h1 class="admin-header__title"><%= t("admin.new_lesson") %></h1>
       </div>

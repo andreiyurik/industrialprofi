@@ -47,8 +47,8 @@
   color: var(--color-negative);
 }
 
-.resource-row__handle svg,
-.resource-row__remove svg {
+.resource-row__handle .icon,
+.resource-row__remove .icon {
   height: 1.1rem;
   width: 1.1rem;
 }
@@ -133,7 +133,7 @@
   min-width: 14rem;
 }
 
-.resource-editor__add svg {
+.resource-editor__add .icon {
   height: 1rem;
   width: 1rem;
 }

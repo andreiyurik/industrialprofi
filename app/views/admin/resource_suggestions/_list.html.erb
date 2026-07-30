@@ -31,7 +31,7 @@
                       class: "btn btn--small btn--reversed admin-row__action",
                       form: { class: "admin-row__action-form" },
                       aria: { label: t("admin.approve") }, title: t("admin.approve") do %>
-                  <%= heroicon "check", variant: :outline %>
+                  <%= icon_tag "check" %>
                 <% end %>
                 <%= form_with url: reject_admin_resource_suggestion_path(suggestion), method: :patch,
                       class: "admin-row__reject-form" do |f| %>
@@ -40,7 +40,7 @@
                         required: true, aria: { label: t("admin.reject_comment") } %>
                   <%= f.button class: "btn btn--small btn--negative admin-row__action",
                         aria: { label: t("admin.reject") }, title: t("admin.reject") do %>
-                    <%= heroicon "x-mark", variant: :outline %>
+                    <%= icon_tag "x" %>
                   <% end %>
                 <% end %>
               </div>

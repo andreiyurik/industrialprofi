@@ -6,7 +6,7 @@
        aria-label="<%= t("lessons.sidebar_label") %>">
   <header class="lesson-sidebar__head">
     <%= link_to course_path(course), class: "lesson-sidebar__back" do %>
-      <%= heroicon "chevron-left", variant: :outline %>
+      <%= icon_tag "caret-left" %>
       <%= t("lessons.back_to_course") %>
     <% end %>
     <%= link_to course.title, course_path(course), class: "lesson-sidebar__path" %>
@@ -15,7 +15,7 @@
     <% end %>
     <button type="button" class="lesson-sidebar__close"
             data-action="lesson-sidebar#close" aria-label="<%= t("common.close") %>">
-      <%= heroicon "x-mark", variant: :outline %>
+      <%= icon_tag "x" %>
     </button>
   </header>
 
@@ -28,7 +28,7 @@
             <% if signed_in? %>
               <span class="lesson-sidebar__stage-count"><%= lessons.count { |lesson| completed_ids.include?(lesson.id) } %>/<%= lessons.size %></span>
             <% end %>
-            <span class="lesson-sidebar__chevron" aria-hidden="true"><%= heroicon "chevron-down", variant: :outline %></span>
+            <span class="lesson-sidebar__chevron" aria-hidden="true"><%= icon_tag "caret-down" %></span>
           </summary>
           <ul class="lesson-sidebar__list">
             <%= render partial: "lessons/sidebar_item", collection: lessons, as: :lesson,

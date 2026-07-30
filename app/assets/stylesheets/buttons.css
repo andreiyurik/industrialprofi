@@ -24,10 +24,10 @@
     }
   }
 
-  &:where(:has(img, svg)) {
+  &:where(:has(img, .icon)) {
     text-align: start;
 
-    img, svg {
+    img, .icon {
       block-size: var(--btn-icon-size, 1.1em);
       inline-size: var(--btn-icon-size, 1.1em);
       max-inline-size: unset;

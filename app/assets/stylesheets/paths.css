@@ -64,9 +64,35 @@
   padding: 0.35rem 0.9rem;
 }
 
-.catalog-soon__all {
-  font-size: 0.75rem;
-  margin-block: 0.75rem 0;
+/* The way onward, not another vacancy — so it drops the dashed capsule and takes
+   an arrow instead. Vertical metrics match a slot exactly, so it sits on the row's
+   baseline as a peer; only the horizontal padding is tighter, since without a
+   border there's no frame needing air. Stays in this block's quiet register (grey →
+   ink), never an accent: the whole section is deliberately dimmer than the live
+   cards above it. */
+.catalog-soon__more {
+  align-items: center;
+  display: inline-flex;
+  font-size: 0.85rem;
+  gap: 0.35rem;
+  hyphens: none;
+  padding: 0.35rem 0.4rem;
+
+  .icon {
+    --icon-size: 0.9em;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .icon {
+      transition: transform 150ms ease-out;
+    }
+  }
+
+  @media (any-hover: hover) {
+    &:hover .icon {
+      transform: translateX(0.15em);
+    }
+  }
 }
 
 .catalog-soon__call {
@@ -80,19 +106,19 @@
     --btn-border-color: transparent;
   }
 
-  .btn svg {
+  .btn .icon {
     block-size: 1rem;
     inline-size: 1rem;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .btn svg {
+    .btn .icon {
       transition: transform 150ms ease-out;
     }
   }
 
   @media (any-hover: hover) {
-    .btn:hover svg {
+    .btn:hover .icon {
       transform: translateX(0.2em);
     }
   }
@@ -273,7 +299,7 @@
   justify-content: center;
   margin-block-end: 1.5rem;
 
-  .topic-badge > :is(svg, img) {
+  .topic-badge > :is(.icon, img) {
     block-size: 2.5rem;
     inline-size: 2.5rem;
   }
@@ -290,7 +316,7 @@
     inline-size: 100%;
   }
 
-  .progress-ring__body .topic-badge > :is(svg, img) {
+  .progress-ring__body .topic-badge > :is(.icon, img) {
     block-size: 3.25rem;
     inline-size: 3.25rem;
   }
@@ -384,7 +410,7 @@
   justify-content: space-between;
   margin-block-end: 1.5rem;
 
-  .btn svg {
+  .btn .icon {
     block-size: 0.9rem;
     inline-size: 0.9rem;
   }
@@ -411,7 +437,7 @@
   .btn {
     align-self: center;
 
-    svg {
+    .icon {
       block-size: 1rem;
       inline-size: 1rem;
     }

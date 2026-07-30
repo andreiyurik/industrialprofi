@@ -9,14 +9,14 @@
       <div class="admin-header">
         <div class="admin-header__title-group">
           <a href="<%= admin_lessons_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
-            <%= heroicon("arrow-left", variant: :outline) %>
+            <%= icon_tag("arrow-left") %>
           </a>
           <h1 class="admin-header__title"><%= @path.title %></h1>
           <span class="badge <%= @path.status == 'published' ? 'badge--link' : 'badge--draft' %>"><%= @path.status %></span>
         </div>
         <div class="admin-header__actions">
           <a href="<%= new_admin_lesson_path %>" class="btn btn--small btn--reversed">
-            <%= heroicon("plus", variant: :outline) %>
+            <%= icon_tag("plus") %>
             <span><%= t("admin.new_lesson") %></span>
           </a>
         </div>
@@ -45,7 +45,7 @@
                     <% if lesson.practice? %>
                       <span class="badge badge--marker"><%= t("admin.kind_practice") %></span>
                     <% end %>
-                    <span class="admin-row__icon"><%= heroicon("pencil-square", variant: :outline) %></span>
+                    <span class="admin-row__icon"><%= icon_tag("pencil-simple") %></span>
                   </a>
                 <% end %>
               </div>
@@ -62,7 +62,7 @@
         <h1 class="admin-header__title"><%= t("admin.lessons_title") %></h1>
         <div class="admin-header__actions">
           <a href="<%= new_admin_lesson_path %>" class="btn btn--small btn--reversed">
-            <%= heroicon("plus", variant: :outline) %>
+            <%= icon_tag("plus") %>
             <span><%= t("admin.new_lesson") %></span>
           </a>
         </div>
@@ -82,7 +82,7 @@
               </span>
               <span class="admin-row__meta">
                 <span><%= russian_pluralize(path.lessons_count, :lesson) %></span>
-                <%= heroicon("chevron-right", variant: :outline) %>
+                <%= icon_tag("caret-right") %>
               </span>
             </a>
           <% end %>

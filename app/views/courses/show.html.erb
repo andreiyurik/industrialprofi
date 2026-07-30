@@ -24,10 +24,10 @@
       <div class="topic-hero-icon<%= " topic-hero-icon--ring" if show_ring %>">
         <% if show_ring %>
           <%= render layout: "shared/progress_ring", locals: { completed: @completed_ids.size, total: @course.lessons_count } do %>
-            <%= render "shared/topic_badge", token: course_icon_token(@course) %>
+            <%= render "shared/topic_badge", token: @course.emblem %>
           <% end %>
         <% else %>
-          <%= render "shared/topic_badge", token: course_icon_token(@course) %>
+          <%= render "shared/topic_badge", token: @course.emblem %>
         <% end %>
       </div>
       <h1 class="path__title path__title--course"><%= @course.title %></h1>
@@ -42,14 +42,14 @@
         <% if @continue_lesson %>
           <%= link_to @continue_lesson, class: "btn btn--reversed btn--large" do %>
             <%= t("paths.continue_learning") %>
-            <%= heroicon "arrow-right", variant: :outline %>
+            <%= icon_tag "arrow-right" %>
           <% end %>
           <p class="path__continue-hint"><%= t("paths.next_up", title: @continue_lesson.title) %></p>
         <% end %>
       <% elsif @continue_lesson %>
         <%= link_to @continue_lesson, class: "btn btn--reversed btn--large" do %>
           <%= t("paths.start_learning") %>
-          <%= heroicon "arrow-right", variant: :outline %>
+          <%= icon_tag "arrow-right" %>
         <% end %>
       <% end %>
     </div>

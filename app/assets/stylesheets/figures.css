@@ -41,7 +41,7 @@
   backdrop-filter: blur(4px);
 }
 
-.prose-figure__zoom svg {
+.prose-figure__zoom .icon {
   inline-size: 1.25rem;
   block-size: 1.25rem;
 }
@@ -110,7 +110,7 @@
   backdrop-filter: blur(4px);
 }
 
-.lightbox__close svg {
+.lightbox__close .icon {
   inline-size: 1.5rem;
   block-size: 1.5rem;
 }

@@ -7,8 +7,8 @@
     <% if local_assigns[:strong] %>
       <button type="button" class="calc-copy" data-action="calculator#copy"
               aria-label="<%= t("calculators.copy") %>" title="<%= t("calculators.copy") %>">
-        <span class="calc-copy__idle"><%= heroicon "clipboard-document", variant: :outline %></span>
-        <span class="calc-copy__ok"><%= heroicon "check", variant: :outline %></span>
+        <span class="calc-copy__idle"><%= icon_tag "clipboard" %></span>
+        <span class="calc-copy__ok"><%= icon_tag "check" %></span>
       </button>
     <% end %>
   </span>

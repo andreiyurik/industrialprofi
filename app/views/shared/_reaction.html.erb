@@ -14,13 +14,13 @@
           form_class: "reaction__form",
           aria: { pressed: reacted.to_s, label: (reacted ? t("reactions.remove") : t("reactions.add")) },
           title: (reacted ? t("reactions.remove") : t("reactions.add")) do %>
-      <span class="reaction__heart<%= " reaction__heart--pop" if popped %>"><%= heroicon "heart", variant: (reacted ? :solid : :outline) %></span>
+      <span class="reaction__heart<%= " reaction__heart--pop" if popped %>"><%= icon_tag reacted ? "heart-fill" : "heart" %></span>
       <span class="reaction__count"><%= count %></span>
     <% end %>
   <% else %>
     <%= link_to new_session_path, class: "reaction__btn reaction__btn--guest",
           title: t("reactions.sign_in") do %>
-      <span class="reaction__heart"><%= heroicon "heart", variant: :outline %></span>
+      <span class="reaction__heart"><%= icon_tag "heart" %></span>
       <span class="reaction__count"><%= count %></span>
     <% end %>
   <% end %>

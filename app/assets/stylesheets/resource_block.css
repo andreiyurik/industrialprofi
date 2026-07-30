@@ -19,7 +19,7 @@
   line-height: 0;
 }
 
-.resource-block__icon svg {
+.resource-block__icon .icon {
   height: 1.4rem;
   width: 1.4rem;
 }
@@ -68,7 +68,7 @@
   transition: color 120ms ease-out;
 }
 
-.resource-block__suggest svg {
+.resource-block__suggest .icon {
   inline-size: 1.15rem;
   block-size: 1.15rem;
   flex-shrink: 0;
