@@ -42,8 +42,33 @@ namespace :content do
     CurriculumExporter.run(path)
   end
 
+  desc "List the emblem names an author may put in path.yml / course.yml"
+  task icons: :environment do
+    puts "Эмблемы, доступные для `icon:` (#{Icon.emblems.size}). Другие имена импорт отклонит."
+    puts "Пусто = глава наследует эмблему профессии — это нормальный ответ."
+    Icon.emblems.each_slice(4) { |row| puts "  #{row.map { it.ljust(26) }.join.rstrip}" }
+  end
+
   desc "Flag mechanical content gaps: self-check, internal links, resource notes"
   task audit: :environment do
+    # Emblems: an AI draft can invent a plausible name that has no file, and it can
+    # fill every chapter with the same glyph. Both are silent in the UI.
+    bad_icons = (Path.all.to_a + Course.all.to_a)
+                .reject { |record| record.icon.blank? || Icon.emblem?(record.icon) }
+    if bad_icons.any?
+      puts "Неизвестные эмблемы (#{bad_icons.size}) — имени нет в наборе, см. content:icons:"
+      bad_icons.each { |record| puts "  · #{record.slug}  →  #{record.icon}" }
+    end
+
+    Path.includes(:courses).find_each do |path|
+      dupes = path.courses.map { it.icon }.compact_blank
+                  .tally.select { |_icon, count| count > 1 }
+      next if dupes.empty?
+
+      puts "«#{path.title}»: эмблема повторяется у нескольких глав — одной из них она не нужна:"
+      dupes.each { |icon, count| puts "  · #{icon} ×#{count}" }
+    end
+
     missing = Lesson.where(kind: "lesson").select(&:missing_self_check?)
 
     if missing.empty?

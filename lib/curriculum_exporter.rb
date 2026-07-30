@@ -39,7 +39,8 @@ class CurriculumExporter
 
     write_yaml root.join("path.yml"),
       meta(title: @path.title, description: @path.description,
-           position: @path.position, status: @path.status)
+           position: @path.position, status: @path.status,
+           icon: @path.icon)
 
     @path.courses.order(:position).each.with_index(1) do |course, number|
       export_course(course, root, number)
@@ -54,7 +55,8 @@ class CurriculumExporter
       dir = root.join(format("%02d-%s", number, course.slug))
       write_yaml dir.join("course.yml"),
         meta(slug: course.slug, title: course.title, description: course.description,
-             position: course.position, status: course.status)
+             position: course.position, status: course.status,
+             icon: course.icon)
 
       sections(course).each.with_index(1) do |(stage, lessons), section_number|
         # Section dir names are ordinal only: the importer takes the title from

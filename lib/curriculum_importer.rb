@@ -27,6 +27,7 @@ class CurriculumImporter
     @io = io
     @only = only.presence # a profession slug, or nil to import the whole tree
     @counts = Hash.new(0)
+    @icon_warnings = []
   end
 
   def run
@@ -86,7 +87,7 @@ class CurriculumImporter
       upsert(path, {
                title: meta["title"], description: meta["description"],
                position: meta["position"], status: meta["status"].presence || "draft"
-             })
+             }) { path.icon = emblem(meta["icon"], path.slug) }
 
       position = 0 # lesson position is GLOBAL within the path (continuous prev/next)
       Dir.glob(File.join(File.dirname(path_yml), "*/course.yml")).sort.each do |course_yml|
@@ -100,7 +101,7 @@ class CurriculumImporter
       upsert(course, {
                path: path, title: meta["title"], description: meta["description"],
                position: meta["position"], status: meta["status"].presence || "draft"
-             }, target_path: path)
+             }, target_path: path) { course.icon = emblem(meta["icon"], course.slug) }
 
       Dir.glob(File.join(File.dirname(course_yml), "*/section.yml")).sort.each do |section_yml|
         stage = YAML.safe_load_file(section_yml)["title"]
@@ -153,12 +154,28 @@ class CurriculumImporter
     # per-category counts. Returns true when the row was applied (created or
     # refreshed), false when frozen and left untouched (so the caller skips its
     # resources — once frozen, those belong to the editor).
-    def upsert(record, attrs, target_path: nil)
+    def upsert(record, attrs, target_path: nil, &create_defaults)
       claim_slug!(@seen, record) unless record.is_a?(Path)
       table = record.class.model_name.collection
-      result = import_upsert(record, @source, attrs, target_path: target_path)
+      result = import_upsert(record, @source, attrs, target_path: target_path, &create_defaults)
       @counts["#{table}_#{result}"] += 1 unless result == :unchanged
       result != :frozen
+    end
+
+    # The emblem is a create-only default, NOT an importable field: a re-import must
+    # never overwrite the glyph an expert picked in the admin, and picking one must
+    # not freeze the row from legitimate content refreshes. It also stays out of
+    # `import_digest` for that reason.
+    #
+    # An AI draft can confidently name an emblem that has no file. That's cosmetic,
+    # so we drop it (the row then inherits) and say so — failing a 60-lesson import
+    # over a glyph name would be absurd, but silence would ship it wrong.
+    def emblem(name, slug)
+      return nil if name.blank?
+      return name if Icon.emblem?(name)
+
+      @icon_warnings << "#{slug}: «#{name}»"
+      nil
     end
 
     # Counter caches are kept exact regardless of the create/update/skip mix.
@@ -177,5 +194,10 @@ class CurriculumImporter
       end
       @io.puts "  totals: #{Path.count} paths, #{Course.count} courses, " \
                "#{Lesson.count} lessons, #{Resource.count} resources."
+
+      return if @icon_warnings.empty?
+
+      @io.puts "  Неизвестные эмблемы — пропущены, запись наследует (см. bin/rails content:icons):"
+      @icon_warnings.each { |warning| @io.puts "    ! #{warning}" }
     end
 end

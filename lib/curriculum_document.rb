@@ -96,6 +96,7 @@ class CurriculumDocument
       status = upsert(path, counts, :paths,
                       { title: data["title"], description: data["description"] }) do
         path.author_id = author.id
+        path.icon = emblem(data["icon"])
         path.status = "draft"
         path.position = (Path.maximum(:position) || 0) + 1
       end
@@ -107,6 +108,7 @@ class CurriculumDocument
       status = upsert(course, counts, :courses,
                       { path: path, title: data["title"], description: data["description"] },
                       target_path: path) do
+        course.icon = emblem(data["icon"])
         course.status = "draft"
         course.position = (path.courses.maximum(:position) || 0) + 1
       end
@@ -136,6 +138,12 @@ class CurriculumDocument
     # Maps the shared create-or-refresh (ImportUpsert) onto the preview tree's
     # status vocabulary (:new / :updated / :exists) and counts everything the
     # import would write (created or refreshed, but not the frozen rows it skips).
+    # Same rule as the seed importer: create-only, and an emblem the pack names but
+    # we don't have is dropped rather than refused — the row then inherits.
+    def emblem(name)
+      name.presence && Icon.emblem?(name) ? name : nil
+    end
+
     def upsert(record, counts, table, attrs, target_path: nil, &create_defaults)
       claim_slug!(@seen, record) unless record.is_a?(Path)
       result = import_upsert(record, SOURCE, attrs, target_path: target_path, &create_defaults)

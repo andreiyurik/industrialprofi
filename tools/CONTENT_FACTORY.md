@@ -218,11 +218,15 @@ rich-текст        rich_body / rich_*          ← пишет ЧЕЛОВЕК
 2. **Написать статьи** в формат сидов (`db/seeds/curriculum/<slug>/`), `status: draft`:
    ```
    <slug>/
-     path.yml                  # title, description, position, status: draft, kind: role|skill
-     01-<раздел>/
-       section.yml             # title → станет stage статьи
-       <статья>.md             # frontmatter → ЗАЧЕМ → тело → ## Задание
+     path.yml                  # title, description, position, status: draft, kind: role|skill, icon
+     01-<глава>/
+       course.yml              # title, slug, description, position, status, icon (можно опустить)
+       01-<раздел>/
+         section.yml           # title → станет stage статьи
+         <статья>.md           # frontmatter → ЗАЧЕМ → тело → ## Задание
    ```
+   Эмблемы (`icon:`) — только из `bin/rails content:icons`; пустое значение = наследует
+   эмблему выше, и это нормальный ответ. Правила и почему так — в `AUTHOR_PROFESSION.md`.
 3. **Углубить по одной статье** (`DEEPEN_LESSON.md`) — там, где тема важная: реальная
    глубина рождается поурочно, а не одним прогоном.
 4. **Визуалы — только где помогают** (`LESSON_IMAGES.md`). Брифы лежат в `alt`
