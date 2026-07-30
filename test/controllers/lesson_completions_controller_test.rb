@@ -58,6 +58,8 @@ class LessonCompletionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_match I18n.t("lesson_completions.milestone.eyebrow"), response.body
     assert_match "t.me/share/url", response.body
+    # The peak-gratitude donation ask lives here and only here.
+    assert_match support_us_path, response.body
   end
 
   test "destroy removes the completion" do

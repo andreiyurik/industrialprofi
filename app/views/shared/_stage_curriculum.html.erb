@@ -8,7 +8,7 @@
     <div class="curriculum__stage-row">
     <span class="curriculum__marker<%= " curriculum__marker--done" if stage_done %>" aria-hidden="true">
       <% if stage_done %>
-        <%= heroicon "check", variant: :outline %>
+        <%= icon_tag "check" %>
       <% else %>
         <%= index + 1 %>
       <% end %>
@@ -25,9 +25,9 @@
           <% done = completed_ids.include?(lesson.id) %>
           <a href="<%= lesson_path(lesson) %>" class="curriculum__lesson<%= " curriculum__lesson--practice" if lesson.kind == "practice" %><%= " curriculum__lesson--done" if done %>">
             <% if done %>
-              <%= heroicon "check-circle", variant: :solid %>
+              <%= icon_tag "check-circle-fill" %>
             <% else %>
-              <%= heroicon(lesson.kind == "practice" ? "wrench-screwdriver" : "book-open", variant: :outline) %>
+              <%= icon_tag(lesson.kind == "practice" ? "wrench" : "book-open") %>
             <% end %>
             <span class="curriculum__lesson-title"><%= lesson.title %></span>
           </a>

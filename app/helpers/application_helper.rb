@@ -1,58 +1,15 @@
 module ApplicationHelper
-  include Heroicon::Engine.helpers
-
-  # Every heroicon ships an intrinsic 24px size: on a cold-cache load the page
-  # can paint before the stylesheets arrive, and an unsized SVG explodes to
-  # container width (the giant-chevron FOUC). CSS still overrides everywhere.
-  def heroicon(name, variant: Heroicon.configuration.variant, options: {}, path_options: {})
-    super(name, variant: variant, options: { width: 24, height: 24 }.merge(options), path_options: path_options)
+  # A Phosphor glyph painted as a CSS mask (see icons.css) — no SVG reaches the
+  # HTML. Size comes from --icon-size on the surrounding context (1em by default);
+  # weight is part of the name: `-light` for emblems ≥32px, `-fill` for state.
+  def icon_tag(name, **options)
+    tag.span class: class_names("icon icon--#{name}", options.delete(:class)), "aria-hidden": true, **options
   end
 
   # Admin is a focused internal workspace, not a marketing surface — it drops the
   # public footer (its persistent nav covers navigation).
   def in_admin?
     controller.is_a?(Admin::BaseController)
-  end
-
-  # Profession icons: self-hosted Tabler (https://tabler.io/icons) line glyphs,
-  # rendered inline so they inherit `currentColor` and the monochrome theme.
-  # Each token maps to a partial in app/views/shared/icons/.
-  TOPIC_ICONS = %w[bolt helmet droplet cpu tool
-                   shield_bolt tools gauge adjustments network device_analytics clipboard_check].freeze
-
-  def topic_icon_svg(token)
-    token = "tool" unless TOPIC_ICONS.include?(token)
-    render "shared/icons/#{token}"
-  end
-
-  PATH_ICON_TOKENS = {
-    "elektrik" => "bolt",        # lightning
-    "svarshchik" => "helmet",    # welding mask / PPE
-    "inzhener-asu-tp" => "cpu",   # controllers / PLC
-    "kipia-aes" => "gauge",       # instrumentation / КИП gauge
-    "setevoy-inzhener" => "network",        # industrial / OT networks
-    "bezopasnost-asu-tp" => "shield_bolt",  # ICS / OT security
-    "sysadmin-linux" => "terminal"          # Linux CLI / servers
-  }.freeze
-
-  def path_icon_token(path)
-    PATH_ICON_TOKENS.fetch(path.slug, "tool")
-  end
-
-  # Per-course topic icons (Tabler, same line style as the path set).
-  # A course without its own icon falls back to its profession's.
-  COURSE_ICON_TOKENS = {
-    "elektrik-osnovy-i-bezopasnost" => "shield_bolt",
-    "elektrik-montazh-i-ekspluataciya" => "tools",
-    "asutp-osnovy-i-kipia" => "gauge",
-    "asutp-plk-i-regulirovanie" => "adjustments",
-    "asutp-promyshlennye-seti" => "network",
-    "asutp-scada" => "device_analytics",
-    "asutp-proektirovanie-pnr" => "clipboard_check"
-  }.freeze
-
-  def course_icon_token(course)
-    COURSE_ICON_TOKENS.fetch(course.slug) { path_icon_token(course.path) }
   end
 
   # div/span + class survive sanitization so rouge's highlighted output
@@ -66,11 +23,11 @@ module ApplicationHelper
   # plain markdown; we turn the blockquote into a coloured callout with a label.
   # One mechanism, a small fixed set of meanings — accent only where it matters.
   CALLOUTS = {
-    "ОПАСНО"  => { mod: "danger",    icon: "exclamation-triangle", label: "Опасно" },
-    "ВАЖНО"   => { mod: "important", icon: "information-circle",    label: "Важно" },
-    "СОВЕТ"   => { mod: "tip",       icon: "light-bulb",           label: "Совет" },
-    "ПРИМЕР"  => { mod: "example",   icon: "calculator",           label: "Разобранный пример" },
-    "ПРОВЕРЬ" => { mod: "check",     icon: "check-circle",         label: "Проверь себя" }
+    "ОПАСНО"  => { mod: "danger",    icon: "warning",      label: "Опасно" },
+    "ВАЖНО"   => { mod: "important", icon: "info",         label: "Важно" },
+    "СОВЕТ"   => { mod: "tip",       icon: "lightbulb",    label: "Совет" },
+    "ПРИМЕР"  => { mod: "example",   icon: "calculator",   label: "Разобранный пример" },
+    "ПРОВЕРЬ" => { mod: "check",     icon: "check-circle", label: "Проверь себя" }
   }.freeze
 
   # Kramdown's default rouge formatter (HTMLLegacy) is deprecated and warns on
@@ -156,7 +113,7 @@ module ApplicationHelper
       # and the body sit on two `>` lines, which kramdown joins with a leading
       # <br> — left in, it renders as a blank first line / extra gap).
       body = inner.sub(%r{\[!#{type}\]\s*(?:<br\s*/?>\s*)?}, "").gsub(%r{<p>\s*</p>}, "")
-      label = %(<p class="callout__label">#{heroicon(cfg[:icon], variant: :outline)}<span>#{cfg[:label]}</span></p>)
+      label = %(<p class="callout__label">#{icon_tag(cfg[:icon])}<span>#{cfg[:label]}</span></p>)
       %(<div class="callout callout--#{cfg[:mod]}">#{label}#{body}</div>)
     end
   end
@@ -213,8 +170,8 @@ module ApplicationHelper
       %(<button type="button" class="code-copy" hidden ) +
       %(data-copy-code-target="button" data-action="copy-code#copy" ) +
       %(aria-label="Копировать код" title="Копировать код">) +
-      %(<span class="code-copy__icon code-copy__icon--copy">#{heroicon("document-duplicate", variant: :outline)}</span>) +
-      %(<span class="code-copy__icon code-copy__icon--done">#{heroicon("check", variant: :outline)}</span>) +
+      %(<span class="code-copy__icon code-copy__icon--copy">#{icon_tag("copy")}</span>) +
+      %(<span class="code-copy__icon code-copy__icon--done">#{icon_tag("check")}</span>) +
       %(</button>)
 
     # Matches both highlighted (`<pre class="highlight">`) and plain `<pre>` code
@@ -256,7 +213,7 @@ module ApplicationHelper
   # so cached HTML below is regenerated even though the lesson itself didn't
   # change. View fragment caching gets this free via template digests; a helper
   # cache needs it spelled out.
-  LESSON_CONTENT_RENDER_VERSION = 1
+  LESSON_CONTENT_RENDER_VERSION = 4
 
   # The HTML a reader sees for a section. Rich text (Lexxy) and the markdown
   # fallback both flow through the SAME enrichment, so callouts/code/tables/TOC
@@ -281,7 +238,7 @@ module ApplicationHelper
       end.to_s.html_safe
   end
 
-  # Entries for the right-rail "В этом уроке" TOC: the body's ## headings.
+  # Entries for the right-rail "В этой статье" TOC: the body's ## headings.
   # Works for rich text and markdown alike — both now flow through enrich_prose,
   # which anchors every <h2>, so the rail no longer degrades on edited lessons.
   def lesson_toc(lesson)
@@ -299,19 +256,19 @@ module ApplicationHelper
     t("common.#{key}", count: count)
   end
 
-  # Resource-type badge (roadmap.sh-style): a coloured pill with a heroicon and
+  # Resource-type badge (roadmap.sh-style): a coloured pill with an icon and
   # the kind label, shown before each resource link. One hue per kind — the
   # "type" axis. The orthogonal "marker" axis (language, and later partner) is a
   # separate small badge, see resource_lang_badge.
   RESOURCE_KIND_BADGES = {
-    "norm" => { modifier: "badge--norm", icon: "document-text", label: "norm" },
+    "norm" => { modifier: "badge--norm", icon: "file-text", label: "norm" },
     "book" => { modifier: "badge--book", icon: "book-open", label: "book" },
-    "doc" => { modifier: "badge--doc", icon: "clipboard-document-list", label: "doc" },
-    "course" => { modifier: "badge--course", icon: "academic-cap", label: "course" },
+    "doc" => { modifier: "badge--doc", icon: "clipboard-text", label: "doc" },
+    "course" => { modifier: "badge--course", icon: "graduation-cap", label: "course" },
     "video" => { modifier: "badge--video", icon: "video-camera", label: "video" },
     "article" => { modifier: "badge--article", icon: "newspaper", label: "article" },
-    "software" => { modifier: "badge--software", icon: "cpu-chip", label: "software" },
-    "tool" => { modifier: "badge--tool", icon: "wrench-screwdriver", label: "tool" }
+    "software" => { modifier: "badge--software", icon: "cpu", label: "software" },
+    "tool" => { modifier: "badge--tool", icon: "wrench", label: "tool" }
   }.freeze
 
   # A `document` resource is either an official standard ("Норматив") or a
@@ -325,7 +282,7 @@ module ApplicationHelper
     # Icon + word: the label keeps the type intuitive for everyone (no reliance on
     # learning icons or on hover, which mobile lacks).
     tag.span(class: "badge #{meta[:modifier]} lesson-resource__badge") do
-      safe_join([ heroicon(meta[:icon], variant: :outline), tag.span(label) ])
+      safe_join([ icon_tag(meta[:icon]), tag.span(label) ])
     end
   end
 

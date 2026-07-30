@@ -164,7 +164,7 @@
   display: inline-flex;
   gap: 0.4ch;
 
-  svg {
+  .icon {
     block-size: 1em;
     inline-size: 1em;
   }

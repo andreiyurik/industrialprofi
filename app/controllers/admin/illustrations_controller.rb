@@ -1,21 +1,29 @@
 module Admin
-  # The illustration backlog: every lesson image the author only briefed (a
-  # "TODO-*.png" / "placeholder: …" stand-in) and nobody has drawn or photographed
-  # yet. Read-only — it turns "open every lesson to find the gaps" into one queue,
-  # grouped by profession, each row linking into the editor to fill it. Editor-
-  # gated (BaseController) so experts, not just admins, can work the backlog.
+  # The image control room, one profession at a time. The landing lists every
+  # profession with its illustration health (briefs waiting / images live /
+  # broken references) — numbers only, no thumbnails, so the page stays light
+  # however large the catalog grows. Opening a profession shows its brief
+  # queue, the gallery of images readers actually see, and any broken
+  # references. Editor-gated (BaseController); an editor trusted with exactly
+  # one profession lands straight in it.
   class IllustrationsController < BaseController
     def index
-      rows = Lesson.includes(:path, :course)
-                   .sort_by { |lesson| [ lesson.path.position, lesson.position ] }
-                   .filter_map do |lesson|
-        briefs = lesson.pending_illustration_briefs
-        { lesson: lesson, briefs: briefs } if briefs.any?
+      if params[:path].present?
+        @path = Path.find_by!(slug: params[:path])
+        @census = IllustrationCensus.new(@path)
+      elsif (only = solo_editor_path)
+        redirect_to admin_illustrations_path(path: only.slug)
+      else
+        @censuses = Path.ordered.map { |path| [ path, IllustrationCensus.new(path) ] }
       end
+    end
 
-      @groups = rows.group_by { |row| row[:lesson].path }
-      @pending_count = rows.sum { |row| row[:briefs].size }
-      @lesson_count = rows.size
+    private
+
+    def solo_editor_path
+      return if Current.user.can_administer?
+      paths = Current.user.editable_paths.to_a
+      paths.first if paths.one?
     end
   end
 end

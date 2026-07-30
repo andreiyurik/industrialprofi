@@ -50,6 +50,53 @@ class CurriculumImporterTest < ActiveSupport::TestCase
     assert_equal 1, counts["lessons_frozen"]
   end
 
+  test "imports an emblem named in the YAML" do
+    write_tree(lesson_title: "Урок", resource_url: "https://example.com/g1",
+               path_icon: "atom-light", course_icon: "gauge-light")
+    import
+
+    assert_equal "atom-light", Path.find_by!(slug: "testprof").icon
+    assert_equal "gauge-light", Course.find_by!(slug: "test-course-x").icon
+  end
+
+  test "drops an emblem that has no file and reports it, without failing the import" do
+    write_tree(lesson_title: "Урок", resource_url: "https://example.com/g1",
+               path_icon: "welding-light")
+    io = StringIO.new
+    CurriculumImporter.run(dir: @dir, io: io)
+
+    path = Path.find_by!(slug: "testprof")
+    assert_nil path.icon, "неизвестная эмблема не пишется"
+    assert_equal Icon::DEFAULT_EMBLEM, path.emblem, "запись наследует дефолт"
+    assert_match "welding-light", io.string, "и о ней сказано в отчёте"
+    assert Lesson.exists?(slug: "test-lesson-x"), "остальной импорт прошёл"
+  end
+
+  test "a re-import never overwrites the emblem an expert picked" do
+    write_tree(lesson_title: "Урок", resource_url: "https://example.com/g1",
+               course_icon: "gauge-light")
+    import
+    course = Course.find_by!(slug: "test-course-x")
+    course.update!(icon: "toolbox-light")
+
+    write_tree(lesson_title: "Урок", resource_url: "https://example.com/g1",
+               course_icon: "monitor-light")
+    import
+
+    assert_equal "toolbox-light", course.reload.icon
+  end
+
+  test "picking an emblem does not freeze the row from content refreshes" do
+    import
+    Course.find_by!(slug: "test-course-x").update!(icon: "toolbox-light")
+
+    write_tree(lesson_title: "Урок", resource_url: "https://example.com/g1")
+    import
+
+    assert_equal "Тестовый курс", Course.find_by!(slug: "test-course-x").title
+    assert_not Course.find_by!(slug: "test-course-x").frozen_for_import?
+  end
+
   test "never overwrites a human-authored path" do
     import
     path = Path.find_by!(slug: "testprof")
@@ -163,7 +210,7 @@ class CurriculumImporterTest < ActiveSupport::TestCase
       CurriculumImporter.run(dir: @dir, io: StringIO.new)
     end
 
-    def write_tree(lesson_title:, resource_url:)
+    def write_tree(lesson_title:, resource_url:, path_icon: nil, course_icon: nil)
       section_dir = File.join(@dir, "testprof", "01-test-course", "01-section")
       FileUtils.mkdir_p(section_dir)
 
@@ -172,6 +219,7 @@ class CurriculumImporterTest < ActiveSupport::TestCase
         description: "Профессия для теста импортёра."
         position: 99
         status: published
+        #{%(icon: "#{path_icon}") if path_icon}
       YAML
 
       File.write(File.join(@dir, "testprof", "01-test-course", "course.yml"), <<~YAML)
@@ -180,6 +228,7 @@ class CurriculumImporterTest < ActiveSupport::TestCase
         description: "Курс для теста."
         position: 1
         status: published
+        #{%(icon: "#{course_icon}") if course_icon}
       YAML
 
       File.write(File.join(section_dir, "section.yml"), %(title: "Тестовый раздел"\n))

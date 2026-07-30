@@ -10,7 +10,7 @@
     <span class="maturity__dot" aria-hidden="true"></span>
     <span><%= t(".popover_title", stage: stage, total: Path::Maturity::MATURITY_STAGES) %> ·</span>
     <span class="maturity__stage-name"><%= t(".stages.s#{stage}") %></span>
-    <%= heroicon "chevron-down", variant: :outline %>
+    <%= icon_tag "caret-down" %>
   </button>
 
   <div id="path-maturity" class="maturity-popover" popover>
@@ -61,7 +61,7 @@
     <ul class="maturity-popover__list" role="list">
       <% checks.each do |done, text| %>
         <li class="<%= done ? "is-done" : "is-todo" %>">
-          <%= heroicon done ? "check-circle" : "minus-circle", variant: :outline %>
+          <%= icon_tag done ? "check-circle" : "minus-circle" %>
           <span><%= text %></span>
         </li>
       <% end %>

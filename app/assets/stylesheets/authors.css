@@ -225,7 +225,7 @@
   padding-block-start: 0.9rem;
 }
 
-.authors-sources__history svg {
+.authors-sources__history .icon {
   block-size: 1rem;
   flex-shrink: 0;
   inline-size: 1rem;

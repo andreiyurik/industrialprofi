@@ -9,10 +9,10 @@
   <dialog class="milestone" data-dialog-target="dialog" data-action="click->dialog#backdropClose">
     <button type="button" class="milestone__close" data-action="dialog#close"
             aria-label="<%= t("common.close") %>">
-      <%= heroicon "x-mark", variant: :outline %>
+      <%= icon_tag "x" %>
     </button>
 
-    <span class="milestone__emblem" aria-hidden="true"><%= heroicon "academic-cap", variant: :outline %></span>
+    <span class="milestone__emblem" aria-hidden="true"><%= icon_tag "graduation-cap" %></span>
 
     <p class="milestone__eyebrow"><%= t(".eyebrow") %></p>
     <h2 class="milestone__title"><%= path.title %></h2>
@@ -27,5 +27,11 @@
       <a href="<%= tg_share %>" class="btn btn--reversed" target="_blank" rel="noopener"><%= t(".share_telegram") %></a>
       <%= link_to t(".next_path"), paths_path, class: "btn" %>
     </div>
+
+    <%# The peak-gratitude moment: the one honest place to invite a thank-you
+        donation — after the value was delivered in full, never before. %>
+    <p class="milestone__support">
+      <%= t(".support_html", link: link_to(t(".support_link"), support_us_path, class: "milestone__support-link")) %>
+    </p>
   </dialog>
 </div>

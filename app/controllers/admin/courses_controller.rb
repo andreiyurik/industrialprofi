@@ -69,7 +69,7 @@ module Admin
     # on update would let a scoped editor push a course into a profession they
     # don't own. slug is locked once the course is live (see slug_locked?).
     def course_params
-      permitted = [ :title, :description, :position ]
+      permitted = [ :title, :description, :position, :icon ]
       permitted << :path_id unless @course # only on create (set_course runs on update)
       permitted << :slug unless slug_locked?(@course)
       params.require(:course).permit(*permitted)

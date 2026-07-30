@@ -19,7 +19,7 @@
   padding: 0;
   transition: color 200ms ease;
 
-  svg {
+  .icon {
     block-size: 1.1em;
     inline-size: 1.1em;
   }

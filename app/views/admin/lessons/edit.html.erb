@@ -7,7 +7,7 @@
     <div class="admin-header">
       <div class="admin-header__title-group">
         <a href="<%= admin_path_path(@lesson.path) %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
-          <%= heroicon("arrow-left", variant: :outline) %>
+          <%= icon_tag("arrow-left") %>
         </a>
         <h1 class="admin-header__title"><%= @lesson.title %></h1>
       </div>
@@ -36,7 +36,7 @@
       <p class="admin-form__hint admin-form__field--lg">
         <%= t("admin.markdown_paste_hint") %>
         <button type="button" class="editor-cheatsheet__trigger" popovertarget="editor-cheatsheet">
-          <%= heroicon "question-mark-circle", variant: :outline %><%= t("admin.editor_cheatsheet.trigger") %>
+          <%= icon_tag "question" %><%= t("admin.editor_cheatsheet.trigger") %>
         </button>
       </p>
       <%= render "admin/lessons/editor_cheatsheet" %>
@@ -95,7 +95,7 @@
 
           <button type="button" class="btn btn--small resource-editor__add"
                   data-action="nested-form#addItem">
-            <%= heroicon "plus", variant: :outline %>
+            <%= icon_tag "plus" %>
             <span><%= t("admin.resources.add") %></span>
           </button>
         </div>

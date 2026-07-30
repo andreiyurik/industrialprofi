@@ -114,7 +114,7 @@ tools/                     # reusable content & quality tooling (RU: authoring +
 (`Профессия → Глава → Раздел → Урок`):
 
 ```
-Path (profession)   → Course (глава)       → Lesson#stage (раздел)        → Lesson (урок)
+Path (profession)   → Course (глава)       → Lesson#stage (раздел)        → Lesson (статья)
 (Электрик)            (Электромонтаж)         ("Правила устройства")          (ПУЭ глава 1.7)
 /paths/:slug          /courses/:slug          (a string heading, no model)    /lessons/:slug
 ```
@@ -318,13 +318,43 @@ per file; cascade is filename-alphabetical (prefix bedrock with `_`).
 - **Components:** `.panel` (card), `.btn` (outlined base; `--reversed` = filled
   primary, `--negative`/`--positive`, `--small`/`--large`), `.input`
   (`--mono`/`--textarea`), `.badge`. Hover/focus is centralized in `base.css`.
-- **Icons:** Heroicons (via `heroicon` gem) for generic glyphs; **profession/topic
-  icons** are self-hosted Tabler line SVGs inlined in `shared/icons/`, rendered by
-  `topic_icon_svg(token)`, sized via parent CSS. Monochrome line-style only — never
-  mix in third-party/PNG icons.
+- **Icons:** one family — **Phosphor** (MIT), self-hosted in
+  `app/assets/images/icons/`, registered one line each in `icons.css` and rendered
+  by `icon_tag "name"` (Fizzy's pattern: a bare `<span class="icon icon--name">`
+  whose glyph is a `mask-image` painted with `currentColor` — no SVG in the HTML,
+  which keeps cached lesson pages small). **Size** comes from `--icon-size` on the
+  CONTEXT, default `1em`, so an icon in text needs no rule of its own. **Weight is
+  part of the name:** `-light` for emblems ≥32px (a filled glyph reads heavier than
+  our type, especially next to the GOST face), regular below that, `-fill` ONLY as
+  state (done/active/saved) — never `bold`, `thin` or `duotone`. Adding an icon =
+  drop the SVG in + one line in `icons.css`; `test/helpers/icon_tag_test.rb` fails
+  on a typo, an orphan, or a missing file. Never mix in another set or a PNG icon.
+- **Profession/chapter emblems are DATA, not code** — `paths.icon`/`courses.icon`,
+  chosen by the expert who owns the profession in an `admin/shared/_icon_field`
+  grid of radios (no JS; `:has(input:checked)` draws the ring). `icon` is the
+  stored choice and may be blank; **`emblem` is what to render** — `Course#emblem`
+  falls back to its path's, `Path#emblem` to `Icon::DEFAULT_EMBLEM`. Keep them two
+  methods: overriding the attribute reader breaks `allow_blank` and form
+  checkedness. `Icon.emblems` globs the `-light` files, so the picker, the model
+  validation and `content:icons` share one source of truth. The AI factory may set
+  `icon:` in `path.yml`/`course.yml` — create-only and NOT in `IMPORTABLE_FIELDS`,
+  so a re-import never overwrites an expert's pick and picking one never freezes
+  the row; an unknown name is dropped with a line in the import report. Blank is a
+  valid answer (see `tools/AUTHOR_PROFESSION.md` → «Эмблемы»).
 - **Flash:** `render "shared/flash"` — fixed Turbo Frame pill, auto-dismiss via
-  the `element-removal` Stimulus controller. **Account menu:** signed-in header
-  shows one name button opening a native `popover` hub (zero JS).
+  the `element-removal` Stimulus controller.
+- **Account menu — one list, two containers.** The signed-in header shows one name
+  button opening a native `popover` hub on wide screens (zero JS) and a `<details>`
+  hamburger sheet on compact ones. Both render the SAME
+  `shared/_account_identity` + `shared/_account_links`; never inline those rows
+  into one surface — they were duplicated once and silently drifted. The
+  containers differ on purpose (anchored popover vs full-height sheet), as does
+  what surrounds them: nav words are inline in the bar on desktop and inside the
+  sheet on mobile, and the guest block (About/Authors/FAQ/Support) is sheet-only
+  because on desktop it lives in the footer. `test/system/account_menu_test.rb`
+  asserts the two surfaces still offer the same items. When scoping a rule to the
+  sheet, target a specific class — a blanket `.header__menu-panel .badge` is what
+  hid the role mark in one menu and not the other.
 
 ## Fizzy idioms — the bigger-app Hotwire reference
 

@@ -141,7 +141,7 @@
             <p class="account-settings__desc"><%= t("account.delete_warning") %></p>
           </div>
           <%= link_to new_account_deletion_path, class: "btn btn--small account-settings__danger-btn" do %>
-            <%= heroicon "trash", variant: :outline %>
+            <%= icon_tag "trash" %>
             <%= t("account.delete_account") %>
           <% end %>
         </section>

@@ -13,7 +13,7 @@
   <div class="container container--reading">
     <article class="news-article">
       <%= link_to posts_path, class: "news-article__back link-quiet" do %>
-        <%= heroicon "arrow-left", variant: :outline %><%= t("news.all_news") %>
+        <%= icon_tag "arrow-left" %><%= t("news.all_news") %>
       <% end %>
 
       <header class="news-article__header">
@@ -46,14 +46,14 @@
                 data-copy-link-target="button"
                 data-action="copy-link#copy"
                 aria-label="<%= t("news.copy_link") %>" title="<%= t("news.copy_link") %>">
-          <span class="news-article__copy-icon news-article__copy-icon--default"><%= heroicon "link", variant: :outline %></span>
-          <span class="news-article__copy-icon news-article__copy-icon--done"><%= heroicon "check", variant: :outline %></span>
+          <span class="news-article__copy-icon news-article__copy-icon--default"><%= icon_tag "link" %></span>
+          <span class="news-article__copy-icon news-article__copy-icon--done"><%= icon_tag "check" %></span>
           <span class="for-screen-reader" data-copy-link-target="label"><%= t("news.copy_link") %></span>
         </button>
         <a href="<%= telegram_share_url(url: post_url, text: t("news.share_text", title: @post.title)) %>"
            class="news-article__tool news-article__share"
            aria-label="<%= t("news.share_telegram") %>" title="<%= t("news.share_telegram") %>" target="_blank" rel="noopener">
-          <%= heroicon "paper-airplane", variant: :outline %>
+          <%= icon_tag "paper-plane-tilt" %>
           <span class="for-screen-reader"><%= t("news.share_telegram") %></span>
         </a>
       </footer>
@@ -62,7 +62,7 @@
         <nav class="news-article__nav" aria-label="<%= t("news.title") %>">
           <% if @older_post %>
             <%= link_to post_path(@older_post), class: "news-article__nav-link news-article__nav-link--older" do %>
-              <%= heroicon "arrow-left", variant: :outline %>
+              <%= icon_tag "arrow-left" %>
               <span class="news-article__nav-text">
                 <span class="news-article__nav-label"><%= t("news.older") %></span>
                 <span class="news-article__nav-title"><%= @older_post.title %></span>
@@ -75,7 +75,7 @@
                 <span class="news-article__nav-label"><%= t("news.newer") %></span>
                 <span class="news-article__nav-title"><%= @newer_post.title %></span>
               </span>
-              <%= heroicon "arrow-right", variant: :outline %>
+              <%= icon_tag "arrow-right" %>
             <% end %>
           <% end %>
         </nav>

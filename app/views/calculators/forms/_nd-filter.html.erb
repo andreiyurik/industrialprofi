@@ -1,0 +1,31 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <%= render "calculators/select", field: "scene", label: t("calculators.fields.scene"), selected: "15",
+          options: [["15", t("calculators.options.scene_15")],
+                    ["14", t("calculators.options.scene_14")],
+                    ["13", t("calculators.options.scene_13")],
+                    ["12", t("calculators.options.scene_12")],
+                    ["11", t("calculators.options.scene_11")],
+                    ["9", t("calculators.options.scene_9")],
+                    ["8", t("calculators.options.scene_8")]] %>
+    <div class="calc__row">
+      <%= render "calculators/field", field: "n", label: t("calculators.fields.aperture"), unit: "f/", value: 2.8 %>
+      <%= render "calculators/field", field: "iso", label: t("calculators.fields.iso"), value: 100 %>
+    </div>
+    <%= render "calculators/field", field: "fps", label: t("calculators.fields.fps"), unit: "к/с", value: 25 %>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "pick", label: t("calculators.nd-filter.result_pick"),
+          strong: true, info: t("calculators.nd-filter.info.pick") %>
+    <%= render "calculators/result", output: "stops", label: t("calculators.nd-filter.result_stops"),
+          info: t("calculators.nd-filter.info.stops") %>
+    <%= render "calculators/result", output: "nd", label: t("calculators.nd-filter.result_nd"), unit: "×" %>
+    <%= render "calculators/result", output: "resid", label: t("calculators.nd-filter.result_resid"),
+          info: t("calculators.nd-filter.info.resid") %>
+    <%= render "calculators/result", output: "shutter", label: t("calculators.nd-filter.result_shutter") %>
+    <p class="calc__note"><%= t("calculators.nd-filter.note") %></p>
+  </div>
+</div>

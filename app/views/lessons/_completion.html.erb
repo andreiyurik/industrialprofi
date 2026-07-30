@@ -9,7 +9,7 @@
             form_class: "lesson-complete__form",
             title: t("lessons.uncomplete") do %>
         <span class="lesson-complete__check<%= " lesson-complete__check--pop" if popped %>">
-          <%= heroicon "check-circle", variant: :solid %>
+          <%= icon_tag "check-circle-fill" %>
         </span>
         <%= t("lessons.completed") %>
       <% end %>
@@ -18,7 +18,7 @@
             class: "btn btn--large btn--reversed lesson-complete__toggle",
             form_class: "lesson-complete__form" do %>
         <span class="lesson-complete__check">
-          <%= heroicon "check", variant: :outline %>
+          <%= icon_tag "check" %>
         </span>
         <%= t("lessons.mark_complete") %>
       <% end %>
@@ -38,12 +38,12 @@
     <% if (nxt = lesson.next_in_path) %>
       <%= link_to nxt, class: "btn btn--large lesson-complete__next" do %>
         <%= t("lessons.go_next") %>
-        <%= heroicon "arrow-right", variant: :outline %>
+        <%= icon_tag "arrow-right" %>
       <% end %>
     <% else %>
       <%= link_to path_path(lesson.path), class: "btn btn--large lesson-complete__next" do %>
         <%= t("lessons.back_to_path") %>
-        <%= heroicon "arrow-right", variant: :outline %>
+        <%= icon_tag "arrow-right" %>
       <% end %>
     <% end %>
   </div>

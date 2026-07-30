@@ -74,7 +74,7 @@
                       data-copy-link-copied-value="<%= t('contribute.ways.spread.copied') %>">
                   <button type="button" class="contribute-way__link contribute-way__copy" hidden
                           data-copy-link-target="button" data-action="copy-link#copy">
-                    <%= heroicon "link", variant: :outline %>
+                    <%= icon_tag "link" %>
                     <span data-copy-link-target="label"><%= t("contribute.ways.spread.copy") %></span>
                   </button>
                 </span>
@@ -86,7 +86,7 @@
 
       <%# Wanted board — the public excerpt of docs/PROFESSION_BACKLOG.md:
           an invitation for co-authors, not a founder commitment. %>
-      <section class="contribute-block">
+      <section class="contribute-block" id="wanted">
         <h2 class="contribute-block__title"><%= t("contribute.wanted.title") %></h2>
         <p class="contribute-block__lead"><%= t("contribute.wanted.lead") %></p>
 

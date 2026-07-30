@@ -14,7 +14,7 @@
           then ONE big next action. Everything below is quieter than this. %>
       <section class="panel dashboard-hero">
         <div class="dashboard-hero__identity">
-          <span class="dashboard-hero__badge"><%= render "shared/topic_badge", token: path_icon_token(@focus_path) %></span>
+          <span class="dashboard-hero__badge"><%= render "shared/topic_badge", token: @focus_path.emblem %></span>
           <div class="dashboard-hero__info">
             <p class="dashboard__eyebrow"><%= t("dashboard.focus_title") %></p>
             <h2 class="dashboard-hero__title"><%= link_to @focus_path.title, path_path(@focus_path), class: "dashboard-hero__title-link" %></h2>
@@ -27,12 +27,17 @@
           <% if next_lesson %>
             <%= link_to next_lesson, class: "btn btn--reversed btn--large" do %>
               <%= t("dashboard.continue") %>
-              <%= heroicon "arrow-right", variant: :outline %>
+              <%= icon_tag "arrow-right" %>
             <% end %>
             <p class="dashboard-hero__next"><%= t("paths.next_up", title: next_lesson.title) %></p>
+            <%# Why the next article is worth the 20–30 minutes — the lesson's
+                own «зачем», shown at the decision point. %>
+            <% if next_lesson.description.present? %>
+              <p class="dashboard-hero__next-desc"><%= next_lesson.description.to_s.truncate(140, separator: " ") %></p>
+            <% end %>
           <% else %>
             <p class="dashboard-hero__finished">
-              <%= heroicon "check-circle", variant: :solid %>
+              <%= icon_tag "check-circle-fill" %>
               <%= t("dashboard.path_completed") %>
             </p>
           <% end %>
@@ -47,7 +52,7 @@
         <% @focus_path.courses.each_with_index do |course, index| %>
           <% if course.coming_soon? %>
             <div class="dashboard-course dashboard-course--soon">
-              <span class="dashboard-course__ring dashboard-course__ring--soon"><%= heroicon "lock-closed", variant: :outline %></span>
+              <span class="dashboard-course__ring dashboard-course__ring--soon"><%= icon_tag "lock" %></span>
               <div class="dashboard-course__info">
                 <h3 class="dashboard-course__title"><%= course.title %></h3>
               </div>
@@ -73,12 +78,12 @@
                 <h3 class="dashboard-course__title"><%= link_to course.title, course_path(course), class: "dashboard-course__title-link" %></h3>
                 <div class="course-card__meta">
                   <span class="course-card__meta-item">
-                    <%= heroicon "book-open", variant: :outline %>
+                    <%= icon_tag "book-open" %>
                     <%= t("courses.lessons_count", count: lessons_n) %>
                   </span>
                   <% if practice_n.positive? %>
                     <span class="course-card__meta-item">
-                      <%= heroicon "wrench-screwdriver", variant: :outline %>
+                      <%= icon_tag "wrench" %>
                       <%= t("courses.practice_count", count: practice_n) %>
                     </span>
                   <% end %>
@@ -88,7 +93,7 @@
                 <%= link_to (done_count.zero? ? t("dashboard.start") : t("dashboard.continue")), next_in_course, class: "btn" %>
               <% elsif course_lessons.any? %>
                 <span class="dashboard-course__done">
-                  <%= heroicon "check-circle", variant: :solid %>
+                  <%= icon_tag "check-circle-fill" %>
                   <%= t("dashboard.course_done") %>
                 </span>
               <% end %>
@@ -108,7 +113,7 @@
             <% ids = @completed_ids_by_path[path] %>
             <% nxt = path.lessons.detect { |lesson| !ids.include?(lesson.id) } %>
             <div class="panel dashboard-other">
-              <span class="dashboard-other__icon"><%= topic_icon_svg(path_icon_token(path)) %></span>
+              <span class="dashboard-other__icon"><%= icon_tag path.emblem %></span>
               <%= link_to path.title, path_path(path), class: "dashboard-other__title" %>
               <div class="dashboard-other__progress">
                 <%= render "shared/progress_bar", completed: ids.size, total: path.lessons_count %>
@@ -128,6 +133,10 @@
       <div class="dashboard__empty">
         <p class="dashboard__empty-text"><%= t("dashboard.empty") %></p>
         <%= link_to t("dashboard.browse_paths"), paths_path, class: "btn btn--reversed btn--large" %>
+        <%# The study method's second home after the one-shot welcome letter:
+            a newcomer can always find «как здесь учиться» from the very
+            surface where they land with zero progress. %>
+        <%= link_to t("dashboard.how_it_works"), faq_path, class: "link-quiet link-quiet--underline" %>
       </div>
 
       <% if @suggested_paths.any? %>
@@ -155,7 +164,7 @@
               <%= button_to lesson_bookmark_path(lesson), method: :delete,
                     class: "dashboard-bookmark__remove",
                     title: t("bookmarks.remove"), "aria-label": t("bookmarks.remove") do %>
-                <%= heroicon "x-mark", variant: :outline %>
+                <%= icon_tag "x" %>
               <% end %>
             </div>
           <% end %>

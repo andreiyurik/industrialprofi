@@ -8,7 +8,7 @@
       <h1 class="admin-header__title"><%= t("admin.news_title") %></h1>
       <div class="admin-header__actions">
         <a href="<%= new_admin_post_path %>" class="btn btn--small btn--reversed">
-          <%= heroicon("plus", variant: :outline) %>
+          <%= icon_tag("plus") %>
           <span><%= t("admin.new_post") %></span>
         </a>
       </div>
@@ -26,7 +26,7 @@
             </span>
             <span class="admin-row__meta">
               <% if post.published_at %><span><%= l(post.published_at.to_date) %></span><% end %>
-              <%= heroicon("pencil-square", variant: :outline) %>
+              <%= icon_tag("pencil-simple") %>
             </span>
           </a>
         <% end %>

@@ -45,14 +45,14 @@
   white-space: nowrap;
 }
 
-/* Single lesson: a plain "↗ к уроку" link. */
+/* Single lesson: a plain "↗ к статье" link. */
 a.lesson-resource__source {
   align-items: center;
   display: inline-flex;
   gap: 0.2rem;
   text-decoration: none;
 
-  svg {
+  .icon {
     block-size: 0.9em;
     inline-size: 0.9em;
   }
@@ -101,7 +101,7 @@ a.lesson-resource__source {
   }
 }
 
-/* Phones: three things (badge · long title · "в N уроках") can't share one
+/* Phones: three things (badge · long title · "в N статьях") can't share one
    row without squeezing. Give the title the full width and drop the lesson
    bridge to a quiet meta line beneath it — vertical hierarchy, nothing
    abbreviated. Desktop keeps the single-row layout. */

@@ -10,7 +10,7 @@
           glow breathing behind it and a gentle float. Pure CSS, no JS / no assets,
           on-brand line-style. Honors prefers-reduced-motion. %>
       <div class="support-emblem" aria-hidden="true">
-        <span class="support-emblem__icon"><%= render "shared/icons/hand_heart" %></span>
+        <span class="support-emblem__icon"><%= render "shared/support_emblem" %></span>
       </div>
 
       <p class="support-hero__eyebrow"><%= t("support.eyebrow") %></p>
@@ -20,13 +20,13 @@
       <div class="support-hero__cta">
         <a href="<%= site_config.donate_url %>" class="btn btn--reversed btn--large support-btn support-btn--give" target="_blank" rel="noopener">
           <%= t("support.donate_cta") %>
-          <%= render "shared/icons/hand_heart" %>
+          <%= icon_tag "hand-heart-light" %>
         </a>
         <%# GitHub Sponsors can't pay out to RU — so GitHub's role here is a free,
             real way to help: a star = visibility = contributors (open-commons). %>
         <a href="<%= site_config.github_url %>" class="btn btn--large support-btn" target="_blank" rel="noopener">
           <%= t("support.github_cta") %>
-          <%= heroicon "star", variant: :outline %>
+          <%= icon_tag "star" %>
         </a>
       </div>
       <p class="support-hero__github-note"><%= t("support.github_note") %></p>

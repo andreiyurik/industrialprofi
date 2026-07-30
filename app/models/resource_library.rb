@@ -2,7 +2,7 @@
 # data behind the public /resources library and the per-profession section.
 #
 # Pure derivation from existing Resource rows: no new model, no curation column.
-# Same URL referenced by many lessons collapses to ONE entry ("в N уроках").
+# Same URL referenced by many lessons collapses to ONE entry ("в N статьях").
 # "Top" is automatic and self-curating: required (★) first, then by how many
 # lessons reference it. Cached (Solid Cache), keyed by content version, per the
 # scaling seam in CLAUDE.md.

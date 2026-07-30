@@ -123,7 +123,7 @@ class CurriculumPack
       data = CurriculumImporter.parse_lesson_content(@entries[name])
       data.merge("slug" => File.basename(name, ".md")).compact
     rescue StandardError
-      @errors << "#{File.basename(name)}: не удалось разобрать урок"
+      @errors << "#{File.basename(name)}: не удалось разобрать статью"
       {}
     end
   end

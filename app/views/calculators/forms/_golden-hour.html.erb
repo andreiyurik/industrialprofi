@@ -1,0 +1,30 @@
+<div class="calc__grid">
+  <div class="calc__inputs">
+    <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+    <div class="calc__row">
+      <%= render "calculators/field", field: "lat", label: t("calculators.fields.latitude"), unit: "°", value: 55.75 %>
+      <%= render "calculators/field", field: "lon", label: t("calculators.fields.longitude"), unit: "°", value: 37.62 %>
+    </div>
+    <%= render "calculators/field", field: "tz", label: t("calculators.fields.timezone"), value: 3 %>
+    <div class="calc__row">
+      <%= render "calculators/select", field: "month", label: t("calculators.fields.month"), selected: "6",
+            options: (1..12).map { |m| [m.to_s, t("calculators.options.month_#{m}")] } %>
+      <%= render "calculators/field", field: "day", label: t("calculators.fields.day"), value: 21 %>
+    </div>
+  </div>
+
+  <div class="calc__results">
+    <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/result", output: "golden", label: t("calculators.golden-hour.result_golden"),
+          strong: true, info: t("calculators.golden-hour.info.golden") %>
+    <%= render "calculators/result", output: "blue", label: t("calculators.golden-hour.result_blue") %>
+    <%= render "calculators/result", output: "sunrise", label: t("calculators.golden-hour.result_sunrise") %>
+    <%= render "calculators/result", output: "sunset", label: t("calculators.golden-hour.result_sunset") %>
+    <%= render "calculators/result", output: "azset", label: t("calculators.golden-hour.result_azset"), unit: "°",
+          info: t("calculators.golden-hour.info.azset") %>
+    <%= render "calculators/result", output: "azrise", label: t("calculators.golden-hour.result_azrise"), unit: "°" %>
+    <%= render "calculators/result", output: "hmax", label: t("calculators.golden-hour.result_hmax"), unit: "°",
+          info: t("calculators.golden-hour.info.hmax") %>
+    <p class="calc__note"><%= t("calculators.golden-hour.note") %></p>
+  </div>
+</div>

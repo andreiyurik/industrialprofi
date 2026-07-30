@@ -1,0 +1,27 @@
+<div class="calc__stack">
+  <div class="calc__pair">
+    <div class="calc__pair-side">
+      <h2 class="calc__heading"><%= t("calculators.exposure-ev.pair_heading") %></h2>
+      <div class="calc__row">
+        <%= render "calculators/field", field: "n", label: t("calculators.fields.aperture"), unit: "f/", value: 5.6 %>
+        <%= render "calculators/field", field: "t", label: t("calculators.fields.shutter_denom"), unit: "с", value: 125 %>
+      </div>
+      <%= render "calculators/field", field: "iso", label: t("calculators.fields.iso"), value: 100 %>
+      <%= render "calculators/result", output: "ev100", label: t("calculators.exposure-ev.result_ev"),
+            strong: true, info: t("calculators.exposure-ev.info.ev") %>
+    </div>
+
+    <div class="calc__pair-side">
+      <h2 class="calc__heading"><%= t("calculators.exposure-ev.reverse_heading") %></h2>
+      <p class="calc__hint"><%= t("calculators.exposure-ev.reverse_hint") %></p>
+      <%= render "calculators/field", field: "ev", label: t("calculators.fields.ev"),
+            value: 15, hint: t("calculators.exposure-ev.ev_hint") %>
+      <%= render "calculators/result", output: "tneed", label: t("calculators.exposure-ev.result_tneed"), unit: "с",
+            info: t("calculators.exposure-ev.info.tneed") %>
+      <%= render "calculators/result", output: "nneed", label: t("calculators.exposure-ev.result_nneed"), unit: "f/" %>
+      <%= render "calculators/result", output: "isoneed", label: t("calculators.exposure-ev.result_isoneed") %>
+    </div>
+  </div>
+
+  <p class="calc__note"><%= t("calculators.exposure-ev.note") %></p>
+</div>

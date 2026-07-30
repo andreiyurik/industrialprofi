@@ -4,48 +4,134 @@
   <div class="container">
     <%= render "admin/shared/nav" %>
 
-    <div class="admin-header">
-      <div class="admin-header__title-group">
-        <h1 class="admin-header__title"><%= t("admin.illustrations.title") %></h1>
-        <p class="admin-header__subtitle"><%= t("admin.illustrations.intro") %></p>
+    <% if @path %>
+      <div class="admin-header">
+        <div class="admin-header__title-group">
+          <a href="<%= admin_illustrations_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+            <%= icon_tag("arrow-left") %>
+          </a>
+          <h1 class="admin-header__title"><%= @path.title %></h1>
+        </div>
+        <a href="<%= path_path(@path) %>" class="admin-header__view-live link-quiet" target="_blank"><%= t("admin.view_live") %> ↗</a>
       </div>
-    </div>
 
-    <% if @groups.empty? %>
-      <div class="admin-empty">
-        <p class="admin-empty__text"><%= t("admin.illustrations.empty") %></p>
-      </div>
-    <% else %>
-      <p class="admin-list__summary">
-        <%= t("admin.illustrations.summary", count: @pending_count, lessons: @lesson_count) %>
-      </p>
-
-      <% @groups.each do |path, rows| %>
-        <div class="admin-group">
-          <h2 class="admin-group__title"><%= path.title %></h2>
+      <div class="admin-group">
+        <h2 class="admin-group__title">
+          <%= t("admin.illustrations.pending_title") %>
+          <span class="illustration-health__stat"><%= @census.briefs.size %></span>
+        </h2>
+        <% if @census.briefs.any? %>
           <div class="admin-list">
-            <% rows.each do |row| %>
-              <% row[:briefs].each do |brief| %>
-                <div class="admin-row admin-row--static">
-                  <span class="admin-row__column">
-                    <span class="admin-row__line">
-                      <span class="admin-row__title"><%= row[:lesson].title %></span>
-                    </span>
-                    <p class="admin-row__subtle">
-                      <%= brief.presence || t("admin.illustrations.no_brief") %>
-                    </p>
+            <% @census.briefs.each do |lesson, brief| %>
+              <div class="admin-row admin-row--static">
+                <span class="admin-row__column">
+                  <span class="admin-row__line">
+                    <span class="admin-row__title"><%= lesson.title %></span>
                   </span>
-                  <div class="admin-row__actions">
-                    <%= link_to t("admin.illustrations.fill"),
-                          edit_admin_lesson_path(row[:lesson]),
-                          class: "btn btn--small admin-row__action" %>
-                  </div>
+                  <p class="admin-row__subtle"><%= brief.presence || t("admin.illustrations.no_brief") %></p>
+                </span>
+                <div class="admin-row__actions">
+                  <%= link_to t("admin.illustrations.fill"), edit_admin_lesson_path(lesson),
+                        class: "btn btn--small admin-row__action" %>
                 </div>
-              <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="admin-row__subtle"><%= t("admin.illustrations.pending_empty") %></p>
+        <% end %>
+      </div>
+
+      <% if @census.broken.any? %>
+        <div class="admin-group">
+          <h2 class="admin-group__title admin-group__title--negative">
+            <%= t("admin.illustrations.broken_title") %>
+            <span class="illustration-health__stat illustration-health__stat--broken"><%= @census.broken.size %></span>
+          </h2>
+          <p class="admin-row__subtle"><%= t("admin.illustrations.broken_hint") %></p>
+          <div class="admin-list">
+            <% @census.broken.each do |image| %>
+              <div class="admin-row admin-row--static">
+                <span class="admin-row__column">
+                  <span class="admin-row__line">
+                    <span class="admin-row__title"><%= image.lesson.title %></span>
+                  </span>
+                  <p class="admin-row__subtle"><code><%= image.src %></code></p>
+                </span>
+                <div class="admin-row__actions">
+                  <%= link_to t("admin.illustrations.fill"), edit_admin_lesson_path(image.lesson),
+                        class: "btn btn--small btn--negative admin-row__action" %>
+                </div>
+              </div>
             <% end %>
           </div>
         </div>
       <% end %>
+
+      <div class="admin-group">
+        <h2 class="admin-group__title">
+          <%= t("admin.illustrations.gallery_title") %>
+          <span class="illustration-health__stat"><%= @census.live.size %></span>
+        </h2>
+        <% if @census.live.any? %>
+          <div class="illustration-grid">
+            <% @census.live.each do |image| %>
+              <figure class="illustration-card">
+                <% if image.blob %>
+                  <% if ApplicationHelper.variant_processing_available? %>
+                    <%= image_tag image.blob.variant(resize_to_limit: [ 480, 360 ], format: :webp, saver: { quality: 80 }),
+                          alt: image.alt, loading: "lazy", class: "illustration-card__thumb" %>
+                  <% else %>
+                    <%= image_tag image.blob, alt: image.alt, loading: "lazy", class: "illustration-card__thumb" %>
+                  <% end %>
+                <% else %>
+                  <%= image_tag image.src, alt: image.alt, loading: "lazy", class: "illustration-card__thumb" %>
+                <% end %>
+                <figcaption class="illustration-card__caption">
+                  <p class="illustration-card__alt">
+                    <%= image.alt.presence || t("admin.illustrations.no_alt") %>
+                    <% if image.external? %><span class="illustration-card__external"><%= t("admin.illustrations.external") %></span><% end %>
+                  </p>
+                  <p class="illustration-card__meta">
+                    <%= link_to image.lesson.title, lesson_path(image.lesson), class: "link-quiet link-quiet--underline", target: "_blank" %>
+                    · <%= link_to t("admin.illustrations.fill"), edit_admin_lesson_path(image.lesson), class: "link-quiet link-quiet--underline" %>
+                  </p>
+                </figcaption>
+              </figure>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="admin-row__subtle"><%= t("admin.illustrations.gallery_empty") %></p>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="admin-header">
+        <div class="admin-header__title-group admin-header__title-group--stacked">
+          <h1 class="admin-header__title"><%= t("admin.illustrations.title") %></h1>
+          <p class="admin-header__subtitle"><%= t("admin.illustrations.intro") %></p>
+        </div>
+      </div>
+
+      <div class="admin-list">
+        <% @censuses.each do |path, census| %>
+          <div class="admin-row admin-row--static illustration-row">
+            <a href="<%= admin_illustrations_path(path: path.slug) %>" class="admin-row__main">
+              <span class="admin-row__column">
+                <span class="admin-row__line">
+                  <span class="admin-row__title"><%= path.title %></span>
+                </span>
+              </span>
+            </a>
+            <span class="illustration-health">
+              <span class="illustration-health__stat"><%= t("admin.illustrations.briefs_count", count: census.briefs.size) %></span>
+              <span class="illustration-health__stat"><%= t("admin.illustrations.images_count", count: census.live.size) %></span>
+              <% if census.broken.any? %>
+                <span class="illustration-health__stat illustration-health__stat--broken"><%= t("admin.illustrations.broken_count", count: census.broken.size) %></span>
+              <% end %>
+            </span>
+          </div>
+        <% end %>
+      </div>
     <% end %>
   </div>
 </section>

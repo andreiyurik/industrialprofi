@@ -28,7 +28,7 @@
   padding: 0.25rem;
   position: absolute;
 
-  svg {
+  .icon {
     block-size: 1.25rem;
     inline-size: 1.25rem;
   }
@@ -51,7 +51,7 @@
   justify-content: center;
   margin-block-end: 1rem;
 
-  svg {
+  .icon {
     block-size: 1.75rem;
     inline-size: 1.75rem;
   }
@@ -92,4 +92,15 @@
   flex-wrap: wrap;
   gap: 0.75rem;
   justify-content: center;
+}
+
+/* The quiet thank-you line under the actions — peak-gratitude donation ask. */
+.milestone__support {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block: 1.25rem 0;
+}
+
+.milestone__support-link {
+  color: var(--color-link);
 }

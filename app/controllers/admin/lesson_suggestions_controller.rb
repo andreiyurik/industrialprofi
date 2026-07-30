@@ -38,12 +38,20 @@ module Admin
     end
 
     def reject
+      # A rejection always carries a reason — one wordless «Не принята» is the
+      # surest way to lose a contributor. The HTML `required` covers browsers;
+      # this guard covers everything else.
+      comment = params.dig(:lesson_suggestion, :reviewer_comment).to_s.strip
+      if comment.blank?
+        redirect_to admin_lesson_suggestion_path(@suggestion), alert: t("flash.reject_needs_reason") and return
+      end
+
       if @suggestion.status == "pending"
         ActiveRecord::Base.transaction do
           @suggestion.update!(
             status: "rejected",
             reviewed_at: Time.current,
-            reviewer_comment: params.dig(:lesson_suggestion, :reviewer_comment)
+            reviewer_comment: comment
           )
           record_admin_action("suggestion_rejected", target: @suggestion,
             lesson: @suggestion.lesson.title, section: @suggestion.section)

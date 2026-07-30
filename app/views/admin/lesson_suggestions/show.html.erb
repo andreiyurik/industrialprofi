@@ -7,7 +7,7 @@
     <div class="admin-header">
       <div class="admin-header__title-group">
         <a href="<%= admin_lesson_suggestions_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
-          <%= heroicon("arrow-left", variant: :outline) %>
+          <%= icon_tag("arrow-left") %>
         </a>
         <h1 class="admin-header__title"><%= t("admin.review_suggestion") %></h1>
       </div>
@@ -90,7 +90,7 @@
         <div class="admin-decision__reject-field">
           <label><%= t("admin.reject_comment") %></label>
           <%= f.text_field "lesson_suggestion[reviewer_comment]",
-                placeholder: t("admin.reject_comment_placeholder"), class: "input" %>
+                placeholder: t("admin.reject_comment_placeholder"), class: "input", required: true %>
         </div>
         <%= f.submit t("admin.reject"), class: "btn btn--negative" %>
       <% end %>

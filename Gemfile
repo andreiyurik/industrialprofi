@@ -80,5 +80,4 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "heroicon", "~> 1.0"
 gem "lexxy", "~> 0.9.20"

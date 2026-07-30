@@ -24,10 +24,16 @@ module Admin
     end
 
     def reject
+      # Same rule as text edits: no rejection without a reason the author will see.
+      comment = params.dig(:resource_suggestion, :reviewer_comment).to_s.strip
+      if comment.blank?
+        redirect_to admin_resource_suggestions_path, alert: t("flash.reject_needs_reason") and return
+      end
+
       if @suggestion.pending?
         ActiveRecord::Base.transaction do
           @suggestion.update!(status: "rejected", reviewed_at: Time.current,
-            reviewer_comment: params.dig(:resource_suggestion, :reviewer_comment))
+            reviewer_comment: comment)
           record_admin_action("resource_suggestion_rejected", target: @suggestion,
             lesson: @suggestion.lesson.title, source: @suggestion.title)
         end

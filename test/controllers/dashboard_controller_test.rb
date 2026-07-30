@@ -171,6 +171,20 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
                         path: paths(:welder).title, stage: 2, total: 4), response.body
   end
 
+  test "shows a member their progress toward earned editorship" do
+    users(:member).lesson_suggestions.create!(
+      lesson: lessons(:pteep), section: "body", author_name: "Иван",
+      body_markdown: "Правка", status: "approved", reviewed_at: 1.hour.ago
+    )
+
+    sign_in_as users(:member)
+    get dashboard_path
+
+    assert_match I18n.t("dashboard.trust_progress",
+                        path: paths(:electrician).title, count: 1,
+                        threshold: TrackRecord::TRUSTED_AT), response.body
+  end
+
   test "hides the suggestions section for users who never suggested" do
     sign_in_as users(:member)
     get dashboard_path

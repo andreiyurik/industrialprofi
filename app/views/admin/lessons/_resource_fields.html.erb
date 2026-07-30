@@ -4,7 +4,7 @@
   <button type="button" class="resource-row__handle" draggable="true"
           aria-label="<%= t("admin.resources.reorder") %>"
           data-action="dragstart->nested-form#dragStart dragend->nested-form#dragEnd">
-    <%= heroicon "bars-3", variant: :outline %>
+    <%= icon_tag "list" %>
   </button>
 
   <div class="resource-row__fields">
@@ -20,7 +20,7 @@
             class: "input resource-row__title" %>
       <button type="button" class="resource-row__remove" data-action="nested-form#removeItem"
               aria-label="<%= t("admin.resources.remove") %>">
-        <%= heroicon "trash", variant: :outline %>
+        <%= icon_tag "trash" %>
       </button>
     </div>
 

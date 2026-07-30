@@ -131,6 +131,8 @@
   filter: drop-shadow(0 0 7px oklch(var(--lch-black) / 0.35));
   place-items: center;
 
+  /* Inline SVG, not a masked .icon — the animation needs the paths (see
+     shared/_support_emblem). */
   svg {
     block-size: 3.4rem;
     inline-size: 3.4rem;

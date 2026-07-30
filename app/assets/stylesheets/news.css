@@ -106,7 +106,7 @@
   gap: 0.3em;
 }
 
-.news-row__reactions svg {
+.news-row__reactions .icon {
   block-size: 1em;
   inline-size: 1em;
 }
@@ -126,7 +126,7 @@
   margin-block-end: 2rem;
 }
 
-.news-article__back svg {
+.news-article__back .icon {
   block-size: 1.05em;
   inline-size: 1.05em;
 }
@@ -184,13 +184,13 @@
   transition: color 200ms ease;
 }
 
-.news-article__tool svg {
+.news-article__tool .icon {
   block-size: 1.2rem;
   inline-size: 1.2rem;
 }
 
 /* Same row/size as .news-article__tool (see reactions.css .reaction--bare-icon for shared border/count/hover rules). */
-.news-article__footer .reaction--bare-icon .reaction__heart svg {
+.news-article__footer .reaction--bare-icon .reaction__heart .icon {
   block-size: 1.2rem;
   inline-size: 1.2rem;
 }
@@ -217,7 +217,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .news-article__copy--copied .news-article__copy-icon--done svg {
+  .news-article__copy--copied .news-article__copy-icon--done .icon {
     animation: pop 300ms ease;
   }
 }
@@ -249,7 +249,7 @@
   text-align: end;
 }
 
-.news-article__nav-link svg {
+.news-article__nav-link .icon {
   block-size: 1.1em;
   color: var(--color-subtle-dark);
   flex-shrink: 0;

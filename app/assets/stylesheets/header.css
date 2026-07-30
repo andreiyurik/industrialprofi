@@ -70,7 +70,7 @@
   padding: 0.3rem;
 }
 
-.header__search svg {
+.header__search .icon {
   block-size: 1.3rem;
   inline-size: 1.3rem;
 }
@@ -150,7 +150,7 @@
 
 /* Nav icons exist for the mobile dropdown (they match the palette tiles);
    the desktop inline row stays words-only. */
-.nav__link svg {
+.nav__link .icon {
   display: none;
 }
 
@@ -223,7 +223,7 @@
   padding: 0.35em 0.9em;
   transition: border-color 150ms ease, background-color 150ms ease;
 
-  svg {
+  .icon {
     block-size: 0.9em;
     color: var(--color-subtle-dark);
     inline-size: 0.9em;
@@ -331,7 +331,7 @@
   text-decoration: none;
   transition: background-color 150ms ease, color 150ms ease;
 
-  svg {
+  .icon {
     block-size: 1.05rem;
     inline-size: 1.05rem;
   }
@@ -344,17 +344,55 @@
   }
 }
 
-/* button_to wraps the sign-out button in a form — let it fill the row. */
-.account-menu .button_to {
-  display: block;
+/* The admin/editor workspace link: first in the list, brighter than the personal
+   items, with a hairline separating work from personal.
+
+   The hairline FLOATS in the gap below the row instead of being the row's border.
+   As a border it sat inside the hover fill and forced square bottom corners, so the
+   fill came out lopsided — taller at the bottom (padding was 0.5rem/0.65rem),
+   rounded on top, cut off underneath. The row is now the same symmetric pill as
+   every other item, and the rule is a separator between groups, which is what it
+   means. Same treatment for sign-out below, which had the mirror-image defect. */
+.account-menu__link--work,
+.account-menu__signout {
+  position: relative;
+
+  &::after {
+    background-color: var(--color-subtle);
+    block-size: 1px;
+    content: "";
+    inset-inline: 0;
+    position: absolute;
+  }
+}
+
+.account-menu__link--work {
+  color: var(--color-ink);
+  font-weight: 600;
+  margin-block-end: 0.75rem;
+
+  /* Centred in the gap it owns: its own margin plus the nav's row gap. */
+  &::after {
+    inset-block-end: -0.4375rem;
+  }
+}
+
+/* button_to wraps sign-out in a form. Grid, so the single button stretches to the
+   row's width in BOTH menus instead of shrinking to its label — the rows size
+   themselves off their container, and a plain block form leaves the button
+   content-width. */
+.account-menu .button_to,
+.header__menu-account .button_to {
+  display: grid;
 }
 
 /* Sign-out sits after a hairline, like Fizzy's bottom row. */
 .account-menu__signout {
-  border-block-start: 1px solid var(--color-subtle);
-  border-radius: 0 0 0.5em 0.5em;
-  margin-block-start: 0.5rem;
-  padding-block-start: 0.75rem;
+  margin-block-start: 0.75rem;
+
+  &::after {
+    inset-block-start: -0.375rem;
+  }
 }
 
 /* ── Mobile (≤819px): the nav collapses behind ONE menu ─────────────────
@@ -406,10 +444,10 @@
 
   /* Open, the ✕ floating in the strip lands almost exactly on the veiled
      hamburger — hide the glyph while its job is taken. */
-  .header__menu[open] .header__menu-toggle :is(svg, .notify-dot) {
+  .header__menu[open] .header__menu-toggle :is(.icon, .notify-dot) {
     opacity: 0;
   }
-  .header__menu-toggle svg {
+  .header__menu-toggle .icon {
     block-size: 1.4rem;
     inline-size: 1.4rem;
   }
@@ -469,9 +507,11 @@
     display: none;
   }
 
-  /* The inline nav's "Admin" context badge would stretch into a full-width
-     banner here — and the identity row already names the role. */
-  .header__menu-panel .badge {
+  /* The inline nav's "Admin" context badge would stretch into a full-width banner
+     here, and the identity row already names the role. Scoped to that badge alone:
+     as a blanket `.badge` rule it also hid the role mark in the identity row, so
+     the drawer and the popover disagreed about the same markup. */
+  .header__menu-panel .header__context-badge {
     display: none;
   }
 
@@ -555,7 +595,7 @@
     z-index: 50;
   }
 
-  .header__menu-close svg {
+  .header__menu-close .icon {
     block-size: 1.5rem;
     box-sizing: content-box;
     inline-size: 1.5rem;
@@ -599,7 +639,7 @@
     padding: 0.5rem 0.6rem;
     transition: background-color 150ms ease, color 150ms ease;
   }
-  .header__menu-panel .nav__link svg {
+  .header__menu-panel .nav__link .icon {
     block-size: 1.05rem;
     display: block;
     inline-size: 1.05rem;
@@ -611,30 +651,37 @@
 
   /* TOP's Nav::ItemComponent verbatim: rows are `px-2 py-2 text-base
      font-medium` inside a `px-2` container — square corners, fill inset
-     0.5rem from the drawer edges, text starting at 1rem. Icons at Heroicons'
+     0.5rem from the drawer edges, text starting at 1rem. Icons at their
      native 24px (w-6 h-6) with the mr-4 gap; scaling them down was what made
      them thin. */
+  /* Rows run edge to edge, text indented by padding — the same anatomy the identity
+     row and the guest pair already use ("sheds the row inset to run full width like
+     the group dividers"). An inset pill instead gave the row three different left
+     edges — divider at 0, fill at 0.5rem, icon at 1rem — which is what read as
+     lopsided. Full-bleed, every horizontal edge in the sheet lines up.
+     inline-size: auto (not the base row's 100%) so a row can't outgrow its column. */
   .header__menu-panel :is(.nav__link, .account-menu__link) {
     border-radius: 0;
     font-size: 1rem;
     font-weight: 500;
     gap: 1rem;
-    margin-inline: 0.5rem;
-    padding: 0.5rem;
+    inline-size: auto;
+    margin-inline: 0;
+    padding: 0.5rem 1rem;
   }
   /* One tone quieter than the label (TOP: icon text-gray-400 vs label
      gray-300) — the icon accompanies, the word leads. Hover and the active
      row lift it back to the row's colour. */
-  .header__menu-panel :is(.nav__link, .account-menu__link) svg {
+  .header__menu-panel :is(.nav__link, .account-menu__link) .icon {
     block-size: 1.5rem;
     color: var(--color-disabled);
     inline-size: 1.5rem;
   }
-  .header__menu-panel .nav__link[aria-current="page"] svg {
+  .header__menu-panel .nav__link[aria-current="page"] .icon {
     color: inherit;
   }
   @media (any-hover: hover) {
-    .header__menu-panel :is(.nav__link, .account-menu__link):hover svg {
+    .header__menu-panel :is(.nav__link, .account-menu__link):hover .icon {
       color: inherit;
     }
   }
@@ -668,6 +715,13 @@
     padding-block-start: 1rem;
   }
 
+  /* The shared partial nests the rows in their own <nav>; the sheet keeps its
+     roomier row rhythm rather than inheriting the popover's tighter one. */
+  .header__menu-account .account-menu__nav {
+    gap: 0.25rem;
+  }
+
+
   /* TOP's guest pair (Get started + Sign in) sits under the last divider —
      the signup row opens the group and carries the hairline, which sheds the
      row inset to run full width like the group dividers (TOP's hr). */
@@ -680,10 +734,6 @@
     padding-inline: 1rem;
   }
 
-  /* button_to wraps sign-out in a <form> — make it fill the row. */
-  .header__menu-account .button_to {
-    display: block;
-  }
 }
 
 /* True phones: the wordmark would crowd the row beside search + CTA + ☰, so drop

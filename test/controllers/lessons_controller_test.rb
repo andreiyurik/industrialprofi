@@ -163,23 +163,33 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.lesson__edit[href=?]", edit_admin_lesson_path(lessons(:svarka_intro))
   end
 
-  test "lesson history tool: in the top utility bar, only once the community has edited — never names on the page" do
+  test "lesson history tool: always in the top utility bar for everyone — never names on the page" do
+    # Guests (and crawlers) reach the provenance too — the tool doesn't wait
+    # for a community edit; the history page handles the empty case.
     get lesson_path(lessons(:pteep))
-    assert_select ".lesson__topbar a[href=?]", lesson_revisions_path(lessons(:pteep)), count: 0 # pristine → no tool
+    assert_select ".lesson__topbar a[href=?]", lesson_revisions_path(lessons(:pteep))
 
-    # The founder's own edit stores no name → still no tool (stays rare).
-    lessons(:pteep).revise!(section: "body", html: "<p>чуть точнее</p>",
-                            editor_name: nil, edit_reason: "правка", source: "admin")
-    get lesson_path(lessons(:pteep))
-    assert_select ".lesson__topbar a[href=?]", lesson_revisions_path(lessons(:pteep)), count: 0
-
-    # A named community contributor → a history tool appears in the utility bar,
-    # out of the reading flow; no names/timestamp leak onto the page itself.
+    # Contributor names stay off the article — credit lives behind the tool.
     lessons(:pteep).revise!(section: "body", html: "<p>ещё точнее</p>",
                             editor_name: "Наталья Орлова", edit_reason: "уточнила", source: "suggestion")
     get lesson_path(lessons(:pteep))
     assert_select ".lesson__topbar a[href=?]", lesson_revisions_path(lessons(:pteep))
     assert_no_match(/Наталья Орлова/, response.body)
+  end
+
+  test "a practice lesson shows the signed-in learner their own journal entries for it" do
+    lesson = lessons(:praktika_shchitok)
+    users(:member).journal_entries.create!(lesson: lesson, title: "Собрал щиток", body: "Получилось")
+
+    sign_in_as users(:member)
+    get lesson_path(lesson)
+    assert_match I18n.t("lessons.journal_entries_title"), response.body
+    assert_match "Собрал щиток", response.body
+
+    # A guest sees neither the entries nor the block.
+    sign_out
+    get lesson_path(lesson)
+    assert_no_match(/Собрал щиток/, response.body)
   end
 
   test "reading mode cookie renders the stripped layout server-side" do
