@@ -6,7 +6,7 @@ class LessonCompletionsController < ApplicationController
     # Done means no longer "saved for later".
     Current.user.lesson_bookmarks.destroy_by(lesson: @lesson)
     load_progress
-    @milestone = milestone_reached
+    @milestone = Current.user.milestone_reached_for(@lesson, completed_ids: @completed_ids)
     @celebration = celebration_message
     respond
   end
@@ -30,21 +30,6 @@ class LessonCompletionsController < ApplicationController
       # Course-scoped, matching the lesson-page sidebar it re-renders.
       @lessons_by_stage = @course.lessons.group_by(&:stage)
       @completed_ids = Current.user.completed_lesson_ids_for_course(@course)
-    end
-
-    # The milestone moment. Ordered most-significant first. A section or a
-    # course gets a quiet flash pill; only finishing the whole profession
-    # earns the milestone dialog with a share button — that stays the one
-    # honest, rare share moment instead of firing on every course.
-    def milestone_reached
-      path_completed_ids = Current.user.completed_lesson_ids_for(@path)
-      if @path.lessons.all? { |lesson| path_completed_ids.include?(lesson.id) }
-        :path
-      elsif @course.lessons.all? { |lesson| @completed_ids.include?(lesson.id) }
-        :course
-      elsif @lesson.stage.present? && @lessons_by_stage[@lesson.stage].all? { |lesson| @completed_ids.include?(lesson.id) }
-        :stage
-      end
     end
 
     def celebration_message

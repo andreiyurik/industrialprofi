@@ -24,11 +24,6 @@ class User < ApplicationRecord
   # content) → administrator (everything, incl. users and roles).
   enum :role, { member: "member", editor: "editor", administrator: "administrator" }, default: "member"
 
-  # Suspension is a reversible ban: active users can sign in, suspended ones
-  # can't. `active` is the scope login authenticates through (Writebook pattern).
-  scope :active, -> { where(suspended_at: nil) }
-  scope :suspended, -> { where.not(suspended_at: nil) }
-
   normalizes :email_address, with: ->(email) { email.strip.downcase }
   # The learner's own "why" — shown on the dashboard on every visit (TOP's
   # "learning goal"). Blank saves as nil so presence checks stay simple.
@@ -54,6 +49,11 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 8 }, allow_nil: true
   validates :learning_goal, length: { maximum: 200 }
   validates :headline, length: { maximum: 120 }
+
+  # Suspension is a reversible ban: active users can sign in, suspended ones
+  # can't. `active` is the scope login authenticates through (Writebook pattern).
+  scope :active, -> { where(suspended_at: nil) }
+  scope :suspended, -> { where.not(suspended_at: nil) }
 
   def first_name = name.split.first
 
@@ -138,6 +138,25 @@ class User < ApplicationRecord
     completed_lesson_ids_where(course_id: course.id)
   end
 
+  # The milestone moment reached by completing `lesson`, given the course-level
+  # completion set the caller already loaded. Ordered most-significant first: a
+  # section or a course gets a quiet flash pill; only finishing the whole
+  # profession earns the milestone dialog with a share button — that stays the
+  # one honest, rare share moment instead of firing on every course.
+  def milestone_reached_for(lesson, completed_ids:)
+    course = lesson.course
+    path = lesson.path
+    path_completed_ids = completed_lesson_ids_for(path)
+
+    if path.lessons.all? { |l| path_completed_ids.include?(l.id) }
+      :path
+    elsif course.lessons.all? { |l| completed_ids.include?(l.id) }
+      :course
+    elsif lesson.stage.present? && course.lessons.select { |l| l.stage == lesson.stage }.all? { |l| completed_ids.include?(l.id) }
+      :stage
+    end
+  end
+
   def started_paths
     Path.published.where(id: lesson_completions.joins(:lesson).select("lessons.path_id")).ordered
   end
@@ -220,6 +239,19 @@ class User < ApplicationRecord
   def self.active_count_since(time)
     (LessonCompletion.where(created_at: time..).distinct.pluck(:user_id) |
       JournalEntry.where(created_at: time..).distinct.pluck(:user_id)).size
+  end
+
+  # The admin people list: role tab, suspended toggle, and a name/email search,
+  # each optional and stackable. Blank/unknown filters are simply no-ops.
+  def self.filtered(role:, status:, q:)
+    scope = order(created_at: :desc)
+    scope = scope.where(role: role) if roles.key?(role)
+    scope = scope.suspended if status == "suspended"
+    if q.present?
+      like = "%#{sanitize_sql_like(q.strip)}%"
+      scope = scope.where("name LIKE :q OR email_address LIKE :q", q: like)
+    end
+    scope
   end
 
   private

@@ -64,7 +64,7 @@
 }
 
 .lightbox::backdrop {
-  background: oklch(0 0 0 / 0.9);
+  background: oklch(var(--lch-always-black) / 0.9);
 }
 
 .lightbox__stage {

@@ -32,8 +32,7 @@ class LessonSuggestion < ApplicationRecord
   end
 
   private
-
-  def body_content_present
-    errors.add(:rich_body, :blank) if rich_body.blank? && body_markdown.blank?
-  end
+    def body_content_present
+      errors.add(:rich_body, :blank) if rich_body.blank? && body_markdown.blank?
+    end
 end

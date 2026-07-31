@@ -37,22 +37,7 @@
       <p class="path__overview-text"><%= @course.description %></p>
     </div>
 
-    <div class="path__start">
-      <% if signed_in? && @completed_ids.any? %>
-        <% if @continue_lesson %>
-          <%= link_to @continue_lesson, class: "btn btn--reversed btn--large" do %>
-            <%= t("paths.continue_learning") %>
-            <%= icon_tag "arrow-right" %>
-          <% end %>
-          <p class="path__continue-hint"><%= t("paths.next_up", title: @continue_lesson.title) %></p>
-        <% end %>
-      <% elsif @continue_lesson %>
-        <%= link_to @continue_lesson, class: "btn btn--reversed btn--large" do %>
-          <%= t("paths.start_learning") %>
-          <%= icon_tag "arrow-right" %>
-        <% end %>
-      <% end %>
-    </div>
+    <%= render "shared/continue_cta", continue_lesson: @continue_lesson, completed_ids: @completed_ids %>
 
     <%= render "shared/stage_curriculum", lessons_by_stage: @lessons_by_stage, completed_ids: @completed_ids %>
   </div>

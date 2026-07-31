@@ -52,7 +52,7 @@ module Admin
       def post_params
         permitted = [ :title, :excerpt, :status, :rich_body, :hero_image ]
         permitted << :slug unless slug_locked?(@post)
-        params.require(:post).permit(*permitted)
+        params.expect(post: permitted)
       end
   end
 end

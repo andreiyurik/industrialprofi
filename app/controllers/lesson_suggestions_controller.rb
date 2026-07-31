@@ -56,6 +56,6 @@ class LessonSuggestionsController < ApplicationController
   end
 
   def suggestion_params
-    params.require(:lesson_suggestion).permit(:section, :body_markdown, :rich_body, :edit_reason)
+    params.expect(lesson_suggestion: [ :section, :body_markdown, :rich_body, :edit_reason ])
   end
 end

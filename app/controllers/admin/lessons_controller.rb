@@ -12,10 +12,8 @@ module Admin
       if params[:path].present?
         @path = Path.editable_by(Current.user).find_by!(slug: params[:path])
         @page = [ params[:page].to_i, 1 ].max
-        scope = @path.lessons.includes(:course).ordered
-        records = scope.offset((@page - 1) * PER_PAGE).limit(PER_PAGE + 1).to_a
-        @has_more = records.size > PER_PAGE
-        @lessons = records.first(PER_PAGE)
+        scope = @path.lessons.includes(:course).ordered.offset((@page - 1) * PER_PAGE)
+        @lessons, @has_more = paginate_window(scope, per_page: PER_PAGE)
       else
         @paths = Path.editable_by(Current.user).ordered
       end
@@ -99,7 +97,7 @@ module Admin
     end
 
     def new_lesson_params
-      params.require(:lesson).permit(:course_id, :stage, :title, :slug, :kind)
+      params.expect(lesson: [ :course_id, :stage, :title, :slug, :kind ])
     end
 
     def populate_rich_text_from_markdown
@@ -113,11 +111,11 @@ module Admin
     end
 
     def lesson_params
-      params.require(:lesson).permit(
+      params.expect(lesson: [
         :title, :description, :body, :task, :kind,
         :rich_description, :rich_body, :rich_task,
-        resources_attributes: %i[id title url kind language note required position _destroy]
-      )
+        resources_attributes: [ [ :id, :title, :url, :kind, :language, :note, :required, :position, :_destroy ] ]
+      ])
     end
   end
 end

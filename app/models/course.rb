@@ -36,6 +36,22 @@ class Course < ApplicationRecord
     slug
   end
 
+  # Per-course progress stats for a learner, given `lessons` (the course's
+  # lessons — pass the caller's already-preloaded set to avoid a fresh query
+  # per course) and the set of their completed lesson ids. Drives the
+  # dashboard's course rows.
+  Progress = Struct.new(:done_count, :next_lesson, :lessons_count, :practice_count, keyword_init: true)
+
+  def progress_for(lessons, completed_ids)
+    lessons_count = lessons.count { |lesson| lesson.kind == "lesson" }
+    Progress.new(
+      done_count: lessons.count { |lesson| completed_ids.include?(lesson.id) },
+      next_lesson: lessons.detect { |lesson| !completed_ids.include?(lesson.id) },
+      lessons_count: lessons_count,
+      practice_count: lessons.size - lessons_count
+    )
+  end
+
   private
     def indexnow_url
       return unless status == "published" && path&.status == "published"

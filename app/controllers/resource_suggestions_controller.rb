@@ -41,6 +41,6 @@ class ResourceSuggestionsController < ApplicationController
   end
 
   def suggestion_params
-    params.require(:resource_suggestion).permit(:url, :title, :kind, :note)
+    params.expect(resource_suggestion: [ :url, :title, :kind, :note ])
   end
 end

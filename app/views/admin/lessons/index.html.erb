@@ -12,7 +12,7 @@
             <%= icon_tag("arrow-left") %>
           </a>
           <h1 class="admin-header__title"><%= @path.title %></h1>
-          <span class="badge <%= @path.status == 'published' ? 'badge--link' : 'badge--draft' %>"><%= @path.status %></span>
+          <%= status_badge(@path.status, published: @path.status == "published") %>
         </div>
         <div class="admin-header__actions">
           <a href="<%= new_admin_lesson_path %>" class="btn btn--small btn--reversed">
@@ -31,7 +31,7 @@
           <div class="admin-group">
             <div class="admin-group__head">
               <h2 class="admin-group__title"><%= course.title %></h2>
-              <span class="badge <%= course.status == 'published' ? 'badge--link' : 'badge--draft' %>"><%= course.status %></span>
+              <%= status_badge(course.status, published: course.status == "published") %>
             </div>
             <% course_lessons.chunk_while { |a, b| a.stage == b.stage }.each do |stage_lessons| %>
               <% if stage_lessons.first.stage.present? %>
@@ -78,7 +78,7 @@
               <span class="admin-row__lead">
                 <span class="admin-row__position"><%= path.position %></span>
                 <span class="admin-row__title"><%= path.title %></span>
-                <span class="badge <%= path.status == 'published' ? 'badge--link' : 'badge--draft' %>"><%= path.status %></span>
+                <%= status_badge(path.status, published: path.status == "published") %>
               </span>
               <span class="admin-row__meta">
                 <span><%= russian_pluralize(path.lessons_count, :lesson) %></span>

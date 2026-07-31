@@ -20,9 +20,7 @@
           <a href="<%= edit_admin_post_path(post) %>" class="admin-row">
             <span class="admin-row__lead">
               <span class="admin-row__title"><%= post.title %></span>
-              <span class="badge <%= post.published? ? 'badge--link' : 'badge--draft' %>">
-                <%= t("admin.statuses.#{post.status}") %>
-              </span>
+              <%= status_badge(t("admin.statuses.#{post.status}"), published: post.published?) %>
             </span>
             <span class="admin-row__meta">
               <% if post.published_at %><span><%= l(post.published_at.to_date) %></span><% end %>

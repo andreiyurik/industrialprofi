@@ -21,7 +21,7 @@
                data-action="keydown->inline-edit#keydown">
       </form>
     </span>
-    <span class="badge <%= course.status == 'published' ? 'badge--link' : 'badge--draft' %>"><%= course.status %></span>
+    <%= status_badge(course.status, published: course.status == "published") %>
     <span class="builder-course__meta"><%= russian_pluralize(course.lessons.size, :lesson) %></span>
     <span class="builder-course__actions">
       <a href="<%= new_admin_lesson_path(course_id: course.id) %>" class="btn btn--small">

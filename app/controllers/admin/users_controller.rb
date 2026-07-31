@@ -10,13 +10,7 @@ module Admin
 
       # The list is scan-and-navigate only; all management moved to the user
       # card (show), so the rows stay clean and the page filters/paginates well.
-      scope = User.order(created_at: :desc)
-      scope = scope.where(role: params[:role]) if User.roles.key?(params[:role])
-      scope = scope.suspended if params[:status] == "suspended"
-      if params[:q].present?
-        q = "%#{User.sanitize_sql_like(params[:q].strip)}%"
-        scope = scope.where("name LIKE :q OR email_address LIKE :q", q: q)
-      end
+      scope = User.filtered(role: params[:role], status: params[:status], q: params[:q])
 
       @total = scope.count
       @pages = [ (@total / PER_PAGE.to_f).ceil, 1 ].max

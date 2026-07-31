@@ -305,4 +305,11 @@ module ApplicationHelper
     tag.span(resource.language.upcase, class: "badge badge--lang lesson-resource__lang",
       title: t("lessons.resource_languages.#{resource.language}", default: resource.language.upcase))
   end
+
+  # The admin "published vs draft" pill shown on paths/courses/lessons/posts
+  # list rows. `published` is the caller's own check (`status == "published"`,
+  # `post.published?`, …) since what counts as published varies slightly by model.
+  def status_badge(label, published:)
+    tag.span(label, class: "badge #{published ? 'badge--link' : 'badge--draft'}")
+  end
 end

@@ -1,0 +1,23 @@
+<%# Shared by the path and course pages: the big "продолжить/начать обучение"
+    button. `show_progress` adds the progress bar above it (path page only —
+    the course page has its own per-course bar elsewhere on the curriculum). %>
+<%# locals: (continue_lesson:, completed_ids:, show_progress: false, total: nil) %>
+<div class="path__start">
+  <% if signed_in? && completed_ids.any? %>
+    <% if show_progress %>
+      <%= render "shared/progress_bar", completed: completed_ids.size, total: total %>
+    <% end %>
+    <% if continue_lesson %>
+      <%= link_to continue_lesson, class: "btn btn--reversed btn--large" do %>
+        <%= t("paths.continue_learning") %>
+        <%= icon_tag "arrow-right" %>
+      <% end %>
+      <p class="path__continue-hint"><%= t("paths.next_up", title: continue_lesson.title) %></p>
+    <% end %>
+  <% elsif continue_lesson %>
+    <%= link_to continue_lesson, class: "btn btn--reversed btn--large" do %>
+      <%= t("paths.start_learning") %>
+      <%= icon_tag "arrow-right" %>
+    <% end %>
+  <% end %>
+</div>

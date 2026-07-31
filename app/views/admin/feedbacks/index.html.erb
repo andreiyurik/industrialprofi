@@ -53,7 +53,7 @@
                 <% if feedback.coauthor_application? && feedback.user %>
                   <div class="inbox__approve panel">
                     <p class="inbox__approve-label"><%= t("admin.coauthor_approve.label") %></p>
-                    <%= form_with url: approve_coauthor_admin_feedback_path(feedback), method: :post, class: "inbox__approve-form" do %>
+                    <%= form_with url: admin_feedback_coauthor_approval_path(feedback), method: :post, class: "inbox__approve-form" do %>
                       <%= text_field_tag :profession_title, feedback.suggested_profession,
                             placeholder: t("admin.coauthor_approve.placeholder"),
                             class: "input", required: true, aria: { label: t("admin.coauthor_approve.placeholder") } %>

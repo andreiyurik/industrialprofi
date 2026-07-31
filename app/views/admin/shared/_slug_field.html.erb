@@ -1,0 +1,13 @@
+<%# `f` is the form builder, `record` the path/course/post/lesson — slug_locked?
+    gates on record.persisted? && status_live?(record), so a new record always
+    renders the editable branch. %>
+<div class="admin-form__field">
+  <label><%= t("admin.field_slug") %></label>
+  <% if slug_locked?(record) %>
+    <%= f.text_field :slug, class: "input input--mono", disabled: true %>
+    <p class="admin-form__hint"><%= t("admin.slug_locked") %></p>
+  <% else %>
+    <%= f.text_field :slug, class: "input input--mono", placeholder: t("admin.slug_auto") %>
+    <p class="admin-form__hint"><%= t("admin.slug_hint") %></p>
+  <% end %>
+</div>

@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { debounce } from "helpers/timing_helpers"
+import { csrfToken } from "helpers/http_helpers"
 
 export default class extends Controller {
   static targets = ["input", "output"]
@@ -18,14 +19,12 @@ export default class extends Controller {
   }
 
   async fetchPreview(text, output) {
-    const csrfToken = document.querySelector("meta[name='csrf-token']")?.content
-
     try {
       const response = await fetch(this.urlValue, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
+          "X-CSRF-Token": csrfToken(),
           "Accept": "application/json"
         },
         body: JSON.stringify({ text })

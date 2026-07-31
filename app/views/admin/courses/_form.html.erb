@@ -15,16 +15,7 @@
     <%= f.text_field :title, class: "input" %>
   </div>
 
-  <div class="admin-form__field">
-    <label><%= t("admin.field_slug") %></label>
-    <% if slug_locked?(course) %>
-      <%= f.text_field :slug, class: "input input--mono", disabled: true %>
-      <p class="admin-form__hint"><%= t("admin.slug_locked") %></p>
-    <% else %>
-      <%= f.text_field :slug, class: "input input--mono", placeholder: t("admin.slug_auto") %>
-      <p class="admin-form__hint"><%= t("admin.slug_hint") %></p>
-    <% end %>
-  </div>
+  <%= render "admin/shared/slug_field", f: f, record: course %>
 
   <% unless course.new_record? %>
     <div class="admin-form__field">

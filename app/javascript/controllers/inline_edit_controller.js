@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { csrfToken } from "helpers/http_helpers"
 
 // Inline rename: double-click a title to edit it in place; Enter (form submit)
 // PATCHes a thin endpoint and the new text simply stays. Escape cancels; on a
@@ -51,7 +52,7 @@ export default class extends Controller {
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']")?.content
+        "X-CSRF-Token": csrfToken()
       },
       body: JSON.stringify({ value, from: this.original, ...this.extraValue })
     })

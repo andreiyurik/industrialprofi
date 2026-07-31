@@ -60,10 +60,11 @@
             </div>
           <% else %>
             <% course_lessons = @focus_path.lessons.select { |lesson| lesson.course_id == course.id } %>
-            <% done_count = course_lessons.count { |lesson| completed_ids.include?(lesson.id) } %>
-            <% next_in_course = course_lessons.detect { |lesson| !completed_ids.include?(lesson.id) } %>
-            <% lessons_n = course_lessons.count { |lesson| lesson.kind == "lesson" } %>
-            <% practice_n = course_lessons.size - lessons_n %>
+            <% progress = course.progress_for(course_lessons, completed_ids) %>
+            <% done_count = progress.done_count %>
+            <% next_in_course = progress.next_lesson %>
+            <% lessons_n = progress.lessons_count %>
+            <% practice_n = progress.practice_count %>
             <div class="dashboard-course">
               <% if done_count.zero? %>
                 <%# An untouched course shows its step number, not a reproachful

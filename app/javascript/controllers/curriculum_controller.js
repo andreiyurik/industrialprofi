@@ -1,4 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
+import { csrfToken } from "helpers/http_helpers"
+import { elementAfter } from "helpers/dom_helpers"
 
 // The curriculum builder tree: drag to reorder lessons, whole stages (a heading
 // plus its lessons), and whole courses — within a course and across courses.
@@ -16,65 +18,74 @@ export default class extends Controller {
   static targets = ["courseList", "course", "lessonList", "lesson", "pos", "empty"]
   static values = { lessonsUrl: String, coursesUrl: String, savedText: String, failedText: String }
 
+  #dragType = null
+  #block = null
+  #dragging = null
+  #snapshot = null
+  #beforeSignature = null
+  #toastEl = null
+
+  // Actions
+
   dragStart(event) {
     const el = event.target
     if (el.classList?.contains("builder-lesson")) {
-      this.dragType = "lesson"
-      this.block = [el]
+      this.#dragType = "lesson"
+      this.#block = [el]
     } else if (el.classList?.contains("builder-stage")) {
-      this.dragType = "stage"
-      this.block = this.stageBlock(el)
+      this.#dragType = "stage"
+      this.#block = this.#stageBlock(el)
     } else if (el.classList?.contains("builder-course")) {
-      this.dragType = "course"
-      this.block = [el]
+      this.#dragType = "course"
+      this.#block = [el]
     } else {
       return
     }
-    this.dragging = el
-    this.block.forEach((node) => node.classList.add("is-dragging"))
+    this.#dragging = el
+    this.#block.forEach((node) => node.classList.add("is-dragging"))
     event.dataTransfer.effectAllowed = "move"
     event.dataTransfer.setData("text/plain", "") // Firefox needs data set to drag
 
-    this.snapshot = this.snapshotChildren(this.dragType)
-    this.beforeSignature = this.signature(this.dragType)
+    this.#snapshot = this.#snapshotChildren(this.#dragType)
+    this.#beforeSignature = this.#signature(this.#dragType)
   }
 
   dragOver(event) {
-    if (!this.dragging) return
+    if (!this.#dragging) return
     event.preventDefault()
 
-    if (this.dragType === "course") {
-      this.insertBlock(this.courseListTarget, this.courseAfter(event.clientY))
+    if (this.#dragType === "course") {
+      this.#insertBlock(this.courseListTarget, this.#courseAfter(event.clientY))
     } else {
-      const list = this.lessonListUnder(event.clientY)
+      const list = this.#lessonListUnder(event.clientY)
       if (!list) return
-      const anchor = this.dragType === "stage"
-        ? this.stageAfter(list, event.clientY)
-        : this.lessonAfter(list, event.clientY)
-      this.insertBlock(list, anchor)
+      const anchor = this.#dragType === "stage"
+        ? this.#stageAfter(list, event.clientY)
+        : this.#lessonAfter(list, event.clientY)
+      this.#insertBlock(list, anchor)
       list.querySelector(".builder-course__empty")?.remove()
     }
   }
 
   drop(event) {
-    if (this.dragging) event.preventDefault()
+    if (this.#dragging) event.preventDefault()
   }
 
   dragEnd() {
-    if (!this.dragging) return
-    this.block?.forEach((node) => node.classList.remove("is-dragging"))
-    const type = this.dragType
-    this.dragging = null
-    this.dragType = null
-    this.block = null
+    if (!this.#dragging) return
+    this.#block?.forEach((node) => node.classList.remove("is-dragging"))
+    const type = this.#dragType
+    this.#dragging = null
+    this.#dragType = null
+    this.#block = null
 
-    if (this.signature(type) === this.beforeSignature) return // dropped back in place
+    if (this.#signature(type) === this.#beforeSignature) return // dropped back in place
 
-    this.renumberLessonLabels()
+    this.#renumberLessonLabels()
     if (type === "course") {
-      this.persist(this.coursesUrlValue, { course_ids: this.courseTargets.map((c) => c.dataset.courseId) })
+      this.#persist(this.coursesUrlValue, { course_ids: this.courseTargets.map((c) => c.dataset.courseId) })
     } else {
-      this.persist(this.lessonsUrlValue, { lessons: this.collectLessons() })
+      this.#persist(this.lessonsUrlValue, { lessons: this.#collectLessons() })
     }
   }
 
@@ -82,11 +93,11 @@ export default class extends Controller {
     event.target.closest(".builder-course").classList.toggle("is-collapsed")
   }
 
-  // --- block assembly ---
+  // Private
 
   // A stage block = the heading plus its contiguous lessons, up to the next
   // heading. These move together so a whole section can be re-filed at once.
-  stageBlock(heading) {
+  #stageBlock(heading) {
     const block = [heading]
     let node = heading.nextElementSibling
     while (node && !node.classList.contains("builder-stage")) {
@@ -96,17 +107,15 @@ export default class extends Controller {
     return block
   }
 
-  insertBlock(list, anchor) {
-    for (const node of this.block) {
+  #insertBlock(list, anchor) {
+    for (const node of this.#block) {
       anchor ? list.insertBefore(node, anchor) : list.appendChild(node)
     }
   }
 
-  // --- order collection ---
-
   // Every lesson in on-screen order, tagged with the course it now sits under
   // and the stage of the nearest heading above it.
-  collectLessons() {
+  #collectLessons() {
     const lessons = []
     this.lessonListTargets.forEach((list) => {
       const courseId = list.dataset.courseId
@@ -122,15 +131,15 @@ export default class extends Controller {
     return lessons
   }
 
-  signature(type) {
+  #signature(type) {
     return type === "course"
       ? this.courseTargets.map((c) => c.dataset.courseId).join(",")
-      : JSON.stringify(this.collectLessons())
+      : JSON.stringify(this.#collectLessons())
   }
 
   // Positions are global within the profession, so the visible numbers run
   // straight through the courses in their on-screen order.
-  renumberLessonLabels() {
+  #renumberLessonLabels() {
     let position = 0
     this.lessonListTargets.forEach((list) => {
       list.querySelectorAll(".builder-lesson .builder-lesson__pos").forEach((label) => {
@@ -139,35 +148,33 @@ export default class extends Controller {
     })
   }
 
-  // --- persistence (with revert-on-failure) ---
-
-  persist(url, data) {
+  #persist(url, data) {
     fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']")?.content
+        "X-CSRF-Token": csrfToken()
       },
       body: JSON.stringify(data)
     })
       .then((response) => {
         if (!response.ok) throw new Error(response.status)
-        this.toast(this.savedTextValue)
+        this.#toast(this.savedTextValue)
       })
       .catch(() => {
-        this.restoreOrder()
-        this.renumberLessonLabels()
-        this.toast(this.failedTextValue)
+        this.#restoreOrder()
+        this.#renumberLessonLabels()
+        this.#toast(this.failedTextValue)
       })
   }
 
-  restoreOrder() {
-    if (!this.snapshot) return
-    for (const [list, children] of this.snapshot) list.append(...children)
+  #restoreOrder() {
+    if (!this.#snapshot) return
+    for (const [list, children] of this.#snapshot) list.append(...children)
   }
 
-  snapshotChildren(type) {
+  #snapshotChildren(type) {
     const lists = type === "course" ? [this.courseListTarget] : this.lessonListTargets
     return lists.map((list) => [list, [...list.children]])
   }
@@ -175,8 +182,8 @@ export default class extends Controller {
   // A floating pill, reusing the app's flash look + element-removal auto-dismiss.
   // Lives in <body> (not the tree) so it never shifts the list and stays in view
   // at any scroll position. Replaces any earlier pill so rapid saves don't stack.
-  toast(text) {
-    this.toastEl?.remove()
+  #toast(text) {
+    this.#toastEl?.remove()
     const pill = document.createElement("div")
     pill.className = "flash"
     pill.dataset.controller = "element-removal"
@@ -186,12 +193,10 @@ export default class extends Controller {
     inner.textContent = text
     pill.append(inner)
     document.body.append(pill)
-    this.toastEl = pill
+    this.#toastEl = pill
   }
 
-  // --- geometry helpers ---
-
-  lessonListUnder(y) {
+  #lessonListUnder(y) {
     let nearest = null
     let nearestGap = Infinity
     for (const list of this.lessonListTargets) {
@@ -208,32 +213,22 @@ export default class extends Controller {
     return nearest
   }
 
-  lessonAfter(list, y) {
-    return Array.from(list.querySelectorAll(".builder-lesson"))
-      .filter((item) => !this.block.includes(item))
-      .find((item) => {
-        const box = item.getBoundingClientRect()
-        return y < box.top + box.height / 2
-      })
+  #lessonAfter(list, y) {
+    const candidates = Array.from(list.querySelectorAll(".builder-lesson"))
+      .filter((item) => !this.#block.includes(item))
+    return elementAfter(candidates, y)
   }
 
   // A stage block anchors only on other headings (or the list end), so it slots
   // between sections instead of splitting one.
-  stageAfter(list, y) {
-    return Array.from(list.querySelectorAll(".builder-stage"))
-      .filter((heading) => !this.block.includes(heading))
-      .find((heading) => {
-        const box = heading.getBoundingClientRect()
-        return y < box.top + box.height / 2
-      })
+  #stageAfter(list, y) {
+    const candidates = Array.from(list.querySelectorAll(".builder-stage"))
+      .filter((heading) => !this.#block.includes(heading))
+    return elementAfter(candidates, y)
   }
 
-  courseAfter(y) {
-    return this.courseTargets
-      .filter((item) => item !== this.dragging)
-      .find((item) => {
-        const box = item.getBoundingClientRect()
-        return y < box.top + box.height / 2
-      })
+  #courseAfter(y) {
+    const candidates = this.courseTargets.filter((item) => item !== this.#dragging)
+    return elementAfter(candidates, y)
   }
 }

@@ -3,7 +3,7 @@
 
 .account-settings__masthead {
   margin-inline: auto;
-  margin-block: 0.5rem var(--block-space-double);
+  margin-block: var(--block-space-half) var(--block-space-double);
   max-inline-size: 64rem;
 }
 

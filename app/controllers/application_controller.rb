@@ -13,6 +13,13 @@ class ApplicationController < ActionController::Base
   helper_method :signup_open?
 
   private
+    # Fetches one extra row to learn if a next page/batch exists without a
+    # second query, then trims back down to per_page.
+    def paginate_window(scope, per_page:)
+      records = scope.limit(per_page + 1).to_a
+      [ records.first(per_page), records.size > per_page ]
+    end
+
     # Registration depends entirely on the verification-code email arriving —
     # gate it on the same credential the SMTP settings read, so the "coming
     # soon" notice disappears on its own once `smtp:` is set, no toggle to

@@ -32,73 +32,72 @@ class RevisionDiff
   end
 
   private
-
-  # Collapse the raw LCS edit script into runs of the same operation so we emit
-  # one <ins>/<del> per change instead of one per word.
-  def segments
-    raw = edit_script
-    raw.each_with_object([]) do |(op, text), acc|
-      if acc.last && acc.last[0] == op
-        acc.last[1] += text
-      else
-        acc << [ op, text ]
-      end
-    end
-  end
-
-  def edit_script
-    a, b = @before, @after
-    lcs = lcs_table(a, b)
-    script = []
-    i = 0
-    j = 0
-    while i < a.length && j < b.length
-      if a[i] == b[j]
-        script << [ :eq, a[i] ]
-        i += 1
-        j += 1
-      elsif lcs[i + 1][j] >= lcs[i][j + 1]
-        script << [ :del, a[i] ]
-        i += 1
-      else
-        script << [ :ins, b[j] ]
-        j += 1
-      end
-    end
-    script.concat(a[i..].map { |t| [ :del, t ] }) if i < a.length
-    script.concat(b[j..].map { |t| [ :ins, t ] }) if j < b.length
-    script
-  end
-
-  def lcs_table(a, b)
-    table = Array.new(a.length + 1) { Array.new(b.length + 1, 0) }
-    (a.length - 1).downto(0) do |i|
-      (b.length - 1).downto(0) do |j|
-        table[i][j] = if a[i] == b[j]
-          table[i + 1][j + 1] + 1
+    # Collapse the raw LCS edit script into runs of the same operation so we emit
+    # one <ins>/<del> per change instead of one per word.
+    def segments
+      raw = edit_script
+      raw.each_with_object([]) do |(op, text), acc|
+        if acc.last && acc.last[0] == op
+          acc.last[1] += text
         else
-          [ table[i + 1][j], table[i][j + 1] ].max
+          acc << [ op, text ]
         end
       end
     end
-    table
-  end
 
-  # Split into words and whitespace runs, keeping both so the text reconstructs.
-  def tokenize(text)
-    text.scan(/\S+|\s+/)
-  end
+    def edit_script
+      a, b = @before, @after
+      lcs = lcs_table(a, b)
+      script = []
+      i = 0
+      j = 0
+      while i < a.length && j < b.length
+        if a[i] == b[j]
+          script << [ :eq, a[i] ]
+          i += 1
+          j += 1
+        elsif lcs[i + 1][j] >= lcs[i][j + 1]
+          script << [ :del, a[i] ]
+          i += 1
+        else
+          script << [ :ins, b[j] ]
+          j += 1
+        end
+      end
+      script.concat(a[i..].map { |t| [ :del, t ] }) if i < a.length
+      script.concat(b[j..].map { |t| [ :ins, t ] }) if j < b.length
+      script
+    end
 
-  # Strip to plain text, but turn block boundaries into newlines first so a
-  # multi-paragraph section keeps its structure in the diff (rendered pre-wrap)
-  # instead of collapsing into one unreadable blob. Single-block content is
-  # unaffected (trailing newlines are trimmed), so identical? stays correct.
-  def plain_text(html)
-    return "" if html.blank?
-    with_breaks = html.to_s
-                      .gsub(%r{<br\s*/?>}i, "\n")
-                      .gsub(%r{</(?:p|div|li|h[1-6]|blockquote|tr)>}i, "\n")
-    text = ActionController::Base.helpers.strip_tags(with_breaks)
-    CGI.unescapeHTML(text).gsub(/[^\S\n]+\n/, "\n").gsub(/\n{3,}/, "\n\n").strip
-  end
+    def lcs_table(a, b)
+      table = Array.new(a.length + 1) { Array.new(b.length + 1, 0) }
+      (a.length - 1).downto(0) do |i|
+        (b.length - 1).downto(0) do |j|
+          table[i][j] = if a[i] == b[j]
+            table[i + 1][j + 1] + 1
+          else
+            [ table[i + 1][j], table[i][j + 1] ].max
+          end
+        end
+      end
+      table
+    end
+
+    # Split into words and whitespace runs, keeping both so the text reconstructs.
+    def tokenize(text)
+      text.scan(/\S+|\s+/)
+    end
+
+    # Strip to plain text, but turn block boundaries into newlines first so a
+    # multi-paragraph section keeps its structure in the diff (rendered pre-wrap)
+    # instead of collapsing into one unreadable blob. Single-block content is
+    # unaffected (trailing newlines are trimmed), so identical? stays correct.
+    def plain_text(html)
+      return "" if html.blank?
+      with_breaks = html.to_s
+                        .gsub(%r{<br\s*/?>}i, "\n")
+                        .gsub(%r{</(?:p|div|li|h[1-6]|blockquote|tr)>}i, "\n")
+      text = ActionController::Base.helpers.strip_tags(with_breaks)
+      CGI.unescapeHTML(text).gsub(/[^\S\n]+\n/, "\n").gsub(/\n{3,}/, "\n\n").strip
+    end
 end

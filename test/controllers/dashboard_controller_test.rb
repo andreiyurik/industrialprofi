@@ -134,6 +134,25 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_match courses(:el_basics).title, response.body
   end
 
+  test "per-course rows show accurate lesson/practice counts and link to the right next lesson" do
+    # el_basics: pteep (lesson, done) + gruppy_dopuska (lesson) — 2 lessons, 0 practice.
+    # el_pue: zazemlenie (lesson) + praktika_shchitok (practice) — 1 lesson, 1 practice.
+    users(:member).lesson_completions.create!(lesson: lessons(:pteep))
+
+    sign_in_as users(:member)
+    get dashboard_path
+    assert_response :success
+
+    assert_match I18n.t("courses.lessons_count", count: 2), response.body
+    assert_match I18n.t("courses.lessons_count", count: 1), response.body
+    assert_match I18n.t("courses.practice_count", count: 1), response.body
+
+    # el_basics has one completion, so its next action is the second lesson.
+    assert_match lesson_path(lessons(:gruppy_dopuska)), response.body
+    # el_pue has no completions yet, so its next action is its first lesson.
+    assert_match lesson_path(lessons(:zazemlenie)), response.body
+  end
+
   test "lists my suggestions with the reviewer's comment and marks decisions seen" do
     users(:member).lesson_suggestions.create!(
       lesson: lessons(:pteep), section: "body", author_name: "Иван",

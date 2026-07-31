@@ -26,9 +26,7 @@
             <span class="admin-row__lead">
               <span class="admin-row__position"><%= course.position %></span>
               <span class="admin-row__title"><%= course.title %></span>
-              <span class="badge <%= course.status == 'published' ? 'badge--link' : 'badge--draft' %>">
-                <%= course.status %>
-              </span>
+              <%= status_badge(course.status, published: course.status == "published") %>
             </span>
             <span class="admin-row__meta">
               <span><%= russian_pluralize(course.lessons_count, :lesson) %></span>

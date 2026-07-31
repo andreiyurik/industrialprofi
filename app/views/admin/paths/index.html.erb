@@ -22,7 +22,7 @@
           <a href="<%= admin_path_path(path) %>" class="builder-card">
             <span class="builder-card__head">
               <span class="builder-card__title"><%= path.title %></span>
-              <span class="badge <%= path.status == 'published' ? 'badge--link' : 'badge--draft' %>"><%= path.status %></span>
+              <%= status_badge(path.status, published: path.status == "published") %>
             </span>
             <span class="builder-card__meta">
               <%= russian_pluralize(path.courses_count, :course) %> · <%= russian_pluralize(path.lessons_count, :lesson) %>

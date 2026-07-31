@@ -13,9 +13,7 @@ class RevisionsController < ApplicationController
     scope = @lesson.lesson_revisions.ordered
     scope = scope.where("version < ?", params[:before]) if params[:before].present?
 
-    rows = scope.limit(PER_PAGE + 1).to_a
-    @more = rows.size > PER_PAGE
-    @revisions = rows.first(PER_PAGE)
+    @revisions, @more = paginate_window(scope, per_page: PER_PAGE)
     @next_cursor = @revisions.last&.version
 
     # Community-added sources credited on this lesson (approved link suggestions).

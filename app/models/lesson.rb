@@ -35,14 +35,14 @@ class Lesson < ApplicationRecord
   accepts_nested_attributes_for :resources, allow_destroy: true,
     reject_if: ->(attrs) { attrs["title"].blank? && attrs["url"].blank? }
 
+  has_rich_text :rich_body
+  has_rich_text :rich_description
+  has_rich_text :rich_task
+
   before_validation { self.path = course.path if course }
 
   after_save_commit :index_for_search
   after_destroy_commit :deindex_for_search
-
-  has_rich_text :rich_body
-  has_rich_text :rich_description
-  has_rich_text :rich_task
 
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: Path::SLUG_FORMAT }
@@ -64,6 +64,15 @@ class Lesson < ApplicationRecord
       .group("lessons.id")
       .order(Arel.sql("COUNT(lesson_bookmarks.id) DESC"))
       .limit(count)
+  }
+
+  # Title match for the editor's @-mention link picker (Admin::LessonLinksController).
+  # Titles aren't sensitive, so it spans every profession — cross-links are the
+  # point of the wiki fabric. Blank filter → nothing (the prompt shows its empty
+  # state until the author types).
+  scope :title_search, ->(filter) {
+    query = filter.to_s.strip
+    query.present? ? where("title LIKE ?", "%#{sanitize_sql_like(query)}%").order(:title) : none
   }
 
   def practice? = kind == "practice"
@@ -91,15 +100,6 @@ class Lesson < ApplicationRecord
   # body. Scans the raw sources (markdown + rich-text HTML) — to_plain_text
   # would drop the hrefs.
   INTERNAL_LINK_PATTERN = %r{/lessons/([a-z0-9\-]+)}
-
-  # Title match for the editor's @-mention link picker (Admin::LessonLinksController).
-  # Titles aren't sensitive, so it spans every profession — cross-links are the
-  # point of the wiki fabric. Blank filter → nothing (the prompt shows its empty
-  # state until the author types).
-  scope :title_search, ->(filter) {
-    query = filter.to_s.strip
-    query.present? ? where("title LIKE ?", "%#{sanitize_sql_like(query)}%").order(:title) : none
-  }
 
   def linked_lesson_slugs
     [ body.to_s, rich_body&.body.to_s ].join(" ").scan(INTERNAL_LINK_PATTERN).flatten.uniq - [ slug ]

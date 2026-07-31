@@ -126,7 +126,7 @@ Rails.application.routes.draw do
       resource :suspension, only: [ :create, :destroy ]
     end
     resources :feedbacks, only: [ :index ] do
-      member { post :approve_coauthor }
+      resource :coauthor_approval, only: :create
     end
     get "log" => "admin_actions#index", as: :log
     resources :lesson_suggestions, only: [ :index, :show ] do

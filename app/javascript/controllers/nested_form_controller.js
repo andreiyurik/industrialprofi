@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { elementAfter } from "helpers/dom_helpers"
 
 // Add / remove / reorder rows for a has_many rendered with
 // accepts_nested_attributes_for. No gem — the Rails "child_index template"
@@ -8,17 +9,23 @@ export default class extends Controller {
   static targets = ["list", "template", "item", "badge", "kind", "position", "destroy"]
   static values = { kinds: Object }
 
+  #dragging = null
+
+  // Lifecycle
+
   connect() {
-    this.itemTargets.forEach((item) => this.paintBadge(item))
+    this.itemTargets.forEach((item) => this.#paintBadge(item))
   }
+
+  // Actions
 
   addItem(event) {
     event.preventDefault()
-    const html = this.templateTarget.innerHTML.replace(/NEW_RECORD/g, this.uid())
+    const html = this.templateTarget.innerHTML.replace(/NEW_RECORD/g, this.#uid())
     this.listTarget.insertAdjacentHTML("beforeend", html)
     const item = this.listTarget.lastElementChild
-    this.paintBadge(item)
-    this.renumber()
+    this.#paintBadge(item)
+    this.#renumber()
     item.querySelector("input.input")?.focus()
   }
 
@@ -32,50 +39,42 @@ export default class extends Controller {
     } else {
       item.remove()
     }
-    this.renumber()
+    this.#renumber()
   }
 
   refreshBadge(event) {
-    this.paintBadge(event.target.closest("[data-nested-form-target='item']"))
+    this.#paintBadge(event.target.closest("[data-nested-form-target='item']"))
   }
 
-  // --- drag-and-drop reorder (top = most important) ---
   dragStart(event) {
-    this.dragging = event.target.closest("[data-nested-form-target='item']")
-    this.dragging.classList.add("is-dragging")
+    this.#dragging = event.target.closest("[data-nested-form-target='item']")
+    this.#dragging.classList.add("is-dragging")
   }
 
   dragEnd() {
-    this.dragging?.classList.remove("is-dragging")
-    this.dragging = null
-    this.renumber()
+    this.#dragging?.classList.remove("is-dragging")
+    this.#dragging = null
+    this.#renumber()
   }
 
   dragOver(event) {
-    if (!this.dragging) return
+    if (!this.#dragging) return
     event.preventDefault()
-    const after = this.itemAfter(event.clientY)
+    const candidates = this.itemTargets.filter((item) => item !== this.#dragging && !item.hidden)
+    const after = elementAfter(candidates, event.clientY)
     if (!after) {
-      this.listTarget.appendChild(this.dragging)
-    } else if (after !== this.dragging) {
-      this.listTarget.insertBefore(this.dragging, after)
+      this.listTarget.appendChild(this.#dragging)
+    } else if (after !== this.#dragging) {
+      this.listTarget.insertBefore(this.#dragging, after)
     }
   }
 
-  itemAfter(y) {
-    return this.itemTargets
-      .filter((item) => item !== this.dragging && !item.hidden)
-      .find((item) => {
-        const box = item.getBoundingClientRect()
-        return y < box.top + box.height / 2
-      })
-  }
+  // Private
 
-  // --- helpers ---
   // The kind dot borrows the reader-facing badge hue (the modifier class sets
   // `color`; the dot paints itself with currentColor). Updates live as the
   // kind <select> changes; the word itself lives in the select.
-  paintBadge(item) {
+  #paintBadge(item) {
     const badge = item?.querySelector("[data-nested-form-target='badge']")
     const kind = item?.querySelector("[data-nested-form-target='kind']")
     if (!badge || !kind) return
@@ -84,7 +83,7 @@ export default class extends Controller {
     badge.title = label
   }
 
-  renumber() {
+  #renumber() {
     let position = 0
     this.itemTargets.forEach((item) => {
       if (item.hidden) return
@@ -93,7 +92,7 @@ export default class extends Controller {
     })
   }
 
-  uid() {
+  #uid() {
     return `${new Date().getTime()}${Math.floor(Math.random() * 1000)}`
   }
 }
