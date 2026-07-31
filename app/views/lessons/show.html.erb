@@ -205,6 +205,8 @@
       </div>
     </section>
 
+    <%= render "lessons/calculators", lesson: @lesson %>
+
     <% if @lesson.has_task? %>
       <section id="task" class="lesson__section">
         <h2 class="lesson__heading lesson__heading--task">

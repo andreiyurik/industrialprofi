@@ -50,6 +50,13 @@ class Calculator
   def self.all = ALL
   def self.find(slug) = ALL.find { it.slug == slug }
 
+  # The reverse of #lesson, derived from the same registry so the two can't
+  # drift: a lesson shows the calculators that name it, and a new calculator
+  # appears on its lesson the day it is registered — no content edit anywhere.
+  # Several may share one lesson (сечение кабеля and ток КЗ both sit on
+  # "02-vybor-secheniya-kabelya").
+  def self.for_lesson(lesson_slug) = ALL.select { it.lesson_slug == lesson_slug }
+
   # Catalog order = the CATEGORIES order, each group keeping registry order.
   def self.grouped = ALL.group_by(&:category).sort_by { CATEGORIES.index(it.first) }
 

@@ -232,4 +232,24 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_match I18n.t("resource_suggestions.cta"), response.body
     assert_no_match(/#{I18n.t("resource_suggestions.cta_guest")}/, response.body)
   end
+test "a lesson offers the calculators that name it" do
+  calculator = Calculator.all.find { it.lesson_slug.present? }
+  lesson = lessons(:pteep)
+  lesson.update!(slug: calculator.lesson_slug)
+
+  get lesson_path(lesson)
+
+  assert_response :success
+  assert_select ".lesson-calculator[href=?]", calculator_path(calculator)
+  assert_select ".lesson-calculator__title", calculator.title
+end
+
+test "a lesson no calculator names renders no calculator block" do
+  lesson = lessons(:pteep)
+  assert_empty Calculator.for_lesson(lesson.slug)
+
+  get lesson_path(lesson)
+
+  assert_select ".lesson-calculators", false
+end
 end

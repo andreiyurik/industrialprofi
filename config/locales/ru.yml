@@ -1216,6 +1216,7 @@ ru:
       tool: "Инструмент"
     resource_languages:
       en: "Английский — нет русского аналога"
+    calculators_section: "Посчитать по этой теме"
     task_section: "Практическое задание"
     log_result: "Записать результат в дневник"
     journal_entries_title: "Ваши записи по этому заданию"

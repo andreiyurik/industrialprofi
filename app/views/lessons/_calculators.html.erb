@@ -1,0 +1,28 @@
+<%# Инструменты для темы этой статьи. Связь выведена из реестра калькуляторов
+    (каждый знает свою статью), а не проставлена в тексте руками: правок
+    контента ноль, разойтись нечему, а новый калькулятор появляется здесь сам.
+    locals: lesson %>
+<% calculators = Calculator.for_lesson(lesson.slug) %>
+<% if calculators.any? %>
+  <section class="lesson__section lesson__section--plain">
+    <div class="lesson-calculators">
+      <h2 class="lesson-calculators__title">
+        <%= icon_tag "calculator" %>
+        <span><%= t("lessons.calculators_section") %></span>
+      </h2>
+      <ul class="lesson-calculators__list">
+        <% calculators.each do |calculator| %>
+          <li>
+            <%= link_to calculator_path(calculator), class: "lesson-calculator" do %>
+              <span class="lesson-calculator__text">
+                <span class="lesson-calculator__title"><%= calculator.title %></span>
+                <span class="lesson-calculator__desc"><%= calculator.tagline %></span>
+              </span>
+              <%= icon_tag "arrow-right" %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </section>
+<% end %>
