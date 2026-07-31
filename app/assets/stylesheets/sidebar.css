@@ -316,7 +316,8 @@
 @media (min-width: 1280px) {
   .lesson-toc {
     display: block;
-    font-size: 0.85rem;
+    font-family: "IBM Plex Mono", var(--font-mono);
+    font-size: 0.8rem;
     inset-block-start: var(--header-height); /* clears the sticky header */
     max-block-size: calc(100dvh - var(--header-height));
     overflow-y: auto;
@@ -361,6 +362,13 @@
 /* In-body ## headings sit one step in, under "Что изучить". */
 .lesson-toc__link--sub {
   padding-inline-start: 1.85rem;
+}
+
+/* "Документы и ресурсы" is worth a reader's extra attention — weight only,
+   one step past [aria-current]'s 600 so the two states stay distinguishable
+   even when this section is the one being read. */
+.lesson-toc__link--emphasis {
+  font-weight: 700;
 }
 
 /* "You are reading this" — ink text + ink rail segment, same brightness

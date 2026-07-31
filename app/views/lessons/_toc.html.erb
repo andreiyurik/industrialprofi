@@ -16,7 +16,7 @@
         <% end %>
       <% end %>
       <% if lesson.has_resources? %>
-        <li><a class="lesson-toc__link" href="#resources" data-lesson-toc-target="link" data-action="lesson-toc#jump"><%= t("lessons.resources_section") %></a></li>
+        <li><a class="lesson-toc__link lesson-toc__link--emphasis" href="#resources" data-lesson-toc-target="link" data-action="lesson-toc#jump"><%= t("lessons.resources_section") %></a></li>
       <% end %>
       <% if lesson.has_task? %>
         <li><a class="lesson-toc__link" href="#task" data-lesson-toc-target="link" data-action="lesson-toc#jump"><%= t("lessons.task_section") %></a></li>

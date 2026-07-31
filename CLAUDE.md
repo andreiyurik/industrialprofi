@@ -266,8 +266,15 @@ content-factory doc — architecture + step-by-step authoring) and the rest of `
   filename load order. No `tailwind.config.js` / `postcss.config.js` / JS asset
   tooling. No `dark:`/`sm:`/`lg:` prefixes — use `@media` inside the CSS. The app
   is black-first / single-theme; there is no light/dark switch.
-- **Self-hosted web fonts only** — no Google Fonts, no CDN. Inter + Inter Tight in
-  `app/assets/fonts/`, declared in `_fonts.css`. No other typefaces.
+- **Self-hosted web fonts only** — no Google Fonts, no CDN (font files are
+  downloaded once and committed; nothing loads from a CDN at runtime). Inter +
+  Inter Tight in `app/assets/fonts/`, declared in `_fonts.css`, are the default
+  body/heading pair — don't add a further typeface for general UI text. Two
+  narrowly-scoped exceptions exist for a specific technical context, not general
+  use: **GOST type B** for normative table/diagram labels, **IBM Plex Mono** for
+  the lesson table-of-contents rail (founder call, 2026-07-31 — a deliberate
+  monospace/technical read for that one nav, not a precedent for swapping fonts
+  elsewhere).
 - No raw hex/rgb/hsl — colors come from OKLCH primitives in `colors.css`.
   (The ~200-line concern threshold lives in Code rules, above.)
 
