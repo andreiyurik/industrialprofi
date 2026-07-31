@@ -27,6 +27,8 @@
       <%= render "calculators/forms/#{@calculator.slug}" %>
     <% end %>
 
+    <%= render "calculators/method", calculator: @calculator %>
+
     <% norm = t("calculators.#{@calculator.slug}.norm", default: "") %>
     <% if norm.present? %>
       <p class="calc-norm">

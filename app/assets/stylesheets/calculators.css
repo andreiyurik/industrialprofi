@@ -710,6 +710,96 @@
   }
 }
 
+/* ── "Как считается": the substance under the tool ──────────────────
+   A calculator page is otherwise almost text-free, which is exactly what
+   makes it indistinguishable from a calculator farm. This is where the
+   difference lives, so it reads as prose, not as a footnote. ── */
+.calc-method {
+  margin-block: var(--block-space-double);
+}
+
+.calc-method__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-block: 0 var(--block-space);
+}
+
+.calc-method__steps {
+  color: var(--color-ink);
+  display: grid;
+  gap: 0.7rem;
+  line-height: 1.55;
+  margin-block: 0;
+  padding-inline-start: 1.4rem;
+
+  li::marker {
+    color: var(--color-subtle-dark);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.calc-method__example {
+  background-color: var(--color-subtle-light);
+  border-inline-start: 2px solid var(--color-subtle);
+  border-radius: 0 0.5em 0.5em 0;
+  line-height: 1.55;
+  margin-block: var(--block-space) 0;
+  padding: 0.85rem 1.1rem;
+}
+
+.calc-method__example-label {
+  color: var(--color-subtle-dark);
+  font-weight: 700;
+  margin-inline-end: 0.4em;
+}
+
+/* Normative tables — wide by nature, so they scroll inside themselves and
+   never push the page sideways. */
+.calc-table {
+  margin-block: var(--block-space-double) 0;
+  margin-inline: 0;
+}
+
+.calc-table__caption {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block-end: var(--block-space-half);
+}
+
+.calc-table__scroll {
+  overflow-x: auto;
+
+  table {
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+    inline-size: 100%;
+    min-inline-size: 30rem;
+  }
+
+  th,
+  td {
+    border-block-end: 1px solid var(--color-subtle);
+    padding: 0.45rem 0.7rem;
+    text-align: end;
+  }
+
+  thead th {
+    color: var(--color-subtle-dark);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  tbody th {
+    color: var(--color-ink);
+    font-weight: 700;
+    text-align: start;
+  }
+
+  tbody tr:hover {
+    background-color: var(--color-subtle-light);
+  }
+}
+
 /* ── Below the panel: source, disclaimer, lesson link ──────────────── */
 .calc-norm {
   align-items: flex-start;

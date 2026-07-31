@@ -1,0 +1,29 @@
+<%# «Как считается» — серверный разбор под панелью: шаги расчёта, пример на
+    значениях по умолчанию и нормативная таблица, если она у калькулятора есть.
+    Это единственный существенный текст на странице-инструменте: без него мы по
+    содержанию неотличимы от калькуляторных ферм, а отличие — вся наша ставка.
+    Числа примеров сверены с реальным выводом калькуляторов, не придуманы.
+    locals: calculator %>
+<% steps = t("calculators.#{calculator.slug}.method.steps", default: []) %>
+<% if steps.any? %>
+  <section class="calc-method">
+    <h2 class="calc-method__title"><%= t("calculators.method_heading") %></h2>
+
+    <ol class="calc-method__steps">
+      <% steps.each do |step| %>
+        <li><%= step %></li>
+      <% end %>
+    </ol>
+
+    <% example = t("calculators.#{calculator.slug}.method.example", default: nil) %>
+    <% if example.present? %>
+      <p class="calc-method__example">
+        <span class="calc-method__example-label"><%= t("calculators.method_example") %></span>
+        <%= example %>
+      </p>
+    <% end %>
+
+    <% table = "calculators/tables/#{calculator.slug}" %>
+    <%= render table, calculator: calculator if lookup_context.template_exists?(table, [], true) %>
+  </section>
+<% end %>

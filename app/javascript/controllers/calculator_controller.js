@@ -16,7 +16,10 @@ import { parseNumber, formatNumber, formatSignificant } from "calculators/format
 // and the "сверяйтесь с проектом" disclaimer — this controller only does the
 // arithmetic. Reference tables/constants are cited next to their formula.
 export default class extends Controller {
-  static values = { formula: String }
+  // `norms` — нормативные таблицы калькулятора, если они у него есть. Приходят
+  // с сервера, потому что их же рендерит страница под расчётом: одна копия и
+  // один шов под другие рынки (см. Calculator::NORMS).
+  static values = { formula: String, norms: Object }
 
   connect() {
     this.compute()
@@ -161,16 +164,7 @@ export default class extends Controller {
   // отсюда дисклеймер в форме. Берём наименьшее стандартное сечение, чей
   // допустимый ток ≥ расчётного.
   cableCrossSection(v) {
-    const TABLES = {
-      cu: {
-        air: [[1.5, 23], [2.5, 30], [4, 41], [6, 50], [10, 80], [16, 100], [25, 140], [35, 170], [50, 215], [70, 270], [95, 330], [120, 385]],
-        pipe: [[1.5, 19], [2.5, 27], [4, 38], [6, 46], [10, 70], [16, 85], [25, 115], [35, 135], [50, 185], [70, 225], [95, 275], [120, 315]]
-      },
-      al: {
-        air: [[2.5, 24], [4, 32], [6, 39], [10, 60], [16, 75], [25, 105], [35, 130], [50, 165], [70, 210], [95, 255], [120, 295]],
-        pipe: [[2.5, 20], [4, 28], [6, 36], [10, 50], [16, 60], [25, 85], [35, 100], [50, 140], [70, 175], [95, 215], [120, 245]]
-      }
-    }
+    const { sections, breakers } = this.normsValue
     const u = v.u ?? (v.phase === "1" ? 220 : 380)
     const cos = v.cos ?? 0.95
     let current = v.i
@@ -178,14 +172,13 @@ export default class extends Controller {
       const denom = v.phase === "1" ? u * cos : Math.sqrt(3) * u * cos
       current = denom ? (v.p * 1000) / denom : null
     }
-    if (current == null) return { current: "—", apparent: "—", section: "—", allowed: "—", breaker: "—" }
-    const table = (TABLES[v.material] || TABLES.cu)[v.laying === "pipe" ? "pipe" : "air"]
+    if (current == null || !sections) return { current: "—", apparent: "—", section: "—", allowed: "—", breaker: "—" }
+    const table = (sections[v.material] || sections.cu)[v.laying === "pipe" ? "pipe" : "air"]
     const pick = table.find(([, amps]) => amps >= current)
-    // Рекомендуемый автомат: стандартный номинал (ГОСТ Р 50345/IEC 60898), который
-    // защищает кабель (Iₙ ≤ Iдоп) и пропускает рабочий ток (Iₙ ≥ Iрасч) — берём
-    // наибольший подходящий из ряда. Окончательный выбор — с учётом селективности.
-    const RATINGS = [6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125]
-    const breaker = pick ? RATINGS.filter((r) => r >= current && r <= pick[1]).pop() : null
+    // Рекомендуемый автомат: стандартный номинал, который защищает кабель
+    // (Iₙ ≤ Iдоп) и пропускает рабочий ток (Iₙ ≥ Iрасч) — берём наибольший
+    // подходящий из ряда. Окончательный выбор — с учётом селективности.
+    const breaker = pick ? breakers.filter((r) => r >= current && r <= pick[1]).pop() : null
     // Полная мощность S (кВА) — по ней подбирают генератор, ИБП, трансформатор.
     const apparent = ((v.phase === "1" ? u : Math.sqrt(3) * u) * current) / 1000
     return {

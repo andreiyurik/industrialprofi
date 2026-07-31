@@ -53,6 +53,24 @@ class CalculatorsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "every calculator explains how it counts" do
+    Calculator.all.each do |calculator|
+      get calculator_path(calculator)
+      assert_select ".calc-method .calc-method__steps li", minimum: 2,
+        message: "expected #{calculator.slug} to walk through its method"
+    end
+  end
+
+  test "the cable table is rendered from the same norms the calculator runs on" do
+    get calculator_path("cable-cross-section")
+
+    assert_select "[data-calculator-norms-value]"
+    assert_select ".calc-table tbody tr", Calculator::CABLE_NORMS[:sections].values.flat_map(&:values).flat_map { it.map(&:first) }.uniq.size
+    # Первая строка — 1,5 мм²; первая колонка после сечения — медь в воздухе, 23 А.
+    assert_select ".calc-table tbody tr:first-child th", "1,5"
+    assert_select ".calc-table tbody tr:first-child td:first-of-type", "23"
+  end
+
   test "seeded field values are printed with the locale decimal mark" do
     get calculator_path("grounding")
     assert_select "[data-field='h'][value='0,7']"

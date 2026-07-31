@@ -59,7 +59,31 @@ class Calculator
   # controller lands in app/javascript/controllers/calculators/.
   CUSTOM = %w[ohms-law voltage-drop ma-scaling golden-hour].freeze
 
+  # Нормативные данные, которые страница и показывает читателю, и отдаёт своему
+  # расчёту — один источник вместо копии в JS. Здесь же проходит шов на будущие
+  # рынки: у немецкого электрика это будет таблица DIN VDE 0298-4, а формула та
+  # же. ПУЭ-7, гл. 1.3: таблицы 1.3.4/1.3.6 (медь) и 1.3.7/1.3.8 (алюминий) —
+  # длительно допустимые токи, А, по сечению жилы, мм².
+  CABLE_NORMS = {
+    sections: {
+      cu: {
+        air: [ [ 1.5, 23 ], [ 2.5, 30 ], [ 4, 41 ], [ 6, 50 ], [ 10, 80 ], [ 16, 100 ], [ 25, 140 ], [ 35, 170 ], [ 50, 215 ], [ 70, 270 ], [ 95, 330 ], [ 120, 385 ] ],
+        pipe: [ [ 1.5, 19 ], [ 2.5, 27 ], [ 4, 38 ], [ 6, 46 ], [ 10, 70 ], [ 16, 85 ], [ 25, 115 ], [ 35, 135 ], [ 50, 185 ], [ 70, 225 ], [ 95, 275 ], [ 120, 315 ] ]
+      },
+      al: {
+        air: [ [ 2.5, 24 ], [ 4, 32 ], [ 6, 39 ], [ 10, 60 ], [ 16, 75 ], [ 25, 105 ], [ 35, 130 ], [ 50, 165 ], [ 70, 210 ], [ 95, 255 ], [ 120, 295 ] ],
+        pipe: [ [ 2.5, 20 ], [ 4, 28 ], [ 6, 36 ], [ 10, 50 ], [ 16, 60 ], [ 25, 85 ], [ 35, 100 ], [ 50, 140 ], [ 70, 175 ], [ 95, 215 ], [ 120, 245 ] ]
+      }
+    },
+    # Ряд номиналов автоматов по ГОСТ Р 50345 / IEC 60898.
+    breakers: [ 6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125 ]
+  }.freeze
+
+  NORMS = { "cable-cross-section" => CABLE_NORMS }.freeze
+
   def to_param = slug
+
+  def norms = NORMS[slug]
 
   # camelCase the slug → the method name on the shared calculator Stimulus
   # controller (cable-cross-section → cableCrossSection).
@@ -75,6 +99,7 @@ class Calculator
     actions = %w[input->%s#compute change->%s#compute click->%s#copy].map { format(it, controller) }
     data = { controller: controller, action: actions.join(" ") }
     data[:calculator_formula_value] = formula unless custom?
+    data[:calculator_norms_value] = norms.to_json if norms
     data
   end
 

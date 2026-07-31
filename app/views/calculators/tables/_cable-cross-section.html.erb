@@ -1,0 +1,40 @@
+<%# Та самая таблица ПУЭ, по которой калькулятор и подбирает сечение: она уже
+    была в коде, но читателю её никто не показывал — а ищут чаще всего именно
+    её. Данные те же, что уходят в расчёт (Calculator::CABLE_NORMS). %>
+<figure class="calc-table">
+  <figcaption class="calc-table__caption"><%= t("calculators.cable-cross-section.table_caption") %></figcaption>
+  <div class="calc-table__scroll">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col"><%= t("calculators.fields.section") %>, мм²</th>
+          <% %w[cu al].each do |material| %>
+            <th scope="col" colspan="2"><%= t("calculators.options.material_#{material}") %></th>
+          <% end %>
+        </tr>
+        <tr>
+          <td></td>
+          <% 2.times do %>
+            <th scope="col"><%= t("calculators.options.laying_air") %></th>
+            <th scope="col"><%= t("calculators.options.laying_pipe") %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% sections = calculator.norms[:sections] %>
+        <% all = sections.values.flat_map(&:values).flat_map { it.map(&:first) }.uniq.sort %>
+        <% all.each do |size| %>
+          <tr>
+            <th scope="row"><%= calculator_value(size) %></th>
+            <% %i[cu al].each do |material| %>
+              <% %i[air pipe].each do |laying| %>
+                <% amps = sections[material][laying].assoc(size)&.last %>
+                <td><%= amps || "—" %></td>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</figure>
