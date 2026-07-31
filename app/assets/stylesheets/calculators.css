@@ -384,14 +384,16 @@
 }
 
 .drop-figure__track,
-.loop-gauge__track {
+.loop-gauge__track,
+.poe-line__track {
   fill: var(--color-bg);
 }
 
 /* scaleX, not a width attribute: transforms animate everywhere, SVG geometry
    properties do not. */
 .drop-figure__fill,
-.loop-gauge__fill {
+.loop-gauge__fill,
+.poe-line__fill {
   transform: scaleX(0);
   transform-box: fill-box;
   transform-origin: left center;
@@ -476,10 +478,455 @@
   transition: fill 200ms ease-out;
 }
 
+/* Cable section — a ladder of the standard sections, each step as tall as the
+   current it carries. The answer is the first step to rise above the line. */
+.section-ladder {
+  margin-inline: auto;
+  max-inline-size: 30rem;
+}
+
+.section-ladder__bar {
+  fill: var(--color-bg);
+  stroke: var(--color-subtle);
+  transform: scaleY(0);
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transition:
+    transform 150ms ease-out,
+    fill 200ms ease-out;
+}
+
+.section-ladder__section {
+  fill: var(--color-subtle-dark);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.section-ladder__amps {
+  fill: var(--color-subtle-dark);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-anchor: middle;
+}
+
+.section-ladder__step[data-state="pick"] {
+  .section-ladder__bar {
+    fill: var(--color-link);
+    stroke: var(--color-link);
+  }
+
+  .section-ladder__section {
+    fill: var(--color-link);
+  }
+}
+
+/* Only if a market ever ships a table shorter than the window. */
+.section-ladder__step[data-state="off"] {
+  display: none;
+}
+
+.section-ladder__current {
+  transition: transform 150ms ease-out;
+
+  line {
+    stroke: var(--color-ink);
+    stroke-dasharray: 4 3;
+    stroke-width: 1.5;
+  }
+}
+
+.section-ladder[data-state="empty"] .section-ladder__current {
+  opacity: 0;
+}
+
+.section-ladder__current-caption {
+  fill: var(--color-subtle-dark);
+  font-size: 12px;
+  text-anchor: end;
+}
+
+.section-ladder__current-value {
+  fill: var(--color-ink);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-anchor: end;
+}
+
+/* Subnet — the address as its 32 bits; the prefix is the border you can see. */
+.bit-ruler {
+  margin-inline: auto;
+  max-inline-size: 30rem;
+}
+
+.bit-ruler__bit {
+  fill: var(--color-bg);
+  stroke: var(--color-subtle);
+  transition: fill 150ms ease-out;
+}
+
+.bit-ruler__bit[data-state="net"] {
+  fill: var(--color-link);
+  stroke: var(--color-link);
+}
+
+.bit-ruler__address {
+  fill: var(--color-ink);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.bit-ruler__mask {
+  fill: var(--color-subtle-dark);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  text-anchor: middle;
+}
+
+/* Measurement error — the class-of-accuracy band with the instrument's own
+   reduced error marked on it: fit or not is a position, not a comparison. */
+.tol-scale {
+  --tol-accent: var(--color-subtle-dark);
+  margin-inline: auto;
+  max-inline-size: 30rem;
+}
+
+.tol-scale[data-state="plain"] {
+  --tol-accent: var(--color-ink);
+}
+
+.tol-scale[data-state="ok"] {
+  --tol-accent: var(--color-positive);
+}
+
+.tol-scale[data-state="warn"] {
+  --tol-accent: var(--color-negative);
+}
+
+.tol-scale__band {
+  fill: var(--color-positive);
+  fill-opacity: 0.14;
+  stroke: var(--color-positive);
+  stroke-opacity: 0.45;
+  transform: scaleX(0);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 150ms ease-out;
+}
+
+.tol-scale__axis {
+  stroke: var(--color-subtle);
+  stroke-width: 1.5;
+}
+
+.tol-scale__marker {
+  transform: translateX(200px);
+  transition: transform 150ms ease-out;
+
+  line {
+    stroke: var(--tol-accent);
+    stroke-width: 2;
+    transition: stroke 200ms ease-out;
+  }
+
+  circle {
+    fill: var(--tol-accent);
+    stroke: var(--color-subtle-light);
+    stroke-width: 2;
+    transition: fill 200ms ease-out;
+  }
+}
+
+.tol-scale[data-state="empty"] .tol-scale__marker {
+  opacity: 0;
+}
+
+.tol-scale__value {
+  fill: var(--tol-accent);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-anchor: middle;
+  transition: fill 200ms ease-out;
+}
+
+.tol-scale__caption,
+.tol-scale__zero {
+  fill: var(--color-subtle-dark);
+  font-size: 12px;
+}
+
+.tol-scale__zero {
+  text-anchor: middle;
+}
+
+/* Resistance thermometer — the sensor's own curve across its whole range, with
+   both directions landing on it: filled dot from °C, ring from Ω. */
+.rtd-curve {
+  margin-inline: auto;
+  max-inline-size: 30rem;
+}
+
+.rtd-curve__plot {
+  fill: var(--color-bg);
+  stroke: var(--color-subtle);
+}
+
+.rtd-curve__line {
+  fill: none;
+  stroke: var(--color-subtle-dark);
+  stroke-linecap: round;
+  stroke-width: 2;
+}
+
+.rtd-curve__point {
+  transition: transform 150ms ease-out;
+}
+
+.rtd-curve__point[data-state="off"] {
+  display: none;
+}
+
+.rtd-curve__point--direct circle {
+  fill: var(--color-link);
+}
+
+.rtd-curve__point--reverse circle {
+  fill: none;
+  stroke: var(--color-link);
+  stroke-width: 2;
+}
+
+.rtd-curve__axis {
+  fill: var(--color-subtle-dark);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.rtd-curve__axis--end {
+  text-anchor: end;
+}
+
+/* PoE line — switch to device up top, the 100 m channel down below with the
+   powering limit standing where the line stops being able to feed the device. */
+.poe-line {
+  --poe-accent: var(--color-subtle-dark);
+  margin-inline: auto;
+  max-inline-size: 30rem;
+}
+
+.poe-line[data-state="ok"] {
+  --poe-accent: var(--color-positive);
+}
+
+.poe-line[data-state="warn"] {
+  --poe-accent: var(--color-negative);
+}
+
+.poe-line__end rect {
+  fill: var(--color-bg);
+  stroke: var(--color-subtle);
+}
+
+.poe-line__cable {
+  stroke: var(--poe-accent);
+  stroke-linecap: round;
+  stroke-width: 8;
+  transition: stroke 200ms ease-out;
+}
+
+.poe-line__caption {
+  fill: var(--color-subtle-dark);
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.poe-line__caption--start {
+  text-anchor: start;
+}
+
+.poe-line__caption--end {
+  text-anchor: end;
+}
+
+.poe-line__reading {
+  fill: var(--color-ink);
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.poe-line__loss {
+  fill: var(--poe-accent);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-anchor: middle;
+  transition: fill 200ms ease-out;
+}
+
+.poe-line__fill {
+  fill: var(--color-subtle-dark);
+}
+
+.poe-line__limit {
+  transition: transform 150ms ease-out;
+
+  line {
+    stroke: var(--color-ink);
+    stroke-dasharray: 3 3;
+    stroke-width: 1.5;
+  }
+}
+
+.poe-line[data-state="empty"] .poe-line__limit,
+.poe-line__limit[data-state="off"] {
+  opacity: 0;
+}
+
+/* Grounding — the loop in a cut of soil: solid rods are driven, dashed ones
+   are what the norm still asks for. */
+.ground-figure {
+  margin-inline: auto;
+  max-inline-size: 30rem;
+}
+
+.ground-figure__soil {
+  fill: var(--color-bg);
+}
+
+.ground-figure__surface {
+  stroke: var(--color-subtle-dark);
+  stroke-width: 1.5;
+}
+
+.ground-figure__caption {
+  fill: var(--color-subtle-dark);
+  font-size: 12px;
+}
+
+.ground-figure [data-rods] {
+  transform-box: fill-box;
+  transform-origin: top center;
+  transition: transform 150ms ease-out;
+}
+
+.ground-figure__rod {
+  fill: var(--color-ink);
+  stroke: none;
+}
+
+.ground-figure__rod[data-state="needed"] {
+  fill: none;
+  stroke: var(--color-subtle-dark);
+  stroke-dasharray: 3 3;
+  stroke-width: 1.5;
+}
+
+.ground-figure__rod[data-state="off"],
+.ground-figure[data-state="empty"] .ground-figure__rod,
+.ground-figure__more[data-state="off"] {
+  display: none;
+}
+
+.ground-figure__more {
+  fill: var(--color-subtle-dark);
+  font-size: 18px;
+  text-anchor: end;
+}
+
+/* Hyperfocal — the sharp zone on a distance axis compressed by d/(d + H), so
+   the hyperfocal tick never moves and infinity fits on screen. */
+.dof-band {
+  margin-inline: auto;
+  max-inline-size: 30rem;
+}
+
+.dof-band__track {
+  fill: var(--color-bg);
+  stroke: var(--color-subtle);
+}
+
+.dof-band__zone {
+  fill: var(--color-link);
+  transform: scaleX(0);
+  transform-box: fill-box;
+  transform-origin: left center;
+  transition: transform 150ms ease-out;
+}
+
+.dof-band__hyper-tick {
+  stroke: var(--color-ink);
+  stroke-dasharray: 4 3;
+  stroke-width: 1.5;
+}
+
+.dof-band__marker {
+  transition: transform 150ms ease-out;
+
+  line {
+    stroke: var(--color-ink);
+    stroke-width: 2;
+  }
+
+  circle {
+    fill: var(--color-ink);
+    stroke: var(--color-subtle-light);
+    stroke-width: 2;
+  }
+}
+
+.dof-band[data-state="empty"] .dof-band__hyper,
+.dof-band[data-state="empty"] .dof-band__zone,
+.dof-band[data-state="empty"] .dof-band__marker,
+.dof-band[data-state="nofocus"] .dof-band__zone,
+.dof-band[data-state="nofocus"] .dof-band__marker {
+  opacity: 0;
+}
+
+.dof-band__caption {
+  fill: var(--color-subtle-dark);
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.dof-band__caption--start {
+  text-anchor: start;
+}
+
+.dof-band__caption--end {
+  text-anchor: end;
+}
+
+.dof-band__focus,
+.dof-band__hyper-value {
+  fill: var(--color-ink);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .drop-figure__fill,
   .loop-gauge__fill,
-  .loop-gauge__marker {
+  .loop-gauge__marker,
+  .section-ladder__bar,
+  .section-ladder__current,
+  .bit-ruler__bit,
+  .tol-scale__band,
+  .tol-scale__marker,
+  .dof-band__zone,
+  .dof-band__marker,
+  .ground-figure [data-rods],
+  .poe-line__fill,
+  .poe-line__limit,
+  .rtd-curve__point {
     transition-duration: 0s;
   }
 }
@@ -611,6 +1058,22 @@
 .calc-result__unit {
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
+}
+
+/* On a narrow screen the label and the value fight over one line and both end
+   up broken — worst on subnet, where every value is a whole address. Below that
+   width the row reads top-to-bottom instead. */
+@media (max-width: 480px) {
+  .calc-result {
+    display: block;
+  }
+
+  .calc-result__value {
+    display: flex;
+    justify-content: flex-start;
+    margin-block-start: 0.15rem;
+    text-align: start;
+  }
 }
 
 .calc-result--primary .calc-result__value strong {

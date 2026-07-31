@@ -1,7 +1,12 @@
 <div class="calc__grid">
   <div class="calc__inputs">
     <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
-    <%= render "calculators/field", field: "interval", label: t("calculators.fields.interval"), unit: "с", value: 5 %>
+    <%= render "calculators/field", field: "interval", label: t("calculators.fields.interval"), unit: "с", value: 5,
+          presets: [
+            [ 3, t("calculators.timelapse.scene_clouds") ],
+            [ 5, t("calculators.timelapse.scene_sunset") ],
+            [ 30, t("calculators.timelapse.scene_build") ]
+          ] %>
     <%= render "calculators/field", field: "duration", label: t("calculators.fields.shoot_duration"), unit: "мин", value: 60 %>
     <%= render "calculators/field", field: "fps", label: t("calculators.fields.clip_fps"), unit: "к/с", value: 25 %>
     <%= render "calculators/field", field: "size", label: t("calculators.fields.frame_size"), unit: "МБ", value: 25 %>

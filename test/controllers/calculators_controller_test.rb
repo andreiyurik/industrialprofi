@@ -40,14 +40,17 @@ class CalculatorsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "the calculators that draw render their figure" do
-    %w[ohms-law voltage-drop ma-scaling].each do |slug|
+    %w[
+      ohms-law voltage-drop ma-scaling cable-cross-section grounding
+      resistance-thermometer measurement-error subnet twisted-pair-line hyperfocal
+    ].each do |slug|
       get calculator_path(slug)
       assert_select ".calc-figure svg", 1, "expected #{slug} to draw a figure"
     end
   end
 
   test "a calculator with a verdict says the outcome in words, not only in colour" do
-    %w[voltage-drop grounding rcd measurement-error twisted-pair-line short-circuit diffraction].each do |slug|
+    %w[voltage-drop grounding rcd measurement-error twisted-pair-line short-circuit diffraction nd-filter].each do |slug|
       get calculator_path(slug)
       assert_select "[data-verdict][data-verdict-ok][data-verdict-warn]", 1, "expected #{slug} to carry a verdict"
     end
@@ -61,10 +64,24 @@ class CalculatorsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "a calculator with norms both shows them and hands them to its controller" do
+    assert Calculator.all.count(&:norms) >= 4
+
+    Calculator.all.select(&:norms).each do |calculator|
+      get calculator_path(calculator)
+      # Значение адресуется идентификатором контроллера, а он у части из них свой.
+      assert_select "[data-#{calculator.controller}-norms-value]", 1,
+        "expected #{calculator.slug} to hand its norms to the controller"
+      assert_select ".calc-table tbody tr", minimum: 2,
+        message: "expected #{calculator.slug} to show the norms it runs on"
+    end
+  end
+
   test "the cable table is rendered from the same norms the calculator runs on" do
     get calculator_path("cable-cross-section")
 
-    assert_select "[data-calculator-norms-value]"
+    # Значение адресуется идентификатором контроллера, а он у этого калькулятора свой.
+    assert_select "[data-calculators--cable-cross-section-norms-value]"
     assert_select ".calc-table tbody tr", Calculator::CABLE_NORMS[:sections].values.flat_map(&:values).flat_map { it.map(&:first) }.uniq.size
     # Первая строка — 1,5 мм²; первая колонка после сечения — медь в воздухе, 23 А.
     assert_select ".calc-table tbody tr:first-child th", "1,5"

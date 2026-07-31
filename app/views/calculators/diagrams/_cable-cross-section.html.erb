@@ -1,0 +1,27 @@
+<%# Лестница стандартных сечений: высота ступени — длительно допустимый ток,
+    линия поперёк — расчётный ток. Ответ виден без чтения таблицы: это первая
+    ступень, поднявшаяся выше линии. Ступени и подписи заполняет контроллер,
+    он же дублирует координаты дорожки (см. cable_cross_section_controller). %>
+<figure class="calc-figure">
+  <svg class="section-ladder" viewBox="0 0 400 192" role="img" aria-labelledby="ladder-figure-title"
+       data-diagram data-state="empty">
+    <title id="ladder-figure-title"><%= t("calculators.cable-cross-section.diagram_title") %></title>
+
+    <% 5.times do |step| %>
+      <% x = 104 + step * 60 %>
+      <g class="section-ladder__step" data-step="<%= step %>" data-state="plain">
+        <rect class="section-ladder__bar" x="<%= x %>" y="22" width="46" height="128" rx="4" />
+        <text class="section-ladder__section" x="<%= x + 23 %>" y="167" data-figure="section-<%= step %>">—</text>
+        <text class="section-ladder__amps" x="<%= x + 23 %>" y="183" data-figure="amps-<%= step %>">—</text>
+      </g>
+    <% end %>
+
+    <g class="section-ladder__current" data-current>
+      <line x1="100" y1="150" x2="392" y2="150" />
+      <text class="section-ladder__current-caption" x="94" y="145"><%= t("calculators.cable-cross-section.diagram_current") %></text>
+      <text class="section-ladder__current-value" x="94" y="163" data-figure="current">—</text>
+    </g>
+  </svg>
+
+  <figcaption class="calc-figure__legend"><%= t("calculators.cable-cross-section.diagram_legend") %></figcaption>
+</figure>

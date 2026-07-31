@@ -1,0 +1,28 @@
+<%# Полоса резкости от камеры до бесконечности. Ось сжата так, что гиперфокал
+    стоит ровно посередине — поэтому его отметка неподвижна, а меняется только
+    подпись. Закрашенный участок и метку фокусировки ставит контроллер
+    (см. hyperfocal_controller). %>
+<figure class="calc-figure">
+  <svg class="dof-band" viewBox="0 0 400 110" role="img" aria-labelledby="dof-band-title"
+       data-diagram data-state="empty">
+    <title id="dof-band-title"><%= t("calculators.hyperfocal.diagram_title") %></title>
+
+    <rect class="dof-band__track" x="20" y="42" width="360" height="22" rx="4" />
+    <rect class="dof-band__zone" x="20" y="42" width="360" height="22" rx="4" data-zone />
+
+    <line class="dof-band__hyper-tick dof-band__hyper" x1="200" y1="38" x2="200" y2="76" />
+
+    <g class="dof-band__marker" data-marker>
+      <line x1="0" y1="26" x2="0" y2="72" />
+      <circle cx="0" cy="53" r="4.5" />
+      <text class="dof-band__focus" x="0" y="18" data-figure="focus">—</text>
+    </g>
+
+    <text class="dof-band__caption dof-band__caption--start" x="20" y="90">0</text>
+    <text class="dof-band__caption dof-band__caption--end" x="380" y="90">∞</text>
+    <text class="dof-band__caption dof-band__hyper" x="200" y="90"><%= t("calculators.hyperfocal.diagram_hyper") %></text>
+    <text class="dof-band__hyper-value dof-band__hyper" x="200" y="105" data-figure="hyper">—</text>
+  </svg>
+
+  <figcaption class="calc-figure__legend"><%= t("calculators.hyperfocal.diagram_legend") %></figcaption>
+</figure>

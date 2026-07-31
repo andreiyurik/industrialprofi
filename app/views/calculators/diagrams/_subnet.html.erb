@@ -1,0 +1,23 @@
+<%# Тридцать два бита адреса в ряд: закрашенные отданы сети, пустые — хостам,
+    а граница между ними и есть префикс. Сверху октеты адреса, снизу октеты
+    маски. Клетки заполняет контроллер (см. subnet_controller). %>
+<figure class="calc-figure">
+  <svg class="bit-ruler" viewBox="0 0 400 82" role="img" aria-labelledby="bit-ruler-title"
+       data-diagram data-state="empty">
+    <title id="bit-ruler-title"><%= t("calculators.subnet.diagram_title") %></title>
+
+    <% 4.times do |octet| %>
+      <% left = 8 + octet * 98 %>
+      <text class="bit-ruler__address" x="<%= left + 45.25 %>" y="15" data-figure="address-<%= octet %>">—</text>
+
+      <% 8.times do |offset| %>
+        <rect class="bit-ruler__bit" data-bit="<%= octet * 8 + offset %>" data-state="empty"
+              x="<%= left + offset * 11.5 %>" y="26" width="10" height="26" rx="2" />
+      <% end %>
+
+      <text class="bit-ruler__mask" x="<%= left + 45.25 %>" y="70" data-figure="mask-<%= octet %>">—</text>
+    <% end %>
+  </svg>
+
+  <figcaption class="calc-figure__legend"><%= t("calculators.subnet.diagram_legend") %></figcaption>
+</figure>

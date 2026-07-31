@@ -1,0 +1,41 @@
+<%# Линия коммутатор → устройство и шкала длины до 100 м канала. Сверху видно,
+    сколько вольт ушло в кабель, снизу — докуда вообще можно тянуть: заливка
+    длины против отметки предельной. Состояние всей схемы (ok / warn / empty)
+    ставит контроллер (см. twisted_pair_line_controller). %>
+<figure class="calc-figure">
+  <svg class="poe-line" viewBox="0 0 400 142" role="img" aria-labelledby="poe-line-title"
+       data-diagram data-state="empty">
+    <title id="poe-line-title"><%= t("calculators.twisted-pair-line.diagram_title") %></title>
+
+    <g class="poe-line__end">
+      <rect x="1" y="16" width="96" height="50" rx="7" />
+      <text class="poe-line__caption" x="49" y="35"><%= t("calculators.twisted-pair-line.diagram_source") %></text>
+      <text class="poe-line__reading" x="49" y="55" data-figure="source">—</text>
+    </g>
+
+    <line class="poe-line__cable" x1="101" y1="41" x2="299" y2="41" />
+    <text class="poe-line__caption" x="200" y="24" data-figure="length">—</text>
+    <text class="poe-line__loss" x="200" y="60" data-figure="drop">—</text>
+
+    <g class="poe-line__end">
+      <rect x="303" y="16" width="96" height="50" rx="7" />
+      <text class="poe-line__caption" x="351" y="35"><%= t("calculators.twisted-pair-line.diagram_device") %></text>
+      <text class="poe-line__reading" x="351" y="55" data-figure="device">—</text>
+    </g>
+
+    <text class="poe-line__caption poe-line__caption--start" x="4" y="84"><%= t("calculators.twisted-pair-line.diagram_scale") %></text>
+
+    <rect class="poe-line__track" x="4" y="102" width="392" height="14" rx="7" />
+    <rect class="poe-line__fill" x="4" y="102" width="392" height="14" rx="7" data-length-fill />
+
+    <g class="poe-line__limit" data-limit data-state="off">
+      <line x1="0" y1="98" x2="0" y2="122" />
+      <text class="poe-line__caption" x="0" y="94" data-figure="limit">—</text>
+    </g>
+
+    <text class="poe-line__caption poe-line__caption--start" x="4" y="134">0</text>
+    <text class="poe-line__caption poe-line__caption--end" x="396" y="134" data-figure="channel">—</text>
+  </svg>
+
+  <figcaption class="calc-figure__legend"><%= t("calculators.twisted-pair-line.diagram_legend") %></figcaption>
+</figure>

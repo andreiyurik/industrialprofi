@@ -20,6 +20,7 @@
     <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
     <%= render "calculators/answer", output: "pick", label: t("calculators.nd-filter.result_pick"),
           info: t("calculators.nd-filter.info.pick") %>
+    <%= render "calculators/verdict", ok: t("calculators.nd-filter.verdict_ok"), warn: t("calculators.nd-filter.verdict_warn") %>
     <%= render "calculators/result", output: "stops", label: t("calculators.nd-filter.result_stops"),
           info: t("calculators.nd-filter.info.stops") %>
     <%= render "calculators/result", output: "nd", label: t("calculators.nd-filter.result_nd"), unit: "×" %>

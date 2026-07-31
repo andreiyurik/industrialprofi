@@ -79,6 +79,17 @@ export default class extends Controller {
     this.#renderVerdict(out.verdict)
   }
 
+  // Подписи на схеме — второй вид слотов рядом с [data-output]: тот же приём
+  // «имя → текст», но без статусов, потому что цвет на схеме несёт состояние
+  // всей картинки, а не отдельной строки. Живёт здесь, чтобы каждый рисующий
+  // контроллер не заводил себе такой же поиск по DOM.
+  label(figures) {
+    for (const [key, text] of Object.entries(figures)) {
+      const slot = this.element.querySelector(`[data-figure="${key}"]`)
+      if (slot) slot.textContent = text
+    }
+  }
+
   // Copy a headline result to the clipboard — the one thing you want from a
   // calculator mid-job. Button sits next to the value; flips to a check briefly.
   // Bound on the panel, not on each button: the identifier differs per
@@ -158,68 +169,6 @@ export default class extends Controller {
 
   // ── Электрик ─────────────────────────────────────────────────────────
 
-  // Подбор сечения по длительно допустимому току (ПУЭ-7, таблицы 1.3.4/1.3.6 —
-  // медь, 1.3.7/1.3.8 — алюминий; провода/кабели с ПВХ/резиновой изоляцией).
-  // Базовый расчёт без поправочных коэффициентов (температура, группировка) —
-  // отсюда дисклеймер в форме. Берём наименьшее стандартное сечение, чей
-  // допустимый ток ≥ расчётного.
-  cableCrossSection(v) {
-    const { sections, breakers } = this.normsValue
-    const u = v.u ?? (v.phase === "1" ? 220 : 380)
-    const cos = v.cos ?? 0.95
-    let current = v.i
-    if (current == null && v.p != null) {
-      const denom = v.phase === "1" ? u * cos : Math.sqrt(3) * u * cos
-      current = denom ? (v.p * 1000) / denom : null
-    }
-    if (current == null || !sections) return { current: "—", apparent: "—", section: "—", allowed: "—", breaker: "—" }
-    const table = (sections[v.material] || sections.cu)[v.laying === "pipe" ? "pipe" : "air"]
-    const pick = table.find(([, amps]) => amps >= current)
-    // Рекомендуемый автомат: стандартный номинал, который защищает кабель
-    // (Iₙ ≤ Iдоп) и пропускает рабочий ток (Iₙ ≥ Iрасч) — берём наибольший
-    // подходящий из ряда. Окончательный выбор — с учётом селективности.
-    const breaker = pick ? breakers.filter((r) => r >= current && r <= pick[1]).pop() : null
-    // Полная мощность S (кВА) — по ней подбирают генератор, ИБП, трансформатор.
-    const apparent = ((v.phase === "1" ? u : Math.sqrt(3) * u) * current) / 1000
-    return {
-      current: this.num(current, 1),
-      apparent: this.num(apparent, 2),
-      section: pick ? this.num(pick[0], 1) : "> 120",
-      allowed: pick ? this.num(pick[1], 0) : "—",
-      breaker: breaker ? this.num(breaker, 0) : "—"
-    }
-  }
-
-  // Сопротивление заземляющего устройства из вертикальных электродов.
-  // Одиночный электрод (стержень у поверхности): R₁ = ρ/(2π·L)·[ln(2L/d) +
-  // 0,5·ln((4t+L)/(4t−L))], t = h + L/2 — глубина до середины электрода.
-  // ρ берётся расчётным: ρ·ψ (ψ — сезонный/климатический коэффициент).
-  // Группа из n электродов с коэффициентом использования η: Rгр = R₁/(n·η).
-  // Норма обычно 4 Ом (ПУЭ 1.7) — отсюда требуемое число электродов.
-  grounding(v) {
-    const rho = (v.rho ?? 100) * (v.psi ?? 1.5)
-    const L = v.l ?? 3
-    const d = (v.d ?? 16) / 1000 // мм → м
-    const h = v.h ?? 0.7
-    const n = Math.max(1, Math.round(v.n ?? 1))
-    const eta = v.eta != null && v.eta > 0 ? v.eta : 1
-    const target = v.target != null && v.target > 0 ? v.target : 4
-    if (L <= 0 || d <= 0 || rho <= 0) return { r1: "—", rgroup: { text: "—", status: "" }, nreq: "—", verdict: null }
-    const t = h + L / 2
-    const r1 = (rho / (2 * Math.PI * L)) * (Math.log((2 * L) / d) + 0.5 * Math.log((4 * t + L) / (4 * t - L)))
-    const rgroup = r1 / (n * eta)
-    const nreq = Math.ceil(r1 / (target * eta))
-    // Главный вопрос контура — укладывается ли он в норму заданным числом
-    // электродов; до этого его приходилось сводить в уме.
-    const status = rgroup <= target ? "ok" : "warn"
-    return {
-      r1: this.num(r1, 2),
-      rgroup: { text: this.num(rgroup, 2), status },
-      nreq: this.num(nreq, 0),
-      verdict: status
-    }
-  }
-
   // Ток утечки и выбор уставки УЗО (ПУЭ 7.1.83). Расчётный ток утечки: 0,4 мА
   // на 1 А тока нагрузки (естественная утечка ЭП) + 0,01 мА на 1 м фазного
   // проводника. Рабочий ток утечки должен быть ≤ 1/3 номинала УЗО — иначе
@@ -265,86 +214,14 @@ export default class extends Controller {
 
   // ── КИПиА ────────────────────────────────────────────────────────────
 
-  // Термосопротивление (ТСМ/ТСП/Pt) ↔ температура по ГОСТ 6651-2009. Прямой
-  // ход t→R через уравнение Каллендара–Ван Дюзена; обратный R→t — делением
-  // отрезка (W монотонна по t), без таблиц обратных коэффициентов. Платина
-  // (α 0,00385 — Pt, 0,00391 — П) и медь (α 0,00428 — М) с разными ветвями
-  // ниже и выше 0 °C. Считает обе стороны сразу по выбранному типу датчика.
-  resistanceThermometer(v) {
-    const TYPES = {
-      pt100: { r0: 100, mat: "pt" }, pt500: { r0: 500, mat: "pt" }, pt1000: { r0: 1000, mat: "pt" },
-      "100p": { r0: 100, mat: "p" }, "50p": { r0: 50, mat: "p" },
-      "100m": { r0: 100, mat: "m" }, "50m": { r0: 50, mat: "m" }
-    }
-    const ty = TYPES[v.type] || TYPES.pt100
-    const r0 = ty.r0
-    const PT = { A: 3.9083e-3, B: -5.775e-7, C: -4.183e-12 }
-    const P = { A: 3.9692e-3, B: -5.829e-7, C: -4.3303e-12 }
-    // W(t) = Rt/R0 — отношение сопротивлений
-    const W = (temp) => {
-      if (ty.mat === "m") {
-        const A = 4.28e-3
-        if (temp >= 0) return 1 + A * temp
-        return 1 + A * temp - 6.2032e-7 * temp * (temp + 6.7) + 8.5154e-10 * temp ** 3
-      }
-      const c = ty.mat === "p" ? P : PT
-      if (temp >= 0) return 1 + c.A * temp + c.B * temp * temp
-      return 1 + c.A * temp + c.B * temp * temp + c.C * (temp - 100) * temp ** 3
-    }
-    const range = ty.mat === "m" ? [-180, 200] : [-200, 850]
-
-    let rOut = "—"
-    if (v.t != null && v.t >= range[0] && v.t <= range[1]) rOut = this.num(r0 * W(v.t), 3)
-
-    let tOut = "—"
-    if (v.r != null && v.r > 0) {
-      const target = v.r / r0
-      if (target > W(range[0]) && target < W(range[1])) {
-        let lo = range[0], hi = range[1]
-        for (let k = 0; k < 60; k++) {
-          const mid = (lo + hi) / 2
-          if (W(mid) < target) lo = mid
-          else hi = mid
-        }
-        tOut = this.num((lo + hi) / 2, 2)
-      }
-    }
-    return { rOut, tOut }
-  }
-
-  // Погрешность измерения и поверка по классу точности (ГОСТ 8.401). Абсолютная
-  // Δ = изм − действ; относительная δ = Δ/действ·100 %; приведённая γ = Δ/Xн·100 %
-  // (Xн — нормирующее значение, обычно верхний предел диапазона). Прибор годен,
-  // если |γ| ≤ класса точности — отсюда цвет приведённой погрешности.
-  measurementError(v) {
-    const { measured, actual, span, cls } = v
-    if (measured == null || actual == null) {
-      return { abs: "—", rel: "—", red: { text: "—", status: "" }, limit: "—", verdict: null }
-    }
-    const abs = measured - actual
-    const rel = actual !== 0 ? (abs / actual) * 100 : null
-    const red = span != null && span !== 0 ? (abs / span) * 100 : null
-    let redOut = { text: this.num(red, 3), status: "" }
-    let limit = "—"
-    let verdict = null
-    if (cls != null && red != null) {
-      limit = "± " + this.num(cls, 2)
-      verdict = Math.abs(red) <= cls ? "ok" : "warn"
-      redOut = { text: this.num(red, 3), status: verdict }
-    }
-    return { abs: this.num(abs, 4), rel: this.num(rel, 3), red: redOut, limit, verdict }
-  }
-
-  // Давление: всё через Паскали. Множители — значения единицы в Па.
+  // Давление: всё через Паскали. Множители — значения единицы в Па; приходят с
+  // сервера, потому что их же страница показывает таблицей (Calculator::NORMS).
   pressure(v) {
-    const TO_PA = {
-      pa: 1, kpa: 1e3, mpa: 1e6, bar: 1e5,
-      kgf: 98066.5, atm: 101325, psi: 6894.757, mmhg: 133.322, mmh2o: 9.80665
-    }
-    const keys = Object.keys(TO_PA)
-    if (v.value == null) return Object.fromEntries(keys.map((k) => [k, "—"]))
-    const pa = v.value * TO_PA[v.unit || "bar"]
-    return Object.fromEntries(keys.map((k) => [k, this.sig(pa / TO_PA[k])]))
+    const units = this.normsValue?.units ?? []
+    const from = units.find((row) => row.unit === (v.unit || "bar"))
+    if (v.value == null || !from) return Object.fromEntries(units.map((row) => [row.unit, "—"]))
+    const pascals = v.value * from.pascals
+    return Object.fromEntries(units.map((row) => [row.unit, this.sig(pascals / row.pascals)]))
   }
 
   // Пропускная способность Kv регулирующего клапана для жидкости (ГОСТ 23866 /
@@ -363,77 +240,6 @@ export default class extends Controller {
   }
 
   // ── Сети и протоколы АСУ ТП ──────────────────────────────────────────
-
-  // Линия витой пары с питанием PoE: падение напряжения и запас по длине.
-  // R жилы (Ом/м, медь 20 °C) — по сечению (AWG). PoE 2 пары (802.3af/at):
-  // шлейф = Rж·L; 4 пары (802.3bt): жилы параллелятся → шлейф = Rж·L/2.
-  // ΔU = I·Rшлейфа; U на устройстве = Uисточника − ΔU (должно быть ≥ Umin PD).
-  // Длина данных в любом случае ограничена 100 м (ISO/IEC 11801).
-  twistedPairLine(v) {
-    const AWG = { 26: 0.1345, 24: 0.0842, 23: 0.0668, 22: 0.053 }
-    const rc = AWG[v.awg] || AWG[24]
-    const L = v.l ?? 50
-    const STD = {
-      af: { pairs: 2, i: 0.35, vpse: 48, pdmin: 37 },
-      at: { pairs: 2, i: 0.6, vpse: 50, pdmin: 42.5 },
-      bt3: { pairs: 4, i: 0.6, vpse: 50, pdmin: 42.5 },
-      bt4: { pairs: 4, i: 0.96, vpse: 52, pdmin: 41.1 }
-    }
-    const s = STD[v.std] || STD.at
-    const i = v.i ?? s.i
-    const vpse = v.vpse ?? s.vpse
-    if (L < 0 || i <= 0) return { rloop: "—", vdrop: "—", vpd: { text: "—", status: "" }, lmax: "—", verdict: null }
-    const rloop = s.pairs === 2 ? rc * L : (rc * L) / 2
-    const vdrop = i * rloop
-    const vpd = vpse - vdrop
-    // Предельная длина, пока U на устройстве ещё ≥ Umin (и не больше 100 м СКС).
-    const rloopMax = (vpse - s.pdmin) / i
-    const lmax = s.pairs === 2 ? rloopMax / rc : (rloopMax * 2) / rc
-    const status = vpd >= s.pdmin ? "ok" : "warn"
-    return {
-      rloop: this.num(rloop, 2),
-      vdrop: this.num(vdrop, 2),
-      vpd: { text: this.num(vpd, 1), status },
-      lmax: this.num(Math.max(0, Math.min(lmax, 100)), 0),
-      verdict: status
-    }
-  }
-
-  // Калькулятор подсетей IPv4: адрес + префикс CIDR → маска, адрес сети,
-  // широковещательный, диапазон хостов, их число, wildcard. Чистая битовая
-  // арифметика (>>> 0 — беззнаковые 32-бит). /31 и /32 — особые случаи (RFC 3021).
-  subnet(v) {
-    const out = { network: "—", mask: "—", wildcard: "—", broadcast: "—", hostmin: "—", hostmax: "—", hosts: "—" }
-    const m = (v.ip || "").match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/)
-    if (!m || v.prefix == null || v.prefix < 0 || v.prefix > 32) return out
-    const oct = m.slice(1, 5).map(Number)
-    if (oct.some((o) => o > 255)) return out
-    const p = Math.floor(v.prefix)
-    const toIp = (n) => [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join(".")
-    const ip = ((oct[0] << 24) | (oct[1] << 16) | (oct[2] << 8) | oct[3]) >>> 0
-    const mask = p === 0 ? 0 : (0xffffffff << (32 - p)) >>> 0
-    const net = (ip & mask) >>> 0
-    const bcast = (net | (~mask >>> 0)) >>> 0
-    let hosts, hostmin, hostmax
-    if (p >= 31) {
-      hosts = p === 32 ? 1 : 2
-      hostmin = toIp(net)
-      hostmax = toIp(bcast)
-    } else {
-      hosts = Math.pow(2, 32 - p) - 2
-      hostmin = toIp((net + 1) >>> 0)
-      hostmax = toIp((bcast - 1) >>> 0)
-    }
-    return {
-      network: toIp(net) + "/" + p,
-      mask: toIp(mask),
-      wildcard: toIp(~mask >>> 0),
-      broadcast: toIp(bcast),
-      hostmin,
-      hostmax,
-      hosts: this.num(hosts, 0)
-    }
-  }
 
   // Время опроса Modbus RTU (чтение N регистров, FC03). Кадр запроса — 8 байт,
   // ответа — 5 + 2·N байт. Время байта = бит/байт ÷ скорость; межкадровая пауза
@@ -474,37 +280,6 @@ export default class extends Controller {
     }
   }
 
-  // Гиперфокал и границы ГРИП. H = f²/(N·c) + f — форма, отсчитываемая от
-  // передней главной плоскости; парные ей точные границы: ближняя =
-  // s·(H − f)/(H + s − 2f), дальняя = s·(H − f)/(H − s). При s = H ближняя даёт
-  // ровно H/2, а дальняя уходит в бесконечность. Считаем в мм, выводим в метрах.
-  hyperfocal(v) {
-    const fmt = this.formats()[v.format] || this.formats().ff
-    // Кружок нерезкости — допущение о размере вывода, а не константа камеры:
-    // базовое значение рассчитано на обычный просмотр, делитель ужесточает его
-    // под крупную печать и кадрирование.
-    const c = fmt.c / (parseFloat(v.coc) || 1)
-    const { f, n } = v
-    const s = v.s != null ? v.s * 1000 : null
-    if (f == null || n == null || f <= 0 || n <= 0) {
-      return { h: "—", near: "—", far: "—", dof: "—", c: this.num(c, 3) }
-    }
-    const H = (f * f) / (n * c) + f
-    const out = { h: this.num(H / 1000, 2), near: "—", far: "—", dof: "—", c: this.num(c, 3) }
-    if (s == null || s <= f) return out
-    const near = (s * (H - f)) / (H + s - 2 * f)
-    out.near = this.num(near / 1000, 2)
-    if (s >= H) {
-      out.far = "∞"
-      out.dof = "∞"
-      return out
-    }
-    const far = (s * (H - f)) / (H - s)
-    out.far = this.num(far / 1000, 2)
-    out.dof = this.num((far - near) / 1000, 2)
-    return out
-  }
-
   // Плотность ND. Выдержка задана правилом 180°: t = 1/(2·fps). Перебор света =
   // EV сцены, приведённый к ISO, минус EV выбранной пары: (EV + log₂(ISO/100)) −
   // log₂(N²/t). Ряд стандартных фильтров — степени двойки ND2…ND1024.
@@ -513,14 +288,14 @@ export default class extends Controller {
     const iso = v.iso ?? 100
     const n = v.n
     const ev = parseFloat(v.scene) // пресет сцены несёт EV₁₀₀ прямо в значении
-    const blank = { shutter: "—", stops: { text: "—", status: "" }, nd: "—", pick: "—", resid: "—" }
+    const blank = { shutter: "—", stops: { text: "—", status: "" }, nd: "—", pick: "—", resid: "—", verdict: null }
     if (fps <= 0 || iso <= 0 || n == null || n <= 0 || !Number.isFinite(ev)) return blank
     const t = 1 / (2 * fps)
     const stops = ev + Math.log2(iso / 100) - Math.log2((n * n) / t)
     const shutter = "1/" + this.num(1 / t, 0)
     // Фильтр не нужен: света и так не больше, чем нужно.
     if (stops <= 0) {
-      return { shutter, stops: { text: this.num(stops, 1), status: "ok" }, nd: "—", pick: "—", resid: "—" }
+      return { shutter, stops: { text: this.num(stops, 1), status: "ok" }, nd: "—", pick: "—", resid: "—", verdict: "ok" }
     }
     const best = Math.max(1, Math.min(10, Math.round(stops)))
     return {
@@ -528,7 +303,8 @@ export default class extends Controller {
       stops: { text: this.num(stops, 1), status: "warn" },
       nd: this.num(Math.pow(2, stops), 0),
       pick: "ND" + Math.pow(2, best),
-      resid: this.num(stops - best, 1)
+      resid: this.num(stops - best, 1),
+      verdict: "warn"
     }
   }
 

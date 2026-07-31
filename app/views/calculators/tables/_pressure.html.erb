@@ -1,0 +1,23 @@
+<%# Множители, по которым идёт перевод: сколько паскалей в одной единице.
+    Данные — Calculator::PRESSURE_NORMS, те же, что уходят в расчёт. %>
+<figure class="calc-table">
+  <figcaption class="calc-table__caption"><%= t("calculators.pressure.table.caption") %></figcaption>
+  <div class="calc-table__scroll">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col"><%= t("calculators.pressure.table.col_unit") %></th>
+          <th scope="col"><%= t("calculators.pressure.table.col_pascals") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% calculator.norms[:units].each do |unit| %>
+          <tr>
+            <th scope="row"><%= t("calculators.pressure.units.#{unit[:unit]}") %></th>
+            <td><%= calculator_value(unit[:pascals]) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</figure>

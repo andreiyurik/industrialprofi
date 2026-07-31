@@ -1,0 +1,25 @@
+<%# НСХ выбранного датчика во весь рабочий диапазон: кривую, подписи осей и обе
+    точки (закрашенная — от температуры, кольцо — от сопротивления) ставит
+    контроллер (см. resistance_thermometer_controller). %>
+<figure class="calc-figure">
+  <svg class="rtd-curve" viewBox="0 0 400 150" role="img" aria-labelledby="rtd-curve-title" data-diagram>
+    <title id="rtd-curve-title"><%= t("calculators.resistance-thermometer.diagram_title") %></title>
+
+    <rect class="rtd-curve__plot" x="46" y="14" width="344" height="98" rx="4" />
+    <polyline class="rtd-curve__line" points="" data-curve />
+
+    <g class="rtd-curve__point rtd-curve__point--reverse" data-point="reverse" data-state="off">
+      <circle cx="0" cy="0" r="7" />
+    </g>
+    <g class="rtd-curve__point rtd-curve__point--direct" data-point="direct" data-state="off">
+      <circle cx="0" cy="0" r="4" />
+    </g>
+
+    <text class="rtd-curve__axis rtd-curve__axis--end" x="42" y="22" data-figure="r-max">—</text>
+    <text class="rtd-curve__axis rtd-curve__axis--end" x="42" y="112" data-figure="r-min">—</text>
+    <text class="rtd-curve__axis" x="46" y="132" data-figure="t-min">—</text>
+    <text class="rtd-curve__axis rtd-curve__axis--end" x="390" y="132" data-figure="t-max">—</text>
+  </svg>
+
+  <figcaption class="calc-figure__legend"><%= t("calculators.resistance-thermometer.diagram_legend") %></figcaption>
+</figure>

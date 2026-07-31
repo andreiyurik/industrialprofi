@@ -1,0 +1,26 @@
+<%# Шкала допуска: полоса вокруг нуля — класс точности, метка на ней —
+    приведённая погрешность прибора. Годен, пока метка внутри полосы.
+    Ширину полосы и место метки ставит контроллер (см. measurement_error). %>
+<figure class="calc-figure">
+  <svg class="tol-scale" viewBox="0 0 400 100" role="img" aria-labelledby="tol-scale-title"
+       data-diagram data-state="empty">
+    <title id="tol-scale-title"><%= t("calculators.measurement-error.diagram_title") %></title>
+
+    <text class="tol-scale__caption" x="6" y="18">
+      <%= t("calculators.measurement-error.diagram_limit") %> <tspan data-figure="limit">—</tspan>
+    </text>
+    <text class="tol-scale__zero" x="200" y="18">0</text>
+
+    <rect class="tol-scale__band" x="24" y="30" width="352" height="36" rx="4" data-band />
+    <line class="tol-scale__axis" x1="24" y1="48" x2="376" y2="48" />
+    <line class="tol-scale__axis" x1="200" y1="26" x2="200" y2="70" />
+
+    <g class="tol-scale__marker" data-marker>
+      <line x1="0" y1="24" x2="0" y2="72" />
+      <circle cx="0" cy="48" r="4.5" />
+      <text class="tol-scale__value" x="0" y="90" data-figure="value">—</text>
+    </g>
+  </svg>
+
+  <figcaption class="calc-figure__legend"><%= t("calculators.measurement-error.diagram_legend") %></figcaption>
+</figure>

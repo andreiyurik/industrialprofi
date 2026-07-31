@@ -92,7 +92,10 @@ class Calculator
   # or need behaviour the shared formula dispatch can't express. The rest run on
   # the shared `calculator` controller; move a slug here the same day its
   # controller lands in app/javascript/controllers/calculators/.
-  CUSTOM = %w[ohms-law voltage-drop ma-scaling golden-hour].freeze
+  CUSTOM = %w[
+    cable-cross-section ohms-law voltage-drop grounding ma-scaling resistance-thermometer
+    measurement-error subnet twisted-pair-line hyperfocal golden-hour
+  ].freeze
 
   # Нормативные данные, которые страница и показывает читателю, и отдаёт своему
   # расчёту — один источник вместо копии в JS. Здесь же проходит шов на будущие
@@ -114,14 +117,76 @@ class Calculator
     breakers: [ 6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125 ]
   }.freeze
 
-  NORMS = { "cable-cross-section" => CABLE_NORMS }.freeze
+  # Витая пара: сопротивление жилы по калибру AWG (Ом/м, медь 20 °C) и параметры
+  # PoE по IEEE 802.3 — сколько пар несут питание, ток, напряжение источника и
+  # минимум на устройстве. Длина канала — ISO/IEC 11801 и ГОСТ Р 53246.
+  TWISTED_PAIR_NORMS = {
+    awg: [
+      { awg: 26, area: 0.129, ohms_per_metre: 0.1345 },
+      { awg: 24, area: 0.205, ohms_per_metre: 0.0842 },
+      { awg: 23, area: 0.258, ohms_per_metre: 0.0668 },
+      { awg: 22, area: 0.326, ohms_per_metre: 0.053 }
+    ],
+    poe: [
+      { std: "af", pairs: 2, current: 0.35, source: 48, minimum: 37 },
+      { std: "at", pairs: 2, current: 0.6, source: 50, minimum: 42.5 },
+      { std: "bt3", pairs: 4, current: 0.6, source: 50, minimum: 42.5 },
+      { std: "bt4", pairs: 4, current: 0.96, source: 52, minimum: 41.1 }
+    ],
+    channel_metres: 100
+  }.freeze
+
+  # ГОСТ 6651-2009: НСХ термопреобразователей сопротивления — R₀ и материал
+  # чувствительного элемента, а по материалу — температурный коэффициент α,
+  # коэффициенты уравнения Каллендара–Ван Дюзена и рабочий диапазон. По ним
+  # считаются оба хода и рисуется кривая на схеме.
+  RTD_NORMS = {
+    sensors: [
+      { type: "pt100", label: "Pt100", r0: 100, material: "pt" },
+      { type: "pt500", label: "Pt500", r0: 500, material: "pt" },
+      { type: "pt1000", label: "Pt1000", r0: 1000, material: "pt" },
+      { type: "100p", label: "100П", r0: 100, material: "p" },
+      { type: "50p", label: "50П", r0: 50, material: "p" },
+      { type: "100m", label: "100М", r0: 100, material: "m" },
+      { type: "50m", label: "50М", r0: 50, material: "m" }
+    ],
+    materials: {
+      pt: { alpha: 0.00385, a: 3.9083e-3, b: -5.775e-7, c: -4.183e-12, range: [ -200, 850 ] },
+      p: { alpha: 0.00391, a: 3.9692e-3, b: -5.829e-7, c: -4.3303e-12, range: [ -200, 850 ] },
+      m: { alpha: 0.00428, a: 4.28e-3, b: -6.2032e-7, c: 8.5154e-10, range: [ -180, 200 ] }
+    }
+  }.freeze
+
+  # Единицы давления: значение одной единицы в паскалях. Через них идёт и
+  # перевод, и таблица множителей под калькулятором, и порядок строк на
+  # странице — он не алфавитный, а по частоте на наших щитах.
+  PRESSURE_NORMS = {
+    units: [
+      { unit: "bar", pascals: 1e5 },
+      { unit: "kgf", pascals: 98066.5 },
+      { unit: "mpa", pascals: 1e6 },
+      { unit: "kpa", pascals: 1e3 },
+      { unit: "mmh2o", pascals: 9.80665 },
+      { unit: "mmhg", pascals: 133.322 },
+      { unit: "atm", pascals: 101325 },
+      { unit: "psi", pascals: 6894.757 },
+      { unit: "pa", pascals: 1 }
+    ]
+  }.freeze
+
+  NORMS = {
+    "cable-cross-section" => CABLE_NORMS,
+    "twisted-pair-line" => TWISTED_PAIR_NORMS,
+    "resistance-thermometer" => RTD_NORMS,
+    "pressure" => PRESSURE_NORMS
+  }.freeze
 
   def to_param = slug
 
   def norms = NORMS[slug]
 
   # camelCase the slug → the method name on the shared calculator Stimulus
-  # controller (cable-cross-section → cableCrossSection).
+  # controller (short-circuit → shortCircuit).
   def formula = slug.gsub(/-([a-z])/) { Regexp.last_match(1).upcase }
 
   def custom? = CUSTOM.include?(slug)
@@ -129,12 +194,15 @@ class Calculator
   def controller = custom? ? "calculators--#{slug}" : "calculator"
 
   # Everything the calculator panel needs to boot its controller. Kept here so
-  # the view stays a single `data:` hash across both wiring styles.
+  # the view stays a single `data:` hash across both wiring styles. A Stimulus
+  # value is addressed by the controller's IDENTIFIER, not by the class that
+  # declares it — so a calculator with its own controller reads its norms from
+  # data-calculators--<slug>-norms-value, not from the shared prefix.
   def stimulus_data
     actions = %w[input->%s#compute change->%s#compute click->%s#copy].map { format(it, controller) }
     data = { controller: controller, action: actions.join(" ") }
     data[:calculator_formula_value] = formula unless custom?
-    data[:calculator_norms_value] = norms.to_json if norms
+    data[:"#{controller}_norms_value"] = norms.to_json if norms
     data
   end
 

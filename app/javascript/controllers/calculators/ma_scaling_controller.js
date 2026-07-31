@@ -39,16 +39,13 @@ export default class extends CalculatorController {
     const fill = diagram.querySelector("[data-track-fill]")
     if (fill) fill.style.transform = `scaleX(${clamped})`
 
-    this.#label(diagram, "signal-min", `${this.num(input.smin ?? 4, 1)} мА`)
-    this.#label(diagram, "signal-max", `${this.num(input.smax ?? 20, 1)} мА`)
-    this.#label(diagram, "range-min", this.sig(input.rmin, 4))
-    this.#label(diagram, "range-max", this.sig(input.rmax, 4))
-    this.#label(diagram, "signal", input.ma == null ? this.num(null) : `${this.num(input.ma, 2)} мА`)
-    this.#label(diagram, "value", this.sig(result.eu, 4))
-  }
-
-  #label(diagram, name, text) {
-    const slot = diagram.querySelector(`[data-figure="${name}"]`)
-    if (slot) slot.textContent = text
+    this.label({
+      "signal-min": `${this.num(input.smin ?? 4, 1)} мА`,
+      "signal-max": `${this.num(input.smax ?? 20, 1)} мА`,
+      "range-min": this.sig(input.rmin, 4),
+      "range-max": this.sig(input.rmax, 4),
+      signal: input.ma == null ? this.num(null) : `${this.num(input.ma, 2)} мА`,
+      value: this.sig(result.eu, 4)
+    })
   }
 }

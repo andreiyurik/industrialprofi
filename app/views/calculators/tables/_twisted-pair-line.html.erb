@@ -1,0 +1,54 @@
+<%# Те самые две таблицы, по которым калькулятор и считает: сопротивление жилы
+    по калибру и параметры PoE. Данные — Calculator::TWISTED_PAIR_NORMS, они же
+    уходят в расчёт и в выпадающие списки формы. %>
+<figure class="calc-table">
+  <figcaption class="calc-table__caption"><%= t("calculators.twisted-pair-line.table.awg_caption") %></figcaption>
+  <div class="calc-table__scroll">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col"><%= t("calculators.twisted-pair-line.table.col_awg") %></th>
+          <th scope="col"><%= t("calculators.twisted-pair-line.table.col_area") %></th>
+          <th scope="col"><%= t("calculators.twisted-pair-line.table.col_ohms") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% calculator.norms[:awg].each do |wire| %>
+          <tr>
+            <th scope="row">AWG <%= wire[:awg] %></th>
+            <td><%= calculator_value(wire[:area]) %></td>
+            <td><%= calculator_value(wire[:ohms_per_metre]) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</figure>
+
+<figure class="calc-table">
+  <figcaption class="calc-table__caption"><%= t("calculators.twisted-pair-line.table.poe_caption") %></figcaption>
+  <div class="calc-table__scroll">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col"><%= t("calculators.twisted-pair-line.table.col_std") %></th>
+          <th scope="col"><%= t("calculators.twisted-pair-line.table.col_pairs") %></th>
+          <th scope="col"><%= t("calculators.twisted-pair-line.table.col_current") %></th>
+          <th scope="col"><%= t("calculators.twisted-pair-line.table.col_source") %></th>
+          <th scope="col"><%= t("calculators.twisted-pair-line.table.col_minimum") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% calculator.norms[:poe].each do |standard| %>
+          <tr>
+            <th scope="row"><%= t("calculators.twisted-pair-line.std_#{standard[:std]}") %></th>
+            <td><%= standard[:pairs] %></td>
+            <td><%= calculator_value(standard[:current]) %></td>
+            <td><%= calculator_value(standard[:source]) %></td>
+            <td><%= calculator_value(standard[:minimum]) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</figure>

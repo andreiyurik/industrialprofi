@@ -40,15 +40,12 @@ export default class extends CalculatorController {
       fill.style.transform = `scaleX(${share})`
     }
 
-    this.#label(diagram, "limit", `${this.num(DROP_LIMIT_PERCENT, 0)} %`)
-    this.#label(diagram, "source", input.u == null ? this.num(null) : `${this.num(input.u, 0)} В`)
-    this.#label(diagram, "load", result.remaining == null ? this.num(null) : `${this.num(result.remaining, 1)} В`)
-    this.#label(diagram, "length", input.l == null ? this.num(null) : `${this.num(input.l, 0)} м`)
-    this.#label(diagram, "drop", result.percent == null ? this.num(null) : `−${this.num(result.percent, 1)} %`)
-  }
-
-  #label(diagram, name, text) {
-    const slot = diagram.querySelector(`[data-figure="${name}"]`)
-    if (slot) slot.textContent = text
+    this.label({
+      limit: `${this.num(DROP_LIMIT_PERCENT, 0)} %`,
+      source: input.u == null ? this.num(null) : `${this.num(input.u, 0)} В`,
+      load: result.remaining == null ? this.num(null) : `${this.num(result.remaining, 1)} В`,
+      length: input.l == null ? this.num(null) : `${this.num(input.l, 0)} м`,
+      drop: result.percent == null ? this.num(null) : `−${this.num(result.percent, 1)} %`
+    })
   }
 }

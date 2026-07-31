@@ -1,0 +1,29 @@
+<%# Таблица НСХ, по которой калькулятор и считает: R₀, температурный коэффициент
+    и рабочий диапазон каждого датчика. Данные — Calculator::RTD_NORMS, они же
+    уходят в расчёт, в кривую на схеме и в список датчиков формы. %>
+<figure class="calc-table">
+  <figcaption class="calc-table__caption"><%= t("calculators.resistance-thermometer.table.caption") %></figcaption>
+  <div class="calc-table__scroll">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col"><%= t("calculators.resistance-thermometer.table.col_sensor") %></th>
+          <th scope="col"><%= t("calculators.resistance-thermometer.table.col_r0") %></th>
+          <th scope="col"><%= t("calculators.resistance-thermometer.table.col_alpha") %></th>
+          <th scope="col"><%= t("calculators.resistance-thermometer.table.col_range") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% calculator.norms[:sensors].each do |sensor| %>
+          <% material = calculator.norms[:materials][sensor[:material].to_sym] %>
+          <tr>
+            <th scope="row"><%= sensor[:label] %></th>
+            <td><%= calculator_value(sensor[:r0]) %></td>
+            <td><%= calculator_value(material[:alpha]) %></td>
+            <td><%= material[:range].map { calculator_value(it) }.join(" … ") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</figure>

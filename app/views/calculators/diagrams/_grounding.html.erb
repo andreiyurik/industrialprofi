@@ -1,0 +1,24 @@
+<%# Контур в разрезе грунта: сплошные электроды забиты, пунктирные — те, что
+    ещё нужны до нормы. Заглубление и длину масштабирует контроллер, он же
+    гасит лишние стержни (см. grounding_controller). %>
+<figure class="calc-figure">
+  <svg class="ground-figure" viewBox="0 0 400 132" role="img" aria-labelledby="ground-figure-title"
+       data-diagram data-state="empty">
+    <title id="ground-figure-title"><%= t("calculators.grounding.diagram_title") %></title>
+
+    <rect class="ground-figure__soil" x="0" y="38" width="400" height="94" />
+    <line class="ground-figure__surface" x1="0" y1="38" x2="400" y2="38" />
+    <text class="ground-figure__caption" x="6" y="30"><%= t("calculators.grounding.diagram_surface") %></text>
+
+    <g data-rods>
+      <% 12.times do |rod| %>
+        <rect class="ground-figure__rod" data-rod="<%= rod %>" data-state="off"
+              x="<%= 26 + rod * 30 %>" y="38" width="7" height="84" rx="3.5" />
+      <% end %>
+    </g>
+
+    <text class="ground-figure__more" x="394" y="76" data-more data-state="off">…</text>
+  </svg>
+
+  <figcaption class="calc-figure__legend"><%= t("calculators.grounding.diagram_legend") %></figcaption>
+</figure>
