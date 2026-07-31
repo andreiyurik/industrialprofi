@@ -85,11 +85,11 @@ industrial/OT lens; the moment one drifts into generic IT it loses the wedge.
 
 | Profession | Status | Deficit driver | Depth anchor |
 |---|---|---|---|
-| **Инженер АСУ ТП** (Industrial automation / ICS) | **Live** (`inzhener-asu-tp`) | Automation everywhere; few who can commission it | PLC, SCADA, Modbus/OPC UA, IEC 61131-3 |
+| **Инженер АСУ ТП** (Industrial automation / ICS) | **Live** (`inzhener-asu-tp`) | Automation everywhere; few who can commission it | PLC, SCADA, Modbus/OPC UA, IEC 61131-3 — 2026-07-31 quality audit confirmed no gap large enough to justify a separate profession for vendor-PLC depth or HMI/SCADA-software depth; a generic "Инженер КИПиА" would also fully overlap the existing field-instrumentation course. Dropped from the public "planned" board on that basis. If Siemens TIA Portal, Allen-Bradley/Rockwell, CODESYS or HMI/SCADA-software depth is ever built, it belongs as a `coming_soon` course specialization inside this path (same pattern as `avtomehanik`), not a separate profession — no stub course exists yet, add one only when real content is being authored. |
 | **КИПиА** (Instrumentation & control, incl. АЭС) | **Live** (`kipia-aes`) | Metrology + functional safety scarce | СИ/поверка, SIL, IEC 61508/61511, НП-001 |
-| **Безопасность АСУ ТП** (ICS/OT cybersecurity) | **Planned** | Acute, very current; regulated | IEC 62443, ФСТЭК приказы |
-| **Промышленные сети** (Industrial networking) | **Planned** | OT/IT convergence | Industrial Ethernet, PROFINET, Modbus TCP — *keep OT-framed, not generic CCNA* |
-| **Linux/edge для автоматики** (Edge Linux for automation) | **Planned** | Edge compute in АСУ ТП | *keep tied to SCADA/edge gateways, else it competes with TOP and dilutes the niche* |
+| **Безопасность АСУ ТП** (ICS/OT cybersecurity) | **Planned** | Acute, very current; regulated | IEC 62443, ФСТЭК приказы — genuinely separate job market/certification track from `inzhener-asu-tp`, not a course fold; build it on the `kipia-aes` delta pattern (base from АСУ ТП, own profession for the security-specific layer) |
+| **Промышленные сети** (Industrial networking) | **Live, folded into `inzhener-asu-tp`** | OT/IT convergence | Industrial Ethernet, PROFINET, Modbus TCP, OPC UA — already shipped as the `04-promyshlennye-seti` course inside the ASU ТП path; this row is stale as a standalone "Planned" entry and should not be re-proposed as a separate profession |
+| **Linux/edge для автоматики** (Edge Linux for automation) | **Planned** | Edge compute in АСУ ТП | *keep tied to SCADA/edge gateways, else it competes with TOP and dilutes the niche* — public board entry (`ru.yml` soon_wanted / contribute.wanted) renamed 2026-07-31 from generic "Системный администратор Linux" to "Linux для промышленной автоматизации" to match this scoping |
 | **Робототехника / интеграция роботов** (Industrial robotics) | **Planned** | Automation + reshoring; integrators scarce | ISO 10218, ISO 13849 safety; KRL/RAPID; offline sim — *teach standardized integration & safety, name KUKA/FANUC/ABB as tools, don't be a vendor manual* |
 
 ## Tier 3 — deep certification trades (best standards-fit, clear deficit)

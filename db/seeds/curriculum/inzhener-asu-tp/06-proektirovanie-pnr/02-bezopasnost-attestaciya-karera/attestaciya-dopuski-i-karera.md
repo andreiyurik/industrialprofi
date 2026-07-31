@@ -5,18 +5,18 @@ kind: lesson
 resources:
   - title: "Профессиональный стандарт «Специалист по проектированию АСУ ТП» (Приказ Минтруда России № 723н от 12.10.2021)"
     url: "https://profstandart.rosmintrud.ru/obshchiy-informatsionnyy-blok/natsionalnyy-reestr-professionalnykh-standartov/reestr-professionalnykh-standartov/index.php?ELEMENT_ID=111692"
-    kind: document
+    kind: norm
     required: true
     country_code: RU
     note: "трудовые функции и уровни квалификации 6 и 7 — пойми, чем требования к инженеру отличаются от ГИПа"
   - title: "Приказ Ростехнадзора от 09.08.2023 № 285 — Перечень областей аттестации по промышленной безопасности"
     url: "http://publication.pravo.gov.ru/document/0001202309080006"
-    kind: document
+    kind: norm
     required: false
     country_code: RU
   - title: "Правила по охране труда при эксплуатации электроустановок (Приказ Минтруда России № 903н от 15.12.2020) — группы по электробезопасности"
     url: "http://publication.pravo.gov.ru/Document/View/0001202012300142"
-    kind: document
+    kind: norm
     required: false
     country_code: RU
 ---
@@ -73,4 +73,4 @@ resources:
 3. выбери **одного вендора** для глубокого изучения и назови 1–2 конкретных шага (установить среду, собрать стенд, пройти бесплатный курс ОВЕН/AdAstra);
 4. поставь цель на ближайший год: какой реальный или учебный **проект** ты доведёшь до работающего вида.
 
-Критерий самопроверки: план должен быть конкретным и проверяемым — не «выучить ПЛК», а «собрать в CODESYS и запустить программу насосной с мнемосхемой к такому-то месяцу».
+Критерий самопроверки: план должен быть конкретным и проверяемым — не «выучить ПЛК», а «собрать в CODESYS и запустить программу насосной с [мнемосхемой](/lessons/mnemoshemy) к такому-то месяцу».

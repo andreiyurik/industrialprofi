@@ -5,13 +5,13 @@ kind: lesson
 resources:
   - title: "ГОСТ 6651-2009 — ГСИ. Термопреобразователи сопротивления из платины, меди и никеля. Общие технические требования и методы испытаний"
     url: "https://protect.gost.ru/gost/details/be8115ed-4f6b-4512-bfad-7466e873be7d"
-    kind: document
+    kind: norm
     required: true
     country_code: RU
     note: "нужны таблицы диапазонов термосопротивлений — по ним сверишь выбор Pt100 в задании"
   - title: "ГОСТ Р 8.585-2001 — ГСИ. Термопары. Номинальные статические характеристики преобразования"
     url: "https://protect.gost.ru/document.aspx?control=7&id=131096"
-    kind: document
+    kind: norm
     required: true
     country_code: RU
     note: "номинальные характеристики термопар — найди, до какой температуры допустимы типы K и J"

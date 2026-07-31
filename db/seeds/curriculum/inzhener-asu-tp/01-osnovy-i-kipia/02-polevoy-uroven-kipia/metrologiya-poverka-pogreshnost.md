@@ -5,13 +5,13 @@ kind: lesson
 resources:
   - title: "Федеральный закон от 26.06.2008 № 102-ФЗ «Об обеспечении единства измерений»"
     url: "https://docs.cntd.ru/document/902107146"
-    kind: document
+    kind: norm
     required: true
     country_code: RU
     note: "юридическая база поверки — пойми, что такое сфера госрегулирования и когда поверка обязательна"
   - title: "ГОСТ 8.401-80 — ГСИ. Классы точности средств измерений. Общие требования"
     url: "https://protect.gost.ru/gost/details/68948bc7-8069-43f3-8da5-d1f5fbe2e07c"
-    kind: document
+    kind: norm
     required: false
     country_code: RU
   - title: "ФГИС «Аршин» — реестр средств измерений и сведений о поверке (Росстандарт)"
