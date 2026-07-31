@@ -54,7 +54,7 @@ lexxy-editor blockquote {
   background-color: var(--color-subtle-light);
   border-inline-start: 3px solid oklch(var(--lch-yellow));
   border-radius: 0 0.4em 0.4em 0;
-  padding: 0.4lh 2ch;
+  padding: 0.4lh var(--inline-space-double);
   font-style: normal;
 }
 

@@ -3,7 +3,7 @@
 
 .glossary-toolbar {
   display: grid;
-  gap: 1rem;
+  gap: var(--block-space);
   justify-items: center;
   margin-block-start: var(--block-space-double);
 }
@@ -17,7 +17,7 @@
 .glossary-scripts {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--block-space-half);
   justify-content: center;
 
   button {
@@ -48,7 +48,7 @@
 .glossary-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--block-space-half);
   justify-content: center;
 }
 
@@ -99,7 +99,7 @@
   border-block-end: 1px solid var(--color-subtle);
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 1rem;
+  gap: var(--block-space-half) 1rem;
   justify-content: space-between;
   padding-block-end: 0.75rem;
 }

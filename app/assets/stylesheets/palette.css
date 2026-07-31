@@ -8,7 +8,7 @@
   inline-size: min(36rem, calc(100vw - 2rem));
   margin-block-start: min(12vh, 7rem);
   margin-inline: auto;
-  padding: 1rem;
+  padding: var(--block-space);
 
   &::backdrop {
     backdrop-filter: blur(2px);
@@ -33,7 +33,7 @@
 /* Quick destinations — the Fizzy hotkey tiles, minus the number chips. */
 .palette__quick {
   display: grid;
-  gap: 0.5rem;
+  gap: var(--block-space-half);
   grid-template-columns: repeat(3, 1fr);
 }
 
@@ -47,8 +47,8 @@
   flex-direction: column;
   font-size: 0.85rem;
   font-weight: 600;
-  gap: 0.5rem;
-  padding: 1rem 0.5rem;
+  gap: var(--block-space-half);
+  padding: var(--block-space) 0.5rem;
   text-align: center;
   text-decoration: none;
   transition: border-color 200ms ease;
@@ -86,7 +86,7 @@
   border-radius: 0.5em;
   display: grid;
   gap: 0.15rem;
-  padding: 0.5rem 0.6rem;
+  padding: var(--block-space-half) 0.6rem;
   text-decoration: none;
 
   @media (any-hover: hover) {
@@ -111,14 +111,14 @@
   display: block;
   font-size: 0.85rem;
   margin-block-start: 0.35rem;
-  padding: 0.5rem 0.6rem;
+  padding: var(--block-space-half) 0.6rem;
 }
 
 .palette__colophon {
   border-block-start: 1px solid var(--color-subtle);
   color: var(--color-subtle-dark);
   font-size: 0.8rem;
-  margin-block-start: 1rem;
+  margin-block-start: var(--block-space);
   padding-block-start: 0.75rem;
   text-align: center;
 

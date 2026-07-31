@@ -40,7 +40,7 @@
   color: var(--color-subtle-dark);
   font-size: 0.8rem;
   font-weight: 500;
-  margin-block: 1.25rem 0.5rem;
+  margin-block: 1.25rem var(--block-space-half);
 }
 
 .resource-block__group:first-of-type {

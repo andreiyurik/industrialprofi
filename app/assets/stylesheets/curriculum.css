@@ -1,7 +1,7 @@
 .curriculum {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--block-space-double);
   position: relative;
 }
 
@@ -18,7 +18,7 @@
 
 .curriculum__stage-row {
   display: flex;
-  gap: 1rem;
+  gap: var(--block-space);
   position: relative;
 }
 
@@ -38,7 +38,7 @@
   font-weight: 700;
   inline-size: 2.5rem;
   justify-content: center;
-  margin-block-start: 0.5rem;
+  margin-block-start: var(--block-space-half);
   position: relative;
 
   .icon {
@@ -73,9 +73,9 @@
   align-items: center;
   border-block-end: 1px solid var(--color-subtle);
   display: flex;
-  gap: 1rem;
+  gap: var(--block-space);
   justify-content: space-between;
-  padding: 1rem 1.5rem;
+  padding: var(--block-space) 1.5rem;
 }
 
 .curriculum__header-title {

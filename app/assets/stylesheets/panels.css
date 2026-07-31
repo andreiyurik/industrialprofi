@@ -31,7 +31,7 @@
   color: var(--color-subtle-dark);
   display: -webkit-box;
   font-size: 0.9rem;
-  margin-block: 0.5rem 0;
+  margin-block: var(--block-space-half) 0;
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;

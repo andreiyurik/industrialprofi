@@ -71,7 +71,7 @@
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.08em;
-  margin-block: 0 1rem;
+  margin-block: 0 var(--block-space);
   text-transform: uppercase;
 }
 
@@ -197,7 +197,7 @@
 .about-cta {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--block-space);
   justify-content: center;
   margin-block-start: 2.5rem;
 }

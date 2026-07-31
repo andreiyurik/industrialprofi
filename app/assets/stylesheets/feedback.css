@@ -29,7 +29,7 @@ main.main--centered {
   font-weight: 800;
   letter-spacing: -0.025em;
   line-height: 1.05;
-  margin-block: 0 0.5rem;
+  margin-block: 0 var(--block-space-half);
   text-transform: uppercase;
 }
 

@@ -5,7 +5,7 @@
 .course-cards {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--block-space-double);
 }
 
 .course-card {
@@ -81,7 +81,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--block-space-half);
   min-inline-size: 0;
 }
 

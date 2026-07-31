@@ -23,7 +23,7 @@
 .project-filters__group {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--block-space-half);
   justify-content: center;
 }
 
@@ -179,7 +179,7 @@
   gap: 0.9rem;
   grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
   list-style: none;
-  margin: 1rem 0 0;
+  margin: var(--block-space) 0 0;
   padding: 0;
 }
 

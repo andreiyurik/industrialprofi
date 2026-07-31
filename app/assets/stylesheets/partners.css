@@ -39,7 +39,7 @@
   display: flex;
   font-size: 0.78rem;
   font-weight: 700;
-  gap: 1rem;
+  gap: var(--block-space);
   letter-spacing: 0.09em;
   margin-block: 0 1.75rem;
   text-align: center;
@@ -131,6 +131,6 @@
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--block-space);
   justify-content: center;
 }

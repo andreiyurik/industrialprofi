@@ -3,7 +3,7 @@
 .resource-editor__list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--block-space-half);
   margin-block-end: 0.75rem;
 }
 
@@ -13,8 +13,8 @@
   border: 1px solid var(--color-subtle);
   border-radius: 0.5rem;
   display: flex;
-  gap: 0.5rem;
-  padding: 0.5rem 0.6rem;
+  gap: var(--block-space-half);
+  padding: var(--block-space-half) 0.6rem;
 }
 
 .resource-row.is-dragging {
@@ -65,7 +65,7 @@
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--block-space-half);
 }
 
 /* The kind's hue compressed to a dot: the badge modifier class sets `color`,
@@ -124,7 +124,7 @@
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 0.75rem;
+  gap: var(--block-space-half) 0.75rem;
 }
 
 .resource-row__note {

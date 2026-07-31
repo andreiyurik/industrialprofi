@@ -24,7 +24,7 @@
   gap: var(--block-space-double);
   margin-inline: auto;
   max-inline-size: 64rem;
-  padding-block-end: 2rem;
+  padding-block-end: var(--block-space-double);
 }
 
 @media (min-width: 60rem) {

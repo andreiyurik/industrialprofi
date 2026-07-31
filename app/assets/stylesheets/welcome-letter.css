@@ -8,7 +8,7 @@
   inline-size: min(34rem, calc(100vw - 2rem));
   line-height: 1.6;
   margin: auto;
-  padding: 2.5rem 2rem 2rem;
+  padding: 2.5rem 2rem var(--block-space-double);
   position: relative;
 
   &::backdrop {
@@ -19,7 +19,7 @@
   p {
     color: var(--color-subtle-dark);
     font-size: 0.95rem;
-    margin-block: 0 1rem;
+    margin-block: 0 var(--block-space);
   }
 
   a {
@@ -32,7 +32,7 @@
   border: 0;
   color: var(--color-subtle-dark);
   cursor: pointer;
-  inset-block-start: 1rem;
+  inset-block-start: var(--block-space);
   inset-inline-end: 1rem;
   padding: 0.25rem;
   position: absolute;
@@ -60,12 +60,12 @@
   font-weight: 700;
   inline-size: 3.5rem;
   justify-content: center;
-  margin-block-end: 1rem;
+  margin-block-end: var(--block-space);
 }
 
 .welcome-letter__title {
   font-size: 1.25rem;
-  margin-block: 0 1rem;
+  margin-block: 0 var(--block-space);
 }
 
 .welcome-letter__signature {

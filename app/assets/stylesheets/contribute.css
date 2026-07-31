@@ -24,7 +24,7 @@
   font-size: clamp(4.5rem, 16vw, 8rem);
   font-weight: 800;
   line-height: 1;
-  margin-block-end: 0.5rem;
+  margin-block-end: var(--block-space-half);
 }
 
 .contribute-hero__eyebrow {
@@ -41,7 +41,7 @@
   font-size: clamp(2rem, 6vw, 3rem);
   font-weight: 800;
   line-height: 1.1;
-  margin-block: 0.5rem 1.25rem;
+  margin-block: var(--block-space-half) 1.25rem;
   text-transform: uppercase;
 }
 
@@ -107,7 +107,7 @@
   font-size: clamp(1.4rem, 4vw, 1.8rem);
   font-weight: 800;
   line-height: 1.15;
-  margin-block: 0 0.5rem;
+  margin-block: 0 var(--block-space-half);
   text-transform: uppercase;
 }
 
@@ -134,7 +134,7 @@
   display: grid;
   gap: 0.75rem 1.5rem;
   grid-template-columns: auto 1fr;
-  padding-block: 2rem;
+  padding-block: var(--block-space-double);
 }
 
 /* Large display numeral as a quiet anchor — present, not shouting. */
@@ -202,7 +202,7 @@
   column-gap: 1.5rem;
   display: flex;
   flex-wrap: wrap;
-  row-gap: 0.5rem;
+  row-gap: var(--block-space-half);
 }
 
 .contribute-way__copy {
@@ -255,7 +255,7 @@
 .contribute-wanted__list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--block-space-half);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -287,7 +287,7 @@
 
 .contribute-pipeline__step {
   display: flex;
-  gap: 1rem;
+  gap: var(--block-space);
   padding-block-end: 1.75rem;
   position: relative;
 }
@@ -345,7 +345,7 @@
 
 .contribute-ladder {
   display: grid;
-  gap: 1rem;
+  gap: var(--block-space);
   grid-template-columns: 1fr;
 }
 
@@ -395,7 +395,7 @@
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.1em;
-  margin-block: 2rem 0.9rem;
+  margin-block: var(--block-space-double) 0.9rem;
   text-transform: uppercase;
 }
 
@@ -425,7 +425,7 @@
 /* ---- Closing CTA ------------------------------------------------------- */
 
 .contribute-cta {
-  padding: 2rem;
+  padding: var(--block-space-double);
   text-align: center;
 }
 
@@ -433,7 +433,7 @@
   font-family: var(--font-display);
   font-size: clamp(1.4rem, 4vw, 1.8rem);
   font-weight: 800;
-  margin-block: 0 0.5rem;
+  margin-block: 0 var(--block-space-half);
   text-transform: uppercase;
 }
 

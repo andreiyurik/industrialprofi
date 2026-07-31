@@ -5,7 +5,7 @@
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  margin-block: 0 0.5rem;
+  margin-block: 0 var(--block-space-half);
   text-transform: uppercase;
 }
 

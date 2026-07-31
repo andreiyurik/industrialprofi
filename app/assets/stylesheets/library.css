@@ -2,12 +2,12 @@
    page. Rows reuse .lesson-resources / .lesson-resource from the lesson view. */
 .library-intro {
   color: var(--color-subtle-dark);
-  margin-block: 0.5rem 2rem;
+  margin-block: var(--block-space-half) var(--block-space-double);
   max-width: 48rem;
 }
 
 .library-group {
-  margin-block-end: 2rem;
+  margin-block-end: var(--block-space-double);
 }
 
 .library-group__title {
@@ -25,7 +25,7 @@
   align-items: baseline;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 1rem;
+  gap: var(--block-space-half) 1rem;
   justify-content: space-between;
   margin-block-end: 0.75rem;
 }

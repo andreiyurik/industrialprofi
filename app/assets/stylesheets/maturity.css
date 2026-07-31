@@ -8,7 +8,7 @@
 .maturity {
   display: flex;
   justify-content: center;
-  margin-block-end: 2rem;
+  margin-block-end: var(--block-space-double);
 }
 
 .maturity--stage-1 { --gauge-tone: oklch(var(--lch-gray-mid)); }

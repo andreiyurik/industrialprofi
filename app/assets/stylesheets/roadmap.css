@@ -79,13 +79,13 @@
 
 .roadmap-os {
   margin-block-start: 3.5rem;
-  padding: 2rem;
+  padding: var(--block-space-double);
 }
 
 .roadmap-os__title {
   font-size: 1.2rem;
   font-weight: 700;
-  margin-block: 0 0.5rem;
+  margin-block: 0 var(--block-space-half);
 }
 
 .roadmap-os__title--sub {

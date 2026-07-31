@@ -17,7 +17,7 @@
 .guide__heading {
   font-size: 1.15rem;
   font-weight: 700;
-  margin-block: 0 0.5rem;
+  margin-block: 0 var(--block-space-half);
 }
 
 .guide__lead {
@@ -29,7 +29,7 @@
 .guide-types {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--block-space);
   margin: 0;
 }
 
@@ -64,7 +64,7 @@
 
 .guide-callout__when {
   color: var(--color-subtle-dark);
-  margin-block: 0.5rem 0.4rem;
+  margin-block: var(--block-space-half) 0.4rem;
 }
 
 .guide-callout__syntax {
@@ -74,11 +74,11 @@
   font-size: 0.8rem;
   margin: 0;
   overflow-x: auto;
-  padding: 0.5rem 0.75rem;
+  padding: var(--block-space-half) 0.75rem;
 }
 
 .guide-steps {
-  margin-block: 0.5rem 1rem;
+  margin-block: var(--block-space-half) var(--block-space);
   padding-inline-start: 1.4rem;
 
   li {

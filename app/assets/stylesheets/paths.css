@@ -45,7 +45,7 @@
 .catalog-soon__list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--block-space-half);
   justify-content: center;
   margin-block: 0;
   margin-inline: auto;
@@ -97,7 +97,7 @@
 
 .catalog-soon__call {
   hyphens: none;
-  margin-block: 2rem 0;
+  margin-block: var(--block-space-double) 0;
 
   /* The rough-notation oval IS this button's frame — the default capsule
      border would draw a frame around a frame. Hover nudges the arrow
@@ -150,7 +150,7 @@
   --panel-border-radius: 0.25rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--block-space);
   position: relative;
   transition: border-color 200ms ease, box-shadow 200ms ease;
   /* Low floor only — desktop height is content-/row-stretch-driven; this just
@@ -172,14 +172,14 @@
 .path-card::before {
   border-block-start-width: 1px;
   border-inline-start-width: 1px;
-  inset-block-start: 0.5rem;
+  inset-block-start: var(--block-space-half);
   inset-inline-start: 0.5rem;
 }
 
 .path-card::after {
   border-block-end-width: 1px;
   border-inline-end-width: 1px;
-  inset-block-end: 0.5rem;
+  inset-block-end: var(--block-space-half);
   inset-inline-end: 0.5rem;
 }
 
@@ -236,7 +236,7 @@
 .path-card__meta-row {
   align-items: center;
   display: flex;
-  gap: 1rem;
+  gap: var(--block-space);
   justify-content: space-between;
 }
 
@@ -267,7 +267,7 @@
 
 .section-subtitle {
   color: var(--color-subtle-dark);
-  margin-block: 1rem 0;
+  margin-block: var(--block-space) 0;
   margin-inline: auto;
   max-inline-size: 42rem;
   text-align: center;
@@ -347,7 +347,7 @@
 }
 
 .path__overview {
-  margin-block: 2.5rem 2rem;
+  margin-block: 2.5rem var(--block-space-double);
 }
 
 .path__overview-text {
@@ -366,7 +366,7 @@
   flex-wrap: wrap;
   gap: 1.5rem;
   justify-content: center;
-  margin-block: 0 2rem;
+  margin-block: 0 var(--block-space-double);
 }
 
 .path__curators-label {
@@ -406,7 +406,7 @@
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--block-space);
   justify-content: space-between;
   margin-block-end: 1.5rem;
 
@@ -431,7 +431,7 @@
 .path__start {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--block-space);
   margin-block-end: 2.5rem;
 
   .btn {

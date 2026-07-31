@@ -20,7 +20,7 @@
   font-size: 0.85rem;
   justify-content: center;
   min-block-size: 6rem;
-  padding: 1rem;
+  padding: var(--block-space);
 }
 
 .lesson {
@@ -40,7 +40,7 @@
 }
 
 .lesson__header {
-  margin-block: 0.75rem 2rem;
+  margin-block: 0.75rem var(--block-space-double);
 }
 
 /* TOC anchors (sections + ## headings) must land below the sticky header. */
@@ -65,7 +65,7 @@
 .lesson__topbar {
   align-items: center;
   display: flex;
-  gap: 1rem;
+  gap: var(--block-space);
   justify-content: space-between;
   margin-block-end: 0.75rem;
 }
@@ -141,7 +141,7 @@
 
 .lesson__intro {
   border-inline-start: 2px solid var(--color-subtle-dark);
-  margin-block-end: 2rem;
+  margin-block-end: var(--block-space-double);
   padding-inline-start: 1rem;
 }
 
@@ -282,7 +282,7 @@
 
 /* The learner's own past entries for this task — the practice loop, visible. */
 .lesson-task-entries {
-  margin-block-start: 1rem;
+  margin-block-start: var(--block-space);
 }
 
 .lesson-task-entries__title {
@@ -389,7 +389,7 @@
    discoverable, never visual noise. */
 .lesson-section-edit {
   font-size: 0.8rem;
-  margin-block: 1rem 0;
+  margin-block: var(--block-space) 0;
   opacity: 0.4;
   transition: opacity 200ms ease;
 
@@ -425,10 +425,10 @@
   border-block-start: 1px solid var(--color-subtle);
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--block-space);
   justify-content: space-between;
   margin-block-start: 3rem;
-  padding-block-start: 2rem;
+  padding-block-start: var(--block-space-double);
 
   /* btn--large's 2em horizontal padding makes the toggle overrun the narrow
      44rem lesson column when its label is long ("Отметить пройденным"),
@@ -517,7 +517,7 @@
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--block-space);
   margin-inline-start: auto;
 }
 

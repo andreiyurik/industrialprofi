@@ -9,18 +9,18 @@
 .lesson-history__title {
   font-size: 1rem;
   font-weight: 600;
-  margin-block: 0 1rem;
+  margin-block: 0 var(--block-space);
 }
 
 .lesson-history__count {
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
-  margin-block: 0 1rem;
+  margin-block: 0 var(--block-space);
 }
 
 .lesson-history__empty {
   color: var(--color-subtle-dark);
-  margin-block: 0.5rem 0;
+  margin-block: var(--block-space-half) 0;
 }
 
 /* Community-added sources credited above the revision log. */
@@ -69,7 +69,7 @@
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  margin-block: 1rem 0.15rem;
+  margin-block: var(--block-space) 0.15rem;
   padding-inline: 0.75rem;
   text-transform: uppercase;
 }
@@ -99,7 +99,7 @@
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--block-space-half);
 }
 
 .lesson-history__version {
@@ -128,7 +128,7 @@
   color: var(--color-link);
   display: inline-block;
   font-size: 0.85rem;
-  margin-block-start: 1rem;
+  margin-block-start: var(--block-space);
   text-decoration: underline;
 }
 
@@ -142,7 +142,7 @@
 }
 
 .lesson-history__back {
-  margin-block: 0 1rem;
+  margin-block: 0 var(--block-space);
 }
 
 /* Inline word diff — a hair of side padding + margin so a replaced word never mashes into its replacement ("словоСлово"). */
@@ -177,7 +177,7 @@
   border-radius: 0.6rem;
   display: inline-flex;
   gap: 0.15rem;
-  margin-block-end: 1rem;
+  margin-block-end: var(--block-space);
   padding: 0.2rem;
 }
 
@@ -199,7 +199,7 @@
 
 .review-split {
   display: grid;
-  gap: 1rem;
+  gap: var(--block-space);
   grid-template-columns: 1fr 1fr;
 }
 
@@ -220,7 +220,7 @@
   font-weight: 600;
   letter-spacing: 0.03em;
   margin: 0;
-  padding: 0.5rem 0.9rem;
+  padding: var(--block-space-half) 0.9rem;
   text-transform: uppercase;
 }
 
@@ -259,7 +259,7 @@
 
 .admin-edit-reason {
   font-size: 0.9rem;
-  margin-block-end: 1rem;
+  margin-block-end: var(--block-space);
 }
 
 .admin-diff {

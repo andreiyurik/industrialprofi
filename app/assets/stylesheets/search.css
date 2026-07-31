@@ -3,12 +3,12 @@
   font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 800;
-  margin-block: 0 1rem;
+  margin-block: 0 var(--block-space);
   text-transform: uppercase;
 }
 
 .search__form {
-  margin-block-end: 2rem;
+  margin-block-end: var(--block-space-double);
 }
 
 .search__input {
@@ -26,7 +26,7 @@
 
 .search__count {
   font-size: 0.9rem;
-  margin-block-end: 1rem;
+  margin-block-end: var(--block-space);
 }
 
 .search-results {

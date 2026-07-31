@@ -70,7 +70,7 @@ kbd {
 
 :is(pre, .pre) {
   border-radius: 0.5em;
-  padding: 0.5lh 2ch;
+  padding: 0.5lh var(--inline-space-double);
 
   :is(code, .code) {
     background-color: transparent;
@@ -210,7 +210,7 @@ th {
 
 :where(th, td) {
   border: 1px solid var(--color-subtle-dark);
-  padding: 0.2lh 1ch;
+  padding: 0.2lh var(--inline-space);
   text-align: start;
 }
 
@@ -325,7 +325,7 @@ ins {
     border-radius: 0 0.4em 0.4em 0;
     font-style: normal;
     margin: 1.25lh 0;
-    padding: 0.6lh 2ch;
+    padding: 0.6lh var(--inline-space-double);
 
     > :first-child { margin-block-start: 0; }
     > :last-child { margin-block-end: 0; }

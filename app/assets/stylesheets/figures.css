@@ -94,7 +94,7 @@
 
 .lightbox__close {
   position: fixed;
-  inset-block-start: 1rem;
+  inset-block-start: var(--block-space);
   inset-inline-end: 1rem;
   z-index: 1;
   display: inline-flex;

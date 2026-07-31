@@ -1,5 +1,5 @@
 .flash {
-  inset-block-start: 1rem;
+  inset-block-start: var(--block-space);
   inset-inline: 0;
   margin-inline: auto;
   max-inline-size: 40ch;

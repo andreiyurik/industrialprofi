@@ -14,9 +14,9 @@
 .heatmap {
   border: 1px solid var(--color-subtle);
   border-radius: 0.75em;
-  margin-block-end: 2rem;
+  margin-block-end: var(--block-space-double);
   overflow-x: auto;
-  padding: 1rem 1.25rem;
+  padding: var(--block-space) 1.25rem;
 }
 
 .heatmap__header {
@@ -136,7 +136,7 @@
   display: flex;
   flex: 1 1 18rem;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--block-space-half);
   min-inline-size: 0;
 }
 
@@ -159,7 +159,7 @@
 .dashboard-hero__action {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--block-space-half);
 }
 
 .dashboard-hero__next {
@@ -196,7 +196,7 @@
   color: var(--color-subtle-dark);
   font-size: 0.9rem;
   font-weight: 600;
-  margin-block: 2rem 0.75rem;
+  margin-block: var(--block-space-double) 0.75rem;
 }
 
 .dashboard__section-hint {
@@ -314,14 +314,14 @@
 .dashboard__others {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--block-space-half);
 }
 
 .dashboard-other {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--block-space);
 }
 
 .dashboard-other__icon {
@@ -363,7 +363,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  margin-block-start: 1rem;
+  margin-block-start: var(--block-space);
   padding: 3rem 1.5rem;
   text-align: center;
 }
@@ -380,7 +380,7 @@
 
 .dashboard__suggested-title {
   font-size: 1.2rem;
-  margin-block: 0 1rem;
+  margin-block: 0 var(--block-space);
 }
 
 /* Lives in a Turbo Frame; swaps for the inline edit form on click. */
@@ -397,7 +397,7 @@
 
 .learning-goal__edit {
   font-size: 0.85rem;
-  margin-inline-start: 0.5ch;
+  margin-inline-start: var(--inline-space-half);
 }
 
 .learning-goal-form {
@@ -410,7 +410,7 @@
 /* Extra bottom margin keeps «Сохранить/Отмена» from clustering with
    «Продолжить» into one button pile. */
 .dashboard-hero__info .learning-goal-form {
-  margin-block: 0.25rem 1rem;
+  margin-block: 0.25rem var(--block-space);
 
   .input--textarea {
     min-block-size: calc(2lh + 1.2em);
@@ -419,7 +419,7 @@
 
 /* Standalone goal block on the empty dashboard (no hero card yet). */
 .dashboard__goal {
-  margin-block-end: 2rem;
+  margin-block-end: var(--block-space-double);
   text-align: center;
 
   .learning-goal-form {
