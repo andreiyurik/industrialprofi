@@ -91,7 +91,7 @@ class CurriculumPack
 
     {
       "path" => { "slug" => path_slug(root), "title" => meta["title"],
-                  "description" => meta["description"] }.compact,
+                  "description" => meta["description"], "icon" => meta["icon"] }.compact,
       "courses" => courses(root)
     }
   end
@@ -106,7 +106,7 @@ class CurriculumPack
     child_ymls(root, "course.yml").map do |course_dir, meta|
       {
         "slug" => meta["slug"], "title" => meta["title"], "description" => meta["description"],
-        "sections" => sections(course_dir)
+        "icon" => meta["icon"], "sections" => sections(course_dir)
       }.compact
     end
   end

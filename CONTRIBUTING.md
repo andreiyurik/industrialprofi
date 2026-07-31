@@ -108,6 +108,11 @@ contribution pipeline built for practitioners:
   map apply via [/contribute](https://industrialprofi.com/contribute). Editors
   get an in-app curriculum builder, YAML/zip import with a dry-run preview, and
   everything stays a draft until an administrator publishes it.
+- **Building content with your own tools?** A profession travels as a
+  **content pack** — a zip of plain YAML/Markdown with a versioned, documented
+  format: [`tools/PACK_FORMAT.md`](tools/PACK_FORMAT.md). Editors export any of
+  their professions straight from the admin builder, work offline, and bring
+  the pack back through the dry-run import.
 - **Working from the repo?** The full content-factory workflow is documented
   (in Russian, the language of the content) in
   [`tools/CONTENT_FACTORY.md`](tools/CONTENT_FACTORY.md).

@@ -516,8 +516,20 @@ the code already records, while CLAUDE.md holds decisions and conventions.
   trigger: enough active contributor edits/reviews that losing up to a day of
   them (the cron interval) becomes a genuine cost, not a theoretical one.
 
-**Not built yet (v0.3):** community-authored roadmaps, public profiles,
-moderated public portfolio.
+- **No open "community maps" folder (roadmap.sh/community style)** (2026-07-31):
+  an open-publishing shelf with ratings was considered and declined — it
+  fills with shallow duplicates, breaks the "everything here is curated"
+  promise, adds a moderation surface, and star-ratings farm like a leaderboard.
+  The catalog stays single and curated. The agreed future shape, IF member
+  demand appears, is **sandbox + promotion**: a member builds a draft map
+  visible only to themselves (zero moderation), with one button — «предложить
+  в каталог» — that feeds the existing `pending_review` pipeline. Trigger to
+  build it: 3–5 authors have shipped through the coauthor gate AND real
+  applications were declined for narrowness (not quality). Don't re-propose
+  open publishing or per-map ratings.
+
+**Not built yet (v0.3):** community-authored roadmaps (in the sandbox+promotion
+shape recorded above), public profiles, moderated public portfolio.
 
 ## Docs
 
@@ -544,6 +556,9 @@ history covers "when").
 - `tools/CONTENT_FACTORY.md` — **canonical Russian content doc and entry point**:
   factory architecture (diagrams, the freeze invariant, the slug guards) + the
   step-by-step canon for creating a quality profession, with a command cheat-sheet
+- `tools/PACK_FORMAT.md` — the public contract of the content-pack format
+  (`format: 1`): the file tree, every field, importer guarantees, versioning
+  rules — for anyone producing packs outside the app
 - `tools/AUTHOR_PROFESSION.md` / `DEEPEN_LESSON.md` / `LESSON_IMAGES.md` /
   `QA_REVIEW.md` / `ARCHITECTURE_REVIEW.md` / `INTERNAL_LINKS.md` — the reusable
   Russian prompts the factory runs on (authoring, deepening, images, content QA,

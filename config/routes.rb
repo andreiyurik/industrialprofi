@@ -111,6 +111,9 @@ Rails.application.routes.draw do
         resource  :stage_rename, only: :update
         # The curator's hand-set «проверено экспертом» mark (see Path::Maturity).
         resource  :verification, only: [ :create, :destroy ]
+        # The profession as a downloadable content pack (.zip) — the same
+        # archive /admin/imports takes back.
+        resource  :export, only: :show
       end
     end
     resources :courses, only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug

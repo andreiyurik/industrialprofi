@@ -54,6 +54,7 @@
 .icon--clock { --svg: url("icons/clock.svg"); }
 .icon--copy { --svg: url("icons/copy.svg"); }
 .icon--cpu { --svg: url("icons/cpu.svg"); }
+.icon--download-simple { --svg: url("icons/download-simple.svg"); }
 .icon--file-text { --svg: url("icons/file-text.svg"); }
 .icon--gear-six { --svg: url("icons/gear-six.svg"); }
 .icon--graduation-cap { --svg: url("icons/graduation-cap.svg"); }

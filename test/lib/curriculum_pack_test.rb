@@ -34,6 +34,25 @@ class CurriculumPackTest < ActiveSupport::TestCase
                            .resources.find_by!(title: noted_title).note
   end
 
+  test "path and course emblems ride the pack" do
+    original = paths(:electrician)
+    original.update!(icon: "atom-light")
+    course = original.courses.first
+    course.update!(icon: "camera-light")
+
+    root = CurriculumExporter.run(original, dir: @dir, io: StringIO.new)
+    pack = CurriculumPack.parse(StringIO.new(zip_tree(root, prefix: "elektrik")))
+    original.destroy!
+
+    document = CurriculumDocument.parse(pack.to_yaml)
+    document.import!(author: users(:admin))
+    assert document.valid?, document.errors.inspect
+
+    reimported = Path.find_by!(slug: "elektrik")
+    assert_equal "atom-light", reimported.icon
+    assert_equal "camera-light", reimported.courses.find_by!(slug: course.slug).icon
+  end
+
   test "a zip made from inside the profession directory falls back to the title slug" do
     root = CurriculumExporter.run(paths(:electrician), dir: @dir, io: StringIO.new)
     pack = CurriculumPack.parse(StringIO.new(zip_tree(root)))

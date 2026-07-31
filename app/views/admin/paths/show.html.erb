@@ -14,6 +14,10 @@
       </div>
       <div class="admin-header__actions">
         <a href="<%= path_path(@path) %>" class="admin-header__view-live link-quiet" target="_blank"><%= t("admin.view_live") %> ↗</a>
+        <a href="<%= admin_path_export_path(@path) %>" class="btn btn--small" download>
+          <%= icon_tag "download-simple" %>
+          <span><%= t("admin.builder.export") %></span>
+        </a>
         <a href="<%= edit_admin_path_path(@path) %>" class="btn btn--small">
           <%= icon_tag "gear-six" %>
           <span><%= t("admin.builder.settings") %></span>

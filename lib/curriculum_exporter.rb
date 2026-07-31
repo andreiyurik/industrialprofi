@@ -1,4 +1,6 @@
 require "yaml"
+require "zip"
+require "tmpdir"
 
 # The reverse of CurriculumImporter: writes one profession from the database
 # back into the same YAML/Markdown tree the importer reads, so content
@@ -18,6 +20,21 @@ class CurriculumExporter
   DEFAULT_DIR = Rails.root.join("tmp/export")
 
   def self.run(...) = new(...).run
+
+  # The pack as zip bytes — what /admin serves for download and /admin/imports
+  # accepts back. Exports into a throwaway tree, zips it in memory, leaves
+  # nothing on disk.
+  def self.zip(path)
+    Dir.mktmpdir do |dir|
+      root = run(path, dir: dir, io: StringIO.new)
+      Zip::OutputStream.write_buffer do |zip|
+        root.glob("**/*").select(&:file?).sort.each do |file|
+          zip.put_next_entry("#{path.slug}/#{file.relative_path_from(root)}")
+          zip.write(file.read)
+        end
+      end.string
+    end
+  end
 
   def initialize(path, dir: DEFAULT_DIR, io: $stdout)
     @path = path

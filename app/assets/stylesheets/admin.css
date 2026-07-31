@@ -46,8 +46,13 @@
 }
 
 /* Narrow screens: title + subtitle side by side crushed the title to one
-   letter — let the group wrap and the title breathe on its own line. */
+   letter — let the group wrap and the title breathe on its own line. Same for
+   the header itself: three actions no longer share a row with the title. */
 @media (max-width: 40rem) {
+  .admin-header {
+    flex-wrap: wrap;
+  }
+
   .admin-header__title-group {
     flex-wrap: wrap;
   }
