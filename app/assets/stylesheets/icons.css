@@ -40,6 +40,7 @@
 .icon--arrow-up-right { --svg: url("icons/arrow-up-right.svg"); }
 .icon--arrows-in { --svg: url("icons/arrows-in.svg"); }
 .icon--arrows-out { --svg: url("icons/arrows-out.svg"); }
+.icon--book-bookmark { --svg: url("icons/book-bookmark.svg"); }
 .icon--book-open { --svg: url("icons/book-open.svg"); }
 .icon--bookmark-simple { --svg: url("icons/bookmark-simple.svg"); }
 .icon--calculator { --svg: url("icons/calculator.svg"); }

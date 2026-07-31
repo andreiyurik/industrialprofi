@@ -18,16 +18,38 @@
   }
 
   .lesson-sidebar {
-    /* block-size (not max-) keeps the divider running the full viewport
-       height even on short stages — the rail reads as a dock, not a card. */
     block-size: calc(100dvh - var(--header-height));
-    border-inline-end: 1px solid var(--color-subtle);
-    inset-block-start: var(--header-height); /* clears the sticky header */
+    inset-block-start: var(--header-height); /* clears the sticky header; matches its own natural flow position, so it locks in place with zero scroll creep */
+    position: sticky;
+    /* NOT overflow-y: auto here — it would clip the ::after divider below,
+       which deliberately extends above this box's own top edge. Scrolling
+       lives on .lesson-sidebar__scroll instead (see _sidebar.html.erb). */
+  }
+
+  /* The divider rides along with .lesson-sidebar itself (position: absolute
+     against the sticky box, NOT position: fixed against the viewport — a
+     fixed line has no notion of where the sidebar ends and used to bleed
+     into the footer/subscribe sections past the end of the lesson). Stretched
+     upward by --header-height so it still reaches the very top when the
+     header auto-hides (header-reveal controller), without moving the
+     sidebar's own box — the pseudo-element just extends past its top edge. */
+  .lesson-sidebar::after {
+    background-color: var(--color-subtle);
+    block-size: calc(100% + var(--header-height));
+    content: "";
+    inline-size: 1px;
+    inset-block-start: calc(-1 * var(--header-height));
+    inset-inline-end: 0;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .lesson-sidebar__scroll {
+    block-size: 100%;
     overflow-y: auto;
     overscroll-behavior: contain;
     padding-block: 1.5rem var(--block-space-double);
     padding-inline: 1.5rem 1.25rem;
-    position: sticky;
   }
 
   .lesson-sidebar__close,
@@ -43,14 +65,18 @@
     inline-size: min(21rem, 86vw);
     inset-block: 0;
     inset-inline-start: 0;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding: 1.25rem;
     position: fixed;
     transform: translateX(-100%);
     transition: transform 250ms ease;
     visibility: hidden;
     z-index: 60; /* above the sticky site header */
+  }
+
+  .lesson-sidebar__scroll {
+    block-size: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 1.25rem;
   }
 
   .lesson-layout--sidebar-open .lesson-sidebar {
@@ -328,13 +354,12 @@
   }
 }
 
+/* Icon-only, not the "В ЭТОЙ СТАТЬЕ" caption it replaced — the accessible
+   name lives on .lesson-toc's own aria-label instead of visible text. */
 .lesson-toc__title {
+  --icon-size: 1.15rem;
   color: var(--color-subtle-dark);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
   margin-block: 0 0.75rem;
-  text-transform: uppercase;
 }
 
 .lesson-toc__list {

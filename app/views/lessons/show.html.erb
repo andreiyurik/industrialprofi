@@ -168,28 +168,29 @@
           <% end %>
         </div>
 
-        <% if required_resources.any? %>
-          <h3 class="resource-block__group"><%= t("lessons.required_group") %></h3>
-          <ul class="lesson-resources">
-            <%= render required_resources %>
-          </ul>
-        <% end %>
+        <%# One shared grid for both groups (see resource_block CSS): titles need
+            to line up in a single column across "Обязательные"/"Рекомендуемые"
+            even though each is its own <ul> — a lone group with no lang badge
+            on any row would otherwise size its own columns narrower and read
+            visibly out of line with the group above it. %>
+        <div class="resource-block__list">
+          <% if required_resources.any? %>
+            <h3 class="resource-block__group"><%= t("lessons.required_group") %></h3>
+            <ul class="lesson-resources">
+              <%= render required_resources %>
+            </ul>
+          <% end %>
 
-        <% if optional_resources.any? %>
-          <h3 class="resource-block__group"><%= t("lessons.optional_group") %></h3>
-          <ul class="lesson-resources">
-            <%= render optional_resources %>
-          </ul>
-        <% end %>
+          <% if optional_resources.any? %>
+            <h3 class="resource-block__group"><%= t("lessons.optional_group") %></h3>
+            <ul class="lesson-resources">
+              <%= render optional_resources %>
+            </ul>
+          <% end %>
+        </div>
 
         <% unless @lesson.has_resources? %>
           <p class="resource-block__empty"><%= t("resource_suggestions.block_empty") %></p>
-        <% end %>
-
-        <%# One quiet footnote for the whole block when some sources are name-only,
-            instead of repeating the same line under every row. %>
-        <% if (required_resources + optional_resources).any? { |r| r.url.blank? } %>
-          <p class="resource-block__pending-note"><%= t("lessons.resource_pending_note") %></p>
         <% end %>
 
         <%# Readers propose a source (experts get the pencil above instead). A calm

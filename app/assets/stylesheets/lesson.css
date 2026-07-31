@@ -301,26 +301,35 @@
   padding-inline-start: 0;
 }
 
+/* Grid, not flex: the lang badge is optional per row, and with a flex row
+   that meant a row without one had its title start ~2rem further left than
+   its neighbours — every row's title visibly ragged against the others.
+   The grid lives on .resource-block__list (the shared ancestor of BOTH group
+   <ul>s), not here — a lone "Рекомендуемые" list with no lang badge on any
+   row would otherwise size its own columns independently of "Обязательные"
+   above it. Both this <ul> and its <li>s are display: contents purely to pass
+   their children through to that shared grid. */
 .lesson-resources {
+  display: contents;
   list-style: none;
   margin-block: 0;
   padding-inline-start: 0;
 }
 
 .lesson-resource {
-  align-items: flex-start;
-  display: flex;
-  gap: 0.6rem;
-}
-
-.lesson-resource + .lesson-resource {
-  margin-block-start: 0.6rem;
+  display: contents;
 }
 
 /* Sits at the top-left so the badge stays put when a long title wraps. */
 .lesson-resource__badge {
+  grid-column: 1;
   gap: 0.3em;
   margin-block-start: 0.1em;
+}
+
+.lesson-resource__lang {
+  grid-column: 2;
+  margin-block-start: 0.1em; /* matches the kind badge's optical nudge */
 }
 
 .lesson-resource__badge .icon {
@@ -356,19 +365,10 @@
   text-decoration: none;
 }
 
-/* Tells the reader a name-only source is intentional (find it by its exact
-   title), so the non-link never reads as a dead link. */
-/* One quiet footnote for the whole block (not repeated per row) when some
-   sources have no direct link. */
-.resource-block__pending-note {
-  margin-block-start: 1.25rem;
-  color: var(--color-subtle-dark);
-  font-size: 0.8rem;
-}
-
 .lesson-resource__body {
   display: grid;
   gap: 0.15rem;
+  grid-column: 3;
 }
 
 /* The curator's one-liner: WHAT exactly to read in a 400-page document. */

@@ -210,15 +210,14 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_match resources(:pteep_article).title, response.body
   end
 
-  test "a url-less resource is readable and the block carries one name-only note" do
+  test "a url-less resource is readable but rendered as a non-link" do
     lessons(:pteep).resources.create!(title: "ГОСТ без ссылки", url: nil,
       kind: "norm", origin: "seed", required: false, position: 9)
 
     get lesson_path(lessons(:pteep))
     assert_response :success
-    assert_match "ГОСТ без ссылки", response.body                       # name is shown
-    assert_match "lesson-resource__link--pending", response.body        # as a non-link
-    assert_match I18n.t("lessons.resource_pending_note"), response.body # one block footnote
+    assert_match "ГОСТ без ссылки", response.body                # name is shown
+    assert_match "lesson-resource__link--pending", response.body # as a non-link
   end
 
   test "the propose-source CTA tells a guest to sign in first" do

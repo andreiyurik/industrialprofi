@@ -1253,7 +1253,6 @@ ru:
     optional_label: "Рекомендуется"
     required_group: "Обязательные"
     optional_group: "Рекомендуемые"
-    resource_pending_note: "Источники без прямой ссылки — ищите по точному названию."
     resource_kinds:
       norm: "Норматив"
       book: "Книга"

@@ -34,13 +34,27 @@
   margin-inline-start: auto;
 }
 
+/* The shared grid for both "Обязательные"/"Рекомендуемые" groups — see
+   lesson.css .lesson-resources for why this lives one level up. row-gap
+   handles resource-to-resource spacing; .resource-block__group's own
+   margin is calc-adjusted so the group-to-group gap still nets out to the
+   original 1.25rem/0.5rem despite that row-gap also landing on its rows. */
+.resource-block__list {
+  align-items: start;
+  column-gap: 0.6rem;
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  row-gap: 0.6rem;
+}
+
 /* Quiet group caption — whisper, not shout: small, muted, normal case, no icon.
    The meaning stays explicit without the visual noise of stars + ALL CAPS. */
 .resource-block__group {
   color: var(--color-subtle-dark);
   font-size: 0.8rem;
   font-weight: 500;
-  margin-block: 1.25rem var(--block-space-half);
+  grid-column: 1 / -1;
+  margin-block: calc(1.25rem - 0.6rem) calc(var(--block-space-half) - 0.6rem);
 }
 
 .resource-block__group:first-of-type {

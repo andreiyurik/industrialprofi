@@ -4,7 +4,7 @@
     entry being read. %>
 <aside class="lesson-toc" data-controller="lesson-toc" aria-label="<%= t("lessons.toc_label") %>">
   <nav>
-    <p class="lesson-toc__title"><%= t("lessons.toc_label") %></p>
+    <div class="lesson-toc__title"><%= icon_tag "book-bookmark" %></div>
     <ul class="lesson-toc__list">
       <% if lesson.has_description? %>
         <li><a class="lesson-toc__link" href="#why" data-lesson-toc-target="link" data-action="lesson-toc#jump"><%= t("lessons.why_section") %></a></li>
