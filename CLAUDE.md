@@ -528,6 +528,15 @@ the code already records, while CLAUDE.md holds decisions and conventions.
   applications were declined for narrowness (not quality). Don't re-propose
   open publishing or per-map ratings.
 
+- **Spacing-primitive scope stays at 3 sizes** (2026-07-31): after swapping every
+  exact-match `margin`/`padding`/`gap`/`inset` literal for
+  `--block-space`/`--inline-space`, several near-misses were left as raw
+  literals on purpose — `layout.css` `.container`/`.section` gutters and ~30
+  similar inline-axis spots (real axis/unit mismatch, not a match), plus a
+  recurring `0.75rem` cluster (no 4th tier just because a value repeats).
+  Don't re-propose filling these in without new cases actually recurring in
+  fresh work — full reasoning in memory, not repeated here.
+
 **Not built yet (v0.3):** community-authored roadmaps (in the sandbox+promotion
 shape recorded above), public profiles, moderated public portfolio.
 
