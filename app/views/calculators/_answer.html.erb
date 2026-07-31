@@ -1,0 +1,19 @@
+<%# The headline answer — the one number the page exists to produce, given the
+    size that says so. Used only where a calculator has a single dominant
+    result; the ones that answer in two directions (ma-scaling, subnet…) keep
+    two equal result rows instead, which is the honest shape for them.
+    locals: output, label; optional: unit, info %>
+<div class="calc-answer">
+  <span class="calc-answer__label">
+    <%= label %><% if local_assigns[:info].present? %><%= render "calculators/term_info", id: "info-answer-#{output}", text: info %><% end %>
+  </span>
+  <span class="calc-answer__value">
+    <strong data-output="<%= output %>">—</strong>
+    <% if local_assigns[:unit].present? %><span class="calc-answer__unit"><%= unit %></span><% end %>
+    <button type="button" class="calc-copy"
+            aria-label="<%= t("calculators.copy") %>" title="<%= t("calculators.copy") %>">
+      <span class="calc-copy__idle"><%= icon_tag "clipboard" %></span>
+      <span class="calc-copy__ok"><%= icon_tag "check" %></span>
+    </button>
+  </span>
+</div>

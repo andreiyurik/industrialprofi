@@ -10,6 +10,8 @@
 
   <div class="calc__results">
     <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/diagrams/ohms-law" %>
+    <p class="calc-figure__legend"><%= t("calculators.ohms-law.diagram_legend") %></p>
     <%= render "calculators/result", output: "u", label: t("calculators.fields.voltage"), unit: "В" %>
     <%= render "calculators/result", output: "i", label: t("calculators.fields.current"), unit: "А" %>
     <%= render "calculators/result", output: "r", label: t("calculators.fields.resistance"), unit: "Ом" %>

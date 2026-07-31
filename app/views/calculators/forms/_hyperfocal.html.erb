@@ -16,8 +16,8 @@
 
   <div class="calc__results">
     <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
-    <%= render "calculators/result", output: "h", label: t("calculators.hyperfocal.result_h"),
-          strong: true, info: t("calculators.hyperfocal.info.h") %>
+    <%= render "calculators/answer", output: "h", label: t("calculators.hyperfocal.result_h"),
+          info: t("calculators.hyperfocal.info.h") %>
     <%= render "calculators/result", output: "near", label: t("calculators.hyperfocal.result_near") %>
     <%= render "calculators/result", output: "far", label: t("calculators.hyperfocal.result_far"),
           info: t("calculators.hyperfocal.info.far") %>

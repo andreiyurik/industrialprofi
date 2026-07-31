@@ -25,8 +25,9 @@
   <div class="calc__results">
     <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
     <%= render "calculators/result", output: "rloop", label: t("calculators.twisted-pair-line.result_rloop"), unit: "Ом" %>
+    <%= render "calculators/answer", output: "vpd", label: t("calculators.twisted-pair-line.result_vpd"), unit: "В", info: t("calculators.twisted-pair-line.info.vpd") %>
+    <%= render "calculators/verdict", ok: t("calculators.twisted-pair-line.verdict_ok"), warn: t("calculators.twisted-pair-line.verdict_warn") %>
     <%= render "calculators/result", output: "vdrop", label: t("calculators.twisted-pair-line.result_vdrop"), unit: "В" %>
-    <%= render "calculators/result", output: "vpd", label: t("calculators.twisted-pair-line.result_vpd"), unit: "В", strong: true, info: t("calculators.twisted-pair-line.info.vpd") %>
     <%= render "calculators/result", output: "lmax", label: t("calculators.twisted-pair-line.result_lmax"), unit: "м" %>
     <p class="calc__note"><%= t("calculators.twisted-pair-line.note") %></p>
   </div>

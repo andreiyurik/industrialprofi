@@ -5,7 +5,7 @@
     <strong data-output="<%= output %>">—</strong>
     <% if local_assigns[:unit].present? %><span class="calc-result__unit"><%= unit %></span><% end %>
     <% if local_assigns[:strong] %>
-      <button type="button" class="calc-copy" data-action="calculator#copy"
+      <button type="button" class="calc-copy"
               aria-label="<%= t("calculators.copy") %>" title="<%= t("calculators.copy") %>">
         <span class="calc-copy__idle"><%= icon_tag "clipboard" %></span>
         <span class="calc-copy__ok"><%= icon_tag "check" %></span>

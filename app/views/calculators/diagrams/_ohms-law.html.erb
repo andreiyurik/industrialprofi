@@ -1,0 +1,23 @@
+<%# Колесо закона Ома. Сектор знает своё состояние через data-state, которое
+    ставит контроллер: given (задали вы) / derived (посчитано) / empty. %>
+<figure class="calc-figure">
+  <svg class="ohm-wheel" viewBox="0 0 240 240" role="img" aria-labelledby="ohm-wheel-title">
+    <title id="ohm-wheel-title"><%= t("calculators.ohms-law.diagram_title") %></title>
+
+    <% {
+         "u" => { path: "M120,120 L20,120 A100,100 0 0 1 120,20 Z",  x: 78,  y: 78,  symbol: "U", unit: "В" },
+         "i" => { path: "M120,120 L120,20 A100,100 0 0 1 220,120 Z", x: 162, y: 78,  symbol: "I", unit: "А" },
+         "r" => { path: "M120,120 L220,120 A100,100 0 0 1 120,220 Z", x: 162, y: 162, symbol: "R", unit: "Ом" },
+         "p" => { path: "M120,120 L120,220 A100,100 0 0 1 20,120 Z", x: 78,  y: 162, symbol: "P", unit: "Вт" }
+       }.each do |key, sector| %>
+      <g class="ohm-wheel__sector" data-sector="<%= key %>" data-state="empty">
+        <path class="ohm-wheel__wedge" d="<%= sector[:path] %>" />
+        <text class="ohm-wheel__symbol" x="<%= sector[:x] %>" y="<%= sector[:y] - 6 %>"><%= sector[:symbol] %></text>
+        <text class="ohm-wheel__value" x="<%= sector[:x] %>" y="<%= sector[:y] + 14 %>" data-sector-value>—</text>
+        <text class="ohm-wheel__unit" x="<%= sector[:x] %>" y="<%= sector[:y] + 28 %>"><%= sector[:unit] %></text>
+      </g>
+    <% end %>
+
+    <circle class="ohm-wheel__hub" cx="120" cy="120" r="34" />
+  </svg>
+</figure>

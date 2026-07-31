@@ -1,0 +1,12 @@
+<%# The outcome said in words, not only in colour — a green number alone forces
+    the reader to decode a legend, and leaves nothing for a screen reader or a
+    colour-blind eye. Both phrasings ride in as data attributes so they stay in
+    the locale file: the controller only picks "ok" or "warn".
+    locals: ok, warn %>
+<p class="calc-verdict" data-verdict data-status=""
+   data-verdict-ok="<%= ok %>" data-verdict-warn="<%= warn %>"
+   data-verdict-idle="<%= t("calculators.verdict_idle") %>">
+  <span class="calc-verdict__mark calc-verdict__mark--ok"><%= icon_tag "check-circle" %></span>
+  <span class="calc-verdict__mark calc-verdict__mark--warn"><%= icon_tag "warning" %></span>
+  <span class="calc-verdict__text" data-verdict-text><%= t("calculators.verdict_idle") %></span>
+</p>

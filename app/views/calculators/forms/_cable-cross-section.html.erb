@@ -9,13 +9,16 @@
           hint: t("calculators.cable-cross-section.power_hint") %>
     <%= render "calculators/field", field: "i", label: t("calculators.fields.current"), unit: "А",
           hint: t("calculators.cable-cross-section.current_hint") %>
+    <%= render "calculators/field", field: "u", label: t("calculators.fields.voltage"), unit: "В",
+          hint: t("calculators.cable-cross-section.voltage_hint") %>
     <%= render "calculators/field", field: "cos", label: t("calculators.fields.cosphi"), value: 0.95, info: t("calculators.info.cosphi") %>
   </div>
 
   <div class="calc__results">
     <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/answer", output: "section", label: t("calculators.cable-cross-section.result_section"), unit: "мм²" %>
     <%= render "calculators/result", output: "current", label: t("calculators.cable-cross-section.result_current"), unit: "А" %>
-    <%= render "calculators/result", output: "section", label: t("calculators.cable-cross-section.result_section"), unit: "мм²", strong: true %>
+    <%= render "calculators/result", output: "apparent", label: t("calculators.cable-cross-section.result_apparent"), unit: "кВА", info: t("calculators.cable-cross-section.info.apparent") %>
     <%= render "calculators/result", output: "allowed", label: t("calculators.cable-cross-section.result_allowed"), unit: "А", info: t("calculators.cable-cross-section.info.allowed") %>
     <%= render "calculators/result", output: "breaker", label: t("calculators.cable-cross-section.result_breaker"), unit: "А" %>
     <p class="calc__note"><%= t("calculators.cable-cross-section.factors_note") %></p>

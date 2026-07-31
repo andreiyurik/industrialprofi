@@ -1,0 +1,33 @@
+<%# Линия щит → нагрузка и шкала падения против нормы. Состояние всей схемы
+    (ok / warn / empty) ставит контроллер на data-state корневого <svg>. %>
+<figure class="calc-figure">
+  <svg class="drop-figure" viewBox="0 0 400 150" role="img" aria-labelledby="drop-figure-title" data-diagram data-state="empty">
+    <title id="drop-figure-title"><%= t("calculators.voltage-drop.diagram_title") %></title>
+
+    <g class="drop-figure__end">
+      <rect x="1" y="16" width="86" height="50" rx="7" />
+      <text class="drop-figure__caption" x="44" y="35"><%= t("calculators.voltage-drop.diagram_source") %></text>
+      <text class="drop-figure__reading" x="44" y="55" data-figure="source">—</text>
+    </g>
+
+    <line class="drop-figure__cable" x1="91" y1="41" x2="309" y2="41" />
+    <text class="drop-figure__caption" x="200" y="24" data-figure="length">—</text>
+    <text class="drop-figure__loss" x="200" y="60" data-figure="drop">—</text>
+
+    <g class="drop-figure__end">
+      <rect x="313" y="16" width="86" height="50" rx="7" />
+      <text class="drop-figure__caption" x="356" y="35"><%= t("calculators.voltage-drop.diagram_load") %></text>
+      <text class="drop-figure__reading" x="356" y="55" data-figure="load">—</text>
+    </g>
+
+    <text class="drop-figure__caption drop-figure__caption--start" x="4" y="92"><%= t("calculators.voltage-drop.diagram_scale") %></text>
+    <rect class="drop-figure__track" x="4" y="100" width="392" height="14" rx="7" />
+    <rect class="drop-figure__fill" x="4" y="100" width="392" height="14" rx="7" data-drop-fill />
+
+    <%# Норма 5 % стоит ровно посередине шкалы: она нарисована на 0…10 %. %>
+    <line class="drop-figure__limit" x1="200" y1="94" x2="200" y2="120" />
+    <text class="drop-figure__caption" x="200" y="136" data-figure="limit">—</text>
+    <text class="drop-figure__caption drop-figure__caption--start" x="4" y="136">0</text>
+    <text class="drop-figure__caption drop-figure__caption--end" x="396" y="136">10 %</text>
+  </svg>
+</figure>

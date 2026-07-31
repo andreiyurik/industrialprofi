@@ -56,6 +56,8 @@ Rails.application.routes.draw do
   resource :learning_goal, only: [ :edit, :update ]
   get "projects" => "projects#index"
   get "resources" => "resources#index"
+  # Merged into cable-cross-section, which already derives the current from power.
+  get "calculators/power-current", to: redirect("/calculators/cable-cross-section", status: 301)
   resources :calculators, only: [ :index, :show ], param: :slug
   # Professional abbreviations decoded — a static reference page (see Glossary).
   resource :glossary, only: [ :show ], controller: "glossaries"

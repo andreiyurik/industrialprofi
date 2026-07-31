@@ -1,11 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
+import { parseNumber, formatNumber, formatSignificant } from "calculators/format"
 
-// One controller for every calculator on /calculators. A calculator form
-// declares its formula via data-calculator-formula-value="ohmsLaw"; on each
-// input the controller gathers the fields (data-field="u" → numbers, <select>
-// → strings), calls the matching method below, and writes the returned strings
-// into the output slots (data-output="i"). It's plain physics/standards math,
-// kept together in one auditable file on purpose.
+// The shared calculator controller, in two roles.
+//
+// 1. On its own it runs every calculator that has no diagram: the form declares
+//    its formula via data-calculator-formula-value="grounding", and on each
+//    input the controller gathers the fields (data-field="u" → numbers,
+//    <select> → strings), calls the matching method below, and writes the
+//    returned strings into the output slots (data-output="i").
+// 2. As a base class it gives the per-calculator controllers in
+//    controllers/calculators/ their input/output plumbing, so those files hold
+//    only what is actually specific: the formula call and the diagram.
 //
 // Safety note: the numbers are estimates. The forms carry the normative source
 // and the "сверяйтесь с проектом" disclaimer — this controller only does the
@@ -18,10 +23,19 @@ export default class extends Controller {
   }
 
   // data-action on the root re-runs on every input/change inside the form.
-  compute() {
+  compute(event) {
+    this.#mirrorRange(event?.target)
+    this.#applyPreset(event?.target)
+    this.paint(this.read())
+  }
+
+  // What to do with the gathered input. The default drives the formula named by
+  // the form; a per-calculator controller overrides this to also draw its
+  // diagram, and inherits everything else untouched.
+  paint(input) {
     const fn = this[this.formulaValue]
     if (typeof fn !== "function") return
-    this.render(fn.call(this, this.read()) || {})
+    this.render(fn.call(this, input) || {})
   }
 
   // Gather every labelled control: <select> → string, input with `data-text`
@@ -33,16 +47,19 @@ export default class extends Controller {
       if (el.tagName === "SELECT" || el.dataset.text != null) {
         data[el.dataset.field] = el.tagName === "SELECT" ? el.value : (el.value || "").trim()
       } else {
-        const n = parseFloat((el.value || "").replace(",", "."))
-        data[el.dataset.field] = Number.isFinite(n) ? n : null
+        data[el.dataset.field] = parseNumber(el.value)
       }
     })
+    this.#followRanges(data)
+    this.#followPresets(data)
     return data
   }
 
   // A formula returns either a plain string per output slot, or an object
   // { text, status } — `status` ("ok"/"warn"/"") drives a verdict colour on the
   // slot and its enclosing result row (green within norm / red over it).
+  // The reserved `verdict` key carries a bare status and spells the outcome out
+  // in words instead; it addresses no slot of its own.
   render(out) {
     for (const [key, value] of Object.entries(out)) {
       const text = value && typeof value === "object" ? value.text : value
@@ -51,17 +68,23 @@ export default class extends Controller {
         el.textContent = text
         if (status != null) {
           el.dataset.status = status
-          const row = el.closest(".calc-result")
+          const row = el.closest(".calc-result, .calc-answer")
           if (row) row.dataset.status = status
         }
       })
     }
+    this.#renderVerdict(out.verdict)
   }
 
   // Copy a headline result to the clipboard — the one thing you want from a
   // calculator mid-job. Button sits next to the value; flips to a check briefly.
+  // Bound on the panel, not on each button: the identifier differs per
+  // calculator, so a data-action spelled into the partial would only resolve
+  // for whichever controller the partial happened to name.
   copy(event) {
-    const btn = event.currentTarget
+    const btn = event.target.closest(".calc-copy")
+    if (!btn) return
+
     const el = btn.parentElement.querySelector("[data-output]")
     const text = el?.textContent?.trim()
     if (!text || text === "—" || !navigator.clipboard) return
@@ -72,69 +95,65 @@ export default class extends Controller {
     })
   }
 
-  // ── number formatting (ru-RU: comma decimal, thin-space thousands) ──
+  // ── number formatting (locale comes from <html lang>) ──
   num(value, digits = 2) {
-    if (value == null || !Number.isFinite(value)) return "—"
-    return value.toLocaleString("ru-RU", { maximumFractionDigits: digits })
+    return formatNumber(value, digits)
   }
 
-  // Significant-digit form for converters, where values span many orders of
-  // magnitude (1 МПа = 0,000145 psi … = 10 197 мм вод. ст.).
   sig(value, digits = 5) {
-    if (value == null || !Number.isFinite(value)) return "—"
-    return value.toLocaleString("ru-RU", { maximumSignificantDigits: digits })
+    return formatSignificant(value, digits)
+  }
+
+  // A slider is not a field of its own — only its number input carries
+  // data-field, so read() can never see two values for one quantity. Dragging
+  // fills the input (#mirrorRange), typing drags the slider (#followRanges).
+  #mirrorRange(target) {
+    const field = target?.dataset?.rangeFor
+    if (!field) return
+    const input = this.element.querySelector(`[data-field="${field}"]`)
+    if (input) input.value = target.value
+  }
+
+  // Colour says it faster, words say it at all. The phrasings come from the
+  // locale via data attributes, so this never holds Russian.
+  #renderVerdict(status) {
+    const el = this.element.querySelector("[data-verdict]")
+    if (!el) return
+
+    const state = status || ""
+    el.dataset.status = state
+    el.querySelector("[data-verdict-text]").textContent =
+      state === "ok" ? el.dataset.verdictOk : state === "warn" ? el.dataset.verdictWarn : el.dataset.verdictIdle
+  }
+
+  #followRanges(data) {
+    this.element.querySelectorAll("[data-range-for]").forEach((range) => {
+      const value = data[range.dataset.rangeFor]
+      if (value != null) range.value = String(value)
+    })
+  }
+
+  // A preset <select> fills its number input with a typical value from a
+  // reference table, so "удельное сопротивление грунта" becomes "выберите
+  // грунт". Like a slider it is a helper, not a field: it never reaches read().
+  #applyPreset(target) {
+    const field = target?.dataset?.presetFor
+    if (!field || !target.value) return
+    const input = this.element.querySelector(`[data-field="${field}"]`)
+    if (input) input.value = target.value
+  }
+
+  // ...and it steps back to "своё значение" the moment the number stops
+  // matching, so the label never claims a soil the figure no longer describes.
+  #followPresets(data) {
+    this.element.querySelectorAll("[data-preset-for]").forEach((select) => {
+      const value = data[select.dataset.presetFor]
+      const match = [ ...select.options ].find((option) => option.value !== "" && Number(option.value) === value)
+      select.value = match ? match.value : ""
+    })
   }
 
   // ── Электрик ─────────────────────────────────────────────────────────
-
-  // Ohm's-law "wheel": enter any two of U, I, R, P → the rest. Three passes
-  // let a value derived in one pass feed the next.
-  ohmsLaw(v) {
-    let { u, i, r, p } = v
-    for (let pass = 0; pass < 3; pass++) {
-      if (u == null && i != null && r != null) u = i * r
-      if (u == null && p != null && i != null && i !== 0) u = p / i
-      if (u == null && p != null && r != null && p * r >= 0) u = Math.sqrt(p * r)
-      if (i == null && u != null && r != null && r !== 0) i = u / r
-      if (i == null && p != null && u != null && u !== 0) i = p / u
-      if (i == null && p != null && r != null && r > 0) i = Math.sqrt(p / r)
-      if (r == null && u != null && i != null && i !== 0) r = u / i
-      if (r == null && u != null && p != null && p !== 0) r = (u * u) / p
-      if (r == null && p != null && i != null && i !== 0) r = p / (i * i)
-      if (p == null && u != null && i != null) p = u * i
-      if (p == null && i != null && r != null) p = i * i * r
-      if (p == null && u != null && r != null && r !== 0) p = (u * u) / r
-    }
-    return { u: this.num(u, 3), i: this.num(i, 3), r: this.num(r, 3), p: this.num(p, 3) }
-  }
-
-  // Ток по мощности. 1-ф: I = P / (U·cosφ); 3-ф: I = P / (√3·U·cosφ).
-  powerCurrent(v) {
-    const u = v.u
-    const cos = v.cos ?? 0.95
-    const pW = v.p != null ? v.p * 1000 : null // кВт → Вт
-    if (pW == null || u == null || u === 0 || !cos) return { i: "—", s: "—" }
-    const denom = v.phase === "1" ? u * cos : Math.sqrt(3) * u * cos
-    return { i: this.num(pW / denom, 1), s: this.num(pW / cos / 1000, 2) }
-  }
-
-  // Падение напряжения в линии (активное сопротивление жилы; реактивным
-  // пренебрегаем — допустимо для сечений примерно до 50–95 мм²). L — длина
-  // линии в одну сторону. 1-ф: ΔU = 2·ρ·L·I/S; 3-ф: ΔU = √3·ρ·L·I/S.
-  // ρ (Ом·мм²/м): медь 0,0175, алюминий 0,0294.
-  voltageDrop(v) {
-    const rho = v.material === "al" ? 0.0294 : 0.0175
-    const k = v.phase === "1" ? 2 : Math.sqrt(3)
-    const { l, i, s, u } = v
-    if (l == null || i == null || s == null || s === 0) {
-      return { du: "—", dupct: { text: "—", status: "" } }
-    }
-    const du = (k * rho * l * i) / s
-    const pct = u ? (du / u) * 100 : null
-    // ПУЭ/ГОСТ норма для силовых и осветительных сетей — обычно ≤ 5 %.
-    const status = pct == null ? "" : pct <= 5 ? "ok" : "warn"
-    return { du: this.num(du, 2), dupct: { text: this.num(pct, 2), status } }
-  }
 
   // Подбор сечения по длительно допустимому току (ПУЭ-7, таблицы 1.3.4/1.3.6 —
   // медь, 1.3.7/1.3.8 — алюминий; провода/кабели с ПВХ/резиновой изоляцией).
@@ -159,7 +178,7 @@ export default class extends Controller {
       const denom = v.phase === "1" ? u * cos : Math.sqrt(3) * u * cos
       current = denom ? (v.p * 1000) / denom : null
     }
-    if (current == null) return { current: "—", section: "—", allowed: "—", breaker: "—" }
+    if (current == null) return { current: "—", apparent: "—", section: "—", allowed: "—", breaker: "—" }
     const table = (TABLES[v.material] || TABLES.cu)[v.laying === "pipe" ? "pipe" : "air"]
     const pick = table.find(([, amps]) => amps >= current)
     // Рекомендуемый автомат: стандартный номинал (ГОСТ Р 50345/IEC 60898), который
@@ -167,8 +186,11 @@ export default class extends Controller {
     // наибольший подходящий из ряда. Окончательный выбор — с учётом селективности.
     const RATINGS = [6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125]
     const breaker = pick ? RATINGS.filter((r) => r >= current && r <= pick[1]).pop() : null
+    // Полная мощность S (кВА) — по ней подбирают генератор, ИБП, трансформатор.
+    const apparent = ((v.phase === "1" ? u : Math.sqrt(3) * u) * current) / 1000
     return {
       current: this.num(current, 1),
+      apparent: this.num(apparent, 2),
       section: pick ? this.num(pick[0], 1) : "> 120",
       allowed: pick ? this.num(pick[1], 0) : "—",
       breaker: breaker ? this.num(breaker, 0) : "—"
@@ -189,12 +211,38 @@ export default class extends Controller {
     const n = Math.max(1, Math.round(v.n ?? 1))
     const eta = v.eta != null && v.eta > 0 ? v.eta : 1
     const target = v.target != null && v.target > 0 ? v.target : 4
-    if (L <= 0 || d <= 0 || rho <= 0) return { r1: "—", rgroup: "—", nreq: "—" }
+    if (L <= 0 || d <= 0 || rho <= 0) return { r1: "—", rgroup: { text: "—", status: "" }, nreq: "—", verdict: null }
     const t = h + L / 2
     const r1 = (rho / (2 * Math.PI * L)) * (Math.log((2 * L) / d) + 0.5 * Math.log((4 * t + L) / (4 * t - L)))
     const rgroup = r1 / (n * eta)
     const nreq = Math.ceil(r1 / (target * eta))
-    return { r1: this.num(r1, 2), rgroup: this.num(rgroup, 2), nreq: this.num(nreq, 0) }
+    // Главный вопрос контура — укладывается ли он в норму заданным числом
+    // электродов; до этого его приходилось сводить в уме.
+    const status = rgroup <= target ? "ok" : "warn"
+    return {
+      r1: this.num(r1, 2),
+      rgroup: { text: this.num(rgroup, 2), status },
+      nreq: this.num(nreq, 0),
+      verdict: status
+    }
+  }
+
+  // Ток утечки и выбор уставки УЗО (ПУЭ 7.1.83). Расчётный ток утечки: 0,4 мА
+  // на 1 А тока нагрузки (естественная утечка ЭП) + 0,01 мА на 1 м фазного
+  // проводника. Рабочий ток утечки должен быть ≤ 1/3 номинала УЗО — иначе
+  // ложные срабатывания; отсюда цвет. (Уставка 30 мА — защита человека.)
+  rcd(v) {
+    const setting = parseFloat(v.setting) || 30 // мА
+    const { i, l } = v
+    if (i == null && l == null) return { ileak: { text: "—", status: "" }, threshold: "—", verdict: null }
+    const ileak = 0.4 * (i ?? 0) + 0.01 * (l ?? 0)
+    const threshold = setting / 3
+    const status = ileak <= threshold ? "ok" : "warn"
+    return {
+      ileak: { text: this.num(ileak, 2), status },
+      threshold: this.num(threshold, 2),
+      verdict: status
+    }
   }
 
   // Ток однофазного КЗ петли «фаза-нуль» (ГОСТ 28249). Iₖ = Uф/(Zвнеш + Zп),
@@ -209,7 +257,7 @@ export default class extends Controller {
     const zext = v.zext ?? 0
     const rho = v.material === "al" ? 0.0294 : 0.0175
     const { l, s } = v
-    if (l == null || s == null || s <= 0) return { zloop: "—", ikz: "—", ratio: { text: "—", status: "" } }
+    if (l == null || s == null || s <= 0) return { zloop: "—", ikz: "—", ratio: { text: "—", status: "" }, verdict: null }
     const rloop = (2 * rho * l) / s
     const zloop = zext + rloop
     const ikz = uf / zloop
@@ -219,53 +267,10 @@ export default class extends Controller {
       const r = ikz / v.inom
       ratio = { text: this.num(r, 1), status: r >= k ? "ok" : "warn" }
     }
-    return { zloop: this.num(zloop, 3), ikz: this.num(ikz, 0), ratio }
-  }
-
-  // Ток утечки и выбор уставки УЗО (ПУЭ 7.1.83). Расчётный ток утечки: 0,4 мА
-  // на 1 А тока нагрузки (естественная утечка ЭП) + 0,01 мА на 1 м фазного
-  // проводника. Рабочий ток утечки должен быть ≤ 1/3 номинала УЗО — иначе
-  // ложные срабатывания; отсюда цвет. (Уставка 30 мА — защита человека.)
-  rcd(v) {
-    const setting = parseFloat(v.setting) || 30 // мА
-    const { i, l } = v
-    if (i == null && l == null) return { ileak: { text: "—", status: "" }, threshold: "—" }
-    const ileak = 0.4 * (i ?? 0) + 0.01 * (l ?? 0)
-    const threshold = setting / 3
-    return {
-      ileak: { text: this.num(ileak, 2), status: ileak <= threshold ? "ok" : "warn" },
-      threshold: this.num(threshold, 2)
-    }
+    return { zloop: this.num(zloop, 3), ikz: this.num(ikz, 0), ratio, verdict: ratio.status || null }
   }
 
   // ── КИПиА ────────────────────────────────────────────────────────────
-
-  // Масштабирование токовой петли ↔ инженерные единицы (линейно). Диапазон
-  // сигнала по умолчанию 4–20 мА. Считает обе стороны сразу: ток → величина (+%)
-  // и величина → ток, по одному диапазону.
-  maScaling(v) {
-    const lo = v.rmin
-    const hi = v.rmax
-    const smin = v.smin ?? 4
-    const smax = v.smax ?? 20
-    const span = smax - smin
-    const euSpan = lo != null && hi != null ? hi - lo : null
-
-    let eu = "—"
-    let percent = "—"
-    if (v.ma != null && euSpan != null && span) {
-      const frac = (v.ma - smin) / span
-      eu = this.num(lo + frac * euSpan, 4)
-      percent = this.num(frac * 100, 1)
-    }
-
-    let ma = "—"
-    if (v.eu != null && euSpan) {
-      ma = this.num(smin + ((v.eu - lo) / euSpan) * span, 3)
-    }
-
-    return { eu, percent, ma }
-  }
 
   // Термосопротивление (ТСМ/ТСП/Pt) ↔ температура по ГОСТ 6651-2009. Прямой
   // ход t→R через уравнение Каллендара–Ван Дюзена; обратный R→t — делением
@@ -321,18 +326,32 @@ export default class extends Controller {
   measurementError(v) {
     const { measured, actual, span, cls } = v
     if (measured == null || actual == null) {
-      return { abs: "—", rel: "—", red: { text: "—", status: "" }, limit: "—" }
+      return { abs: "—", rel: "—", red: { text: "—", status: "" }, limit: "—", verdict: null }
     }
     const abs = measured - actual
     const rel = actual !== 0 ? (abs / actual) * 100 : null
     const red = span != null && span !== 0 ? (abs / span) * 100 : null
     let redOut = { text: this.num(red, 3), status: "" }
     let limit = "—"
+    let verdict = null
     if (cls != null && red != null) {
       limit = "± " + this.num(cls, 2)
-      redOut = { text: this.num(red, 3), status: Math.abs(red) <= cls ? "ok" : "warn" }
+      verdict = Math.abs(red) <= cls ? "ok" : "warn"
+      redOut = { text: this.num(red, 3), status: verdict }
     }
-    return { abs: this.num(abs, 4), rel: this.num(rel, 3), red: redOut, limit }
+    return { abs: this.num(abs, 4), rel: this.num(rel, 3), red: redOut, limit, verdict }
+  }
+
+  // Давление: всё через Паскали. Множители — значения единицы в Па.
+  pressure(v) {
+    const TO_PA = {
+      pa: 1, kpa: 1e3, mpa: 1e6, bar: 1e5,
+      kgf: 98066.5, atm: 101325, psi: 6894.757, mmhg: 133.322, mmh2o: 9.80665
+    }
+    const keys = Object.keys(TO_PA)
+    if (v.value == null) return Object.fromEntries(keys.map((k) => [k, "—"]))
+    const pa = v.value * TO_PA[v.unit || "bar"]
+    return Object.fromEntries(keys.map((k) => [k, this.sig(pa / TO_PA[k])]))
   }
 
   // Пропускная способность Kv регулирующего клапана для жидкости (ГОСТ 23866 /
@@ -350,19 +369,7 @@ export default class extends Controller {
     return { kvReq, qMax }
   }
 
-  // Давление: всё через Паскали. Множители — значения единицы в Па.
-  pressure(v) {
-    const TO_PA = {
-      pa: 1, kpa: 1e3, mpa: 1e6, bar: 1e5,
-      kgf: 98066.5, atm: 101325, psi: 6894.757, mmhg: 133.322, mmh2o: 9.80665
-    }
-    const keys = Object.keys(TO_PA)
-    if (v.value == null) return Object.fromEntries(keys.map((k) => [k, "—"]))
-    const pa = v.value * TO_PA[v.unit || "bar"]
-    return Object.fromEntries(keys.map((k) => [k, this.sig(pa / TO_PA[k])]))
-  }
-
-  // ── Сетевому инженеру ────────────────────────────────────────────────
+  // ── Сети и протоколы АСУ ТП ──────────────────────────────────────────
 
   // Линия витой пары с питанием PoE: падение напряжения и запас по длине.
   // R жилы (Ом/м, медь 20 °C) — по сечению (AWG). PoE 2 пары (802.3af/at):
@@ -382,18 +389,20 @@ export default class extends Controller {
     const s = STD[v.std] || STD.at
     const i = v.i ?? s.i
     const vpse = v.vpse ?? s.vpse
-    if (L < 0 || i <= 0) return { rloop: "—", vdrop: "—", vpd: { text: "—", status: "" }, lmax: "—" }
+    if (L < 0 || i <= 0) return { rloop: "—", vdrop: "—", vpd: { text: "—", status: "" }, lmax: "—", verdict: null }
     const rloop = s.pairs === 2 ? rc * L : (rc * L) / 2
     const vdrop = i * rloop
     const vpd = vpse - vdrop
     // Предельная длина, пока U на устройстве ещё ≥ Umin (и не больше 100 м СКС).
     const rloopMax = (vpse - s.pdmin) / i
     const lmax = s.pairs === 2 ? rloopMax / rc : (rloopMax * 2) / rc
+    const status = vpd >= s.pdmin ? "ok" : "warn"
     return {
       rloop: this.num(rloop, 2),
       vdrop: this.num(vdrop, 2),
-      vpd: { text: this.num(vpd, 1), status: vpd >= s.pdmin ? "ok" : "warn" },
-      lmax: this.num(Math.max(0, Math.min(lmax, 100)), 0)
+      vpd: { text: this.num(vpd, 1), status },
+      lmax: this.num(Math.max(0, Math.min(lmax, 100)), 0),
+      verdict: status
     }
   }
 
@@ -579,7 +588,7 @@ export default class extends Controller {
     const { mp, n } = v
     const LAMBDA = 0.55
     if (mp == null || mp <= 0) {
-      return { pitch: "—", airy: "—", ratio: { text: "—", status: "" }, nlimit: "—" }
+      return { pitch: "—", airy: "—", ratio: { text: "—", status: "" }, nlimit: "—", verdict: null }
     }
     const wPx = Math.sqrt(mp * 1e6 * (fmt.w / fmt.h))
     const pitch = (fmt.w / wPx) * 1000 // мм → мкм
@@ -594,6 +603,7 @@ export default class extends Controller {
       const ratio = airy / pitch
       out.airy = this.num(airy, 2)
       out.ratio = { text: this.num(ratio, 1), status: ratio <= 2 ? "ok" : "warn" }
+      out.verdict = out.ratio.status
     }
     return out
   }
@@ -654,6 +664,7 @@ export default class extends Controller {
     if (hLow != null && hBlue != null) out.blue = evening(hLow) + " — " + evening(hBlue)
     return out
   }
+
 
   // Интервальная съёмка: кадров = длительность съёмки ÷ интервал, ролик =
   // кадров ÷ частоту, объём = кадров × вес кадра. Обратная задача: какой интервал

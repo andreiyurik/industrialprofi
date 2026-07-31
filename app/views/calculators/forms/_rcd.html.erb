@@ -14,7 +14,8 @@
 
   <div class="calc__results">
     <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
-    <%= render "calculators/result", output: "ileak", label: t("calculators.rcd.result_ileak"), unit: "мА", strong: true %>
+    <%= render "calculators/answer", output: "ileak", label: t("calculators.rcd.result_ileak"), unit: "мА" %>
+    <%= render "calculators/verdict", ok: t("calculators.rcd.verdict_ok"), warn: t("calculators.rcd.verdict_warn") %>
     <%= render "calculators/result", output: "threshold", label: t("calculators.rcd.result_threshold"), unit: "мА" %>
     <p class="calc__note"><%= t("calculators.rcd.note") %></p>
   </div>

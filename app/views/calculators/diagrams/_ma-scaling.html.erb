@@ -1,0 +1,28 @@
+<%# Шкала токовой петли: маркер несёт и ток, и ту же точку в единицах измерения.
+    Координаты дорожки (x = 55, длина 290) продублированы в ma_scaling_controller. %>
+<figure class="calc-figure">
+  <svg class="loop-gauge" viewBox="0 0 400 130" role="img" aria-labelledby="loop-gauge-title" data-diagram data-state="empty">
+    <title id="loop-gauge-title"><%= t("calculators.ma-scaling.diagram_title") %></title>
+
+    <text class="loop-gauge__caption loop-gauge__caption--start" x="4" y="14"><%= t("calculators.ma-scaling.diagram_caption") %></text>
+
+    <rect class="loop-gauge__track" x="55" y="70" width="290" height="12" rx="6" />
+    <rect class="loop-gauge__fill" x="55" y="70" width="290" height="12" rx="6" data-track-fill />
+
+    <% [0, 0.25, 0.5, 0.75, 1].each do |share| %>
+      <line class="loop-gauge__tick" x1="<%= 55 + 290 * share %>" y1="84" x2="<%= 55 + 290 * share %>" y2="90" />
+    <% end %>
+
+    <text class="loop-gauge__caption" x="55" y="104" data-figure="signal-min">—</text>
+    <text class="loop-gauge__caption" x="345" y="104" data-figure="signal-max">—</text>
+    <text class="loop-gauge__bound" x="55" y="120" data-figure="range-min">—</text>
+    <text class="loop-gauge__bound" x="345" y="120" data-figure="range-max">—</text>
+
+    <g class="loop-gauge__marker" data-marker>
+      <text class="loop-gauge__value" x="0" y="20" data-figure="value">—</text>
+      <text class="loop-gauge__signal" x="0" y="38" data-figure="signal">—</text>
+      <line class="loop-gauge__needle" x1="0" y1="46" x2="0" y2="92" />
+      <circle class="loop-gauge__dot" cx="0" cy="76" r="5" />
+    </g>
+  </svg>
+</figure>

@@ -2,7 +2,13 @@
   <div class="calc__inputs">
     <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
     <%= render "calculators/field", field: "rho", label: t("calculators.grounding.rho"), unit: "Ом·м", value: 100,
-          hint: t("calculators.grounding.rho_hint"), info: t("calculators.grounding.info.rho") %>
+          hint: t("calculators.grounding.rho_hint"), info: t("calculators.grounding.info.rho"),
+          presets: [
+            [ 100, t("calculators.grounding.soil_loam") ],
+            [ 60, t("calculators.grounding.soil_clay") ],
+            [ 500, t("calculators.grounding.soil_sand") ],
+            [ 50, t("calculators.grounding.soil_chernozem") ]
+          ] %>
     <%= render "calculators/select", field: "psi", label: t("calculators.grounding.psi"), selected: "1.5",
           options: [
             ["2.0", t("calculators.grounding.psi_1")],
@@ -21,8 +27,9 @@
 
   <div class="calc__results">
     <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/answer", output: "rgroup", label: t("calculators.grounding.result_group"), unit: "Ом" %>
+    <%= render "calculators/verdict", ok: t("calculators.grounding.verdict_ok"), warn: t("calculators.grounding.verdict_warn") %>
     <%= render "calculators/result", output: "r1", label: t("calculators.grounding.result_single"), unit: "Ом" %>
-    <%= render "calculators/result", output: "rgroup", label: t("calculators.grounding.result_group"), unit: "Ом", strong: true %>
     <%= render "calculators/result", output: "nreq", label: t("calculators.grounding.result_required"), unit: "шт" %>
     <p class="calc__note"><%= t("calculators.grounding.note") %></p>
   </div>

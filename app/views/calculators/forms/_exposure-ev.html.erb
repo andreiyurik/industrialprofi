@@ -7,8 +7,8 @@
         <%= render "calculators/field", field: "t", label: t("calculators.fields.shutter_denom"), unit: "с", value: 125 %>
       </div>
       <%= render "calculators/field", field: "iso", label: t("calculators.fields.iso"), value: 100 %>
-      <%= render "calculators/result", output: "ev100", label: t("calculators.exposure-ev.result_ev"),
-            strong: true, info: t("calculators.exposure-ev.info.ev") %>
+      <%= render "calculators/answer", output: "ev100", label: t("calculators.exposure-ev.result_ev"),
+            info: t("calculators.exposure-ev.info.ev") %>
     </div>
 
     <div class="calc__pair-side">

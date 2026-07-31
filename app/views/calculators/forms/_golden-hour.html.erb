@@ -1,22 +1,33 @@
 <div class="calc__grid">
   <div class="calc__inputs">
     <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
+
+    <%# Дефолт — Москва и сегодняшний день: и то и другое лучше произвольной даты,
+        а кнопка заменяет все три поля координатами самого читателя. %>
+    <p class="calc-locate">
+      <button type="button" class="btn btn--small" data-action="<%= @calculator.controller %>#locate">
+        <%= icon_tag "map-trifold" %>
+        <%= t("calculators.golden-hour.locate") %>
+      </button>
+      <span class="calc-locate__error"><%= t("calculators.golden-hour.locate_failed") %></span>
+    </p>
+
     <div class="calc__row">
       <%= render "calculators/field", field: "lat", label: t("calculators.fields.latitude"), unit: "°", value: 55.75 %>
       <%= render "calculators/field", field: "lon", label: t("calculators.fields.longitude"), unit: "°", value: 37.62 %>
     </div>
     <%= render "calculators/field", field: "tz", label: t("calculators.fields.timezone"), value: 3 %>
     <div class="calc__row">
-      <%= render "calculators/select", field: "month", label: t("calculators.fields.month"), selected: "6",
+      <%= render "calculators/select", field: "month", label: t("calculators.fields.month"), selected: Date.current.month.to_s,
             options: (1..12).map { |m| [m.to_s, t("calculators.options.month_#{m}")] } %>
-      <%= render "calculators/field", field: "day", label: t("calculators.fields.day"), value: 21 %>
+      <%= render "calculators/field", field: "day", label: t("calculators.fields.day"), value: Date.current.day %>
     </div>
   </div>
 
   <div class="calc__results">
     <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
-    <%= render "calculators/result", output: "golden", label: t("calculators.golden-hour.result_golden"),
-          strong: true, info: t("calculators.golden-hour.info.golden") %>
+    <%= render "calculators/answer", output: "golden", label: t("calculators.golden-hour.result_golden"),
+          info: t("calculators.golden-hour.info.golden") %>
     <%= render "calculators/result", output: "blue", label: t("calculators.golden-hour.result_blue") %>
     <%= render "calculators/result", output: "sunrise", label: t("calculators.golden-hour.result_sunrise") %>
     <%= render "calculators/result", output: "sunset", label: t("calculators.golden-hour.result_sunset") %>

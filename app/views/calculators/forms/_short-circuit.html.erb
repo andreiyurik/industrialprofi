@@ -14,9 +14,10 @@
 
   <div class="calc__results">
     <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/answer", output: "ratio", label: t("calculators.short-circuit.result_ratio"), unit: "× Iₙ", info: t("calculators.short-circuit.info.ratio") %>
+    <%= render "calculators/verdict", ok: t("calculators.short-circuit.verdict_ok"), warn: t("calculators.short-circuit.verdict_warn") %>
+    <%= render "calculators/result", output: "ikz", label: t("calculators.short-circuit.result_ikz"), unit: "А" %>
     <%= render "calculators/result", output: "zloop", label: t("calculators.short-circuit.result_zloop"), unit: "Ом" %>
-    <%= render "calculators/result", output: "ikz", label: t("calculators.short-circuit.result_ikz"), unit: "А", strong: true %>
-    <%= render "calculators/result", output: "ratio", label: t("calculators.short-circuit.result_ratio"), unit: "× Iₙ", strong: true, info: t("calculators.short-circuit.info.ratio") %>
     <p class="calc__note"><%= t("calculators.short-circuit.note") %></p>
   </div>
 </div>

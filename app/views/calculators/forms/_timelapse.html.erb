@@ -10,8 +10,8 @@
 
   <div class="calc__results">
     <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/answer", output: "clip", label: t("calculators.timelapse.result_clip"), unit: "с" %>
     <%= render "calculators/result", output: "frames", label: t("calculators.timelapse.result_frames"), unit: "кадров" %>
-    <%= render "calculators/result", output: "clip", label: t("calculators.timelapse.result_clip"), unit: "с", strong: true %>
     <%= render "calculators/result", output: "disk", label: t("calculators.timelapse.result_disk"), unit: "ГБ" %>
     <%= render "calculators/result", output: "needint", label: t("calculators.timelapse.result_needint"), unit: "с",
           info: t("calculators.timelapse.info.needint") %>

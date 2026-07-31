@@ -23,11 +23,9 @@
     <h1 class="calc-title"><%= @calculator.title %></h1>
     <p class="calc-intro"><%= t("calculators.#{@calculator.slug}.intro") %></p>
 
-    <div class="panel calc" data-controller="calculator"
-         data-calculator-formula-value="<%= @calculator.formula %>"
-         data-action="input->calculator#compute change->calculator#compute">
+    <%= tag.div class: "panel calc", data: @calculator.stimulus_data do %>
       <%= render "calculators/forms/#{@calculator.slug}" %>
-    </div>
+    <% end %>
 
     <% norm = t("calculators.#{@calculator.slug}.norm", default: "") %>
     <% if norm.present? %>

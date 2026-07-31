@@ -180,8 +180,11 @@
   font-weight: 400;
 }
 
-/* Unit sits inside the field's trailing edge; the input reserves room for it. */
+/* Unit sits inside the field's trailing edge; the input reserves room for it.
+   Block, not the inline default: an absolutely positioned child needs a real
+   box to measure against, or a sibling can drag it out of the field. */
 .calc-field__control {
+  display: block;
   position: relative;
 }
 
@@ -197,6 +200,382 @@
   pointer-events: none;
   position: absolute;
   transform: translateY(-50%);
+}
+
+/* "Typical values" select above its number input — turns "введите удельное
+   сопротивление грунта" into "выберите грунт", without taking away the field
+   for anyone who measured it. */
+.calc-field__presets {
+  font-size: 0.9rem;
+  margin-block-end: 0.4rem;
+}
+
+/* Geolocation ask. The error only exists once the browser has refused. */
+.calc-locate {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--block-space-half);
+  margin-block-end: 1.1rem;
+}
+
+.calc-locate__error {
+  color: var(--color-negative);
+  display: none;
+  font-size: 0.85rem;
+}
+
+[data-locating="failed"] .calc-locate__error {
+  display: inline;
+}
+
+[data-locating="true"] .calc-locate .btn {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* A slider paired with its number input. It duplicates a control that is
+   already labelled, so it stays out of the tab order and the a11y tree —
+   the number input is the one people (and screen readers) operate. */
+.calc-field__range {
+  accent-color: var(--color-link);
+  block-size: 1.5rem;
+  display: block;
+  inline-size: 100%;
+  margin-block-start: 0.4rem;
+}
+
+/* ── Diagrams ──────────────────────────────────────────────────────────
+   Inline SVG drawn by the per-calculator controllers: they set data-state
+   and a transform, everything else (colour, motion) belongs to CSS. Panels
+   sit on --color-subtle-light, so a shape only reads against --color-bg. ── */
+.calc-figure {
+  margin: 0 0 var(--block-space);
+
+  svg {
+    block-size: auto;
+    display: block;
+    inline-size: 100%;
+  }
+}
+
+.calc-figure__legend {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  margin-block: 0 var(--block-space);
+}
+
+/* Ohm's wheel — the sector says who put the number there. */
+.ohm-wheel {
+  margin-inline: auto;
+  max-inline-size: 15rem;
+}
+
+.ohm-wheel__wedge {
+  fill: var(--color-bg);
+  stroke: var(--color-subtle-light);
+  stroke-width: 2;
+  transition: fill 150ms ease-out;
+}
+
+.ohm-wheel__symbol,
+.ohm-wheel__value,
+.ohm-wheel__unit {
+  fill: var(--color-subtle-dark);
+  text-anchor: middle;
+  transition: fill 150ms ease-out;
+}
+
+.ohm-wheel__symbol {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.ohm-wheel__value {
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.ohm-wheel__unit {
+  font-size: 10px;
+}
+
+.ohm-wheel__sector[data-state="given"] {
+  .ohm-wheel__wedge {
+    fill: var(--color-subtle);
+  }
+
+  .ohm-wheel__symbol,
+  .ohm-wheel__value {
+    fill: var(--color-ink);
+  }
+}
+
+.ohm-wheel__sector[data-state="derived"] {
+  .ohm-wheel__symbol,
+  .ohm-wheel__value {
+    fill: var(--color-link);
+  }
+}
+
+.ohm-wheel__hub {
+  fill: var(--color-subtle-light);
+}
+
+/* Voltage drop — cable + a 0…10 % scale with the norm standing at its middle. */
+.drop-figure {
+  --drop-accent: var(--color-subtle-dark);
+  margin-inline: auto;
+  max-inline-size: 30rem;
+}
+
+.drop-figure[data-state="ok"] {
+  --drop-accent: var(--color-positive);
+}
+
+.drop-figure[data-state="warn"] {
+  --drop-accent: var(--color-negative);
+}
+
+.drop-figure__end rect {
+  fill: var(--color-bg);
+  stroke: var(--color-subtle);
+}
+
+.drop-figure__cable {
+  stroke: var(--drop-accent);
+  stroke-linecap: round;
+  stroke-width: 8;
+  transition: stroke 200ms ease-out;
+}
+
+.drop-figure__caption,
+.loop-gauge__caption {
+  fill: var(--color-subtle-dark);
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.drop-figure__caption--start,
+.loop-gauge__caption--start {
+  text-anchor: start;
+}
+
+.drop-figure__caption--end {
+  text-anchor: end;
+}
+
+.drop-figure__reading {
+  fill: var(--color-ink);
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.drop-figure__loss {
+  fill: var(--drop-accent);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-anchor: middle;
+  transition: fill 200ms ease-out;
+}
+
+.drop-figure__track,
+.loop-gauge__track {
+  fill: var(--color-bg);
+}
+
+/* scaleX, not a width attribute: transforms animate everywhere, SVG geometry
+   properties do not. */
+.drop-figure__fill,
+.loop-gauge__fill {
+  transform: scaleX(0);
+  transform-box: fill-box;
+  transform-origin: left center;
+  transition:
+    transform 150ms ease-out,
+    fill 200ms ease-out;
+}
+
+.drop-figure__fill {
+  fill: var(--drop-accent);
+}
+
+.drop-figure__limit {
+  stroke: var(--color-negative);
+  stroke-dasharray: 3 3;
+  stroke-width: 1.5;
+}
+
+/* 4–20 mA gauge — the marker carries both the signal and the same point in
+   engineering units, which is the whole conversion in one glance. */
+.loop-gauge {
+  --gauge-accent: var(--color-link);
+  margin-inline: auto;
+  max-inline-size: 30rem;
+}
+
+.loop-gauge[data-state="empty"] {
+  --gauge-accent: var(--color-subtle-dark);
+}
+
+.loop-gauge[data-state="out"] {
+  --gauge-accent: var(--color-negative);
+}
+
+.loop-gauge__fill {
+  fill: var(--gauge-accent);
+}
+
+.loop-gauge__tick {
+  stroke: var(--color-subtle);
+  stroke-width: 1.5;
+}
+
+.loop-gauge__bound {
+  fill: var(--color-ink);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+.loop-gauge__marker {
+  transition: transform 150ms ease-out;
+}
+
+.loop-gauge__value {
+  fill: var(--color-ink);
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.loop-gauge__signal {
+  fill: var(--gauge-accent);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  text-anchor: middle;
+  transition: fill 200ms ease-out;
+}
+
+.loop-gauge__needle {
+  stroke: var(--gauge-accent);
+  stroke-width: 1.5;
+  transition: stroke 200ms ease-out;
+}
+
+.loop-gauge__dot {
+  fill: var(--gauge-accent);
+  stroke: var(--color-subtle-light);
+  stroke-width: 2;
+  transition: fill 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drop-figure__fill,
+  .loop-gauge__fill,
+  .loop-gauge__marker {
+    transition-duration: 0s;
+  }
+}
+
+/* ── The headline answer + the verdict in words ─────────────────────
+   The one number the page exists to produce, sized so it reads as the
+   answer rather than as row three of five. Colour never carries the
+   verdict alone — the sentence below states it. ── */
+.calc-answer {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.7em;
+  margin-block-end: var(--block-space);
+  padding: 0.9rem 1.1rem;
+}
+
+.calc-answer__label {
+  color: var(--color-subtle-dark);
+  display: block;
+  font-size: 0.85rem;
+}
+
+.calc-answer__value {
+  align-items: baseline;
+  display: flex;
+  gap: 0.35em;
+  margin-block-start: 0.15rem;
+
+  strong {
+    color: var(--color-link);
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 7vw, 2.4rem);
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    /* Deliberately not transitioned: the verdict colour is settled on the very
+       first paint, and easing into it reads as the page flashing. The digits
+       change at the same moment anyway, so a hard switch is the readable one. */
+  }
+
+  .calc-copy {
+    margin-inline-start: auto;
+  }
+}
+
+.calc-answer__unit {
+  color: var(--color-subtle-dark);
+  font-size: 1rem;
+}
+
+.calc-answer[data-status="ok"] .calc-answer__value strong {
+  color: var(--color-positive);
+}
+
+.calc-answer[data-status="warn"] .calc-answer__value strong {
+  color: var(--color-negative);
+}
+
+.calc-verdict {
+  align-items: flex-start;
+  color: var(--color-subtle-dark);
+  display: flex;
+  font-size: 0.95rem;
+  gap: 0.5em;
+  line-height: 1.4;
+  margin-block: calc(var(--block-space) * -0.5) var(--block-space);
+
+  .icon {
+    block-size: 1.15rem;
+    inline-size: 1.15rem;
+    margin-block-start: 0.05em;
+  }
+}
+
+/* Both marks ship in the markup; the state picks one. Nothing shows until
+   there is something to say. */
+.calc-verdict__mark {
+  display: none;
+  flex-shrink: 0;
+}
+
+.calc-verdict[data-status="ok"] {
+  color: var(--color-positive);
+
+  .calc-verdict__mark--ok {
+    display: inline-flex;
+  }
+}
+
+.calc-verdict[data-status="warn"] {
+  color: var(--color-negative);
+
+  .calc-verdict__mark--warn {
+    display: inline-flex;
+  }
 }
 
 /* ── Results ───────────────────────────────────────────────────────── */

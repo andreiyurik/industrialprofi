@@ -1,4 +1,6 @@
 <div class="calc__stack">
+  <%= render "calculators/diagrams/ma-scaling" %>
+
   <div class="calc__inputs">
     <h2 class="calc__heading"><%= t("calculators.ma-scaling.range_heading") %></h2>
     <div class="calc__row">
@@ -14,7 +16,8 @@
   <div class="calc__pair">
     <div class="calc__pair-side">
       <h2 class="calc__heading"><%= t("calculators.ma-scaling.to_eu_heading") %></h2>
-      <%= render "calculators/field", field: "ma", label: t("calculators.ma-scaling.signal_value"), unit: "мА", value: 12 %>
+      <%= render "calculators/field", field: "ma", label: t("calculators.ma-scaling.signal_value"), unit: "мА", value: 12,
+            slider: { min: 4, max: 20, step: 0.1 } %>
       <%= render "calculators/result", output: "eu", label: t("calculators.ma-scaling.result_eu"), strong: true, info: t("calculators.ma-scaling.info.eu") %>
       <%= render "calculators/result", output: "percent", label: t("calculators.ma-scaling.result_percent"), unit: "%", info: t("calculators.ma-scaling.info.percent") %>
     </div>

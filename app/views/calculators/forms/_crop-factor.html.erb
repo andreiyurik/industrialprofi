@@ -12,7 +12,7 @@
 
   <div class="calc__results">
     <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
-    <%= render "calculators/result", output: "feq", label: t("calculators.crop-factor.result_feq"), unit: "мм", strong: true %>
+    <%= render "calculators/answer", output: "feq", label: t("calculators.crop-factor.result_feq"), unit: "мм" %>
     <%= render "calculators/result", output: "neq", label: t("calculators.crop-factor.result_neq"), unit: "f/",
           info: t("calculators.crop-factor.info.neq") %>
     <%= render "calculators/result", output: "noise", label: t("calculators.crop-factor.result_noise"),

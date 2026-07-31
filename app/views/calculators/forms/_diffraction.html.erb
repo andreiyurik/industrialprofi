@@ -8,11 +8,12 @@
 
   <div class="calc__results">
     <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/answer", output: "nlimit", label: t("calculators.diffraction.result_nlimit"), unit: "f/",
+          info: t("calculators.diffraction.info.nlimit") %>
+    <%= render "calculators/verdict", ok: t("calculators.diffraction.verdict_ok"), warn: t("calculators.diffraction.verdict_warn") %>
+    <%= render "calculators/result", output: "ratio", label: t("calculators.diffraction.result_ratio"), unit: "раз" %>
     <%= render "calculators/result", output: "pitch", label: t("calculators.diffraction.result_pitch"), unit: "мкм" %>
     <%= render "calculators/result", output: "airy", label: t("calculators.diffraction.result_airy"), unit: "мкм" %>
-    <%= render "calculators/result", output: "ratio", label: t("calculators.diffraction.result_ratio"), unit: "раз" %>
-    <%= render "calculators/result", output: "nlimit", label: t("calculators.diffraction.result_nlimit"), unit: "f/",
-          strong: true, info: t("calculators.diffraction.info.nlimit") %>
     <p class="calc__note"><%= t("calculators.diffraction.note") %></p>
   </div>
 </div>
