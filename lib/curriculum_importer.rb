@@ -105,12 +105,28 @@ class CurriculumImporter
 
       Dir.glob(File.join(File.dirname(course_yml), "*/section.yml")).sort.each do |section_yml|
         stage = YAML.safe_load_file(section_yml)["title"]
-        Dir.glob(File.join(File.dirname(section_yml), "*.md")).sort.each do |md_file|
+        lessons_in_section(section_yml).each do |md_file|
           position += 1
           import_lesson(md_file, course, path, stage, position)
         end
       end
       position
+    end
+
+    # Within a section, a lesson's own declared `position:` decides reading
+    # order — NOT the filename. Falls back to filename (alphabetical) when a
+    # file omits `position:`, so older content without it still imports
+    # deterministically. Filenames stay free-form (readable slugs, not forced
+    # into NN- prefixes) without silently scrambling the course.
+    def lessons_in_section(section_yml)
+      Dir.glob(File.join(File.dirname(section_yml), "*.md")).sort.sort_by do |md_file|
+        [ lesson_frontmatter_position(md_file) || Float::INFINITY, md_file ]
+      end
+    end
+
+    def lesson_frontmatter_position(md_file)
+      frontmatter = File.read(md_file).split(/^---\s*$/, 3)[1]
+      YAML.safe_load(frontmatter, permitted_classes: [ Symbol ])["position"]
     end
 
     def import_lesson(md_file, course, path, stage, position)

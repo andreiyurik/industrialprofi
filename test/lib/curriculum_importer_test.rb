@@ -50,6 +50,76 @@ class CurriculumImporterTest < ActiveSupport::TestCase
     assert_equal 1, counts["lessons_frozen"]
   end
 
+  test "orders lessons within a section by their declared position, not by filename" do
+    section_dir = File.join(@dir, "testprof", "01-test-course", "01-section")
+    FileUtils.mkdir_p(section_dir)
+
+    # "b-lesson" sorts first alphabetically but declares position: 2 — it must
+    # still land AFTER "a-lesson" (position: 1) in the resulting reading order.
+    File.write(File.join(section_dir, "b-lesson.md"), <<~MD)
+      ---
+      title: "Второй урок"
+      position: 2
+      kind: lesson
+      ---
+      Зачем.
+      ---
+      Тело.
+    MD
+    File.write(File.join(section_dir, "a-lesson.md"), <<~MD)
+      ---
+      title: "Первый урок"
+      position: 1
+      kind: lesson
+      ---
+      Зачем.
+      ---
+      Тело.
+    MD
+
+    import
+
+    # test-lesson-x (from setup's write_tree) declares no position: — it falls
+    # back to filename order and sorts after both declared positions.
+    a = Lesson.find_by!(slug: "a-lesson")
+    b = Lesson.find_by!(slug: "b-lesson")
+    x = Lesson.find_by!(slug: "test-lesson-x")
+    assert_operator a.position, :<, b.position,
+      "a-lesson (position: 1) must be read before b-lesson (position: 2) despite sorting after it alphabetically"
+    assert_operator b.position, :<, x.position,
+      "the position-less lesson falls back to filename order and reads last"
+  end
+
+  test "falls back to filename order when a lesson omits position:" do
+    section_dir = File.join(@dir, "testprof", "01-test-course", "01-section")
+    FileUtils.mkdir_p(section_dir)
+
+    File.write(File.join(section_dir, "01-first.md"), <<~MD)
+      ---
+      title: "Первый"
+      kind: lesson
+      ---
+      Зачем.
+      ---
+      Тело.
+    MD
+    File.write(File.join(section_dir, "02-second.md"), <<~MD)
+      ---
+      title: "Второй"
+      kind: lesson
+      ---
+      Зачем.
+      ---
+      Тело.
+    MD
+
+    import
+
+    first = Lesson.find_by!(slug: "01-first")
+    second = Lesson.find_by!(slug: "02-second")
+    assert first.position < second.position
+  end
+
   test "imports an emblem named in the YAML" do
     write_tree(lesson_title: "Урок", resource_url: "https://example.com/g1",
                path_icon: "atom-light", course_icon: "gauge-light")
