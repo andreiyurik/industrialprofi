@@ -21,24 +21,41 @@
     <%= turbo_frame_tag "search_results", target: "_top" do %>
       <% if @query.blank? %>
         <p class="search__hint"><%= t("search.hint") %></p>
-      <% elsif @results.empty? %>
+      <% elsif @results.empty? && @calculators.empty? %>
         <p class="search__empty">
           <%= t("search.empty", query: @query) %>
           <%= link_to t("search.browse_catalog"), paths_path %>
         </p>
       <% else %>
-        <p class="search__count"><%= t("search.found", count: @results.size) %></p>
-        <ul class="search-results">
-          <% @results.each do |result| %>
-            <li>
-              <%= link_to lesson_path(result.lesson), class: "search-result panel" do %>
-                <span class="search-result__crumbs"><%= result.lesson.path.title %> · <%= result.lesson.course.title %></span>
-                <span class="search-result__title"><%= result.lesson.title %></span>
-                <span class="search-result__snippet"><%= sanitize(result.snippet, tags: %w[mark]) %></span>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
+        <% if @calculators.any? %>
+          <p class="search__group"><%= t("search.calculators_group") %></p>
+          <ul class="search-results">
+            <% @calculators.each do |calculator| %>
+              <li>
+                <%= link_to calculator_path(calculator), class: "search-result panel" do %>
+                  <span class="search-result__crumbs"><%= t("calculators.index.title") %></span>
+                  <span class="search-result__title"><%= calculator.title %></span>
+                  <span class="search-result__snippet"><%= calculator.tagline %></span>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+
+        <% if @results.any? %>
+          <p class="search__count"><%= t("search.found", count: @results.size) %></p>
+          <ul class="search-results">
+            <% @results.each do |result| %>
+              <li>
+                <%= link_to lesson_path(result.lesson), class: "search-result panel" do %>
+                  <span class="search-result__crumbs"><%= result.lesson.path.title %> · <%= result.lesson.course.title %></span>
+                  <span class="search-result__title"><%= result.lesson.title %></span>
+                  <span class="search-result__snippet"><%= sanitize(result.snippet, tags: %w[mark]) %></span>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
       <% end %>
     <% end %>
   </div>

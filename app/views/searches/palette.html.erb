@@ -4,13 +4,23 @@
 <%= turbo_frame_tag "palette_results", target: "_top" do %>
   <% if @query.blank? %>
     <%= render "shared/palette_home" %>
-  <% elsif @results.empty? %>
+  <% elsif @results.empty? && @calculators.empty? %>
     <p class="palette__empty">
       <%= t("search.empty", query: @query) %>
       <%= link_to t("search.browse_catalog"), paths_path %>.
     </p>
   <% else %>
     <ul class="palette-results">
+      <%# Инструменты первыми: «посчитать» — это другой запрос, чем «почитать»,
+          и человек с ним обычно спешит. %>
+      <% @calculators.first(3).each do |calculator| %>
+        <li>
+          <%= link_to calculator_path(calculator), class: "palette-result" do %>
+            <span class="palette-result__title"><%= calculator.title %></span>
+            <span class="palette-result__crumbs"><%= t("calculators.index.title") %></span>
+          <% end %>
+        </li>
+      <% end %>
       <% @results.first(8).each do |result| %>
         <li>
           <%= link_to lesson_path(result.lesson), class: "palette-result" do %>
@@ -20,6 +30,6 @@
         </li>
       <% end %>
     </ul>
-    <%= link_to t("palette.all_results", count: @results.size), search_path(q: @query), class: "palette__all" %>
+    <%= link_to t("palette.all_results", count: @results.size + @calculators.size), search_path(q: @query), class: "palette__all" %>
   <% end %>
 <% end %>

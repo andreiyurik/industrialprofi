@@ -57,6 +57,34 @@ class Calculator
   # "02-vybor-secheniya-kabelya").
   def self.for_lesson(lesson_slug) = ALL.select { it.lesson_slug == lesson_slug }
 
+  # Title/tagline match for site search and the palette. Twenty-odd entries in
+  # memory, so a plain scan beats indexing them — they are code, not content.
+  #
+  # Matching is по основам, not by substring: Russian inflects, and people type
+  # the nominative — «сечение кабеля» has to find «Расчёт сечения кабеля». A
+  # real stemmer would be overkill for two dozen headlines, so we compare words
+  # trimmed of their ending and require every query word to land somewhere.
+  ENDING = 2
+  MIN_STEM = 3
+
+  def self.search(query)
+    words = tokenize(query).reject { it.length < 2 }
+    return [] if words.empty?
+
+    ALL.select do |calculator|
+      haystack = tokenize("#{calculator.title} #{calculator.tagline}")
+      words.all? { |word| haystack.any? { same_stem?(word, it) } }
+    end
+  end
+
+  def self.tokenize(text) = text.to_s.downcase.scan(/[[:alnum:]]+/)
+
+  def self.same_stem?(one, other)
+    length = [ [ one.length, other.length ].min - ENDING, MIN_STEM ].max
+    one[0, length] == other[0, length]
+  end
+  private_class_method :tokenize, :same_stem?
+
   # Catalog order = the CATEGORIES order, each group keeping registry order.
   def self.grouped = ALL.group_by(&:category).sort_by { CATEGORIES.index(it.first) }
 

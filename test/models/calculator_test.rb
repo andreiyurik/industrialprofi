@@ -22,6 +22,19 @@ class CalculatorTest < ActiveSupport::TestCase
     assert_empty Calculator.for_lesson("нет-такой-статьи")
   end
 
+  test "search matches a title and a tagline, and ignores case" do
+    assert_includes Calculator.search("сечение кабеля").map(&:slug), "cable-cross-section"
+    assert_includes Calculator.search("ЗАКОН ОМА").map(&:slug), "ohms-law"
+    # "медь и алюминий" живёт только в подзаголовке.
+    assert_includes Calculator.search("медь и алюминий").map(&:slug), "cable-cross-section"
+  end
+
+  test "search stays quiet on a query too short to mean anything" do
+    assert_empty Calculator.search("а")
+    assert_empty Calculator.search(" ")
+    assert_empty Calculator.search(nil)
+  end
+
   test "every registered calculator has the locale keys its page renders" do
     Calculator.all.each do |calculator|
       assert calculator.title.present?, "#{calculator.slug} has no title"

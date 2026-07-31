@@ -51,4 +51,26 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "turbo-frame#palette_results .palette__quick a", 3
   end
+test "a calculator is findable by the query it answers" do
+  get search_path(q: "сечение кабеля")
+
+  assert_response :success
+  assert_select ".search__group"
+  assert_select "a[href=?]", calculator_path(Calculator.find("cable-cross-section"))
+end
+
+test "the palette offers calculators above the articles" do
+  get search_path(q: "закон ома"), headers: { "Turbo-Frame" => "palette_results" }
+
+  assert_response :success
+  assert_select "a.palette-result[href=?]", calculator_path(Calculator.find("ohms-law"))
+end
+
+test "a query that only a calculator answers is not an empty state" do
+  get search_path(q: "перевод единиц давления")
+
+  assert_response :success
+  assert_select ".search__empty", false
+  assert_select "a[href=?]", calculator_path(Calculator.find("pressure"))
+end
 end
