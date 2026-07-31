@@ -309,7 +309,12 @@
             <%= t("footer.license_html", repo_url: site_config.github_url) %>
           </p>
         </div>
-        <a href="<%= privacy_path %>" class="footer__link link-quiet"><%= t("nav.privacy") %></a>
+        <div class="footer__colophon">
+          <a href="<%= privacy_path %>" class="footer__link link-quiet"><%= t("nav.privacy") %></a>
+          <p class="footer__made-with">
+            <%= t("footer.made_with_html", heart: icon_tag("heart-fill", class: "footer__heart")) %>
+          </p>
+        </div>
       </div>
     </footer>
     <% end %>
