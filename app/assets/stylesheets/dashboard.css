@@ -168,14 +168,6 @@
   margin-block: 0;
 }
 
-/* The next lesson's own «зачем» under the continue hint. */
-.dashboard-hero__next-desc {
-  color: var(--color-subtle-dark);
-  font-size: 0.8rem;
-  margin-block: 0;
-  max-inline-size: 22rem;
-}
-
 .dashboard-hero__finished {
   align-items: center;
   color: var(--color-positive);

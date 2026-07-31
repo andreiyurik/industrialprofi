@@ -30,11 +30,6 @@
               <%= icon_tag "arrow-right" %>
             <% end %>
             <p class="dashboard-hero__next"><%= t("paths.next_up", title: next_lesson.title) %></p>
-            <%# Why the next article is worth the 20–30 minutes — the lesson's
-                own «зачем», shown at the decision point. %>
-            <% if next_lesson.description.present? %>
-              <p class="dashboard-hero__next-desc"><%= next_lesson.description.to_s.truncate(140, separator: " ") %></p>
-            <% end %>
           <% else %>
             <p class="dashboard-hero__finished">
               <%= icon_tag "check-circle-fill" %>
