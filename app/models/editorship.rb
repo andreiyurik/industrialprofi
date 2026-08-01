@@ -20,4 +20,11 @@ class Editorship < ApplicationRecord
                 .where(path_id: Path.published.select(:id))
                 .distinct.count(:path_id)
   end
+
+  # Who's left to add on a profession's team panel: active non-admins not
+  # already granted (admins edit everything and need no seat).
+  def self.candidates_for(path)
+    User.active.where.not(role: :administrator)
+        .where.not(id: path.editorships.select(:user_id)).order(:name)
+  end
 end

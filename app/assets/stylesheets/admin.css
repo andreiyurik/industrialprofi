@@ -591,6 +591,18 @@
   gap: var(--inline-space);
 }
 
+/* Add-editor picker on a profession's team panel — select + submit, inline. */
+.admin-team-add {
+  align-items: center;
+  display: flex;
+  gap: var(--inline-space);
+  margin-block-start: var(--block-space-half);
+
+  .input {
+    max-inline-size: 20rem;
+  }
+}
+
 /* ── Dashboard (admin overview) ── */
 
 .admin-callout {

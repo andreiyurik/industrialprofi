@@ -116,6 +116,9 @@ Rails.application.routes.draw do
         # The profession as a downloadable content pack (.zip) — the same
         # archive /admin/imports takes back.
         resource  :export, only: :show
+        # Grant/revoke a direct-edit seat on this profession's own team panel
+        # (admin-only) — the counterpart to the per-user picker in admin/users.
+        resources :editorships, only: [ :create, :destroy ]
       end
     end
     resources :courses, only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug

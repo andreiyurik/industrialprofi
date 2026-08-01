@@ -36,8 +36,21 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
     get admin_path_path(paths(:electrician))
     assert_select ".admin-group__title", text: I18n.t("admin.builder.team_title")
     assert_select ".admin-row__title--person", text: /#{users(:editor).name}/
-    assert_select "a.admin-row[href=?]", admin_user_path(users(:editor))
+    assert_select ".admin-row__title--person a[href=?]", admin_user_path(users(:editor))
     assert_select "a[href=?]", admin_users_path, text: I18n.t("admin.builder.team_grant")
+  end
+
+  test "show lets an admin remove an editor and add a new one from the team panel" do
+    get admin_path_path(paths(:electrician))
+    assert_select ".admin-row form[action=?]", admin_path_editorship_path(paths(:electrician), editorships(:editor_electrician))
+    assert_select ".admin-team-add select[name=?]", "user_id"
+  end
+
+  test "an editor does not see the add-editor picker" do
+    sign_out
+    sign_in_as users(:editor)
+    get admin_path_path(paths(:electrician))
+    assert_select ".admin-team-add", 0
   end
 
   test "show reports an empty team honestly" do

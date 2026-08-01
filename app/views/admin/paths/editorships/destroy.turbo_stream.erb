@@ -1,0 +1,8 @@
+<%= turbo_stream.replace "path_team" do %>
+  <%= render "admin/paths/team", path: @path, editorships: @editorships,
+        editorship_candidates: @editorship_candidates %>
+<% end %>
+
+<%= turbo_stream.update :flash do %>
+  <%= render "shared/flash_message", message: @notice %>
+<% end %>

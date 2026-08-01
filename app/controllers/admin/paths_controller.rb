@@ -14,6 +14,8 @@ module Admin
       @courses = @path.courses.ordered.includes(:lessons)
       # The profession's team — everyone holding a direct-edit grant here.
       @editorships = @path.editorships.includes(:user).joins(:user).merge(User.order(:name))
+      # Only admins can grant, so skip the candidates query for editors.
+      @editorship_candidates = Editorship.candidates_for(@path) if Current.user.can_administer?
     end
 
     def new

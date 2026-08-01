@@ -1,0 +1,70 @@
+<%# locals: (path:, editorships:, editorship_candidates:) -%>
+<%# The profession's team — the Adminland-style people slice, scoped to one
+    map: who holds a grant, who is publicly a curator, who verified. Add/remove
+    here hits Admin::Paths::EditorshipsController and turbo-replaces just this
+    block; bulk role/suspension management still lives in the user card. %>
+<div id="path_team" class="admin-group admin-group--spaced">
+  <div class="admin-group__head">
+    <h2 class="admin-group__title"><%= t("admin.builder.team_title") %></h2>
+    <% if Current.user.can_administer? %>
+      <a href="<%= admin_users_path %>" class="btn btn--small"><%= t("admin.builder.team_grant") %></a>
+    <% end %>
+  </div>
+
+  <% if editorships.any? %>
+    <div class="admin-list">
+      <% editorships.each do |editorship| %>
+        <% editor = editorship.user %>
+        <div class="admin-row admin-row--static">
+          <span class="admin-row__column">
+            <span class="admin-row__title admin-row__title--person">
+              <%= avatar_tag(editor.name) %>
+              <% if Current.user.can_administer? %>
+                <%= link_to editor.name, admin_user_path(editor), class: "link-quiet" %>
+              <% else %>
+                <%= editor.name %>
+              <% end %>
+              <% if editor.administrator? %>
+                <span class="badge badge--marker"><%= t("admin.roles.administrator") %></span>
+              <% end %>
+              <% if editor.suspended? %>
+                <span class="badge badge--draft"><%= t("admin.builder.team_suspended") %></span>
+              <% elsif !editor.can_edit_content? %>
+                <span class="badge badge--draft"><%= t("admin.builder.team_dormant") %></span>
+              <% end %>
+            </span>
+            <p class="admin-row__subtle">
+              <%= [ editor.headline.presence,
+                    (t("admin.builder.team_public_curator") if editor.public_curator?),
+                    (t("admin.builder.team_verified", date: l(path.verified_at.to_date)) if path.verified_by == editor && path.verified_at) ]
+                    .compact.join(" · ").presence || editor.email_address %>
+            </p>
+          </span>
+
+          <% if Current.user.can_administer? %>
+            <%= button_to admin_path_editorship_path(path, editorship), method: :delete,
+                  class: "btn btn--small btn--negative", form: {
+                    data: { turbo_confirm: t("admin.builder.team_remove_confirm", name: editor.name) } } do %>
+              <%= icon_tag "minus-circle" %>
+              <span class="for-screen-reader"><%= t("admin.builder.team_remove", name: editor.name) %></span>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="admin-empty">
+      <p class="admin-empty__text"><%= t("admin.builder.team_empty") %></p>
+    </div>
+  <% end %>
+
+  <% if editorship_candidates&.any? %>
+    <%= form_with url: admin_path_editorships_path(path), method: :post, class: "admin-team-add" do %>
+      <%= label_tag :user_id, t("admin.builder.team_add_label"), class: "for-screen-reader" %>
+      <%= select_tag :user_id,
+            options_from_collection_for_select(editorship_candidates, :id, :name),
+            prompt: t("admin.builder.team_add_prompt"), required: true, class: "input" %>
+      <%= submit_tag t("admin.builder.team_add"), class: "btn btn--small" %>
+    <% end %>
+  <% end %>
+</div>
