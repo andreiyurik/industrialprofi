@@ -5,6 +5,15 @@ module Admin
   class DashboardController < AdministratorController
     CHART_WEEKS = 12
 
+    # Targets the founder is chasing right now — edited directly in code when a
+    # goal changes (roughly quarterly). Static on purpose: no admin UI, no
+    # migration, just a constant next to the numbers it tracks.
+    GOALS = {
+      users_total: 1_000,
+      paths_published: 12,
+      active_week: 100
+    }.freeze
+
     def show
       @users_total = User.count
       @users_week = User.where(created_at: 7.days.ago..).count
@@ -47,6 +56,12 @@ module Admin
       @signups_by_week = WeeklyCounts.for(User.all, weeks: CHART_WEEKS)
       @completions_by_week = WeeklyCounts.for(LessonCompletion.all, weeks: CHART_WEEKS)
       @recent_users = User.order(created_at: :desc).limit(10)
+
+      current_by_goal = { users_total: @users_total, paths_published: @paths_published, active_week: @active_week }
+      @goals = GOALS.map do |key, target|
+        current = current_by_goal.fetch(key)
+        { key:, target:, current:, achieved: current >= target }
+      end
     end
 
     # Lazy-loaded fragment (loading: :lazy frame). Holds the VPS vital signs —

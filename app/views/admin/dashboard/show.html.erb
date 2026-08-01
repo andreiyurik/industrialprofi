@@ -108,6 +108,30 @@
       <% end %>
     </div>
 
+    <div class="admin-group">
+      <div class="admin-group__head">
+        <h2 class="admin-group__title"><%= t("admin.dashboard.goals_title") %></h2>
+      </div>
+      <div class="admin-goals">
+        <% @goals.each do |goal| %>
+          <div class="panel admin-goal <%= "admin-goal--achieved" if goal[:achieved] %>">
+            <div class="admin-goal__head">
+              <span class="admin-goal__label"><%= t("admin.dashboard.goal_#{goal[:key]}") %></span>
+              <span class="admin-goal__value"><%= goal[:current] %> / <%= goal[:target] %></span>
+            </div>
+            <div class="admin-goal__track">
+              <div class="admin-goal__fill"
+                   style="inline-size: <%= [ (goal[:current].to_f / goal[:target] * 100).round(1), 100 ].min %>%"></div>
+            </div>
+            <span class="admin-goal__remaining">
+              <%= goal[:achieved] ? t("admin.dashboard.goal_achieved") :
+                    t("admin.dashboard.goal_remaining", count: goal[:target] - goal[:current]) %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
     <%= render "bar_chart", title: t("admin.dashboard.signups_chart"),
           data: @signups_by_week, week_title_key: "admin.dashboard.signups_week_title" %>
 

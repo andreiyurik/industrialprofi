@@ -30,6 +30,7 @@ ru:
       - дек
     formats:
       default: "%-d %B %Y"
+      short: "%-d %b"
 
   time:
     formats:
@@ -2296,6 +2297,12 @@ ru:
       emails_week_hint: "коды, сбросы, напоминания"
       jobs_failed: "Задачи с ошибкой"
       jobs_pending: "в очереди: %{count}"
+      goals_title: "Цели"
+      goal_users_total: "Пользователей"
+      goal_paths_published: "Опубликовано профессий"
+      goal_active_week: "Активны за неделю"
+      goal_remaining: "Осталось: %{count}"
+      goal_achieved: "🎯 Цель достигнута"
       chart_period: "последние %{weeks} недель"
       signups_chart: "Регистрации по неделям"
       signups_week_title: "Неделя с %{date}: %{count}"
