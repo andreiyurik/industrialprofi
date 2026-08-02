@@ -64,6 +64,10 @@
         Built by dartsass at assets:precompile — see application.scss. %>
     <%= stylesheet_link_tag "application", *vendor_stylesheets, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <%# The controllers load on demand (importmap.rb), but the two files that
+        boot Stimulus are wanted on every page — name them here, or they hang
+        off application.js as two extra round trips before anything can react. %>
+    <%= javascript_module_preload_tag asset_path("controllers/index.js"), asset_path("controllers/application.js") %>
     <%= render "shared/metrika" if site_config.metrika_id.present? %>
   </head>
 

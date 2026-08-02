@@ -48,6 +48,12 @@ class CalculatorsTest < ApplicationSystemTestCase
   test "the voltage drop slider fills its number input" do
     visit calculator_path("voltage-drop")
 
+    # The diagram ships as data-state="empty" and the controller computes it on
+    # connect — waiting for that is what makes the synthetic input below land.
+    # Controllers load on demand now, so firing it straight after visit races
+    # the import (the other tests here only pass because Capybara retries).
+    assert_selector ".drop-figure[data-state='ok']"
+
     range = find("[data-range-for='l']", visible: :all)
     range.execute_script("this.value = 250; this.dispatchEvent(new Event('input', { bubbles: true }))")
 
