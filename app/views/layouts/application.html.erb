@@ -89,7 +89,7 @@
             data-header-reveal-hidden-class="header--hidden">
       <nav class="container header__nav">
         <%= link_to root_path, class: "brand header__brand" do %>
-          <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", aria: { hidden: "true" } %>
+          <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", width: 536, height: 201, aria: { hidden: "true" } %>
           <span class="brand__text"><%= t("site.name") %></span>
         <% end %>
         <div class="header__right">
@@ -120,7 +120,7 @@
                   signed-in reader gets the identity row in this slot instead. %>
               <% unless signed_in? %>
                 <%= link_to root_path, class: "brand header__menu-brand" do %>
-                  <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", aria: { hidden: "true" } %>
+                  <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", width: 536, height: 201, aria: { hidden: "true" } %>
                   <span class="brand__text"><%= t("site.name") %></span>
                 <% end %>
               <% end %>
@@ -267,7 +267,7 @@
       <div class="container footer__inner">
         <div class="footer__brand-block">
           <a href="<%= root_path %>" class="brand">
-            <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", aria: { hidden: "true" } %>
+            <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", width: 536, height: 201, aria: { hidden: "true" } %>
             <span class="brand__text"><%= t("site.name") %></span>
           </a>
           <p class="footer__tagline"><%= t("site.tagline") %></p>
