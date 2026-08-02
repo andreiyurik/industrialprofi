@@ -280,7 +280,7 @@ content-factory doc — architecture + step-by-step authoring) and the rest of `
 
 ## UI — Canonical DHH style (Writebook canon)
 
-Three reference codebases, each for a different layer — don't mix their roles:
+Four reference codebases, each for a different layer — don't mix their roles:
 - **Writebook** (`/home/pingvinus/dhh-references/writebook/`) — the **CSS/auth
   canon**: stylesheet layout, tokens, component-local variables, the
   `Session`/`Current` pattern. Its simplicity is the point.
@@ -289,6 +289,12 @@ Three reference codebases, each for a different layer — don't mix their roles:
 - **The Odin Project** (github raw files) — the **product-mechanics reference**:
   completion, sidebar, dashboard. Copy mechanics, not its Rails style (it uses
   ViewComponents/Tailwind — we don't).
+- **once-campfire** (`/home/pingvinus/dhh-references/once-campfire/`) — the
+  **"native Web API instead of a dependency" reference**: `<details>` + a
+  12-line popup controller, Web Share, clipboard, `Intl` instead of a date
+  library, paired `view-transition-name`s. Take the techniques, NOT its CSS: it
+  is light+dark and therefore built on `filter: invert()/brightness()`, which
+  fights our OKLCH palette and mask-painted icons.
 
 `app/assets/stylesheets/` mirrors Writebook's file layout 1-to-1 (`_reset.css`,
 `base.css`, `colors.css`, `layout.css`, `utilities.css`, `buttons.css`,
