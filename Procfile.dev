@@ -1,1 +1,5 @@
 web: bin/rails server
+# Rebuilds app/assets/builds/application.css whenever a stylesheet changes.
+# Without it an edit to app/assets/stylesheets/*.css has no visible effect —
+# the page loads the built file, not the sources.
+css: bin/rails dartsass:watch

@@ -1,0 +1,74 @@
+// Build manifest, not a stylesheet: dartsass concatenates these into ONE
+// minified app/assets/builds/application.css at assets:precompile.
+//
+// The order IS the cascade — it is the same filename-alphabetical order
+// Propshaft's `stylesheet_link_tag :all` used, so nothing about specificity
+// changes. Keep it alphabetical; bedrock stays prefixed with `_`.
+//
+// Adding a stylesheet? Add it here too. A missing line ships a page with no
+// styling and raises nothing — test/assets/stylesheet_manifest_test.rb fails
+// instead.
+
+@use "_fonts";
+@use "_reset";
+@use "about";
+@use "account";
+@use "actiontext";
+@use "admin";
+@use "animation";
+@use "auth";
+@use "authors";
+@use "badges";
+@use "base";
+@use "bookmarks";
+@use "breadcrumbs";
+@use "builder";
+@use "business";
+@use "buttons";
+@use "calculators";
+@use "callouts";
+@use "code";
+@use "colors";
+@use "contribute";
+@use "contributors";
+@use "course-card";
+@use "curriculum";
+@use "dashboard";
+@use "faq";
+@use "feedback";
+@use "figures";
+@use "flash";
+@use "footer";
+@use "glossary";
+@use "guide";
+@use "header";
+@use "home";
+@use "icons";
+@use "import";
+@use "inputs";
+@use "journal";
+@use "layout";
+@use "legal";
+@use "lesson";
+@use "library";
+@use "maturity";
+@use "milestone";
+@use "news";
+@use "palette";
+@use "panels";
+@use "partners";
+@use "paths";
+@use "progress";
+@use "projects";
+@use "reactions";
+@use "resource_block";
+@use "resource_editor";
+@use "revisions";
+@use "roadmap";
+@use "search";
+@use "sidebar";
+@use "support";
+@use "text";
+@use "transitions";
+@use "utilities";
+@use "welcome-letter";

@@ -78,8 +78,9 @@ speed; for trivial edits, use judgment.
 - Ruby 4.0.5 / Rails 8.1.3
 - SQLite3 (+ Solid Queue, Solid Cache, Solid Cable)
 - Hotwire: Turbo + Stimulus
-- **Pure CSS** served directly by Propshaft. No Tailwind, no PostCSS, no build step.
-- Propshaft + Importmap (no Node.js, no bundler)
+- **Pure CSS**, bundled into one file by `dartsass-rails` at `assets:precompile`.
+  No Tailwind, no PostCSS, no Node.
+- Propshaft + Importmap (no Node.js, no npm)
 - Kamal 2 + Docker + Thruster
 - Auth: `has_secure_password` (bcrypt), hand-rolled — no Devise
 - Tests: Minitest + fixtures + Capybara
@@ -87,7 +88,8 @@ speed; for trivial edits, use judgment.
 ## Commands
 
 ```
-bin/dev                    # dev server (single Rails process, no asset watcher)
+bin/dev                    # dev server + dartsass watcher (foreman, Procfile.dev)
+bin/rails dartsass:build   # rebuild app/assets/builds/application.css by hand
 bin/rails test             # run tests
 bin/rails test:system      # system tests (Capybara)
 bin/rails db:migrate       # migrations
@@ -262,10 +264,11 @@ content-factory doc — architecture + step-by-step authoring) and the rest of `
   mechanism, no HTTP Basic.
 - No `respond_to` JSON/HTML unless a real consumer exists. No API-first design.
 - **No Tailwind, `@apply`, `@theme`, `@layer`, `@import` between CSS files, no
-  build step.** Propshaft serves CSS as-is; the browser handles the cascade via
-  filename load order. No `tailwind.config.js` / `postcss.config.js` / JS asset
-  tooling. No `dark:`/`sm:`/`lg:` prefixes — use `@media` inside the CSS. The app
-  is black-first / single-theme; there is no light/dark switch.
+  Node.** We write plain CSS; dartsass only concatenates and minifies it — never
+  write Sass (`$vars`, mixins, `@extend`), or the files stop being readable as
+  the CSS they are. No `tailwind.config.js` / `postcss.config.js` / npm. No
+  `dark:`/`sm:`/`lg:` prefixes — use `@media` inside the CSS. The app is
+  black-first / single-theme; there is no light/dark switch.
 - **Self-hosted web fonts only** — no Google Fonts, no CDN (font files are
   downloaded once and committed; nothing loads from a CDN at runtime). Inter +
   Inter Tight in `app/assets/fonts/`, declared in `_fonts.css`, are the default
@@ -298,8 +301,16 @@ Four reference codebases, each for a different layer — don't mix their roles:
 
 `app/assets/stylesheets/` mirrors Writebook's file layout 1-to-1 (`_reset.css`,
 `base.css`, `colors.css`, `layout.css`, `utilities.css`, `buttons.css`,
-`inputs.css`, `panels.css`, etc.) plus domain files. Propshaft emits one `<link>`
-per file; cascade is filename-alphabetical (prefix bedrock with `_`).
+`inputs.css`, `panels.css`, etc.) plus domain files. **Cascade is
+filename-alphabetical** (prefix bedrock with `_`) — there are no CSS layers, so
+load order IS specificity.
+
+That order now lives in `application.scss`, an alphabetical list of `@use` lines
+that dartsass concatenates into one minified `app/assets/builds/application.css`
+(69 render-blocking `<link>`s and 113 KB became 6 and ~48 KB). **A new
+stylesheet must be added to that list** — miss it and the file simply never
+ships, with no error; `test/assets/stylesheet_manifest_test.rb` fails instead.
+Gem stylesheets (lexxy, trix) can't join the build and stay separate links.
 
 - **Fonts:** `@font-face` in `_fonts.css`. `--font-sans` (Inter) for body/UI;
   `--font-display` (Inter Tight) for headings — declared in `base.css`. Largest

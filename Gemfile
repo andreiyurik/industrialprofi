@@ -4,6 +4,11 @@ source "https://rubygems.org"
 gem "rails", "~> 8.1.3"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
+# Bundles app/assets/stylesheets into ONE minified file at assets:precompile.
+# Not for writing Sass — we write plain CSS — but because Propshaft emits one
+# render-blocking <link> per file, and 64 of them cost ~1s of first paint on
+# mobile. Ships its own Dart Sass binary: no Node, no npm, no node_modules.
+gem "dartsass-rails"
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", ">= 2.1"
 # Use the Puma web server [https://github.com/puma/puma]

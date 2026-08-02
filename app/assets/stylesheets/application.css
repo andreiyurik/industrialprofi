@@ -1,2 +1,0 @@
-/* Propshaft serves every stylesheet individually (stylesheet_link_tag :all) —
-   no manifest, no compilation. Cascade order is filename-alphabetical. */

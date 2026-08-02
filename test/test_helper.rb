@@ -3,6 +3,15 @@ require_relative "../config/environment"
 require "rails/test_help"
 require_relative "test_helpers/session_test_helper"
 
+# dartsass writes app/assets/builds/application.css during assets:precompile,
+# which `rails test` never runs. On a fresh clone (the directory is gitignored)
+# or in CI, the very first page render would die on a missing asset. Build it
+# once instead of making everyone learn that by hitting it.
+unless Rails.root.join("app/assets/builds/application.css").exist?
+  puts "Building stylesheets (app/assets/builds is empty)…"
+  system("bin/rails", "dartsass:build", exception: true)
+end
+
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers

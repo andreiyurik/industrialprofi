@@ -60,7 +60,9 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%= stylesheet_link_tag :all, "data-turbo-track": "reload" %>
+    <%# One built file instead of 64 links: every <link> blocks the first paint.
+        Built by dartsass at assets:precompile — see application.scss. %>
+    <%= stylesheet_link_tag "application", *vendor_stylesheets, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= render "shared/metrika" if site_config.metrika_id.present? %>
   </head>
