@@ -1,8 +1,12 @@
-<%# locals: (message:) -%>
+<%# locals: (message:, kind: :notice) -%>
+<% alert = kind.to_sym == :alert %>
 <div class="flash"
      data-controller="element-removal"
      data-element-removal-delay-value="4000">
-  <div class="flash__inner">
+  <%# role="alert" interrupts a screen reader, "status" waits its turn — a
+      failure is worth the interruption, a confirmation isn't. %>
+  <div class="flash__inner <%= "flash__inner--alert" if alert %>"
+       role="<%= alert ? "alert" : "status" %>" aria-atomic="true">
     <%= message %>
   </div>
 </div>

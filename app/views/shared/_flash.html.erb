@@ -1,5 +1,7 @@
 <%= turbo_frame_tag :flash do %>
-  <% if message = flash[:notice] || flash[:alert] %>
+  <% if message = flash[:notice] %>
     <%= render "shared/flash_message", message: message %>
+  <% elsif message = flash[:alert] %>
+    <%= render "shared/flash_message", message: message, kind: :alert %>
   <% end %>
 <% end %>

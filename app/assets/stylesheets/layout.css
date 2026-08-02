@@ -16,6 +16,28 @@ body > * {
   min-inline-size: 0;
 }
 
+/* Parked off-canvas, so it costs nothing visually and lands in view on the very
+   first Tab — otherwise a keyboard reader walks the header's ~15 links again on
+   every lesson page. Fixed, not absolute: the header is sticky and would cover
+   an absolutely-placed link once the page is scrolled. */
+.skip-nav {
+  background-color: var(--color-ink);
+  border-radius: 0.5em;
+  color: var(--color-bg);
+  font-weight: 600;
+  inset-block-start: var(--block-space);
+  inset-inline-start: -9999px;
+  padding: 0.6em 1.1em;
+  position: fixed;
+  text-decoration: none;
+  white-space: nowrap;
+  z-index: 60;
+
+  &:focus {
+    inset-inline-start: var(--inline-space);
+  }
+}
+
 .container {
   inline-size: 100%;
   margin-inline: auto;

@@ -13,7 +13,9 @@
 
 <section class="section">
   <div class="container container--reading">
-    <div class="path-hero">
+    <%# The catalog card opens into this block — the other half of the pair in
+        paths/_path_card. Inline, not a CSS rule: courses/show reuses .path-hero. %>
+    <div class="path-hero" style="view-transition-name: path-<%= @path.slug %>">
       <div class="topic-hero-icon">
         <%= render "shared/topic_badge", token: @path.emblem %>
       </div>

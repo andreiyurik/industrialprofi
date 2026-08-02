@@ -1,6 +1,11 @@
 <%# locals: (path:, completed_count: 0, courses_count: nil) -%>
 <% courses_count ||= path.courses_count %>
-<a href="<%= path_path(path) %>" class="panel panel--hover path-card">
+<%# The name pairs this card with the profession's own hero block (paths/show),
+    so the card opens into it instead of the page cross-fading — Fizzy's
+    list-row→detail-panel idiom. Name the BOX, never the text inside it: a
+    morphing text element double-exposes. Rename one side and the effect dies. %>
+<a href="<%= path_path(path) %>" class="panel panel--hover path-card"
+   style="view-transition-name: path-<%= path.slug %>">
   <h2 class="path-card__title"><%= path.title %></h2>
   <% if path.description.present? %>
     <p class="path-card__desc"><%= path.description %></p>

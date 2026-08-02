@@ -209,6 +209,8 @@
   hyphens: none;
   line-height: 1.1;
   margin-block: 0;
+  /* Sentence case, like the profession's own hero title: this is a navigation
+     label people scan, and the word's shape is what they scan by. */
   text-wrap: balance;
 }
 
@@ -326,8 +328,8 @@
   text-align: center;
 }
 
-/* Same GOST face as the catalog card poster — the profession name keeps one
-   identity at every size it appears. */
+/* Same GOST face AND same case as the catalog card poster — the profession name
+   keeps one identity at every size it appears. */
 .path__title {
   font-family: var(--font-technical);
   font-size: clamp(2rem, 5vw, 3rem);
@@ -335,15 +337,16 @@
   letter-spacing: 0.005em;
   line-height: 1.1;
   margin-block: 0;
-  text-transform: uppercase;
 }
 
-/* GOST is reserved for the profession identity, not every hero underneath it. */
+/* GOST is reserved for the profession identity, not every hero underneath it;
+   a chapter title is a largest-title instead — Inter Tight 800 + uppercase. */
 .path__title--course {
   font-family: var(--font-display);
   font-weight: 800;
   letter-spacing: -0.025em;
   line-height: 1.02;
+  text-transform: uppercase;
 }
 
 .path__overview {

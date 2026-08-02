@@ -1,5 +1,8 @@
 <% meta_title(t("auth.sign_in_title")) %>
 <% @layout_class = "main--auth" %>
+<%# Load fresh, never from Turbo's snapshot cache — otherwise a signed-in
+    header flashes behind the login form when returning here after logout. %>
+<% turbo_page_requires_reload %>
 
 <section class="section">
   <div class="container">

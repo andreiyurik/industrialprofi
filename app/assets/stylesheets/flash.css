@@ -1,5 +1,7 @@
 .flash {
-  inset-block-start: var(--block-space);
+  /* Clears the sticky header (same idiom as the lesson sidebar) — parked at the
+     very top it covered the nav words behind it. */
+  inset-block-start: calc(var(--header-height) + var(--block-space-half));
   inset-inline: 0;
   margin-inline: auto;
   max-inline-size: 40ch;
@@ -18,12 +20,19 @@
 }
 
 .flash__inner {
-  background-color: var(--color-ink);
+  background-color: var(--flash-background, var(--color-ink));
   border-radius: 0.5em;
   box-shadow:
     0 4px 12px -2px oklch(var(--lch-always-black) / 0.18),
     0 2px 4px -2px oklch(var(--lch-always-black) / 0.12);
-  color: var(--color-bg);
+  color: var(--flash-color, var(--color-bg));
   padding: 0.7em 1em;
   pointer-events: auto;
+}
+
+/* "Не сохранилось" must not look identical to "сохранено" — the toast is the
+   only place the outcome is stated, and it leaves after four seconds. */
+.flash__inner--alert {
+  --flash-background: var(--color-negative);
+  --flash-color: var(--color-ink-reversed);
 }

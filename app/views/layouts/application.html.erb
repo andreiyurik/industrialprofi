@@ -66,6 +66,9 @@
   </head>
 
   <body>
+    <%# Absolute, so it stays out of body's 3-row grid until focus reveals it. %>
+    <a href="#main-content" class="skip-nav"><%= t("nav.skip_to_content") %></a>
+
     <%# Hand-drawn line reused by every nav word's hover underline (via <use>).
         One rough double-stroke path; CodeMyUI "hand-drawn underline" technique. %>
     <svg width="0" height="0" aria-hidden="true" class="svg-defs">
@@ -167,13 +170,8 @@
                     <%= icon_tag "question" %>
                     <%= t("nav.faq") %>
                   <% end %>
-                  <%# TOP keeps Support Us right in the drawer — for a
-                      donation-run project that placement is a decision. %>
-                  <%= link_to support_us_path, class: "account-menu__link",
-                        aria: { current: ("page" if current_page?(support_us_path)) } do %>
-                    <%= icon_tag "heart" %>
-                    <%= t("nav.support") %>
-                  <% end %>
+                  <%# Support used to sit here too; it now lives in the top bar
+                      itself, visible on every screen and to members as well. %>
                 </div>
                 <%# TOP's guest pair: Get started + Sign in. The signup row is
                     drawer-only (the desktop header has the CTA pill). %>
@@ -196,6 +194,21 @@
               <% end %>
             </div>
           </details>
+
+          <%# The project runs on donations, so the door to /support_us is the one
+              non-product link allowed in the top bar (see header.css). Worded on
+              desktop — a hand-with-heart alone reads as "favourites" — and icon
+              only where the row has no room. Same for guests and members: it
+              used to be guest-and-mobile-only, so a signed-in reader had it
+              nowhere but the footer. %>
+          <%= link_to support_us_path, class: "header__support link-quiet",
+                title: t("nav.support"),
+                aria: { current: ("page" if current_page?(support_us_path)) } do %>
+            <%= icon_tag "hand-heart-light" %>
+            <%# One label, two states: read aloud always, shown only where the
+                row has room (see header.css) — never a duplicated SR-only copy. %>
+            <span class="header__support-label"><%= t("nav.support") %></span>
+          <% end %>
 
           <%# Search is a quiet icon in the utility cluster (search + account)
               at the corner, after the nav words. Always visible, even on
@@ -239,7 +252,7 @@
     <%= render "shared/welcome_letter" if flash[:welcome_letter] %>
     <%= render "shared/editor_welcome_letter" if signed_in? && Current.user.needs_editor_welcome? %>
 
-    <main class="<%= @layout_class %>">
+    <main id="main-content" class="<%= @layout_class %>">
       <%= yield %>
     </main>
 

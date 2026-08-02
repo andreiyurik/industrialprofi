@@ -4,6 +4,9 @@
   position: sticky;
   inset-block-start: 0;
   transition: transform 250ms ease;
+  /* Writebook's trick: naming the chrome takes it OUT of the page cross-fade, so
+     it holds still between pages instead of blinking. Removes motion, not adds. */
+  view-transition-name: header;
   z-index: 40;
 }
 
@@ -77,6 +80,45 @@
 
 .header__search[aria-current="page"] {
   color: var(--color-link);
+}
+
+/* The donation door. Worded from 1024px up, where the nav words are inline and
+   the row has room; below that the label collapses to screen-reader-only and
+   the glyph carries it, same as search. */
+.header__support {
+  align-items: center;
+  color: var(--color-ink);
+  display: inline-flex;
+  gap: 0.4rem;
+  padding: 0.3rem;
+  white-space: nowrap;
+}
+
+.header__support .icon {
+  block-size: 1.3rem;
+  inline-size: 1.3rem;
+}
+
+.header__support[aria-current="page"] {
+  color: var(--color-link);
+}
+
+.header__support-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Not 1024px, where the inline nav appears: measured, the word tips the row
+   into wrapping there. It gets its word once the row can actually hold it. */
+@media (max-width: 1199px) {
+  .header__support-label {
+    block-size: 1px;
+    clip-path: inset(50%);
+    inline-size: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+  }
 }
 
 /* Palette wrapper only scopes the Stimulus controller; the link must stay a

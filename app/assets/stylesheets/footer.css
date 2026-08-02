@@ -2,6 +2,8 @@
   background-color: var(--color-bg);
   border-block-start: 1px solid var(--color-subtle);
   padding-block: 1.75rem 0;
+  /* Held still across pages, like the header — see header.css. */
+  view-transition-name: footer;
 }
 
 /* Mobile stacks; tablet shows the 3 link columns under the brand; desktop
