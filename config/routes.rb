@@ -5,6 +5,19 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # www resolves to this server too, so it is SERVED only to be sent away: one
+  # permanent redirect to the bare domain keeps a single canonical for search
+  # and stops www from 404ing. kamal-proxy holds the cert for both (deploy.yml).
+  # First in the file — it must win over every route below.
+  #
+  # Matched against OUR www host exactly, never /\Awww\./: that pattern also
+  # catches www.example.com, the default host of every integration test.
+  constraints(host: "www.#{URI(Rails.application.config.x.site.url).host}") do
+    match "(*path)", via: :all, to: redirect(status: 301) { |_params, request|
+      "#{Rails.application.config.x.site.url}#{request.fullpath}"
+    }
+  end
+
   # Installable PWA: dynamic manifest + service worker from app/views/pwa/*.
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest, defaults: { format: :json }
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker, defaults: { format: :js }

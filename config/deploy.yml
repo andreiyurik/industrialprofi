@@ -16,7 +16,12 @@ servers:
 # production.rb has assume_ssl + force_ssl on to match).
 proxy:
   ssl: true
-  host: industrialprofi.com
+  # www is listed so kamal-proxy routes it AND Let's Encrypt issues a cert for
+  # it; the app then 301s it to the bare domain (config/routes.rb). Without it
+  # www 404s over http and fails the TLS handshake entirely over https.
+  hosts:
+    - industrialprofi.com
+    - www.industrialprofi.com
 
 # Branded error pages served BY kamal-proxy (not the app), so they show even when
 # the app container is stopped. Kamal uploads only files matching {4??,5??}.html
