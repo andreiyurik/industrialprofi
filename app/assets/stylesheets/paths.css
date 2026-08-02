@@ -267,14 +267,6 @@
   }
 }
 
-.section-subtitle {
-  color: var(--color-subtle-dark);
-  margin-block: var(--block-space) 0;
-  margin-inline: auto;
-  max-inline-size: 42rem;
-  text-align: center;
-}
-
 /* One quiet icon style for every course/path circle — the framing circle itself
    comes from the caller's context (progress ring, bordered badge, hero circle). */
 .topic-badge {

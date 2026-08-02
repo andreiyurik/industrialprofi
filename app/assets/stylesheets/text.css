@@ -278,6 +278,17 @@ ins {
   text-transform: uppercase;
 }
 
+/* Belongs beside its title, not in paths.css where it used to live: /projects,
+   /calculators and /glossary use it too, and a page sheet is the wrong home for
+   a component half the site renders. */
+.section-subtitle {
+  color: var(--color-subtle-dark);
+  margin-block: var(--block-space) 0;
+  margin-inline: auto;
+  max-inline-size: 42rem;
+  text-align: center;
+}
+
 /* Long-form prose (rendered lesson content) — tuned for comfortable long reading. */
 .prose {
   font-size: 1.05rem;
