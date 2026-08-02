@@ -52,7 +52,7 @@
 .resource-block__group {
   color: var(--color-subtle-dark);
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 400;
   grid-column: 1 / -1;
   margin-block: calc(1.25rem - 0.6rem) calc(var(--block-space-half) - 0.6rem);
 }

@@ -457,7 +457,7 @@
   color: var(--color-ink);
   flex: 1;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   min-inline-size: 0;
   text-decoration: none;
 
@@ -525,7 +525,7 @@
   color: var(--color-ink);
   flex: 1;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   min-inline-size: 0;
   text-decoration: none;
 

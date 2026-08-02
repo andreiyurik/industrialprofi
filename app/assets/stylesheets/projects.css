@@ -48,7 +48,7 @@
   color: var(--color-ink);
   cursor: pointer;
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 600;
   max-inline-size: 100%;
   padding: 0.4em 0.9em;
   transition: border-color 150ms ease, background-color 150ms ease;
@@ -153,7 +153,7 @@
   color: var(--color-subtle-dark);
   font-family: var(--font-sans);
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: normal;
   text-transform: none;
 }

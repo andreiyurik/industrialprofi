@@ -105,7 +105,7 @@
 
 .header__support-label {
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 /* Not 1024px, where the inline nav appears: measured, the word tips the row
@@ -705,7 +705,7 @@
   .header__menu-panel :is(.nav__link, .account-menu__link) {
     border-radius: 0;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     gap: var(--block-space);
     inline-size: auto;
     margin-inline: 0;

@@ -314,7 +314,7 @@
 .admin-comparison__heading {
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 400;
   margin-block: 0 var(--block-space-half);
 }
 
@@ -428,7 +428,7 @@
 .suggestion-section {
   color: var(--color-ink);
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   margin-block: 0;
 }
 
@@ -887,7 +887,7 @@
   padding: 0.3rem 0.7rem;
   border-radius: 0.5rem;
   color: var(--color-subtle-dark);
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -1147,7 +1147,7 @@
   border-radius: 1em;
   color: var(--color-subtle-dark);
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 400;
   padding: 0.1rem 0.6rem;
   white-space: nowrap;
 }

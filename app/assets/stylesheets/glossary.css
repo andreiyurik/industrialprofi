@@ -236,7 +236,7 @@
 
 /* Medium, not bold — the расшифровка must not out-shout the term above it. */
 .glossary__full {
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .glossary__note {
