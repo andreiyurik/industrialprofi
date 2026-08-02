@@ -101,6 +101,33 @@ a.lesson-resource__source {
   }
 }
 
+/* On a lesson, .lesson-resources and .lesson-resource are `display: contents`
+   so their pieces drop into the shared grid on .resource-block__list. The
+   library has no such ancestor, so the row must own its layout — reusing the
+   lesson classes here left every badge, title and bridge as a loose inline in
+   one long paragraph. */
+.library-list {
+  display: grid;
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+  row-gap: 0.85rem;
+}
+
+.lesson-resource--library {
+  align-items: baseline;
+  column-gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.2rem;
+}
+
+/* A document title is a sentence, not a label: let it take the row and wrap,
+   keeping the badge at its start and the lesson bridge at its end. */
+.lesson-resource--library > .lesson-resource__link {
+  flex: 1 1 18rem;
+}
+
 /* Phones: three things (badge · long title · "в N статьях") can't share one
    row without squeezing. Give the title the full width and drop the lesson
    bridge to a quiet meta line beneath it — vertical hierarchy, nothing

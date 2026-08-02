@@ -4,7 +4,7 @@
   <% next unless grouped[category] %>
   <section class="library-group">
     <h2 class="library-group__title"><%= t("resources.category.#{category}") %></h2>
-    <ul class="lesson-resources">
+    <ul class="library-list">
       <%= render partial: "resources/resource_link", collection: grouped[category], as: :entry %>
     </ul>
   </section>

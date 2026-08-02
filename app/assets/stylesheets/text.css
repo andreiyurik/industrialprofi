@@ -257,6 +257,10 @@ ins {
 .page-title {
   font-size: clamp(2.25em, 7vw, 4.25em);
   font-weight: 800;
+  /* Headings inherit hyphens:auto, which at this size splits a word across
+     lines («ДОКУ-МЕНТЫ») and reads cheap. text-wrap: balance already finds a
+     better break; an over-long single word still breaks via overflow-wrap. */
+  hyphens: manual;
   letter-spacing: -0.025em;
   line-height: 1;
   margin-block: 0;
