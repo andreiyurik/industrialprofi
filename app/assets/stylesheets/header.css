@@ -785,7 +785,16 @@
   .header__brand {
     --brand-mark-height: 1.7em;
   }
+  /* Hidden from sight, NOT from the accessibility tree: the mark is
+     aria-hidden, so `display: none` here left the home link with no name at all
+     ("Links must have discernible text"). Same one-label-two-states trick as
+     .header__support-label. */
   .header__brand .brand__text {
-    display: none;
+    block-size: 1px;
+    clip-path: inset(50%);
+    inline-size: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
   }
 }
