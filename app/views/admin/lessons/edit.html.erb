@@ -1,4 +1,6 @@
 <% meta_title("#{t('admin.edit_lesson')} — #{@lesson.title}") %>
+<%# Asks the layout for the editor's stylesheets — readers don't get them. %>
+<% content_for :rich_text_editor, true %>
 
 <section class="admin-page">
   <div class="container">

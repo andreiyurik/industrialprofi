@@ -1,4 +1,6 @@
 <%# locals: (entry:) -%>
+<%# Asks the layout for the editor's stylesheets — readers don't get them. %>
+<% content_for :rich_text_editor, true %>
 <%= form_with model: entry, class: "journal-form" do |form| %>
   <% if entry.errors.any? %>
     <div class="auth__errors" role="alert">

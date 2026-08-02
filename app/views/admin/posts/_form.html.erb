@@ -1,5 +1,7 @@
 <%# Shared by new + edit. form_with routes to create/update by record state.
     file_field flips the form to multipart automatically. %>
+<%# Asks the layout for the editor's stylesheets — readers don't get them. %>
+<% content_for :rich_text_editor, true %>
 <%= form_with(model: [ :admin, post ], class: "admin-form") do |f| %>
   <%= render "admin/shared/form_errors", object: post %>
 
