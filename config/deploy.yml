@@ -41,10 +41,19 @@ registry:
 env:
   secret:
     - RAILS_MASTER_KEY
+    # A string we chose, not one we were given: it is served at /<key>.txt as
+    # proof of ownership, which is what lets IndexNow push new lessons to Yandex
+    # and Bing in hours instead of weeks. That makes the key itself the address,
+    # so anyone holding it can spend our crawl budget — and this repo is public.
+    # Value lives in config/indexnow.key (gitignored), read by .kamal/secrets.
+    - INDEXNOW_KEY
   clear:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true
+    # Yandex Metrika counter. Public by nature — it ships in the page source of
+    # every site that uses it. Blank means no analytics script is rendered at all.
+    YANDEX_METRIKA_ID: "111238943"
 
     # Outgoing mail identity. MAIL_REPLY_TO is the founder's real mailbox —
     # reminder emails invite people to "just reply".
