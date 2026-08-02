@@ -291,8 +291,13 @@ ins {
 
 /* Long-form prose (rendered lesson content) — tuned for comfortable long reading. */
 .prose {
-  font-size: 1.05rem;
+  font-size: 1rem;
   line-height: 1.7;
+
+  /* Short phone lines don't need book leading — denser wins for long reading. */
+  @media (max-width: 640px) {
+    line-height: 1.6;
+  }
 
   > :first-child {
     margin-block-start: 0;
@@ -306,7 +311,7 @@ ins {
      tight gap below — so each one visibly starts a new block of text. */
   :is(h2, h3, h4) {
     line-height: 1.2;
-    margin-block: 1.8em 0.5em;
+    margin-block: 1.5em 0.5em;
     text-wrap: balance;
   }
 
@@ -319,7 +324,7 @@ ins {
   }
 
   li + li {
-    margin-block-start: 0.4em;
+    margin-block-start: 0.25em;
   }
 
   /* Quiet bullets/numbers — the text carries the emphasis, not the marker. */
