@@ -1,10 +1,11 @@
-<%# locals: (difficulty:, sr_label: true) -%>
-<%# Difficulty on the chili-pepper convention: one / two / three gears in the
-    grade hue (colors.css --lch-grade-*). The COUNT carries the scale — ordinal
-    at a glance, colour-blind safe; the colour confirms it. %>
-<% gears = { "beginner" => 1, "intermediate" => 2, "advanced" => 3 }.fetch(difficulty, 1) %>
+<%# locals: (difficulty:, sr_label: true, tooltip: true) -%>
+<%# Difficulty as a РАЗРЯД: a Roman numeral in the GOST drafting face — the
+    trades' own rank system (разряды, группы допуска) doubling as a game-style
+    level for the younger crowd. Steel grade hues from colors.css --lch-grade-*.
+    tooltip: false lets a wrapping control own the hover text instead. %>
+<% numeral = { "beginner" => "I", "intermediate" => "II", "advanced" => "III" }.fetch(difficulty, "I") %>
 <span class="difficulty-mark difficulty-mark--<%= difficulty %>" aria-hidden="true"
-      title="<%= t("lessons.difficulty.#{difficulty}") %>"><% gears.times do %><%= icon_tag "gear-six" %><% end %></span>
+      <% if tooltip %>title="<%= t("lessons.difficulty.#{difficulty}") %>"<% end %>><%= numeral %></span>
 <% if sr_label %>
   <span class="for-screen-reader"><%= t("lessons.difficulty.#{difficulty}") %></span>
 <% end %>

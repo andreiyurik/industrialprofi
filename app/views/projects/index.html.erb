@@ -35,11 +35,16 @@
         <%= link_to t("projects.any_difficulty"), projects_path(path: @selected_path&.slug, saved: saved_param),
                     class: "filter-chip", "aria-current": @selected_difficulty.nil? || nil %>
         <% Lesson::DIFFICULTIES.each do |difficulty| %>
+          <%# Icon-only chips (founder call, 2026-08-03): the wrench count IS
+              the label — chili-pepper ordinality needs no caption. The word
+              stays for screen readers; hover gets the word + the ladder
+              definition via the chip's own native tooltip (the mark's is
+              suppressed so it can't shadow this one). %>
           <%= link_to projects_path(path: @selected_path&.slug, difficulty: difficulty, saved: saved_param),
                       class: "filter-chip",
+                      title: "#{t("lessons.difficulty.#{difficulty}")} — #{t("projects.difficulty_hints.#{difficulty}")}",
                       "aria-current": (@selected_difficulty == difficulty) || nil do %>
-            <%= render "shared/difficulty_mark", difficulty: difficulty, sr_label: false %>
-            <%= t("lessons.difficulty.#{difficulty}") %>
+            <%= render "shared/difficulty_mark", difficulty: difficulty, tooltip: false %>
           <% end %>
         <% end %>
       </div>

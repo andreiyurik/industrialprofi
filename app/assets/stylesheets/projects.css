@@ -31,9 +31,16 @@
   flex-wrap: nowrap;
 }
 
-/* The axes after the first get a hairline divider on wide screens so each reads as a separate control. */
-@media (min-width: 640px) {
-  .project-filters__paths + .project-filters__group,
+/* ≥641px: a deterministic two-row composition — the picker on its own centred
+   row, both chip groups sharing the second behind one divider. A single
+   flexible row stranded «Сохранённые» (plus a floating divider fragment) at
+   every width where it ALMOST fit — the select's width follows profession
+   names, so no fixed breakpoint holds. */
+@media (min-width: 641px) {
+  .project-filters__paths {
+    flex-basis: 100%;
+  }
+
   .project-filters__group + .project-filters__group {
     border-inline-start: 1px solid var(--color-subtle);
     padding-inline-start: 1.75rem;
@@ -144,31 +151,28 @@
   }
 }
 
-/* ── Difficulty swatches (filter chips) + tile grade stripes ───────── */
-/* Ski-trail convention: green / yellow / red, category colours from the same
-   OKLCH primitives as the resource badges. Green is the var fallback. The
-   chips pair each colour with its word — the legend; the tiles carry the
-   same colour as a piste-style grade stripe on their left edge. */
+/* ── Difficulty marks (filter chips + dashboard rows) ──────────────── */
+/* РАЗРЯДЫ: Roman numerals in the GOST drafting face — the trades' own rank
+   ladder as the difficulty scale. Steel temperatures, not traffic lights:
+   cold steel-green / warm graphite / oxide red (colors.css --lch-grade-*);
+   the numeral carries the scale, the tint is a temperature. */
+.difficulty-mark {
+  color: var(--difficulty-color, oklch(var(--lch-grade-green)));
+  display: inline-flex;
+  flex-shrink: 0;
+  font-family: var(--font-technical);
+  font-size: 1.05em;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+
 .difficulty-mark--intermediate {
   --difficulty-color: oklch(var(--lch-grade-yellow));
 }
 
 .difficulty-mark--advanced {
   --difficulty-color: oklch(var(--lch-grade-red));
-}
-
-/* Gears × count (chili-pepper convention) — the glyphs paint in the grade hue
-   via currentColor. */
-.difficulty-mark {
-  color: var(--difficulty-color, oklch(var(--lch-grade-green)));
-  display: inline-flex;
-  flex-shrink: 0;
-  gap: 0.12em;
-
-  .icon {
-    block-size: 0.95em;
-    inline-size: 0.95em;
-  }
 }
 
 /* ── Project groups ──────────────────────────────────────────────── */
@@ -283,7 +287,7 @@
 }
 
 /* Done earns the same green check the chapter curriculum rows use, pinned to
-   the card's foot; the stripe recedes — this grade is behind the reader. */
+   the card's foot. */
 .project-tile__check {
   align-self: flex-end;
   color: var(--color-positive);
