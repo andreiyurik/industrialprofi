@@ -40,6 +40,7 @@
   }
 }
 
+
 /* Profession picker — a pill matching the chip row, but with the native dropdown arrow (themed via color-scheme: dark) as its "more options" affordance. */
 .filter-select {
   background-color: var(--color-subtle-light);
@@ -106,26 +107,68 @@
   text-align: center;
 }
 
+/* Phones: centred wrapping stranded lone chips mid-screen («Челлендж»,
+   «Сохранённые» each on its own centred line — a staircase). Stack the axes
+   instead: full-width picker, then each chip group as ONE thumb-scrollable
+   line, everything on the same left edge. Placed AFTER the base filter rules —
+   source order is what lets these win. */
+@media (max-width: 640px) {
+  .project-filters {
+    gap: 0.6rem;
+  }
+
+  .project-filters__paths,
+  .filter-select {
+    inline-size: 100%;
+  }
+
+  .project-filters__group {
+    flex-wrap: nowrap;
+    inline-size: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 2px; /* keep the chips' focus ring unclipped */
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .filter-chip {
+    flex-shrink: 0;
+  }
+
+  .project-filters__count {
+    text-align: start;
+  }
+}
+
 /* ── Difficulty swatches (filter chips) + tile grade stripes ───────── */
 /* Ski-trail convention: green / yellow / red, category colours from the same
    OKLCH primitives as the resource badges. Green is the var fallback. The
    chips pair each colour with its word — the legend; the tiles carry the
    same colour as a piste-style grade stripe on their left edge. */
 .difficulty-mark--intermediate {
-  --difficulty-color: oklch(var(--lch-yellow));
+  --difficulty-color: oklch(var(--lch-grade-yellow));
 }
 
 .difficulty-mark--advanced {
-  --difficulty-color: oklch(var(--lch-red));
+  --difficulty-color: oklch(var(--lch-grade-red));
 }
 
+/* Gears × count (chili-pepper convention) — the glyphs paint in the grade hue
+   via currentColor. */
 .difficulty-mark {
-  background-color: var(--difficulty-color, oklch(var(--lch-green)));
-  block-size: 0.5rem;
-  border-radius: 1px;
-  display: inline-block;
+  color: var(--difficulty-color, oklch(var(--lch-grade-green)));
+  display: inline-flex;
   flex-shrink: 0;
-  inline-size: 0.5rem;
+  gap: 0.12em;
+
+  .icon {
+    block-size: 0.95em;
+    inline-size: 0.95em;
+  }
 }
 
 /* ── Project groups ──────────────────────────────────────────────── */
@@ -195,9 +238,9 @@
    Rails red: the frame is a 3px box-shadow RING (spread, no layout shift) —
    barely tinted at rest, so touch still reads the level; hover fills the ring
    with the full hue and lifts the card 3px on their 0.25s easeOut curve. */
-.project-tile--beginner { --difficulty-lch: var(--lch-green); }
-.project-tile--intermediate { --difficulty-lch: var(--lch-yellow); }
-.project-tile--advanced { --difficulty-lch: var(--lch-red); }
+.project-tile--beginner { --difficulty-lch: var(--lch-grade-green); }
+.project-tile--intermediate { --difficulty-lch: var(--lch-grade-yellow); }
+.project-tile--advanced { --difficulty-lch: var(--lch-grade-red); }
 
 .project-tile {
   --panel-border-radius: 3px;
@@ -206,7 +249,7 @@
   box-shadow:
     0 3px 15px 2px oklch(var(--lch-always-black) / 0.05),
     0 1px 1px oklch(var(--lch-always-black) / 0.02),
-    0 0 0 2px oklch(var(--difficulty-lch) / 0.14);
+    0 0 0 2px oklch(var(--difficulty-lch) / 0.35);
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -231,9 +274,11 @@
     0 0 0 2px oklch(var(--difficulty-lch));
 }
 
+/* A quiet grow instead of Rails' lift (founder call, 2026-08-03): the card
+   swells ~2% toward the reader on the same easeOut curve. */
 @media (prefers-reduced-motion: no-preference) {
   .project-tile-wrap:is(:hover, :has(:focus-visible)) {
-    transform: translateY(-3px);
+    transform: scale(1.02);
   }
 }
 
@@ -251,11 +296,16 @@
   }
 }
 
+/* The GOST drafting face — the same thread as the profession posters and the
+   task body inside a lesson: this catalog IS the задания, so its labels speak
+   the drawing-frame voice. Slightly larger than the Inter it replaces: the
+   condensed face reads smaller at equal size. */
 .project-tile__title {
   color: var(--color-ink);
-  font-size: 0.95rem;
-  font-weight: 600;
-  line-height: 1.4;
+  font-family: var(--font-technical);
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.35;
   /* stay clear of the corner bookmark */
   padding-inline-end: 1.4rem;
   text-wrap: balance;
@@ -274,7 +324,7 @@
   box-shadow:
     0 3px 15px 2px oklch(var(--lch-always-black) / 0.05),
     0 1px 1px oklch(var(--lch-always-black) / 0.02),
-    0 0 0 2px oklch(var(--difficulty-lch) / 0.12);
+    0 0 0 2px oklch(var(--difficulty-lch) / 0.22);
 }
 
 .project-tile-wrap:has(> .project-tile--done) {

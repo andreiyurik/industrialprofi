@@ -24,6 +24,12 @@
   --lch-blue-dark: 44% 0.09 248;
   --lch-red: 64% 0.21 27;
   --lch-green: 70% 0.12 150;
+  /* Difficulty grades (/projects) — the RAL control-panel register: reseda
+     green / ochre / oxide red. Same three meanings as the traffic-light trio,
+     roughly half the chroma — engineered, not neon. */
+  --lch-grade-green: 57% 0.06 150;
+  --lch-grade-yellow: 64% 0.07 88;
+  --lch-grade-red: 51% 0.10 27;
   /* Resource-type badge accents — the one sanctioned set of category hues
      outside the monochrome+blue rule (see CLAUDE.md). Used ONLY for the small
      type pills on lesson resources, never for general UI. */

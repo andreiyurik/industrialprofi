@@ -1,9 +1,10 @@
 <%# locals: (difficulty:, sr_label: true) -%>
-<%# Inline difficulty swatch — a small colour square (green / yellow / red,
-    ski-trail convention) marking the level on filter chips and list rows.
-    Colours set in projects.css. %>
+<%# Difficulty on the chili-pepper convention: one / two / three gears in the
+    grade hue (colors.css --lch-grade-*). The COUNT carries the scale — ordinal
+    at a glance, colour-blind safe; the colour confirms it. %>
+<% gears = { "beginner" => 1, "intermediate" => 2, "advanced" => 3 }.fetch(difficulty, 1) %>
 <span class="difficulty-mark difficulty-mark--<%= difficulty %>" aria-hidden="true"
-      title="<%= t("lessons.difficulty.#{difficulty}") %>"></span>
+      title="<%= t("lessons.difficulty.#{difficulty}") %>"><% gears.times do %><%= icon_tag "gear-six" %><% end %></span>
 <% if sr_label %>
   <span class="for-screen-reader"><%= t("lessons.difficulty.#{difficulty}") %></span>
 <% end %>

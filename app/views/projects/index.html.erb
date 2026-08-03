@@ -53,7 +53,10 @@
           <% end %>
         </div>
       <% end %>
-      <p class="project-filters__count"><%= t("projects.found", count: @found_count) %></p>
+      <%# With a level picked, the count line also DEFINES the level (the
+          difficulty ladder from the authoring canon) — the meaning appears
+          exactly when the reader reaches for it, zero standing noise. %>
+      <p class="project-filters__count"><%= t("projects.found", count: @found_count) %><% if @selected_difficulty %> · <%= t("projects.difficulty_hints.#{@selected_difficulty}") %><% end %></p>
     </nav>
 
     <% if @lessons_by_path.any? %>
