@@ -53,6 +53,7 @@
 .icon--clipboard { --svg: url("icons/clipboard.svg"); }
 .icon--clipboard-text { --svg: url("icons/clipboard-text.svg"); }
 .icon--clock { --svg: url("icons/clock.svg"); }
+.icon--coffee { --svg: url("icons/coffee.svg"); }
 .icon--copy { --svg: url("icons/copy.svg"); }
 .icon--cpu { --svg: url("icons/cpu.svg"); }
 .icon--download-simple { --svg: url("icons/download-simple.svg"); }
