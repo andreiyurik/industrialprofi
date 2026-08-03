@@ -301,35 +301,45 @@
   padding-inline-start: 0;
 }
 
-/* Grid, not flex: the lang badge is optional per row, and with a flex row
-   that meant a row without one had its title start ~2rem further left than
-   its neighbours — every row's title visibly ragged against the others.
-   The grid lives on .resource-block__list (the shared ancestor of BOTH group
-   <ul>s), not here — a lone "Рекомендуемые" list with no lang badge on any
-   row would otherwise size its own columns independently of "Обязательные"
-   above it. Both this <ul> and its <li>s are display: contents purely to pass
-   their children through to that shared grid. */
 .lesson-resources {
-  display: contents;
+  display: grid;
   list-style: none;
   margin-block: 0;
   padding-inline-start: 0;
+  row-gap: 0.7rem;
 }
 
+/* Search-result shape: coloured kind glyph hanging in the margin, full-width
+   title, one quiet caption line beneath. */
 .lesson-resource {
-  display: contents;
+  column-gap: 0.55rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
 }
 
-/* Sits at the top-left so the badge stays put when a long title wraps. */
+/* Same hue-per-kind axis as .badge--* (badges.css), in bare-glyph form. */
+.lesson-resource__marker {
+  line-height: 0;
+  margin-block-start: 0.3em; /* optical: centred on the title's first line */
+}
+
+.lesson-resource__marker .icon {
+  block-size: 1.05em;
+  inline-size: 1.05em;
+}
+
+.lesson-resource__marker--norm { color: oklch(var(--lch-red)); }
+.lesson-resource__marker--book { color: oklch(var(--lch-teal)); }
+.lesson-resource__marker--doc { color: oklch(var(--lch-cyan)); }
+.lesson-resource__marker--course { color: oklch(var(--lch-orange)); }
+.lesson-resource__marker--video { color: oklch(var(--lch-purple)); }
+.lesson-resource__marker--article { color: oklch(var(--lch-yellow)); }
+.lesson-resource__marker--software { color: oklch(var(--lch-pink)); }
+.lesson-resource__marker--tool { color: oklch(var(--lch-green)); }
+
+/* The pill form lives on in the library and admin lists. */
 .lesson-resource__badge {
-  grid-column: 1;
   gap: 0.3em;
-  margin-block-start: 0.1em;
-}
-
-.lesson-resource__lang {
-  grid-column: 2;
-  margin-block-start: 0.1em; /* matches the kind badge's optical nudge */
 }
 
 .lesson-resource__badge .icon {
@@ -338,16 +348,18 @@
   inline-size: 0.95em;
 }
 
+/* A homogeneous link list (like the TOC): blue carries "clickable", so no
+   resting underline — multi-line titles otherwise render as a lattice. List
+   leading, not prose leading: multi-line titles stay one visual unit. */
 .lesson-resource__link {
   color: var(--color-link);
   font-size: 0.95rem;
-  text-decoration: underline;
-  text-decoration-color: var(--color-subtle);
-  transition: text-decoration-color 200ms ease;
+  line-height: 1.45;
+  text-decoration: none;
 
   @media (any-hover: hover) {
     &:hover {
-      text-decoration-color: var(--color-link);
+      text-decoration: underline;
     }
   }
 }
@@ -368,14 +380,22 @@
 .lesson-resource__body {
   display: grid;
   gap: 0.15rem;
-  grid-column: 3;
 }
 
-/* The curator's one-liner: WHAT exactly to read in a 400-page document. */
-.lesson-resource__note {
+/* One caption line: type word · language · the curator's one-liner (WHAT
+   exactly to read in a 400-page document). */
+.lesson-resource__meta {
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
   line-height: 1.5;
+}
+
+.lesson-resource__meta > * + *::before {
+  content: "· ";
+}
+
+.lesson-resource__meta-lang {
+  letter-spacing: 0.04em;
 }
 
 .lesson-edit-prompt {

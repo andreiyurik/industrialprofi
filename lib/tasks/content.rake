@@ -13,7 +13,9 @@
 #                                    /lessons/ links (the wiki fabric), internal links
 #                                    pointing at a slug that doesn't exist, required
 #                                    long-form documents without a reader note
-#                                    («что именно смотреть»), placeholder resource URLs
+#                                    («что именно смотреть»), resource titles with
+#                                    commentary glued on (explanations belong in
+#                                    note, title = the citable name), placeholder resource URLs
 #                                    (example.com, fake video ids) left over from
 #                                    authoring, url-less resources still waiting for a
 #                                    real link (the curation queue — not an error), and
@@ -118,6 +120,26 @@ namespace :content do
     else
       puts "Обязательные документы без заметки читателю (#{noteless.size}) — добавь «что именно смотреть»:"
       noteless.each { |resource| puts "  · [#{resource.lesson&.slug}] «#{resource.title.to_s.truncate(70)}»" }
+    end
+
+    # A title is the source's citable NAME; explanations belong in `note`
+    # (tools/AUTHOR_PROFESSION.md → «title = имя, note = объяснение»). Two
+    # deliberately narrow smells, so legitimately long official ГОСТ/приказ
+    # names are never flagged: (a) an editorial parenthetical — words like
+    # «проверить»/«утратила силу» are instructions to the reader, never part
+    # of an official name; (b) a software/tool title with a dash-glued
+    # description — the brand name is short, the tail is a note.
+    commentary = /\([^)]*(провер|актуальн|утратил|предыдущ|см\.)[^)]*\)/i
+    padded = Resource.includes(:lesson).order(:lesson_id).select do |resource|
+      resource.title.to_s.match?(commentary) ||
+        (%w[software tool].include?(resource.kind) && resource.title.to_s.match?(/\s—\s/))
+    end
+
+    if padded.none?
+      puts "✓ Названия ресурсов чистые — пояснения живут в note, а не в title."
+    else
+      puts "Пояснения, приклеенные к названию (#{padded.size}) — перенеси в note, title = только имя источника:"
+      padded.each { |resource| puts "  · [#{resource.lesson&.slug}] #{resource.kind}  «#{resource.title.to_s.truncate(90)}»" }
     end
 
     # Placeholder URLs left over from authoring — the RFC 2606 reserved

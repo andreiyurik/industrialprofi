@@ -257,9 +257,9 @@ module ApplicationHelper
   end
 
   # Resource-type badge (roadmap.sh-style): a coloured pill with an icon and
-  # the kind label, shown before each resource link. One hue per kind — the
-  # "type" axis. The orthogonal "marker" axis (language, and later partner) is a
-  # separate small badge, see resource_lang_badge.
+  # the kind label — the library and admin lists. One hue per kind — the "type"
+  # axis. Lesson rows render the same axis as a bare coloured glyph instead
+  # (resources/_resource + .lesson-resource__marker).
   RESOURCE_KIND_BADGES = {
     "norm" => { modifier: "badge--norm", icon: "file-text", label: "norm" },
     "book" => { modifier: "badge--book", icon: "book-open", label: "book" },
@@ -295,15 +295,6 @@ module ApplicationHelper
     else
       RESOURCE_KIND_BADGES["book"]
     end
-  end
-
-  # The orthogonal source-language marker — a small secondary badge shown only
-  # for non-Russian sources (the default market language carries no badge).
-  def resource_lang_badge(resource)
-    return unless resource.respond_to?(:language) && resource.language.present?
-
-    tag.span(resource.language.upcase, class: "badge badge--lang lesson-resource__lang",
-      title: t("lessons.resource_languages.#{resource.language}", default: resource.language.upcase))
   end
 
   # The admin "published vs draft" pill shown on paths/courses/lessons/posts

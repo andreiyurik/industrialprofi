@@ -1,6 +1,8 @@
+<%# Search-result shape: coloured kind glyph in the margin, full-width title,
+    one quiet caption line (type word · language · curator's note) beneath. %>
+<% meta = resource_badge_meta(resource) %>
 <li class="lesson-resource <%= resource.required? ? "lesson-resource--required" : "lesson-resource--optional" %>">
-  <%= resource_kind_badge(resource) %>
-  <%= resource_lang_badge(resource) %>
+  <span class="lesson-resource__marker lesson-resource__marker--<%= meta[:label] %>"><%= icon_tag meta[:icon] %></span>
   <span class="lesson-resource__body">
     <% if resource.url.present? %>
       <a href="<%= resource.url %>" class="lesson-resource__link" target="_blank" rel="noopener">
@@ -12,8 +14,14 @@
           below explains the missing link, instead of repeating on every row. %>
       <span class="lesson-resource__link lesson-resource__link--pending"><%= resource.title %></span>
     <% end %>
-    <% if resource.note.present? %>
-      <span class="lesson-resource__note"><%= resource.note %></span>
-    <% end %>
+    <span class="lesson-resource__meta">
+      <span><%= t("lessons.resource_kinds.#{meta[:label]}", default: meta[:label].humanize) %></span>
+      <% if resource.language.present? %>
+        <span class="lesson-resource__meta-lang" title="<%= t("lessons.resource_languages.#{resource.language}", default: resource.language.upcase) %>"><%= resource.language.upcase %></span>
+      <% end %>
+      <% if resource.note.present? %>
+        <span class="lesson-resource__note"><%= resource.note %></span>
+      <% end %>
+    </span>
   </span>
 </li>
