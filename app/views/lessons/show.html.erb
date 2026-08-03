@@ -145,21 +145,23 @@
       </section>
     <% end %>
 
-    <%# The resources block is ALWAYS rendered: where a lesson has no sources yet,
-        it becomes an invitation to contribute one (self-developing content). %>
+    <%# The resources block is ALWAYS rendered: with no sources yet it becomes a
+        compact invitation — motivating copy + the contribution seam (readers
+        suggest, editors go straight to the resources editor). A lesson with
+        zero sources is exactly where that seam matters most. %>
     <%# Partition the PRELOADED resources in Ruby — calling the .required/.optional
         scopes here would discard the controller's includes(:resources) and fire
         two fresh queries on the hottest page. %>
     <% required_resources, optional_resources = @lesson.resources.to_a.partition(&:required?) %>
     <% can_edit_resources = Current.user&.can_edit_path?(@lesson.path) %>
     <section id="resources" class="lesson__section lesson__section--plain">
-      <div class="resource-block">
+      <div class="resource-block<%= " resource-block--empty" unless @lesson.has_resources? %>">
         <div class="resource-block__head">
           <span class="resource-block__icon"><%= icon_tag "file-text" %></span>
           <h2 class="resource-block__title"><%= t("lessons.resources_section") %></h2>
           <%# Editors jump straight to the link editor (anchored to the resources
               fields), so fixing a dead/wrong link is one click from the article. %>
-          <% if can_edit_resources %>
+          <% if can_edit_resources && @lesson.has_resources? %>
             <%= link_to edit_admin_lesson_path(@lesson, anchor: "resources-editor"),
                   class: "lesson__tool resource-block__edit",
                   aria: { label: t("lessons.edit_resources") }, title: t("lessons.edit_resources") do %>
@@ -186,15 +188,18 @@
           <p class="resource-block__empty"><%= t("resource_suggestions.block_empty") %></p>
         <% end %>
 
-        <%# Readers propose a source (experts get the pencil above instead). A calm
-            dashed tile — an inviting slot, not a loud button. %>
-        <% unless can_edit_resources %>
-          <%# Guests see they'll need to sign in first, so the login redirect
-              (which already carries a return-URL + alert) is never a surprise. %>
-          <%= link_to new_lesson_resource_suggestion_path(@lesson), class: "resource-block__suggest" do %>
-            <%= icon_tag "plus-circle" %>
-            <span class="resource-block__suggest-label"><%= t(signed_in? ? "resource_suggestions.cta" : "resource_suggestions.cta_guest") %></span>
+        <%# Readers propose a source; on a sourceless lesson editors get an
+            explicit way in — the topbar pencil alone proved too hidden. %>
+        <% if can_edit_resources %>
+          <% unless @lesson.has_resources? %>
+            <%= link_to edit_admin_lesson_path(@lesson, anchor: "resources-editor"),
+                  class: "resource-block__suggest" do %>
+              <%= icon_tag "plus-circle" %>
+              <span class="resource-block__suggest-label"><%= t("lessons.edit_resources") %></span>
+            <% end %>
           <% end %>
+        <% else %>
+          <%= render "lessons/suggest_resource_link", lesson: @lesson %>
         <% end %>
       </div>
     </section>

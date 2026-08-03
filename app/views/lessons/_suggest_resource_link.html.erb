@@ -1,0 +1,7 @@
+<%# The reader's "propose a source" seam — one quiet line with a small accent
+    "+". Guests see they'll need to sign in first, so the login redirect
+    (return-URL + alert) is never a surprise. %>
+<%= link_to new_lesson_resource_suggestion_path(lesson), class: "resource-block__suggest" do %>
+  <%= icon_tag "plus-circle" %>
+  <span class="resource-block__suggest-label"><%= t(signed_in? ? "resource_suggestions.cta" : "resource_suggestions.cta_guest") %></span>
+<% end %>
