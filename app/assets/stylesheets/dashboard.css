@@ -202,12 +202,29 @@
   padding: 0.25rem 1.5rem;
 }
 
+/* Grid, not wrapping flex: with wrap, the action (button / «Пройдена») fell to
+   a new full-width line under the RING while the meta centred itself — three
+   different axes in one row. Now every piece has a fixed cell: ring | info |
+   action; on phones the action drops under the info and stays aligned to it. */
 .dashboard-course {
   align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
+  column-gap: 1.25rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   padding-block: 1.25rem;
+  row-gap: 0.75rem;
+
+  @media (max-width: 640px) {
+    column-gap: 1rem;
+    grid-template-columns: auto minmax(0, 1fr);
+
+    > .btn,
+    > .badge,
+    .dashboard-course__done {
+      grid-column: 2;
+      justify-self: end;
+    }
+  }
 }
 
 .dashboard-course + .dashboard-course {
@@ -226,6 +243,12 @@
 
   .progress-ring__body {
     display: none;
+  }
+
+  /* A phone column is too narrow to spend 5rem on a dial. */
+  @media (max-width: 640px) {
+    block-size: 3.5rem;
+    inline-size: 3.5rem;
   }
 }
 
@@ -258,15 +281,23 @@
 
 .dashboard-course__info {
   display: flex;
-  flex: 1;
   flex-direction: column;
   gap: 0.35rem;
-  min-inline-size: 12rem;
+
+  /* The catalog card centres this meta row; here it lines up with the title. */
+  .course-card__meta {
+    justify-content: flex-start;
+  }
 }
 
 .dashboard-course__title {
   font-size: 1.05rem;
+  hyphens: none; /* «специфи-ка» in a heading is worse than a ragged edge */
   margin-block: 0;
+
+  @media (max-width: 640px) {
+    font-size: 1rem;
+  }
 }
 
 .dashboard-course__title-link {
