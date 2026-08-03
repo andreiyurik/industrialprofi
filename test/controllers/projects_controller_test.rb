@@ -23,11 +23,14 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/Черновик/, response.body)
   end
 
-  test "difficulty wedges live in the filter chips, not on the tiles" do
+  test "difficulty rides on the tiles as well as the filter chips" do
     get projects_path
     assert_select ".filter-chip .difficulty-mark--beginner"
     assert_select ".filter-chip .difficulty-mark--advanced"
-    assert_select ".project-tile [class*='difficulty']", false
+    # Reversed 2026-08-03 (founder call): the default view mixes levels and a
+    # tooltip carrier doesn't exist on touch — the tile wears its level as a
+    # grade stripe (the chips above stay the colour legend).
+    assert_select ".project-tile.project-tile--beginner"
   end
 
   test "filters by difficulty" do

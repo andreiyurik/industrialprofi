@@ -16,7 +16,7 @@
   flex-wrap: wrap;
   gap: 0.75rem 1.75rem;
   justify-content: center;
-  margin-block-start: 2.5rem;
+  margin-block-start: 1.25rem;
 }
 
 .project-filters__paths,
@@ -106,10 +106,11 @@
   text-align: center;
 }
 
-/* ── Difficulty swatches (filter chips + list rows only) ───────────── */
+/* ── Difficulty swatches (filter chips) + tile grade stripes ───────── */
 /* Ski-trail convention: green / yellow / red, category colours from the same
    OKLCH primitives as the resource badges. Green is the var fallback. The
-   tiles themselves stay colour-free — the chips carry the level. */
+   chips pair each colour with its word — the legend; the tiles carry the
+   same colour as a piste-style grade stripe on their left edge. */
 .difficulty-mark--intermediate {
   --difficulty-color: oklch(var(--lch-yellow));
 }
@@ -130,8 +131,8 @@
 /* ── Project groups ──────────────────────────────────────────────── */
 .project-groups {
   display: grid;
-  gap: 2.75rem;
-  margin-block-start: 2.5rem;
+  gap: 2.25rem;
+  margin-block-start: 1.5rem;
 }
 
 .project-group__heading {
@@ -176,8 +177,8 @@
 /* Compact tiles: ladder + title, no description — the WHY lives on the lesson page; the catalog stays a scannable board. */
 .project-tiles {
   display: grid;
-  gap: 0.9rem;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
   list-style: none;
   margin: var(--block-space) 0 0;
   padding: 0;
@@ -189,14 +190,65 @@
   position: relative;
 }
 
+/* The rubyonrails.org/docs card treatment (rails/website
+   _sass/modules/_cards.scss), verbatim mechanics, difficulty hue instead of
+   Rails red: the frame is a 3px box-shadow RING (spread, no layout shift) —
+   barely tinted at rest, so touch still reads the level; hover fills the ring
+   with the full hue and lifts the card 3px on their 0.25s easeOut curve. */
+.project-tile--beginner { --difficulty-lch: var(--lch-green); }
+.project-tile--intermediate { --difficulty-lch: var(--lch-yellow); }
+.project-tile--advanced { --difficulty-lch: var(--lch-red); }
+
 .project-tile {
   --panel-border-radius: 3px;
+  --panel-border-size: 0;          /* the ring IS the frame, rails-style */
+
+  box-shadow:
+    0 3px 15px 2px oklch(var(--lch-always-black) / 0.05),
+    0 1px 1px oklch(var(--lch-always-black) / 0.02),
+    0 0 0 2px oklch(var(--difficulty-lch) / 0.14);
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  justify-content: center;   /* rows read symmetric */
-  min-block-size: 5.25rem;   /* short titles get the same card as two-liners */
-  padding: 1.1em 1.2em;
+  gap: 0.5rem;
+  min-block-size: 4.75rem;         /* short titles get the same card as two-liners */
+  padding: 0.9em 1em;
+  transition:
+    background-color 0.25s cubic-bezier(0.33, 1, 0.68, 1),
+    box-shadow 0.25s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Hover lives on the WRAP so the overlaid bookmark button rides the lift and
+   never makes the card drop while the pointer crosses it. */
+.project-tile-wrap {
+  transition: transform 0.25s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.project-tile-wrap:is(:hover, :has(:focus-visible)) .project-tile {
+  box-shadow:
+    0 3px 15px 2px oklch(var(--lch-always-black) / 0.05),
+    0 1px 1px oklch(var(--lch-always-black) / 0.02),
+    0 0 0 2px oklch(var(--difficulty-lch));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .project-tile-wrap:is(:hover, :has(:focus-visible)) {
+    transform: translateY(-3px);
+  }
+}
+
+/* Done earns the same green check the chapter curriculum rows use, pinned to
+   the card's foot; the stripe recedes — this grade is behind the reader. */
+.project-tile__check {
+  align-self: flex-end;
+  color: var(--color-positive);
+  line-height: 0;
+  margin-block-start: auto;
+
+  .icon {
+    block-size: 1rem;
+    inline-size: 1rem;
+  }
 }
 
 .project-tile__title {
@@ -211,9 +263,22 @@
 
 /* Done tasks go dark («мёртвое тише живого») — no badge; the card itself reads
    as extinguished. Hover wakes it back up for review. */
+/* Done = rails' "coming soon" treatment: dimmed, the ring stays muted on
+   hover and the card doesn't lift — this grade is behind the reader. */
 .project-tile--done {
   --panel-background: transparent;
-  --panel-border-color: oklch(var(--lch-gray) / 0.45);
+}
+
+.project-tile--done,
+.project-tile-wrap:is(:hover, :has(:focus-visible)) .project-tile--done {
+  box-shadow:
+    0 3px 15px 2px oklch(var(--lch-always-black) / 0.05),
+    0 1px 1px oklch(var(--lch-always-black) / 0.02),
+    0 0 0 2px oklch(var(--difficulty-lch) / 0.12);
+}
+
+.project-tile-wrap:has(> .project-tile--done) {
+  transform: none;
 }
 
 .project-tile--done .project-tile__title {
