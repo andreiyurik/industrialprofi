@@ -7,26 +7,36 @@
   <%# The workspace link leads the list, separated from the personal items — an
       admin/editor reaches for it daily. Admins land on the overview; editors on
       their main job, the moderation queue. %>
+  <%# aria-current marks the row of the page the reader is ON — the global nav
+      rows already do this; without it the personal group gave no orientation.
+      Section-level on purpose (any admin page lights «Админка», any journal
+      page lights «Дневник»), matching the nav rows' controller checks. %>
   <% if Current.user.can_edit_content? %>
-    <%= link_to (Current.user.can_administer? ? admin_root_path : admin_lesson_suggestions_path), class: "account-menu__link account-menu__link--work" do %>
+    <%= link_to (Current.user.can_administer? ? admin_root_path : admin_lesson_suggestions_path),
+          class: "account-menu__link account-menu__link--work",
+          aria: { current: ("page" if controller.class.module_parent_name == "Admin") } do %>
       <%= icon_tag "gear-six" %>
       <%= Current.user.can_administer? ? t("nav.admin") : t("nav.editing") %>
     <% end %>
   <% end %>
-  <%= link_to dashboard_path, class: "account-menu__link" do %>
+  <%= link_to dashboard_path, class: "account-menu__link",
+        aria: { current: ("page" if controller_name == "dashboard") } do %>
     <%= icon_tag "house" %>
     <%= t("nav.dashboard") %>
     <% if unseen_outcomes %><span class="notify-dot"></span><% end %>
   <% end %>
-  <%= link_to journal_entries_path, class: "account-menu__link" do %>
+  <%= link_to journal_entries_path, class: "account-menu__link",
+        aria: { current: ("page" if controller_name == "journal_entries") } do %>
     <%= icon_tag "pencil-simple" %>
     <%= t("nav.journal") %>
   <% end %>
-  <%= link_to account_path, class: "account-menu__link" do %>
+  <%= link_to account_path, class: "account-menu__link",
+        aria: { current: ("page" if controller_name == "account" || controller.class.module_parent_name == "AccountSettings") } do %>
     <%= icon_tag "user-circle" %>
     <%= t("nav.account") %>
   <% end %>
-  <%= link_to new_feedback_path, class: "account-menu__link" do %>
+  <%= link_to new_feedback_path, class: "account-menu__link",
+        aria: { current: ("page" if controller_name == "feedbacks") } do %>
     <%= icon_tag "chat-circle-dots" %>
     <%= t("nav.feedback") %>
   <% end %>

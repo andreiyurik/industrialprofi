@@ -384,6 +384,13 @@
       color: var(--color-ink);
     }
   }
+
+  /* The row of the page the reader is ON — same orientation the global nav
+     rows give via aria-current. */
+  &[aria-current="page"] {
+    background-color: var(--color-subtle);
+    color: var(--color-ink);
+  }
 }
 
 /* The admin/editor workspace link: first in the list, brighter than the personal
@@ -719,7 +726,7 @@
     color: var(--color-disabled);
     inline-size: 1.5rem;
   }
-  .header__menu-panel .nav__link[aria-current="page"] .icon {
+  .header__menu-panel :is(.nav__link, .account-menu__link)[aria-current="page"] .icon {
     color: inherit;
   }
   @media (any-hover: hover) {
@@ -730,7 +737,7 @@
   /* TOP's Nav::ItemComponent states: the active row is a filled pill
      (dark:bg-gray-700/60), hover fills quieter — hierarchy by fill, not
      just weight. */
-  .header__menu-panel .nav__link[aria-current="page"] {
+  .header__menu-panel :is(.nav__link, .account-menu__link)[aria-current="page"] {
     background-color: oklch(var(--lch-gray) / 0.4);
     color: var(--color-ink);
     font-weight: 600;
@@ -761,6 +768,27 @@
      roomier row rhythm rather than inheriting the popover's tighter one. */
   .header__menu-account .account-menu__nav {
     gap: 0.25rem;
+  }
+
+  /* The floating hairlines under «Админка» / above «Выйти» are hand-centred
+     for the popover's tighter rhythm; inherited as-is they sat visibly
+     off-centre in the sheet's roomier one. Give them the sheet's own
+     arithmetic — the same 1rem of air on each side that the group dividers
+     keep (TOP's my-4). Total gap = the margin + the 0.25rem flex gap. */
+  .header__menu-account .account-menu__link--work {
+    margin-block-end: 1.75rem;
+
+    &::after {
+      inset-block-end: -1rem;
+    }
+  }
+
+  .header__menu-account .account-menu__signout {
+    margin-block-start: 1.75rem;
+
+    &::after {
+      inset-block-start: -1rem;
+    }
   }
 
 
