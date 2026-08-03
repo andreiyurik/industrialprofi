@@ -417,11 +417,16 @@ body:has(.lesson-layout--reading) :is(.header, .support-cta, .footer) {
 .lesson-layout--reading {
   display: block;
 
+  /* Chrome off means ALL of it: the tool cluster hides too, or its row floats
+     against the fixed corner exit on a different axis and reads as a bug. The
+     only control left is that dimmed corner exit (position: fixed keeps it
+     alive below) + Esc. */
   .lesson-sidebar,
   .lesson-sidebar-backdrop,
   .lesson-contents-toggle,
   .lesson-toc,
   .breadcrumbs,
+  .lesson__tool:not(.lesson-reading-toggle),
   .lesson-section-edit {
     display: none;
   }

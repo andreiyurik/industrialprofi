@@ -70,20 +70,62 @@
   margin-block-end: 0.75rem;
 }
 
+/* One line, always: the crumbs ellipsize per-crumb instead of wrapping, so the
+   meta row keeps the same 44px geometry on every lesson — a stacked trail left
+   the icon cluster centring against a variable-height block. */
 .lesson__trail {
   align-items: center;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 1rem;
+  gap: 1rem;
   min-inline-size: 0;
+
+  .breadcrumbs {
+    flex-wrap: nowrap;
+
+    > .breadcrumbs__separator {
+      flex-shrink: 0;
+    }
+
+    /* The profession crumb never ellipsizes (hard cap = safety net only);
+       the deep, long chapter crumb is the one that gives way. */
+    > :first-child {
+      flex-shrink: 0;
+      max-inline-size: 14rem;
+    }
+
+    /* Phones have no room for the chapter crumb at all — a mangled «Эле…»
+       helps nobody, and the «Содержание» sheet already opens on «К главе»
+       plus the chapter title. The profession may ellipsize here as overflow
+       protection: a signed-in editor's five 44px tools leave it no room. */
+    @media (max-width: 640px) {
+      > .breadcrumbs__separator,
+      > :last-child {
+        display: none;
+      }
+
+      > :first-child {
+        flex-shrink: 1;
+      }
+    }
+  }
 }
 
+/* No gap: the hit boxes themselves set one even step, so the glyphs read as a
+   single cluster. The negative margin pulls the last glyph (not its box) flush
+   with the text column's right edge. */
 .lesson__tools {
+  --tool-box: 2.75rem;
+
   align-items: center;
   color: var(--color-subtle-dark);
   display: flex;
   flex-shrink: 0;
-  gap: 0.65rem;
+  margin-inline-end: calc((var(--tool-box) - 1.05rem) / -2);
+
+  /* Pointer devices don't need 44px targets — tighten to a toolbar rhythm. */
+  @media (pointer: fine) {
+    --tool-box: 2.25rem;
+  }
 }
 
 .lesson__tool {
@@ -97,8 +139,8 @@
   /* 44px hit area (a11y/mobile-first) — the glyph stays small but each button
      fills a full touch target, so neighbours never overlap or mis-tap. */
   justify-content: center;
-  min-block-size: 2.75rem;
-  min-inline-size: 2.75rem;
+  min-block-size: var(--tool-box, 2.75rem);
+  min-inline-size: var(--tool-box, 2.75rem);
   padding: 0;
   transition: color 200ms ease;
 
