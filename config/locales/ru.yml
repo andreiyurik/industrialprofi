@@ -1209,6 +1209,7 @@ ru:
 
   courses:
     coming_soon: "В разработке"
+    stage_progress: "%{done} из %{total}"
     open: "Перейти к главе"
     completed: "Пройдена"
     lessons_count:

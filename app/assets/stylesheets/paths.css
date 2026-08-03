@@ -341,8 +341,10 @@
   text-transform: uppercase;
 }
 
+/* Tight on purpose: this page is a table of contents — the first lesson row
+   should make the first phone screen, so the hero can't hoard it. */
 .path__overview {
-  margin-block: 2.5rem var(--block-space-double);
+  margin-block: 1.25rem 1.5rem;
 }
 
 .path__overview-text {

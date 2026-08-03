@@ -85,6 +85,14 @@
   margin-block: 0;
 }
 
+/* Mid-stage progress, quiet, in the header's spare right slot. */
+.curriculum__header-count {
+  color: var(--color-subtle-dark);
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Rows separated by spacing (no dividers); inset padding so the hover
    highlight floats inside the card, Odin-style. */
 .curriculum__list {
@@ -135,5 +143,40 @@
 .curriculum__lesson-title {
   color: var(--color-ink);
   font-size: 0.95rem;
+}
+
+/* Phones: the rail's chrome was eating 3.5rem of a 22rem screen — slimmer
+   markers and gaps hand that width back to the lesson titles. */
+@media (max-width: 640px) {
+  .curriculum {
+    gap: 1.5rem;
+  }
+
+  .curriculum::before {
+    inset-inline-start: calc(1rem - 1px);
+  }
+
+  .curriculum__stage-row {
+    gap: 0.75rem;
+  }
+
+  .curriculum__marker {
+    block-size: 2rem;
+    font-size: 0.85rem;
+    inline-size: 2rem;
+
+    .icon {
+      block-size: 1rem;
+      inline-size: 1rem;
+    }
+  }
+
+  .curriculum__header {
+    padding: 0.75rem 1rem;
+  }
+
+  .curriculum__list {
+    padding: 0.5rem;
+  }
 }
 

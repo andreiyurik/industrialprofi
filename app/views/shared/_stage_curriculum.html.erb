@@ -17,6 +17,13 @@
       <% if stage.present? %>
         <div class="curriculum__header">
           <h2 class="curriculum__header-title"><%= stage %></h2>
+          <%# Partial progress inside a stage is invisible on the marker (it only
+              knows done/not-done), so a quiet counter fills the header's empty
+              right slot — but only mid-stage: untouched stages stay silent
+              («мёртвое тише живого»), finished ones already show the check. %>
+          <% if signed_in? && stage_completed.positive? && !stage_done %>
+            <span class="curriculum__header-count"><%= t("courses.stage_progress", done: stage_completed, total: lessons.size) %></span>
+          <% end %>
         </div>
       <% end %>
 
