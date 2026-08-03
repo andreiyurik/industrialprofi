@@ -8,7 +8,7 @@
       <div class="admin-header__title-group admin-header__title-group--stacked">
         <a href="<%= admin_users_path %>" class="admin-back">← <%= t("admin.users_title") %></a>
         <h1 class="admin-header__title">
-          <%= avatar_tag(@user.name) %>
+          <%= avatar_tag(@user) %>
           <%= @user.name %>
           <% unless @user.member? %>
             <span class="badge badge--marker"><%= t("admin.roles.#{@user.role}") %></span>

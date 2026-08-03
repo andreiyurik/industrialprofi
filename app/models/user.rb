@@ -49,6 +49,7 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 8 }, allow_nil: true
   validates :learning_goal, length: { maximum: 200 }
   validates :headline, length: { maximum: 120 }
+  validates :avatar_token, inclusion: { in: Avatar.tokens }, allow_blank: true
 
   # Suspension is a reversible ban: active users can sign in, suspended ones
   # can't. `active` is the scope login authenticates through (Writebook pattern).

@@ -3,7 +3,7 @@
     drawer and the desktop popover — so they can't drift apart. `extra_class` is
     the surface's own hook (the drawer needs one to show/hide by breakpoint). %>
 <p class="account-menu__header <%= extra_class %>">
-  <%= avatar_tag(Current.user.name) %>
+  <%= avatar_tag(Current.user) %>
   <span class="account-menu__identity">
     <span class="account-menu__name">
       <%= Current.user.name %>

@@ -1,171 +1,222 @@
-/* Account settings — Basecamp/Fizzy grouped-panel layout:
-   related settings live in one panel, split by hairline sections. */
+/* /account — Fizzy users/edit anatomy: ONE bordered .panel card (~45ch), the
+   avatar block on top, large rounded fields, a single full-width primary save.
+   Password + danger live under a hairline at the card's foot (flows Fizzy
+   keeps on separate pages; this is our only account surface). */
 
-.account-settings__masthead {
-  margin-inline: auto;
-  margin-block: var(--block-space-half) var(--block-space-double);
-  max-inline-size: 64rem;
-}
-
-.account-settings__title {
+.account-page__title {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: 1.4rem;
   font-weight: 800;
-  margin: 0;
+  margin-block: 0 var(--block-space);
+  text-align: center;
 }
 
-.account-settings__subtitle {
-  color: var(--color-subtle-dark);
-  margin-block: 0.35rem 0;
-}
-
-.account-settings {
-  display: grid;
-  gap: var(--block-space-double);
+.account-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-space);
   margin-inline: auto;
-  max-inline-size: 64rem;
-  padding-block-end: var(--block-space-double);
-}
+  max-inline-size: 45ch;
 
-@media (min-width: 60rem) {
-  .account-settings {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
+  @media (min-width: 640px) {
+    --panel-padding: 2rem;
   }
 }
 
-.account-settings__panel {
-  --panel-padding: 0;
+.account-card__identity {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  gap: var(--block-space-half);
 }
 
-.account-settings__section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--block-space);
-  padding: var(--block-space-double) 1.5rem;
+.account-card__portrait .avatar {
+  --avatar-size: 6rem;
 }
 
-.account-settings__section + .account-settings__section {
-  border-block-start: 1px solid var(--color-subtle);
+/* ── Preset avatar picker ─────────────────────────────────────────────── */
+
+.avatar-picker {
+  text-align: center;
 }
 
-.account-settings__section-head {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.account-settings__heading {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0;
-}
-
-.account-settings__heading--danger {
-  color: var(--color-negative);
-}
-
-.account-settings__desc {
+.avatar-picker__summary {
   color: var(--color-subtle-dark);
-  font-size: 0.875rem;
-  line-height: 1.45;
-  margin: 0;
+  cursor: pointer;
+  font-size: 0.85rem;
+  list-style: none;
+  transition: color 150ms ease;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
 }
 
-.account-settings__form {
+.avatar-picker__grid {
+  --avatar-size: 2.75rem;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+  margin-block-start: var(--block-space);
+}
+
+/* The admin emblem-field mechanic: hidden radio, :has(:checked) draws the ring. */
+.avatar-picker__option {
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 2px;
+  position: relative;
+
+  input {
+    inset: 0;
+    opacity: 0;
+    position: absolute;
+  }
+
+  &:has(input:checked) {
+    border-color: var(--color-link);
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--color-link);
+    outline-offset: 2px;
+  }
+}
+
+/* ── The one form ─────────────────────────────────────────────────────── */
+
+.account-card__form {
   display: flex;
   flex-direction: column;
-  gap: var(--block-space);
+  gap: var(--block-space-half);
 }
 
-.account-settings__field {
+/* Fizzy's .input--actor: a container styled as an input, holding a value and
+   its action — the email row's change-link lives INSIDE the field. */
+.account-card__actor {
+  align-items: center;
   display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
+  gap: var(--block-space-half);
 }
 
-.account-settings__label {
-  color: var(--color-subtle-dark);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+.account-card__actor-value {
+  color: var(--color-ink);
+  flex: 1;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
 }
 
-.account-settings__actions {
-  display: flex;
-  justify-content: flex-start;
+.account-card__actor-link {
+  color: var(--color-link);
+  font-size: 0.85rem;
+  text-decoration: none;
+  white-space: nowrap;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
-.account-settings__checkbox {
+.account-card__checkbox {
   align-items: start;
   color: var(--color-ink);
   cursor: pointer;
   display: flex;
   font-size: 0.95rem;
   gap: 0.75ch;
+
+  input[type="checkbox"] {
+    accent-color: var(--color-link);
+    block-size: 1.05rem;
+    flex: none;
+    inline-size: 1.05rem;
+    margin-block-start: 0.12rem;
+  }
 }
 
-.account-settings__checkbox input[type="checkbox"] {
-  accent-color: var(--color-link);
-  block-size: 1.05rem;
-  flex: none;
-  inline-size: 1.05rem;
-  margin-block-start: 0.12rem;
-}
-
-.account-settings__checkbox-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.account-settings__hint {
+.account-card__hint {
   color: var(--color-subtle-dark);
+  display: block;
   font-size: 0.85rem;
   line-height: 1.4;
+  margin-block: 0;
 }
 
-.account-settings__email-row {
-  align-items: center;
+/* Fizzy's single primary: one full-width reversed save per form. */
+.account-card__save {
+  inline-size: 100%;
+}
+
+/* ── Card foot: password + danger behind quiet disclosures ────────────── */
+
+.account-card__foot {
+  border-block-start: 1px solid var(--color-subtle);
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1rem;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: var(--block-space-half);
+  padding-block-start: var(--block-space);
 }
 
-.account-settings__email-value {
-  color: var(--color-ink);
-  font-size: 0.95rem;
-  overflow-wrap: anywhere;
+.account-card__disclosure summary {
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
 }
 
-.account-settings__error {
-  background: oklch(var(--lch-red) / 0.08);
-  border: 1px solid oklch(var(--lch-red) / 0.25);
-  border-radius: 0.5em;
+.account-card__disclosure[open] summary {
+  margin-block-end: var(--block-space-half);
+}
+
+.account-card__disclosure--danger summary {
   color: var(--color-negative);
-  font-size: 0.875rem;
-  padding: 0.65rem 0.9rem;
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-negative);
+    }
+  }
 }
 
-.account-settings__section--danger {
-  background: oklch(var(--lch-red) / 0.04);
-}
-
-.account-settings__danger-btn {
+/* Quiet outlined danger — a filled red button is louder than a rarely-needed,
+   twice-confirmed action deserves. */
+.account-card__danger-btn {
   --btn-color: var(--color-negative);
   --btn-border-color: oklch(var(--lch-red) / 0.4);
   align-items: center;
-  align-self: flex-start;
   display: inline-flex;
   gap: 0.4ch;
+  margin-block-start: var(--block-space-half);
 
   .icon {
     block-size: 1em;
     inline-size: 1em;
   }
+}
+
+.account-card__error {
+  background: oklch(var(--lch-red) / 0.08);
+  border: 1px solid oklch(var(--lch-red) / 0.25);
+  border-radius: 0.5em;
+  color: var(--color-negative);
+  font-size: 0.875rem;
+  margin-block: 0;
+  padding: 0.65rem 0.9rem;
 }

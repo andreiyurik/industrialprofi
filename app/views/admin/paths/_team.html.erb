@@ -18,7 +18,7 @@
         <div class="admin-row admin-row--static">
           <span class="admin-row__column">
             <span class="admin-row__title admin-row__title--person">
-              <%= avatar_tag(editor.name) %>
+              <%= avatar_tag(editor) %>
               <% if Current.user.can_administer? %>
                 <%= link_to editor.name, admin_user_path(editor), class: "link-quiet" %>
               <% else %>

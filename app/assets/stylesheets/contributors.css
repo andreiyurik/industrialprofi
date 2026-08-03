@@ -16,3 +16,14 @@
   line-height: 1;
   text-transform: uppercase;
 }
+
+/* Preset glyph avatar (Avatar model): same disc, the work glyph painted in its
+   own hue — the badge recipe (tinted fill + matching glyph). */
+.avatar--glyph {
+  color: oklch(var(--avatar-hue));
+
+  .icon {
+    block-size: 55%;
+    inline-size: 55%;
+  }
+}

@@ -236,7 +236,7 @@
             <%# Fizzy-style account hub: everything personal lives behind one
                 name button. Native popover — light-dismiss, zero JS. %>
             <button type="button" class="account-menu-button" popovertarget="account-menu">
-              <%= avatar_tag(Current.user.name) %>
+              <%= avatar_tag(Current.user) %>
               <span class="account-menu-button__name"><%= Current.user.name %></span>
               <%= icon_tag "caret-down" %>
               <% if unseen_outcomes %><span class="notify-dot notify-dot--corner"></span><% end %>

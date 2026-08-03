@@ -31,7 +31,7 @@
         <span class="path__curators-label"><%= t("paths.curated_by") %></span>
         <% @curators.each do |curator| %>
           <span class="path__curator">
-            <%= avatar_tag(curator.name) %>
+            <%= avatar_tag(curator) %>
             <span class="path__curator-text">
               <span class="path__curator-name"><%= curator.name %></span>
               <% if curator.headline.present? %>

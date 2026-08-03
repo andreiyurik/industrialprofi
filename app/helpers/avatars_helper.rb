@@ -16,11 +16,21 @@ module AvatarsHelper
     AVATAR_HUES[name.to_s.sum % AVATAR_HUES.size]
   end
 
-  def avatar_tag(name, title: name)
-    content_tag :span, avatar_initials(name),
-      class: "avatar",
-      style: "--avatar-hue: var(#{avatar_hue_token(name)})",
-      title: title,
-      aria: { hidden: true }
+  # Takes the user, not the name: a chosen preset glyph (Avatar) wins, the
+  # generated initials remain the default for everyone who never picked one.
+  def avatar_tag(user, title: user.name)
+    if (preset = Avatar[user.avatar_token])
+      content_tag :span, icon_tag(preset[:icon]),
+        class: "avatar avatar--glyph",
+        style: "--avatar-hue: var(#{preset[:hue]})",
+        title: title,
+        aria: { hidden: true }
+    else
+      content_tag :span, avatar_initials(user.name),
+        class: "avatar",
+        style: "--avatar-hue: var(#{avatar_hue_token(user.name)})",
+        title: title,
+        aria: { hidden: true }
+    end
   end
 end
