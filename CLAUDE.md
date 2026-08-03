@@ -561,6 +561,21 @@ the code already records, while CLAUDE.md holds decisions and conventions.
   Don't re-propose filling these in without new cases actually recurring in
   fresh work — full reasoning in memory, not repeated here.
 
+- **URL locales are symmetric subdirectories (`/ru/...`, `/en/...`) — settled
+  at week one, don't revisit** (2026-08-04): one gTLD domain, every user-facing
+  URL carries the prefix; `/` and unprefixed URLs 301 into the default locale
+  (`ApplicationController#redirect_unlocalized`). The route segment is
+  OPTIONAL — `scope "(:locale)"`, the Rails Guides pattern; a mandatory segment
+  breaks positional URL-helper args — but canonical in practice. Content lives
+  in exactly ONE locale (`Path#locale`): the wrong prefix 301s home from
+  paths/courses/lessons#show, so no thin `/en` content mirrors ever exist.
+  hreflang pairs go only on chrome pages (`SeoHelper#bilingual_page?`); emails
+  render in `users.locale`. `en.yml` is deliberately still a stub (i18n
+  fallbacks on): the founder translates it separately with a cheaper model,
+  and a ru/en key-parity test lands together with that translation. An EN
+  content catalog stays gated on a native expert — the structure is ready,
+  the content door opens per the recorded language-expansion trigger.
+
 **Not built yet (v0.3):** community-authored roadmaps (in the sandbox+promotion
 shape recorded above), public profiles, moderated public portfolio.
 
