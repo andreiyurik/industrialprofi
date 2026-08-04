@@ -1,6 +1,8 @@
 require "test_helper"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  include BulletInstrumentation
+
   # Same reason as in test_helper: URL helpers in test code need the locale.
   # System tests resolve helpers through a private per-test object that never
   # consults the test class (ActionDispatch::SystemTestCase#url_helpers), so
@@ -21,6 +23,15 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   CHROME_BIN = ENV["CHROME_BIN"].presence ||
     Dir[File.expand_path("~/.cache/selenium/chrome/linux64/*/chrome")]
       .max_by { |path| Gem::Version.new(path[/linux64\/([\d.]+)/, 1]) }
+
+  # Same story for chromedriver: Selenium Manager re-resolves it over the
+  # network once its metadata cache expires (hourly), which kills offline/
+  # sandboxed runs. Pointing Service.driver_path at the newest cached driver
+  # skips the manager entirely; unset when nothing is cached yet.
+  CHROMEDRIVER_BIN =
+    Dir[File.expand_path("~/.cache/selenium/chromedriver/linux64/*/chromedriver")]
+      .max_by { |path| Gem::Version.new(path[/linux64\/([\d.]+)/, 1]) }
+  Selenium::WebDriver::Chrome::Service.driver_path = CHROMEDRIVER_BIN if CHROMEDRIVER_BIN
 
   # Chrome's sandbox needs privileges that containers/WSL don't grant, and
   # /dev/shm there is too small for a renderer — without these two flags the

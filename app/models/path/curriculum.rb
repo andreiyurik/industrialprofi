@@ -12,7 +12,9 @@ module Path::Curriculum
   # Assigning the course association (not the raw id) keeps lessons_count and the
   # denormalized path_id in sync; the +changed?+ guard skips untouched rows.
   def reorder_lessons!(ordered)
-    lessons_by_id = lessons.index_by(&:id)
+    # Each save re-indexes the lesson for search, which reads its course and
+    # rich texts — preloading turns 4-queries-per-lesson into 4 per reorder.
+    lessons_by_id = lessons.includes(:course).with_all_rich_text.index_by(&:id)
     courses_by_id = courses.index_by(&:id)
 
     transaction do
@@ -39,7 +41,8 @@ module Path::Curriculum
   # the section.
   def rename_stage!(course_id:, from:, to:)
     course = courses.find(course_id)
-    course.lessons.where(stage: from.presence).find_each do |lesson|
+    # Same search-reindex preload as reorder_lessons! above.
+    course.lessons.with_all_rich_text.where(stage: from.presence).find_each do |lesson|
       lesson.update!(stage: to.presence, origin: "human")
     end
   end

@@ -22,9 +22,28 @@ module ActiveSupport
   end
 end
 
+# Bullet's verdicts are per REQUEST — "this page loaded X and never used it".
+# So it watches only tests that drive real requests (integration + system);
+# a model unit test legitimately skips the associations a view would use, and
+# watching it would drown the signal in false positives.
+module BulletInstrumentation
+  extend ActiveSupport::Concern
+
+  included do
+    setup { Bullet.start_request if Bullet.enable? }
+    teardown do
+      if Bullet.enable?
+        Bullet.perform_out_of_channel_notifications if Bullet.notification?
+        Bullet.end_request
+      end
+    end
+  end
+end
+
 module ActionDispatch
   class IntegrationTest
     include SessionTestHelper
+    include BulletInstrumentation
 
     # Every route now carries a :locale prefix; URL helpers called from test
     # code (unlike those inside the app) have no request to inherit it from.

@@ -87,7 +87,9 @@ class CurriculumExporter
     # Contiguous same-stage runs whose slugs stay in ascending (filename) order —
     # each run becomes one section dir, so import re-derives the exact order.
     def sections(course)
-      course.lessons.ordered.to_a
+      # write_lesson reads each lesson's resources and rich texts — load them
+      # here in one pass, not per lesson.
+      course.lessons.includes(:resources).with_all_rich_text.ordered.to_a
             .chunk_while { |a, b| a.stage == b.stage && b.slug > a.slug }
             .map { |lessons| [ lessons.first.stage, lessons ] }
     end

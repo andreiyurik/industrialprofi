@@ -1,7 +1,11 @@
 class DashboardController < ApplicationController
   def show
-    @focus_path = Current.user.focus_path
     @started_paths = Current.user.started_paths.includes(:lessons, :courses)
+    # The focus path IS one of the started paths (it's where the latest
+    # completion lives) — reuse that object, or its eager-loaded lessons and
+    # courses go to waste and the view re-queries them.
+    focus = Current.user.focus_path
+    @focus_path = @started_paths.detect { |path| path == focus } || focus
     @other_paths = @started_paths.reject { |path| path == @focus_path }
     @completed_ids_by_path = @started_paths.index_with { |path| Current.user.completed_lesson_ids_for(path) }
 

@@ -19,7 +19,7 @@ class SuggestionEmailsJob < ApplicationJob
     ResourceSuggestion.decided
                       .where(outcome_notified_at: nil, reviewed_at: ..ResourceSuggestion::OUTCOME_EMAIL_AFTER.ago)
                       .where.not(user_id: nil)
-                      .includes(:user, :lesson).find_each do |suggestion|
+                      .includes(:user).find_each do |suggestion|
       SuggestionsMailer.resource_outcome(suggestion).deliver_later if suggestion.needs_outcome_email?
       suggestion.touch(:outcome_notified_at)
     end
@@ -32,7 +32,7 @@ class SuggestionEmailsJob < ApplicationJob
     LessonSuggestion.decided
                     .where(outcome_notified_at: nil, reviewed_at: ..LessonSuggestion::OUTCOME_EMAIL_AFTER.ago)
                     .where.not(user_id: nil)
-                    .includes(:user, :lesson).find_each do |suggestion|
+                    .includes(:user).find_each do |suggestion|
       SuggestionsMailer.outcome(suggestion).deliver_later if suggestion.needs_outcome_email?
       suggestion.touch(:outcome_notified_at)
     end

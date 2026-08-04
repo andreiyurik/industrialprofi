@@ -72,7 +72,7 @@ module Admin
     end
 
     def pending_grouped
-      editable_suggestions.pending.includes(lesson: :path).order(created_at: @order).group_by(&:lesson)
+      editable_suggestions.pending.includes(:lesson).order(created_at: @order).group_by(&:lesson)
     end
 
     # The decision came either from the queue's inline buttons (params[:inline] —
