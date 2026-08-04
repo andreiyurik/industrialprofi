@@ -18,6 +18,9 @@ module IndustrialprofiDhh
 
     config.i18n.default_locale = :ru
     config.i18n.available_locales = %i[ru en]
+    # Safety net only — the locale parity test treats a missing en key as a
+    # bug; fallback keeps a stray gap readable instead of raising.
+    config.i18n.fallbacks = true
     config.i18n.fallbacks = true
 
     # Target market is RU/CIS — Moscow is the reference. Affects displayed times,

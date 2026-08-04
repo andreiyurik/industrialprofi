@@ -10,9 +10,30 @@ class ApplicationController < ActionController::Base
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
 
+  # The URL's :locale segment is the single source of language truth (the
+  # route constrains it to available locales); unscoped endpoints such as
+  # /sitemap.xml fall back to the default. The segment is optional only for
+  # the router — an unprefixed GET (old links, the first indexed week) 301s
+  # to its /ru twin before anything else runs.
+  prepend_before_action :redirect_unlocalized
+  around_action :switch_locale
+
   helper_method :signup_open?
 
+  def default_url_options
+    { locale: I18n.locale }
+  end
+
   private
+    def redirect_unlocalized
+      return if params[:locale].present? || !request.get?
+
+      redirect_to "/#{I18n.default_locale}#{request.fullpath}", status: :moved_permanently
+    end
+
+    def switch_locale(&)
+      I18n.with_locale(params[:locale] || I18n.default_locale, &)
+    end
     # Fetches one extra row to learn if a next page/batch exists without a
     # second query, then trims back down to per_page.
     def paginate_window(scope, per_page:)

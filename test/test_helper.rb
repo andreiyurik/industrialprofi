@@ -19,13 +19,18 @@ module ActiveSupport
 
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
-
-    # Add more helper methods to be used by all tests here...
   end
 end
 
 module ActionDispatch
   class IntegrationTest
     include SessionTestHelper
+
+    # Every route now carries a :locale prefix; URL helpers called from test
+    # code (unlike those inside the app) have no request to inherit it from.
+    # The writer reaches the integration Session — helper calls delegate there.
+    setup do
+      self.default_url_options = { locale: I18n.default_locale }
+    end
   end
 end

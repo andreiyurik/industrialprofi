@@ -17,7 +17,9 @@
     <meta name="turbo-refresh-scroll" content="preserve">
 
     <%# Installable PWA (home-screen icon, standalone window). %>
-    <link rel="manifest" href="<%= pwa_manifest_path %>">
+    <%# Literal path: the route lives outside the locale scope, and the URL
+        helper would append ?locale= as a stray query param. %>
+    <link rel="manifest" href="/manifest">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -31,6 +33,7 @@
     <% if content_for?(:canonical) %>
       <link rel="canonical" href="<%= content_for(:canonical) %>">
     <% end %>
+    <%= alternate_locale_links %>
 
     <%# Open Graph %>
     <meta property="og:site_name" content="<%= t('site.name') %>">
@@ -198,6 +201,12 @@
                   <%= render "shared/account_links", unseen_outcomes: unseen_outcomes %>
                 </div>
               <% end %>
+
+              <%# Language lives at the sheet's bottom on compact screens; on
+                  desktop the footer carries it (this block is display:none). %>
+              <div class="header__menu-locale">
+                <%= render "shared/locale_switcher" %>
+              </div>
             </div>
           </details>
 
@@ -333,6 +342,7 @@
           <p class="footer__made-with">
             <%= t("footer.made_with_html", heart: icon_tag("heart-fill", class: "footer__heart")) %>
           </p>
+          <%= render "shared/locale_switcher" %>
         </div>
       </div>
     </footer>

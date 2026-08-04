@@ -9,6 +9,29 @@ module SeoHelper
     OG_LOCALES.fetch(I18n.locale, I18n.locale.to_s)
   end
 
+  # Chrome pages (UI-only, same page in every language) get hreflang pairs;
+  # content pages live in ONE locale (Path#locale) and get none. Query-string
+  # variants (?path=) point at locale-bound data, so they are excluded too.
+  def bilingual_page?
+    request.get? && request.query_parameters.blank? &&
+      (controller_name == "pages" ||
+       (action_name == "index" && controller_name.in?(%w[paths projects resources calculators])) ||
+       (controller_name == "calculators" && action_name == "show") ||
+       (controller_name == "business_inquiries" && action_name == "new"))
+  end
+
+  def alternate_locale_links
+    return unless bilingual_page?
+
+    links = I18n.available_locales.map do |locale|
+      tag.link(rel: "alternate", hreflang: locale, href: url_for(locale: locale, only_path: false))
+    end
+    # x-default = the language-neutral entry; today that's the default locale.
+    links << tag.link(rel: "alternate", hreflang: "x-default",
+                      href: url_for(locale: I18n.default_locale, only_path: false))
+    safe_join(links, "\n    ")
+  end
+
   # Rack keeps the raw query string BINARY, so bot-sent unencoded bytes would
   # crash UTF-8 template rendering — retag and scrub before echoing the URL.
   def og_url
@@ -27,7 +50,7 @@ module SeoHelper
       isPartOf: { "@type": "Course", name: lesson.course.title },
       datePublished: lesson.created_at.iso8601,
       dateModified: lesson.updated_at.iso8601,
-      url: "#{site_url}/lessons/#{lesson.slug}"
+      url: "#{site_url}/#{I18n.locale}/lessons/#{lesson.slug}"
     }
     # E-E-A-T: the profession's opted-in curators vouch for the material.
     # Emitted only when a real person actually stands behind the map.
@@ -51,7 +74,7 @@ module SeoHelper
       numberOfLessons: path.lessons_count,
       inLanguage: I18n.locale.to_s,
       isAccessibleForFree: true,
-      url: "#{site_url}/paths/#{path.slug}"
+      url: "#{site_url}/#{I18n.locale}/paths/#{path.slug}"
     }
     data.to_json
   end
@@ -67,7 +90,7 @@ module SeoHelper
       numberOfLessons: course.lessons_count,
       inLanguage: I18n.locale.to_s,
       isAccessibleForFree: true,
-      url: "#{site_url}/courses/#{course.slug}"
+      url: "#{site_url}/#{I18n.locale}/courses/#{course.slug}"
     }
     data.to_json
   end
@@ -79,7 +102,7 @@ module SeoHelper
       "@context": "https://schema.org",
       "@type": "DefinedTermSet",
       name: I18n.t("glossary.title"),
-      url: "#{site_url}/glossary",
+      url: "#{site_url}/#{I18n.locale}/glossary",
       inLanguage: I18n.locale.to_s,
       hasDefinedTerm: groups.flat_map do |_path, terms|
         terms.map { |term| { "@type": "DefinedTerm", name: term.abbr, description: term.full } }

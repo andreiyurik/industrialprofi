@@ -16,4 +16,10 @@ class FeedbackMailer < ApplicationMailer
     end
     mail(**options)
   end
+
+  private
+    # Here @user is the SENDER; the letter goes to the founder.
+    def recipient_locale
+      I18n.default_locale
+    end
 end

@@ -50,6 +50,9 @@ class User < ApplicationRecord
   validates :learning_goal, length: { maximum: 200 }
   validates :headline, length: { maximum: 120 }
   validates :avatar_token, inclusion: { in: Avatar.tokens }, allow_blank: true
+  # Emails render in the reader's language, not the language of the request
+  # that happened to trigger them.
+  validates :locale, inclusion: { in: I18n.available_locales.map(&:to_s) }
 
   # Suspension is a reversible ban: active users can sign in, suspended ones
   # can't. `active` is the scope login authenticates through (Writebook pattern).

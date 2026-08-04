@@ -2,9 +2,17 @@ class LessonsController < ApplicationController
   allow_unauthenticated_access
 
   def show
-    @lesson = Lesson.includes(:resources, :course, :path).find_by!(slug: params[:slug])
+    # No includes on purpose: for ONE record eager loading saves nothing (same
+    # three queries), but it always runs them — even for a 304 or .md response
+    # that never touches resources. Lazy loading pays only on real renders.
+    @lesson = Lesson.find_by!(slug: params[:slug])
     @course = @lesson.course
     @path = @lesson.path
+    # Same one-locale-home rule as paths#show.
+    unless @path.locale == params[:locale]
+      return redirect_to lesson_path(@lesson, locale: @path.locale), status: :moved_permanently
+    end
+
     # Published content is public; an editor/admin may PREVIEW their own drafts
     # (so "view live" works while authoring). Everyone else gets a 404.
     @preview = !publicly_visible?(@lesson)

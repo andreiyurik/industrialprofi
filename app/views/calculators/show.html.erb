@@ -3,7 +3,7 @@
 <% content_for :title, @calculator.title %>
 <% content_for :og_title, "#{@calculator.title} — #{t('site.name')}" %>
 <% meta_description(@calculator.tagline) %>
-<% canonical_url("#{site_config.url}/calculators/#{@calculator.slug}") %>
+<% canonical_url(calculator_url(@calculator)) %>
 
 <% content_for(:head) do %>
   <%= json_ld_tag(breadcrumb_json_ld([

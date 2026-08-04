@@ -1,6 +1,18 @@
 require "test_helper"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  # Same reason as in test_helper: URL helpers in test code need the locale.
+  # System tests resolve helpers through a private per-test object that never
+  # consults the test class (ActionDispatch::SystemTestCase#url_helpers), so
+  # the locale is taught to that object itself.
+  private def url_helpers
+    super.tap do |helpers|
+      def helpers.default_url_options
+        { locale: I18n.default_locale }
+      end
+    end
+  end
+
   # Some boxes (Ubuntu/WSL) ship /usr/bin/chromium-browser as a snap stub that
   # exits immediately — Selenium Manager happily resolves it and every session
   # dies with "Chrome instance exited". Prefer an explicit CHROME_BIN, then the
