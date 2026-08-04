@@ -41,6 +41,16 @@ export KAMAL_REGISTRY_PASSWORD=ghp_...   # put it in ~/.bashrc
 
 `config/master.key` is not committed — keep a copy in a password manager.
 
+Two more gitignored key files that `.kamal/secrets` reads at deploy time —
+recreate them on any new machine (contents live in the password manager):
+
+```bash
+config/indexnow.key       # IndexNow ownership token
+config/sberbank_card.key  # donation card number shown on /support_us
+                          # (public on the page, but kept out of a public repo's
+                          # git history; the bank label rides in deploy.yml clear:)
+```
+
 ## 2. Config
 
 The server IP is **not** committed (this is a public repo). `deploy.yml` reads it
@@ -122,6 +132,17 @@ ADMIN_EMAIL=... ADMIN_PASSWORD=... bin/kamal app exec "bin/rails db:seed"
   A backup you've never restored isn't a backup — `rclone copy` a
   `production-*.sqlite3` back down and open it with `sqlite3` (or restore a
   few blobs) locally once a quarter.
+
+  **Third line of defense — a copy on the founder's laptop:** `bin/pullbackup`
+  takes a fresh consistent snapshot inside the running app
+  (`bin/rails backup:snapshot`, `VACUUM INTO` — safe under live writes),
+  rsyncs it plus `blobs/` to `~/backups/industrialprofi`, verifies it with
+  `PRAGMA integrity_check` and keeps the last 14 copies. Needs only ssh —
+  independent of the server crons AND of S3, so it survives losing both at
+  once. Deliberately manual, not a laptop cron: a scheduled job on a machine
+  that may be off fails silently, and a silently failed backup is worse than
+  none. The script prints the age of your last copy as the reminder — run it
+  after every content release and before anything risky.
 - **External uptime monitoring:** UptimeRobot (free) on
   `https://industrialprofi.com/up`, alerting to email/Telegram. Internal error
   monitoring is already built in (`lib/error_subscriber.rb` emails admins).
@@ -132,13 +153,22 @@ ADMIN_EMAIL=... ADMIN_PASSWORD=... bin/kamal app exec "bin/rails db:seed"
 ## Routine
 
 ```bash
-bin/kamal deploy       # every subsequent deploy (a green CI is required first)
+bin/kamal deploy       # every subsequent deploy (a green CI is required first);
+                       # migrations run automatically (docker-entrypoint → db:prepare)
 bin/kamal logs         # tail the logs
 bin/kamal console      # rails console on production
 bin/kamal rollback     # roll back to the previous image if a deploy is bad
+
+bin/kamal import       # content release: create-only seed import + report.
+                       # Deliberately NOT part of deploy — shipping code and
+                       # shipping content are separate acts (one profession:
+                       # bin/kamal app exec "bin/rails 'content:import[slug]'")
+bin/kamal disk         # df -h on the host — the SQLite volume IS the app's life
+bin/pullbackup         # off-server backup onto this laptop (see Backups above)
 ```
 
 The rule from VISION: ship weekly — a deploy is routine, not an event.
+The full alias list lives in `config/deploy.yml` → `aliases:` (also `shell`, `dbc`).
 
 ## Maintenance mode (server migrations)
 
