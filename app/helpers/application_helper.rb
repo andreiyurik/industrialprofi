@@ -12,9 +12,10 @@ module ApplicationHelper
     controller.is_a?(Admin::BaseController)
   end
 
-  # Each language names itself in its own tongue — the reader who needs the
-  # switcher is precisely the one who can't read the current language.
-  LOCALE_NAMES = { ru: "Русский", en: "English" }.freeze
+  # Each language names itself in its own tongue (the reader who needs the
+  # switcher can't read the current language), clipped to three letters —
+  # full names read as a paragraph, not a control.
+  LOCALE_NAMES = { ru: "рус", en: "eng" }.freeze
 
   def native_locale_name(locale)
     LOCALE_NAMES.fetch(locale, locale.to_s)
