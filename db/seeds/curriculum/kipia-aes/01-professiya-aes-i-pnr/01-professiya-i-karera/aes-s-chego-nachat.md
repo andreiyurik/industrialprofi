@@ -17,26 +17,26 @@ kind: lesson
 ## Фундамент: пройди это в «Инженере АСУ ТП»
 
 **Поле и сигналы**
-- [Датчики температуры: термопары и термосопротивления](/lessons/datchiki-temperatury)
-- [Датчики давления, расхода и уровня](/lessons/datchiki-davleniya-rashoda-urovnya)
-- [Токовая петля 4–20 мА, дискретные сигналы и HART](/lessons/signaly-4-20ma-i-diskretnye)
-- [Исполнительные механизмы: клапаны, приводы, частотники](/lessons/ispolnitelnye-mehanizmy-i-chastotniki)
-- [Метрология: поверка, погрешность, Госреестр](/lessons/metrologiya-poverka-pogreshnost)
+- [Датчики температуры: термопары и термосопротивления](/ru/lessons/datchiki-temperatury)
+- [Датчики давления, расхода и уровня](/ru/lessons/datchiki-davleniya-rashoda-urovnya)
+- [Токовая петля 4–20 мА, дискретные сигналы и HART](/ru/lessons/signaly-4-20ma-i-diskretnye)
+- [Исполнительные механизмы: клапаны, приводы, частотники](/ru/lessons/ispolnitelnye-mehanizmy-i-chastotniki)
+- [Метрология: поверка, погрешность, Госреестр](/ru/lessons/metrologiya-poverka-pogreshnost)
 
 **Контроллеры и регулирование**
-- [Что такое ПЛК: цикл сканирования и ввод-вывод](/lessons/chto-takoe-plk-cikl-skanirovaniya)
-- [Языки МЭК 61131-3: обзор и выбор](/lessons/yazyki-mek-61131-3)
-- [ПИД-регулятор: принцип работы](/lessons/pid-regulirovanie)
+- [Что такое ПЛК: цикл сканирования и ввод-вывод](/ru/lessons/chto-takoe-plk-cikl-skanirovaniya)
+- [Языки МЭК 61131-3: обзор и выбор](/ru/lessons/yazyki-mek-61131-3)
+- [ПИД-регулятор: принцип работы](/ru/lessons/pid-regulirovanie)
 
 **Сети, SCADA и схемы**
-- [Промышленные сети: RS-485 и master/slave](/lessons/promyshlennye-seti-rs485-master-slave)
-- [Основы SCADA: теги и архитектура](/lessons/scada-osnovy-tegi-arhitektura)
-- [Чтение схем автоматизации: ФСА, P&ID и УГО](/lessons/chtenie-shem-avtomatizacii-fsa)
+- [Промышленные сети: RS-485 и master/slave](/ru/lessons/promyshlennye-seti-rs485-master-slave)
+- [Основы SCADA: теги и архитектура](/ru/lessons/scada-osnovy-tegi-arhitektura)
+- [Чтение схем автоматизации: ФСА, P&ID и УГО](/ru/lessons/chtenie-shem-avtomatizacii-fsa)
 
 **Проектирование, ПНР и безопасность**
-- [Практика: пусконаладка и проверка контуров](/lessons/pusconaladka-i-proverka-konturov)
-- [Функциональная безопасность: ПАЗ, SIS и SIL](/lessons/funkcionalnaya-bezopasnost-paz-sil)
-- [Монтаж шкафа автоматизации](/lessons/montazh-shkafa-avtomatizacii)
+- [Практика: пусконаладка и проверка контуров](/ru/lessons/pusconaladka-i-proverka-konturov)
+- [Функциональная безопасность: ПАЗ, SIS и SIL](/ru/lessons/funkcionalnaya-bezopasnost-paz-sil)
+- [Монтаж шкафа автоматизации](/ru/lessons/montazh-shkafa-avtomatizacii)
 
 > [!СОВЕТ] Не обязательно проходить всё подряд за один раз. Минимум перед атомной частью — блоки «Поле и сигналы» и «Проектирование, ПНР и безопасность»: именно на них опирается специфика ВВЭР и защит 2oo3.
 

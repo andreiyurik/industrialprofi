@@ -1,94 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <%# Chrome pages exist in every locale; content URLs carry the locale their
+      Path lives in. Data hubs whose EN side is still empty (projects,
+      resources, glossary) stay RU-only until content exists — an empty page
+      in the sitemap reads as thin content, not as ambition. %>
+  <% I18n.available_locales.each do |locale| %>
+  <% base = "#{site_config.url}/#{locale}" %>
   <url>
-    <loc><%= site_config.url %>/</loc>
+    <loc><%= base %></loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc><%= site_config.url %>/paths</loc>
+    <loc><%= base %>/paths</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc><%= site_config.url %>/projects</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc><%= site_config.url %>/resources</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <% @paths.each do |path| %>
-  <url>
-    <loc><%= site_config.url %>/resources?path=<%= path.slug %></loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <% end %>
-  <url>
-    <loc><%= site_config.url %>/glossary</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <% @paths.select { |path| Glossary.path_slugs.include?(path.slug) }.each do |path| %>
-  <url>
-    <loc><%= site_config.url %>/glossary?path=<%= path.slug %></loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <% end %>
-  <url>
-    <loc><%= site_config.url %>/calculators</loc>
+    <loc><%= base %>/calculators</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <% Calculator.all.each do |calculator| %>
   <url>
-    <loc><%= site_config.url %>/calculators/<%= calculator.slug %></loc>
+    <loc><%= base %>/calculators/<%= calculator.slug %></loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <% end %>
   <url>
-    <loc><%= site_config.url %>/about</loc>
+    <loc><%= base %>/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc><%= site_config.url %>/roadmap</loc>
+    <loc><%= base %>/roadmap</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc><%= site_config.url %>/faq</loc>
+    <loc><%= base %>/faq</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc><%= site_config.url %>/guide</loc>
+    <loc><%= base %>/guide</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc><%= site_config.url %>/support_us</loc>
+    <loc><%= base %>/support_us</loc>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc><%= site_config.url %>/business</loc>
+    <loc><%= base %>/business</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc><%= site_config.url %>/authors</loc>
+    <loc><%= base %>/authors</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <% end %>
+  <% ru = "#{site_config.url}/ru" %>
+  <url>
+    <loc><%= ru %>/projects</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc><%= ru %>/resources</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <% @paths.each do |path| %>
   <url>
-    <loc><%= site_config.url %>/paths/<%= path.slug %></loc>
+    <loc><%= site_config.url %>/<%= path.locale %>/resources?path=<%= path.slug %></loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <% end %>
+  <url>
+    <loc><%= ru %>/glossary</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <% @paths.select { |path| Glossary.path_slugs.include?(path.slug) }.each do |path| %>
+  <url>
+    <loc><%= ru %>/glossary?path=<%= path.slug %></loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <% end %>
+  <% @paths.each do |path| %>
+  <url>
+    <loc><%= site_config.url %>/<%= path.locale %>/paths/<%= path.slug %></loc>
     <lastmod><%= path.updated_at.strftime("%Y-%m-%d") %></lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -96,7 +104,7 @@
   <% end %>
   <% @courses.each do |course| %>
   <url>
-    <loc><%= site_config.url %>/courses/<%= course.slug %></loc>
+    <loc><%= site_config.url %>/<%= course.path.locale %>/courses/<%= course.slug %></loc>
     <lastmod><%= course.updated_at.strftime("%Y-%m-%d") %></lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -104,7 +112,7 @@
   <% end %>
   <% @lessons.each do |lesson| %>
   <url>
-    <loc><%= site_config.url %>/lessons/<%= lesson.slug %></loc>
+    <loc><%= site_config.url %>/<%= lesson.path.locale %>/lessons/<%= lesson.slug %></loc>
     <lastmod><%= lesson.updated_at.strftime("%Y-%m-%d") %></lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

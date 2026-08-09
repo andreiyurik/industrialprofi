@@ -2,7 +2,8 @@ class PostsController < ApplicationController
   allow_unauthenticated_access only: [ :index, :show ]
 
   def index
-    @posts = Post.published.recent.includes(hero_image_attachment: :blob)
+    # The index cards are text-only — hero images render on the show page.
+    @posts = Post.published.recent
   end
 
   def show

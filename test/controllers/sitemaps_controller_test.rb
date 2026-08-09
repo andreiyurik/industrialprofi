@@ -23,16 +23,17 @@ class SitemapsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "/lessons/#{lessons(:pteep).slug}"
   end
 
-  test "sitemap contains static pages" do
+  test "sitemap contains static pages in every locale" do
     get "/sitemap.xml"
-    assert_includes response.body, "https://industrialprofi.com/"
-    assert_includes response.body, "https://industrialprofi.com/paths"
-    assert_includes response.body, "https://industrialprofi.com/support_us"
+    assert_includes response.body, "https://industrialprofi.com/ru/paths"
+    assert_includes response.body, "https://industrialprofi.com/ru/support_us"
+    assert_includes response.body, "https://industrialprofi.com/en/paths"
+    assert_includes response.body, "https://industrialprofi.com/en/support_us"
   end
 
   test "sitemap contains the projects landing page" do
     get "/sitemap.xml"
-    assert_includes response.body, "https://industrialprofi.com/projects"
+    assert_includes response.body, "https://industrialprofi.com/ru/projects"
   end
 
   test "sitemap contains lastmod" do

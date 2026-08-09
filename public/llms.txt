@@ -7,24 +7,24 @@
 
 ## Структура контента
 
-- [Профессии](https://industrialprofi.com/paths): список профессий — электрик, сварщик, инженер АСУ ТП и другие
-- [Программа профессии](https://industrialprofi.com/paths/elektrik): главы и статьи одной профессии (пример — электрик)
-- [Статья](https://industrialprofi.com/lessons/01-elektrik-karta-puti): теория, ссылки на официальные документы, практика
-- [Статья в Markdown](https://industrialprofi.com/lessons/01-elektrik-karta-puti.md): та же статья без разметки страницы, для парсинга
-- [Библиотека](https://industrialprofi.com/resources): все документы, стандарты, книги и видео по каждой профессии
-- [Практика](https://industrialprofi.com/projects): практические задания по уровням сложности
-- [Словарь](https://industrialprofi.com/glossary): расшифровки профессиональных сокращений
-- [Калькуляторы](https://industrialprofi.com/calculators): инженерные расчёты
+- [Профессии](https://industrialprofi.com/ru/paths): список профессий — электрик, сварщик, инженер АСУ ТП и другие
+- [Программа профессии](https://industrialprofi.com/ru/paths/elektrik): главы и статьи одной профессии (пример — электрик)
+- [Статья](https://industrialprofi.com/ru/lessons/01-elektrik-karta-puti): теория, ссылки на официальные документы, практика
+- [Статья в Markdown](https://industrialprofi.com/ru/lessons/01-elektrik-karta-puti.md): та же статья без разметки страницы, для парсинга
+- [Библиотека](https://industrialprofi.com/ru/resources): все документы, стандарты, книги и видео по каждой профессии
+- [Практика](https://industrialprofi.com/ru/projects): практические задания по уровням сложности
+- [Словарь](https://industrialprofi.com/ru/glossary): расшифровки профессиональных сокращений
+- [Калькуляторы](https://industrialprofi.com/ru/calculators): инженерные расчёты
 - [Карта сайта](https://industrialprofi.com/sitemap.xml): полный перечень страниц
 
 ## О проекте
 
-- [О проекте](https://industrialprofi.com/about): зачем платформа и для кого
-- [Как мы пишем материалы](https://industrialprofi.com/guide): памятка автора и требования к источникам
-- [Чем помочь](https://industrialprofi.com/contribute): правила правок и путь до эксперта профессии
-- [Дорожная карта](https://industrialprofi.com/roadmap): что уже сделано и что дальше
-- [Поддержать проект](https://industrialprofi.com/support_us): как помочь деньгами или звездой на GitHub
-- [Конфиденциальность](https://industrialprofi.com/privacy): какие данные собираются
+- [О проекте](https://industrialprofi.com/ru/about): зачем платформа и для кого
+- [Как мы пишем материалы](https://industrialprofi.com/ru/guide): памятка автора и требования к источникам
+- [Чем помочь](https://industrialprofi.com/ru/contribute): правила правок и путь до эксперта профессии
+- [Дорожная карта](https://industrialprofi.com/ru/roadmap): что уже сделано и что дальше
+- [Поддержать проект](https://industrialprofi.com/ru/support_us): как помочь деньгами или звездой на GitHub
+- [Конфиденциальность](https://industrialprofi.com/ru/privacy): какие данные собираются
 
 ## Контакты
 

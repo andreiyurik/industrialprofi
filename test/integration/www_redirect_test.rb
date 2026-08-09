@@ -5,8 +5,12 @@ require "test_helper"
 class WwwRedirectTest < ActionDispatch::IntegrationTest
   CANONICAL = Rails.application.config.x.site.url
 
-  test "the bare domain is served normally" do
+  test "the bare domain sends the visitor to the default locale" do
     get "/"
+
+    assert_redirected_to "/ru"
+    assert_response :moved_permanently
+    follow_redirect!
 
     assert_response :success
   end

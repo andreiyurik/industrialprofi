@@ -82,9 +82,13 @@ group :development do
   # issued it. The metric that decides whether one small VPS holds is queries per
   # page, and this is the cheapest way to see it while writing the page.
   gem "rack-mini-profiler"
+end
 
-  # Names what the profiler only shows: N+1 queries and needless eager loading.
-  # Configured in config/environments/development.rb — inert without it.
+# Names what the profiler only shows: N+1 queries and needless eager loading.
+# Dev: a footer on the page. Test: Bullet.raise fails the suite, so bin/ci
+# catches a regression before the founder's dashboard does. Inert without the
+# per-environment config.
+group :development, :test do
   gem "bullet"
 end
 

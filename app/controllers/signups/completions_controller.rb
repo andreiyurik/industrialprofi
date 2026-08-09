@@ -8,7 +8,7 @@ class Signups::CompletionsController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params.merge(email_address: signup.email_address))
+    @user = User.new(user_params.merge(email_address: signup.email_address, locale: I18n.locale.to_s))
 
     if @user.save
       signup.clear!

@@ -47,6 +47,10 @@ env:
     # so anyone holding it can spend our crawl budget — and this repo is public.
     # Value lives in config/indexnow.key (gitignored), read by .kamal/secrets.
     - INDEXNOW_KEY
+    # Sberbank card number shown on /support_us. Public on the page itself,
+    # but kept out of git history — same rule as the master key. Value lives
+    # in config/sberbank_card.key (gitignored), read by .kamal/secrets.
+    - CARD_NUMBER
   clear:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
@@ -88,8 +92,9 @@ env:
     # on the server's environment instead. Tip: use a dedicated/virtual card.
     # YOOMONEY_WALLET: "4100 11XX XXXX XXXX"
     # YOOMONEY_URL: "https://yoomoney.ru/to/410011XXXXXXXXX"
-    # CARD_NUMBER: "2200 XXXX XXXX XXXX"
-    # CARD_BANK: "Т-Банк"
+    # CARD_NUMBER lives in the `secret:` list above (config/sberbank_card.key) —
+    # never in `clear:`, unlike the label below, which isn't sensitive on its own.
+    CARD_BANK: "Сбербанк"
 
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
@@ -111,6 +116,12 @@ aliases:
   shell: app exec --interactive --reuse "bash"
   logs: app logs -f
   dbc: app exec --interactive --reuse "bin/rails dbconsole --include-password"
+  # Content release as one command: create-only seed import (never overwrites
+  # human edits) with the report printed to the terminal — deliberately NOT
+  # part of deploy, so shipping code and shipping content stay separate acts.
+  import: app exec --reuse "bin/rails content:import"
+  # The disk is the app's life (SQLite + blobs on one volume) — one glance.
+  disk: server exec "df -h /"
 
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 # Recommended to change this to a mounted volume path that is backed up off server.

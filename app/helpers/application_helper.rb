@@ -12,6 +12,21 @@ module ApplicationHelper
     controller.is_a?(Admin::BaseController)
   end
 
+  # Each language names itself in its own tongue (the reader who needs the
+  # switcher can't read the current language), clipped to three letters —
+  # full names read as a paragraph, not a control.
+  LOCALE_NAMES = { ru: "рус", en: "eng" }.freeze
+
+  def native_locale_name(locale)
+    LOCALE_NAMES.fetch(locale, locale.to_s)
+  end
+
+  # The switcher's target: the same page where it exists in both languages,
+  # the other locale's home where the content is locale-bound.
+  def locale_switch_url(locale)
+    bilingual_page? ? url_for(locale: locale) : root_path(locale: locale)
+  end
+
   # div/span + class survive sanitization so rouge's highlighted output
   # (<div class="highlight"><pre><code><span class="k">…) keeps its token
   # classes. Worst case a class smuggles a cosmetic style — content is

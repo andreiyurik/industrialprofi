@@ -1,11 +1,11 @@
 <% if @path %>
   <% meta_title(t("glossary.path_title", profession: @path.title)) %>
   <% meta_description(t("glossary.path_description", profession: @path.title)) %>
-  <% canonical_url("#{site_config.url}/glossary?path=#{@path.slug}") %>
+  <% canonical_url(glossary_url(path: @path.slug)) %>
 <% else %>
   <% meta_title(t("glossary.title")) %>
   <% meta_description(t("glossary.description")) %>
-  <% canonical_url("#{site_config.url}/glossary") %>
+  <% canonical_url(glossary_url) %>
 <% end %>
 
 <% content_for(:head) do %>

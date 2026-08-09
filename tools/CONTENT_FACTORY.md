@@ -330,6 +330,9 @@ AI-черновиков. Второго формата не существует
 ```bash
 bin/rails "content:import[svarshchik]"   # импорт одной профессии (черновик)
 bin/rails content:import                 # импорт всего дерева сидов
+bin/kamal import                         # то же в ПРОДЕ: контент-релиз одной командой
+                                         # (create-only, отчёт в терминал; перед ним —
+                                         # bin/pullbackup, свежая копия на ноутбук)
 bin/rails "content:export[svarshchik]"   # экспорт профессии из БД в YAML-дерево
                                          # импортёра (tmp/export/<slug>) — переносимый
                                          # контент-пак: on-prem, офлайн-авторинг, бэкап

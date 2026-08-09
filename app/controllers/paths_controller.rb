@@ -19,6 +19,12 @@ class PathsController < ApplicationController
 
   def show
     @path = Path.published.find_by!(slug: params[:slug])
+    # Content lives in exactly ONE locale — the other prefixes 301 home, so
+    # Google never sees two language URLs for the same material.
+    unless @path.locale == params[:locale]
+      return redirect_to path_path(@path, locale: @path.locale), status: :moved_permanently
+    end
+
     @courses = @path.courses.listable.ordered.to_a
     # course_id => completed-lessons count, for each course's progress bar.
     @completed_by_course = if signed_in?

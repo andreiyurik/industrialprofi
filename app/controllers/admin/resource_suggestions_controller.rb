@@ -8,7 +8,7 @@ module Admin
 
     def index
       @grouped = editable_resource_suggestions.pending
-                   .includes(lesson: :path).order(created_at: :desc).group_by(&:lesson)
+                   .includes(:lesson).order(created_at: :desc).group_by(&:lesson)
     end
 
     def approve

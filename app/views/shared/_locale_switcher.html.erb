@@ -1,0 +1,14 @@
+<%# Interlanguage nav: plain crawlable links, never a cookie or an
+    Accept-Language redirect (Googlebot crawls from the US and must reach /ru
+    freely). Rendered twice — mobile menu sheet + desktop footer. %>
+<nav class="locale-switcher" aria-label="<%= t("nav.language") %>">
+  <%= icon_tag "globe-simple" %>
+  <% I18n.available_locales.each do |locale| %>
+    <% if locale == I18n.locale %>
+      <span class="locale-switcher__current" aria-current="true" lang="<%= locale %>"><%= native_locale_name(locale) %></span>
+    <% else %>
+      <%= link_to native_locale_name(locale), locale_switch_url(locale),
+            class: "locale-switcher__link link-quiet", lang: locale, hreflang: locale %>
+    <% end %>
+  <% end %>
+</nav>

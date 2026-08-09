@@ -222,4 +222,27 @@ namespace :content do
 
   desc "Run the whole mechanical QA pass (audit + links)"
   task check: %i[audit links]
+
+  desc "One-time after the URL locale prefix: point internal lesson links at /ru (idempotent)"
+  task localize_links: :environment do
+    lessons = 0
+    Lesson.find_each do |lesson|
+      changes = %i[body task description].filter_map { |column|
+        text = lesson[column]
+        [ column, text.gsub("](/lessons/", "](/ru/lessons/") ] if text&.include?("](/lessons/")
+      }.to_h
+      next if changes.empty?
+
+      lesson.update!(changes)
+      lessons += 1
+    end
+
+    rich_texts = 0
+    ActionText::RichText.where("body LIKE ?", '%href="/lessons/%').find_each do |rich_text|
+      rich_text.update!(body: rich_text.body.to_s.gsub('href="/lessons/', 'href="/ru/lessons/'))
+      rich_texts += 1
+    end
+
+    puts "Rewrote internal links: #{lessons} lessons, #{rich_texts} rich texts."
+  end
 end

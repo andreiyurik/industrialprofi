@@ -1,0 +1,61 @@
+#!/usr/bin/env ruby
+# Pull an off-server backup of production onto THIS machine: a consistent
+# SQLite snapshot (bin/rails backup:snapshot inside the app container) plus
+# the blobs directory. Needs only ssh — no S3, no server-side scripts.
+#
+# Run it by hand: after a content release, before anything risky, or weekly.
+# Copies land in ~/backups/industrialprofi (last KEEP snapshots kept).
+
+require "bundler/setup"
+require "yaml"
+require "fileutils"
+
+DEST = File.expand_path("~/backups/industrialprofi")
+KEEP = 14
+
+config = YAML.load_file(File.expand_path("../config/deploy.yml", __dir__), aliases: true)
+servers = config.fetch("servers")
+hosts = servers.is_a?(Hash) ? servers.values.flatten : Array(servers)
+hosts = hosts.flat_map { |h| h.is_a?(Hash) ? Array(h["hosts"]) : h }
+host = hosts.grep(String).first or abort "No server host found in config/deploy.yml"
+user = config.dig("ssh", "user") || "root"
+remote = "#{user}@#{host}"
+volume = "/var/lib/docker/volumes/#{config.fetch("service")}_storage/_data"
+
+def run!(*cmd)
+  puts "→ #{cmd.join(" ")}"
+  system(*cmd) or abort "FAILED: #{cmd.join(" ")}"
+end
+
+previous = Dir["#{DEST}/production-*.sqlite3"].max
+if previous
+  age_days = ((Time.now - File.mtime(previous)) / 86_400).round
+  puts "Last local copy: #{File.basename(previous)} (#{age_days} d ago)"
+else
+  puts "No local copies yet — this will be the first."
+end
+
+FileUtils.mkdir_p(DEST)
+stamp = Time.now.strftime("%Y-%m-%d-%H%M")
+
+# 1. Fresh consistent snapshot inside the running app.
+run! "bin/kamal", "app", "exec", "--reuse", "bin/rails backup:snapshot"
+
+# 2. Download the snapshot; blobs too, when any exist (lesson images).
+run! "rsync", "-az", "#{remote}:#{volume}/backups/pull.sqlite3",
+     "#{DEST}/production-#{stamp}.sqlite3"
+if system("ssh", remote, "test -d #{volume}/blobs", out: File::NULL)
+  run! "rsync", "-az", "--delete", "#{remote}:#{volume}/blobs/", "#{DEST}/blobs/"
+end
+
+# 3. Verify the copy is a healthy database, then prune old snapshots.
+require "sqlite3"
+latest = "#{DEST}/production-#{stamp}.sqlite3"
+verdict = SQLite3::Database.new(latest).execute("PRAGMA integrity_check").flatten.first
+abort "INTEGRITY CHECK FAILED for #{latest}: #{verdict}" unless verdict == "ok"
+
+snapshots = Dir["#{DEST}/production-*.sqlite3"].sort
+(snapshots[0...-KEEP] || []).each { |old| File.delete(old) }
+
+puts "OK: #{latest} (#{(File.size(latest) / 1024.0 / 1024).round(1)} MB, integrity ok, " \
+     "#{[ snapshots.size, KEEP ].min} copies kept)"

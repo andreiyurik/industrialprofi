@@ -1,6 +1,6 @@
 <% meta_title(t("faq.title")) %>
 <% meta_description(t("faq.intro").truncate(160)) %>
-<% canonical_url("#{site_config.url}/faq") %>
+<% canonical_url(faq_url) %>
 
 <%# FAQPage structured data — the Q&A below is exactly what people google. %>
 <% content_for :head do %>

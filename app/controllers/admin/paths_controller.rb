@@ -45,6 +45,9 @@ module Admin
     def destroy
       return redirect_to(admin_path_path(@path), alert: t("auth.not_authorized")) unless Current.user.can_administer?
 
+      # The destroy cascade walks courses → lessons → resources one by one;
+      # preloading the tree turns that N+1 crawl into three reads.
+      @path = Path.includes(courses: { lessons: [ :resources, :lesson_suggestions, :resource_suggestions ] }).find(@path.id)
       @path.destroy!
       record_admin_action("path_deleted", subject: @path.title)
       redirect_to admin_paths_path, notice: I18n.t("flash.path_deleted")

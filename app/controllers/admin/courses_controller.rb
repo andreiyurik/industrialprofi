@@ -35,6 +35,9 @@ module Admin
     def destroy
       path = @course.path
       title = @course.title
+      # Same cascade preload as paths#destroy — lessons and their resources in
+      # two reads instead of one per lesson.
+      @course = Course.includes(lessons: [ :resources, :lesson_suggestions, :resource_suggestions ]).find(@course.id)
       @course.destroy!
       record_admin_action("course_deleted", subject: title, path: path&.title)
       redirect_to admin_path_path(path), notice: I18n.t("flash.course_deleted")

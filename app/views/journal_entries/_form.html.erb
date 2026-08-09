@@ -22,7 +22,7 @@
     <%# Practice lessons only: the journal logs a practice task done, not theory —
         keeps this picker short instead of listing every lesson of every profession. %>
     <%= form.grouped_collection_select :lesson_id,
-          Path.published.localized.ordered.with_practice_lessons, :practice_lessons, :title, :id, :title,
+          Path.published.localized.ordered.with_practice_lessons.includes(:practice_lessons), :practice_lessons, :title, :id, :title,
           { include_blank: t("journal.lesson_none") }, { class: "input" } %>
   </div>
 
