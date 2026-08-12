@@ -163,16 +163,17 @@ hr {
   margin: 2lh auto;
 }
 
-/* Logo divider — the RJ45 mark centred on a hairline that's CRISP at the gap
+/* Logo divider — the profi mark centred on a hairline that's CRISP at the gap
    (no muddy centre fade) but dissolves toward the column edges, so it reads as
    "drawn" around the mark. Scoped to .prose so the plain <hr> still serves
    mailers. Two stacked backgrounds (mark, then the tapered hairline). */
 .prose hr {
-  --mark-size: 0.6em;    /* the RJ45 logo height — the single knob to resize it */
-  --divider-gap: 1.1em;  /* half-gap each side of centre — clears the mark */
+  --mark-size: 1.4em;    /* the profi mark height — the single knob to resize it;
+                            below ~1.4em the face's features stop resolving */
+  --divider-gap: 1em;    /* half-gap each side of centre — clears the mark */
 
   background-image:
-    url("logo-ethernet.png"),
+    url("logo-mark.svg"),
     linear-gradient(to right,
       transparent 0,
       var(--color-subtle-dark) 25%,

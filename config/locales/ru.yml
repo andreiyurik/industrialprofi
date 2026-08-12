@@ -127,6 +127,9 @@ ru:
 
   site:
     name: "industrialprofi.com"
+    # The wordmark's two halves — the brand lockup seats the mark between them.
+    name_head: "industrial"
+    name_tail: "profi.com"
     tagline: "Мастерство, практика, документация"
     # Same words as paths.hero.title, with its own home: the mail colophon and
     # the catalog hero are free to diverge.

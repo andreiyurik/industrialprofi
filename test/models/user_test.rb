@@ -72,6 +72,15 @@ class UserTest < ActiveSupport::TestCase
     assert_equal paths(:welder), user.focus_path
   end
 
+  test "focus_path skips completions in unpublished paths" do
+    user = users(:member)
+    user.lesson_completions.create!(lesson: lessons(:draft_lesson))
+    assert_nil user.focus_path
+
+    user.lesson_completions.create!(lesson: lessons(:pteep), created_at: 2.days.ago)
+    assert_equal paths(:electrician), user.focus_path
+  end
+
   test "activity_by_day merges completions, journal entries and suggested edits" do
     user = users(:member)
     user.lesson_completions.create!(lesson: lessons(:pteep))

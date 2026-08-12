@@ -76,6 +76,18 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_match lesson_path(lessons(:gruppy_dopuska)), response.body
   end
 
+  test "a later draft-path completion does not blank the dashboard" do
+    users(:member).lesson_completions.create!(lesson: lessons(:pteep), created_at: 2.days.ago)
+    users(:member).lesson_completions.create!(lesson: lessons(:draft_lesson))
+
+    sign_in_as users(:member)
+    get dashboard_path
+    assert_response :success
+    assert_match "dashboard-hero", response.body
+    assert_match paths(:electrician).title, response.body
+    assert_no_match I18n.t("dashboard.browse_paths"), response.body
+  end
+
   test "focus path is the hero; other started paths are listed quietly" do
     users(:member).lesson_completions.create!(lesson: lessons(:pteep), created_at: 2.days.ago)
     users(:member).lesson_completions.create!(lesson: lessons(:svarka_intro), created_at: 1.hour.ago)

@@ -5,6 +5,7 @@ class ApplicationMailer < ActionMailer::Base
           reply_to: ENV["MAIL_REPLY_TO"]
   layout "mailer"
   helper MailerHelper
+  self.delivery_job = MailDeliveryJob
 
   private
     # Letters render in the recipient's language: mailers that address a known

@@ -1,6 +1,6 @@
 <%# Interlanguage nav: plain crawlable links, never a cookie or an
     Accept-Language redirect (Googlebot crawls from the US and must reach /ru
-    freely). Rendered twice — mobile menu sheet + desktop footer. %>
+    freely). Lives only at the bottom of the mobile menu sheet. %>
 <nav class="locale-switcher" aria-label="<%= t("nav.language") %>">
   <%= icon_tag "globe-simple" %>
   <% I18n.available_locales.each do |locale| %>

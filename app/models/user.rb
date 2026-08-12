@@ -166,11 +166,14 @@ class User < ApplicationRecord
   end
 
   # The ONE direction the learner is currently working on — the path of their
-  # most recent completion. Derived, not stored: switching focus is simply
-  # doing a lesson elsewhere, no settings to manage.
+  # most recent completion in a PUBLISHED path. Derived, not stored: switching
+  # focus is simply doing a lesson elsewhere, no settings to manage. Skipping
+  # unpublished paths (not just nil-ing on them) keeps the focus a member of
+  # started_paths — else one draft completion blanks the whole dashboard.
   def focus_path
-    path_id = lesson_completions.joins(:lesson).order(created_at: :desc).limit(1).pick("lessons.path_id")
-    Path.published.find_by(id: path_id) if path_id
+    path_id = lesson_completions.joins(lesson: :path).merge(Path.published)
+                                .order(created_at: :desc).limit(1).pick("lessons.path_id")
+    Path.find_by(id: path_id) if path_id
   end
 
   # The first not-yet-completed lesson — where "Continue" should land.

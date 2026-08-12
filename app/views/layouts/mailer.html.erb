@@ -35,13 +35,14 @@
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="520" style="width: 520px; max-width: 100%;">
             <tr>
               <td align="center" style="padding-bottom: 36px;">
-                <%# The RJ45 plug alone, sized up as a seal — the app's own answer
-                    (auth__brand-mark, and the mobile header) for where the
+                <%# The hard-hat profi alone, sized up as a seal — the app's own
+                    answer (auth__brand-mark, and the mobile header) for where the
                     wordmark would crowd the row. A big mark plus the wordmark
                     can't fit a 320px phone, and email can't be trusted with the
-                    media query that fixes it. The alt carries the name, so
-                    images-off still reads as the brand. %>
-                <a href="<%= root_url %>"><img src="<%= image_url("logo-ethernet.png") %>" width="128" height="48" alt="<%= t("site.name") %>" style="display: block; width: 128px; height: 48px; border: 0; font-family: <%= MailerHelper::FONT_STACK %>; font-size: 21px; font-weight: 700; letter-spacing: -0.01em; color: <%= MailerHelper::INK %>; text-decoration: none;"></a>
+                    media query that fixes it. Email needs its own raster: clients
+                    strip SVG. The alt carries the name, so images-off still reads
+                    as the brand. %>
+                <a href="<%= root_url %>"><img src="<%= image_url("logo-mark-email.png") %>" width="33" height="48" alt="<%= t("site.name") %>" style="display: block; width: 33px; height: 48px; border: 0; font-family: <%= MailerHelper::FONT_STACK %>; font-size: 21px; font-weight: 700; letter-spacing: -0.01em; color: <%= MailerHelper::INK %>; text-decoration: none;"></a>
               </td>
             </tr>
 

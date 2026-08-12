@@ -29,7 +29,7 @@ main.main--auth {
   text-align: center;
 }
 
-/* Brand mark: the RJ45 plug icon, sized up like a seal. */
+/* Brand mark: the hard-hat profi, sized up like a seal. */
 .auth__brand {
   align-self: center;
   display: block;
@@ -38,7 +38,7 @@ main.main--auth {
 
 .auth__brand-mark {
   display: block;
-  height: 2.75rem;
+  height: 3.5rem;
   width: auto;
 }
 

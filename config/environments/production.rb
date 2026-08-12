@@ -75,7 +75,11 @@ Rails.application.configure do
     user_name: Rails.application.credentials.dig(:smtp, :user_name),
     password: Rails.application.credentials.dig(:smtp, :password),
     authentication: :plain,
-    tls: true
+    tls: true,
+    # Mail caps both at 5s, and net-smtp spends the open budget twice — once on
+    # the TCP connect, again on the TLS handshake. 30s is net-smtp's own default.
+    open_timeout: 30,
+    read_timeout: 30
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

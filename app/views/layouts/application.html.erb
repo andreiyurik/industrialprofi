@@ -92,8 +92,7 @@
             data-header-reveal-hidden-class="header--hidden">
       <nav class="container header__nav">
         <%= link_to root_path, class: "brand header__brand" do %>
-          <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", width: 536, height: 201, aria: { hidden: "true" } %>
-          <span class="brand__text"><%= t("site.name") %></span>
+          <%= render "shared/brand" %>
         <% end %>
         <div class="header__right">
           <%# A quiet dot = a decision on one of your suggested edits you
@@ -123,8 +122,7 @@
                   signed-in reader gets the identity row in this slot instead. %>
               <% unless signed_in? %>
                 <%= link_to root_path, class: "brand header__menu-brand" do %>
-                  <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", width: 536, height: 201, aria: { hidden: "true" } %>
-                  <span class="brand__text"><%= t("site.name") %></span>
+                  <%= render "shared/brand" %>
                 <% end %>
               <% end %>
 
@@ -276,8 +274,7 @@
       <div class="container footer__inner">
         <div class="footer__brand-block">
           <a href="<%= root_path %>" class="brand">
-            <%= image_tag "logo-ethernet.png", alt: "", class: "brand__mark", width: 536, height: 201, aria: { hidden: "true" } %>
-            <span class="brand__text"><%= t("site.name") %></span>
+            <%= render "shared/brand" %>
           </a>
           <p class="footer__tagline"><%= t("site.tagline") %></p>
           <div class="footer__socials">
@@ -342,7 +339,6 @@
           <p class="footer__made-with">
             <%= t("footer.made_with_html", heart: icon_tag("heart-fill", class: "footer__heart")) %>
           </p>
-          <%= render "shared/locale_switcher" %>
         </div>
       </div>
     </footer>

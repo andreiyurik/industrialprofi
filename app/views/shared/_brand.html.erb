@@ -1,0 +1,9 @@
+<%# The profi IS the wordmark: the two-colour mark (yellow hard hat) seats
+    between «industrial» and «profi.com» — the founder's composition. Screen
+    readers concatenate the two spans into the full name; the mark stays
+    decorative. Rendered inside each surface's own link (header, drawer,
+    footer), so the containers keep their classes while the lockup stays one
+    source of truth. %>
+<span class="brand__text"><%= t("site.name_head") %></span>
+<%= image_tag "logo-mark-duo.svg", alt: "", class: "brand__mark", width: 486, height: 707, aria: { hidden: "true" } %>
+<span class="brand__text"><%= t("site.name_tail") %></span>

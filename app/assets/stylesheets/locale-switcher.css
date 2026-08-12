@@ -1,6 +1,6 @@
-/* Interlanguage switcher — rendered in the footer colophon and at the bottom
-   of the mobile menu sheet. Plain links: the crawler follows them, and the
-   reader who needs one is the one who can't read the current language. */
+/* Interlanguage switcher — the bottom row of the mobile menu sheet, its only
+   home. Plain links: the crawler follows them, and the reader who needs one
+   is the one who can't read the current language. */
 .locale-switcher {
   align-items: center;
   color: var(--color-subtle-dark);
@@ -12,22 +12,8 @@
   color: var(--color-ink);
 }
 
-/* In the footer colophon it is fine print among fine print: same size and
-   alignment as the legal lines, last row of the column. */
-.footer__colophon .locale-switcher {
-  align-self: end;
-  font-size: 0.75rem;
-  line-height: 1.5;
-}
-
-@media (max-width: 559px) {
-  .footer__colophon .locale-switcher {
-    align-self: center;
-  }
-}
-
-/* Mobile menu placement — hidden on desktop (the footer carries it there),
-   shown as the sheet's last row on compact screens (see header.css). */
+/* Hidden on desktop, shown as the sheet's last row on compact screens (see
+   header.css). */
 .header__menu-locale {
   display: none;
 }

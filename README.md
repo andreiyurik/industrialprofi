@@ -1,5 +1,10 @@
 <div align="center">
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/brand/logo-mark-dark.svg">
+  <img src="docs/brand/logo-mark-light.svg" alt="" width="88">
+</picture>
+
 # IndustrialProfi
 
 A free, open-source learning platform that teaches industrial professions

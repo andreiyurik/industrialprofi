@@ -33,7 +33,9 @@ class SystemStatus
   # breaks a user flow with no other warning.
   def jobs
     {
-      pending: SolidQueue::Job.where(finished_at: nil).count,
+      # A failed job keeps finished_at NULL, so it stays "pending" forever —
+      # excluded here or every failure would be counted by both numbers.
+      pending: SolidQueue::Job.where(finished_at: nil).where.missing(:failed_execution).count,
       failed:  SolidQueue::FailedExecution.count
     }
   rescue StandardError

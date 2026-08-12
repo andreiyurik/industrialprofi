@@ -9,7 +9,7 @@ class MailerLayoutTest < ActionMailer::TestCase
   # A relative asset path is a broken image in every mail client, and nothing
   # about the rendered mail looks wrong from inside the app.
   test "the logo is served from an absolute URL" do
-    assert_match %r{<img src="https?://[^"]+/assets/logo-ethernet-[^"]+\.png"}, @body
+    assert_match %r{<img src="https?://[^"]+/assets/logo-mark-email-[^"]+\.png"}, @body
   end
 
   # The seal is the only brand mark in the letter, so its alt is what a reader
