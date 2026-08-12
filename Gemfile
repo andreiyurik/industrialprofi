@@ -98,4 +98,4 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "lexxy", "~> 0.9.20"
+gem "lexxy", "~> 0.9.29"
