@@ -84,6 +84,13 @@
         <%= icon_tag "clock" %>
       <% end %>
 
+      <%# Save-for-later — any lesson, not just practice: a reader may want to
+          come back to a theory lesson just as much as one waiting on tools. %>
+      <% if signed_in? %>
+        <%= render "lessons/bookmark_button", lesson: @lesson,
+              bookmarked: Current.user.lesson_bookmarks.exists?(lesson: @lesson) %>
+      <% end %>
+
       <button type="button" class="lesson__tool lesson__copy" hidden
               data-copy-link-target="button"
               data-action="copy-link#copy"
@@ -92,13 +99,6 @@
         <span class="lesson__copy-icon lesson__copy-icon--done"><%= icon_tag "check" %></span>
         <span class="for-screen-reader" data-copy-link-target="label"><%= t("lessons.copy_link") %></span>
       </button>
-
-      <%# Save-for-later — any lesson, not just practice: a reader may want to
-          come back to a theory lesson just as much as one waiting on tools. %>
-      <% if signed_in? %>
-        <%= render "lessons/bookmark_button", lesson: @lesson,
-              bookmarked: Current.user.lesson_bookmarks.exists?(lesson: @lesson) %>
-      <% end %>
 
       <%# Reading mode sits last, at the far edge — it's the one tool that
           changes the whole screen, not just this lesson, so it reads as a
@@ -111,11 +111,11 @@
               data-action="reading-mode#toggle"
               title="<%= t("lessons.reading_mode") %>">
         <span class="lesson-reading-toggle__enter">
-          <%= icon_tag "arrows-out" %>
+          <%= icon_tag "book-open" %>
           <span class="for-screen-reader"><%= t("lessons.reading_mode") %></span>
         </span>
         <span class="lesson-reading-toggle__exit">
-          <%= icon_tag "arrows-in" %>
+          <%= icon_tag "x" %>
           <span class="for-screen-reader"><%= t("lessons.reading_mode_exit") %></span>
         </span>
       </button>

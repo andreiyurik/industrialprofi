@@ -354,12 +354,13 @@
   }
 }
 
-/* Icon-only, not the "В ЭТОЙ СТАТЬЕ" caption it replaced — the accessible
-   name lives on .lesson-toc's own aria-label instead of visible text. */
 .lesson-toc__title {
-  --icon-size: 1.15rem;
   color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   margin-block: 0 0.75rem;
+  text-transform: uppercase;
 }
 
 .lesson-toc__list {
@@ -389,11 +390,19 @@
   padding-inline-start: 1.85rem;
 }
 
-/* "Документы и ресурсы" is worth a reader's extra attention — weight only,
-   one step past [aria-current]'s 600 so the two states stay distinguishable
-   even when this section is the one being read. */
+/* "Документы и ресурсы" is worth a reader's extra attention — weight plus a
+   quiet dot, one step past [aria-current]'s 600 so the two states stay
+   distinguishable even when this section is the one being read. currentColor
+   so the dot follows the link's own color instead of drifting out of sync
+   with the [aria-current] state below. */
 .lesson-toc__link--emphasis {
   font-weight: 700;
+}
+
+.lesson-toc__link--emphasis::before {
+  color: currentColor;
+  content: "\2022";
+  margin-inline-end: 0.4em;
 }
 
 /* "You are reading this" — ink text + ink rail segment, same brightness
