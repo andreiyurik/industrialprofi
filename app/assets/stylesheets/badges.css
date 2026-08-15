@@ -67,6 +67,30 @@
   color: oklch(var(--lch-pink));
 }
 
+/* Practice difficulty (the trade's own разряд ladder, named): reuses the grade
+   hues already defined for the difficulty ring/numeral, just as a legible
+   word pill instead of a bare Roman numeral. */
+.badge--beginner {
+  background-color: oklch(var(--lch-grade-green) / 0.18);
+  color: oklch(var(--lch-grade-green));
+}
+
+.badge--intermediate {
+  background-color: oklch(var(--lch-grade-yellow) / 0.18);
+  color: oklch(var(--lch-grade-yellow));
+}
+
+.badge--advanced {
+  background-color: oklch(var(--lch-grade-red) / 0.18);
+  color: oklch(var(--lch-grade-red));
+}
+
+/* Pairs the badge with the filter chips above it (I/II/III) — same numeral,
+   plus the word the chips don't have room for. */
+.badge .difficulty-mark {
+  margin-inline-end: 0.35em;
+}
+
 /* Marker axis (orthogonal to type): a small, muted outline pill — language now,
    partner later. Deliberately monochrome so it reads as a marker, not a type. */
 .badge--lang {

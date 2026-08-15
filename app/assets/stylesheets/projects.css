@@ -10,12 +10,15 @@
   margin-block: 0.75rem 0;
 }
 
+/* Left-aligned, not centered under the centred hero above it — once it's a
+   real toolbar (aria-current state, a live count), it should read as
+   controls anchored to the content, not more hero decoration. */
 .project-filters {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem 1.75rem;
-  justify-content: center;
+  justify-content: flex-start;
   margin-block-start: 1.25rem;
 }
 
@@ -24,7 +27,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--block-space-half);
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .project-filters__paths {
@@ -111,7 +114,7 @@
   flex-basis: 100%;
   font-size: 0.85rem;
   margin-block: 0;
-  text-align: center;
+  text-align: start;
 }
 
 /* Phones: centred wrapping stranded lone chips mid-screen («Челлендж»,
@@ -144,10 +147,6 @@
 
   .filter-chip {
     flex-shrink: 0;
-  }
-
-  .project-filters__count {
-    text-align: start;
   }
 }
 
@@ -211,7 +210,10 @@
 }
 
 .project-group__link {
+  align-items: center;
   color: var(--color-ink);
+  display: inline-flex;
+  gap: 0.5em;
   text-decoration: none;
 
   @media (any-hover: hover) {
@@ -221,78 +223,77 @@
   }
 }
 
-/* Compact tiles: ladder + title, no description — the WHY lives on the lesson page; the catalog stays a scannable board. */
-.project-tiles {
-  display: grid;
-  gap: 0.75rem;
-  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+.project-group__icon {
+  --icon-size: 1.15em;
+  flex-shrink: 0;
+}
+
+/* Compact rows: ladder + title, no description — the WHY lives on the lesson
+   page; the catalog stays a scannable board. A multi-column FLOW of rows, not
+   one full-width column: task titles are short (unlike /resources' long
+   document names, which genuinely need the full row), so this is what keeps
+   the two list-shaped pages from reading as the same pattern (founder call,
+   2026-08-15). CSS multi-column (not grid): a grid pairs items into shared
+   ROWS, so a short title next to a wrapped 3-line neighbour stretched into a
+   box with an ugly empty tail — the classic Pinterest-masonry problem. Columns
+   fill top-to-bottom independently, so an item's height only ever depends on
+   its own text. Trade-off, accepted: reading order becomes column-major (down
+   column 1, then column 2), not row-major left-to-right. */
+.project-list {
+  columns: 20rem 3;
+  column-gap: 2rem;
   list-style: none;
   margin: var(--block-space) 0 0;
   padding: 0;
 }
 
-/* The tile is one big <a>; the bookmark button is its SIBLING (a button can't live inside a link), absolutely positioned over the top-right corner. */
-.project-tile-wrap {
-  display: flex; /* the inner tile stretches to the grid row height */
-  position: relative;
-}
-
-/* The rubyonrails.org/docs card treatment (rails/website
-   _sass/modules/_cards.scss), verbatim mechanics, difficulty hue instead of
-   Rails red: the frame is a 3px box-shadow RING (spread, no layout shift) —
-   barely tinted at rest, so touch still reads the level; hover fills the ring
-   with the full hue and lifts the card 3px on their 0.25s easeOut curve. */
-.project-tile--beginner { --difficulty-lch: var(--lch-grade-green); }
-.project-tile--intermediate { --difficulty-lch: var(--lch-grade-yellow); }
-.project-tile--advanced { --difficulty-lch: var(--lch-grade-red); }
-
-.project-tile {
-  --panel-border-radius: 3px;
-  --panel-border-size: 0;          /* the ring IS the frame, rails-style */
-
-  box-shadow:
-    0 3px 15px 2px oklch(var(--lch-always-black) / 0.05),
-    0 1px 1px oklch(var(--lch-always-black) / 0.02),
-    0 0 0 2px oklch(var(--difficulty-lch) / 0.35);
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  gap: 0.5rem;
-  min-block-size: 4.75rem;         /* short titles get the same card as two-liners */
-  padding: 0.9em 1em;
-  transition:
-    background-color 0.25s cubic-bezier(0.33, 1, 0.68, 1),
-    box-shadow 0.25s cubic-bezier(0.33, 1, 0.68, 1);
-}
-
-/* Hover lives on the WRAP so the overlaid bookmark button rides the lift and
-   never makes the card drop while the pointer crosses it. */
-.project-tile-wrap {
-  transition: transform 0.25s cubic-bezier(0.33, 1, 0.68, 1);
-}
-
-.project-tile-wrap:is(:hover, :has(:focus-visible)) .project-tile {
-  box-shadow:
-    0 3px 15px 2px oklch(var(--lch-always-black) / 0.05),
-    0 1px 1px oklch(var(--lch-always-black) / 0.02),
-    0 0 0 2px oklch(var(--difficulty-lch));
-}
-
-/* A quiet grow instead of Rails' lift (founder call, 2026-08-03): the card
-   swells ~2% toward the reader on the same easeOut curve. */
-@media (prefers-reduced-motion: no-preference) {
-  .project-tile-wrap:is(:hover, :has(:focus-visible)) {
-    transform: scale(1.02);
+@media (max-width: 640px) {
+  .project-list {
+    columns: 1;
   }
 }
 
-/* Done earns the same green check the chapter curriculum rows use, pinned to
-   the card's foot. */
-.project-tile__check {
-  align-self: flex-end;
+/* The row is one flex line; the bookmark button is its SIBLING (a button
+   can't live inside a link) trailing it. break-inside keeps a row from being
+   split across the column break. */
+.project-row-wrap {
+  align-items: stretch;
+  break-inside: avoid;
+  display: flex;
+  margin-block-end: 0.5rem;
+}
+
+/* Difficulty carries its colour on the badge, not the row — no border, no
+   fill, no ring. Tried and reverted the same day: a background-fill hover
+   (uneven blob on wrapped titles of very different lengths), a
+   `.path-card`-style corner-tick frame, and a full light border — none
+   earned their keep on a page whose whole point is to be a plain, dense
+   list. Hover just recolours the title, same plain link feedback as
+   `.project-group__link`. */
+.project-row {
+  color: var(--color-ink);
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-inline-size: 0;
+  padding: 0.7rem 0.85rem;
+  text-decoration: none;
+}
+
+/* Badge (+ done check) on their own line — a fixed-width slot the title never
+   shares, so every title starts at the same edge with the same available
+   width no matter which difficulty badge it carries. */
+.project-row__header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.project-row__check {
   color: var(--color-positive);
+  flex-shrink: 0;
   line-height: 0;
-  margin-block-start: auto;
 
   .icon {
     block-size: 1rem;
@@ -302,66 +303,40 @@
 
 /* The GOST drafting face — the same thread as the profession posters and the
    task body inside a lesson: this catalog IS the задания, so its labels speak
-   the drawing-frame voice. Slightly larger than the Inter it replaces: the
-   condensed face reads smaller at equal size. */
-.project-tile__title {
+   the drawing-frame voice. */
+.project-row__title {
   color: var(--color-ink);
   font-family: var(--font-technical);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 400;
   line-height: 1.35;
-  /* stay clear of the corner bookmark */
-  padding-inline-end: 1.4rem;
-  text-wrap: balance;
-}
-
-/* Done tasks go dark («мёртвое тише живого») — no badge; the card itself reads
-   as extinguished. Hover wakes it back up for review. */
-/* Done = rails' "coming soon" treatment: dimmed, the ring stays muted on
-   hover and the card doesn't lift — this grade is behind the reader. */
-.project-tile--done {
-  --panel-background: transparent;
-}
-
-.project-tile--done,
-.project-tile-wrap:is(:hover, :has(:focus-visible)) .project-tile--done {
-  box-shadow:
-    0 3px 15px 2px oklch(var(--lch-always-black) / 0.05),
-    0 1px 1px oklch(var(--lch-always-black) / 0.02),
-    0 0 0 2px oklch(var(--difficulty-lch) / 0.22);
-}
-
-.project-tile-wrap:has(> .project-tile--done) {
-  transform: none;
-}
-
-.project-tile--done .project-tile__title {
-  color: var(--color-disabled);
+  transition: color 150ms ease;
 }
 
 @media (any-hover: hover) {
-  .project-tile--done:hover {
-    --panel-background: var(--color-subtle-light);
-  }
-
-  .project-tile--done:hover .project-tile__title {
-    color: var(--color-ink);
+  .project-row:hover .project-row__title {
+    color: var(--color-link);
   }
 }
 
-.project-tile-wrap .bookmark-toggle {
-  inset-block-start: 0.9em;
-  inset-inline-end: 1em;
-  position: absolute;
+/* Done tasks go dark («мёртвое тише живого») — the row reads as extinguished.
+   Hover wakes it back up for review — `.project-row:hover .project-row__title`
+   above already outranks this (three class-level selectors vs two), no
+   separate override needed. */
+.project-row--done .project-row__title {
+  color: var(--color-disabled);
 }
 
-/* Tile corner: icon only — the label would collide with the title. */
-.project-tile-wrap .bookmark-btn__label {
+.project-row-wrap .bookmark-toggle {
+  margin-inline-start: 0.25rem;
+}
+
+/* Row's trailing bookmark: icon only — the label would crowd the title. */
+.project-row-wrap .bookmark-btn__label {
   display: none;
 }
 
-/* Corner bookmark: smaller than in lists — a quiet utility, not card content. */
-.project-tile-wrap .bookmark-btn .icon {
+.project-row-wrap .bookmark-btn .icon {
   block-size: 0.95rem;
   inline-size: 0.95rem;
 }

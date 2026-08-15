@@ -1,8 +1,5 @@
 <a href="<%= calculator_path(calculator) %>" class="calc-row">
-  <span class="calc-row__icon"><%= icon_tag "calculator" %></span>
-  <span class="calc-row__text">
-    <span class="calc-row__title"><%= calculator.title %></span>
-    <span class="calc-row__desc"><%= calculator.tagline %></span>
-  </span>
+  <span class="calc-row__icon"><%= icon_tag calculator.icon %></span>
+  <span class="calc-row__title"><%= calculator.title %></span>
   <span class="calc-row__arrow"><%= icon_tag "caret-right" %></span>
 </a>

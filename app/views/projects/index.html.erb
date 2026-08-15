@@ -60,30 +60,40 @@
       <% end %>
       <%# With a level picked, the count line also DEFINES the level (the
           difficulty ladder from the authoring canon) — the meaning appears
-          exactly when the reader reaches for it, zero standing noise. %>
-      <p class="project-filters__count"><%= t("projects.found", count: @found_count) %><% if @selected_difficulty %> · <%= t("projects.difficulty_hints.#{@selected_difficulty}") %><% end %></p>
+          exactly when the reader reaches for it, zero standing noise. Only
+          shown once a filter is active — with none, it would just repeat the
+          header stat ("68 заданий" twice). %>
+      <% if @selected_path || @selected_difficulty || @saved_only %>
+        <p class="project-filters__count"><%= t("projects.found", count: @found_count) %><% if @selected_difficulty %> · <%= t("projects.difficulty_hints.#{@selected_difficulty}") %><% end %></p>
+      <% end %>
     </nav>
 
     <% if @lessons_by_path.any? %>
       <div class="project-groups">
         <% @lessons_by_path.each do |path, lessons| %>
+          <% done_count = signed_in? ? lessons.count { |l| @completed_ids.include?(l.id) } : 0 %>
           <section class="project-group">
             <h2 class="project-group__heading">
-              <%= link_to path.title, path_path(path), class: "project-group__link" %>
+              <%# The profession's own emblem (same data as /paths and the course
+                  hero), stripped to the regular weight — the -light glyphs are
+                  sized for ≥32px emblem contexts, too thin at this heading size. %>
+              <%= link_to path_path(path), class: "project-group__link" do %>
+                <%= icon_tag path.emblem.delete_suffix(Icon::EMBLEM_SUFFIX), class: "project-group__icon" %>
+                <%= path.title %>
+              <% end %>
               <%# The honest motivator (goal-gradient): a plain count of the
                   remaining set, ledger-style at the row's end. Green only at
-                  the earned moment — the set is closed. Signed-in only: a
-                  guest has no progress to count. %>
-              <% if signed_in? %>
-                <% done_count = lessons.count { |l| @completed_ids.include?(l.id) } %>
+                  the earned moment — the set is closed. Hidden at zero — a row
+                  of "0 из N" everywhere motivates nothing, just noise. %>
+              <% if done_count.positive? %>
                 <span class="project-group__count<%= " project-group__count--complete" if done_count == lessons.size %>">
                   <%= t("projects.group_progress", done: done_count, total: lessons.size) %>
                 </span>
               <% end %>
             </h2>
-            <ul class="project-tiles">
+            <ul class="project-list">
               <% lessons.each do |lesson| %>
-                <%= render "project_tile", lesson: lesson,
+                <%= render "project_row", lesson: lesson,
                       done: @completed_ids.include?(lesson.id),
                       bookmarked: @bookmarked_ids.include?(lesson.id) %>
               <% end %>

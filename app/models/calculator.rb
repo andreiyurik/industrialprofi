@@ -13,38 +13,42 @@
 class Calculator
   CATEGORIES = %w[electrician kipia photo].freeze
 
-  attr_reader :slug, :category, :lesson_slug
+  attr_reader :slug, :category, :lesson_slug, :icon
 
-  def initialize(slug, category:, lesson: nil)
+  def initialize(slug, category:, icon:, lesson: nil)
     @slug = slug
     @category = category
+    @icon = icon
     @lesson_slug = lesson
   end
 
+  # Each calculator gets its own Phosphor glyph — not one repeated icon for the
+  # whole catalog — so the index reads as a scannable set of distinct tools
+  # instead of a wall of near-identical rows (founder call, 2026-08-15).
   ALL = [
-    new("cable-cross-section", category: "electrician", lesson: "02-vybor-secheniya-kabelya"),
-    new("ohms-law",            category: "electrician", lesson: "01-zakon-oma-i-kirkhgofa"),
-    new("voltage-drop",        category: "electrician"),
-    new("grounding",           category: "electrician", lesson: "03-soprotivlenie-zazemleniya"),
-    new("rcd",                 category: "electrician", lesson: "02-uzo-i-difavtomaty"),
-    new("short-circuit",       category: "electrician", lesson: "02-vybor-secheniya-kabelya"),
-    new("ma-scaling",          category: "kipia",       lesson: "signaly-4-20ma-i-diskretnye"),
-    new("pressure",            category: "kipia",       lesson: "datchiki-davleniya-rashoda-urovnya"),
-    new("resistance-thermometer", category: "kipia",    lesson: "datchiki-temperatury"),
-    new("measurement-error",   category: "kipia",       lesson: "metrologiya-poverka-pogreshnost"),
-    new("valve-kv",            category: "kipia",       lesson: "ispolnitelnye-mehanizmy-i-chastotniki"),
-    new("subnet",              category: "kipia",       lesson: "osnovy-setey-osi-ip-kabeli"),
-    new("modbus-rtu",          category: "kipia",       lesson: "modbus-registry-adresaciya"),
-    new("twisted-pair-line",   category: "kipia",       lesson: "osnovy-setey-osi-ip-kabeli"),
+    new("cable-cross-section", category: "electrician", icon: "ruler",           lesson: "02-vybor-secheniya-kabelya"),
+    new("ohms-law",            category: "electrician", icon: "lightning",       lesson: "01-zakon-oma-i-kirkhgofa"),
+    new("voltage-drop",        category: "electrician", icon: "trend-down"),
+    new("grounding",           category: "electrician", icon: "download-simple", lesson: "03-soprotivlenie-zazemleniya"),
+    new("rcd",                 category: "electrician", icon: "shield-check",    lesson: "02-uzo-i-difavtomaty"),
+    new("short-circuit",       category: "electrician", icon: "lightning-slash", lesson: "02-vybor-secheniya-kabelya"),
+    new("ma-scaling",          category: "kipia",       icon: "waveform",        lesson: "signaly-4-20ma-i-diskretnye"),
+    new("pressure",            category: "kipia",       icon: "gauge",           lesson: "datchiki-davleniya-rashoda-urovnya"),
+    new("resistance-thermometer", category: "kipia",    icon: "thermometer",     lesson: "datchiki-temperatury"),
+    new("measurement-error",   category: "kipia",       icon: "target",          lesson: "metrologiya-poverka-pogreshnost"),
+    new("valve-kv",            category: "kipia",       icon: "drop",            lesson: "ispolnitelnye-mehanizmy-i-chastotniki"),
+    new("subnet",              category: "kipia",       icon: "tree-structure",  lesson: "osnovy-setey-osi-ip-kabeli"),
+    new("modbus-rtu",          category: "kipia",       icon: "arrows-clockwise", lesson: "modbus-registry-adresaciya"),
+    new("twisted-pair-line",   category: "kipia",       icon: "plugs-connected", lesson: "osnovy-setey-osi-ip-kabeli"),
     # Фото/видео: здесь норматива в духе ПУЭ нет, опора — физика и статья
     # (как у ohms-law, где в `norm` стоит сама формула, а не стандарт).
-    new("hyperfocal",          category: "photo",       lesson: "03-fv-grip-i-giperfokal"),
-    new("nd-filter",           category: "photo",       lesson: "02-fv-pravilo-180-i-nd"),
-    new("crop-factor",         category: "photo",       lesson: "02-fv-fokusnoe-eto-tochka-zreniya"),
-    new("exposure-ev",         category: "photo",       lesson: "03-fv-skolko-sveta-v-stsene"),
-    new("diffraction",         category: "photo",       lesson: "03-fv-grip-i-giperfokal"),
-    new("golden-hour",         category: "photo",       lesson: "03-fv-efemeridy-i-planirovanie"),
-    new("timelapse",           category: "photo",       lesson: "03-fv-banki-nastroek")
+    new("hyperfocal",          category: "photo",       icon: "aperture",       lesson: "03-fv-grip-i-giperfokal"),
+    new("nd-filter",           category: "photo",       icon: "sun",            lesson: "02-fv-pravilo-180-i-nd"),
+    new("crop-factor",         category: "photo",       icon: "frame-corners",  lesson: "02-fv-fokusnoe-eto-tochka-zreniya"),
+    new("exposure-ev",         category: "photo",       icon: "sliders",        lesson: "03-fv-skolko-sveta-v-stsene"),
+    new("diffraction",         category: "photo",       icon: "atom",           lesson: "03-fv-grip-i-giperfokal"),
+    new("golden-hour",         category: "photo",       icon: "sun-horizon",    lesson: "03-fv-efemeridy-i-planirovanie"),
+    new("timelapse",           category: "photo",       icon: "film-slate",     lesson: "03-fv-banki-nastroek")
   ].freeze
 
   def self.all = ALL

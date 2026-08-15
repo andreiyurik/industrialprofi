@@ -35,11 +35,14 @@
 }
 
 /* ── Service glyphs (regular) ──────────────────────────────────────────────── */
+.icon--aperture { --svg: url("icons/aperture.svg"); }
 .icon--arrow-left { --svg: url("icons/arrow-left.svg"); }
 .icon--arrow-right { --svg: url("icons/arrow-right.svg"); }
 .icon--arrow-up-right { --svg: url("icons/arrow-up-right.svg"); }
+.icon--arrows-clockwise { --svg: url("icons/arrows-clockwise.svg"); }
 .icon--arrows-in { --svg: url("icons/arrows-in.svg"); }
 .icon--arrows-out { --svg: url("icons/arrows-out.svg"); }
+.icon--atom { --svg: url("icons/atom.svg"); }
 .icon--book-bookmark { --svg: url("icons/book-bookmark.svg"); }
 .icon--book-open { --svg: url("icons/book-open.svg"); }
 .icon--bookmark-simple { --svg: url("icons/bookmark-simple.svg"); }
@@ -57,14 +60,23 @@
 .icon--copy { --svg: url("icons/copy.svg"); }
 .icon--cpu { --svg: url("icons/cpu.svg"); }
 .icon--download-simple { --svg: url("icons/download-simple.svg"); }
+.icon--drop { --svg: url("icons/drop.svg"); }
+.icon--engine { --svg: url("icons/engine.svg"); }
 .icon--file-text { --svg: url("icons/file-text.svg"); }
+.icon--film-slate { --svg: url("icons/film-slate.svg"); }
+.icon--frame-corners { --svg: url("icons/frame-corners.svg"); }
+.icon--gauge { --svg: url("icons/gauge.svg"); }
+.icon--gear { --svg: url("icons/gear.svg"); }
 .icon--gear-six { --svg: url("icons/gear-six.svg"); }
 .icon--globe-simple { --svg: url("icons/globe-simple.svg"); }
 .icon--graduation-cap { --svg: url("icons/graduation-cap.svg"); }
+.icon--hard-hat { --svg: url("icons/hard-hat.svg"); }
 .icon--heart { --svg: url("icons/heart.svg"); }
 .icon--house { --svg: url("icons/house.svg"); }
 .icon--info { --svg: url("icons/info.svg"); }
 .icon--lightbulb { --svg: url("icons/lightbulb.svg"); }
+.icon--lightning { --svg: url("icons/lightning.svg"); }
+.icon--lightning-slash { --svg: url("icons/lightning-slash.svg"); }
 .icon--link { --svg: url("icons/link.svg"); }
 .icon--list { --svg: url("icons/list.svg"); }
 .icon--lock { --svg: url("icons/lock.svg"); }
@@ -74,18 +86,30 @@
 .icon--newspaper { --svg: url("icons/newspaper.svg"); }
 .icon--paper-plane-tilt { --svg: url("icons/paper-plane-tilt.svg"); }
 .icon--pencil-simple { --svg: url("icons/pencil-simple.svg"); }
+.icon--pipe-wrench { --svg: url("icons/pipe-wrench.svg"); }
+.icon--plugs-connected { --svg: url("icons/plugs-connected.svg"); }
 .icon--plus { --svg: url("icons/plus.svg"); }
 .icon--plus-circle { --svg: url("icons/plus-circle.svg"); }
 .icon--question { --svg: url("icons/question.svg"); }
+.icon--ruler { --svg: url("icons/ruler.svg"); }
+.icon--shield-check { --svg: url("icons/shield-check.svg"); }
 .icon--sign-in { --svg: url("icons/sign-in.svg"); }
 .icon--sign-out { --svg: url("icons/sign-out.svg"); }
+.icon--sliders { --svg: url("icons/sliders.svg"); }
 .icon--star { --svg: url("icons/star.svg"); }
+.icon--sun { --svg: url("icons/sun.svg"); }
+.icon--sun-horizon { --svg: url("icons/sun-horizon.svg"); }
+.icon--target { --svg: url("icons/target.svg"); }
+.icon--thermometer { --svg: url("icons/thermometer.svg"); }
 .icon--trash { --svg: url("icons/trash.svg"); }
+.icon--tree-structure { --svg: url("icons/tree-structure.svg"); }
+.icon--trend-down { --svg: url("icons/trend-down.svg"); }
 .icon--user-circle { --svg: url("icons/user-circle.svg"); }
 .icon--user-plus { --svg: url("icons/user-plus.svg"); }
 .icon--users { --svg: url("icons/users.svg"); }
 .icon--video-camera { --svg: url("icons/video-camera.svg"); }
 .icon--warning { --svg: url("icons/warning.svg"); }
+.icon--waveform { --svg: url("icons/waveform.svg"); }
 .icon--wrench { --svg: url("icons/wrench.svg"); }
 .icon--x { --svg: url("icons/x.svg"); }
 
