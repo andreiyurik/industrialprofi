@@ -17,6 +17,11 @@ resources:
     url: "https://www.youtube.com/watch?v=jLZ40da892Q"
     kind: video
     required: false
+  - title: "Видео: Лекция 12. Программируемые логические контроллеры. Язык программирования ST"
+    url: "https://www.youtube.com/watch?v=ZPJMa7mcmfA"
+    kind: video
+    required: false
+    note: "русскоязычная лекция об устройстве языка ST в рамках МЭК 61131-3"
 ---
 Structured Text (ST) для начинающих: переменные, условия IF/CASE и масштабирование сигнала 4–20 мА. Главный рабочий язык инженера АСУ ТП.
 ---
