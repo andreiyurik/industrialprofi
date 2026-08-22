@@ -1,8 +1,14 @@
-<%# Search-result shape: coloured kind glyph in the margin, full-width title,
-    one quiet caption line (type word · language · curator's note) beneath. %>
+<%# One source: the coloured kind glyph in the margin (the type axis — its
+    word is for screen readers and the tooltip, never repeated under every
+    row), the title as the link, and beneath it only what adds information:
+    the language marker and the curator's one-liner («что именно смотреть»).
+    A source without either is a single clean line. %>
 <% meta = resource_badge_meta(resource) %>
+<% kind = t("lessons.resource_kinds.#{meta[:label]}", default: meta[:label].humanize) %>
 <li class="lesson-resource <%= resource.required? ? "lesson-resource--required" : "lesson-resource--optional" %>">
-  <span class="lesson-resource__marker lesson-resource__marker--<%= meta[:label] %>"><%= icon_tag meta[:icon] %></span>
+  <span class="lesson-resource__marker lesson-resource__marker--<%= meta[:label] %>" title="<%= kind %>">
+    <%= icon_tag meta[:icon] %><span class="for-screen-reader"><%= kind %></span>
+  </span>
   <span class="lesson-resource__body">
     <% if resource.url.present? %>
       <a href="<%= resource.url %>" class="lesson-resource__link" target="_blank" rel="noopener">
@@ -14,14 +20,15 @@
           below explains the missing link, instead of repeating on every row. %>
       <span class="lesson-resource__link lesson-resource__link--pending"><%= resource.title %></span>
     <% end %>
-    <span class="lesson-resource__meta">
-      <span><%= t("lessons.resource_kinds.#{meta[:label]}", default: meta[:label].humanize) %></span>
-      <% if resource.language.present? %>
-        <span class="lesson-resource__meta-lang" title="<%= t("lessons.resource_languages.#{resource.language}", default: resource.language.upcase) %>"><%= resource.language.upcase %></span>
-      <% end %>
-      <% if resource.note.present? %>
-        <span class="lesson-resource__note"><%= resource.note %></span>
-      <% end %>
-    </span>
+    <% if resource.language.present? || resource.note.present? %>
+      <span class="lesson-resource__meta">
+        <% if resource.language.present? %>
+          <span class="lesson-resource__meta-lang" title="<%= t("lessons.resource_languages.#{resource.language}", default: resource.language.upcase) %>"><%= resource.language.upcase %></span>
+        <% end %>
+        <% if resource.note.present? %>
+          <span class="lesson-resource__note"><%= resource.note %></span>
+        <% end %>
+      </span>
+    <% end %>
   </span>
 </li>

@@ -1,14 +1,18 @@
-<%# Interlanguage nav: plain crawlable links, never a cookie or an
+<%# Interlanguage menu: plain crawlable links, never a cookie or an
     Accept-Language redirect (Googlebot crawls from the US and must reach /ru
-    freely). Lives only at the bottom of the mobile menu sheet. %>
+    freely). Opened from the globe in the header on every screen; each
+    language names itself in its own tongue — no flags (a language is not a
+    country). %>
 <nav class="locale-switcher" aria-label="<%= t("nav.language") %>">
-  <%= icon_tag "globe-simple" %>
   <% I18n.available_locales.each do |locale| %>
     <% if locale == I18n.locale %>
-      <span class="locale-switcher__current" aria-current="true" lang="<%= locale %>"><%= native_locale_name(locale) %></span>
+      <span class="locale-switcher__item locale-switcher__item--current" aria-current="true" lang="<%= locale %>">
+        <%= icon_tag "check" %><%= native_locale_name(locale) %>
+      </span>
     <% else %>
-      <%= link_to native_locale_name(locale), locale_switch_url(locale),
-            class: "locale-switcher__link link-quiet", lang: locale, hreflang: locale %>
+      <%= link_to locale_switch_url(locale), class: "locale-switcher__item", lang: locale, hreflang: locale do %>
+        <span class="locale-switcher__spacer" aria-hidden="true"></span><%= native_locale_name(locale) %>
+      <% end %>
     <% end %>
   <% end %>
 </nav>

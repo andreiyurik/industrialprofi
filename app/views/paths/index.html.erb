@@ -28,13 +28,23 @@
       </div>
     <% end %>
 
-    <div class="catalog-grid" id="catalog">
-      <% @paths.each do |path| %>
-        <%= render "path_card", path: path,
-              completed_count: @completed_counts.fetch(path.id, 0),
-              courses_count: @course_counts.fetch(path.id, 0) %>
-      <% end %>
-    </div>
+    <% if @paths.any? %>
+      <div class="catalog-grid" id="catalog">
+        <% @paths.each do |path| %>
+          <%= render "path_card", path: path,
+                completed_count: @completed_counts.fetch(path.id, 0),
+                courses_count: @course_counts.fetch(path.id, 0) %>
+        <% end %>
+      </div>
+    <% else %>
+      <%# A language with no maps yet (English today): say so plainly and hand
+          the reader the catalog that exists, instead of an empty page they
+          can't explain. %>
+      <div class="panel catalog-empty" id="catalog">
+        <p class="catalog-empty__text"><%= t("paths.empty_locale_html") %></p>
+        <%= link_to t("paths.empty_locale_cta"), root_path(locale: I18n.default_locale), class: "btn btn--reversed", lang: I18n.default_locale, hreflang: I18n.default_locale %>
+      </div>
+    <% end %>
 
     <%# Not a roadmap — an open invitation. Everything the hero already says is
         left out on purpose: what survives is the one thing said nowhere else on

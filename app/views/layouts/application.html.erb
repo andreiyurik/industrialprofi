@@ -42,16 +42,19 @@
     <meta property="og:title" content="<%= content_for?(:og_title) ? content_for(:og_title) : "#{t('site.name')} — #{t('site.tagline')}" %>">
     <meta property="og:description" content="<%= content_for?(:og_description) ? content_for(:og_description) : t('site.description') %>">
     <meta property="og:url" content="<%= og_url %>">
-    <% if site_config.og_image.present? %>
-      <meta property="og:image" content="<%= site_config.og_image %>">
+    <%# A page may bring its own share image (a profession's cover); otherwise
+        the site default. Both are 1200×630. %>
+    <% og_image = content_for?(:og_image) ? content_for(:og_image) : site_config.og_image %>
+    <% if og_image.present? %>
+      <meta property="og:image" content="<%= og_image %>">
       <meta property="og:image:width" content="1200">
       <meta property="og:image:height" content="630">
     <% end %>
 
     <%# Twitter Card — a large image when we have one, otherwise the compact card. %>
-    <meta name="twitter:card" content="<%= site_config.og_image.present? ? "summary_large_image" : "summary" %>">
-    <% if site_config.og_image.present? %>
-      <meta name="twitter:image" content="<%= site_config.og_image %>">
+    <meta name="twitter:card" content="<%= og_image.present? ? "summary_large_image" : "summary" %>">
+    <% if og_image.present? %>
+      <meta name="twitter:image" content="<%= og_image %>">
     <% end %>
     <meta name="twitter:title" content="<%= content_for?(:og_title) ? content_for(:og_title) : "#{t('site.name')} — #{t('site.tagline')}" %>">
     <meta name="twitter:description" content="<%= content_for?(:og_description) ? content_for(:og_description) : t('site.description') %>">
@@ -135,22 +138,17 @@
               <%# Icons render only in the mobile dropdown (hidden inline on
                   desktop) and match the palette tiles — one visual language. %>
               <%= link_to paths_path, class: "nav__link link-quiet",
-                    aria: { current: ("page" if controller_name.in?(%w[paths lessons])) } do %>
+                    aria: { current: ("page" if controller_path.start_with?("paths") || controller_name == "lessons") } do %>
                 <%= icon_tag "map-trifold" %><%= t("nav.professions") %><%= render "shared/nav_underline" %>
               <% end %>
               <%= link_to projects_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if current_page?(projects_path)) } do %>
                 <%= icon_tag "wrench" %><%= t("nav.projects") %><%= render "shared/nav_underline" %>
               <% end %>
-              <%# Ordered as the footer's "Обучение" column, which this mirrors. %>
-              <%= link_to resources_path, class: "nav__link link-quiet",
-                    aria: { current: ("page" if controller_name == "resources") } do %>
-                <%= icon_tag "book-open" %><%= t("nav.library") %><%= render "shared/nav_underline" %>
-              <% end %>
-              <%= link_to calculators_path, class: "nav__link link-quiet",
-                    aria: { current: ("page" if controller_name == "calculators") } do %>
-                <%= icon_tag "calculator" %><%= t("nav.calculators") %><%= render "shared/nav_underline" %>
-              <% end %>
+              <%# The library, glossary and calculators live inside each
+                  profession's hub («Библиотека», «Словарь»); their site-wide pages stay
+                  reachable from the footer and the palette, not the top bar —
+                  the bar leads INTO a profession, not away from it. %>
               <% if controller.class.module_parent_name == "Admin" %>
                 <span class="badge badge--marker header__context-badge">Admin</span>
               <% end %>
@@ -200,11 +198,6 @@
                 </div>
               <% end %>
 
-              <%# Language lives at the sheet's bottom on compact screens; on
-                  desktop the footer carries it (this block is display:none). %>
-              <div class="header__menu-locale">
-                <%= render "shared/locale_switcher" %>
-              </div>
             </div>
           </details>
 
@@ -222,6 +215,20 @@
                 row has room (see header.css) — never a duplicated SR-only copy. %>
             <span class="header__support-label"><%= t("nav.support") %></span>
           <% end %>
+
+          <%# Language: a globe in the utility cluster on every screen, opening a
+              native popover with the languages named in their own tongue. The
+              one control a reader who can't read this page needs — always in
+              the same corner, never buried in a menu. %>
+          <details class="header__locale" data-controller="details" data-details-target="details"
+                   data-action="click@document->details#closeOnClickOutside keydown.esc@window->details#close">
+            <summary class="header__locale-toggle link-quiet" title="<%= t("nav.language") %>" aria-label="<%= t("nav.language") %>">
+              <%= icon_tag "globe-simple" %>
+            </summary>
+            <div id="locale-menu" class="locale-menu">
+              <%= render "shared/locale_switcher" %>
+            </div>
+          </details>
 
           <%# Search is a quiet icon in the utility cluster (search + account)
               at the corner, after the nav words. Always visible, even on

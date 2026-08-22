@@ -15,7 +15,9 @@ module ApplicationHelper
   # Each language names itself in its own tongue (the reader who needs the
   # switcher can't read the current language), clipped to three letters —
   # full names read as a paragraph, not a control.
-  LOCALE_NAMES = { ru: "рус", en: "eng" }.freeze
+  # Each language names itself in its own tongue, clipped to a three-letter
+  # mark — a control, not a word (founder's call, 2026-08-22); no flags.
+  LOCALE_NAMES = { ru: "Рус", en: "Eng" }.freeze
 
   def native_locale_name(locale)
     LOCALE_NAMES.fetch(locale, locale.to_s)
