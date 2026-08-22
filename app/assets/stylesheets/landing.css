@@ -1,0 +1,170 @@
+/* The profession's «О профессии» landing (paths/_landing) — basecamp.com's
+   shape on our palette: each section is a big headline on the left and large,
+   plain-spoken text on the right (one column on phones), checklists with a
+   filled blue mark and a bold key phrase, questions as native disclosures.
+   Hierarchy by size, weight and air — the one accent is the link blue. */
+.landing {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  margin-block: 2.5rem 3rem;
+}
+
+/* Headline | body. Below 48em they stack; from 48em the headline takes the
+   left third. Static, like basecamp.com's — a heading that follows the scroll
+   is a flourish the short sections here don't need. */
+.landing__section {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 48em) {
+  .landing__section {
+    align-items: start;
+    column-gap: 3rem;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 9fr);
+  }
+}
+
+.landing__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.1rem);
+  font-weight: 700;
+  hyphens: none;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.landing__subtitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-block: 0 0.75rem;
+}
+
+.landing__subtitle + .landing__checks + .landing__subtitle {
+  margin-block-start: 1.5rem;
+}
+
+/* Big, readable text — the body of a landing is not the body of an article. */
+.landing__body {
+  font-size: 1.125rem;
+  line-height: 1.55;
+  min-inline-size: 0;
+}
+
+.landing__body .prose {
+  font-size: 1.125rem;
+  line-height: 1.55;
+  max-inline-size: 62ch;
+}
+
+.landing__body .prose p + p {
+  margin-block-start: 0.9em;
+}
+
+/* Checklist: a filled blue disc with the check, one line each. */
+.landing__checks {
+  display: grid;
+  gap: 0.7rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    align-items: flex-start;
+    display: flex;
+    gap: 0.7rem;
+    line-height: 1.45;
+  }
+}
+
+/* The bullet: a filled disc in the link blue (basecamp.com's mark) with a
+   near-white check. Blue, not green, on purpose — in this palette green is the
+   "done" state (completions, finished chapters); a list of green checks on a
+   newcomer's page would read as progress already made. */
+.landing__mark {
+  background-color: var(--color-link);
+  block-size: 1.45rem;
+  border-radius: 50%;
+  color: var(--color-ink);
+  display: grid;
+  flex-shrink: 0;
+  inline-size: 1.45rem;
+  margin-block-start: 0.05em;
+  place-items: center;
+
+  .icon {
+    --icon-size: 0.95rem;
+  }
+}
+
+/* The weak sides are honest, not alarming: a quiet grey disc with a minus. */
+.landing__mark--con {
+  background-color: var(--color-subtle);
+  color: var(--color-ink);
+}
+
+.landing__cover {
+  margin: 1.5rem 0 0;
+}
+
+.landing__cover-image {
+  aspect-ratio: 16 / 9;
+  border-radius: 0.75rem;
+  display: block;
+  inline-size: 100%;
+  object-fit: cover;
+}
+
+.landing__cover-credit {
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+  margin-block-start: 0.5rem;
+}
+
+/* «Что внутри» on the overview: the chapter outline — numbered titles with
+   their counts; the full cards live on the «Теория» tab. */
+.outline__list {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding-inline-start: 1.5rem;
+}
+
+.outline__item {
+  line-height: 1.45;
+}
+
+.outline__item--soon {
+  color: var(--color-subtle-dark);
+}
+
+.outline__title {
+  font-weight: 600;
+}
+
+a.outline__title {
+  color: var(--color-ink);
+  text-decoration: none;
+  text-decoration-color: var(--color-subtle);
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.outline__meta {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-inline-start: 0.5rem;
+  white-space: nowrap;
+}
+
+.outline__all {
+  font-size: 0.9rem;
+  margin-block: var(--block-space) 0;
+}

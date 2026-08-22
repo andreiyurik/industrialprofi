@@ -18,56 +18,106 @@
   margin-block: 0 var(--block-space-double);
 }
 
+/* The FAQ accordion — shared by /faq and the profession landing: native
+   <details> as cards (the chapter cards' surface and radius), question on the
+   left, a round + that turns into × on the right, the answer unfolding inside
+   the same card. The unfold is CSS only (interpolate-size + a transition on
+   ::details-content, the technique Fizzy's base.css enables); browsers
+   without it simply snap open. */
 .faq-list {
-  border-block-start: 1px solid var(--color-subtle);
+  display: grid;
+  gap: 0.75rem;
 }
 
 .faq-item {
-  border-block-end: 1px solid var(--color-subtle);
-}
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75em;
+  interpolate-size: allow-keywords;
+  padding-inline: 1.5rem;
+  transition: border-color 150ms ease;
 
-.faq-item__question {
-  cursor: pointer;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--inline-space);
-  padding-block: 1.1rem;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  list-style: none;
-  transition: color 200ms ease;
-
-  /* Custom +/− marker instead of the triangle */
-  &::-webkit-details-marker {
-    display: none;
-  }
-
-  &::after {
-    content: "+";
-    color: var(--color-subtle-dark);
-    flex-shrink: 0;
-    font-size: 1.3rem;
-    font-weight: 400;
-    line-height: 1;
+  @media (max-width: 40rem) {
+    padding-inline: 1.1rem;
   }
 
   @media (any-hover: hover) {
     &:hover {
-      color: var(--color-link);
+      border-color: var(--color-subtle-dark);
+    }
+  }
+
+  &[open] {
+    border-color: var(--color-subtle-dark);
+  }
+
+  &::details-content {
+    block-size: 0;
+    overflow: clip;
+  }
+
+  &[open]::details-content {
+    block-size: auto;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .faq-item__toggle {
+      transition: transform 200ms ease-out, background-color 150ms ease;
+    }
+
+    &::details-content {
+      transition: block-size 250ms ease-out, content-visibility 250ms allow-discrete;
     }
   }
 }
 
-.faq-item[open] .faq-item__question::after {
-  content: "−";
+.faq-item__question {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  gap: 1rem;
+  justify-content: space-between;
+  line-height: 1.3;
+  list-style: none;
+  padding-block: 1.15rem;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (max-width: 40rem) {
+    font-size: 1.1rem;
+  }
+}
+
+/* + in a round disc — turns into × when open. */
+.faq-item__toggle {
+  background-color: var(--color-subtle);
+  block-size: 1.6rem;
+  border-radius: 50%;
+  color: var(--color-ink);
+  display: grid;
+  flex-shrink: 0;
+  inline-size: 1.6rem;
+  place-items: center;
+
+  .icon {
+    --icon-size: 0.9rem;
+  }
+}
+
+.faq-item[open] .faq-item__toggle {
+  background-color: var(--color-subtle-dark);
+  transform: rotate(45deg);
 }
 
 .faq-item__answer {
   color: var(--color-ink);
-  padding-block-end: 1.25rem;
-  max-inline-size: 60ch;
+  max-inline-size: 62ch;
+  padding-block: 0 1.4rem;
 
   p {
     margin-block: 0 0.75em;

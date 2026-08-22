@@ -32,6 +32,27 @@ class CurriculumPackTest < ActiveSupport::TestCase
     assert_equal "Только раздел 542",
                  reimported.lessons.find_by!(slug: noted_lesson_slug)
                            .resources.find_by!(title: noted_title).note
+    assert_equal "RCD", reimported.lessons.find_by!(slug: "pue-zazemlenie").glossary_terms.find_by!(abbr: "УЗО").analog,
+                 "a pack's terms ride through the document engine too"
+  end
+
+  test "landing.yml rides the pack; a cover is reported, not imported" do
+    original = paths(:electrician)
+    original.update!(about: "Кто это.", pros_text: "Востребован")
+    original.cover.attach(io: File.open(Rails.root.join("test/fixtures/files/cover.png")), filename: "cover.png", content_type: "image/png")
+
+    root = CurriculumExporter.run(original, dir: @dir, io: StringIO.new)
+    pack = CurriculumPack.parse(StringIO.new(zip_tree(root, prefix: "elektrik")))
+    original.destroy!
+    assert pack.valid?, pack.errors.inspect
+
+    document = CurriculumDocument.parse(pack.to_yaml)
+    assert_includes pack.warnings, :cover_skipped, "warnings are collected while building the document"
+    document.import!(author: users(:admin))
+    reimported = Path.find_by!(slug: "elektrik")
+    assert_equal "Кто это.", reimported.about
+    assert_equal [ "Востребован" ], reimported.pros
+    assert_not reimported.cover.attached?
   end
 
   test "path and course emblems ride the pack" do

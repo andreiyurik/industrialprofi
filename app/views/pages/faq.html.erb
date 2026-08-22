@@ -29,7 +29,10 @@
       <div class="faq-list">
         <% t("faq.items").each do |item| %>
           <details class="faq-item">
-            <summary class="faq-item__question"><%= item[:q] %></summary>
+            <summary class="faq-item__question">
+              <span><%= item[:q] %></span>
+              <span class="faq-item__toggle" aria-hidden="true"><%= icon_tag "plus" %></span>
+            </summary>
             <div class="faq-item__answer">
               <%= sanitize item[:a_html], tags: %w[a strong em p br], attributes: %w[href target rel] %>
             </div>

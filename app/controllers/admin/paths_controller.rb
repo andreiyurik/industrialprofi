@@ -2,8 +2,13 @@ module Admin
   class PathsController < BaseController
     before_action :set_path, only: %i[edit update destroy]
 
+    # Editors see the maps they hold; an administrator sees every map, with the
+    # ones they curate themselves first and marked — a grant is what lets them
+    # set the expert mark, so it should be visible at a glance.
     def index
+      @curated_ids = Current.user.editorships.pluck(:path_id).to_set
       @paths = Path.editable_by(Current.user).ordered
+                   .sort_by { |path| [ @curated_ids.include?(path.id) ? 0 : 1, path.position ] }
     end
 
     # The curriculum builder: one profession's whole tree (courses → stage →
@@ -58,6 +63,7 @@ module Admin
       @path.status = sanitized_status(params.dig(:path, :status), current: @path.status_was)
 
       if @path.save
+        @path.cover.purge_later if params.dig(:path, :remove_cover) == "1"
         log_and_notify_status_change(@path, "path_status_changed", subject: @path.title)
         redirect_to edit_admin_path_path(@path), notice: I18n.t("flash.path_updated")
       else
@@ -81,7 +87,8 @@ module Admin
     # status is handled separately via sanitized_status (trust ladder); slug is
     # locked once the path is live (see slug_locked?).
     def path_params
-      permitted = [ :title, :description, :icon ]
+      permitted = [ :title, :description, :icon,
+                    :tagline, :cover, :cover_credit, :about, :history, :faq, :highlights_text, :pros_text, :cons_text ]
       permitted << :slug unless slug_locked?(@path)
       params.require(:path).permit(*permitted)
     end

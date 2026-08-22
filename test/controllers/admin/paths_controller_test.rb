@@ -17,6 +17,18 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
     assert_match paths(:electrician).title, response.body
   end
 
+  test "index marks the maps the signed-in person curates and lists them first" do
+    # The admin holds no grant in fixtures → no mark anywhere.
+    get admin_paths_path
+    assert_select ".builder-card .badge--marker", false
+
+    Editorship.create!(user: users(:admin), path: paths(:welder))
+    get admin_paths_path
+    assert_select ".builder-card .badge--marker", text: I18n.t("admin.builder.curated_by_you"), count: 1
+    assert_operator response.body.index(paths(:welder).title), :<, response.body.index(paths(:electrician).title),
+                    "a curated map is listed before the others"
+  end
+
   test "edit with auth returns success" do
     get edit_admin_path_path(paths(:electrician))
     assert_response :success
@@ -79,6 +91,38 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
       params: { path: { description: "New description" } }
     assert_redirected_to edit_admin_path_path(paths(:electrician))
     assert_equal "New description", paths(:electrician).reload.description
+  end
+
+  test "update saves the landing slots and a cover, and can remove the cover again" do
+    patch admin_path_path(paths(:electrician)), params: { path: {
+      about: "Электрик монтирует и обслуживает…", highlights_text: "Читает схемы\nСобирает щит",
+      pros_text: "Востребован", cons_text: "Ответственность", faq: "### Сколько учиться?\nГод.",
+      cover: fixture_file_upload("cover.png", "image/png"), cover_credit: "Фото: тест, CC0"
+    } }
+    assert_redirected_to edit_admin_path_path(paths(:electrician))
+
+    path = paths(:electrician).reload
+    assert_equal [ "Читает схемы", "Собирает щит" ], path.highlights
+    assert_equal "Электрик монтирует и обслуживает…", path.about
+    assert_equal "Фото: тест, CC0", path.cover_credit
+    assert path.cover.attached?
+
+    get edit_admin_path_path(path)
+    assert_select "#landing-editor textarea[name='path[highlights_text]']", text: "Читает схемы\nСобирает щит"
+    assert_select "#landing-editor img.admin-form__preview"
+
+    perform_enqueued_jobs do
+      patch admin_path_path(path), params: { path: { remove_cover: "1" } }
+    end
+    assert_not path.reload.cover.attached?
+  end
+
+  test "a non-image cover is refused" do
+    patch admin_path_path(paths(:electrician)), params: { path: {
+      cover: Rack::Test::UploadedFile.new(StringIO.new("<svg/>"), "image/svg+xml", original_filename: "c.svg")
+    } }
+    assert_response :unprocessable_entity
+    assert_not paths(:electrician).reload.cover.attached?
   end
 
   test "update with invalid data re-renders edit" do
