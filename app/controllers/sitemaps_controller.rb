@@ -29,6 +29,9 @@ class SitemapsController < ApplicationController
 
   def show
     @paths = Path.published.ordered
+    # Only professions with tasks get a practice URL — an empty tab isn't a page.
+    @practice_path_ids = Lesson.practice.where(path_id: @paths.map(&:id)).distinct.pluck(:path_id).to_set
+    @glossary_path_ids = GlossaryTerm.joins(:lesson).distinct.pluck("lessons.path_id").to_set
     @courses = Course.published.joins(:path).where(paths: { status: "published" }).includes(:path).order(:id)
     @lessons = Lesson.joins(course: :path)
                      .where(courses: { status: "published" }, paths: { status: "published" })

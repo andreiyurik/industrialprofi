@@ -448,10 +448,22 @@
   text-align: center;
 }
 
-/* Quiet link to the profession's document library — a footnote, not a section. */
-.path__library-link {
-  border-block-start: 1px solid var(--color-subtle);
-  font-size: 0.85rem;
-  margin-block-start: var(--block-space);
-  padding-block-start: var(--block-space);
+/* A language with no maps yet: one honest panel with the way to the catalog
+   that exists (today: English → Russian). */
+.catalog-empty {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-space);
+  margin-block-start: var(--block-space-double);
+  margin-inline: auto;
+  max-inline-size: 40rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.catalog-empty__text {
+  color: var(--color-subtle-dark);
+  line-height: 1.55;
+  margin: 0;
 }

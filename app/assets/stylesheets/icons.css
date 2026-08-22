@@ -79,6 +79,7 @@
 .icon--lock { --svg: url("icons/lock.svg"); }
 .icon--magnifying-glass { --svg: url("icons/magnifying-glass.svg"); }
 .icon--map-trifold { --svg: url("icons/map-trifold.svg"); }
+.icon--minus { --svg: url("icons/minus.svg"); }
 .icon--minus-circle { --svg: url("icons/minus-circle.svg"); }
 .icon--newspaper { --svg: url("icons/newspaper.svg"); }
 .icon--paper-plane-tilt { --svg: url("icons/paper-plane-tilt.svg"); }
@@ -97,6 +98,7 @@
 .icon--sun { --svg: url("icons/sun.svg"); }
 .icon--sun-horizon { --svg: url("icons/sun-horizon.svg"); }
 .icon--target { --svg: url("icons/target.svg"); }
+.icon--text-aa { --svg: url("icons/text-aa.svg"); }
 .icon--thermometer { --svg: url("icons/thermometer.svg"); }
 .icon--trash { --svg: url("icons/trash.svg"); }
 .icon--tree-structure { --svg: url("icons/tree-structure.svg"); }

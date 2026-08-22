@@ -7,10 +7,10 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
     assert_match paths(:electrician).title, response.body
   end
 
-  test "a profession's full library renders, grouped by type" do
+  test "a profession's library 301s to its hub reference shelf" do
     get resources_path(path: paths(:electrician).slug)
-    assert_response :success
-    assert_select ".library-group"
+    assert_redirected_to path_library_path(paths(:electrician))
+    assert_response :moved_permanently
   end
 
   test "an unpublished profession's library is not found" do

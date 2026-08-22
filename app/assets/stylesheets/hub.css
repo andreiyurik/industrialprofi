@@ -1,0 +1,387 @@
+/* Profession hub — the header every tab of /paths/:slug shares (Обзор ·
+   Теория · Практика · Библиотека · Словарь) and the tab pages' own sections. One identity block,
+   one tab row; the reader stays inside the profession. Mobile-first: the
+   identity stacks and centers, the tab row scrolls sideways under the thumb;
+   from 48em the identity becomes a row. */
+.hub {
+  position: relative;
+  text-align: center;
+}
+
+/* Identity: a centred column at every width. */
+.hub__identity {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .topic-hero-icon {
+    margin-block-end: 0.75rem;
+  }
+
+  .path__title {
+    margin-block: 0;
+  }
+}
+
+/* The author's one line under the name (or the catalog sentence) — ink, not
+   grey: it is the map's own voice. */
+.hub__description {
+  color: var(--color-ink);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin: 0 auto;
+  max-inline-size: 44ch;
+  text-wrap: balance;
+}
+
+/* The inventory line: «3 главы · 24 статьи · 6 заданий». */
+.hub__facts {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  margin: 0.15rem 0 0;
+}
+
+/* The people cluster: faces + three quiet lines. Centred under the identity
+   on phones; from 64em it sits in the header's top-right corner, out of the
+   identity's way (exercism's placement). */
+.hub-people {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-block-start: 1.25rem;
+
+  /* The maturity partial brings its own centred pill — inside the cluster it
+     reads as one more quiet line. */
+  .maturity {
+    margin-block-end: 0;
+  }
+
+  .maturity__line {
+    border: 0;
+    color: var(--color-subtle-dark);
+    font-size: 0.85rem;
+    padding: 0;
+  }
+}
+
+@media (min-width: 64em) {
+  .hub-people {
+    align-items: flex-start;
+    flex-direction: row;
+    gap: 0.75rem;
+    inset-block-start: 0.25rem;
+    inset-inline-end: 0;
+    margin-block-start: 0;
+    position: absolute;
+    text-align: end;
+  }
+
+  /* Lines hang from the corner; each stays on one line. */
+  .hub-people__text {
+    align-items: flex-end;
+  }
+
+  .hub-people .maturity {
+    justify-content: flex-end;
+  }
+
+  .hub-people .maturity__line,
+  .hub-people__line {
+    white-space: nowrap;
+  }
+}
+
+/* Overlapping faces, the newest on top. */
+.hub-people__faces {
+  display: inline-flex;
+
+  .avatar {
+    --avatar-size: 2rem;
+    border: 2px solid var(--color-bg);
+    margin-inline-start: -0.5rem;
+
+    &:first-child {
+      margin-inline-start: 0;
+    }
+  }
+}
+
+.hub-people__text {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.hub-people__line {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.hub-people__line--lead {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+/* «3 участника» — the number line, ink and bold like exercism's corner. */
+.hub-people__button {
+  align-items: center;
+  background: none;
+  border: 0;
+  color: var(--color-ink);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.95rem;
+  font-weight: 600;
+  gap: 0.3em;
+  padding: 0;
+
+  .icon {
+    --icon-size: 0.9em;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+.hub-popover__muted {
+  color: var(--color-subtle-dark);
+}
+
+.hub-popover__list--curators {
+  margin-block-end: 1rem;
+}
+
+/* Top-layer popover, styled like the maturity popover (enter/exit animation
+   comes from animation.css). */
+.hub-popover {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75em;
+  box-shadow:
+    0 12px 32px -8px oklch(var(--lch-always-black) / 0.5),
+    0 4px 8px -4px oklch(var(--lch-always-black) / 0.4);
+  color: var(--color-ink);
+  inline-size: min(24rem, calc(100vw - 2rem));
+  inset: 0;
+  margin: 14vh auto auto;
+  padding: 1.25rem 1.5rem;
+  position: fixed;
+  text-align: start;
+
+  &::backdrop {
+    background: oklch(var(--lch-always-black) / 0.35);
+  }
+}
+
+.hub-popover__title {
+  font-weight: 600;
+  margin-block: 0 0.75rem;
+}
+
+.hub-popover__list {
+  columns: 2 9rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Tabs: an underlined row — "sections of this profession", not site nav.
+   The active tab is the one with ink and an ink rule; weight never changes,
+   so the row doesn't jitter between pages. Phones: left-aligned and
+   thumb-scrollable (a centred row that overflows clips its own start —
+   the first tab becomes unreachable), glyphs dropped below 30em so all four
+   words fit a 390px screen; wide screens centre the row. */
+.hub-tabs {
+  border-block-end: 1px solid var(--color-subtle);
+  display: flex;
+  gap: 0.25rem;
+  margin-block: var(--block-space-double) var(--block-space-double);
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 48em) {
+    justify-content: center;
+  }
+}
+
+.hub-tabs__link {
+  align-items: center;
+  border-block-end: 2px solid transparent;
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  gap: 0.45em;
+  margin-block-end: -1px;
+  padding: 0.65rem 0.9rem;
+  text-decoration: none;
+  transition: color 150ms ease, border-color 150ms ease;
+  white-space: nowrap;
+
+  .icon {
+    --icon-size: 1.1em;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+.hub-tabs__link[aria-current="page"] {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+/* After the base rule on purpose — same specificity, source order decides. */
+@media (max-width: 30em) {
+  .hub-tabs {
+    gap: 0;
+  }
+
+  .hub-tabs__link {
+    font-size: 0.8rem;
+    padding-inline: 0.4rem;
+
+    .icon {
+      display: none;
+    }
+  }
+}
+
+/* A tab page's sections (the practice list, each reference shelf). */
+.hub-section {
+  margin-block-start: var(--block-space-double);
+  text-align: start;
+}
+
+.hub-section + .hub-section {
+  margin-block-start: 3rem;
+}
+
+.hub-section__head {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--block-space-half) 1rem;
+  justify-content: space-between;
+  margin-block-end: var(--block-space);
+}
+
+.hub-section__title {
+  font-size: 1.4rem;
+  margin-block: 0 0.75rem;
+}
+
+.hub-section__head .hub-section__title {
+  margin-block-end: 0;
+}
+
+.hub-section__meta {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+}
+
+.hub-section__meta--complete {
+  color: var(--color-positive);
+  font-weight: 600;
+}
+
+/* The practice filters sit inside a section here, not under a centered hero. */
+.hub-section .project-filters {
+  margin-block: 0 var(--block-space);
+}
+
+/* Jump links over the reference shelves — plain words, the page's own
+   table of contents. */
+.hub-jumps {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  gap: 0.35rem 1.25rem;
+  justify-content: center;
+  margin-block-start: calc(-1 * var(--block-space));
+}
+
+.hub-jumps__link {
+  color: var(--color-subtle-dark);
+  text-decoration: underline;
+  text-decoration-color: var(--color-subtle);
+  text-underline-offset: 0.2em;
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+/* «Улучшить карту» — the door to participation at the foot of every tab.
+   A footnote in register: hairline, small type, one quiet button. */
+.hub-improve {
+  border-block-start: 1px solid var(--color-subtle);
+  margin-block-start: 3rem;
+  padding-block-start: 1.5rem;
+  text-align: start;
+}
+
+.hub-improve__title {
+  font-size: 1rem;
+  margin-block: 0 0.35rem;
+}
+
+.hub-improve__text {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin-block: 0 0.85rem;
+  max-inline-size: 60ch;
+}
+
+.hub-improve__links {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  gap: var(--block-space-half) 1rem;
+  margin: 0;
+}
+
+/* A quiet toggle link in a section head («· Сохранённые»): underlined like a
+   link, ink when active. */
+.hub-section__toggle {
+  color: var(--color-subtle-dark);
+  text-decoration: underline;
+  text-decoration-color: var(--color-subtle);
+  text-underline-offset: 0.2em;
+
+  &[aria-current] {
+    color: var(--color-ink);
+    text-decoration-color: var(--color-ink);
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}

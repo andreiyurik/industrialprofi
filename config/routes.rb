@@ -104,7 +104,16 @@ Rails.application.routes.draw do
       resource :reaction, only: [ :create, :destroy ]
     end
 
-    resources :paths, only: [ :index, :show ], param: :slug
+    # The profession hub: paths#show is the «Обзор» tab (programme); its sibling
+    # tabs are nested resources sharing the hub header (exercism's track pages).
+    resources :paths, only: [ :index, :show ], param: :slug do
+      scope module: :paths do
+        resource :theory, only: :show
+        resource :practice, only: :show
+        resource :glossary, only: :show
+        resource :library, only: :show
+      end
+    end
     resources :courses, only: [ :show ], param: :slug
     resources :lessons, only: [ :show ], param: :slug do
       resource :completion, only: [ :create, :destroy ], controller: "lesson_completions"

@@ -75,31 +75,45 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
-  <% @paths.each do |path| %>
-  <url>
-    <loc><%= site_config.url %>/<%= path.locale %>/resources?path=<%= path.slug %></loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <% end %>
   <url>
     <loc><%= ru %>/glossary</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-  <% @paths.select { |path| Glossary.path_slugs.include?(path.slug) }.each do |path| %>
-  <url>
-    <loc><%= ru %>/glossary?path=<%= path.slug %></loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <% end %>
+  <%# The profession hub: the overview plus its tabs (practice only where
+      there are tasks, the dictionary only where lessons define abbreviations;
+      the reference shelf always — every map cites sources). %>
   <% @paths.each do |path| %>
   <url>
     <loc><%= site_config.url %>/<%= path.locale %>/paths/<%= path.slug %></loc>
     <lastmod><%= path.updated_at.strftime("%Y-%m-%d") %></lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc><%= site_config.url %>/<%= path.locale %>/paths/<%= path.slug %>/theory</loc>
+    <lastmod><%= path.updated_at.strftime("%Y-%m-%d") %></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <% if @practice_path_ids.include?(path.id) %>
+  <url>
+    <loc><%= site_config.url %>/<%= path.locale %>/paths/<%= path.slug %>/practice</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <% end %>
+  <% if @glossary_path_ids.include?(path.id) %>
+  <url>
+    <loc><%= site_config.url %>/<%= path.locale %>/paths/<%= path.slug %>/glossary</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <% end %>
+  <url>
+    <loc><%= site_config.url %>/<%= path.locale %>/paths/<%= path.slug %>/library</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
   </url>
   <% end %>
   <% @courses.each do |course| %>

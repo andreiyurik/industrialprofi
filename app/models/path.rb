@@ -3,6 +3,7 @@ class Path < ApplicationRecord
   include Importable
   include Sluggable
   include Curriculum
+  include Landing
   include Maturity
 
   SLUG_FORMAT = /\A[a-z0-9]+(-[a-z0-9]+)*\z/
@@ -17,8 +18,10 @@ class Path < ApplicationRecord
   KINDS = %w[role skill].freeze
 
   # Fields the YAML/AI importer manages (and digests for edit-safety). The slug
-  # is the stable key, not content.
-  IMPORTABLE_FIELDS = %w[title description position status kind].freeze
+  # is the stable key, not content. The landing rides here too: a pack's
+  # landing.yml refreshes a pristine profession and never touches one an
+  # expert has edited (any landing edit changes the digest → frozen).
+  IMPORTABLE_FIELDS = %w[title description position status kind landing].freeze
 
   # inverse_of is explicit because a scoped has_many gets no automatic detection —
   # without it `course.icon` falling back to `path.icon` would re-query per card.
@@ -74,6 +77,30 @@ class Path < ApplicationRecord
   # and form checkedness read the fallback instead of the choice.
   def emblem
     icon.presence || Icon::DEFAULT_EMBLEM
+  end
+
+  # The hub shows a «Словарь» tab only for a profession whose lessons define
+  # abbreviations — derived from data, not a setting.
+  def has_glossary? = GlossaryTerm.for_path(self).exists?
+
+  # Everyone whose proposed edit or source was accepted into this map — the
+  # hub's «карту улучшили» credit. Names, not scores: attribution is the one
+  # recognition mechanic here (no leaderboard, by decision). A guest's
+  # proposal carries only author_name, a member's their account name.
+  def contributor_names
+    [ LessonSuggestion, ResourceSuggestion ].flat_map { |model|
+      model.approved.joins(:lesson).left_joins(:user).where(lessons: { path_id: id })
+           .pluck(Arel.sql("COALESCE(users.name, #{model.table_name}.author_name)"))
+    }.compact_blank.uniq
+  end
+
+  # The contributors who have accounts — for the hub header's avatar stack
+  # (guests' proposals count in contributor_names but have no face to show).
+  def contributor_users(limit: 3)
+    ids = [ LessonSuggestion, ResourceSuggestion ].flat_map { |model|
+      model.approved.joins(:lesson).where(lessons: { path_id: id }).where.not(user_id: nil).distinct.pluck(:user_id)
+    }.uniq
+    User.where(id: ids).order(:name).limit(limit)
   end
 
   private

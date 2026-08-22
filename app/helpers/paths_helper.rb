@@ -1,4 +1,23 @@
 module PathsHelper
+  # One landing list item as inline markup — a **bold** key phrase or a link
+  # inside the line, the Basecamp checklist idiom — without the paragraph
+  # wrapper a markdown renderer puts around a lone line.
+  def landing_line(text)
+    markdown(text).to_str.sub(%r{\A\s*<p>(.*)</p>\s*\z}m, '\1').html_safe
+  end
+
+  # The hub header's one-line inventory: «N глав · M статей · K заданий» —
+  # chapters = published only (coming-soon stubs aren't content yet), the
+  # two lesson kinds split as the course cards split them. Tasks appear only
+  # when there are some: a «0 заданий» is a promise, not a fact.
+  def hub_facts(path)
+    kinds = path.lessons.group(:kind).count
+    facts = [ t("common.course", count: path.courses.published.count),
+              t("courses.lessons_count", count: kinds["lesson"].to_i) ]
+    facts << t("projects.tasks", count: kinds["practice"]) if kinds["practice"].to_i.positive?
+    safe_join(facts, " · ")
+  end
+
   # Maturity-gauge geometry — Basecamp's Needle, faithfully: a long shallow
   # outlined arc (80° of a large circle) divided into cells, filled up to the
   # needle. Plain trig here means the gauge ships as inline SVG — no images,

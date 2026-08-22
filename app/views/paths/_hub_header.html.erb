@@ -1,0 +1,92 @@
+<%# locals: (path:, progress:, curators:, tab:) -%>
+<%# The profession hub's shared header — one identity block + one tab row on
+    every page of a profession (Обзор / Теория / Практика / Библиотека / Словарь), so the reader
+    never leaves the profession to reach its practice or its reference shelf
+    (the exercism track-page shape, server-rendered). The catalog card opens
+    into the identity block — the other half of the pair in paths/_path_card. %>
+<header class="hub">
+  <%# Identity, centred at every width (the catalog card is a centred poster,
+      and Basecamp centres a project's name and description too): emblem,
+      name, the author's one line (or the catalog sentence), the inventory. %>
+  <div class="hub__identity" style="view-transition-name: path-<%= path.slug %>">
+    <% ring = progress.started? && path.lessons_count.positive? %>
+    <div class="topic-hero-icon<%= " topic-hero-icon--ring" if ring %>">
+      <% if ring %>
+        <%= render layout: "shared/progress_ring", locals: { completed: progress.completed_count, total: path.lessons_count } do %>
+          <%= render "shared/topic_badge", token: path.emblem %>
+        <% end %>
+      <% else %>
+        <%= render "shared/topic_badge", token: path.emblem %>
+      <% end %>
+    </div>
+    <h1 class="path__title"><%= path.title %></h1>
+    <p class="hub__description"><%= path.pitch %></p>
+    <p class="hub__facts"><%= hub_facts(path) %></p>
+  </div>
+
+  <%# The people behind the map — exercism's corner: a stack of faces, who
+      leads it, how many improved it, how mature it is. One quiet cluster at
+      the header's top-right on wide screens, a line under the facts on
+      phones. Names, never scores (attribution, not a leaderboard). %>
+  <% contributors = path.contributor_names %>
+  <% faces = (curators + path.contributor_users.to_a).uniq.first(3) %>
+  <div class="hub-people">
+    <% if faces.any? %>
+      <span class="hub-people__faces" aria-hidden="true">
+        <% faces.each do |person| %><%= avatar_tag(person) %><% end %>
+      </span>
+    <% end %>
+    <div class="hub-people__text">
+      <% if curators.any? %>
+        <p class="hub-people__line hub-people__line--lead" title="<%= curators.map { |c| c.headline.present? ? "#{c.name} — #{c.headline}" : c.name }.join(", ") %>">
+          <%= t("paths.curated_by") %> <%= curators.map(&:name).to_sentence %>
+        </p>
+      <% end %>
+      <% if contributors.any? %>
+        <button type="button" class="hub-people__line hub-people__button" popovertarget="path-contributors">
+          <%= t("paths.hub.contributors", count: contributors.size) %>
+          <%= icon_tag "caret-down" %>
+        </button>
+        <div id="path-contributors" class="hub-popover" popover>
+          <% if curators.any? %>
+            <p class="hub-popover__title"><%= t("paths.hub.people_curators") %></p>
+            <ul class="hub-popover__list hub-popover__list--curators" role="list">
+              <% curators.each do |curator| %>
+                <li><%= curator.name %><% if curator.headline.present? %> <span class="hub-popover__muted">— <%= curator.headline %></span><% end %></li>
+              <% end %>
+            </ul>
+          <% end %>
+          <p class="hub-popover__title"><%= t("paths.hub.contributors_title") %></p>
+          <ul class="hub-popover__list" role="list">
+            <% contributors.each do |name| %>
+              <li><%= name %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <%= render "paths/maturity", path: path, curators: curators %>
+    </div>
+  </div>
+
+  <nav class="hub-tabs" aria-label="<%= t("paths.hub.tabs_label") %>" data-controller="hub-tabs">
+    <%= link_to path_path(path), class: "hub-tabs__link", aria: { current: ("page" if tab == :overview) } do %>
+      <%= icon_tag "info" %><span><%= t("paths.overview") %></span>
+    <% end %>
+    <%= link_to path_theory_path(path), class: "hub-tabs__link", aria: { current: ("page" if tab == :theory) } do %>
+      <%= icon_tag "graduation-cap" %><span><%= t("paths.hub.theory") %></span>
+    <% end %>
+    <%= link_to path_practice_path(path), class: "hub-tabs__link", aria: { current: ("page" if tab == :practice) } do %>
+      <%= icon_tag "wrench" %><span><%= t("paths.hub.practice") %></span>
+    <% end %>
+    <%= link_to path_library_path(path), class: "hub-tabs__link", aria: { current: ("page" if tab == :library) } do %>
+      <%= icon_tag "book-open" %><span><%= t("paths.hub.library") %></span>
+    <% end %>
+    <%# Optional and therefore last: only professions whose lessons define
+        abbreviations get it, and the fixed tabs keep their places either way. %>
+    <% if path.has_glossary? %>
+      <%= link_to path_glossary_path(path), class: "hub-tabs__link", aria: { current: ("page" if tab == :glossary) } do %>
+        <%= icon_tag "text-aa" %><span><%= t("paths.hub.glossary") %></span>
+      <% end %>
+    <% end %>
+  </nav>
+</header>

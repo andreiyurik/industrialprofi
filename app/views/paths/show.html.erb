@@ -1,6 +1,13 @@
 <% meta_title(@path.title) %>
 <% meta_description(@path.description.to_s.truncate(160)) %>
 <% canonical_url(path_url(@path)) %>
+<%# locale: nil — the storage routes live outside the locale scope, and the
+    helper would otherwise append a stray ?locale= to the share image URL. %>
+<% if @path.cover.attached? %>
+  <% content_for(:og_image, ApplicationHelper.variant_processing_available? ?
+       rails_representation_url(@path.cover.variant(resize_to_fill: [ 1200, 630 ], format: :webp), locale: nil) :
+       rails_blob_url(@path.cover, locale: nil)) %>
+<% end %>
 
 <% content_for(:head) do %>
   <%= json_ld_tag(course_json_ld(@path)) %>
@@ -13,62 +20,16 @@
 
 <section class="section">
   <div class="container container--reading">
-    <%# The catalog card opens into this block — the other half of the pair in
-        paths/_path_card. Inline, not a CSS rule: courses/show reuses .path-hero. %>
-    <div class="path-hero" style="view-transition-name: path-<%= @path.slug %>">
-      <div class="topic-hero-icon">
-        <%= render "shared/topic_badge", token: @path.emblem %>
-      </div>
-      <h1 class="path__title"><%= @path.title %></h1>
-    </div>
+    <%= render "paths/hub_header", path: @path, progress: @progress, curators: @path.curators.to_a, tab: :overview %>
 
-    <div class="path__overview">
-      <p class="path__overview-text"><%= @path.description %></p>
-    </div>
+    <%= render "shared/continue_cta", continue_lesson: @progress.next_lesson, completed_ids: @progress.completed_ids %>
 
-    <% if @curators.any? %>
-      <div class="path__curators">
-        <span class="path__curators-label"><%= t("paths.curated_by") %></span>
-        <% @curators.each do |curator| %>
-          <span class="path__curator">
-            <%= avatar_tag(curator) %>
-            <span class="path__curator-text">
-              <span class="path__curator-name"><%= curator.name %></span>
-              <% if curator.headline.present? %>
-                <span class="path__curator-headline"><%= curator.headline %></span>
-              <% end %>
-            </span>
-          </span>
-        <% end %>
-      </div>
-    <% end %>
+    <%# The story (the slots an author filled — nothing when none), then the
+        chapter outline; the programme itself is the «Теория» tab. %>
+    <%= render "paths/landing", path: @path %>
+    <%= render "paths/outline", path: @path, courses: @courses, kind_counts: @kind_counts %>
 
-    <%= render "maturity", path: @path, curators: @curators %>
-
-    <%= render "shared/continue_cta", continue_lesson: @continue_lesson, completed_ids: @completed_ids,
-          show_progress: true, total: @path.lessons_count %>
-
-    <div class="course-cards">
-      <% @courses.each_with_index do |course, index| %>
-        <%= render "course_card",
-              course: course,
-              completed: @completed_by_course[course.id] || 0,
-              total: course.lessons_count,
-              lessons_n: @kind_counts[[course.id, "lesson"]].to_i,
-              practice_n: @kind_counts[[course.id, "practice"]].to_i %>
-      <% end %>
-    </div>
-
-    <%# A single quiet link to the profession's document library — the full,
-        type-grouped list lives on its own page (and the per-lesson resources show
-        each source in context). Keeping it off the overview removes the visual
-        noise of a flat document dump and matches the "right order, in context"
-        thesis. %>
-    <% if @has_library %>
-      <p class="path__library-link">
-        <a href="<%= resources_path(path: @path.slug) %>" class="link-quiet"><%= t("resources.section_link") %></a>
-      </p>
-    <% end %>
+    <%= render "paths/improve" %>
   </div>
 </section>
 
