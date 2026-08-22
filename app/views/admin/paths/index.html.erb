@@ -23,6 +23,9 @@
             <span class="builder-card__head">
               <span class="builder-card__title"><%= path.title %></span>
               <%= status_badge(path.status, published: path.status == "published") %>
+              <% if @curated_ids.include?(path.id) %>
+                <span class="badge badge--marker"><%= t("admin.builder.curated_by_you") %></span>
+              <% end %>
             </span>
             <span class="builder-card__meta">
               <%= russian_pluralize(path.courses_count, :course) %> · <%= russian_pluralize(path.lessons_count, :lesson) %>

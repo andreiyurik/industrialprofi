@@ -74,6 +74,9 @@
   margin: 14vh auto auto;
   padding: 1.6rem 1.5rem 1.5rem;
   position: fixed;
+  /* A top-layer panel, not part of the header's flow: it must not inherit the
+     right-hung alignment of the people cluster it is opened from. */
+  text-align: start;
 }
 
 .maturity-popover::backdrop {
@@ -168,17 +171,19 @@
   margin-block: 0 1.25rem;
 
   li {
-    align-items: baseline;
+    align-items: flex-start;
     display: flex;
     font-size: 0.92rem;
     gap: 0.6rem;
+    line-height: 1.45;
   }
 
+  /* The mark sits on the first line even when the text wraps. */
   .icon {
-    align-self: center;
     block-size: 1.05rem;
     flex: none;
     inline-size: 1.05rem;
+    margin-block-start: 0.15rem;
   }
 
   .is-done .icon {

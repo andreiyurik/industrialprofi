@@ -6,10 +6,12 @@
     hand-set there by the map's own editors («move the needle»), never computed. %>
 <% stage = path.maturity_stage %>
 <div class="maturity maturity--stage-<%= stage %>">
-  <button type="button" class="maturity__line" popovertarget="path-maturity">
+  <%# The header line is short on purpose — a number with one word, exercism's
+      corner idiom; the stage's name and the checklist live in the popover. %>
+  <button type="button" class="maturity__line" popovertarget="path-maturity"
+          title="<%= t(".stages.s#{stage}") %>">
     <span class="maturity__dot" aria-hidden="true"></span>
-    <span><%= t(".popover_title", stage: stage, total: Path::Maturity::MATURITY_STAGES) %> ·</span>
-    <span class="maturity__stage-name"><%= t(".stages.s#{stage}") %></span>
+    <span><%= t(".short", stage: stage, total: Path::Maturity::MATURITY_STAGES) %></span>
     <%= icon_tag "caret-down" %>
   </button>
 
@@ -49,11 +51,14 @@
            else
              path.curated? ? t(".crit_curator_anon") : t(".crit_curator_todo")
            end ],
-         [ path.verified?,
-           if path.verified?
+         [ stage == 4,
+           if stage == 4
              t(".crit_verified", date: l(path.verified_at.to_date))
            elsif path.verification_expired?
              t(".crit_verified_expired", date: l(path.verified_at.to_date))
+           elsif path.verified?
+             # A mark without the rungs beneath it doesn't count — say so.
+             t(".crit_verified_orphan", date: l(path.verified_at.to_date))
            else
              t(".crit_verified_todo")
            end ]
@@ -69,12 +74,12 @@
 
     <div class="maturity-popover__actions">
       <%= link_to t(".improve"), contribute_path, class: "btn btn--small" %>
-      <% if signed_in? && Current.user.can_edit_path?(path) %>
-        <% if path.verified? %>
-          <%= button_to t(".unverify"), admin_path_verification_path(path), method: :delete, class: "btn btn--small" %>
-        <% else %>
-          <%= button_to t(".verify"), admin_path_verification_path(path), class: "btn btn--small btn--reversed" %>
-        <% end %>
+      <%# Clearing a mark is open to anyone who edits the map; setting one only
+          to a curator of this map, and only once the rungs beneath are climbed. %>
+      <% if signed_in? && Current.user.can_edit_path?(path) && path.verified? %>
+        <%= button_to t(".unverify"), admin_path_verification_path(path), method: :delete, class: "btn btn--small" %>
+      <% elsif path.verifiable? && path.verifiable_by?(Current.user) %>
+        <%= button_to t(".verify"), admin_path_verification_path(path), class: "btn btn--small btn--reversed" %>
       <% end %>
     </div>
   </div>
