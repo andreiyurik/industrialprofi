@@ -1,0 +1,85 @@
+/* Admin lesson abbreviation editor — the links editor's sibling, one line per
+   term (mark · расшифровка · analog · remove) plus a ghost note line. Reuses
+   .resource-editor__list/__add for the frame; only the row is its own. */
+.term-row {
+  background: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: var(--block-space-half) 0.6rem;
+}
+
+.term-row__head {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--block-space-half);
+}
+
+.term-row__abbr,
+.term-row__full,
+.term-row__analog,
+.term-row__note {
+  --input-padding: 0.35rem 0.6rem;
+}
+
+/* The mark and its analog are short by nature — fixed widths keep every row's
+   расшифровка starting on the same column. */
+.term-row__abbr {
+  flex-shrink: 0;
+  width: 8rem;
+}
+
+.term-row__full {
+  flex: 1;
+  min-width: 12rem;
+}
+
+.term-row__analog {
+  flex-shrink: 0;
+  width: 7rem;
+}
+
+.term-row__remove {
+  background: transparent;
+  border: 0;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  flex-shrink: 0;
+  line-height: 0;
+  padding: 0.25rem;
+
+  .icon {
+    height: 1.1rem;
+    width: 1.1rem;
+  }
+
+  &:hover {
+    color: var(--color-negative);
+  }
+}
+
+.term-row__note {
+  font-size: 0.85rem;
+}
+
+/* Phones: the mark, its analog and the remove button share the first line,
+   the расшифровка takes the whole second — two lines instead of a ragged
+   three (order moves it last without touching the DOM order). */
+@media (max-width: 40rem) {
+  .term-row__abbr {
+    width: 6.5rem;
+  }
+
+  .term-row__analog {
+    width: 6rem;
+  }
+
+  .term-row__full {
+    flex-basis: 100%;
+    min-width: 0;
+    order: 1;
+  }
+}

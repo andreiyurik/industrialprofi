@@ -12,6 +12,15 @@ resources:
     url: "http://we.easyelectronics.ru/Theory/pid-regulyatory--dlya-chaynikov-praktikov.html"
     kind: article
     required: false
+terms:
+  - term: "ПИД"
+    full: "Пропорционально-интегрально-дифференциальный регулятор"
+    note: "Базовый алгоритм автоматического регулирования — держит параметр на уставке."
+    analog: "PID"
+  - term: "PID"
+    full: "Proportional-Integral-Derivative"
+    note: "Международное обозначение ПИД-регулирования — в настройках любого контроллера."
+    analog: "ПИД"
 ---
 ПИД-регулятор простыми словами: что делают пропорциональная, интегральная и дифференциальная составляющие и откуда берётся статическая ошибка.
 ---

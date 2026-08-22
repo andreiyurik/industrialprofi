@@ -34,6 +34,10 @@ resources:
     url: https://www.fluke.com/ru-ru/product/calibration-tools/calibrators/fluke-754
     kind: tool
     required: false
+terms:
+  - term: "СИ"
+    full: "Средства измерений"
+    note: "Приборы, подлежащие поверке; на АЭС метрология жёстче, чем в общепроме."
 ---
 Поверка КИПиА на АЭС: зачем МПИ устанавливает проект, что такое EQR и как погрешность канала влияет на уставку защиты.
 ---

@@ -17,6 +17,10 @@ resources:
     url: "https://electricalschool.info/automation/2550-kak-rabotaet-protokol-hart.html"
     kind: article
     required: false
+terms:
+  - term: "HART"
+    full: "Highway Addressable Remote Transducer"
+    note: "Цифровой протокол поверх токовой петли 4–20 мА: настройка и диагностика датчика без демонтажа."
 ---
 Токовая петля 4–20 мА: почему ток, а не напряжение, что такое «живой ноль» и чем аналоговый сигнал отличается от дискретного. Основа КИПиА.
 ---

@@ -17,6 +17,10 @@ resources:
     url: "https://www.youtube.com/watch?v=x8dPfMxVuME"
     kind: video
     required: false
+terms:
+  - term: "HMI"
+    full: "Human-Machine Interface"
+    note: "Панель или экран оператора у машины; мнемосхемы — его язык."
 ---
 Мнемосхема оператора: как привязать графику к тегам и сделать экран, на котором авария видна за секунду. Инженерное искусство верхнего уровня.
 ---

@@ -18,6 +18,15 @@ resources:
     url: "https://dpva.ru/Guide/GuideTechnologyDrawings/DrawingsSigns/PIDdiagramm/"
     kind: article
     required: false
+terms:
+  - term: "ФСА"
+    full: "Функциональная схема автоматизации"
+    note: "Главный чертёж автоматчика: что измеряем, чем управляем, где стоят приборы."
+    analog: "P&ID"
+  - term: "P&ID"
+    full: "Piping and Instrumentation Diagram"
+    note: "Международный аналог ФСА: трубопроводы и КИП на одной схеме."
+    analog: "ФСА"
 ---
 Как читать функциональную схему автоматизации (ФСА) и обозначения приборов КИПиА. Без этого не примешь проект и не найдёшь прибор на объекте.
 ---

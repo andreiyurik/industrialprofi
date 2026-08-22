@@ -18,6 +18,18 @@ resources:
     url: "https://inner.su/articles/sistema-paz-protivoavariynaya/"
     kind: article
     required: false
+terms:
+  - term: "ПАЗ"
+    full: "Противоаварийная защита"
+    note: "Отдельный контур, который останавливает процесс при выходе за опасные границы."
+    analog: "SIS"
+  - term: "SIL"
+    full: "Safety Integrity Level"
+    note: "Уровень полноты безопасности (1–4): насколько надёжной обязана быть защита."
+  - term: "SIS"
+    full: "Safety Instrumented System"
+    note: "Международное название ПАЗ."
+    analog: "ПАЗ"
 ---
 Функциональная безопасность: что такое ПАЗ (SIS) и уровни SIL и почему защита должна быть независима от АСУ ТП. На опасных объектах это спасает жизни.
 ---

@@ -1,0 +1,56 @@
+<%# locals: (path:, terms:, heading: true) -%>
+<%# One profession's terms — the /glossary page renders one per profession
+    (with its own heading), the profession hub renders its own under the
+    «Словарь» heading (heading: false). Entry anchors stay «slug-ТЕРМ» on
+    both, so a shared link lands the same either way. %>
+<section class="glossary-group" id="<%= path.slug %>" data-glossary-filter-target="group">
+  <% if heading %>
+    <div class="glossary-group__head">
+      <h2 class="glossary-group__title"><%= path.title %></h2>
+      <%= link_to t("glossary.to_path"), path, class: "link-quiet glossary-group__path-link" %>
+    </div>
+  <% end %>
+  <% index = terms.index_by(&:abbr) %>
+  <% terms.group_by(&:script).slice("ru", "int").each do |script, subset| %>
+    <div class="glossary-sub" data-glossary-filter-target="subgroup" data-script="<%= script %>">
+      <h3 class="glossary-sub__title"><%= t("glossary.script_#{script}") %></h3>
+      <dl class="glossary">
+        <% subset.each do |term| %>
+          <div class="glossary__entry" id="<%= path.slug %>-<%= term.anchor %>"
+               data-glossary-filter-target="entry"
+               data-text="<%= "#{term.abbr} #{term.full} #{term.note} #{term.analog}".downcase %>">
+            <dt class="glossary__term">
+              <span class="glossary__term-plate"><%= term.abbr %></span>
+              <%# «≈ RCD» — аналог в другой системе обозначений: ссылка-якорь,
+                  когда аналог есть в словаре записью, иначе просто текст. %>
+              <%# The class on the anchor also opts it out of the global
+                  a:not([class]) link styling — no blue, no :visited blue. %>
+              <% if term.analog %>
+                <span class="glossary__analog">≈
+                  <% if (target = index[term.analog]) %>
+                    <a class="glossary__analog-link" href="#<%= path.slug %>-<%= target.anchor %>"><%= term.analog %></a>
+                  <% else %>
+                    <%= term.analog %>
+                  <% end %>
+                </span>
+              <% end %>
+            </dt>
+            <dd class="glossary__body">
+              <span class="glossary__full"><%= term.full %></span>
+              <% if term.note.present? %>
+                <p class="glossary__note"><%= term.note %></p>
+              <% end %>
+            </dd>
+            <dd class="glossary__action">
+              <%# Every term is defined by a lesson — the button leads there. %>
+              <%= link_to term.lesson, class: "btn btn--small", title: term.lesson.title do %>
+                <%= icon_tag "book-open" %>
+                <%= t("glossary.lesson_button") %>
+              <% end %>
+            </dd>
+          </div>
+        <% end %>
+      </dl>
+    </div>
+  <% end %>
+</section>

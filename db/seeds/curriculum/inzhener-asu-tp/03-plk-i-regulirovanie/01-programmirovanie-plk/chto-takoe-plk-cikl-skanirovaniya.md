@@ -13,6 +13,15 @@ resources:
     url: "https://www.codesys.com/ecosystem/services/download/"
     kind: tool
     required: false
+terms:
+  - term: "ПЛК"
+    full: "Программируемый логический контроллер"
+    note: "Промышленный компьютер, исполняющий программу управления циклом «опрос → логика → выход»."
+    analog: "PLC"
+  - term: "PLC"
+    full: "Programmable Logic Controller"
+    note: "Международное название ПЛК — в документации и средах программирования."
+    analog: "ПЛК"
 ---
 Что такое ПЛК и как работает цикл сканирования. Разберём четыре типа сигналов AI, AO, DI, DO, на которых держится всё программирование.
 ---

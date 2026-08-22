@@ -103,6 +103,34 @@
         </div>
       </div>
 
+      <%# The lesson's abbreviations — the profession's dictionary is derived from
+          these, so a term is added where it is explained. Same nested-form
+          controller as the links above; no order (a dictionary is alphabetical). %>
+      <div class="admin-form__field admin-form__field--lg" id="terms-editor">
+        <label><%= t("admin.terms.heading") %></label>
+        <p class="admin-form__hint"><%= t("admin.terms.hint") %></p>
+
+        <div class="resource-editor term-editor" data-controller="nested-form">
+          <div class="resource-editor__list" data-nested-form-target="list">
+            <%= f.fields_for :glossary_terms do |tf| %>
+              <%= render "admin/lessons/term_fields", f: tf %>
+            <% end %>
+          </div>
+
+          <template data-nested-form-target="template">
+            <%= f.fields_for :glossary_terms, GlossaryTerm.new, child_index: "NEW_RECORD" do |tf| %>
+              <%= render "admin/lessons/term_fields", f: tf %>
+            <% end %>
+          </template>
+
+          <button type="button" class="btn btn--small resource-editor__add"
+                  data-action="nested-form#addItem">
+            <%= icon_tag "plus" %>
+            <span><%= t("admin.terms.add") %></span>
+          </button>
+        </div>
+      </div>
+
       <div class="admin-form__field admin-form__field--lg">
         <label><%= t("revisions.reason") %></label>
         <p class="admin-form__hint"><%= t("revisions.reason_hint_admin") %></p>

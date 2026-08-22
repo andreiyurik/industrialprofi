@@ -1,0 +1,45 @@
+# Each term is owned by the lesson that explains it (like resources.yml).
+pue:
+  lesson: pteep
+  abbr: "ПУЭ"
+  full: "Правила устройства электроустановок"
+  note: "Главный документ электрика: как устраивать электроустановки."
+
+uzo:
+  lesson: zazemlenie
+  abbr: "УЗО"
+  full: "Устройство защитного отключения"
+  analog: "RCD"
+
+rcd:
+  lesson: zazemlenie
+  abbr: "RCD"
+  full: "Residual Current Device"
+  analog: "УЗО"
+
+eds:
+  lesson: gruppy_dopuska
+  abbr: "ЭДС"
+  full: "Электродвижущая сила"
+  analog: "EMF"
+
+vvg:
+  lesson: zazemlenie
+  abbr: "ВВГнг(А)-LS"
+  full: "Кабель с медными жилами в ПВХ-изоляции, не распространяющий горение"
+
+pe:
+  lesson: zazemlenie
+  abbr: "PE"
+  full: "Protective Earth — защитный проводник"
+
+naks:
+  lesson: svarka_intro
+  abbr: "НАКС"
+  full: "Национальное агентство контроля сварки"
+
+# On an unpublished profession — must never surface publicly.
+draft_term:
+  lesson: draft_lesson
+  abbr: "ЧРН"
+  full: "Черновой термин"

@@ -17,6 +17,10 @@ resources:
     url: "https://www.youtube.com/watch?v=FyJqWQgDJ6g"
     kind: video
     required: false
+terms:
+  - term: "LD"
+    full: "Ladder Diagram"
+    note: "«Релейный» графический язык ПЛК — самый распространённый на производстве."
 ---
 Язык Ladder Diagram (LD): релейная логика ПЛК — контакты, катушки и схема самоподхвата. Самый ходовой язык, его обязан читать каждый инженер.
 ---

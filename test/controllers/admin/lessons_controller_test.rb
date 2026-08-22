@@ -179,6 +179,46 @@ class Admin::LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to edit_admin_lesson_path(lessons(:pteep))
   end
 
+  test "update adds and removes the lesson's abbreviations" do
+    assert_difference -> { lessons(:pteep).glossary_terms.count }, 1 do
+      patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
+        glossary_terms_attributes: {
+          "1700000004" => { abbr: "ПТЭЭП", full: "Правила технической эксплуатации электроустановок потребителей",
+                            note: "Главный документ эксплуатации", analog: "" }
+        }
+      } }
+    end
+    added = lessons(:pteep).glossary_terms.find_by(abbr: "ПТЭЭП")
+    assert_equal "human", added.origin
+    assert_nil added.analog.presence
+
+    assert_difference -> { lessons(:pteep).glossary_terms.count }, -1 do
+      patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
+        glossary_terms_attributes: { "0" => { id: glossary_terms(:pue).id, _destroy: "1" } }
+      } }
+    end
+  end
+
+  test "an empty abbreviation row is ignored, a half-filled one is an error" do
+    assert_no_difference -> { lessons(:pteep).glossary_terms.count } do
+      patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
+        glossary_terms_attributes: { "1700000005" => { abbr: "", full: "" } }
+      } }
+    end
+    assert_redirected_to edit_admin_lesson_path(lessons(:pteep))
+
+    patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
+      glossary_terms_attributes: { "1700000006" => { abbr: "АВР", full: "" } }
+    } }
+    assert_response :unprocessable_entity
+  end
+
+  test "the edit page carries the abbreviation editor with the lesson's terms" do
+    get edit_admin_lesson_path(lessons(:pteep))
+    assert_select "#terms-editor .term-row input[value=?]", "ПУЭ"
+    assert_select "#terms-editor template .term-row"
+  end
+
   test "an invalid resource re-renders edit" do
     patch admin_lesson_path(lessons(:pteep)), params: { lesson: {
       resources_attributes: { "1700000003" => { title: "x", url: "not-a-url", kind: "document" } }

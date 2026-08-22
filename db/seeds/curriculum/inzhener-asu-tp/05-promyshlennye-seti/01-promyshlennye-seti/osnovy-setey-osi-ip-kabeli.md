@@ -15,6 +15,10 @@ resources:
     url: "https://www.wireshark.org/download.html"
     kind: tool
     required: false
+terms:
+  - term: "OSI"
+    full: "Open Systems Interconnection"
+    note: "Семиуровневая модель сетей — каркас, на который ложатся все промышленные протоколы."
 ---
 Основы сетей для инженера АСУ ТП: модель OSI, IP-адрес, маска подсети и шлюз, медь или оптика. Без этого не настроишь Ethernet, Profinet и Modbus TCP.
 ---

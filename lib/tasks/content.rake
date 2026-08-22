@@ -36,6 +36,42 @@ namespace :content do
     CurriculumImporter.run(only: args[:slug])
   end
 
+  # One-off migration of the old code-side dictionary (config/glossary.yml,
+  # keyed by profession slug, each entry naming its lesson) into GlossaryTerm rows
+  # owned by those lessons. Idempotent: a term already on its lesson is skipped.
+  # The six electrician entries that named no lesson get the one that explains
+  # them. Run once per database after deploying the glossary_terms table; the
+  # YAML and this task go away afterwards.
+  desc "Move config/glossary.yml into lesson-owned glossary terms (one-off)"
+  task glossary_from_yaml: :environment do
+    file = Rails.root.join("config/glossary.yml")
+    abort "#{file} is gone — nothing to migrate" unless file.exist?
+
+    homeless = {
+      "ГОСТ" => "01-chto-takoe-pue", "СНиП" => "01-chto-takoe-pue", "СП" => "01-chto-takoe-pue",
+      "ВЛ" => "02-sposoby-prokladki", "КЛ" => "02-sposoby-prokladki", "ЛЭП" => "02-sposoby-prokladki"
+    }
+    created = skipped = 0
+    missing = []
+
+    YAML.load_file(file).each do |path_slug, entries|
+      entries.each do |entry|
+        lesson_slug = entry["lesson"] || homeless[entry["term"]]
+        lesson = Lesson.find_by(slug: lesson_slug)
+        next missing << "#{path_slug}/#{entry["term"]} → #{lesson_slug.inspect}" unless lesson
+
+        term = lesson.glossary_terms.find_or_initialize_by(abbr: entry["term"])
+        next skipped += 1 if term.persisted?
+
+        term.update!(full: entry["full"], note: entry["note"], analog: entry["analog"], origin: "seed")
+        created += 1
+      end
+    end
+
+    puts "glossary terms: #{created} created, #{skipped} already present."
+    puts "no lesson found for: #{missing.join(', ')}" if missing.any?
+  end
+
   desc "Export one profession to the importer's YAML tree: bin/rails content:export[svarshchik]"
   task :export, [ :slug ] => :environment do |_task, args|
     path = Path.find_by(slug: args[:slug])
