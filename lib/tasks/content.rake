@@ -11,7 +11,12 @@
 #   bin/rails content:audit        — mechanical content gaps: theory lessons missing
 #                                    the self-check block, lessons with no internal
 #                                    /lessons/ links (the wiki fabric), internal links
-#                                    pointing at a slug that doesn't exist, required
+#                                    pointing at a slug that doesn't exist, internal
+#                                    links missing the /ru prefix (they 301, so nobody
+#                                    notices), descriptions past the 160-char cut of
+#                                    the search snippet, unknown callout markers (they
+#                                    render as a plain grey quote), calculators bound
+#                                    to a lesson slug that no longer exists, required
 #                                    long-form documents without a reader note
 #                                    («что именно смотреть»), resource titles with
 #                                    commentary glued on (explanations belong in
@@ -107,6 +112,83 @@ namespace :content do
     if broken.any?
       puts "Внутренние ссылки в никуда (#{broken.size}) — битый slug, чинить обязательно:"
       broken.each { |lesson_slug, target| puts "  · #{lesson_slug} → /lessons/#{target}" }
+    end
+
+    # Internal links must carry the locale prefix. An unprefixed «/lessons/foo»
+    # still WORKS (the app 301s it), which is exactly why nobody notices: every
+    # such link costs the reader and the crawler a redirect. Seeds authored
+    # before the prefix — and any new draft written from an old example — carry
+    # the bare form; content:localize_links rewrites what is already in the DB.
+    unprefixed = Hash.new { |hash, key| hash[key] = 0 }
+    Lesson.includes(:path).find_each do |lesson|
+      hits = [ lesson.body.to_s, lesson.task.to_s, lesson.description.to_s, lesson.rich_body&.body.to_s ]
+             .join(" ").scan(%r{(?<!/ru)/lessons/[a-z0-9\-]+}).size
+      unprefixed[lesson] = hits if hits.positive?
+    end
+
+    if unprefixed.empty?
+      puts "✓ Все внутренние ссылки идут через /ru — лишних редиректов нет."
+    else
+      puts "Внутренние ссылки без префикса /ru (#{unprefixed.size} статей) — работают через 301, чинит content:localize_links:"
+      unprefixed.sort_by { |lesson, _| lesson.slug }.each do |lesson, hits|
+        puts "  · #{lesson.slug} (#{hits})"
+      end
+    end
+
+    # The description does double duty: the line under the title AND the page's
+    # <meta name="description">, which the view cuts at 160 characters. Past
+    # that the snippet ends mid-word in search results — invisible on the site
+    # itself, which is why it rots unnoticed. The authoring norm is ≤155.
+    long_descriptions = (Path.all.to_a + Lesson.all.to_a)
+                        .select { |record| record.description.to_s.length > 160 }
+                        .sort_by { |record| -record.description.to_s.length }
+
+    if long_descriptions.empty?
+      puts "✓ Все описания влезают в поисковый сниппет (≤160 символов)."
+    else
+      puts "Описания длиннее 160 символов (#{long_descriptions.size}) — в сниппете обрежется на полуслове, норма ≤155:"
+      long_descriptions.each do |record|
+        puts "  · #{record.description.to_s.length}  #{record.slug}"
+      end
+    end
+
+    # A callout is a blockquote whose first line is a marker from a small fixed
+    # set (ApplicationHelper::CALLOUTS). An unknown or Latin-letter marker —
+    # «[!ВНИМАНИЕ]», «[!TIP]» — silently renders as an ordinary grey quote:
+    # the author sees text, just not the colour and label they meant.
+    known_markers = ApplicationHelper::CALLOUTS.keys
+    stray_markers = Hash.new { |hash, key| hash[key] = [] }
+    Lesson.find_each do |lesson|
+      [ lesson.body.to_s, lesson.task.to_s, lesson.rich_body&.body.to_s ].join(" ")
+        .scan(/\[!([^\]\n]{1,30})\]/).flatten.uniq
+        .reject { |marker| known_markers.include?(marker) }
+        .each { |marker| stray_markers[marker] << lesson.slug }
+    end
+
+    if stray_markers.empty?
+      puts "✓ Все маркеры выносок известны — каждая отрисуется цветным блоком."
+    else
+      puts "Неизвестные маркеры выносок (#{stray_markers.size}) — отрисуются серой цитатой, допустимы #{known_markers.join(", ")}:"
+      stray_markers.sort.each do |marker, slugs|
+        puts "  · [!#{marker}] — #{slugs.first(5).join(", ")}#{" …" if slugs.size > 5}"
+      end
+    end
+
+    # Calculators are a Ruby registry (Calculator::ALL) that points at lessons
+    # by slug — the one place where code hardcodes content. Rename or delete a
+    # lesson in the admin and the «разобрано в статье» link just stops being
+    # rendered: find_by returns nil and the view skips the block, no error.
+    orphan_calculators = Calculator.all.select do |calculator|
+      calculator.lesson_slug.present? && !Lesson.exists?(slug: calculator.lesson_slug)
+    end
+
+    if orphan_calculators.empty?
+      puts "✓ Каждый калькулятор ссылается на существующую статью."
+    else
+      puts "Калькуляторы с битой привязкой к статье (#{orphan_calculators.size}) — ссылка тихо исчезла со страницы:"
+      orphan_calculators.each do |calculator|
+        puts "  · #{calculator.slug} → /lessons/#{calculator.lesson_slug}"
+      end
     end
 
     # A required 400-page standard without a reader note («что именно смотреть»)
