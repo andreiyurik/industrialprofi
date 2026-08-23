@@ -92,7 +92,8 @@ class CurriculumImporter
       # while the profession is pristine, frozen with it once an expert edits.
       landing_yml = File.join(File.dirname(path_yml), "landing.yml")
       attrs[:landing] = Path.normalize_landing(YAML.safe_load_file(landing_yml)) if File.exist?(landing_yml)
-      upsert(path, attrs) { path.icon = emblem(meta["icon"], path.slug) }
+      applied = upsert(path, attrs) { path.icon = emblem(meta["icon"], path.slug) }
+      @counts["landings_filled"] += 1 if !applied && path.fill_landing(attrs[:landing])
       attach_cover(path, File.dirname(path_yml))
 
       position = 0 # lesson position is GLOBAL within the path (continuous prev/next)
@@ -210,6 +211,7 @@ class CurriculumImporter
       end
       @io.puts "  totals: #{Path.count} paths, #{Course.count} courses, " \
                "#{Lesson.count} lessons, #{Resource.count} resources, #{GlossaryTerm.count} terms."
+      @io.puts "  landings: #{@counts["landings_filled"]} filled on human-owned paths." if @counts["landings_filled"].positive?
 
       return if @icon_warnings.empty?
 

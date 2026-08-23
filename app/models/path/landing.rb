@@ -38,6 +38,15 @@ module Path::Landing
 
   def landing_present? = SLOTS.any? { |slot| public_send(slot).present? }
 
+  # A pack's landing fills an EMPTY one even on a profession a human already
+  # owns: nothing human is overwritten, so the import freeze (Importable) has
+  # nothing to guard. A landing with any human text stays as it is.
+  def fill_landing(data)
+    return false if data.blank? || landing.present?
+
+    update!(landing: data)
+  end
+
   # What the hub header says under the name: the author's tagline when there
   # is one, else the catalog sentence — never nothing.
   def pitch = tagline.presence || description

@@ -101,6 +101,10 @@ class CurriculumDocument
         path.status = "draft"
         path.position = (Path.maximum(:position) || 0) + 1
       end
+      if status == :exists && path.fill_landing(attrs[:landing])
+        counts[:paths] += 1
+        status = :updated
+      end
       [ path, node("path", path.title, status) ]
     end
 

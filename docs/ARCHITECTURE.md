@@ -51,7 +51,8 @@ roadmap (v0.3 + what we refuse to build), see `docs/VISION.md → Roadmap & scop
   cons line-lists) + `has_one_attached :cover` (upload policy = lesson images;
   doubles as the page's og:image). Edited as textareas in the profession form,
   carried by the pack as `landing.yml` + `cover.*`; rides the importer's freeze
-  (an expert's edit → the pack never overwrites). Universal by design: national
+  (an expert's edit → the pack never overwrites), but an EMPTY landing is filled
+  even on a human-owned profession (`Path#fill_landing` — creating, not overwriting). Universal by design: national
   specifics live in prose, not schema; a new slot is code when two professions ask.
 - **Profession hub (`/paths/:slug` + `/theory` + `/practice` + `/glossary` +
   `/library`):** one profession, one header (emblem, description, «N глав · M

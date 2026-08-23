@@ -202,6 +202,24 @@ class CurriculumImporterTest < ActiveSupport::TestCase
     assert_equal "Правка эксперта", path.reload.about
   end
 
+  test "a pack's landing fills a human-owned profession that has none, but never replaces one" do
+    write_tree(lesson_title: "Урок", resource_url: "https://example.com/g1")
+    CurriculumImporter.run(dir: @dir, io: StringIO.new)
+    path = Path.find_by!(slug: "testprof")
+    path.update!(title: "Правка эксперта") # frozen for the importer, landing still empty
+
+    File.write(File.join(@dir, "testprof", "landing.yml"), "about: \"Из пака.\"\n")
+    io = StringIO.new
+    CurriculumImporter.run(dir: @dir, io: io)
+    assert_equal [ "Правка эксперта", "Из пака." ], [ path.reload.title, path.about ]
+    assert_match "landings: 1 filled", io.string
+
+    path.update!(about: "Своими словами")
+    File.write(File.join(@dir, "testprof", "landing.yml"), "about: \"Новый пак.\"\n")
+    CurriculumImporter.run(dir: @dir, io: StringIO.new)
+    assert_equal "Своими словами", path.reload.about
+  end
+
   test "imports a lesson's abbreviations and leaves human-owned ones alone" do
     write_tree(lesson_title: "Урок", resource_url: "https://example.com/g1")
     CurriculumImporter.run(dir: @dir, io: StringIO.new)

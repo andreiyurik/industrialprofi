@@ -20,6 +20,16 @@ class Path::LandingTest < ActiveSupport::TestCase
     assert_not path.landing_present?
   end
 
+  test "fill_landing writes only into an empty landing" do
+    path = paths(:welder)
+    assert path.fill_landing("about" => "Из пака.")
+    assert_equal "Из пака.", path.reload.about
+
+    assert_not path.fill_landing("about" => "Другой пак.")
+    assert_not path.fill_landing(nil)
+    assert_equal "Из пака.", path.reload.about
+  end
+
   test "lists are bounded" do
     path = paths(:electrician)
     path.highlights = Array.new(Path::Landing::MAX_ITEMS + 1) { "пункт" }

@@ -190,6 +190,9 @@ profession" vision, voiced on `/contribute`, not founder-driven breadth.
   wedge further than anything else here. It earns the slot only because the path is
   built around the *measurable and sourceable* half — physics, protocol, verifiable
   practice — and explicitly refuses the taste-and-vibes framing.
+  **Positioned as a pursuit, not a trade** (founder, 2026-08-23): the landing frames it
+  as rest, a family archive and a specialist's publicity tool (shooting your own work
+  and products well) — no career promise; the craft curriculum itself is unchanged.
 - **Градостроитель / урбанист** (Urban planner) — a real regulated design
   profession (СП 42.13330, master/transport planning, zoning) with genuine depth,
   and a topic the founder cares about. **The honest caveat — this is the list's
