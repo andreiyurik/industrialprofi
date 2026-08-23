@@ -177,7 +177,7 @@ class CurriculumImporterTest < ActiveSupport::TestCase
     assert_equal "Авторская профессия", path.reload.title
   end
 
-  test "landing.yml and a cover ride with path.yml; the landing freezes with the profession" do
+  test "landing.yml rides with path.yml; the landing freezes with the profession" do
     write_tree(lesson_title: "Урок", resource_url: "https://example.com/g1")
     File.write(File.join(@dir, "testprof", "landing.yml"), <<~YAML)
       about: "Кто это и что делает."
@@ -194,7 +194,7 @@ class CurriculumImporterTest < ActiveSupport::TestCase
     assert_equal "Кто это и что делает.", path.about
     assert_equal [ "Читает схемы" ], path.highlights
     assert_equal "Фото: тест, CC0", path.cover_credit
-    assert path.cover.attached?
+    assert_not path.cover.attached?, "a cover.* in the tree is not part of the pack format"
 
     # An expert's landing edit freezes the row — a re-import leaves it alone.
     path.update!(about: "Правка эксперта")

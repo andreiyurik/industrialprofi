@@ -16,9 +16,7 @@ module Path::Landing
   MAX_ITEM_LENGTH = 200
 
   included do
-    # `tagline` — the one line under the profession's name in the hub header
-    # (an author's own words; `description` stays the SEO/catalog sentence).
-    store_accessor :landing, *SLOTS, :tagline, :cover_credit
+    store_accessor :landing, *SLOTS, :cover_credit
     # One committed-size image per profession (readers get resized WebP
     # variants) — bounded by the number of professions, never by users.
     has_one_attached :cover
@@ -47,10 +45,6 @@ module Path::Landing
     update!(landing: data)
   end
 
-  # What the hub header says under the name: the author's tagline when there
-  # is one, else the catalog sentence — never nothing.
-  def pitch = tagline.presence || description
-
   # The FAQ slot as [[question, answer_markdown], …]: every `### ` heading
   # opens an entry (the page renders them as native disclosures). Text before
   # the first heading is ignored; no headings at all → [] and the slot renders
@@ -69,7 +63,7 @@ module Path::Landing
       data = data.to_h.stringify_keys
       TEXT_SLOTS.to_h { |slot| [ slot.to_s, data[slot.to_s].to_s.strip.presence ] }
         .merge(LIST_SLOTS.to_h { |slot| [ slot.to_s, Array(data[slot.to_s]).map { |item| item.to_s.strip }.compact_blank.presence ] })
-        .merge("tagline" => data["tagline"].to_s.strip.presence, "cover_credit" => data["cover_credit"].to_s.strip.presence)
+        .merge("cover_credit" => data["cover_credit"].to_s.strip.presence)
         .compact
     end
   end

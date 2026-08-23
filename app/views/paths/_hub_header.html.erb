@@ -7,7 +7,7 @@
 <header class="hub">
   <%# Identity, centred at every width (the catalog card is a centred poster,
       and Basecamp centres a project's name and description too): emblem,
-      name, the author's one line (or the catalog sentence), the inventory. %>
+      name, the catalog sentence, the inventory. %>
   <div class="hub__identity" style="view-transition-name: path-<%= path.slug %>">
     <% ring = progress.started? && path.lessons_count.positive? %>
     <div class="topic-hero-icon<%= " topic-hero-icon--ring" if ring %>">
@@ -20,7 +20,7 @@
       <% end %>
     </div>
     <h1 class="path__title"><%= path.title %></h1>
-    <p class="hub__description"><%= path.pitch %></p>
+    <p class="hub__description"><%= path.description %></p>
     <p class="hub__facts"><%= hub_facts(path) %></p>
   </div>
 

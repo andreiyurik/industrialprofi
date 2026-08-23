@@ -2354,9 +2354,6 @@ en:
     landing:
       heading: "About the profession — landing"
       hint: "What a school or college student sees when opening the roadmap for the first time: an honest account of the profession, no advertising. Every field is optional — an empty one isn't shown. Markdown: paragraphs, **bold**, lists, ### subheadings."
-      tagline: "Line under the name"
-      tagline_placeholder: "One phrase in the roadmap header — in your own words, character welcome"
-      tagline_hint: "Shown in the header on every tab instead of the SEO description. Empty — the header uses the profession description."
       cover: "Cover"
       cover_hint: "One image per profession: PNG, JPEG or WebP up to 10 MB; readers get a compressed copy. It is also the picture when the link is shared. Only with a clear licence (public domain / CC) — credit the source below."
       remove_cover: "Remove cover"

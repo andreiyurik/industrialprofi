@@ -26,12 +26,6 @@
     <p class="admin-form__hint"><%= t("admin.landing.hint") %></p>
 
     <div class="admin-form__field">
-      <label><%= t("admin.landing.tagline") %></label>
-      <%= f.text_field :tagline, class: "input", maxlength: 120, placeholder: t("admin.landing.tagline_placeholder") %>
-      <p class="admin-form__hint"><%= t("admin.landing.tagline_hint") %></p>
-    </div>
-
-    <div class="admin-form__field">
       <label><%= t("admin.landing.cover") %></label>
       <%# Only a saved cover can be previewed — after a refused upload the form
           re-renders with an unsaved attachment that has no URL yet. %>

@@ -59,9 +59,6 @@ class CurriculumExporter
            position: @path.position, status: @path.status,
            icon: @path.icon)
     write_yaml root.join("landing.yml"), @path.landing if @path.landing_present? || @path.cover_credit.present?
-    if @path.cover.attached?
-      root.join("cover#{File.extname(@path.cover.filename.to_s).presence || ".jpg"}").binwrite(@path.cover.download)
-    end
 
     @path.courses.order(:position).each.with_index(1) do |course, number|
       export_course(course, root, number)

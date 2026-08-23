@@ -36,12 +36,13 @@ class CurriculumPackTest < ActiveSupport::TestCase
                  "a pack's terms ride through the document engine too"
   end
 
-  test "landing.yml rides the pack; a cover is reported, not imported" do
+  test "landing.yml rides the pack; a stray cover is reported, not imported" do
     original = paths(:electrician)
     original.update!(about: "Кто это.", pros_text: "Востребован")
-    original.cover.attach(io: File.open(Rails.root.join("test/fixtures/files/cover.png")), filename: "cover.png", content_type: "image/png")
 
     root = CurriculumExporter.run(original, dir: @dir, io: StringIO.new)
+    # Covers left the pack format; a hand-built zip may still carry one.
+    FileUtils.cp(Rails.root.join("test/fixtures/files/cover.png"), root.join("cover.png"))
     pack = CurriculumPack.parse(StringIO.new(zip_tree(root, prefix: "elektrik")))
     original.destroy!
     assert pack.valid?, pack.errors.inspect

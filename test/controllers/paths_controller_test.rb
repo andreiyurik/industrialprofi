@@ -177,15 +177,15 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_operator response.body.index("landing__prose"), :<, response.body.index("outline__list"), "the story comes before the outline"
   end
 
-  test "the header says the author's tagline when there is one, else the catalog sentence, on every tab" do
-    get path_theory_path(paths(:electrician))
-    assert_select ".hub__description", text: paths(:electrician).description
+  test "the header says the catalog sentence on every tab" do
+    sentence = paths(:electrician).description
 
-    paths(:electrician).update!(tagline: "Ток идёт туда, куда ты скажешь.")
     get path_path(paths(:electrician))
-    assert_select ".hub__description", text: "Ток идёт туда, куда ты скажешь."
+    assert_select ".hub__description", text: sentence
+    get path_theory_path(paths(:electrician))
+    assert_select ".hub__description", text: sentence
     get path_practice_path(paths(:electrician))
-    assert_select ".hub__description", text: "Ток идёт туда, куда ты скажешь."
+    assert_select ".hub__description", text: sentence
   end
 
   test "a cover becomes the page's share image and renders with its credit" do
