@@ -38,9 +38,13 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".catalog-soon a.link-quiet[href=?]", contribute_path(anchor: "wanted")
   end
 
-  test "index shows the hero headline" do
+  test "index shows the hero headline and the three doors" do
     get paths_path
     assert_match I18n.t("paths.hero.title_html"), response.body
+    assert_select ".hero__actions a.btn--reversed[href='#catalog']", text: /#{I18n.t("paths.hero.theory")}/
+    assert_select ".hero__actions a.btn[href=?]", projects_path, text: /#{I18n.t("paths.hero.practice")}/
+    assert_select ".hero__actions a.btn[href=?]", contribute_path, text: /#{I18n.t("paths.hero.improve")}/
+    assert_select "#catalog"
   end
 
   test "show names every curator — a grant is a public role, not an opt-in" do

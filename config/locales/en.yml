@@ -1135,7 +1135,10 @@ en:
       # The <span> gets a hand-drawn Rough Notation underline on load
       # (rough_annotation_controller.js). Same words as the email colophon copy below.
       title_html: 'The first open, <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">free encyclopedia</span> of applied trades'
-      subtitle_html: 'An independent, open project: professions are created, edited, and reviewed by the community. A clear, convenient structure with quality topic links at the end of every article. Anyone can suggest an edit; any experienced specialist can become an <span class="hero__sweep" data-controller="rough-annotation" data-rough-annotation-type-value="highlight" data-rough-annotation-color-value="--color-highlight" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="1200" data-rough-annotation-duration-value="700">author or curator</span>. We help you get up to speed on something new, or structure knowledge you already have.'
+      subtitle_html: 'An independent, open project: professions are created, edited, and reviewed by the community. Anyone can suggest an edit; any experienced specialist can become an <span class="hero__sweep" data-controller="rough-annotation" data-rough-annotation-type-value="highlight" data-rough-annotation-color-value="--color-highlight" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="1200" data-rough-annotation-duration-value="700">author or curator</span>.'
+      theory: "Theory"
+      practice: "Practice"
+      improve: "Improve a roadmap"
     # Shown when the current language has no maps yet (today: English).
     empty_locale_html: "There are no roadmaps in this language yet — all material is in Russian for now. The Russian catalog is open to everyone."
     empty_locale_cta: "Open the Russian catalog"

@@ -73,6 +73,16 @@
   text-wrap: pretty;
 }
 
+/* Three doors in one row — theory (accent), practice, improve. Wraps on a
+   phone, stays centred; the buttons keep their own sizes. */
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--block-space-half);
+  justify-content: center;
+  margin-block: var(--block-space) 0;
+}
+
 /* The marker-swept phrase lifts out of the muted subtitle by brightness alone —
    the house rule for emphasis (see --color-marker in colors.css). No bold: a
    real marker doesn't change the letters it covers. */

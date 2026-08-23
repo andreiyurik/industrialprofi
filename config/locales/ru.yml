@@ -1167,7 +1167,10 @@ ru:
       # The <span> gets a hand-drawn Rough Notation underline on load
       # (rough_annotation_controller.js). Same words as the email colophon copy below.
       title_html: 'Первая открытая <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">свободная энциклопедия</span> прикладных профессий'
-      subtitle_html: 'Независимый открытый проект: профессии создаёт, редактирует и проверяет сообщество. Прозрачная удобная структура с качественными ссылками по теме в конце статей. Предложить правку может каждый, стать <span class="hero__sweep" data-controller="rough-annotation" data-rough-annotation-type-value="highlight" data-rough-annotation-color-value="--color-highlight" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="1200" data-rough-annotation-duration-value="700">автором или куратором</span> — любой опытный специалист. Цель проекта - быстро освоиться в новом или структурировать имеющиеся знания.'
+      subtitle_html: 'Независимый открытый проект: профессии создаёт, редактирует и проверяет сообщество. Предложить правку может каждый, стать <span class="hero__sweep" data-controller="rough-annotation" data-rough-annotation-type-value="highlight" data-rough-annotation-color-value="--color-highlight" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="1200" data-rough-annotation-duration-value="700">автором или куратором</span> — любой опытный специалист.'
+      theory: "Теория"
+      practice: "Практика"
+      improve: "Улучшить карту"
     # Shown when the current language has no maps yet (today: English).
     empty_locale_html: "На этом языке карт профессий пока нет — все материалы сейчас на русском. Каталог на русском открыт для всех."
     empty_locale_cta: "Открыть каталог на русском"
@@ -1815,7 +1818,7 @@ ru:
     faq_title: "Частые вопросы"
 
     q_how_money: "На что пойдут деньги?"
-    a_how_money: "Деньги идут на серверы, домен и инфраструктуру, а главное — на новый контент: поиск, проверку и структурирование официальных стандартов и практических заданий. Это требует очень много времени, и каждый донат помогает находить это время, а не заниматься альтернативными проектами из-за отсутствия финансов."
+    a_how_money: "Деньги идут на серверы, домен и инфраструктуру, а главное — на новые материалы: поиск и привлечение экспертов, проверку и структурирование официальных стандартов и практических заданий. Это требует очень много времени, и каждый донат помогает находить это время, а не заниматься альтернативными проектами из-за отсутствия финансов."
 
     q_how_donate: "Как поддержать?"
     a_how_donate: "Поддержать можно через CloudTips — карты, СБП и другие способы оплаты. Разовый платёж или регулярная подписка — любая сумма помогает."

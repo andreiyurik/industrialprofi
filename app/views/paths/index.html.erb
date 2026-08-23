@@ -9,6 +9,21 @@
   <div class="container hero__inner">
     <h1 class="hero__title is-caret"><%= t("paths.hero.title_html") %></h1>
     <p class="hero__subtitle"><%= t("paths.hero.subtitle_html") %></p>
+    <%# The product in three verbs — the hub's own words (its tabs and its
+        closing block), one accent: learning comes first. «Теория» is an anchor
+        to the catalog right below: a real path on a phone, a short hop on a
+        desktop — it promises nothing new, it names what's there. %>
+    <p class="hero__actions">
+      <%= link_to "#catalog", class: "btn btn--reversed" do %>
+        <%= t("paths.hero.theory") %> <%= icon_tag "arrow-right" %>
+      <% end %>
+      <%= link_to projects_path, class: "btn" do %>
+        <%= t("paths.hero.practice") %> <%= icon_tag "arrow-right" %>
+      <% end %>
+      <%= link_to contribute_path, class: "btn" do %>
+        <%= t("paths.hero.improve") %> <%= icon_tag "arrow-right" %>
+      <% end %>
+    </p>
   </div>
 </section>
 
