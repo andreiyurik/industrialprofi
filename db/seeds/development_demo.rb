@@ -32,8 +32,7 @@ admins = [
 
 experts = {
   "elektrik"        => upsert_user(name: "Виктор Селезнёв", email: "viktor.expert@example.com",  role: "editor", joined_days_ago: 76),
-  "inzhener-asu-tp" => upsert_user(name: "Дмитрий Лагутин", email: "dmitry.expert@example.com",  role: "editor", joined_days_ago: 70),
-  "kipia-aes"       => upsert_user(name: "Наталья Орлова",  email: "natalya.expert@example.com", role: "editor", joined_days_ago: 58)
+  "inzhener-asu-tp" => upsert_user(name: "Дмитрий Лагутин", email: "dmitry.expert@example.com",  role: "editor", joined_days_ago: 70)
 }
 
 # joined/last in days-ago: `last` close to 0 = active this week; large `last` =
@@ -42,7 +41,6 @@ member_specs = [
   { name: "Иван Петров",     email: "ivan.petrov@example.com",     path: "elektrik",        done: 16, joined: 78, last: 1 },
   { name: "Алексей Смирнов", email: "aleksey.smirnov@example.com", path: "elektrik",        done: 6,  joined: 40, last: 2 },
   { name: "Мария Кузнецова", email: "maria.kuznetsova@example.com", path: "inzhener-asu-tp", done: 9,  joined: 55, last: 4 },
-  { name: "Павел Новиков",   email: "pavel.novikov@example.com",   path: "kipia-aes",       done: 4,  joined: 26, last: 12 },
   { name: "Егор Васильев",   email: "egor.vasilev@example.com",    path: "elektrik",        done: 2,  joined: 18, last: 16 }
 ]
 members = member_specs.map { |s| s.merge(user: upsert_user(name: s[:name], email: s[:email], role: "member", joined_days_ago: s[:joined])) }
@@ -52,11 +50,6 @@ experts.each do |slug, expert|
   path = Path.find_by(slug: slug)
   Editorship.find_or_create_by!(user: expert, path: path) if path
 end
-# Дмитрий ведёт и КИПиА в придачу — показывает мульти-профессионального эксперта.
-if (kipia = Path.find_by(slug: "kipia-aes"))
-  Editorship.find_or_create_by!(user: experts["inzhener-asu-tp"], path: kipia)
-end
-
 # ── Lesson completions — the backbone of every progress bar & the heatmap ────
 members.each do |m|
   user = m[:user]
@@ -171,10 +164,7 @@ unless LessonSuggestion.where(author_name: DEMO_CONTRIBUTORS).exists?
       addition: "> [!СОВЕТ]\nДля быстрой проверки опроса по Modbus используйте Modbus Poll (или бесплатный qModMaster)." },
     { path: "inzhener-asu-tp", pos: 1, section: "body", author: "Мария Кузнецова", days: 7,
       reason: "Добавила частую ошибку новичков",
-      addition: "Частая ошибка: неверный адрес slave-устройства — опрос «молчит», хотя физика в порядке." },
-    { path: "kipia-aes", pos: 1, section: "description", author: "Наталья Орлова", days: 6,
-      reason: "Сделала описание точнее под поиск",
-      addition: "Разбираем, чем занимается специалист КИПиА на АЭС и с чего начать путь." }
+      addition: "Частая ошибка: неверный адрес slave-устройства — опрос «молчит», хотя физика в порядке." }
   ]
   approved.each do |c|
     lesson = lesson_at(c[:path], c[:pos])
@@ -199,10 +189,7 @@ unless LessonSuggestion.where(author_name: DEMO_CONTRIBUTORS).exists?
       proposal: "Профессия электрика: как войти с нуля, какие нормы читать и что собирать руками на практике." },
     { path: "inzhener-asu-tp", pos: 3, section: "task", author: "Мария Кузнецова", days: 1,
       reason: "Добавить критерий сдачи",
-      proposal: "В «Что сдать» стоит явно попросить скриншот опроса регистра из Modbus Poll." },
-    { path: "kipia-aes", pos: 2, section: "body", author: "Роман Гаврилов", days: 5,
-      reason: "Уточнить про поверку",
-      proposal: "Стоит развести понятия калибровки и поверки — новички их постоянно путают." }
+      proposal: "В «Что сдать» стоит явно попросить скриншот опроса регистра из Modbus Poll." }
   ]
   pending.each do |c|
     lesson = lesson_at(c[:path], c[:pos])
@@ -237,10 +224,6 @@ POSTS = [
     title: "Замкнули цепочку доверия для экспертов",
     excerpt: "Кандидаты в эксперты теперь видны в админке, а роль поднимается автоматически при выдаче прав на профессию.",
     body: "<p>Проект держится на практиках, а не на одном человеке. Теперь кандидаты в эксперты появляются в админке по реальным правкам, а роль «Эксперт» присваивается автоматически при выдаче прав на профессию — без ручной рутины.</p><p>Публичные правила доверия — на странице «Чем помочь».</p>" },
-  { slug: "kipia-aes-profession", days: 30,
-    title: "Вторая профессия: КИПиА на АЭС",
-    excerpt: "Добавили путь для специалистов контрольно-измерительных приборов и автоматики атомных станций.",
-    body: "<p>КИПиА на АЭС — вторая профессия на платформе, с полным набором статей и схем. Область требовательная и узкая — рады, что теперь она тоже здесь.</p>" },
   { slug: "chistka-ssylok-pered-zapuskom", days: 2,
     title: "Почистили ссылки на источники перед запуском",
     excerpt: "Убрали платные и битые ссылки, заменили их на бесплатные официальные источники.",
@@ -297,8 +280,6 @@ if AdminAction.where(action: "user_role_changed").none?
     details: { subject: experts["elektrik"].name, paths: [ Path.find_by(slug: "elektrik")&.title ].compact }, created_at: 75.days.ago)
   AdminAction.create!(actor: admins.first, action: "user_role_changed", target: experts["inzhener-asu-tp"],
     details: { subject: experts["inzhener-asu-tp"].name, from: "member", to: "editor" }, created_at: 69.days.ago)
-  AdminAction.create!(actor: admins.last, action: "user_role_changed", target: experts["kipia-aes"],
-    details: { subject: experts["kipia-aes"].name, from: "member", to: "editor" }, created_at: 57.days.ago)
 end
 
 puts <<~SUMMARY
