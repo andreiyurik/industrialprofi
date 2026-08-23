@@ -604,15 +604,12 @@
   }
 }
 
-/* Renders only when someone real stands behind the material (curators +
-   accepted contributors). */
+/* One muted line under the completion bar — part of the foot, not a block of
+   its own. Renders only when a curator stands behind the map. */
 .lesson-attribution {
   color: var(--color-subtle-dark);
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 0.8rem;
-  gap: 0.35rem 1.5rem;
-  margin-block: 2.5rem 0;
+  font-size: 0.75rem;
+  margin-block: var(--block-space-half) 0;
 }
 
 /* ── "Посчитать по этой теме" ────────────────────────────────────────

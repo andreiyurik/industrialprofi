@@ -1190,7 +1190,10 @@ ru:
       - "Аудитор кибербезопасности АСУ ТП"
       - "Linux для промышленной автоматизации"
       - "Промышленная робототехника"
-    curated_by: "Карту ведёт"
+    curated_by:
+      one: "Карту ведёт"
+      few: "Карту ведут"
+      many: "Карту ведут"
     authored_by: "Автор карты:"
     # The maturity needle (path hero). Stages are verifiable facts, not counters;
     # stage 4 is hand-set by a curator (Path::Maturity).
@@ -1211,7 +1214,10 @@ ru:
         few: "Приняты %{count} правки читателей"
         many: "Принято %{count} правок читателей"
       crit_edits_todo: "Правок пока нет — предложите свою в любой статье"
-      crit_curator: "Карту ведёт %{names}"
+      crit_curator:
+        one: "Карту ведёт %{names}"
+        few: "Карту ведут %{names}"
+        many: "Карту ведут %{names}"
       crit_curator_todo: "Куратора нет — карту может взять практик"
       crit_verified: "Куратор подтвердил точность материала %{date}"
       crit_verified_by: "Точность материала подтверждена: %{name}, %{date}"
@@ -1316,10 +1322,6 @@ ru:
   lessons:
     why_section: "Зачем"
     study_section: "Что изучить"
-    curated_by:
-      one: "Материалы профессии проверяет"
-      few: "Материалы профессии проверяют"
-      many: "Материалы профессии проверяют"
     resources_section: "Документы и ресурсы"
     required_label: "Обязательно"
     optional_label: "Рекомендуется"

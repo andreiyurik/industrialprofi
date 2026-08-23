@@ -40,7 +40,7 @@
     <div class="hub-people__text">
       <% if curators.any? %>
         <p class="hub-people__line hub-people__line--lead" title="<%= curators.map { |c| c.headline.present? ? "#{c.name} — #{c.headline}" : c.name }.join(", ") %>">
-          <%= t("paths.curated_by") %> <%= curators.map(&:name).to_sentence %>
+          <%= t("paths.curated_by", count: curators.size) %> <%= curators.map(&:name).to_sentence %>
         </p>
       <% end %>
       <% if author %>

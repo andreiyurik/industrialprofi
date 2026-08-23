@@ -50,11 +50,11 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
   test "show names every curator — a grant is a public role, not an opt-in" do
     users(:editor).update!(headline: "Инженер-электрик, 12 лет")
     get path_path(paths(:electrician))
-    assert_select ".hub-people__line--lead", text: /#{I18n.t("paths.curated_by")} #{users(:editor).name}/
+    assert_select ".hub-people__line--lead", text: /#{I18n.t("paths.curated_by", count: 1)} #{users(:editor).name}/
     assert_match "Инженер-электрик, 12 лет", response.body
 
     get path_path(paths(:welder))
-    assert_no_match I18n.t("paths.curated_by"), response.body
+    assert_no_match I18n.t("paths.curated_by", count: 1), response.body
   end
 
   test "show names the author when nobody curates, and not twice when the author curates" do

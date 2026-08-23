@@ -1158,7 +1158,9 @@ en:
       - "ICS cybersecurity auditor"
       - "Linux for industrial automation"
       - "Industrial robotics"
-    curated_by: "Roadmap led by"
+    curated_by:
+      one: "Roadmap led by"
+      other: "Roadmap led by"
     authored_by: "Roadmap author:"
     # The maturity needle (path hero). Stages are verifiable facts, not counters;
     # stage 4 is hand-set by a curator (Path::Maturity).
@@ -1177,7 +1179,9 @@ en:
         one: "%{count} reader edit accepted"
         other: "%{count} reader edits accepted"
       crit_edits_todo: "No edits yet — suggest one on any article"
-      crit_curator: "Roadmap led by %{names}"
+      crit_curator:
+        one: "Roadmap led by %{names}"
+        other: "Roadmap led by %{names}"
       crit_curator_todo: "No curator yet — a practitioner can take this roadmap"
       crit_verified: "The curator confirmed the material's accuracy on %{date}"
       crit_verified_by: "Accuracy confirmed by %{name}, %{date}"
@@ -1275,9 +1279,6 @@ en:
   lessons:
     why_section: "Why"
     study_section: "What to study"
-    curated_by:
-      one: "Profession materials reviewed by"
-      other: "Profession materials reviewed by"
     resources_section: "Documents and resources"
     required_label: "Required"
     optional_label: "Recommended"

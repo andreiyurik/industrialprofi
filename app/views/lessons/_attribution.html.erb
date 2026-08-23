@@ -1,16 +1,13 @@
 <%# locals: (lesson:) -%>
-<%# The quiet byline: the profession's curators vouching for the
-    material. One muted line, rendered only when a real person stands behind
-    the map (E-E-A-T without visual noise; the machine-readable half lives in
-    the lesson's JSON-LD). Reader-contributor names deliberately stay OFF this
-    page — their credit lives in the open revision history (recorded decision,
-    see the history-tool test). %>
+<%# The quiet byline under the completion bar — the same words as the hub
+    header («Карту ведёт …»): a search visitor lands on the article, not the
+    hub, and should still see who answers for the map (the machine-readable
+    half is the lesson's JSON-LD). Reader-contributor names deliberately stay
+    OFF this page — their credit lives in the open revision history. %>
 <% curators = lesson.path.curators.to_a %>
 <% if curators.any? %>
   <p class="lesson-attribution">
-    <span class="lesson-attribution__part">
-      <%= t("lessons.curated_by", count: curators.size) %>
-      <%= curators.map { |c| c.headline.present? ? "#{c.name} — #{c.headline}" : c.name }.join(", ") %>
-    </span>
+    <%= t("paths.curated_by", count: curators.size) %>
+    <%= curators.map { |c| c.headline.present? ? "#{c.name} — #{c.headline}" : c.name }.to_sentence %>
   </p>
 <% end %>
