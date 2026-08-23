@@ -88,7 +88,7 @@ module Admin
     # locked once the path is live (see slug_locked?).
     def path_params
       permitted = [ :title, :description, :icon,
-                    :tagline, :cover, :cover_credit, :about, :history, :faq, :highlights_text, :pros_text, :cons_text ]
+                    :cover, :cover_credit, :about, :history, :faq, :highlights_text, :pros_text, :cons_text ]
       permitted << :slug unless slug_locked?(@path)
       params.require(:path).permit(*permitted)
     end

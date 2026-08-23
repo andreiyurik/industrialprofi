@@ -88,9 +88,8 @@ class CurriculumPack
     root = File.dirname(path_yml) # "." when path.yml sits at the zip root
     meta = yaml_at(path_yml) || {}
     @warnings << :images_skipped if names.any? { |name| name.start_with?(prefixed(root, "images/")) }
-    # The document is text; a binary cover doesn't travel through it. The seed
-    # importer attaches it from disk; an uploaded pack says so and the editor
-    # adds the cover in the profession form.
+    # Covers are not part of the pack format at all — a hand-built zip that
+    # still carries one is told so, and the editor adds it in the profession form.
     @warnings << :cover_skipped if names.any? { |name| name.match?(%r{\A#{Regexp.escape(prefixed(root, "cover."))}(jpe?g|png|webp)\z}) }
     landing_yml = names.find { |name| name == prefixed(root, "landing.yml") }
 

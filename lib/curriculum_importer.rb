@@ -94,24 +94,11 @@ class CurriculumImporter
       attrs[:landing] = Path.normalize_landing(YAML.safe_load_file(landing_yml)) if File.exist?(landing_yml)
       applied = upsert(path, attrs) { path.icon = emblem(meta["icon"], path.slug) }
       @counts["landings_filled"] += 1 if !applied && path.fill_landing(attrs[:landing])
-      attach_cover(path, File.dirname(path_yml))
 
       position = 0 # lesson position is GLOBAL within the path (continuous prev/next)
       Dir.glob(File.join(File.dirname(path_yml), "*/course.yml")).sort.each do |course_yml|
         position = import_course(course_yml, path, position)
       end
-    end
-
-    # cover.{jpg,jpeg,png,webp} next to path.yml — attached once, never
-    # replaced (an expert's later choice in the admin wins, like the emblem).
-    def attach_cover(path, dir)
-      return if path.cover.attached?
-
-      file = Dir.glob(File.join(dir, "cover.{jpg,jpeg,png,webp}")).first or return
-      path.cover.attach(io: File.open(file), filename: File.basename(file),
-                        content_type: Marcel::MimeType.for(Pathname(file)))
-      path.save!
-      @counts["covers_attached"] += 1
     end
 
     def import_course(course_yml, path, position)
