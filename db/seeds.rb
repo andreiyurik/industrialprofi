@@ -11,8 +11,7 @@
 #   администратор   olga.admin@example.com           Ольга Морозова
 #
 #   эксперт         viktor.expert@example.com        Виктор Селезнёв   (elektrik)
-#   эксперт         dmitry.expert@example.com        Дмитрий Лагутин   (inzhener-asu-tp, kipia-aes)
-#   эксперт         natalya.expert@example.com       Наталья Орлова    (kipia-aes)
+#   эксперт         dmitry.expert@example.com        Дмитрий Лагутин   (inzhener-asu-tp)
 #
 #   участник        ivan.petrov@example.com          Иван Петров
 #   участник        aleksey.smirnov@example.com      Алексей Смирнов
