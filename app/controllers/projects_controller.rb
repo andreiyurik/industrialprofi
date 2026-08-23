@@ -7,7 +7,7 @@ class ProjectsController < ApplicationController
                  .joins(:lessons).merge(Lesson.practice).distinct.order(:position)
 
     # One profession's tasks live on its hub now (the «Практика» tab, grouped
-    # by level — so only the saved-view rides along); the old ?path= filter 301s
+    # by level — so only the saved-view rides along); old ?path= links 301
     # there. An unknown slug is just ignored, as any bad filter value is.
     if (selected_path = @paths.find { |path| path.slug == params[:path] })
       return redirect_to path_practice_path(selected_path, saved: params[:saved].presence), status: :moved_permanently

@@ -1,8 +1,7 @@
 /* /projects — the practice catalog as a typographic document: one section per
    profession, quiet list rows, a monochrome difficulty ladder instead of the
-   old traffic-light pills. The profession axis is a native <select> (scales to
-   any number of paths, real picker on mobile); difficulty + "saved" stay as
-   chips. Server-rendered GET, the select auto-submits. */
+   old traffic-light pills. The profession axis is the group headings (each
+   leads into that profession's hub); difficulty + "saved" are chips. */
 
 .projects__stats {
   color: var(--color-subtle-dark);
@@ -22,7 +21,6 @@
   margin-block-start: 1.25rem;
 }
 
-.project-filters__paths,
 .project-filters__group {
   display: flex;
   flex-wrap: wrap;
@@ -30,50 +28,12 @@
   justify-content: flex-start;
 }
 
-.project-filters__paths {
-  flex-wrap: nowrap;
-}
-
-/* ≥641px: a deterministic two-row composition — the picker on its own centred
-   row, both chip groups sharing the second behind one divider. A single
-   flexible row stranded «Сохранённые» (plus a floating divider fragment) at
-   every width where it ALMOST fit — the select's width follows profession
-   names, so no fixed breakpoint holds. */
+/* ≥641px: both chip groups on one row behind one divider. */
 @media (min-width: 641px) {
-  .project-filters__paths {
-    flex-basis: 100%;
-  }
-
   .project-filters__group + .project-filters__group {
     border-inline-start: 1px solid var(--color-subtle);
     padding-inline-start: 1.75rem;
   }
-}
-
-
-/* Profession picker — a pill matching the chip row, but with the native dropdown arrow (themed via color-scheme: dark) as its "more options" affordance. */
-.filter-select {
-  background-color: var(--color-subtle-light);
-  border: 1px solid var(--color-subtle);
-  border-radius: 2em;
-  color: var(--color-ink);
-  cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 600;
-  max-inline-size: 100%;
-  padding: 0.4em 0.9em;
-  transition: border-color 150ms ease, background-color 150ms ease;
-
-  @media (any-hover: hover) {
-    &:hover {
-      border-color: var(--color-subtle-dark);
-    }
-  }
-}
-
-.filter-select option {
-  background-color: var(--color-bg);
-  color: var(--color-ink);
 }
 
 .filter-chip {
@@ -119,17 +79,12 @@
 
 /* Phones: centred wrapping stranded lone chips mid-screen («Челлендж»,
    «Сохранённые» each on its own centred line — a staircase). Stack the axes
-   instead: full-width picker, then each chip group as ONE thumb-scrollable
-   line, everything on the same left edge. Placed AFTER the base filter rules —
-   source order is what lets these win. */
+   instead: each chip group as ONE thumb-scrollable line, everything on the
+   same left edge. Placed AFTER the base filter rules — source order is what
+   lets these win. */
 @media (max-width: 640px) {
   .project-filters {
     gap: 0.6rem;
-  }
-
-  .project-filters__paths,
-  .filter-select {
-    inline-size: 100%;
   }
 
   .project-filters__group {

@@ -67,7 +67,7 @@ roadmap (v0.3 + what we refuse to build), see `docs/VISION.md → Roadmap & scop
   hub; the site-wide pages stay (footer + palette), out of the top bar. Every
   tab ends in «Улучшить карту» — the existing contribution doors, in context.
 - **Projects (`/projects`):** aggregator of all `kind: practice` lessons across
-  published paths, difficulty filters; the profession picker leads into the hub.
+  published paths, difficulty filters; each profession heading leads into its hub.
 - **Calculators (`/calculators`):** trade formula tools — code registry (no DB) +
   one Stimulus controller for all math.
 - **Search (`/search`):** SQLite FTS5 behind the `LessonSearch` PORO (all FTS SQL

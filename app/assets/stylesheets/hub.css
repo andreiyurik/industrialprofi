@@ -200,7 +200,7 @@
    The active tab is the one with ink and an ink rule; weight never changes,
    so the row doesn't jitter between pages. Phones: left-aligned and
    thumb-scrollable (a centred row that overflows clips its own start —
-   the first tab becomes unreachable), glyphs dropped below 30em so all four
+   the first tab becomes unreachable), glyphs dropped below 30em so all five
    words fit a 390px screen; wide screens centre the row. */
 .hub-tabs {
   border-block-end: 1px solid var(--color-subtle);

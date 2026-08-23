@@ -68,7 +68,7 @@
     </div>
   </div>
 
-  <nav class="hub-tabs" aria-label="<%= t("paths.hub.tabs_label") %>" data-controller="hub-tabs">
+  <nav class="hub-tabs" aria-label="<%= t("paths.hub.tabs_label") %>">
     <%= link_to path_path(path), class: "hub-tabs__link", aria: { current: ("page" if tab == :overview) } do %>
       <%= icon_tag "info" %><span><%= t("paths.overview") %></span>
     <% end %>
