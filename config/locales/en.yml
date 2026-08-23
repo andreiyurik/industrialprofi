@@ -1871,7 +1871,7 @@ en:
 
   feedbacks:
     title: "Write to me"
-    intro: "This is a direct line to the project's author. Ideas, bugs, questions, impressions — write as it is, no need to be formal."
+    intro: "This is a direct line to the project's author. The project is at an early stage and built for the long run — right now every remark changes it noticeably. Ideas, bugs, questions, impressions — write as it is, no need to be formal."
     profession_title: "Suggest a profession"
     profession_intro: "Which profession is missing from the catalog? Name it and say why it's in demand — I take the most-requested ones next."
     profession_prefill: "Suggesting a profession: "
@@ -1880,6 +1880,7 @@ en:
     send: "Send"
     promise: "I read every message and reply to your email — usually within a week, depending on the time."
     sent: "Thanks! Your message reached me — I'll reply to %{email}."
+    telegram: "Prefer to write personally? Telegram"
 
   coauthor_applications:
     title: "Become a profession's co-author"
