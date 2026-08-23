@@ -69,14 +69,6 @@
         </label>
 
         <% if Current.user.can_edit_content? %>
-          <label class="account-card__checkbox">
-            <%= hidden_field_tag "user[public_curator]", "0", id: nil %>
-            <%= check_box_tag "user[public_curator]", "1", Current.user.public_curator? %>
-            <span>
-              <%= t("account.public_curator_label") %>
-              <span class="account-card__hint"><%= t("account.public_curator_hint") %></span>
-            </span>
-          </label>
           <%= f.text_field :headline, value: Current.user.headline, name: "user[headline]",
                 maxlength: 120, placeholder: t("account.headline_placeholder"), class: "input",
                 aria: { label: t("account.headline_label") } %>
@@ -101,6 +93,7 @@
                   autocomplete: "current-password", class: "input",
                   placeholder: t("account.current_password"), aria: { label: t("account.current_password") } %>
             <%= tag.input type: "password", name: "user[password]", required: true,
+          <span class="account-card__hint"><%= t("account.headline_hint") %></span>
                   minlength: 8, autocomplete: "new-password", class: "input",
                   placeholder: t("account.new_password"), aria: { label: t("account.new_password") } %>
             <%= tag.input type: "password", name: "user[password_confirmation]", required: true,

@@ -43,18 +43,24 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_match I18n.t("paths.hero.title_html"), response.body
   end
 
-  test "show credits an opted-in curator with their headline" do
-    users(:editor).update!(public_curator: true, headline: "Инженер-электрик, 12 лет")
+  test "show names every curator — a grant is a public role, not an opt-in" do
+    users(:editor).update!(headline: "Инженер-электрик, 12 лет")
     get path_path(paths(:electrician))
-    assert_response :success
-    assert_match I18n.t("paths.curated_by"), response.body
+    assert_select ".hub-people__line--lead", text: /#{I18n.t("paths.curated_by")} #{users(:editor).name}/
     assert_match "Инженер-электрик, 12 лет", response.body
+
+    get path_path(paths(:welder))
+    assert_no_match I18n.t("paths.curated_by"), response.body
   end
 
-  test "show hides the curator credit when nobody opted in" do
+  test "show names the author when nobody curates, and not twice when the author curates" do
+    paths(:welder).update!(author: users(:member))
+    get path_path(paths(:welder))
+    assert_select ".hub-people__line--lead", text: /#{I18n.t("paths.authored_by")} #{users(:member).name}/
+
+    paths(:electrician).update!(author: users(:editor))
     get path_path(paths(:electrician))
-    assert_response :success
-    assert_no_match I18n.t("paths.curated_by"), response.body
+    assert_no_match I18n.t("paths.authored_by"), response.body
   end
 
   test "index shows only paths in the current locale" do
@@ -109,11 +115,12 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_match I18n.t("paths.maturity.stages.s3"), response.body
   end
 
-  test "show renders the verified stage with its date" do
+  test "show renders the verified stage signed with the curator's name and date" do
     paths(:electrician).verify!(users(:editor))
     get path_path(paths(:electrician))
     assert_select ".maturity--stage-4"
     assert_match I18n.t("paths.maturity.stages.s4"), response.body
+    assert_match I18n.t("paths.maturity.crit_verified_by", name: users(:editor).name, date: I18n.l(Date.current)), response.body
   end
 
   test "maturity popover offers the expert mark only to a granted editor" do

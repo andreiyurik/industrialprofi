@@ -37,8 +37,10 @@ class Path < ApplicationRecord
   has_many :editorships, dependent: :destroy
   has_many :editors, through: :editorships, source: :user
   # Editors who opted in to be shown publicly as curators of this profession
-  # (opt-in recognition; see User#public_curator).
-  has_many :curators, -> { where(public_curator: true) }, through: :editorships, source: :user
+  # Whoever holds a grant is named on the map: curating is a public role, not
+  # an opt-in — a map is never anonymous, a person answers for it.
+  has_many :curators, -> { active.order(:name) }, through: :editorships, source: :user
+  belongs_to :author, class_name: "User", optional: true
 
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: SLUG_FORMAT }

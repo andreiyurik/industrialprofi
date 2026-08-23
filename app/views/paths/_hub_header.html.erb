@@ -29,7 +29,8 @@
       the header's top-right on wide screens, a line under the facts on
       phones. Names, never scores (attribution, not a leaderboard). %>
   <% contributors = path.contributor_names %>
-  <% faces = (curators + path.contributor_users.to_a).uniq.first(3) %>
+  <% author = path.author unless curators.include?(path.author) %>
+  <% faces = (curators + [ author ].compact + path.contributor_users.to_a).uniq.first(3) %>
   <div class="hub-people">
     <% if faces.any? %>
       <span class="hub-people__faces" aria-hidden="true">
@@ -40,6 +41,11 @@
       <% if curators.any? %>
         <p class="hub-people__line hub-people__line--lead" title="<%= curators.map { |c| c.headline.present? ? "#{c.name} — #{c.headline}" : c.name }.join(", ") %>">
           <%= t("paths.curated_by") %> <%= curators.map(&:name).to_sentence %>
+        </p>
+      <% end %>
+      <% if author %>
+        <p class="hub-people__line<%= " hub-people__line--lead" if curators.empty? %>">
+          <%= t("paths.authored_by") %> <%= author.name %>
         </p>
       <% end %>
       <% if contributors.any? %>

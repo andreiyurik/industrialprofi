@@ -38,11 +38,9 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
     assert_nil @user.reload.avatar_token
   end
 
-  test "opts in as a public curator with a headline" do
-    patch account_url, params: { user: { public_curator: "1", headline: "Инженер АСУ ТП, 10 лет" } }
+  test "saves the curator headline" do
+    patch account_url, params: { user: { headline: "Инженер АСУ ТП, 10 лет" } }
     assert_redirected_to account_url
-    @user.reload
-    assert @user.public_curator?
-    assert_equal "Инженер АСУ ТП, 10 лет", @user.headline
+    assert_equal "Инженер АСУ ТП, 10 лет", @user.reload.headline
   end
 end

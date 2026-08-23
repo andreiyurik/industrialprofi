@@ -52,7 +52,7 @@ module SeoHelper
       dateModified: lesson.updated_at.iso8601,
       url: "#{site_url}/#{I18n.locale}/lessons/#{lesson.slug}"
     }
-    # E-E-A-T: the profession's opted-in curators vouch for the material.
+    # E-E-A-T: the profession's curators vouch for the material.
     # Emitted only when a real person actually stands behind the map.
     curators = lesson.path.curators.to_a
     if curators.any?

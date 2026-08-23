@@ -21,8 +21,11 @@ roadmap (v0.3 + what we refuse to build), see `docs/VISION.md → Roadmap & scop
   reader-facing `/revisions`. Rollback = a new revision, never a rewrite.
 - **Roles trust ladder:** `member` → `editor` («Эксперт», `can_edit_content?`) →
   `administrator` (`can_administer?`, can't change own role). `Editorship` scopes
-  editor rights to granted professions; only admins publish. First admin via
-  `ADMIN_EMAIL`/`ADMIN_PASSWORD` seed.
+  editor rights to granted professions; only admins publish. **A grant is a
+  public role**: every active grant holder is named on the map («Карту ведёт»,
+  lesson byline, JSON-LD `reviewedBy`), the author shows when nobody curates,
+  and the «Проверено» mark carries the verifier's name + date — a map is never
+  anonymous. First admin via `ADMIN_EMAIL`/`ADMIN_PASSWORD` seed.
 - **Admin dashboard (`/admin`):** signups 12-week CSS bar chart, active-this-week,
   pending suggestions, completions, journal volume, content health, `SystemStatus`
   vitals (disk + SQLite footprint, Solid Queue health, `MailMetrics`). Plain

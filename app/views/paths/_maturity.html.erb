@@ -46,13 +46,11 @@
          [ path.community_improved?,
            path.community_improved? ? t(".crit_edits", count: path.approved_suggestions_count) : t(".crit_edits_todo") ],
          [ path.curated?,
-           if curators.any?
-             t(".crit_curator", names: curators.map(&:name).to_sentence)
-           else
-             path.curated? ? t(".crit_curator_anon") : t(".crit_curator_todo")
-           end ],
+           path.curated? ? t(".crit_curator", names: curators.map(&:name).to_sentence) : t(".crit_curator_todo") ],
          [ stage == 4,
-           if stage == 4
+           if stage == 4 && path.verified_by
+             t(".crit_verified_by", name: path.verified_by.name, date: l(path.verified_at.to_date))
+           elsif stage == 4
              t(".crit_verified", date: l(path.verified_at.to_date))
            elsif path.verification_expired?
              t(".crit_verified_expired", date: l(path.verified_at.to_date))

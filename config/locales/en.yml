@@ -1156,6 +1156,7 @@ en:
       - "Linux for industrial automation"
       - "Industrial robotics"
     curated_by: "Roadmap led by"
+    authored_by: "Roadmap author:"
     # The maturity needle (path hero). Stages are verifiable facts, not counters;
     # stage 4 is hand-set by a curator (Path::Maturity).
     maturity:
@@ -1174,9 +1175,9 @@ en:
         other: "%{count} reader edits accepted"
       crit_edits_todo: "No edits yet — suggest one on any article"
       crit_curator: "Roadmap led by %{names}"
-      crit_curator_anon: "This roadmap has a curator"
       crit_curator_todo: "No curator yet — a practitioner can take this roadmap"
       crit_verified: "The curator confirmed the material's accuracy on %{date}"
+      crit_verified_by: "Accuracy confirmed by %{name}, %{date}"
       crit_verified_expired: "The %{date} review is outdated — the curator needs to reconfirm it"
       crit_verified_todo: "Expert review is next"
       crit_verified_orphan: "The mark from %{date} doesn't count: the roadmap has no curator or no accepted edits"
@@ -1550,6 +1551,7 @@ en:
       propose: "After %{threshold} accepted edits on a profession, the system will offer you editor rights on its own. The threshold only opens the door — a person always makes the final call."
       scope: "An expert gets rights to the specific profession they know, not to everything at once. Only administrators publish materials."
       log: "Every grant of rights and every decision on an edit is logged in the action log forever — nothing gets rewritten after the fact."
+      name: "The name of the expert leading a roadmap is visible to everyone on it — curating is public by the terms of the role, not by choice. A real person stands behind every roadmap, and the «Verified» mark is signed with their name and date."
     faq_title: "Frequently asked questions"
     faq:
       - q: "Do I need to know git or programming?"
@@ -1866,7 +1868,7 @@ en:
       cta: "Open the edit queue"
       guide_html: "How we write articles, what the resource-link types and callout blocks mean — in the %{link}."
       guide_link: "author's guide"
-      curator_hint: "Optional: turn on “Show me as curator” in your account settings — your name and title will appear on the profession page. It's off by default."
+      curator_hint: "Your name now stands on the profession page — “Roadmap led by …”; that is part of the role. You can add a title and a photo in your account settings."
       thanks: "Thanks for sharing your experience. This profession's quality is now in your hands too."
 
   feedbacks:
@@ -1884,7 +1886,7 @@ en:
 
   coauthor_applications:
     title: "Become a profession's co-author"
-    intro: "You'll lead a profession's roadmap: curating the materials and reviewing readers' edits, and (optionally) listed as its public curator. The project is open (content under CC BY-SA), unpaid. Three fields are enough to start. The goal is to gather practitioners' experience in one place, for colleagues and for the generations to come."
+    intro: "You'll lead a profession's roadmap: curating the materials and reviewing readers' edits, and you are named on it as its curator. The project is open (content under CC BY-SA), unpaid. Three fields are enough to start. The goal is to gather practitioners' experience in one place, for colleagues and for the generations to come."
     fields:
       profession: "Which profession do you want to lead"
       background: "About you: experience and qualifications"
@@ -2094,7 +2096,6 @@ en:
       team_title: "Team"
       team_grant: "Grant access"
       team_empty: "This profession doesn't have its own experts yet. Access is granted from a user's card."
-      team_public_curator: "public curator"
       team_verified: "confirmed the roadmap review on %{date}"
       team_suspended: "suspended"
       team_dormant: "grant inactive"
@@ -2595,8 +2596,6 @@ en:
     suggestion_emails_label: "Edit-outcome emails"
     suggestion_emails_hint: "Only when you haven't seen it on the site: the decision on your edit, and for experts, edits waiting for review."
     curator_section: "Public curator"
-    public_curator_label: "Show me as curator of the professions I lead"
-    public_curator_hint: "Your name and title will appear on the pages of the professions you have access to. Off by default."
     headline_label: "Title"
     headline_placeholder: "For example: Process control engineer, 10 years, NAKS"
     email_updated: "Email updated."
@@ -2609,6 +2608,7 @@ en:
     delete_account: "Delete account"
     delete_warning: "Deletion can't be undone: your account, progress, journal, and everything else will be gone for good."
     deleted: "Account deleted."
+    headline_hint: "Your name is shown on the roadmaps you lead — curating is public. The title is an optional line next to it."
     password_invalid_for_deletion: "Incorrect password."
     current_password: "Current password"
     new_email_placeholder: "New email"
