@@ -53,7 +53,7 @@ resources:
 
 Это главный паттерн этой статьи — большинство последовательной логики на объекте укладывается в **конечный автомат**: набор состояний и условий перехода между ними. Возьмём `E_DosatorState` (`State_Idle`, `State_Dosing`, `State_Done`, `State_Fault`) из [статьи про перечисления](/ru/lessons/st-massivy-struktury-perechisleniya) и опишем тело `FB_Dosator`:
 
-```st
+```iecst
 CASE state OF
     State_Idle:
         dosing := FALSE;
@@ -88,7 +88,7 @@ END_CASE;
 
 Прежде чем разрешить команду, собери **все условия, которые должны быть истинны**, в одну переменную-разрешение — вместо того чтобы разбрасывать проверки по всему коду:
 
-```st
+```iecst
 allow_start := NOT e_stop AND door_closed AND NOT overheat AND air_pressure_ok;
 
 IF allow_start AND start_btn THEN
@@ -104,7 +104,7 @@ END_IF;
 
 Авария — это не просто «булева переменная стала TRUE». Правильное поведение: авария **фиксируется** (защёлкивается) в момент возникновения причины и **не снимается сама**, даже если причина исчезла, — пока оператор явно не квитирует:
 
-```st
+```iecst
 fault_trig : R_TRIG;
 ...
 IF overheat OR dry_run_fault THEN

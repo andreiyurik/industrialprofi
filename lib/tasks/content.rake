@@ -42,6 +42,28 @@ namespace :content do
   # The six electrician entries that named no lesson get the one that explains
   # them. Run once per database after deploying the glossary_terms table; the
   # YAML and this task go away afterwards.
+  # Rouge 5 ships its own IEC 61131-3 lexer under `iecst`, so our Structured
+  # Text lexer (which claimed Smalltalk's `st`) is gone; lesson markdown written
+  # as ```st must say ```iecst or Rouge colours it as Smalltalk. Pristine rows
+  # are re-stamped so the importer still sees them as its own. Run once per
+  # database; this task goes away afterwards.
+  desc "Rename ```st code fences to ```iecst in lesson markdown (one-off)"
+  task st_to_iecst: :environment do
+    fence = /^```st[ \t]*$/
+    changed = 0
+    Lesson.where("body LIKE '%```st%' OR task LIKE '%```st%'").find_each do |lesson|
+      pristine = !lesson.frozen_for_import?
+      lesson.body = lesson.body.to_s.gsub(fence, "```iecst")
+      lesson.task = lesson.task.to_s.gsub(fence, "```iecst") if lesson.task.present?
+      next unless lesson.changed?
+
+      lesson.stamp_import!(lesson.origin) if pristine
+      lesson.save!
+      changed += 1
+    end
+    puts "lessons: #{changed} renamed to ```iecst."
+  end
+
   desc "Move config/glossary.yml into lesson-owned glossary terms (one-off)"
   task glossary_from_yaml: :environment do
     file = Rails.root.join("config/glossary.yml")
