@@ -92,12 +92,6 @@ a:not([class]) {
   margin: 1in;
 }
 
-@media print {
-  .no-print {
-    display: none;
-  }
-}
-
 turbo-frame {
   display: contents;
 }

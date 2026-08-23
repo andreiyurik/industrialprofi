@@ -301,43 +301,6 @@
   color: var(--color-subtle-dark);
 }
 
-.admin-comparison {
-  display: grid;
-  gap: var(--block-space);
-  margin-block-end: 1.5rem;
-
-  @media (min-width: 1024px) {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.admin-comparison__heading {
-  color: var(--color-subtle-dark);
-  font-size: 0.85rem;
-  font-weight: 400;
-  margin-block: 0 var(--block-space-half);
-}
-
-.admin-comparison__heading--proposed {
-  color: var(--color-link);
-}
-
-.admin-comparison__body {
-  background-color: var(--color-subtle);
-  border: 1px solid var(--color-subtle);
-  border-radius: 0.5em;
-  /* Use most of the screen height so the reviewer reads as much of the diff as
-     possible before scrolling, with a cap so a huge edit still stays bounded. */
-  max-block-size: min(75vh, 60rem);
-  min-block-size: 20rem;
-  overflow-y: auto;
-  padding: var(--block-space) 1.25rem;
-}
-
-.admin-comparison__body--proposed {
-  border-color: oklch(var(--lch-blue) / 0.25);
-}
-
 .admin-decision__hint {
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
