@@ -35,7 +35,6 @@
             </span>
             <p class="admin-row__subtle">
               <%= [ editor.headline.presence,
-                    (t("admin.builder.team_public_curator") if editor.public_curator?),
                     (t("admin.builder.team_verified", date: l(path.verified_at.to_date)) if path.verified_by == editor && path.verified_at) ]
                     .compact.join(" · ").presence || editor.email_address %>
             </p>

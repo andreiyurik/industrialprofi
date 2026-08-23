@@ -85,6 +85,26 @@
   }
 }
 
+/* ── Curator photo (User::Photo): two quiet text actions under the picker ── */
+
+.photo-actions {
+  align-items: baseline;
+  display: flex;
+  gap: var(--inline-space);
+  justify-content: center;
+}
+
+/* Both read as the picker's summary line; button_to renders a real <button>. */
+.photo-actions__upload,
+.photo-actions__remove {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0;
+}
+
 /* ── The one form ─────────────────────────────────────────────────────── */
 
 .account-card__form {

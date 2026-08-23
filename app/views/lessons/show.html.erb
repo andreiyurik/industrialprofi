@@ -239,9 +239,8 @@
       </section>
     <% end %>
 
-    <%= render "lessons/attribution", lesson: @lesson %>
-
     <%= render "lessons/completion", lesson: @lesson, completed: @completed_ids.include?(@lesson.id) %>
+    <%= render "lessons/attribution", lesson: @lesson %>
   </article>
   </div>
 

@@ -61,6 +61,14 @@ class Calculator
   # "02-vybor-secheniya-kabelya").
   def self.for_lesson(lesson_slug) = ALL.select { it.lesson_slug == lesson_slug }
 
+  # A profession's tools, for its hub «Библиотека» tab — derived through the
+  # lesson each calculator names (a calculator declares no path of its own;
+  # categories are audiences, not professions). One query for the whole set.
+  def self.for_path(path)
+    slugs = path.lessons.where(slug: ALL.filter_map(&:lesson_slug)).pluck(:slug)
+    ALL.select { slugs.include?(it.lesson_slug) }
+  end
+
   # Title/tagline match for site search and the palette. Twenty-odd entries in
   # memory, so a plain scan beats indexing them — they are code, not content.
   #

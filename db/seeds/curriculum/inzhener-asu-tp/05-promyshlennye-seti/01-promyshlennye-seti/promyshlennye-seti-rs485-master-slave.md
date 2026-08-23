@@ -11,6 +11,10 @@ resources:
     url: "https://www.youtube.com/watch?v=ySMSrO7MXYA"
     kind: video
     required: false
+terms:
+  - term: "RS-485"
+    full: "Стандарт физического уровня последовательной связи"
+    note: "Двухпроводная промышленная шина; поверх неё обычно ходит Modbus RTU."
 ---
 Промышленные сети с нуля: интерфейс RS-485 и принцип master/slave. Фундамент, без которого не понять ни Modbus, ни связь приборов между собой.
 ---

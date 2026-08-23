@@ -1,20 +1,12 @@
-<% if @path %>
-  <% meta_title(t("glossary.path_title", profession: @path.title)) %>
-  <% meta_description(t("glossary.path_description", profession: @path.title)) %>
-  <% canonical_url(glossary_url(path: @path.slug)) %>
-<% else %>
-  <% meta_title(t("glossary.title")) %>
-  <% meta_description(t("glossary.description")) %>
-  <% canonical_url(glossary_url) %>
-<% end %>
+<% meta_title(t("glossary.title")) %>
+<% meta_description(t("glossary.description")) %>
+<% canonical_url(glossary_url) %>
 
 <% content_for(:head) do %>
-  <% crumbs = [
-       { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
-       { title: t("glossary.title"), url: "#{site_config.url}/glossary" }
-     ] %>
-  <% crumbs << { title: @path.title, url: "#{site_config.url}/glossary?path=#{@path.slug}" } if @path %>
-  <%= json_ld_tag(breadcrumb_json_ld(crumbs)) %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+    { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
+    { title: t("glossary.title"), url: "#{site_config.url}/glossary" }
+  ])) %>
   <%= json_ld_tag(glossary_json_ld(@groups)) %>
 <% end %>
 
@@ -41,17 +33,13 @@
                   data-glossary-filter-script-param="<%= script %>"><%= label %></button>
         <% end %>
       </div>
-      <%# Profession chips are server-side filters (not anchors): each leads to
-          a small focused page with its own canonical — «выбрал профессию —
-          видишь только её». %>
-      <% if @all_groups.many? %>
+      <%# Profession chips lead into each profession's own dictionary (its hub
+          «Словарь» tab) — «выбрал профессию — видишь только её» is one click,
+          and this full page keeps its SEO weight. %>
+      <% if @groups.many? %>
         <nav class="glossary-chips" aria-label="<%= t("glossary.chips_label") %>">
-          <a href="<%= glossary_path %>" class="glossary-chip <%= "is-active" if @path.nil? %>"
-             <%= "aria-current=page" if @path.nil? %>><%= t("glossary.chip_all") %></a>
-          <% @all_groups.each do |path, terms| %>
-            <a href="<%= glossary_path(path: path.slug) %>"
-               class="glossary-chip <%= "is-active" if @path == path %>"
-               <%= "aria-current=page" if @path == path %>>
+          <% @groups.each do |path, terms| %>
+            <a href="<%= path_glossary_path(path) %>" class="glossary-chip">
               <%= path.title %> <span class="glossary-chip__count"><%= terms.size %></span>
             </a>
           <% end %>
@@ -60,61 +48,7 @@
     </div>
 
     <% @groups.each do |path, terms| %>
-      <section class="glossary-group" id="<%= path.slug %>" data-glossary-filter-target="group">
-        <div class="glossary-group__head">
-          <h2 class="glossary-group__title"><%= path.title %></h2>
-          <%= link_to t("glossary.to_path"), path, class: "link-quiet glossary-group__path-link" %>
-        </div>
-        <% index = terms.index_by(&:abbr) %>
-        <% terms.group_by(&:script).slice("ru", "int").each do |script, subset| %>
-          <div class="glossary-sub" data-glossary-filter-target="subgroup" data-script="<%= script %>">
-            <h3 class="glossary-sub__title"><%= t("glossary.script_#{script}") %></h3>
-            <dl class="glossary">
-              <% subset.each do |term| %>
-                <div class="glossary__entry" id="<%= path.slug %>-<%= term.anchor %>"
-                     data-glossary-filter-target="entry"
-                     data-text="<%= "#{term.abbr} #{term.full} #{term.note} #{term.analog}".downcase %>">
-                  <dt class="glossary__term">
-                    <span class="glossary__term-plate"><%= term.abbr %></span>
-                    <%# «≈ RCD» — аналог в другой системе обозначений: ссылка-якорь,
-                        когда аналог есть в словаре записью, иначе просто текст. %>
-                    <%# The class on the anchor also opts it out of the global
-                        a:not([class]) link styling — no blue, no :visited blue. %>
-                    <% if term.analog %>
-                      <span class="glossary__analog">≈
-                        <% if (target = index[term.analog]) %>
-                          <a class="glossary__analog-link" href="#<%= path.slug %>-<%= target.anchor %>"><%= term.analog %></a>
-                        <% else %>
-                          <%= term.analog %>
-                        <% end %>
-                      </span>
-                    <% end %>
-                  </dt>
-                  <dd class="glossary__body">
-                    <span class="glossary__full"><%= term.full %></span>
-                    <% if term.note.present? %>
-                      <p class="glossary__note"><%= term.note %></p>
-                    <% end %>
-                  </dd>
-                  <dd class="glossary__action">
-                    <% if term.lesson %>
-                      <%= link_to term.lesson, class: "btn btn--small", title: term.lesson.title do %>
-                        <%= icon_tag "book-open" %>
-                        <%= t("glossary.lesson_button") %>
-                      <% end %>
-                    <% else %>
-                      <%= link_to search_path(q: term.abbr), class: "btn btn--small" do %>
-                        <%= icon_tag "magnifying-glass" %>
-                        <%= t("glossary.search_button") %>
-                      <% end %>
-                    <% end %>
-                  </dd>
-                </div>
-              <% end %>
-            </dl>
-          </div>
-        <% end %>
-      </section>
+      <%= render "glossaries/group", path: path, terms: terms %>
     <% end %>
 
     <p class="glossary-empty" hidden data-glossary-filter-target="empty">

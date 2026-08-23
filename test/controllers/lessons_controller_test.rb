@@ -13,7 +13,7 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "a lesson of a curated profession carries the quiet byline and reviewedBy JSON-LD" do
-    users(:editor).update!(public_curator: true, headline: "Инженер-электрик, 12 лет")
+    users(:editor).update!(headline: "Инженер-электрик, 12 лет")
 
     get lesson_path(lessons(:pteep))
     assert_select ".lesson-attribution", text: /Инженер-электрик, 12 лет/
@@ -22,7 +22,7 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "a lesson without curators or contributors renders no byline" do
-    get lesson_path(lessons(:pteep))
+    get lesson_path(lessons(:svarka_intro)) # the welder has no curator (see editorships fixture)
     assert_select ".lesson-attribution", false
     assert_no_match(/reviewedBy/, response.body)
   end

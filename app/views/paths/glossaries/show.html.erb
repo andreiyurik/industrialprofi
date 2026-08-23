@@ -1,0 +1,52 @@
+<% meta_title(t("glossary.path_title", profession: @path.title)) %>
+<% meta_description(t("glossary.path_description", profession: @path.title)) %>
+<% canonical_url(path_glossary_url(@path)) %>
+
+<% content_for(:head) do %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+    { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
+    { title: t("paths.title"), url: "#{site_config.url}/paths" },
+    { title: @path.title, url: "#{site_config.url}/paths/#{@path.slug}" },
+    { title: t("paths.hub.glossary"), url: "#{site_config.url}/paths/#{@path.slug}/glossary" }
+  ])) %>
+  <%= json_ld_tag(glossary_json_ld([ [ @path, @terms ] ])) %>
+<% end %>
+
+<section class="section">
+  <div class="container container--reading" data-controller="glossary-filter">
+    <%= render "paths/hub_header", path: @path, progress: @progress, curators: @path.hub_curators.to_a, tab: :glossary %>
+
+    <section class="hub-section">
+      <div class="hub-section__head">
+        <h2 class="hub-section__title"><%= t("glossary.title") %></h2>
+        <p class="hub-section__meta"><%= t("paths.glossary.count", count: @terms.size) %></p>
+      </div>
+
+      <%# The same live filter as /glossary (glossary_filter_controller): one
+          server render, the VPS never hears a keystroke. %>
+      <div class="glossary-toolbar">
+        <input type="search" class="input glossary-toolbar__input"
+               placeholder="<%= t("glossary.filter_placeholder") %>"
+               aria-label="<%= t("glossary.filter_placeholder") %>"
+               data-action="input->glossary-filter#filter">
+        <div class="glossary-scripts" role="group" aria-label="<%= t("glossary.scripts_label") %>">
+          <% { "all" => t("glossary.script_all"), "ru" => t("glossary.script_ru"), "int" => t("glossary.script_int") }.each do |script, label| %>
+            <button type="button" aria-pressed="<%= script == "all" %>"
+                    data-glossary-filter-target="scriptTab"
+                    data-action="glossary-filter#setScript"
+                    data-glossary-filter-script-param="<%= script %>"><%= label %></button>
+          <% end %>
+        </div>
+      </div>
+
+      <%= render "glossaries/group", path: @path, terms: @terms, heading: false %>
+
+      <p class="glossary-empty" hidden data-glossary-filter-target="empty">
+        <%= t("glossary.empty") %>
+        <a href="<%= search_path %>" data-glossary-filter-target="searchLink"><%= t("glossary.search_lessons") %></a>
+      </p>
+    </section>
+
+    <%= render "paths/improve" %>
+  </div>
+</section>

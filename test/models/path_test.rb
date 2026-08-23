@@ -124,18 +124,14 @@ class PathTest < ActiveSupport::TestCase
     assert_equal "elektrik", paths(:electrician).to_param
   end
 
-  # Curators (opt-in public recognition)
+  # Curators (every active grant holder — a public role, not an opt-in)
 
-  test "curators are only editors who opted in" do
-    assert_empty paths(:electrician).curators, "off by default"
-
-    users(:editor).update!(public_curator: true)
-    assert_includes paths(:electrician).reload.curators, users(:editor)
-  end
-
-  test "an opted-in editor is not a curator of professions they don't maintain" do
-    users(:editor).update!(public_curator: true)
+  test "curators are the active holders of a grant on the profession" do
+    assert_equal [ users(:editor) ], paths(:electrician).curators.to_a
     # editor maintains electrician, not welder (see editorships fixture)
     assert_not_includes paths(:welder).curators, users(:editor)
+
+    users(:editor).suspend!
+    assert_empty paths(:electrician).reload.curators, "a suspended curator leaves the map"
   end
 end

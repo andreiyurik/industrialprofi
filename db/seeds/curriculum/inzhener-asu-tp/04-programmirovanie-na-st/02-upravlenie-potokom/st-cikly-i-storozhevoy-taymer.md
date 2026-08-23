@@ -27,7 +27,7 @@ resources:
 
 ## FOR: когда число повторений известно заранее
 
-```st
+```iecst
 FOR i := 1 TO 3 DO
     dosators[i].ready := TRUE;
 END_FOR;
@@ -41,7 +41,7 @@ END_FOR;
 
 ## WHILE: пока условие истинно (проверка ДО тела)
 
-```st
+```iecst
 i := 1;
 found := 0;
 WHILE (i <= 3) AND (found = 0) DO
@@ -56,7 +56,7 @@ END_WHILE;
 
 ## REPEAT: пока условие ложно (проверка ПОСЛЕ тела, минимум одно выполнение)
 
-```st
+```iecst
 i := 1;
 REPEAT
     total := total + dosators[i].current_kg;

@@ -6,7 +6,13 @@ class ProjectsController < ApplicationController
     @paths = Path.localized.where(status: "published")
                  .joins(:lessons).merge(Lesson.practice).distinct.order(:position)
 
-    @selected_path = @paths.find { |path| path.slug == params[:path] }
+    # One profession's tasks live on its hub now (the «Практика» tab, grouped
+    # by level — so only the saved-view rides along); old ?path= links 301
+    # there. An unknown slug is just ignored, as any bad filter value is.
+    if (selected_path = @paths.find { |path| path.slug == params[:path] })
+      return redirect_to path_practice_path(selected_path, saved: params[:saved].presence), status: :moved_permanently
+    end
+
     @selected_difficulty = params[:difficulty].presence_in(Lesson::DIFFICULTIES)
     @saved_only = signed_in? && params[:saved] == "1"
 
@@ -14,7 +20,6 @@ class ProjectsController < ApplicationController
                   .where(paths: { status: "published" })
                   .merge(Path.localized)
                   .includes(:path)
-    scope = scope.where(path: @selected_path) if @selected_path
     scope = scope.where(difficulty: @selected_difficulty) if @selected_difficulty
     scope = scope.where(id: Current.user.lesson_bookmarks.select(:lesson_id)) if @saved_only
 

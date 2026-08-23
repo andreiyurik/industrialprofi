@@ -29,13 +29,11 @@ proxy:
 # `bin/kamal app maintenance` (proxy returns 503 → search engines keep our SEO).
 error_pages_path: public
 
-# Where you keep your container images. GHCR is free for public repos.
+# Local registry: Kamal runs it in a container here and tunnels the image to
+# the server over SSH, so the push/pull never touches ghcr.io (GitHub access
+# from Russia has become unreliable — see docs/DEPLOY.md).
 registry:
-  server: ghcr.io
-  username: andreiyurik # TODO: confirm GitHub username
-  # A GitHub personal access token with write:packages, stored in .kamal/secrets.
-  password:
-    - KAMAL_REGISTRY_PASSWORD
+  server: "localhost:5555"
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:

@@ -20,6 +20,10 @@ resources:
     url: "https://www.unified-automation.com/products/development-tools/uaexpert.html"
     kind: tool
     required: false
+terms:
+  - term: "OPC UA"
+    full: "Open Platform Communications Unified Architecture"
+    note: "Открытый протокол обмена данными между системами разных производителей."
 ---
 Profibus, Profinet и OPC UA: где какой протокол работает и почему OPC UA — это «лифт» между АСУ ТП и системами MES, ERP и облаком.
 ---

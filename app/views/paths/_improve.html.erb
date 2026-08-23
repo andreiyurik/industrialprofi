@@ -1,0 +1,16 @@
+<%# The door to participation, at the foot of every hub tab. No new mechanic:
+    edits are proposed in the article, sources under it, and a whole map via
+    the co-author application — this just makes those doors visible from
+    inside the profession instead of only on /contribute. %>
+<aside class="hub-improve">
+  <h2 class="hub-improve__title"><%= t("paths.hub.improve_title") %></h2>
+  <p class="hub-improve__text"><%= t("paths.hub.improve_text") %></p>
+  <p class="hub-improve__links">
+    <%= link_to t("paths.maturity.improve"), contribute_path, class: "btn btn--small" %>
+    <% if signed_in? %>
+      <%= link_to t("nav.feedback"), new_feedback_path, class: "link-quiet link-quiet--underline" %>
+    <% else %>
+      <a href="<%= site_config.telegram_url %>" class="link-quiet link-quiet--underline" target="_blank" rel="noopener"><%= t("footer.feedback") %></a>
+    <% end %>
+  </p>
+</aside>

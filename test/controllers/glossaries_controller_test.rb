@@ -16,11 +16,10 @@ class GlossariesControllerTest < ActionDispatch::IntegrationTest
     assert_match path_path(paths(:electrician)), response.body
   end
 
-  test "a term without a resolvable lesson falls back to search" do
-    # Fixture DB has none of the real curriculum slugs, so every term takes
-    # the search fallback — links must never rot into 404s.
+  test "every term leads to the lesson that defines it; draft professions stay out" do
     get glossary_path
-    assert_match search_path(q: "ПУЭ"), CGI.unescapeHTML(response.body)
+    assert_select ".glossary__entry#elektrik-ПУЭ .glossary__action a[href=?]", lesson_path(lessons(:pteep))
+    assert_no_match "ЧРН", response.body
   end
 
   test "show ships the live filter with its empty state" do
@@ -28,10 +27,10 @@ class GlossariesControllerTest < ActionDispatch::IntegrationTest
     assert_select "[data-controller='glossary-filter']"
     assert_select ".glossary-toolbar__input"
     assert_select ".glossary-empty[hidden]"
-    # Two populated professions in fixtures (электрик + сварщик) → chips
-    # render: «Все» + one per profession, each a server-side filter link.
-    assert_select ".glossary-chips .glossary-chip", 3
-    assert_select ".glossary-chip[href=?]", glossary_path(path: "svarshchik"), text: /Сварщик/
+    # Two populated professions in fixtures (электрик + сварщик) → one chip
+    # per profession, each leading into that profession's reference shelf.
+    assert_select ".glossary-chips .glossary-chip", 2
+    assert_select ".glossary-chip[href=?]", path_glossary_path(paths(:welder)), text: /Сварщик/
   end
 
   test "terms split into russian and international subsections with a toggle" do
@@ -53,15 +52,10 @@ class GlossariesControllerTest < ActionDispatch::IntegrationTest
     assert_select "#elektrik-ЭДС .glossary__analog a", 0
   end
 
-  test "path param renders one profession's focused page" do
+  test "path param 301s to the profession's hub dictionary" do
     get glossary_path(path: "svarshchik")
-    assert_response :success
-    assert_select ".glossary-group", 1
-    assert_select ".glossary-group__title", text: paths(:welder).title
-    # Chips still list every profession, the active one marked.
-    assert_select ".glossary-chip", 3
-    assert_select ".glossary-chip.is-active[href=?]", glossary_path(path: "svarshchik")
-    assert_match "glossary?path=svarshchik", css_select("link[rel=canonical]").first["href"]
+    assert_redirected_to path_glossary_path(paths(:welder))
+    assert_response :moved_permanently
   end
 
   test "unknown or uncovered path 404s" do
@@ -74,11 +68,12 @@ class GlossariesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  test "sitemap lists the focused glossary pages" do
+  test "sitemap lists the hub dictionaries, not the old focused pages" do
     get "/sitemap.xml"
     assert_match "/glossary</loc>", response.body
-    assert_match "/glossary?path=elektrik</loc>", response.body
-    assert_no_match "/glossary?path=draft-path", response.body
+    assert_match "/paths/elektrik/glossary</loc>", response.body
+    assert_no_match "/glossary?path=", response.body
+    assert_no_match "/paths/draft-path/glossary", response.body
   end
 
   test "re-crawls get a render-free 304 for visitors" do

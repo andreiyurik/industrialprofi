@@ -84,15 +84,34 @@ class CurriculumImporter
       @seen = Set.new
       meta = YAML.safe_load_file(path_yml)
       path = Path.find_or_initialize_by(slug: File.basename(File.dirname(path_yml)))
-      upsert(path, {
-               title: meta["title"], description: meta["description"],
-               position: meta["position"], status: meta["status"].presence || "draft"
-             }) { path.icon = emblem(meta["icon"], path.slug) }
+      attrs = {
+        title: meta["title"], description: meta["description"],
+        position: meta["position"], status: meta["status"].presence || "draft"
+      }
+      # landing.yml rides with path.yml as one more importable field — refreshed
+      # while the profession is pristine, frozen with it once an expert edits.
+      landing_yml = File.join(File.dirname(path_yml), "landing.yml")
+      attrs[:landing] = Path.normalize_landing(YAML.safe_load_file(landing_yml)) if File.exist?(landing_yml)
+      applied = upsert(path, attrs) { path.icon = emblem(meta["icon"], path.slug) }
+      @counts["landings_filled"] += 1 if !applied && path.fill_landing(attrs[:landing])
+      attach_cover(path, File.dirname(path_yml))
 
       position = 0 # lesson position is GLOBAL within the path (continuous prev/next)
       Dir.glob(File.join(File.dirname(path_yml), "*/course.yml")).sort.each do |course_yml|
         position = import_course(course_yml, path, position)
       end
+    end
+
+    # cover.{jpg,jpeg,png,webp} next to path.yml — attached once, never
+    # replaced (an expert's later choice in the admin wins, like the emblem).
+    def attach_cover(path, dir)
+      return if path.cover.attached?
+
+      file = Dir.glob(File.join(dir, "cover.{jpg,jpeg,png,webp}")).first or return
+      path.cover.attach(io: File.open(file), filename: File.basename(file),
+                        content_type: Marcel::MimeType.for(Pathname(file)))
+      path.save!
+      @counts["covers_attached"] += 1
     end
 
     def import_course(course_yml, path, position)
@@ -140,29 +159,11 @@ class CurriculumImporter
                          difficulty: data["difficulty"] || (data["kind"] == "practice" ? "beginner" : nil)
                        }, target_path: path)
 
-      # Resources ride with the lesson: only sync them while the lesson is still
-      # importer-owned. Once it's frozen, its resources belong to the editor.
-      import_resources(lesson, data["resources"]) if applied
-    end
-
-    def import_resources(lesson, resources)
-      Array(resources).each_with_index do |res, i|
-        resource = lesson.resources.find_or_initialize_by(title: res["title"])
-        next if resource.persisted? && resource.origin == "human"
-
-        resource.assign_attributes(
-          url: res["url"], kind: res["kind"], required: res.fetch("required", false),
-          country_code: res["country_code"], language: res["language"],
-          note: res["note"], position: i + 1
-        )
-        if resource.new_record?
-          resource.origin = @source
-          resource.save!
-          @counts["resources_created"] += 1
-        elsif resource.changed?
-          resource.save!
-          @counts["resources_updated"] += 1
-        end
+      # Resources and abbreviations ride with the lesson: only sync them while the
+      # lesson is still importer-owned. Once it's frozen, they belong to the editor.
+      if applied
+        lesson.import_children(resources: data["resources"], terms: data["terms"], source: @source)
+              .each { |key, n| @counts[key] += n }
       end
     end
 
@@ -202,14 +203,15 @@ class CurriculumImporter
 
     def report
       @io.puts "Curriculum import complete (source: #{@source})."
-      %w[paths courses lessons resources].each do |table|
+      %w[paths courses lessons resources glossary_terms].each do |table|
         @io.puts "  #{table}: " \
                  "+#{@counts["#{table}_created"]} new, " \
                  "#{@counts["#{table}_updated"]} refreshed, " \
                  "#{@counts["#{table}_frozen"]} frozen (human-owned)."
       end
       @io.puts "  totals: #{Path.count} paths, #{Course.count} courses, " \
-               "#{Lesson.count} lessons, #{Resource.count} resources."
+               "#{Lesson.count} lessons, #{Resource.count} resources, #{GlossaryTerm.count} terms."
+      @io.puts "  landings: #{@counts["landings_filled"]} filled on human-owned paths." if @counts["landings_filled"].positive?
 
       return if @icon_warnings.empty?
 

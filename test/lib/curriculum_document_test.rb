@@ -102,6 +102,31 @@ class CurriculumDocumentTest < ActiveSupport::TestCase
     end
   end
 
+  test "a pasted landing fills a human-owned profession that has none, but never replaces one" do
+    path = paths(:welder)
+    path.update!(origin: "human")
+    doc = <<~YAML
+      path:
+        title: "#{path.title}"
+        slug: #{path.slug}
+        landing:
+          about: "Из документа."
+      courses:
+        - title: "Глава из документа"
+          lessons:
+            - title: "Статья из документа"
+    YAML
+
+    result = CurriculumDocument.parse(doc).import!(author: users(:editor))
+    assert_equal :updated, result.path_node[:status]
+    assert_equal "Из документа.", path.reload.about
+
+    path.update!(about: "Своими словами")
+    result = CurriculumDocument.parse(doc.sub("Из документа.", "Другой документ.")).import!(author: users(:editor))
+    assert_equal :exists, result.path_node[:status]
+    assert_equal "Своими словами", path.reload.about
+  end
+
   test "re-import deepens a pristine AI draft in place but never overwrites a human-owned lesson" do
     CurriculumDocument.parse(DOC).import!(author: users(:admin))
 

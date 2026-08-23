@@ -12,7 +12,7 @@ class Admin::Paths::VerificationsControllerTest < ActionDispatch::IntegrationTes
   end
 
   test "clearing the mark is logged too" do
-    paths(:electrician).verify!(users(:admin))
+    paths(:electrician).verify!(users(:editor))
 
     sign_in_as users(:editor)
     assert_difference -> { AdminAction.where(action: "path_unverified").count } do
@@ -25,6 +25,28 @@ class Admin::Paths::VerificationsControllerTest < ActionDispatch::IntegrationTes
     sign_in_as users(:editor)
     post admin_path_verification_path(paths(:welder))
     assert_response :not_found
+    assert_not paths(:welder).reload.verified?
+  end
+
+  test "an administrator without a grant on the map cannot set the mark — a grant is the expert's credential" do
+    sign_in_as users(:admin)
+    post admin_path_verification_path(paths(:electrician))
+    assert_redirected_to path_path(paths(:electrician))
+    assert_equal I18n.t("paths.maturity.verify_refused"), flash[:alert]
+    assert_not paths(:electrician).reload.verified?
+
+    # …and can, once they hold one.
+    Editorship.create!(user: users(:admin), path: paths(:electrician))
+    post admin_path_verification_path(paths(:electrician))
+    assert paths(:electrician).reload.verified?
+  end
+
+  test "a map without the rungs beneath cannot be marked, even by its curator" do
+    # The welder: no accepted edits → stage 1 even with a curator granted.
+    Editorship.create!(user: users(:editor), path: paths(:welder))
+    sign_in_as users(:editor)
+    post admin_path_verification_path(paths(:welder))
+    assert_redirected_to path_path(paths(:welder))
     assert_not paths(:welder).reload.verified?
   end
 

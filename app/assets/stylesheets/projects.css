@@ -1,8 +1,7 @@
 /* /projects — the practice catalog as a typographic document: one section per
    profession, quiet list rows, a monochrome difficulty ladder instead of the
-   old traffic-light pills. The profession axis is a native <select> (scales to
-   any number of paths, real picker on mobile); difficulty + "saved" stay as
-   chips. Server-rendered GET, the select auto-submits. */
+   old traffic-light pills. The profession axis is the group headings (each
+   leads into that profession's hub); difficulty + "saved" are chips. */
 
 .projects__stats {
   color: var(--color-subtle-dark);
@@ -22,7 +21,6 @@
   margin-block-start: 1.25rem;
 }
 
-.project-filters__paths,
 .project-filters__group {
   display: flex;
   flex-wrap: wrap;
@@ -30,50 +28,12 @@
   justify-content: flex-start;
 }
 
-.project-filters__paths {
-  flex-wrap: nowrap;
-}
-
-/* ≥641px: a deterministic two-row composition — the picker on its own centred
-   row, both chip groups sharing the second behind one divider. A single
-   flexible row stranded «Сохранённые» (plus a floating divider fragment) at
-   every width where it ALMOST fit — the select's width follows profession
-   names, so no fixed breakpoint holds. */
+/* ≥641px: both chip groups on one row behind one divider. */
 @media (min-width: 641px) {
-  .project-filters__paths {
-    flex-basis: 100%;
-  }
-
   .project-filters__group + .project-filters__group {
     border-inline-start: 1px solid var(--color-subtle);
     padding-inline-start: 1.75rem;
   }
-}
-
-
-/* Profession picker — a pill matching the chip row, but with the native dropdown arrow (themed via color-scheme: dark) as its "more options" affordance. */
-.filter-select {
-  background-color: var(--color-subtle-light);
-  border: 1px solid var(--color-subtle);
-  border-radius: 2em;
-  color: var(--color-ink);
-  cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 600;
-  max-inline-size: 100%;
-  padding: 0.4em 0.9em;
-  transition: border-color 150ms ease, background-color 150ms ease;
-
-  @media (any-hover: hover) {
-    &:hover {
-      border-color: var(--color-subtle-dark);
-    }
-  }
-}
-
-.filter-select option {
-  background-color: var(--color-bg);
-  color: var(--color-ink);
 }
 
 .filter-chip {
@@ -119,17 +79,12 @@
 
 /* Phones: centred wrapping stranded lone chips mid-screen («Челлендж»,
    «Сохранённые» each on its own centred line — a staircase). Stack the axes
-   instead: full-width picker, then each chip group as ONE thumb-scrollable
-   line, everything on the same left edge. Placed AFTER the base filter rules —
-   source order is what lets these win. */
+   instead: each chip group as ONE thumb-scrollable line, everything on the
+   same left edge. Placed AFTER the base filter rules — source order is what
+   lets these win. */
 @media (max-width: 640px) {
   .project-filters {
     gap: 0.6rem;
-  }
-
-  .project-filters__paths,
-  .filter-select {
-    inline-size: 100%;
   }
 
   .project-filters__group {
@@ -226,117 +181,4 @@
 .project-group__icon {
   --icon-size: 1.15em;
   flex-shrink: 0;
-}
-
-/* Compact rows: ladder + title, no description — the WHY lives on the lesson
-   page; the catalog stays a scannable board. A multi-column FLOW of rows, not
-   one full-width column: task titles are short (unlike /resources' long
-   document names, which genuinely need the full row), so this is what keeps
-   the two list-shaped pages from reading as the same pattern (founder call,
-   2026-08-15). CSS multi-column (not grid): a grid pairs items into shared
-   ROWS, so a short title next to a wrapped 3-line neighbour stretched into a
-   box with an ugly empty tail — the classic Pinterest-masonry problem. Columns
-   fill top-to-bottom independently, so an item's height only ever depends on
-   its own text. Trade-off, accepted: reading order becomes column-major (down
-   column 1, then column 2), not row-major left-to-right. */
-.project-list {
-  columns: 20rem 3;
-  column-gap: 2rem;
-  list-style: none;
-  margin: var(--block-space) 0 0;
-  padding: 0;
-}
-
-@media (max-width: 640px) {
-  .project-list {
-    columns: 1;
-  }
-}
-
-/* The row is one flex line; the bookmark button is its SIBLING (a button
-   can't live inside a link) trailing it. break-inside keeps a row from being
-   split across the column break. */
-.project-row-wrap {
-  align-items: stretch;
-  break-inside: avoid;
-  display: flex;
-  margin-block-end: 0.5rem;
-}
-
-/* Difficulty carries its colour on the badge, not the row — no border, no
-   fill, no ring. Tried and reverted the same day: a background-fill hover
-   (uneven blob on wrapped titles of very different lengths), a
-   `.path-card`-style corner-tick frame, and a full light border — none
-   earned their keep on a page whose whole point is to be a plain, dense
-   list. Hover just recolours the title, same plain link feedback as
-   `.project-group__link`. */
-.project-row {
-  color: var(--color-ink);
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 0.35rem;
-  min-inline-size: 0;
-  padding: 0.7rem 0.85rem;
-  text-decoration: none;
-}
-
-/* Badge (+ done check) on their own line — a fixed-width slot the title never
-   shares, so every title starts at the same edge with the same available
-   width no matter which difficulty badge it carries. */
-.project-row__header {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-}
-
-.project-row__check {
-  color: var(--color-positive);
-  flex-shrink: 0;
-  line-height: 0;
-
-  .icon {
-    block-size: 1rem;
-    inline-size: 1rem;
-  }
-}
-
-/* The GOST drafting face — the same thread as the profession posters and the
-   task body inside a lesson: this catalog IS the задания, so its labels speak
-   the drawing-frame voice. */
-.project-row__title {
-  color: var(--color-ink);
-  font-family: var(--font-technical);
-  font-size: 1.1rem;
-  font-weight: 400;
-  line-height: 1.35;
-  transition: color 150ms ease;
-}
-
-@media (any-hover: hover) {
-  .project-row:hover .project-row__title {
-    color: var(--color-link);
-  }
-}
-
-/* Done tasks go dark («мёртвое тише живого») — the row reads as extinguished.
-   Hover wakes it back up for review — `.project-row:hover .project-row__title`
-   above already outranks this (three class-level selectors vs two), no
-   separate override needed. */
-.project-row--done .project-row__title {
-  color: var(--color-disabled);
-}
-
-.project-row-wrap .bookmark-toggle {
-  margin-inline-start: 0.25rem;
-}
-
-/* Row's trailing bookmark: icon only — the label would crowd the title. */
-.project-row-wrap .bookmark-btn__label {
-  display: none;
-}
-
-.project-row-wrap .bookmark-btn .icon {
-  block-size: 0.95rem;
-  inline-size: 0.95rem;
 }

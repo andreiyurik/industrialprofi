@@ -43,10 +43,12 @@
 @use "guide";
 @use "header";
 @use "home";
+@use "hub";
 @use "icons";
 @use "import";
 @use "inputs";
 @use "journal";
+@use "landing";
 @use "layout";
 @use "legal";
 @use "lesson";
@@ -69,7 +71,9 @@
 @use "search";
 @use "sidebar";
 @use "support";
+@use "term_editor";
 @use "text";
+@use "todo";
 @use "transitions";
 @use "utilities";
 @use "welcome-letter";

@@ -1,0 +1,102 @@
+<%# locals: (path:) -%>
+<%# The «О профессии» landing in basecamp.com's shape: every section is a big
+    headline on the left and large, plain-spoken text on the right (stacked on
+    phones); lists are checklists with a filled blue mark and a bold key
+    phrase; questions are native disclosures. Only the slots an author filled
+    render (Path::Landing) — an empty map shows nothing. %>
+<% about, history = path.about, path.history %>
+<% highlights, pros, cons = Array(path.highlights), Array(path.pros), Array(path.cons) %>
+<% faq_entries = path.faq_entries %>
+<% if path.cover.attached? || path.landing_present? %>
+  <div class="landing">
+    <% if about.present? || path.cover.attached? %>
+      <section class="landing__section">
+        <h2 class="landing__title"><%= t("paths.landing.about") %></h2>
+        <div class="landing__body">
+          <% if about.present? %>
+            <div class="prose landing__prose"><%= markdown(about) %></div>
+          <% end %>
+          <% if path.cover.attached? %>
+            <figure class="landing__cover">
+              <% if ApplicationHelper.variant_processing_available? %>
+                <%= image_tag path.cover.variant(resize_to_limit: [ 1400, 900 ], format: :webp, saver: { quality: 82 }),
+                      alt: path.title, loading: "lazy", class: "landing__cover-image" %>
+              <% else %>
+                <%= image_tag path.cover, alt: path.title, loading: "lazy", class: "landing__cover-image" %>
+              <% end %>
+              <% if path.cover_credit.present? %>
+                <figcaption class="landing__cover-credit"><%= path.cover_credit %></figcaption>
+              <% end %>
+            </figure>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+
+    <% if highlights.any? %>
+      <section class="landing__section">
+        <h2 class="landing__title"><%= t("paths.landing.highlights") %></h2>
+        <div class="landing__body">
+          <ul class="landing__checks" role="list">
+            <% highlights.each do |item| %>
+              <li class="landing__highlight"><span class="landing__mark"><%= icon_tag "check" %></span><span><%= landing_line(item) %></span></li>
+            <% end %>
+          </ul>
+        </div>
+      </section>
+    <% end %>
+
+    <% if pros.any? || cons.any? %>
+      <section class="landing__section">
+        <h2 class="landing__title"><%= t("paths.landing.pros_cons") %></h2>
+        <div class="landing__body landing__balance">
+          <% if pros.any? %>
+            <h3 class="landing__subtitle"><%= t("paths.landing.pros") %></h3>
+            <ul class="landing__checks landing__points landing__points--pro" role="list">
+              <% pros.each do |item| %><li><span class="landing__mark"><%= icon_tag "check" %></span><span><%= landing_line(item) %></span></li><% end %>
+            </ul>
+          <% end %>
+          <% if cons.any? %>
+            <h3 class="landing__subtitle"><%= t("paths.landing.cons") %></h3>
+            <ul class="landing__checks landing__points landing__points--con" role="list">
+              <% cons.each do |item| %><li><span class="landing__mark landing__mark--con"><%= icon_tag "minus" %></span><span><%= landing_line(item) %></span></li><% end %>
+            </ul>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+
+    <% if history.present? %>
+      <section class="landing__section">
+        <h2 class="landing__title"><%= t("paths.landing.history") %></h2>
+        <div class="landing__body">
+          <div class="prose landing__prose"><%= markdown(history) %></div>
+        </div>
+      </section>
+    <% end %>
+
+    <% if path.faq.present? %>
+      <section class="landing__section">
+        <h2 class="landing__title"><%= t("paths.landing.faq") %></h2>
+        <div class="landing__body">
+          <% if faq_entries.any? %>
+            <%# The same accordion as /faq (faq.css) — one component, two pages. %>
+            <div class="faq-list">
+              <% faq_entries.each do |question, answer| %>
+                <details class="faq-item">
+                  <summary class="faq-item__question">
+                    <span><%= question %></span>
+                    <span class="faq-item__toggle" aria-hidden="true"><%= icon_tag "plus" %></span>
+                  </summary>
+                  <div class="prose landing__prose faq-item__answer"><%= markdown(answer) %></div>
+                </details>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="prose landing__prose"><%= markdown(path.faq) %></div>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+  </div>
+<% end %>

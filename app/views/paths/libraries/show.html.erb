@@ -1,0 +1,52 @@
+<% meta_title(t("paths.library.title", profession: @path.title)) %>
+<% meta_description(t("paths.library.description", profession: @path.title)) %>
+<% canonical_url(path_library_url(@path)) %>
+
+<% content_for(:head) do %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+    { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
+    { title: t("paths.title"), url: "#{site_config.url}/paths" },
+    { title: @path.title, url: "#{site_config.url}/paths/#{@path.slug}" },
+    { title: t("paths.hub.library"), url: "#{site_config.url}/paths/#{@path.slug}/library" }
+  ])) %>
+<% end %>
+
+<%# Two shelves, each shown only when it has something — a heading over an
+    empty list is noise («мёртвое тише живого»). %>
+<% shelves = { documents: @entries.any?, tools: @calculators.any? }.select { |_, present| present }.keys %>
+
+<section class="section">
+  <div class="container container--reading">
+    <%= render "paths/hub_header", path: @path, progress: @progress, curators: @path.hub_curators.to_a, tab: :library %>
+
+    <% if shelves.empty? %>
+      <p class="projects__empty"><%= t("paths.library.empty") %></p>
+    <% else %>
+      <% if shelves.many? %>
+        <nav class="hub-jumps" aria-label="<%= t("paths.library.jumps_label") %>">
+          <% shelves.each do |shelf| %>
+            <a href="#<%= shelf %>" class="hub-jumps__link"><%= t("paths.library.#{shelf}") %></a>
+          <% end %>
+        </nav>
+      <% end %>
+
+      <% if @entries.any? %>
+        <section id="documents" class="hub-section">
+          <h2 class="hub-section__title"><%= t("paths.library.documents") %></h2>
+          <%= render "resources/library", entries: @entries %>
+        </section>
+      <% end %>
+
+      <% if @calculators.any? %>
+        <section id="tools" class="hub-section">
+          <h2 class="hub-section__title"><%= t("paths.library.tools") %></h2>
+          <div class="calc-catalog">
+            <%= render partial: "calculators/card", collection: @calculators, as: :calculator %>
+          </div>
+        </section>
+      <% end %>
+    <% end %>
+
+    <%= render "paths/improve" %>
+  </div>
+</section>

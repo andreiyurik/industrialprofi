@@ -92,6 +92,14 @@ en:
       journal_entry:
         title: "Title"
         body: "Entry text"
+      glossary_term:
+        abbr: "Abbreviation"
+        full: "Expansion"
+      path:
+        cover: "Cover"
+        highlights: "What a master can do"
+        pros: "Strong sides"
+        cons: "Weak sides"
 
   errors:
     format: "%{attribute}: %{message}"
@@ -102,6 +110,8 @@ en:
       inclusion: "is not included in the list"
       too_short: "is too short (minimum is %{count} characters)"
       confirmation: "doesn't match %{attribute}"
+      defined_elsewhere: "is already defined in the article “%{lesson}” — link to it instead of duplicating"
+      too_long: "is too long a list (maximum %{count})"
 
   site:
     name: "industrialprofi.com"
@@ -204,9 +214,6 @@ en:
     empty_filtered: "No results for these filters."
     reset_filters: "Reset filters"
     filters_label: "Project filters"
-    path_filter_label: "Profession"
-    apply_filter: "Show"
-    all_paths: "All professions"
     any_difficulty: "Any difficulty"
     done: "Done"
     group_progress: "%{done} of %{total}"
@@ -238,7 +245,6 @@ en:
     script_int: "International"
     empty: "Nothing in the glossary for that abbreviation yet."
     lesson_button: "Article"
-    search_button: "Search"
     search_lessons: "Find mentions in articles →"
     feedback: "Found a mistake or a missing term?"
     feedback_link: "Let us know"
@@ -1129,7 +1135,13 @@ en:
       # The <span> gets a hand-drawn Rough Notation underline on load
       # (rough_annotation_controller.js). Same words as the email colophon copy below.
       title_html: 'The first open, <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">free encyclopedia</span> of applied trades'
-      subtitle_html: 'An independent, open project: professions are created, edited, and reviewed by the community. A clear, convenient structure with quality topic links at the end of every article. Anyone can suggest an edit; any experienced specialist can become an <span class="hero__sweep" data-controller="rough-annotation" data-rough-annotation-type-value="highlight" data-rough-annotation-color-value="--color-highlight" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="1200" data-rough-annotation-duration-value="700">author or curator</span>. We help you get up to speed on something new, or structure knowledge you already have.'
+      subtitle_html: 'An independent, open project: professions are created, edited, and reviewed by the community. Anyone can suggest an edit; any experienced specialist can become an <span class="hero__sweep" data-controller="rough-annotation" data-rough-annotation-type-value="highlight" data-rough-annotation-color-value="--color-highlight" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="1200" data-rough-annotation-duration-value="700">author or curator</span>.'
+      theory: "Theory"
+      practice: "Practice"
+      improve: "Improve a roadmap"
+    # Shown when the current language has no maps yet (today: English).
+    empty_locale_html: "There are no roadmaps in this language yet — all material is in Russian for now. The Russian catalog is open to everyone."
+    empty_locale_cta: "Open the Russian catalog"
     group_upcoming: "Coming up"
     soon_full_list: "Full list..."
     soon_curator: "Build your own profession roadmap"
@@ -1146,7 +1158,10 @@ en:
       - "ICS cybersecurity auditor"
       - "Linux for industrial automation"
       - "Industrial robotics"
-    curated_by: "Roadmap led by"
+    curated_by:
+      one: "Roadmap led by"
+      other: "Roadmap led by"
+    authored_by: "Roadmap author:"
     # The maturity needle (path hero). Stages are verifiable facts, not counters;
     # stage 4 is hand-set by a curator (Path::Maturity).
     maturity:
@@ -1156,6 +1171,7 @@ en:
         s3: "Has a curator"
         s4: "Expert-verified"
       popover_title: "Roadmap maturity: %{stage} of %{total}"
+      short: "Maturity %{stage}/%{total}"
       crit_draft:
         one: "Material collected — %{count} article"
         other: "Material collected — %{count} articles"
@@ -1163,23 +1179,70 @@ en:
         one: "%{count} reader edit accepted"
         other: "%{count} reader edits accepted"
       crit_edits_todo: "No edits yet — suggest one on any article"
-      crit_curator: "Roadmap led by %{names}"
-      crit_curator_anon: "This roadmap has a curator"
+      crit_curator:
+        one: "Roadmap led by %{names}"
+        other: "Roadmap led by %{names}"
       crit_curator_todo: "No curator yet — a practitioner can take this roadmap"
       crit_verified: "The curator confirmed the material's accuracy on %{date}"
+      crit_verified_by: "Accuracy confirmed by %{name}, %{date}"
       crit_verified_expired: "The %{date} review is outdated — the curator needs to reconfirm it"
       crit_verified_todo: "Expert review is next"
+      crit_verified_orphan: "The mark from %{date} doesn't count: the roadmap has no curator or no accepted edits"
+      verify_refused: "The “Expert-reviewed” mark is set by the roadmap's curator — and only once the roadmap has a curator and accepted edits."
       improve: "How to improve this roadmap"
       verify: "Confirm the roadmap review"
       unverify: "Remove the review mark"
       verified_notice: "The “Expert-verified” mark has been set."
       unverified_notice: "The review mark has been removed."
     overview: "Overview"
+    # The «About the profession» landing sections (Path::Landing slots).
+    landing:
+      about: "About the profession"
+      highlights: "What a master can do"
+      pros_cons: "Strong and weak sides"
+      pros: "Strong sides"
+      cons: "Weak sides"
+      history: "From the history"
+      faq: "Frequently asked questions"
+      outline: "What's inside"
+      outline_all: "The whole programme by chapter →"
     focus_banner_html: "You're studying %{title} — better to finish what you started before taking on something new."
     start_learning: "Start learning"
     continue_learning: "Continue learning"
     next_up: "Next: %{title}"
     lessons_in_section: "in this section"
+    # The profession hub: the header shared by /paths/:slug and its tabs.
+    hub:
+      tabs_label: "Profession sections"
+      theory: "Theory"
+      practice: "Practice"
+      glossary: "Glossary"
+      library: "Library"
+      contributors:
+        one: "%{count} contributor"
+        other: "%{count} contributors"
+      contributors_title: "Whose edits and sources were accepted"
+      people_curators: "Curators"
+      improve_title: "Improve this roadmap"
+      improve_text: "Spotted an inaccuracy? Suggest an edit right in the article. Know a better source? Propose it under the article. Ready to lead the roadmap as a practitioner? You are exactly who we're looking for."
+    theory:
+      title: "%{profession}: the programme by chapter"
+      description: "The %{profession} roadmap's programme: chapters in learning order — articles anchored in official standards, with practice tasks in their place."
+    practice:
+      title: "%{profession}: practice tasks"
+      description: "Practice tasks for the %{profession} roadmap by level — from pen and paper to real tools, with self-checks against the standard."
+      heading: "Practice tasks"
+    glossary:
+      count:
+        one: "%{count} abbreviation"
+        other: "%{count} abbreviations"
+    library:
+      title: "%{profession}: library — documents, standards and calculators"
+      description: "The %{profession} library: official documents and standards cited in the articles, and calculators for its topics — on one page."
+      jumps_label: "Library sections"
+      documents: "Documents and literature"
+      tools: "Calculators"
+      empty: "This profession's library is still empty: documents appear together with the articles that cite them."
 
   courses:
     coming_soon: "In development"
@@ -1216,9 +1279,6 @@ en:
   lessons:
     why_section: "Why"
     study_section: "What to study"
-    curated_by:
-      one: "Profession materials reviewed by"
-      other: "Profession materials reviewed by"
     resources_section: "Documents and resources"
     required_label: "Required"
     optional_label: "Recommended"
@@ -1495,6 +1555,7 @@ en:
       propose: "After %{threshold} accepted edits on a profession, the system will offer you editor rights on its own. The threshold only opens the door — a person always makes the final call."
       scope: "An expert gets rights to the specific profession they know, not to everything at once. Only administrators publish materials."
       log: "Every grant of rights and every decision on an edit is logged in the action log forever — nothing gets rewritten after the fact."
+      name: "The name of the expert leading a roadmap is visible to everyone on it — curating is public by the terms of the role, not by choice. A real person stands behind every roadmap, and the «Verified» mark is signed with their name and date."
     faq_title: "Frequently asked questions"
     faq:
       - q: "Do I need to know git or programming?"
@@ -1811,24 +1872,25 @@ en:
       cta: "Open the edit queue"
       guide_html: "How we write articles, what the resource-link types and callout blocks mean — in the %{link}."
       guide_link: "author's guide"
-      curator_hint: "Optional: turn on “Show me as curator” in your account settings — your name and title will appear on the profession page. It's off by default."
+      curator_hint: "Your name now stands on the profession page — “Roadmap led by …”; that is part of the role. You can add a title and a photo in your account settings."
       thanks: "Thanks for sharing your experience. This profession's quality is now in your hands too."
 
   feedbacks:
     title: "Write to me"
-    intro: "This is a direct line to the project's author. Ideas, bugs, questions, impressions — write as it is, no need to be formal."
+    intro: "This is a direct line to the project's author. The project is at an early stage and built for the long run — right now every remark changes it noticeably. Ideas, bugs, questions, impressions — write as it is, no need to be formal."
     profession_title: "Suggest a profession"
     profession_intro: "Which profession is missing from the catalog? Name it and say why it's in demand — I take the most-requested ones next."
     profession_prefill: "Suggesting a profession: "
     body_label: "Message"
     body_placeholder: "What should be better? What's not working? What's missing?"
     send: "Send"
+    telegram: "Prefer to write personally? Telegram"
     promise: "I read every message and reply to your email — usually within a week, depending on the time."
     sent: "Thanks! Your message reached me — I'll reply to %{email}."
 
   coauthor_applications:
     title: "Become a profession's co-author"
-    intro: "You'll lead a profession's roadmap: curating the materials and reviewing readers' edits, and (optionally) listed as its public curator. The project is open (content under CC BY-SA), unpaid. Three fields are enough to start. The goal is to gather practitioners' experience in one place, for colleagues and for the generations to come."
+    intro: "You'll lead a profession's roadmap: curating the materials and reviewing readers' edits, and you are named on it as its curator. The project is open (content under CC BY-SA), unpaid. Three fields are enough to start. The goal is to gather practitioners' experience in one place, for colleagues and for the generations to come."
     fields:
       profession: "Which profession do you want to lead"
       background: "About you: experience and qualifications"
@@ -2025,6 +2087,7 @@ en:
       title: "Builder"
       landing_title: "Curriculum"
       landing_empty: "You don't have access to any profession yet."
+      curated_by_you: "Curated by you"
       hint: "Drag articles, sections, and chapters by the handle to reorder them. An article or a whole section can be moved into another chapter. Double-click a title to rename it."
       rename: "Rename"
       delete_lesson: "Delete article"
@@ -2037,7 +2100,6 @@ en:
       team_title: "Team"
       team_grant: "Grant access"
       team_empty: "This profession doesn't have its own experts yet. Access is granted from a user's card."
-      team_public_curator: "public curator"
       team_verified: "confirmed the roadmap review on %{date}"
       team_suspended: "suspended"
       team_dormant: "grant inactive"
@@ -2105,6 +2167,9 @@ en:
       suspend_confirm: "Suspend %{name}? Their account will be signed out everywhere and won't be able to sign in until you reinstate it."
       suspended: "User suspended: %{name}"
       reinstated: "User reinstated: %{name}"
+      photo_remove: "Remove photo"
+      photo_remove_confirm: "Remove %{name}'s photo? Initials will remain."
+      photo_removed: "Photo removed: %{name}"
       suspended_badge: "Suspended"
       cannot_suspend_self: "You can't suspend yourself"
       filter_label: "Filter by role"
@@ -2183,6 +2248,7 @@ en:
         path_unverified: "Verification mark removed: “%{subject}”"
         coauthor_approved: "Co-author approved: %{subject} is leading “%{profession}”"
         user_suspended: "User suspended: %{subject}"
+        user_photo_removed: "Photo removed: %{subject}"
         user_reinstated: "User reinstated: %{subject}"
       sections:
         body: "body"
@@ -2284,6 +2350,34 @@ en:
     excerpt_hint: "A couple of sentences for the news list and the search preview snippet. Without it, the list shows just the title."
     field_hero_image: "Cover image (optional)"
     hero_image_hint: "Image above the text. PNG, JPEG, or WebP up to 10 MB. Most news posts don't need a cover."
+    # The profession's landing editor (Path::Landing).
+    landing:
+      heading: "About the profession — landing"
+      hint: "What a school or college student sees when opening the roadmap for the first time: an honest account of the profession, no advertising. Every field is optional — an empty one isn't shown. Markdown: paragraphs, **bold**, lists, ### subheadings."
+      tagline: "Line under the name"
+      tagline_placeholder: "One phrase in the roadmap header — in your own words, character welcome"
+      tagline_hint: "Shown in the header on every tab instead of the SEO description. Empty — the header uses the profession description."
+      cover: "Cover"
+      cover_hint: "One image per profession: PNG, JPEG or WebP up to 10 MB; readers get a compressed copy. It is also the picture when the link is shared. Only with a clear licence (public domain / CC) — credit the source below."
+      remove_cover: "Remove cover"
+      cover_credit_placeholder: "Source and licence: Photo: Jane Doe, Wikimedia Commons, CC BY-SA 4.0"
+      cover_credit_hint: "Caption under the cover. Required for other people's photos."
+      about: "About the profession"
+      about_placeholder: "2–4 paragraphs: what the work is, where it happens, what one is responsible for, how one grows (grades/certifications where they exist), where it pays off. Honest, no salaries."
+      markdown_hint: "Markdown."
+      highlights: "What a master can do"
+      highlights_placeholder: "One skill per line, 4–6 lines:\n**Reads schematics** and assembles a panel from them\n**Finds a fault** from symptoms, not by trial and error"
+      list_hint: "One item per line; mark the key phrase in **bold** — that is what gets read."
+      pros: "Strong sides"
+      pros_placeholder: "One per line, 3–5:\nHands and head at work — every site is a new problem"
+      cons: "Weak sides"
+      cons_placeholder: "One per line, 3–5:\nResponsibility for lives — mistakes are expensive"
+      pros_cons_hint: "Both sides honestly — that is the reason to trust the rest."
+      history: "From the history"
+      history_placeholder: "1–2 paragraphs and, if any, milestones as text: “1882 — Edison's first power station…”"
+      faq: "Frequently asked questions"
+      faq_placeholder: "### How long does it take to learn?\nA paragraph answer.\n\n### Where to start?\nAnswer."
+      faq_hint: "Question as a ### heading, the answer as a paragraph under it. 3–5 questions people really ask."
     field_kind: "Type"
     kind_lesson: "Lesson"
     kind_practice: "Practice"
@@ -2356,6 +2450,7 @@ en:
         format_unsupported: "The pack was created by a newer version of the platform — update it to import this pack."
       warnings:
         images_skipped: "The pack has an images/ folder — images aren't imported yet, move them over manually."
+        cover_skipped: "The pack carries a cover (cover.*) — uploads don't import it; add it in the profession form."
     statuses:
       draft: "Draft"
       pending_review: "Under review"
@@ -2373,6 +2468,18 @@ en:
       required: "Required"
       title_placeholder: "Title..."
       note_placeholder: "A note or comment: what exactly to look at and where…"
+    # The lesson's abbreviations (GlossaryTerm) — the profession's dictionary
+    # is derived from them.
+    terms:
+      heading: "Abbreviations"
+      hint: "Abbreviations and acronyms this article explains: the mark, its expansion, one line of context. The profession's glossary is built from these — a term is added where it is explained."
+      add: "Add abbreviation"
+      remove: "Remove abbreviation"
+      abbr_placeholder: "RCD"
+      full_placeholder: "Expansion…"
+      analog_placeholder: "≈ УЗО"
+      analog_hint: "Counterpart in another notation — only an honest pair (RCD ≈ УЗО), not a translation"
+      note_placeholder: "One line: why this matters — not an encyclopedia"
     suggestions_title: "Suggested edits"
     no_suggestions: "No edits under review"
     manage_suggestions: "Edits"
@@ -2463,6 +2570,12 @@ en:
     title: "Account settings"
     avatar_change: "Change avatar"
     avatar_default: "Initials"
+    photo_upload: "Upload a photo"
+    photo_change: "Change photo"
+    photo_remove: "Remove photo"
+    photo_updated: "Photo updated."
+    photo_removed: "Photo removed."
+    photo_invalid: "Needs a JPEG, PNG, WebP or GIF image up to 10 MB."
     avatars:
       hard-hat: "Hard hat"
       wrench: "Wrench"
@@ -2497,10 +2610,9 @@ en:
     suggestion_emails_label: "Edit-outcome emails"
     suggestion_emails_hint: "Only when you haven't seen it on the site: the decision on your edit, and for experts, edits waiting for review."
     curator_section: "Public curator"
-    public_curator_label: "Show me as curator of the professions I lead"
-    public_curator_hint: "Your name and title will appear on the pages of the professions you have access to. Off by default."
     headline_label: "Title"
     headline_placeholder: "For example: Process control engineer, 10 years, NAKS"
+    headline_hint: "Your name is shown on the roadmaps you lead — curating is public. The title is an optional line next to it."
     email_updated: "Email updated."
     password_updated: "Password changed."
     password_current_invalid: "Current password is incorrect."

@@ -1,6 +1,7 @@
 class Lesson < ApplicationRecord
   include IndexNowNotifiable
   include Importable
+  include ImportedChildren
   include Revisable
   include Sluggable
 
@@ -16,6 +17,10 @@ class Lesson < ApplicationRecord
   # rewriting every join through courses.
   belongs_to :path, counter_cache: true
   has_many :resources, -> { order(:position) }, dependent: :destroy
+  # The abbreviations this lesson explains — the profession's dictionary is
+  # derived from them (see GlossaryTerm). Plain rows with no children or
+  # callbacks, so they go with delete_all (no per-lesson load in the cascade).
+  has_many :glossary_terms, -> { alphabetical }, dependent: :delete_all
   # Revisions are an immutable, readonly audit log, so they're cleared with
   # delete_all (destroy would raise ReadOnlyRecord). They must precede
   # lesson_suggestions in the cascade: a revision FKs a suggestion, so the
@@ -34,6 +39,9 @@ class Lesson < ApplicationRecord
   # ignored; rows flagged for removal are destroyed.
   accepts_nested_attributes_for :resources, allow_destroy: true,
     reject_if: ->(attrs) { attrs["title"].blank? && attrs["url"].blank? }
+  # Same editor, same rule, for the lesson's abbreviations.
+  accepts_nested_attributes_for :glossary_terms, allow_destroy: true,
+    reject_if: ->(attrs) { attrs["abbr"].blank? && attrs["full"].blank? }
 
   has_rich_text :rich_body
   has_rich_text :rich_description

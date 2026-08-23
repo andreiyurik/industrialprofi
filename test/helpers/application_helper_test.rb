@@ -72,11 +72,11 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes result, '<a href="https://example.com"'
   end
 
-  test "markdown highlights Structured Text via the custom Rouge lexer" do
-    result = markdown("```st\nIF Start AND NOT Stop THEN Motor := TRUE; END_IF\n```")
+  test "markdown highlights Structured Text through Rouge's IEC 61131-3 lexer" do
+    result = markdown("```iecst\nIF Start AND NOT Stop THEN Motor := TRUE; END_IF\n```")
     assert_includes result, '<pre class="highlight">'
-    assert_includes result, '<span class="k">IF</span>'      # keyword tokenized
-    assert_includes result, '<span class="ow">AND</span>'    # word operator tokenized
+    assert_includes result, '<span class="k">IF</span>'     # keyword tokenized
+    assert_includes result, '<span class="o">AND</span>'    # operator tokenized
   end
 
   test "markdown renders code blocks" do

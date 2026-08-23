@@ -21,6 +21,14 @@
         <%= f.submit t("feedbacks.send"), class: "btn btn--reversed btn--large" %>
       <% end %>
 
+      <% if site_config.telegram_url.present? %>
+        <p class="feedback__promise">
+          <%= link_to site_config.telegram_url, target: "_blank", rel: "noopener" do %>
+            <%= icon_tag "paper-plane-tilt" %> <%= t("feedbacks.telegram") %>
+          <% end %>
+        </p>
+      <% end %>
+
       <p class="feedback__promise"><%= t("feedbacks.promise") %></p>
     </div>
   </div>

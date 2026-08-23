@@ -21,8 +21,11 @@ roadmap (v0.3 + what we refuse to build), see `docs/VISION.md → Roadmap & scop
   reader-facing `/revisions`. Rollback = a new revision, never a rewrite.
 - **Roles trust ladder:** `member` → `editor` («Эксперт», `can_edit_content?`) →
   `administrator` (`can_administer?`, can't change own role). `Editorship` scopes
-  editor rights to granted professions; only admins publish. First admin via
-  `ADMIN_EMAIL`/`ADMIN_PASSWORD` seed.
+  editor rights to granted professions; only admins publish. **A grant is a
+  public role**: every active grant holder is named on the map («Карту ведёт»,
+  lesson byline, JSON-LD `reviewedBy`), the author shows when nobody curates,
+  and the «Проверено» mark carries the verifier's name + date — a map is never
+  anonymous. First admin via `ADMIN_EMAIL`/`ADMIN_PASSWORD` seed.
 - **Admin dashboard (`/admin`):** signups 12-week CSS bar chart, active-this-week,
   pending suggestions, completions, journal volume, content health, `SystemStatus`
   vitals (disk + SQLite footprint, Solid Queue health, `MailMetrics`). Plain
@@ -45,9 +48,32 @@ roadmap (v0.3 + what we refuse to build), see `docs/VISION.md → Roadmap & scop
   Defaults, not walls — nothing is locked.
 - **Contributor attribution:** muted "Статью улучшили" credit from `LessonRevision`
   (founder's direct edits store `editor_name: nil`, so he never appears).
-  Generated-initials avatars, no uploads.
+  Generated-initials avatars for everyone; **grant holders may add a photo**
+  (`User::Photo`): one 256px WebP stored, original discarded, EXIF stripped —
+  bounded by grants, never by users. Members have no upload.
+- **Profession landing («О профессии», `Path::Landing`):** six content slots in
+  one JSON column (`paths.landing`: about/history/faq markdown, highlights/pros/
+  cons line-lists) + `has_one_attached :cover` (upload policy = lesson images;
+  doubles as the page's og:image). Edited as textareas in the profession form,
+  carried by the pack as `landing.yml` + `cover.*`; rides the importer's freeze
+  (an expert's edit → the pack never overwrites), but an EMPTY landing is filled
+  even on a human-owned profession (`Path#fill_landing` — creating, not overwriting). Universal by design: national
+  specifics live in prose, not schema; a new slot is code when two professions ask.
+- **Profession hub (`/paths/:slug` + `/theory` + `/practice` + `/glossary` +
+  `/library`):** one profession, one header (emblem, description, «N глав · M
+  статей · K заданий», curators, «карту улучшили N участников» popover,
+  maturity) and its tabs — Обзор (the landing + a chapter outline), Теория
+  (the programme: chapter cards, continue CTA), Практика (that profession's tasks on the difficulty
+  ladder), Словарь (its abbreviations — `GlossaryTerm` rows owned by the
+  lesson that explains each, edited in the lesson editor next to the links,
+  `terms:` in the pack frontmatter; the tab exists only where lessons define
+  any), Библиотека (its documents + calculators). `Path::Progress` is
+  the per-reader null-object the hub views read (no `Current.user` branching).
+  The old `?path=` views of `/projects`, `/resources`, `/glossary` 301 into the
+  hub; the site-wide pages stay (footer + palette), out of the top bar. Every
+  tab ends in «Улучшить карту» — the existing contribution doors, in context.
 - **Projects (`/projects`):** aggregator of all `kind: practice` lessons across
-  published paths, difficulty filters.
+  published paths, difficulty filters; each profession heading leads into its hub.
 - **Calculators (`/calculators`):** trade formula tools — code registry (no DB) +
   one Stimulus controller for all math.
 - **Search (`/search`):** SQLite FTS5 behind the `LessonSearch` PORO (all FTS SQL

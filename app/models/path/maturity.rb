@@ -20,12 +20,21 @@ module Path::Maturity
     scope :verification_expired, -> { where(verified_at: ..VERIFICATION_TTL.ago) }
   end
 
+  # A ladder, not a checklist: a rung counts only with every rung below it.
+  # An expert's mark on a map with no expert — or no accepted edits — is worth
+  # nothing, so it cannot lift the needle; only climbing in order does.
   def maturity_stage
-    return 4 if verified?
-    return 3 if curated?
-    return 2 if community_improved?
-    1
+    [ true, community_improved?, curated?, verified? ].take_while(&:itself).size
   end
+
+  # The mark may be set (or refreshed) only once the map is genuinely curated
+  # and community-improved — stage 3 reached, or already at 4 and re-confirming.
+  def verifiable? = maturity_stage >= 3
+
+  # Only someone who actually curates THIS map vouches for it: a grant on the
+  # profession, not a role — an administrator confirms only maps they hold too
+  # (and a grant is a logged, visible act).
+  def verifiable_by?(user) = user.present? && user.editorships.exists?(path_id: id)
 
   def verified? = verified_at.present? && verified_at > VERIFICATION_TTL.ago
 
@@ -43,7 +52,11 @@ module Path::Maturity
     LessonSuggestion.approved.joins(:lesson).where(lessons: { path_id: id }).count
   end
 
+  NotVerifiable = Class.new(StandardError)
+
   def verify!(user)
+    raise NotVerifiable unless verifiable? && verifiable_by?(user)
+
     update!(verified_at: Time.current, verified_by: user)
   end
 

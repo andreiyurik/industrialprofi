@@ -23,6 +23,13 @@ class FeedbacksControllerTest < ActionDispatch::IntegrationTest
     assert_nil feedback.read_at
   end
 
+  test "the form offers Telegram as the direct line" do
+    sign_in_as users(:member)
+    get new_feedback_url
+    assert_select "a[href=?][target=_blank]", Rails.application.config.x.site.telegram_url, text: /Telegram/
+    assert_select ".feedback__promise .icon--paper-plane-tilt"
+  end
+
   test "rejects an empty message" do
     sign_in_as users(:member)
 

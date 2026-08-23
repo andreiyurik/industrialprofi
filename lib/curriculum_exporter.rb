@@ -58,6 +58,10 @@ class CurriculumExporter
       meta(title: @path.title, description: @path.description,
            position: @path.position, status: @path.status,
            icon: @path.icon)
+    write_yaml root.join("landing.yml"), @path.landing if @path.landing_present? || @path.cover_credit.present?
+    if @path.cover.attached?
+      root.join("cover#{File.extname(@path.cover.filename.to_s).presence || ".jpg"}").binwrite(@path.cover.download)
+    end
 
     @path.courses.order(:position).each.with_index(1) do |course, number|
       export_course(course, root, number)
@@ -89,7 +93,7 @@ class CurriculumExporter
     def sections(course)
       # write_lesson reads each lesson's resources and rich texts — load them
       # here in one pass, not per lesson.
-      course.lessons.includes(:resources).with_all_rich_text.ordered.to_a
+      course.lessons.includes(:resources, :glossary_terms).with_all_rich_text.ordered.to_a
             .chunk_while { |a, b| a.stage == b.stage && b.slug > a.slug }
             .map { |lessons| [ lessons.first.stage, lessons ] }
     end
@@ -100,6 +104,8 @@ class CurriculumExporter
       front["difficulty"] = lesson.difficulty if lesson.practice?
       resources = lesson.resources.map { |resource| resource_meta(resource) }
       front["resources"] = resources if resources.any?
+      terms = lesson.glossary_terms.map { |term| term_meta(term) }
+      front["terms"] = terms if terms.any?
 
       section_dir.join("#{lesson.slug}.md").write(<<~FILE)
         #{front.to_yaml.strip}
@@ -114,6 +120,10 @@ class CurriculumExporter
       meta(title: resource.title, url: resource.url, kind: resource.kind,
            required: (true if resource.required?), country_code: resource.country_code,
            language: resource.language, note: resource.note)
+    end
+
+    def term_meta(term)
+      meta(term: term.abbr, full: term.full, note: term.note, analog: term.analog)
     end
 
     def lesson_body(lesson)

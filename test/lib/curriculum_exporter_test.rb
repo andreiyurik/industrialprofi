@@ -23,11 +23,15 @@ class CurriculumExporterTest < ActiveSupport::TestCase
     assert_equal "Основной документ по эксплуатации", data["description"]
     assert_equal "Прочитайте главы 1.1–1.4", data["task"]
     assert_equal "ПТЭЭП — полный текст", data["resources"].first["title"]
+    assert_equal [ { "term" => "ПУЭ", "full" => "Правила устройства электроустановок",
+                     "note" => "Главный документ электрика: как устраивать электроустановки." } ], data["terms"]
   end
 
   test "export → import into a clean instance reproduces the profession" do
     original = paths(:electrician)
     resources(:zazemlenie_gost).update!(note: "Только раздел 542")
+    original.update!(about: "Кто это.", highlights_text: "Читает схемы", cover_credit: "Фото: тест, CC0")
+    original.cover.attach(io: File.open(Rails.root.join("test/fixtures/files/cover.png")), filename: "cover.png", content_type: "image/png")
     lessons_before = original.lessons.ordered.map { |lesson|
       [ lesson.slug, lesson.title, lesson.stage, lesson.course.slug, lesson.body.to_s.strip ]
     }
@@ -44,6 +48,12 @@ class CurriculumExporterTest < ActiveSupport::TestCase
     }
     assert_equal "Только раздел 542",
       reimported.lessons.find_by!(slug: "pue-zazemlenie").resources.sole.note
+    assert_equal "RCD",
+      reimported.lessons.find_by!(slug: "pue-zazemlenie").glossary_terms.find_by!(abbr: "УЗО").analog
+    assert_equal({ "about" => "Кто это.", "highlights" => [ "Читает схемы" ], "cover_credit" => "Фото: тест, CC0" }, reimported.landing)
+    assert reimported.cover.attached?, "cover.png in the tree is attached on import"
+    assert root.join("landing.yml").exist?
+    assert root.join("cover.png").exist?
   end
 
   test "splits a drag-reordered stage into ordered section runs" do

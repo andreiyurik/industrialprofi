@@ -93,12 +93,17 @@ class CurriculumDocument
     def upsert_path(author, counts)
       data = @data["path"]
       path = Path.find_or_initialize_by(slug: lookup_slug(Path, data))
-      status = upsert(path, counts, :paths,
-                      { title: data["title"], description: data["description"] }) do
+      attrs = { title: data["title"], description: data["description"] }
+      attrs[:landing] = Path.normalize_landing(data["landing"]) if data.key?("landing")
+      status = upsert(path, counts, :paths, attrs) do
         path.author_id = author.id
         path.icon = emblem(data["icon"])
         path.status = "draft"
         path.position = (Path.maximum(:position) || 0) + 1
+      end
+      if status == :exists && path.fill_landing(attrs[:landing])
+        counts[:paths] += 1
+        status = :updated
       end
       [ path, node("path", path.title, status) ]
     end
@@ -130,7 +135,10 @@ class CurriculumDocument
                         position: lesson.new_record? ? position : lesson.position },
                       target_path: course.path)
 
-      import_resources(lesson, data["resources"], counts) unless status == :exists
+      unless status == :exists
+        children = lesson.import_children(resources: data["resources"], terms: data["terms"], source: SOURCE)
+        counts[:resources] += children["resources_created"]
+      end
       lesson_nodes << node("lesson", lesson.title, status)
       position
     end
@@ -160,27 +168,6 @@ class CurriculumDocument
       return nil unless (data["kind"].presence || "lesson") == "practice"
 
       data["difficulty"].presence || "beginner"
-    end
-
-    # Resources ride with the lesson, keyed by title so re-import refreshes them
-    # in place instead of duplicating. A resource a human edited is left alone.
-    def import_resources(lesson, resources, counts)
-      Array(resources).each_with_index do |data, index|
-        resource = lesson.resources.find_or_initialize_by(title: data["title"])
-        next if resource.persisted? && resource.origin == "human"
-
-        was_new = resource.new_record?
-        resource.assign_attributes(
-          url: data["url"], kind: data["kind"].presence || "document",
-          required: data.fetch("required", false), position: index + 1,
-          country_code: data["country_code"], language: data["language"], note: data["note"]
-        )
-        resource.origin = SOURCE if was_new
-        next unless resource.changed?
-
-        resource.save!
-        counts[:resources] += 1 if was_new
-      end
     end
 
     # Lessons may be nested under sections (section title → stage) or listed

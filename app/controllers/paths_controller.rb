@@ -1,5 +1,8 @@
 class PathsController < ApplicationController
+  include PathScoped
+
   allow_unauthenticated_access
+  before_action :set_path, :set_progress, only: :show
 
   def index
     # Like The Odin Project: a signed-in user landing on "/" goes straight to
@@ -17,28 +20,11 @@ class PathsController < ApplicationController
     end
   end
 
+  # The hub's «Обзор»: the landing (what the profession is) plus the chapter
+  # outline, under the shared header. The programme itself is the «Теория» tab
+  # (Paths::TheoriesController); practice, dictionary and reference shelf are
+  # its siblings.
   def show
-    @path = Path.published.find_by!(slug: params[:slug])
-    # Content lives in exactly ONE locale — the other prefixes 301 home, so
-    # Google never sees two language URLs for the same material.
-    unless @path.locale == params[:locale]
-      return redirect_to path_path(@path, locale: @path.locale), status: :moved_permanently
-    end
-
-    @courses = @path.courses.listable.ordered.to_a
-    # course_id => completed-lessons count, for each course's progress bar.
-    @completed_by_course = if signed_in?
-      Current.user.lesson_completions.joins(:lesson)
-             .where(lessons: { path_id: @path.id }).group("lessons.course_id").count
-    else
-      {}
-    end
-    # [course_id, kind] => count, for the lesson/practice counters on each card.
-    @kind_counts = @path.lessons.group(:course_id, :kind).count
-    @completed_ids = signed_in? ? Current.user.completed_lesson_ids_for(@path) : Set.new
-    @continue_lesson = signed_in? ? Current.user.next_lesson_in(@path) : @path.lessons.ordered.first
-    @has_library = ResourceLibrary.for(path: @path).any?
-    # Editors who opted in to be shown as public curators of this profession.
-    @curators = @path.curators.to_a
+    load_curriculum
   end
 end

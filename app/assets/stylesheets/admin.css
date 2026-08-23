@@ -301,43 +301,6 @@
   color: var(--color-subtle-dark);
 }
 
-.admin-comparison {
-  display: grid;
-  gap: var(--block-space);
-  margin-block-end: 1.5rem;
-
-  @media (min-width: 1024px) {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.admin-comparison__heading {
-  color: var(--color-subtle-dark);
-  font-size: 0.85rem;
-  font-weight: 400;
-  margin-block: 0 var(--block-space-half);
-}
-
-.admin-comparison__heading--proposed {
-  color: var(--color-link);
-}
-
-.admin-comparison__body {
-  background-color: var(--color-subtle);
-  border: 1px solid var(--color-subtle);
-  border-radius: 0.5em;
-  /* Use most of the screen height so the reviewer reads as much of the diff as
-     possible before scrolling, with a cap so a huge edit still stays bounded. */
-  max-block-size: min(75vh, 60rem);
-  min-block-size: 20rem;
-  overflow-y: auto;
-  padding: var(--block-space) 1.25rem;
-}
-
-.admin-comparison__body--proposed {
-  border-color: oklch(var(--lch-blue) / 0.25);
-}
-
 .admin-decision__hint {
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
@@ -407,6 +370,44 @@
   display: flex;
   gap: 0.75rem;
   margin-block-start: 1.5rem;
+}
+
+/* A grouped block of fields (the profession's landing editor): a hairline
+   above, a heading, then ordinary fields. */
+.admin-form__group {
+  border: 0;
+  border-block-start: 1px solid var(--color-subtle);
+  margin: 2rem 0 0;
+  padding: 1.5rem 0 0;
+}
+
+.admin-form__group-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-block-end: 0.35rem;
+  padding: 0;
+}
+
+.admin-form__group > .admin-form__hint {
+  margin-block-end: var(--block-space);
+}
+
+/* The current image above its file input (a post's hero, a profession's cover). */
+.admin-form__preview {
+  border-radius: 0.5rem;
+  display: block;
+  margin-block-end: 0.75rem;
+  max-block-size: 14rem;
+  max-inline-size: 100%;
+}
+
+.admin-form__check {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  display: flex;
+  font-size: 0.9rem;
+  gap: 0.4rem;
+  margin-block-end: 0.75rem;
 }
 
 .admin-form__grid {

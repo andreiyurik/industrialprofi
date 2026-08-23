@@ -1,0 +1,33 @@
+<% meta_title(t("paths.theory.title", profession: @path.title)) %>
+<% meta_description(t("paths.theory.description", profession: @path.title)) %>
+<% canonical_url(path_theory_url(@path)) %>
+
+<% content_for(:head) do %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+    { title: t("breadcrumbs.home"), url: "#{site_config.url}/" },
+    { title: t("paths.title"), url: "#{site_config.url}/paths" },
+    { title: @path.title, url: "#{site_config.url}/paths/#{@path.slug}" },
+    { title: t("paths.hub.theory"), url: "#{site_config.url}/paths/#{@path.slug}/theory" }
+  ])) %>
+<% end %>
+
+<section class="section">
+  <div class="container container--reading">
+    <%= render "paths/hub_header", path: @path, progress: @progress, curators: @path.hub_curators.to_a, tab: :theory %>
+
+    <%= render "shared/continue_cta", continue_lesson: @progress.next_lesson, completed_ids: @progress.completed_ids %>
+
+    <div class="course-cards">
+      <% @courses.each do |course| %>
+        <%= render "paths/course_card",
+              course: course,
+              completed: @progress.done_by_course[course.id] || 0,
+              total: course.lessons_count,
+              lessons_n: @kind_counts[[course.id, "lesson"]].to_i,
+              practice_n: @kind_counts[[course.id, "practice"]].to_i %>
+      <% end %>
+    </div>
+
+    <%= render "paths/improve" %>
+  </div>
+</section>

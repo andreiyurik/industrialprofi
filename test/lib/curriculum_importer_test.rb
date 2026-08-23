@@ -177,6 +177,62 @@ class CurriculumImporterTest < ActiveSupport::TestCase
     assert_equal "Авторская профессия", path.reload.title
   end
 
+  test "landing.yml and a cover ride with path.yml; the landing freezes with the profession" do
+    write_tree(lesson_title: "Урок", resource_url: "https://example.com/g1")
+    File.write(File.join(@dir, "testprof", "landing.yml"), <<~YAML)
+      about: "Кто это и что делает."
+      highlights:
+        - "Читает схемы"
+        - ""
+      pros: ["Востребован"]
+      cover_credit: "Фото: тест, CC0"
+    YAML
+    FileUtils.cp(Rails.root.join("test/fixtures/files/cover.png"), File.join(@dir, "testprof", "cover.png"))
+    CurriculumImporter.run(dir: @dir, io: StringIO.new)
+
+    path = Path.find_by!(slug: "testprof")
+    assert_equal "Кто это и что делает.", path.about
+    assert_equal [ "Читает схемы" ], path.highlights
+    assert_equal "Фото: тест, CC0", path.cover_credit
+    assert path.cover.attached?
+
+    # An expert's landing edit freezes the row — a re-import leaves it alone.
+    path.update!(about: "Правка эксперта")
+    CurriculumImporter.run(dir: @dir, io: StringIO.new)
+    assert_equal "Правка эксперта", path.reload.about
+  end
+
+  test "a pack's landing fills a human-owned profession that has none, but never replaces one" do
+    write_tree(lesson_title: "Урок", resource_url: "https://example.com/g1")
+    CurriculumImporter.run(dir: @dir, io: StringIO.new)
+    path = Path.find_by!(slug: "testprof")
+    path.update!(title: "Правка эксперта") # frozen for the importer, landing still empty
+
+    File.write(File.join(@dir, "testprof", "landing.yml"), "about: \"Из пака.\"\n")
+    io = StringIO.new
+    CurriculumImporter.run(dir: @dir, io: io)
+    assert_equal [ "Правка эксперта", "Из пака." ], [ path.reload.title, path.about ]
+    assert_match "landings: 1 filled", io.string
+
+    path.update!(about: "Своими словами")
+    File.write(File.join(@dir, "testprof", "landing.yml"), "about: \"Новый пак.\"\n")
+    CurriculumImporter.run(dir: @dir, io: StringIO.new)
+    assert_equal "Своими словами", path.reload.about
+  end
+
+  test "imports a lesson's abbreviations and leaves human-owned ones alone" do
+    write_tree(lesson_title: "Урок", resource_url: "https://example.com/g1")
+    CurriculumImporter.run(dir: @dir, io: StringIO.new)
+
+    term = Lesson.find_by!(slug: "test-lesson-x").glossary_terms.sole
+    assert_equal [ "ТСТ", "Тестовый термин", "Зачем знать", "TST", "seed" ],
+                 [ term.abbr, term.full, term.note, term.analog, term.origin ]
+
+    term.update!(full: "Правка эксперта", origin: "human")
+    CurriculumImporter.run(dir: @dir, io: StringIO.new)
+    assert_equal "Правка эксперта", term.reload.full
+  end
+
   test "leaves human-owned resources alone" do
     import
     resource = Lesson.find_by!(slug: "test-lesson-x").resources.sole
@@ -312,6 +368,11 @@ class CurriculumImporterTest < ActiveSupport::TestCase
             url: "#{resource_url}"
             kind: document
             required: true
+        terms:
+          - term: "ТСТ"
+            full: "Тестовый термин"
+            note: "Зачем знать"
+            analog: "TST"
         ---
         Описание урока.
 

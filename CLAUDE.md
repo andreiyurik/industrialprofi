@@ -151,7 +151,14 @@ resource :session, only: [:new, :create, :destroy]          # login (Writebook p
 resources :users, only: [:new, :create]                     # registration
 get "dashboard" => "dashboard#show"                         # "Моё обучение"
 resource :search, only: [:show]                             # full-text lesson search (FTS5)
-resources :paths, only: [:index, :show], param: :slug      # professions (show lists courses)
+resources :paths, only: [:index, :show], param: :slug do   # profession hub: show = «Обзор» (landing + chapter outline)
+  scope module: :paths do                                   # + its tabs under the same hub header
+    resource :theory,   only: :show                         # /paths/:slug/theory   — the programme (chapter cards)
+    resource :practice, only: :show                         # /paths/:slug/practice — that profession's tasks
+    resource :glossary, only: :show                         # /paths/:slug/glossary — its abbreviations (tab only where covered)
+    resource :library,  only: :show                         # /paths/:slug/library  — docs + calculators
+  end
+end
 resources :courses, only: [:show], param: :slug            # course page (curriculum by stage)
 resources :lessons, only: [:show], param: :slug do         # flat slug URLs
   resource :completion, controller: "lesson_completions"   # binary "mark as done" (Turbo Stream)
@@ -174,10 +181,12 @@ Current (CurrentAttributes) + Authentication concern in ApplicationController:
   allow_unauthenticated_access (which still restores Current.user).
 
 Path (profession)  author_id (nil = official); status: draft|pending_review|published;
-                   locale (each language market gets its OWN paths — TOP model)
+                   locale (each language market gets its OWN paths — TOP model);
+                   landing (JSON: 6 «О профессии» slots, Path::Landing) + cover attachment
   → has_many Courses (status: draft|pending_review|published|coming_soon)
     → has_many Lessons (position global within path; grouped in view by #stage)
       → has_many Resources           (country_code: nil = universal)
+      → has_many GlossaryTerms       (abbreviations the lesson explains → the profession's «Словарь»)
       → has_many LessonSuggestions   (pending|approved|rejected)
       → has_many LessonRevisions     (immutable, append-only audit log)
   → has_many Lessons (denormalized path_id, for catalog-wide queries)

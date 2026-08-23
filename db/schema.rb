@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_04_090000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_23_120000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -98,6 +98,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_04_090000) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.index ["user_id"], name: "index_feedbacks_on_user_id"
+  end
+
+  create_table "glossary_terms", force: :cascade do |t|
+    t.string "abbr", null: false
+    t.string "analog"
+    t.datetime "created_at", null: false
+    t.string "full", null: false
+    t.integer "lesson_id", null: false
+    t.string "note"
+    t.string "origin", default: "human", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lesson_id", "abbr"], name: "index_glossary_terms_on_lesson_id_and_abbr", unique: true
+    t.index ["lesson_id"], name: "index_glossary_terms_on_lesson_id"
   end
 
   create_table "journal_entries", force: :cascade do |t|
@@ -201,6 +214,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_04_090000) do
     t.string "icon"
     t.string "imported_digest"
     t.string "kind", default: "role", null: false
+    t.json "landing", default: {}, null: false
     t.integer "lessons_count", default: 0, null: false
     t.string "locale", default: "ru", null: false
     t.string "origin", default: "human", null: false
@@ -303,7 +317,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_04_090000) do
     t.string "locale", default: "ru", null: false
     t.string "name", null: false
     t.string "password_digest", null: false
-    t.boolean "public_curator", default: false, null: false
     t.datetime "reminded_at"
     t.boolean "reminder_emails", default: true, null: false
     t.string "role", default: "member", null: false
@@ -322,6 +335,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_04_090000) do
   add_foreign_key "editorships", "paths"
   add_foreign_key "editorships", "users"
   add_foreign_key "feedbacks", "users"
+  add_foreign_key "glossary_terms", "lessons"
   add_foreign_key "journal_entries", "lessons"
   add_foreign_key "journal_entries", "users"
   add_foreign_key "lesson_bookmarks", "lessons"

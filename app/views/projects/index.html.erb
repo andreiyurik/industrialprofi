@@ -13,26 +13,8 @@
     </div>
 
     <nav class="project-filters" aria-label="<%= t("projects.filters_label") %>">
-      <%# Profession is the dimension that grows — a native <select> scales to
-          any number of paths and gives a real picker on mobile. Auto-submits on
-          change; the <noscript> button keeps it working without JS. Difficulty
-          and "saved" ride along as hidden fields so changing path keeps them. %>
-      <%= form_with url: projects_path, method: :get, class: "project-filters__paths",
-                    data: { controller: "auto-submit" } do %>
-        <label class="for-screen-reader" for="project-path"><%= t("projects.path_filter_label") %></label>
-        <select id="project-path" name="path" class="filter-select"
-                data-action="auto-submit#submit">
-          <option value=""><%= t("projects.all_paths") %></option>
-          <% @paths.each do |path| %>
-            <option value="<%= path.slug %>" <%= "selected" if @selected_path == path %>><%= path.title %></option>
-          <% end %>
-        </select>
-        <% if @selected_difficulty %><%= hidden_field_tag :difficulty, @selected_difficulty %><% end %>
-        <% if @saved_only %><%= hidden_field_tag :saved, "1" %><% end %>
-        <noscript><button type="submit" class="btn btn--small"><%= t("projects.apply_filter") %></button></noscript>
-      <% end %>
       <div class="project-filters__group">
-        <%= link_to t("projects.any_difficulty"), projects_path(path: @selected_path&.slug, saved: saved_param),
+        <%= link_to t("projects.any_difficulty"), projects_path(saved: saved_param),
                     class: "filter-chip", "aria-current": @selected_difficulty.nil? || nil %>
         <% Lesson::DIFFICULTIES.each do |difficulty| %>
           <%# Icon-only chips (founder call, 2026-08-03): the wrench count IS
@@ -40,7 +22,7 @@
               stays for screen readers; hover gets the word + the ladder
               definition via the chip's own native tooltip (the mark's is
               suppressed so it can't shadow this one). %>
-          <%= link_to projects_path(path: @selected_path&.slug, difficulty: difficulty, saved: saved_param),
+          <%= link_to projects_path(difficulty: difficulty, saved: saved_param),
                       class: "filter-chip",
                       title: "#{t("lessons.difficulty.#{difficulty}")} — #{t("projects.difficulty_hints.#{difficulty}")}",
                       "aria-current": (@selected_difficulty == difficulty) || nil do %>
@@ -50,8 +32,7 @@
       </div>
       <% if signed_in? %>
         <div class="project-filters__group">
-          <%= link_to projects_path(path: @selected_path&.slug, difficulty: @selected_difficulty,
-                                    saved: @saved_only ? nil : "1"),
+          <%= link_to projects_path(difficulty: @selected_difficulty, saved: @saved_only ? nil : "1"),
                       class: "filter-chip filter-chip--saved", "aria-current": @saved_only || nil do %>
             <%= icon_tag @saved_only ? "bookmark-simple-fill" : "bookmark-simple" %>
             <%= t("projects.saved_filter") %>
@@ -63,7 +44,7 @@
           exactly when the reader reaches for it, zero standing noise. Only
           shown once a filter is active — with none, it would just repeat the
           header stat ("68 заданий" twice). %>
-      <% if @selected_path || @selected_difficulty || @saved_only %>
+      <% if @selected_difficulty || @saved_only %>
         <p class="project-filters__count"><%= t("projects.found", count: @found_count) %><% if @selected_difficulty %> · <%= t("projects.difficulty_hints.#{@selected_difficulty}") %><% end %></p>
       <% end %>
     </nav>
@@ -77,7 +58,7 @@
               <%# The profession's own emblem (same data as /paths and the course
                   hero), stripped to the regular weight — the -light glyphs are
                   sized for ≥32px emblem contexts, too thin at this heading size. %>
-              <%= link_to path_path(path), class: "project-group__link" do %>
+              <%= link_to path_practice_path(path), class: "project-group__link" do %>
                 <%= icon_tag path.emblem.delete_suffix(Icon::EMBLEM_SUFFIX), class: "project-group__icon" %>
                 <%= path.title %>
               <% end %>
@@ -91,22 +72,25 @@
                 </span>
               <% end %>
             </h2>
-            <ul class="project-list">
+            <%# The same to-do rows as the profession's own «Практика» tab — a
+                checkbox and a name, nothing else (the level is the chip filter
+                above); two columns on wide screens so 70 tasks don't become one
+                long sheet. %>
+            <ul class="todo__items todo__items--columns" role="list">
               <% lessons.each do |lesson| %>
-                <%= render "project_row", lesson: lesson,
-                      done: @completed_ids.include?(lesson.id),
-                      bookmarked: @bookmarked_ids.include?(lesson.id) %>
+                <%= render "shared/todo_item", lesson: lesson, done: @completed_ids.include?(lesson.id),
+                      bookmarked: @bookmarked_ids.include?(lesson.id), meta: nil %>
               <% end %>
             </ul>
           </section>
         <% end %>
       </div>
-    <% elsif @saved_only && @selected_path.nil? && @selected_difficulty.nil? %>
+    <% elsif @saved_only && @selected_difficulty.nil? %>
       <p class="projects__empty">
         <%= t("projects.empty_saved") %>
         <%= link_to t("projects.reset_filters"), projects_path %>
       </p>
-    <% elsif @selected_path || @selected_difficulty || @saved_only %>
+    <% elsif @selected_difficulty || @saved_only %>
       <p class="projects__empty">
         <%= t("projects.empty_filtered") %>
         <%= link_to t("projects.reset_filters"), projects_path %>

@@ -11,8 +11,6 @@ production config) — you just fill in your own values and work down the list.
   root access over an SSH key. No need to install Docker — Kamal installs it.
 - **Domain** `industrialprofi.com` — an A record pointing at the server IP (and
   `www` if you want it). Check: `dig +short industrialprofi.com` returns the IP.
-- **GitHub PAT** (Settings → Developer settings → Tokens classic) with the
-  `write:packages` scope — for the ghcr.io image registry.
 - **SMTP provider** — mail is mandatory: without it, registration (the emailed
   code), password reset, and error alerts don't work. Any transactional SMTP that
   delivers to RU domains works (e.g. smtp.mail.ru for business / Unisender /
@@ -32,11 +30,6 @@ smtp:
   port: 587
   user_name: no-reply@industrialprofi.com
   password: "..."
-```
-
-```bash
-# Registry token — into the shell environment (NOT in git):
-export KAMAL_REGISTRY_PASSWORD=ghp_...   # put it in ~/.bashrc
 ```
 
 `config/master.key` is not committed — keep a copy in a password manager.
@@ -61,10 +54,12 @@ echo 'export KAMAL_WEB_IP=203.0.113.10' >> ~/.bashrc && source ~/.bashrc   # you
 ```
 
 Every `bin/kamal` command then picks it up; if it's unset, Kamal fails fast with
-`key not found: "KAMAL_WEB_IP"` (no accidental empty target). Then in
-`config/deploy.yml` confirm the one remaining TODO — the ghcr.io username
-(`registry.username`). If your VPS logs in as something other than `root`, also
-uncomment the `ssh.user` block. Nothing else there needs touching.
+`key not found: "KAMAL_WEB_IP"` (no accidental empty target). The image ships
+via Kamal's local registry (`registry.server: "localhost:5555"` in
+`config/deploy.yml`) — a container Kamal runs and tunnels to the server over
+SSH, no external registry account needed. If your VPS logs in as something
+other than `root`, uncomment the `ssh.user` block. Nothing else there needs
+touching.
 
 ## 3. First deploy
 

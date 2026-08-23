@@ -48,6 +48,11 @@
                   method: :post, class: "btn btn--small btn--negative",
                   form: { data: { turbo_confirm: t("admin.users.suspend_confirm", name: @user.name) } } %>
           <% end %>
+          <% if @user.photo.attached? %>
+            <%= button_to t("admin.users.photo_remove"), admin_user_photo_path(@user),
+                  method: :delete, class: "btn btn--small",
+                  form: { data: { turbo_confirm: t("admin.users.photo_remove_confirm", name: @user.name) } } %>
+          <% end %>
         </div>
 
         <% if @user.editor? %>

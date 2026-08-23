@@ -63,6 +63,7 @@ Rails.application.routes.draw do
       resource :email, only: [ :edit, :create ]
       resource :email_verification, only: [ :new, :create ]
       resource :deletion, only: [ :new, :create ]
+      resource :photo, only: [ :create, :destroy ]
     end
 
     resource :session, only: [ :new, :create, :destroy ]
@@ -104,7 +105,16 @@ Rails.application.routes.draw do
       resource :reaction, only: [ :create, :destroy ]
     end
 
-    resources :paths, only: [ :index, :show ], param: :slug
+    # The profession hub: paths#show is the «Обзор» tab (programme); its sibling
+    # tabs are nested resources sharing the hub header (exercism's track pages).
+    resources :paths, only: [ :index, :show ], param: :slug do
+      scope module: :paths do
+        resource :theory, only: :show
+        resource :practice, only: :show
+        resource :glossary, only: :show
+        resource :library, only: :show
+      end
+    end
     resources :courses, only: [ :show ], param: :slug
     resources :lessons, only: [ :show ], param: :slug do
       resource :completion, only: [ :create, :destroy ], controller: "lesson_completions"
@@ -153,6 +163,7 @@ Rails.application.routes.draw do
       get "guide", to: redirect("/guide")
       resources :users, only: [ :index, :show, :update ] do
         resource :suspension, only: [ :create, :destroy ]
+        resource :photo, only: :destroy
       end
       resources :feedbacks, only: [ :index ] do
         resource :coauthor_approval, only: :create

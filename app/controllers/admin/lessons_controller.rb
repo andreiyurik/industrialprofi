@@ -114,7 +114,8 @@ module Admin
       params.expect(lesson: [
         :title, :description, :body, :task, :kind,
         :rich_description, :rich_body, :rich_task,
-        resources_attributes: [ [ :id, :title, :url, :kind, :language, :note, :required, :position, :_destroy ] ]
+        resources_attributes: [ [ :id, :title, :url, :kind, :language, :note, :required, :position, :_destroy ] ],
+        glossary_terms_attributes: [ [ :id, :abbr, :full, :note, :analog, :_destroy ] ]
       ])
     end
   end

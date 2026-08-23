@@ -9,6 +9,21 @@
   <div class="container hero__inner">
     <h1 class="hero__title is-caret"><%= t("paths.hero.title_html") %></h1>
     <p class="hero__subtitle"><%= t("paths.hero.subtitle_html") %></p>
+    <%# The product in three verbs — the hub's own words (its tabs and its
+        closing block), one accent: learning comes first. «Теория» is an anchor
+        to the catalog right below: a real path on a phone, a short hop on a
+        desktop — it promises nothing new, it names what's there. %>
+    <p class="hero__actions">
+      <%= link_to "#catalog", class: "btn btn--reversed" do %>
+        <%= t("paths.hero.theory") %> <%= icon_tag "arrow-right" %>
+      <% end %>
+      <%= link_to projects_path, class: "btn" do %>
+        <%= t("paths.hero.practice") %> <%= icon_tag "arrow-right" %>
+      <% end %>
+      <%= link_to contribute_path, class: "btn" do %>
+        <%= t("paths.hero.improve") %> <%= icon_tag "arrow-right" %>
+      <% end %>
+    </p>
   </div>
 </section>
 
@@ -28,13 +43,23 @@
       </div>
     <% end %>
 
-    <div class="catalog-grid" id="catalog">
-      <% @paths.each do |path| %>
-        <%= render "path_card", path: path,
-              completed_count: @completed_counts.fetch(path.id, 0),
-              courses_count: @course_counts.fetch(path.id, 0) %>
-      <% end %>
-    </div>
+    <% if @paths.any? %>
+      <div class="catalog-grid" id="catalog">
+        <% @paths.each do |path| %>
+          <%= render "path_card", path: path,
+                completed_count: @completed_counts.fetch(path.id, 0),
+                courses_count: @course_counts.fetch(path.id, 0) %>
+        <% end %>
+      </div>
+    <% else %>
+      <%# A language with no maps yet (English today): say so plainly and hand
+          the reader the catalog that exists, instead of an empty page they
+          can't explain. %>
+      <div class="panel catalog-empty" id="catalog">
+        <p class="catalog-empty__text"><%= t("paths.empty_locale_html") %></p>
+        <%= link_to t("paths.empty_locale_cta"), root_path(locale: I18n.default_locale), class: "btn btn--reversed", lang: I18n.default_locale, hreflang: I18n.default_locale %>
+      </div>
+    <% end %>
 
     <%# Not a roadmap — an open invitation. Everything the hero already says is
         left out on purpose: what survives is the one thing said nowhere else on

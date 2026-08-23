@@ -26,6 +26,18 @@ class PageChromeTest < ActionDispatch::IntegrationTest
     assert_select "meta[name=?][content=?]", "turbo-visit-control", "reload"
   end
 
+  test "every page carries the language globe with a menu naming each language in its own tongue" do
+    get root_path
+    assert_select "details.header__locale summary.header__locale-toggle"
+    assert_select "#locale-menu .locale-switcher__item--current[lang=ru]", text: /Рус/
+    assert_select "#locale-menu a.locale-switcher__item[lang=en][href=?]", root_path(locale: :en), text: /Eng/
+
+    get about_path(locale: :en)
+    assert_select "#locale-menu .locale-switcher__item--current[lang=en]", text: /Eng/
+    # A bilingual page switches in place (same page, other prefix).
+    assert_select "#locale-menu a.locale-switcher__item[lang=ru][href=?]", about_path(locale: :ru), text: /Рус/
+  end
+
   test "every page opens with a skip link pointing at main" do
     get root_path
 

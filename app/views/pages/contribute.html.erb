@@ -148,7 +148,7 @@
             Thresholds interpolate from TrackRecord so the promise can't drift. %>
         <h3 class="contribute-rules__title"><%= t("contribute.ladder_rules_title") %></h3>
         <ul class="contribute-rules">
-          <% %w[review earn propose scope log].each do |rule| %>
+          <% %w[review earn propose scope name log].each do |rule| %>
             <li class="contribute-rules__item"><%= t("contribute.ladder_rules.#{rule}", threshold: TrackRecord::TRUSTED_AT) %></li>
           <% end %>
         </ul>

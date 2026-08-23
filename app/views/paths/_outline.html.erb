@@ -1,0 +1,28 @@
+<%# locals: (path:, courses:, kind_counts:) -%>
+<%# The programme in one glance on the overview: chapter titles with their
+    counts, each a link into the chapter; the full cards live on the «Теория»
+    tab. Keeps the profession page naming its chapters (orientation for the
+    newcomer, structure for search) without repeating the tab. %>
+<section class="landing__section outline">
+  <h2 class="landing__title"><%= t("paths.landing.outline") %></h2>
+  <div class="landing__body">
+  <ol class="outline__list">
+    <% courses.each do |course| %>
+      <li class="outline__item<%= " outline__item--soon" if course.coming_soon? %>">
+        <% if course.coming_soon? %>
+          <span class="outline__title"><%= course.title %></span>
+          <span class="outline__meta"><%= t("courses.coming_soon") %></span>
+        <% else %>
+          <%= link_to course.title, course_path(course), class: "outline__title" %>
+          <span class="outline__meta">
+            <%= t("courses.lessons_count", count: kind_counts[[course.id, "lesson"]].to_i) %><% if kind_counts[[course.id, "practice"]].to_i.positive? %> · <%= t("courses.practice_count", count: kind_counts[[course.id, "practice"]]) %><% end %>
+          </span>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+  <p class="outline__all">
+    <%= link_to t("paths.landing.outline_all"), path_theory_path(path), class: "link-quiet link-quiet--underline" %>
+  </p>
+  </div>
+</section>

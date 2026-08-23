@@ -7,6 +7,12 @@ module Admin
       before_action :set_path
 
       def create
+        # The ladder is enforced by the model; the button is already hidden when
+        # it would be refused, so this is the belt to that suspender.
+        unless @path.verifiable? && @path.verifiable_by?(Current.user)
+          return redirect_to path_path(@path), alert: t("paths.maturity.verify_refused")
+        end
+
         @path.transaction do
           @path.verify!(Current.user)
           record_admin_action("path_verified", target: @path, subject: @path.title)
