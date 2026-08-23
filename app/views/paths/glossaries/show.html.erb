@@ -14,7 +14,7 @@
 
 <section class="section">
   <div class="container container--reading" data-controller="glossary-filter">
-    <%= render "paths/hub_header", path: @path, progress: @progress, curators: @path.curators.to_a, tab: :glossary %>
+    <%= render "paths/hub_header", path: @path, progress: @progress, curators: @path.hub_curators.to_a, tab: :glossary %>
 
     <section class="hub-section">
       <div class="hub-section__head">

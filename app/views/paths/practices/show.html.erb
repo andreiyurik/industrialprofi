@@ -13,7 +13,7 @@
 
 <section class="section">
   <div class="container container--reading">
-    <%= render "paths/hub_header", path: @path, progress: @progress, curators: @path.curators.to_a, tab: :practice %>
+    <%= render "paths/hub_header", path: @path, progress: @progress, curators: @path.hub_curators.to_a, tab: :practice %>
 
     <section class="hub-section">
       <div class="hub-section__head">

@@ -37,6 +37,27 @@
             <noscript><%= f.submit t("account.save"), class: "btn btn--small" %></noscript>
           <% end %>
         </details>
+
+        <% if Current.user.photo_allowed? %>
+          <%# A curator may show a face (members keep the disc — bounded by
+              grants, not users). Picking a file uploads it at once; one 256px
+              WebP is stored, the original is never kept (User::Photo). %>
+          <div class="photo-actions">
+            <%= form_with url: account_photo_path, method: :post, multipart: true,
+                  data: { controller: "auto-submit" } do |f| %>
+              <label class="photo-actions__upload link-quiet">
+                <%= f.file_field :photo, accept: LessonImageUpload.accept_attribute, class: "for-screen-reader",
+                      data: { action: "change->auto-submit#submit" } %>
+                <%= t(Current.user.photo.attached? ? "account.photo_change" : "account.photo_upload") %>
+              </label>
+              <noscript><%= f.submit t("account.save"), class: "btn btn--small" %></noscript>
+            <% end %>
+            <% if Current.user.photo.attached? %>
+              <%= button_to t("account.photo_remove"), account_photo_path, method: :delete,
+                    class: "photo-actions__remove link-quiet" %>
+            <% end %>
+          </div>
+        <% end %>
       </div>
 
       <%# One form, one save — Fizzy's shape. The readonly email row lives
@@ -72,6 +93,7 @@
           <%= f.text_field :headline, value: Current.user.headline, name: "user[headline]",
                 maxlength: 120, placeholder: t("account.headline_placeholder"), class: "input",
                 aria: { label: t("account.headline_label") } %>
+          <span class="account-card__hint"><%= t("account.headline_hint") %></span>
         <% end %>
 
         <% if @name_errors.any? %>
@@ -93,7 +115,6 @@
                   autocomplete: "current-password", class: "input",
                   placeholder: t("account.current_password"), aria: { label: t("account.current_password") } %>
             <%= tag.input type: "password", name: "user[password]", required: true,
-          <span class="account-card__hint"><%= t("account.headline_hint") %></span>
                   minlength: 8, autocomplete: "new-password", class: "input",
                   placeholder: t("account.new_password"), aria: { label: t("account.new_password") } %>
             <%= tag.input type: "password", name: "user[password_confirmation]", required: true,

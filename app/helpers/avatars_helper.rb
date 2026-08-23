@@ -19,7 +19,10 @@ module AvatarsHelper
   # Takes the user, not the name: a chosen preset glyph (Avatar) wins, the
   # generated initials remain the default for everyone who never picked one.
   def avatar_tag(user, title: user.name)
-    if (preset = Avatar[user.avatar_token])
+    if user.shows_photo?
+      image_tag rails_storage_proxy_path(user.photo), class: "avatar avatar--photo",
+        alt: "", title: title, width: User::Photo::SIZE, height: User::Photo::SIZE, aria: { hidden: true }
+    elsif (preset = Avatar[user.avatar_token])
       content_tag :span, icon_tag(preset[:icon]),
         class: "avatar avatar--glyph",
         style: "--avatar-hue: var(#{preset[:hue]})",

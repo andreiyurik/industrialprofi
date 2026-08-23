@@ -98,6 +98,10 @@ class Path < ApplicationRecord
 
   # The contributors who have accounts — for the hub header's avatar stack
   # (guests' proposals count in contributor_names but have no face to show).
+  # The hub header draws the curators' faces — their photos ride along in one
+  # query (the lesson byline and JSON-LD need only names: plain `curators`).
+  def hub_curators = curators.includes(photo_attachment: :blob)
+
   def contributor_users(limit: 3)
     ids = [ LessonSuggestion, ResourceSuggestion ].flat_map { |model|
       model.approved.joins(:lesson).where(lessons: { path_id: id }).where.not(user_id: nil).distinct.pluck(:user_id)

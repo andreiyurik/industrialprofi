@@ -20,7 +20,7 @@
 
 <section class="section">
   <div class="container container--reading">
-    <%= render "paths/hub_header", path: @path, progress: @progress, curators: @path.curators.to_a, tab: :overview %>
+    <%= render "paths/hub_header", path: @path, progress: @progress, curators: @path.hub_curators.to_a, tab: :overview %>
 
     <%= render "shared/continue_cta", continue_lesson: @progress.next_lesson, completed_ids: @progress.completed_ids %>
 

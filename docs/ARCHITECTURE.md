@@ -48,7 +48,9 @@ roadmap (v0.3 + what we refuse to build), see `docs/VISION.md → Roadmap & scop
   Defaults, not walls — nothing is locked.
 - **Contributor attribution:** muted "Статью улучшили" credit from `LessonRevision`
   (founder's direct edits store `editor_name: nil`, so he never appears).
-  Generated-initials avatars, no uploads.
+  Generated-initials avatars for everyone; **grant holders may add a photo**
+  (`User::Photo`): one 256px WebP stored, original discarded, EXIF stripped —
+  bounded by grants, never by users. Members have no upload.
 - **Profession landing («О профессии», `Path::Landing`):** six content slots in
   one JSON column (`paths.landing`: about/history/faq markdown, highlights/pros/
   cons line-lists) + `has_one_attached :cover` (upload policy = lesson images;

@@ -17,7 +17,7 @@
 
 <section class="section">
   <div class="container container--reading">
-    <%= render "paths/hub_header", path: @path, progress: @progress, curators: @path.curators.to_a, tab: :library %>
+    <%= render "paths/hub_header", path: @path, progress: @progress, curators: @path.hub_curators.to_a, tab: :library %>
 
     <% if shelves.empty? %>
       <p class="projects__empty"><%= t("paths.library.empty") %></p>

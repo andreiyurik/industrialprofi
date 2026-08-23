@@ -17,6 +17,12 @@
   text-transform: uppercase;
 }
 
+/* A curator's photo (User::Photo): the same disc, filled by the image. */
+.avatar--photo {
+  background: var(--color-subtle-light);
+  object-fit: cover;
+}
+
 /* Preset glyph avatar (Avatar model): same disc, the work glyph painted in its
    own hue — the badge recipe (tinted fill + matching glyph). */
 .avatar--glyph {

@@ -1167,7 +1167,7 @@ ru:
       # The <span> gets a hand-drawn Rough Notation underline on load
       # (rough_annotation_controller.js). Same words as the email colophon copy below.
       title_html: 'Первая открытая <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">свободная энциклопедия</span> прикладных профессий'
-      subtitle_html: 'Независимый открытый проект: профессии создаёт, редактирует и проверяет сообщество. Прозрачная удобная структура с качественными ссылками по теме в конце статей. Предложить правку может каждый, стать <span class="hero__sweep" data-controller="rough-annotation" data-rough-annotation-type-value="highlight" data-rough-annotation-color-value="--color-highlight" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="1200" data-rough-annotation-duration-value="700">автором или куратором</span> — любой опытный специалист. Помогаем быстро освоиться в новом или структурировать имеющиеся знания.'
+      subtitle_html: 'Независимый открытый проект: профессии создаёт, редактирует и проверяет сообщество. Прозрачная удобная структура с качественными ссылками по теме в конце статей. Предложить правку может каждый, стать <span class="hero__sweep" data-controller="rough-annotation" data-rough-annotation-type-value="highlight" data-rough-annotation-color-value="--color-highlight" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="1200" data-rough-annotation-duration-value="700">автором или куратором</span> — любой опытный специалист. Цель проекта - быстро освоиться в новом или структурировать имеющиеся знания.'
     # Shown when the current language has no maps yet (today: English).
     empty_locale_html: "На этом языке карт профессий пока нет — все материалы сейчас на русском. Каталог на русском открыт для всех."
     empty_locale_cta: "Открыть каталог на русском"
@@ -1926,9 +1926,9 @@ ru:
     body_label: "Сообщение"
     body_placeholder: "Что улучшить? Что не работает? Чего не хватает?"
     send: "Отправить"
+    telegram: "Предпочитаете написать лично? Telegram"
     promise: "Я читаю все сообщения и отвечаю на вашу почту — обычно до недели в зависимости от времени."
     sent: "Спасибо! Сообщение у меня — отвечу вам на %{email}."
-    telegram: "Предпочитаете написать лично? Telegram"
 
   coauthor_applications:
     title: "Стать соавтором профессии"
@@ -2217,6 +2217,9 @@ ru:
       suspend_confirm: "Заблокировать %{name}? Аккаунт выйдет со всех устройств и не сможет войти, пока вы не разблокируете."
       suspended: "Пользователь заблокирован: %{name}"
       reinstated: "Пользователь разблокирован: %{name}"
+      photo_remove: "Убрать фото"
+      photo_remove_confirm: "Убрать фото %{name}? Останутся инициалы."
+      photo_removed: "Фото убрано: %{name}"
       suspended_badge: "Заблокирован"
       cannot_suspend_self: "Себя заблокировать нельзя"
       filter_label: "Фильтр по роли"
@@ -2304,6 +2307,7 @@ ru:
         coauthor_approved: "Соавтор одобрен: %{subject} ведёт «%{profession}»"
         user_suspended: "Пользователь заблокирован: %{subject}"
         user_reinstated: "Пользователь разблокирован: %{subject}"
+        user_photo_removed: "Фото убрано: %{subject}"
       sections:
         body: "содержание"
         task: "задание"
@@ -2639,6 +2643,12 @@ ru:
     title: "Настройки аккаунта"
     avatar_change: "Сменить аватар"
     avatar_default: "Инициалы"
+    photo_upload: "Загрузить фото"
+    photo_change: "Сменить фото"
+    photo_remove: "Убрать фото"
+    photo_updated: "Фото обновлено."
+    photo_removed: "Фото убрано."
+    photo_invalid: "Нужна картинка JPEG, PNG, WebP или GIF до 10 МБ."
     avatars:
       hard-hat: "Каска"
       wrench: "Гаечный ключ"
@@ -2675,6 +2685,7 @@ ru:
     curator_section: "Публичный куратор"
     headline_label: "Регалия"
     headline_placeholder: "Например: Инженер АСУ ТП, 10 лет, НАКС"
+    headline_hint: "Ваше имя показано на картах, которые вы ведёте, — кураторство публично. Регалия — необязательная строка рядом с именем."
     email_updated: "Email обновлён."
     password_updated: "Пароль изменён."
     password_current_invalid: "Неверный текущий пароль."
@@ -2685,7 +2696,6 @@ ru:
     delete_account: "Удалить аккаунт"
     delete_warning: "Удаление необратимо: аккаунт, прогресс, дневник и все исчезнет навсегда."
     deleted: "Аккаунт удалён."
-    headline_hint: "Ваше имя показано на картах, которые вы ведёте, — кураторство публично. Регалия — необязательная строка рядом с именем."
     password_invalid_for_deletion: "Неверный пароль."
     current_password: "Текущий пароль"
     new_email_placeholder: "Новый email"

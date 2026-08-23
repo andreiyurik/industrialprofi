@@ -63,6 +63,7 @@ Rails.application.routes.draw do
       resource :email, only: [ :edit, :create ]
       resource :email_verification, only: [ :new, :create ]
       resource :deletion, only: [ :new, :create ]
+      resource :photo, only: [ :create, :destroy ]
     end
 
     resource :session, only: [ :new, :create, :destroy ]
@@ -162,6 +163,7 @@ Rails.application.routes.draw do
       get "guide", to: redirect("/guide")
       resources :users, only: [ :index, :show, :update ] do
         resource :suspension, only: [ :create, :destroy ]
+        resource :photo, only: :destroy
       end
       resources :feedbacks, only: [ :index ] do
         resource :coauthor_approval, only: :create
