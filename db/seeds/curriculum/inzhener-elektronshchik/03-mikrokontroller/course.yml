@@ -1,0 +1,6 @@
+title: "Микроконтроллер: от Arduino к bare-metal"
+slug: "elektronshchik-mikrokontroller"
+description: "От первой мигающей платы на Arduino до предсказуемого STM32 без Arduino-обвязки."
+position: 3
+status: draft
+icon: cpu-light
