@@ -1209,6 +1209,28 @@
   margin-block: 0;
 }
 
+/* Fill screen: the author's brief is the illustrator's ТЗ — the loudest thing
+   on the page; under it one file field and one button. */
+.illustration-fill__brief {
+  border-inline-start: 3px solid var(--color-subtle);
+  color: var(--color-ink);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin-block: var(--block-space);
+  padding-inline-start: var(--block-space);
+}
+
+.illustration-fill__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-space-half);
+  max-inline-size: 32rem;
+}
+
+.illustration-fill__form .btn {
+  align-self: flex-start;
+}
+
 /* ── Emblem picker (admin/shared/_icon_field) ─────────────────────────────────
    Native radios in a grid: the input is hidden, the label IS the swatch, and
    :has(:checked) draws the selected ring. No JS.

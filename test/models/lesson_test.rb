@@ -207,4 +207,58 @@ class LessonTest < ActiveSupport::TestCase
       lesson.resources.to_a.partition(&:required?)
     end
   end
+
+  # Illustration slots + fill
+
+  test "illustration_slots finds TODO and placeholder forms across body and task" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "Текст.\n\n![Схема допуска](TODO-elektrik-dopusk.png)\n\nЕщё.",
+                   task: "![](placeholder: фото стенда)")
+
+    slots = lesson.illustration_slots
+    assert_equal [ %w[body TODO-elektrik-dopusk.png], [ "task", "placeholder: фото стенда" ] ],
+                 slots.map { |slot| [ slot.section, slot.src ] }
+    assert_equal "Схема допуска", slots.first.display_brief
+    assert_equal "фото стенда", slots.last.display_brief
+  end
+
+  test "a section edited into rich text drops out of the fill queue" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "![Схема](TODO-shema.png)")
+    lesson.rich_body.update!(body: "<p>Правленый текст</p>")
+
+    assert_empty lesson.reload.illustration_slots
+  end
+
+  test "fill_illustration! swaps the placeholder for a proxy URL, attaches and records a revision" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "До.\n\n![Схема допуска](TODO-elektrik-dopusk.png)\n\nПосле.")
+    blob = ActiveStorage::Blob.create_and_upload!(io: StringIO.new("data"),
+      filename: "dopusk.webp", content_type: "image/webp")
+
+    assert_difference -> { lesson.lesson_revisions.count } => 1 do
+      lesson.fill_illustration!(src: "TODO-elektrik-dopusk.png", blob: blob, edit_reason: "Иллюстрация")
+    end
+
+    lesson.reload
+    assert_includes lesson.body, "](/rails/active_storage/blobs/proxy/"
+    assert_not_includes lesson.body, "TODO-elektrik-dopusk.png"
+    assert_includes lesson.body, "![Схема допуска]" # the brief becomes the alt
+    assert lesson.illustrations.attached?
+    assert_equal "human", lesson.origin
+    assert_empty lesson.illustration_slots
+  end
+
+  test "fill_illustration! refuses honestly when the placeholder is gone" do
+    lesson = lessons(:pteep)
+    before = lesson.body
+    blob = ActiveStorage::Blob.create_and_upload!(io: StringIO.new("data"),
+      filename: "x.webp", content_type: "image/webp")
+
+    assert_raises(Lesson::PlaceholderMissing) do
+      lesson.fill_illustration!(src: "TODO-net-takogo.png", blob: blob)
+    end
+    assert_equal before, lesson.reload.body
+    assert_not lesson.illustrations.attached?
+  end
 end
