@@ -47,6 +47,11 @@ class Lesson < ApplicationRecord
   has_rich_text :rich_description
   has_rich_text :rich_task
 
+  # Images uploaded through the illustration fill flow (Admin::Illustrations
+  # #create). Owning them keeps PurgeUnattachedBlobsJob away and purges them
+  # with the lesson.
+  has_many_attached :illustrations
+
   before_validation { self.path = course.path if course }
 
   after_save_commit :index_for_search
@@ -117,11 +122,53 @@ class Lesson < ApplicationRecord
   # image whose target is a "TODO-*.png" or "placeholder: …" stand-in. The brief
   # for the illustrator lives in the alt text — that's what /admin/illustrations
   # lists. Scanned from the raw markdown body/task, where seed placeholders live;
-  # a lesson edited into rich_body no longer carries them.
-  PENDING_IMAGE_PATTERN = /!\[(?<brief>[^\]]*)\]\(\s*(?:TODO|placeholder)[^)]*\)/i
+  # a section edited into rich text renders that instead, so its markdown
+  # placeholders are no longer fillable and drop out of the queue.
+  PENDING_IMAGE_PATTERN = /!\[(?<brief>[^\]]*)\]\(\s*(?<src>(?:TODO|placeholder)[^)]*?)\s*\)/i
 
-  def pending_illustration_briefs
-    [ body.to_s, task.to_s ].flat_map { |md| md.scan(PENDING_IMAGE_PATTERN) }.flatten
+  # A brief may live in the alt (TODO form) or after the marker in the src
+  # (placeholder form) — display whichever the author wrote.
+  IllustrationSlot = Data.define(:section, :brief, :src) do
+    def display_brief = brief.presence || src.sub(/\A(?:TODO[-_]?|placeholder:?)\s*/i, "").presence
+  end
+
+  def illustration_slots
+    %w[body task].reject { |section| public_send(:"rich_#{section}").present? }
+                 .flat_map do |section|
+      public_send(section).to_s.scan(PENDING_IMAGE_PATTERN).map do |brief, src|
+        IllustrationSlot.new(section:, brief:, src:)
+      end
+    end
+  end
+
+  def pending_illustration_briefs = illustration_slots.map(&:brief)
+
+  class PlaceholderMissing < StandardError; end
+
+  # The fill flow's write side: swap ONE placeholder for the uploaded image and
+  # record who did it, atomically. Matching by exact src (not position) means a
+  # concurrent edit that removed the placeholder raises instead of corrupting
+  # neighbouring text. Goes through admin_update_with_revisions!, so the lesson
+  # is frozen for the importer and the change lands in the edit history.
+  def fill_illustration!(src:, blob:, edit_reason: nil)
+    slot = illustration_slots.find { |candidate| candidate.src == src }
+    raise PlaceholderMissing, src.to_s unless slot
+
+    transaction do
+      illustrations.attach(blob)
+      # The named service route, not the rails_storage_proxy direct — the
+      # direct helper insists on a host even for a path.
+      url = Rails.application.routes.url_helpers.rails_service_blob_proxy_path(blob.signed_id, blob.filename)
+      before = section_html(slot.section)
+      public_send(:"#{slot.section}=",
+        public_send(slot.section).sub(/\]\(\s*#{Regexp.escape(slot.src)}\s*\)/, "](#{url})"))
+      self.origin = "human"
+      save!
+      # Recorded directly, not via admin_update_with_revisions! — its diff
+      # compares visible text, and a src-only change is invisible to it.
+      record_revision!(section: slot.section, before: before, after: section_html(slot.section),
+        editor_name: nil, edit_reason: edit_reason, source: "admin")
+    end
   end
 
   def prev_in_path

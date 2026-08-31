@@ -1,0 +1,54 @@
+<% meta_title(t("admin.illustrations.new_title")) %>
+
+<section class="admin-page">
+  <div class="container">
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-header">
+      <div class="admin-header__title-group">
+        <a href="<%= admin_illustrations_path(path: @lesson.path.slug) %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
+          <%= icon_tag("arrow-left") %>
+        </a>
+        <h1 class="admin-header__title"><%= t("admin.illustrations.new_title") %></h1>
+      </div>
+      <a href="<%= lesson_path(@lesson) %>" class="admin-header__view-live link-quiet" target="_blank"><%= t("admin.view_live") %> ↗</a>
+    </div>
+
+    <% if @slot %>
+      <div class="admin-group">
+        <h2 class="admin-group__title"><%= @lesson.title %></h2>
+        <%# The author's brief is the illustrator's ТЗ — the loudest thing on the screen. %>
+        <p class="illustration-fill__brief"><%= @slot.display_brief || t("admin.illustrations.no_brief") %></p>
+
+        <%= form_with url: admin_lesson_illustrations_path(@lesson), scope: :illustration, class: "illustration-fill__form" do |form| %>
+          <%= form.hidden_field :src, value: @slot.src %>
+          <%= form.file_field :file, accept: LessonImageUpload.accept_attribute, required: true, class: "input" %>
+          <p class="admin-row__subtle"><%= t("admin.illustrations.file_hint", max: number_to_human_size(LessonImageUpload::MAX_BYTES)) %></p>
+          <%= form.submit t("admin.illustrations.submit"), class: "btn btn--reversed" %>
+        <% end %>
+      </div>
+    <% elsif @slots.any? %>
+      <div class="admin-group">
+        <h2 class="admin-group__title"><%= t("admin.illustrations.choose_slot") %></h2>
+        <div class="admin-list">
+          <% @slots.each do |slot| %>
+            <div class="admin-row admin-row--static">
+              <span class="admin-row__column">
+                <p class="admin-row__subtle"><%= slot.display_brief || t("admin.illustrations.no_brief") %></p>
+              </span>
+              <div class="admin-row__actions">
+                <%= link_to t("admin.illustrations.fill"), new_admin_lesson_illustration_path(@lesson, src: slot.src),
+                      class: "btn btn--small admin-row__action" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <div class="admin-group">
+        <p class="admin-row__subtle"><%= t("admin.illustrations.none_left") %></p>
+        <%= link_to t("admin.illustrations.open_editor"), edit_admin_lesson_path(@lesson), class: "btn btn--small" %>
+      </div>
+    <% end %>
+  </div>
+</section>

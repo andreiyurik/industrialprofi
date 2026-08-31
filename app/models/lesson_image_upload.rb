@@ -17,4 +17,22 @@ module LessonImageUpload
   def self.accept_attribute
     PERMITTED_TYPES.join(" ")
   end
+
+  # The blob a reader will be SERVED, for the markdown fill flow — whose src is
+  # baked into the lesson text, so there's no per-render variant branch to hide
+  # behind. Transcode once at upload (bounded WebP) where vips exists; keep the
+  # file as-is where it doesn't (a dev box) or for GIFs (animation would be lost).
+  def self.reader_ready_blob(upload)
+    if ApplicationHelper.variant_processing_available? && upload.content_type != "image/gif"
+      require "image_processing/vips"
+      processed = ImageProcessing::Vips.source(upload.tempfile)
+        .resize_to_limit(1600, 1600).convert("webp").saver(quality: 82).call
+      ActiveStorage::Blob.create_and_upload!(io: processed,
+        filename: "#{File.basename(upload.original_filename, '.*')}.webp",
+        content_type: "image/webp")
+    else
+      ActiveStorage::Blob.create_and_upload!(io: upload,
+        filename: upload.original_filename, content_type: upload.content_type)
+    end
+  end
 end

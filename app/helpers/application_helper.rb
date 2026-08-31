@@ -63,13 +63,13 @@ module ApplicationHelper
     end
   end
 
-  def markdown(text, anchor_headings: false)
+  def markdown(text, anchor_headings: false, fill_links_for: nil)
     return "" if text.blank?
     html = Kramdown::Document.new(text, input: "GFM",
       syntax_highlighter: "rouge",
       syntax_highlighter_opts: { formatter: RougeFormatter }).to_html
     html = sanitize(html, tags: MARKDOWN_TAGS, attributes: MARKDOWN_ATTRS)
-    enrich_prose(html, anchor_headings: anchor_headings).html_safe
+    enrich_prose(html, anchor_headings: anchor_headings, fill_links_for: fill_links_for).html_safe
   end
 
   # The shared post-sanitize prose pipeline, applied to BOTH the markdown path
@@ -79,11 +79,15 @@ module ApplicationHelper
   # tables scroll, and `## ` headings get anchors — identically, whichever editor
   # produced the section. A blockquote whose first line isn't a known marker is
   # left untouched, so plain quotes still work.
-  def enrich_prose(html, anchor_headings: false)
+  # `fill_links_for: lesson` additionally puts a fill link on every pending
+  # illustration — pass it ONLY from the reader-facing lesson render (the link
+  # is our own trusted markup; it must never leak into content that gets
+  # STORED, like the suggestion editor's rich-text conversion).
+  def enrich_prose(html, anchor_headings: false, fill_links_for: nil)
     html = render_callouts(html)
     html = wrap_prose_tables(html)
     html = wrap_code_blocks(html)
-    html = wrap_figures(html)
+    html = wrap_figures(html, fill_links_for: fill_links_for)
     html = anchor_prose_headings(html) if anchor_headings
     html
   end
@@ -145,19 +149,19 @@ module ApplicationHelper
   # one lightbox click target. The caption may sit in the SAME paragraph (next line,
   # no blank — how lessons are authored, so kramdown joins them with a <br>) or in
   # its own following <em> paragraph. Runs post-sanitize (our own markup).
-  def wrap_figures(html)
+  def wrap_figures(html, fill_links_for: nil)
     html = html.gsub(%r{<p>(<img\b[^>]*?>)\s*(?:<br\s*/?>\s*)?(?:<em>(.*?)</em>)?</p>(?:\s*<p><em>(.*?)</em></p>)?}m) do
       image = Regexp.last_match(1)
       caption = Regexp.last_match(2).presence || Regexp.last_match(3)
       pending = placeholder_image?(image)
-      figure = +%(<figure class="prose-figure#{" prose-figure--pending" if pending}">#{pending ? pending_illustration(image) : image})
+      figure = +%(<figure class="prose-figure#{" prose-figure--pending" if pending}">#{pending ? pending_illustration(image, fill_links_for) : image})
       figure << %(<figcaption class="prose-figure__caption">#{caption}</figcaption>) if caption.present?
       figure << "</figure>"
       figure
     end
     # A placeholder <img> not caught above (e.g. inline, no caption) still 404s —
     # swap it too, so a not-yet-drawn illustration never shows a broken-image icon.
-    html.gsub(%r{<img\b[^>]*?>}) { |img| placeholder_image?(img) ? pending_illustration(img) : img }
+    html.gsub(%r{<img\b[^>]*?>}) { |img| placeholder_image?(img) ? pending_illustration(img, fill_links_for) : img }
   end
 
   # An illustration the author has only briefed, not drawn: a "TODO-*.png" src
@@ -172,10 +176,26 @@ module ApplicationHelper
   # rich-text path shows for a missing attachment (.attachment__missing), so the
   # markdown and editor paths look identical. The author's alt brief rides along
   # as the accessible label. Runs post-sanitize, so aria-* survive.
-  def pending_illustration(img_tag)
+  #
+  # With a lesson given, a fill link into admin rides along too. It is baked
+  # into the shared cached HTML for EVERY reader (same URL for everyone) and
+  # hidden by CSS; the per-request .lesson--fillable class reveals it for users
+  # who may edit this profession — the 37signals shared-fragment pattern. The
+  # actual gate stays server-side in Admin::BaseController.
+  def pending_illustration(img_tag, lesson = nil)
     alt = img_tag[/\salt=(["'])(.*?)\1/, 2]
+    src = img_tag[/\ssrc=(["'])(.*?)\1/, 2]
     label = alt.present? ? %( role="img" aria-label="#{alt}" title="#{alt}") : ""
-    %(<span class="attachment__missing"#{label}>Иллюстрация готовится</span>)
+    box = %(<span class="attachment__missing"#{label}>Иллюстрация готовится</span>)
+    return box unless lesson
+
+    # A "placeholder: …" src is stripped by the sanitizer, so fall back to
+    # identifying the slot by its brief (the alt). Keyword form: a positional
+    # lesson can be swallowed by the optional :locale segment outside a request.
+    slot_params = src.present? ? { src: src } : { brief: alt }
+    box + link_to(new_admin_lesson_illustration_path(lesson_slug: lesson.slug, **slot_params), class: "attachment__fill") do
+      safe_join([ icon_tag("plus-circle"), tag.span(t("lessons.fill_illustration")) ])
+    end
   end
 
   # Wrap each fenced code block in a copy-button affordance. Runs post-sanitize
@@ -230,7 +250,7 @@ module ApplicationHelper
   # so cached HTML below is regenerated even though the lesson itself didn't
   # change. View fragment caching gets this free via template digests; a helper
   # cache needs it spelled out.
-  LESSON_CONTENT_RENDER_VERSION = 4
+  LESSON_CONTENT_RENDER_VERSION = 5
 
   # The HTML a reader sees for a section. Rich text (Lexxy) and the markdown
   # fallback both flow through the SAME enrichment, so callouts/code/tables/TOC
@@ -248,9 +268,9 @@ module ApplicationHelper
       Rails.cache.fetch([ lesson.cache_key_with_version, "lesson_content", field, LESSON_CONTENT_RENDER_VERSION ]) do
         rich = lesson.send(:"rich_#{field}")
         if rich.present?
-          enrich_prose(rich.to_s, anchor_headings: field == :body)
+          enrich_prose(rich.to_s, anchor_headings: field == :body, fill_links_for: lesson)
         else
-          markdown(lesson.send(field), anchor_headings: field == :body)
+          markdown(lesson.send(field), anchor_headings: field == :body, fill_links_for: lesson)
         end
       end.to_s.html_safe
   end

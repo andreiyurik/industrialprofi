@@ -23,14 +23,27 @@ class IllustrationCensus
     full.start_with?(Rails.public_path.to_s) && File.file?(full)
   end
 
+  # An <img src> written by the fill flow: a permanent ActiveStorage proxy URL.
+  # Resolving it back to the blob makes the census treat it like any uploaded
+  # image (live, thumbnail-able); a purged blob honestly comes back nil → broken.
+  PROXY_SRC = %r{\A/rails/active_storage/blobs/proxy/(?<signed_id>[^/]+)/}
+
+  def self.proxy_blob(src)
+    signed_id = src.to_s[PROXY_SRC, :signed_id]
+    ActiveStorage::Blob.find_signed(signed_id) if signed_id
+  rescue ActiveRecord::RecordNotFound
+    nil
+  end
+
   def initialize(path)
     @path = path
   end
 
-  # [[lesson, brief], ...] in curriculum order — the fill-me queue.
+  # [[lesson, slot], ...] in curriculum order — the fill-me queue. Each slot
+  # carries the src that Lesson#fill_illustration! matches on.
   def briefs
     @briefs ||= lessons.flat_map do |lesson|
-      lesson.pending_illustration_briefs.map { |brief| [ lesson, brief ] }
+      lesson.illustration_slots.map { |slot| [ lesson, slot ] }
     end
   end
 
@@ -64,7 +77,8 @@ class IllustrationCensus
         Image.new(lesson:, section:, src: nil, alt: blob.filename.to_s, blob:)
       end
       inline = Nokogiri::HTML.fragment(body.to_html).css("img").map do |img|
-        Image.new(lesson:, section:, src: img["src"], alt: img["alt"].to_s, blob: nil)
+        Image.new(lesson:, section:, src: img["src"], alt: img["alt"].to_s,
+                  blob: IllustrationCensus.proxy_blob(img["src"]))
       end
       attached + inline
     end
@@ -72,7 +86,8 @@ class IllustrationCensus
     def markdown_images(lesson, section, markdown)
       markdown.scan(MARKDOWN_IMAGE).filter_map do |alt, src|
         next if src.match?(/\A\s*(TODO|placeholder)/i) # a brief, not an image
-        Image.new(lesson:, section:, src: src.strip, alt:, blob: nil)
+        src = src.strip
+        Image.new(lesson:, section:, src:, alt:, blob: IllustrationCensus.proxy_blob(src))
       end
     end
 end

@@ -51,7 +51,7 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
 
   # Per-profession center
 
-  test "shows a lesson's placeholder brief and links into its editor" do
+  test "shows a lesson's placeholder brief and links into its fill screen" do
     lesson = lessons(:pteep)
     lesson.update!(body: "Текст.\n\n![Схема допуска — кто кого допускает](TODO-elektrik-dopusk.png)\n\nЕщё текст.")
 
@@ -59,7 +59,7 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_match "Схема допуска", response.body
     assert_match lesson.title, response.body
-    assert_select "a[href=?]", edit_admin_lesson_path(lesson)
+    assert_select "a[href=?]", new_admin_lesson_illustration_path(lesson, src: "TODO-elektrik-dopusk.png")
   end
 
   test "counts a placeholder inside the task section too" do
@@ -101,5 +101,88 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
   test "unknown profession slug is not found" do
     get admin_illustrations_path(path: "net-takoy")
     assert_response :not_found
+  end
+
+  # Fill screen
+
+  test "fill screen shows the brief for the matched placeholder" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "![Схема допуска](TODO-elektrik-dopusk.png)")
+
+    get new_admin_lesson_illustration_path(lesson, src: "TODO-elektrik-dopusk.png")
+    assert_response :success
+    assert_match "Схема допуска", response.body
+    assert_select "input[type=hidden][name=?][value=?]", "illustration[src]", "TODO-elektrik-dopusk.png"
+    assert_select "input[type=file]"
+  end
+
+  test "fill screen without an identifier offers the slot chooser" do
+    lessons(:pteep).update!(body: "![Одна](TODO-a.png)\n\n![Другая](TODO-b.png)")
+
+    get new_admin_lesson_illustration_path(lessons(:pteep))
+    assert_response :success
+    assert_select "a[href=?]", new_admin_lesson_illustration_path(lessons(:pteep), src: "TODO-a.png")
+    assert_select "a[href=?]", new_admin_lesson_illustration_path(lessons(:pteep), src: "TODO-b.png")
+  end
+
+  test "fill screen is closed to an editor of another profession" do
+    sign_out
+    sign_in_as users(:editor) # electrician + draft, NOT welder
+    get new_admin_lesson_illustration_path(lessons(:svarka_intro))
+    assert_redirected_to admin_lessons_path
+  end
+
+  test "create fills the placeholder and returns the expert to the article" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "![Схема допуска](TODO-elektrik-dopusk.png)")
+
+    assert_difference -> { lesson.lesson_revisions.count } => 1 do
+      post admin_lesson_illustrations_path(lesson), params: {
+        illustration: { src: "TODO-elektrik-dopusk.png", file: fixture_file_upload("cover.png", "image/png") }
+      }
+    end
+
+    assert_redirected_to lesson_path(lesson)
+    lesson.reload
+    assert_includes lesson.body, "](/rails/active_storage/blobs/proxy/"
+    assert lesson.illustrations.attached?
+  end
+
+  test "a filled image counts as live in the census, not broken" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "![Схема](TODO-shema.png)")
+    post admin_lesson_illustrations_path(lesson), params: {
+      illustration: { src: "TODO-shema.png", file: fixture_file_upload("cover.png", "image/png") }
+    }
+
+    get admin_illustrations_path(path: paths(:electrician).slug)
+    assert_response :success
+    assert_match I18n.t("admin.illustrations.pending_empty"), response.body
+    assert_no_match I18n.t("admin.illustrations.broken_title"), response.body
+    assert_select "img.illustration-card__thumb"
+  end
+
+  test "create refuses a non-image upload" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "![Схема](TODO-shema.png)")
+
+    post admin_lesson_illustrations_path(lesson), params: {
+      illustration: { src: "TODO-shema.png", file: fixture_file_upload("cover.png", "text/plain") }
+    }
+
+    assert_redirected_to new_admin_lesson_illustration_path(lesson, src: "TODO-shema.png")
+    assert_includes lesson.reload.body, "TODO-shema.png"
+  end
+
+  test "create on a vanished placeholder refuses honestly, without corrupting the text" do
+    lesson = lessons(:pteep)
+    before = lesson.body
+
+    post admin_lesson_illustrations_path(lesson), params: {
+      illustration: { src: "TODO-uzhe-net.png", file: fixture_file_upload("cover.png", "image/png") }
+    }
+
+    assert_redirected_to new_admin_lesson_illustration_path(lesson)
+    assert_equal before, lesson.reload.body
   end
 end

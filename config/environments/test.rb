@@ -59,5 +59,9 @@ Rails.application.configure do
     Bullet.enable = true
     Bullet.bullet_logger = true
     Bullet.raise = true
+    # A course/path destroy cascades into each lesson, whose has_many_attached
+    # purge callback loads its attachments one by one — inherent to the
+    # cascade, not an includes we can add. Rare admin action, bounded set.
+    Bullet.add_safelist type: :n_plus_one_query, class_name: "Lesson", association: :illustrations_attachments
   end
 end

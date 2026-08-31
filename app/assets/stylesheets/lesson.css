@@ -23,6 +23,22 @@
   padding: var(--block-space);
 }
 
+/* The fill link ships hidden inside the shared cached HTML for every reader;
+   .lesson--fillable (set per-request for users who may edit this profession)
+   reveals it. The real gate is server-side in admin. */
+.attachment__fill {
+  display: none;
+}
+
+.lesson--fillable .attachment__fill {
+  align-items: center;
+  color: var(--color-link);
+  display: inline-flex;
+  font-size: 0.85rem;
+  gap: 0.35rem;
+  margin-block-start: var(--block-space-half);
+}
+
 .lesson {
   margin-inline: auto;
   max-inline-size: 44rem;

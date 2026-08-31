@@ -518,6 +518,16 @@ the code already records, while CLAUDE.md holds decisions and conventions.
   sweeps orphans. **No visible watermark** (contradicts CC BY-SA, clutters the
   educational detail, no SEO value). Blobs live in `storage/blobs/`, separate
   from the SQLite DBs, and need their own backup rule (`docs/DEPLOY.md`).
+  **Revised 2026-09-01 — new markdown illustrations go to blobs, not git:** the
+  founder approved the illustration fill flow (pending box on the reader page →
+  `.lesson--fillable` CSS-reveal link → `admin/lessons/:slug/illustrations/new` →
+  `Lesson#fill_illustration!` swaps the exact `TODO`/`placeholder:` src for a
+  permanent blob proxy URL + revision). Prod can't write to `public/` (immutable
+  Docker image), so web-filled images are `lessons.illustrations` attachments —
+  transcoded once to bounded WebP at upload (`LessonImageUpload.reader_ready_blob`),
+  served via `Cache-Control: public` proxy URLs. Existing committed files in
+  `public/lesson-images` stay; the census resolves both. Debt: `content:export`
+  doesn't carry blob images into packs yet.
 - **Lessons have NO draft status — a lesson added to a published course goes
   live immediately, accepted** (2026-07-11): lesson position is global within
   the profession (prev/next, "Продолжить", progress bars, counter caches), so

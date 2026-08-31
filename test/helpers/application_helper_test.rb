@@ -23,6 +23,31 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes result, "Title"
   end
 
+  test "markdown with fill_links_for adds a fill link to a pending illustration" do
+    lesson = lessons(:pteep)
+    html = markdown("![Схема допуска](TODO-elektrik-dopusk.png)", fill_links_for: lesson)
+
+    assert_includes html, "attachment__missing"
+    assert_includes html, "attachment__fill"
+    assert_includes html, new_admin_lesson_illustration_path(lesson_slug: lesson.slug, src: "TODO-elektrik-dopusk.png")
+  end
+
+  test "markdown identifies a src-less placeholder by its brief" do
+    lesson = lessons(:pteep)
+    html = markdown("![Стенд](placeholder: фото стенда)", fill_links_for: lesson)
+
+    assert_includes html, new_admin_lesson_illustration_path(lesson_slug: lesson.slug, brief: "Стенд")
+  end
+
+  # The link must never leak into content that gets STORED — the suggestion
+  # editor and admin markdown→rich conversion call markdown() without the option.
+  test "markdown without fill_links_for renders the pending box with no link" do
+    html = markdown("![Схема](TODO-shema.png)")
+
+    assert_includes html, "attachment__missing"
+    assert_not_includes html, "attachment__fill"
+  end
+
   test "markdown wraps a standalone image and its caption in one figure" do
     result = markdown("![схема](/lesson-images/net.svg)\n\n*Рис. 1. Сеть АСУ ТП.*")
     assert_includes result, '<figure class="prose-figure">'

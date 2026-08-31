@@ -133,6 +133,9 @@ Rails.application.routes.draw do
         resources :revisions, only: [ :index ] do
           member { post :rollback }
         end
+        # The fill screen: brief + one file field; creating swaps the lesson's
+        # placeholder for the uploaded image (Lesson#fill_illustration!).
+        resources :illustrations, only: [ :new, :create ]
       end
       # paths#show is the curriculum builder (the tree); #index is its landing.
       # Builder mutations (reorder, rename) are nested RESTful resources scoped to

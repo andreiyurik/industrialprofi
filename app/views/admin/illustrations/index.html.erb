@@ -22,16 +22,16 @@
         </h2>
         <% if @census.briefs.any? %>
           <div class="admin-list">
-            <% @census.briefs.each do |lesson, brief| %>
+            <% @census.briefs.each do |lesson, slot| %>
               <div class="admin-row admin-row--static">
                 <span class="admin-row__column">
                   <span class="admin-row__line">
                     <span class="admin-row__title"><%= lesson.title %></span>
                   </span>
-                  <p class="admin-row__subtle"><%= brief.presence || t("admin.illustrations.no_brief") %></p>
+                  <p class="admin-row__subtle"><%= slot.display_brief || t("admin.illustrations.no_brief") %></p>
                 </span>
                 <div class="admin-row__actions">
-                  <%= link_to t("admin.illustrations.fill"), edit_admin_lesson_path(lesson),
+                  <%= link_to t("admin.illustrations.fill"), new_admin_lesson_illustration_path(lesson, src: slot.src),
                         class: "btn btn--small admin-row__action" %>
                 </div>
               </div>
