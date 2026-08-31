@@ -31,7 +31,9 @@
 
   <div class="lesson-sidebar-backdrop" data-action="click->lesson-sidebar#close" aria-hidden="true"></div>
 
-  <div class="lesson">
+  <%# --fillable reveals the fill links baked (hidden) into the shared cached
+      lesson HTML — set per-request, outside the cache, same gate as the pencil. %>
+  <div class="lesson<%= " lesson--fillable" if Current.user&.can_edit_path?(@lesson.path) %>">
   <% if @preview %>
     <p class="lesson__preview-banner"><%= t("lessons.preview_banner") %></p>
   <% end %>
