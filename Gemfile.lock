@@ -330,7 +330,7 @@ GEM
     ruby-vips (2.3.0)
       ffi (~> 1.12)
       logger
-    rubyzip (3.5.0)
+    rubyzip (3.6.0)
     sass-embedded (1.103.1-aarch64-linux-gnu)
       google-protobuf (~> 4.31)
     sass-embedded (1.103.1-aarch64-linux-musl)
@@ -444,7 +444,7 @@ DEPENDENCIES
   rouge
   rubocop-rails-omakase
   ruby-vips (~> 2.2)
-  rubyzip (~> 3.4)
+  rubyzip (~> 3.6)
   selenium-webdriver
   solid_cable
   solid_cache
