@@ -207,20 +207,21 @@
   .todo__check .icon {
     visibility: hidden;
   }
+}
 
-  &:has(:checked) .todo__check {
-    background-color: var(--color-positive);
-    border-color: var(--color-positive);
+/* The box is a sibling of its labels, so state is read from the row. */
+.map-lesson-row:has(.map-lesson-row__box:checked) .todo__check {
+  background-color: var(--color-positive);
+  border-color: var(--color-positive);
 
-    .icon {
-      visibility: visible;
-    }
+  .icon {
+    visibility: visible;
   }
+}
 
-  &:has(:focus-visible) .todo__check {
-    outline: 2px solid var(--color-link);
-    outline-offset: 2px;
-  }
+.map-lesson-row:has(.map-lesson-row__box:focus-visible) .todo__check {
+  outline: 2px solid var(--color-link);
+  outline-offset: 2px;
 }
 
 .map-lesson-row .builder-lesson__title {
@@ -228,7 +229,7 @@
 }
 
 /* An unchosen lesson is quiet and has nothing to add to. */
-.map-lesson-row:not(:has(.map-lesson-row__pick :checked)) {
+.map-lesson-row:not(:has(.map-lesson-row__box:checked)) {
   .builder-lesson__title {
     color: var(--color-subtle-dark);
   }
