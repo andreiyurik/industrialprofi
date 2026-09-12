@@ -39,3 +39,8 @@
 
 # Ignore the generated RDoc map (bin/rails doc:map) — regenerate it, never commit it.
 /doc/
+
+# Ignore the IDE project files. The RubyMine .iml is a generated index of every
+# gem, stamped with the local Ruby SDK name, so a version bump rewrites all of
+# it; the IDE recreates the folder on open.
+/.idea/
