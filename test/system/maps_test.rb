@@ -17,6 +17,8 @@ class MapsTest < ApplicationSystemTestCase
       document.addEventListener("turbo:load", () => window.__log.push(["turbo:load"]));
       document.addEventListener("turbo:render", () => window.__log.push(["turbo:render"]));
     JS
+    warn "DBG dialogs=#{page.evaluate_script(%q{JSON.stringify([...document.querySelectorAll("dialog")].map(d => [d.className || d.id, d.open, d.matches(":modal")]))})}"
+    warn "DBG inert=#{page.evaluate_script(%q{(() => { const l = document.querySelector("label.map-lesson-row__pick"); return JSON.stringify([ l.closest("[inert]") ? "inert-ancestor" : "no-inert", document.activeElement && document.activeElement.tagName ]) })()})}"
     find("label.map-lesson-row__pick[for='#{box_id}']").click
     warn "DBG log=#{page.evaluate_script('JSON.stringify(window.__log)')}"
     warn "DBG checked=#{find("##{box_id}", visible: :all).checked?} counter=#{find('.map-checklist__bar .todo__count').text.inspect}"
