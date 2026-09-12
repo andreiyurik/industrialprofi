@@ -1,0 +1,22 @@
+<%# One of the author's own links: title + URL, and the one-line note. %>
+<div class="resource-row" data-nested-form-target="item">
+  <div class="resource-row__fields">
+    <div class="resource-row__head">
+      <%= f.text_field :title, placeholder: t("maps.form.link_title"), maxlength: 160,
+            class: "input resource-row__title" %>
+      <button type="button" class="resource-row__remove" data-action="nested-form#removeItem"
+              aria-label="<%= t("maps.form.remove") %>">
+        <%= icon_tag "trash" %>
+      </button>
+    </div>
+    <%= f.url_field :url, placeholder: "https://", maxlength: 500, class: "input input--mono resource-row__url" %>
+    <div class="resource-row__foot">
+      <%= f.text_field :note, placeholder: t("maps.form.note"), maxlength: 200,
+            class: "input input--ghost resource-row__note" %>
+    </div>
+  </div>
+
+  <%= f.hidden_field :after_lesson_id %>
+  <%= f.hidden_field :position, data: { nested_form_target: "position" } %>
+  <%= f.hidden_field :_destroy, data: { nested_form_target: "destroy" } %>
+</div>

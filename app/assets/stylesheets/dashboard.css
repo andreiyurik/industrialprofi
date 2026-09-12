@@ -592,3 +592,48 @@
     display: none; /* keep rows one-line on phones */
   }
 }
+
+/* Maps on the dashboard: mine (with its one honest count) and the ones I
+   took — the same row rhythm as the course rows above. */
+.dashboard-maps {
+  --panel-padding: 0;
+  overflow: hidden;
+}
+
+.dashboard-map {
+  align-items: center;
+  display: flex;
+  gap: var(--inline-space);
+  padding: var(--block-space) 1.25rem;
+  --avatar-size: 2rem;
+
+  & + & {
+    border-block-start: 1px solid var(--color-subtle);
+  }
+}
+
+.dashboard-map__icon {
+  color: var(--color-subtle-dark);
+  flex-shrink: 0;
+  --icon-size: 1.5rem;
+}
+
+.dashboard-map__info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+  min-inline-size: 0;
+}
+
+.dashboard-map__title {
+  color: var(--color-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.dashboard-map__meta {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+}

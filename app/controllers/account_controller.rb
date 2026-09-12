@@ -36,7 +36,7 @@ class AccountController < ApplicationController
     end
 
     def account_params
-      params.expect(user: [ :name, :avatar_token, :reminder_emails, :suggestion_emails, :headline ])
+      params.expect(user: [ :name, :avatar_token, :reminder_emails, :suggestion_emails, :headline, :handle, :show_progress ])
     end
 
     def password_params

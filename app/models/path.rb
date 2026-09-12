@@ -41,6 +41,10 @@ class Path < ApplicationRecord
   # an opt-in — a map is never anonymous, a person answers for it.
   has_many :curators, -> { active.order(:name) }, through: :editorships, source: :user
   belongs_to :author, class_name: "User", optional: true
+  # Personal maps are overlays on this profession, not copies: destroying it
+  # takes the lessons (and with them every overlay row), leaves each author
+  # their own links, and only unlinks the «на основе» reference.
+  has_many :maps, dependent: :nullify
 
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: SLUG_FORMAT }
@@ -85,29 +89,13 @@ class Path < ApplicationRecord
   # abbreviations — derived from data, not a setting.
   def has_glossary? = GlossaryTerm.for_path(self).exists?
 
-  # Everyone whose proposed edit or source was accepted into this map — the
-  # hub's «карту улучшили» credit. Names, not scores: attribution is the one
-  # recognition mechanic here (no leaderboard, by decision). A guest's
-  # proposal carries only author_name, a member's their account name.
-  def contributor_names
-    [ LessonSuggestion, ResourceSuggestion ].flat_map { |model|
-      model.approved.joins(:lesson).left_joins(:user).where(lessons: { path_id: id })
-           .pluck(Arel.sql("COALESCE(users.name, #{model.table_name}.author_name)"))
-    }.compact_blank.uniq
-  end
+  # Who improved this profession (see Path::Contributors) — built once per
+  # request, like Path::Progress.
+  def contributors = @contributors ||= Contributors.new(self)
 
-  # The contributors who have accounts — for the hub header's avatar stack
-  # (guests' proposals count in contributor_names but have no face to show).
   # The hub header draws the curators' faces — their photos ride along in one
   # query (the lesson byline and JSON-LD need only names: plain `curators`).
   def hub_curators = curators.includes(photo_attachment: :blob)
-
-  def contributor_users(limit: 3)
-    ids = [ LessonSuggestion, ResourceSuggestion ].flat_map { |model|
-      model.approved.joins(:lesson).where(lessons: { path_id: id }).where.not(user_id: nil).distinct.pluck(:user_id)
-    }.uniq
-    User.where(id: ids).order(:name).limit(limit)
-  end
 
   private
     def indexnow_url

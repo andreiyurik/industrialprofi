@@ -18,6 +18,20 @@
 }
 
 /* A curator's photo (User::Photo): the same disc, filled by the image. */
+/* A face that opens a profile: the ring says "clickable" without a new colour. */
+.avatar-link {
+  border-radius: 50%;
+  display: inline-flex;
+  line-height: 0;
+  transition: box-shadow 150ms ease;
+
+  @media (any-hover: hover) {
+    &:hover {
+      box-shadow: 0 0 0 2px var(--color-subtle-dark);
+    }
+  }
+}
+
 .avatar--photo {
   background: var(--color-subtle-light);
   object-fit: cover;

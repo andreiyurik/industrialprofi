@@ -15,5 +15,7 @@ editor:
   email_address: expert@example.com
   password_digest: <%= BCrypt::Password.create("password", cost: 4) %>
   role: editor
+  handle: expert
+  headline: "Инженер АСУ ТП, 15 лет"
   # Already greeted — the steady state; welcome-letter tests null this out.
   editor_welcomed_at: 2026-07-01 12:00:00

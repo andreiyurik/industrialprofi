@@ -7,7 +7,7 @@ import { elementAfter } from "helpers/dom_helpers"
 // (links) editor; generic enough to reuse elsewhere.
 export default class extends Controller {
   static targets = ["list", "template", "item", "badge", "kind", "position", "destroy"]
-  static values = { kinds: Object }
+  static values = { kinds: Object, templateId: String, defaults: Object }
 
   #dragging = null
 
@@ -21,9 +21,10 @@ export default class extends Controller {
 
   addItem(event) {
     event.preventDefault()
-    const html = this.templateTarget.innerHTML.replace(/NEW_RECORD/g, this.#uid())
+    const html = this.#template.innerHTML.replace(/NEW_RECORD/g, this.#uid())
     this.listTarget.insertAdjacentHTML("beforeend", html)
     const item = this.listTarget.lastElementChild
+    this.#applyDefaults(item)
     this.#paintBadge(item)
     this.#renumber()
     item.querySelector("input.input")?.focus()
@@ -70,6 +71,21 @@ export default class extends Controller {
   }
 
   // Private
+
+  // Editors that repeat down a page (a links box under every lesson of a map)
+  // share one blank row instead of shipping a copy each.
+  get #template() {
+    return this.hasTemplateTarget ? this.templateTarget : document.getElementById(this.templateIdValue)
+  }
+
+  // What a shared blank row cannot know: which lesson this particular box
+  // hangs under.
+  #applyDefaults(item) {
+    Object.entries(this.defaultsValue).forEach(([name, value]) => {
+      const field = item.querySelector(`[name$="[${name}]"]`)
+      if (field) field.value = value
+    })
+  }
 
   // The kind dot borrows the reader-facing badge hue (the modifier class sets
   // `color`; the dot paints itself with currentColor). Updates live as the

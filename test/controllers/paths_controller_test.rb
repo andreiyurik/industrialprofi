@@ -149,10 +149,28 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
   test "show credits accepted contributors by name, not by score" do
     get path_path(paths(:electrician))
     assert_match I18n.t("paths.hub.contributors", count: 1), response.body
-    assert_select "#path-contributors li", text: "Мария Сидорова"
+    assert_select "#path-people .people-list__row", text: /Мария Сидорова/
+    assert_select "#path-people a.people-list__name[href=?]", profile_path("expert"), text: "Эксперт"
+    assert_select ".hub-people__line--lead", text: /Карту ведёт Эксперт/
+
+    Editorship.create!(user: users(:admin), path: paths(:electrician))
+    get path_path(paths(:electrician))
+    assert_select ".hub-people__line--lead", text: /Карту ведут Админ и Эксперт/
 
     get path_path(paths(:welder))
     assert_select ".hub-contributors", false
+  end
+
+  test "the people popover shows at most #{Path::Contributors::SHOWN} contributors and counts the rest" do
+    25.times do |i|
+      LessonSuggestion.create!(lesson: lessons(:pteep), body_markdown: "правка #{i}", section: "body",
+                               author_name: "Гость #{i}", status: "approved")
+    end
+
+    get path_path(paths(:electrician))
+    assert_match I18n.t("paths.hub.contributors", count: 26), response.body
+    assert_select "#path-people .people-list__row", count: Path::Contributors::SHOWN + 1 # + the curator's row
+    assert_select ".hub-popover__more", text: "и ещё 6 человек"
   end
 
   test "show renders the landing slots an author filled, then the chapter outline" do
@@ -206,5 +224,18 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_match courses(:el_pue).title, response.body
     assert_match courses(:el_relay_soon).title, response.body
     assert_match course_path(courses(:el_basics)), response.body
+  end
+
+  test "the overview offers adding notes to the map and explains it" do
+    get path_path(paths(:electrician))
+    assert_select "a[href=?]", new_session_path(return_to: path_path(paths(:electrician))),
+      text: "Дополнить карту комментариями для коллег"
+    assert_select ".map-version__why[popovertarget=map-why]", text: "Что это?"
+    assert_select "#map-why[popover]", text: /Для кого/
+    assert_select "#map-why[popover]", text: /Почему только одна/
+
+    sign_in_as users(:member)
+    get path_path(paths(:electrician))
+    assert_select "form[action=?] button", map_path(path: "elektrik")
   end
 end

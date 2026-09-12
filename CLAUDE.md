@@ -10,7 +10,7 @@ work, leave the tree dirty, summarize, stop.
 Same default for `push`, `merge`, `tag`, `rebase`, `reset`, `checkout -b`,
 `stash`; use `git add` only if asked. Read-only inspection (`status`, `diff`,
 `log`) is always fine. **Exception:** when the user explicitly authorizes a
-specific action ("commit this", "push to main"), do that action — it's not a
+specific action ("commit this", "push to master"), do that action — it's not a
 standing license for future changes. Always report exactly what was run.
 
 ---
@@ -75,7 +75,7 @@ speed; for trivial edits, use judgment.
 
 ## Stack
 
-- Ruby 4.0.5 / Rails 8.1.3
+- Ruby 4.0 / Rails 8.1 (exact versions: `.ruby-version`, `Gemfile.lock`)
 - SQLite3 (+ Solid Queue, Solid Cache, Solid Cable)
 - Hotwire: Turbo + Stimulus
 - **Pure CSS**, bundled into one file by `dartsass-rails` at `assets:precompile`.
@@ -585,8 +585,9 @@ the code already records, while CLAUDE.md holds decisions and conventions.
   content catalog stays gated on a native expert — the structure is ready,
   the content door opens per the recorded language-expansion trigger.
 
-**Not built yet (v0.3):** community-authored roadmaps (in the sandbox+promotion
-shape recorded above), public profiles, moderated public portfolio.
+**Not built yet (v0.3):** promotion of a personal map into the catalog (the
+«предложить в каталог» half of sandbox+promotion — the sandbox half shipped as
+personal maps, see `docs/ARCHITECTURE.md`), moderated public portfolio.
 
 ## Docs
 

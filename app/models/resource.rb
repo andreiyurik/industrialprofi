@@ -21,7 +21,7 @@ class Resource < ApplicationRecord
 
   validates :title, presence: true
   validates :note, length: { maximum: 200 }
-  validates :url, format: { with: /\Ahttps?:\/\/[^\s]+\z/i }, allow_blank: true
+  validates :url, format: { with: URL_FORMAT }, allow_blank: true
   validates :kind, inclusion: { in: KINDS + %w[document] }
   validates :language, inclusion: { in: LANGUAGES }, allow_nil: true
   # Provenance only (no digest). Edit-safety rides primarily on the PARENT lesson's

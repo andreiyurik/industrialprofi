@@ -1,0 +1,20 @@
+<%# The one explanation of personal versions — who they are for, what they
+    solve, what they are not, and that a real fix belongs in the article for
+    everyone. Rendered in the «?» popover next to the button and at the top
+    of the editor; one text, one place to edit it (maps.why in the locale).
+    The two things a reader must not miss — fix it for everyone, the page is
+    public — wear the lesson callouts, so the eye lands on them first. %>
+<div class="map-why__text">
+  <p><strong><%= t("maps.why.who_lead") %></strong> <%= t("maps.why.who") %></p>
+  <p><strong><%= t("maps.why.what_lead") %></strong> <%= t("maps.why.what") %></p>
+  <p><strong><%= t("maps.why.not_lead") %></strong> <%= t("maps.why.not") %></p>
+  <div class="callout callout--tip">
+    <p class="callout__label"><%= icon_tag "lightbulb" %><span><%= t("maps.why.fix_lead") %></span></p>
+    <p><%= t("maps.why.fix") %></p>
+  </div>
+  <div class="callout callout--important">
+    <p class="callout__label"><%= icon_tag "info" %><span><%= t("maps.why.open_lead") %></span></p>
+    <p><%= t("maps.why.open") %></p>
+  </div>
+  <p><strong><%= t("maps.why.one_lead") %></strong> <%= t("maps.why.one") %></p>
+</div>

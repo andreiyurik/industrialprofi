@@ -31,6 +31,25 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
     assert_nil @user.reload.avatar_token.presence
   end
 
+  test "sets a profile address and the progress toggle" do
+    patch account_url, params: { user: { handle: "Ivan-P", show_progress: "1" } }
+    assert_redirected_to account_url
+    assert_equal "ivan-p", @user.reload.handle
+    assert @user.show_progress?
+
+    get account_url
+    assert_select "a[href=?]", profile_path("ivan-p")
+  end
+
+  test "rejects a taken or malformed address" do
+    patch account_url, params: { user: { handle: "expert" } }
+    assert_response :unprocessable_entity
+
+    patch account_url, params: { user: { handle: "Иван" } }
+    assert_response :unprocessable_entity
+    assert_nil @user.reload.handle
+  end
+
   test "rejects an unknown avatar token" do
     patch account_url, params: { user: { avatar_token: "unicorn" } }
 

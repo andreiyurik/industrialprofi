@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_23_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_12_100100) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -206,6 +206,43 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_23_120000) do
     t.index ["slug"], name: "index_lessons_on_slug", unique: true
   end
 
+  create_table "map_follows", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "map_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["map_id"], name: "index_map_follows_on_map_id"
+    t.index ["user_id", "map_id"], name: "index_map_follows_on_user_id_and_map_id", unique: true
+  end
+
+  create_table "map_items", force: :cascade do |t|
+    t.integer "after_lesson_id"
+    t.datetime "created_at", null: false
+    t.boolean "excluded", default: false, null: false
+    t.integer "lesson_id"
+    t.integer "map_id", null: false
+    t.string "note"
+    t.integer "position", default: 0, null: false
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.string "url"
+    t.index ["after_lesson_id"], name: "index_map_items_on_after_lesson_id"
+    t.index ["lesson_id"], name: "index_map_items_on_lesson_id"
+    t.index ["map_id", "position"], name: "index_map_items_on_map_id_and_position"
+  end
+
+  create_table "maps", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.integer "follows_count", default: 0, null: false
+    t.integer "path_id"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["path_id"], name: "index_maps_on_path_id"
+    t.index ["user_id"], name: "index_maps_on_user_id", unique: true
+  end
+
   create_table "paths", force: :cascade do |t|
     t.integer "author_id"
     t.integer "courses_count", default: 0, null: false
@@ -312,6 +349,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_23_120000) do
     t.datetime "created_at", null: false
     t.datetime "editor_welcomed_at"
     t.string "email_address", null: false
+    t.string "handle"
     t.string "headline"
     t.text "learning_goal"
     t.string "locale", default: "ru", null: false
@@ -320,12 +358,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_23_120000) do
     t.datetime "reminded_at"
     t.boolean "reminder_emails", default: true, null: false
     t.string "role", default: "member", null: false
+    t.boolean "show_progress", default: false, null: false
     t.datetime "suggestion_digest_sent_at"
     t.boolean "suggestion_emails", default: true, null: false
     t.datetime "suggestions_seen_at"
     t.datetime "suspended_at"
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["handle"], name: "index_users_on_handle", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
