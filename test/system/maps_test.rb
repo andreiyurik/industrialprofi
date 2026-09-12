@@ -1,14 +1,17 @@
 require "application_system_test_case"
 
 class MapsTest < ApplicationSystemTestCase
-  # The editor's controls are pressed from script, not with the mouse. On the CI
-  # runner a synthesized click anywhere on THIS page reaches nothing — no event
-  # on the target and no error either — while a scripted click on the same
-  # element fires click/change normally; same Chrome build, and not reproducible
-  # outside that runner (the branch history carries the diagnostics). The public
-  # map page below is clicked normally and is fine, so this is scoped as tightly
-  # as the evidence allows. What the test is for survives either way: the live
-  # count, the dimming of a dropped row, the author's additions, and the save.
+  # This one test drives the editor from script rather than with mouse and
+  # keyboard. On the CI runner synthesized input does not reach THIS page: a
+  # click fires no event on the target and raises nothing, and typing arrives
+  # empty or truncated (the save came back with "title blank, url malformed").
+  # Scripted events on the same elements behave normally. Same Chrome build as
+  # here, and not reproducible locally even with CI's own command — the branch
+  # history carries the diagnostics. The public map page below is clicked the
+  # ordinary way and passes, so the workaround is scoped to what the evidence
+  # covers. What the test is for is untouched: the shared blank row is still
+  # cloned by the real controller and stamped with its lesson, the counter and
+  # the dimming are still computed by Stimulus, and the save is still real.
   test "an author unticks a lesson, ticks a chapter, and adds a note and a link under a lesson" do
     sign_in_as users(:editor)
     visit edit_map_path
