@@ -10,7 +10,7 @@ work, leave the tree dirty, summarize, stop.
 Same default for `push`, `merge`, `tag`, `rebase`, `reset`, `checkout -b`,
 `stash`; use `git add` only if asked. Read-only inspection (`status`, `diff`,
 `log`) is always fine. **Exception:** when the user explicitly authorizes a
-specific action ("commit this", "push to main"), do that action — it's not a
+specific action ("commit this", "push to master"), do that action — it's not a
 standing license for future changes. Always report exactly what was run.
 
 ---
