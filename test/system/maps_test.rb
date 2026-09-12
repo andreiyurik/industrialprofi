@@ -6,7 +6,9 @@ class MapsTest < ApplicationSystemTestCase
     visit edit_map_path
 
     assert_selector ".map-checklist__bar .todo__count", text: "2 из 4"
-    find("label.builder-lesson__title", text: "ПТЭЭП: основы эксплуатации").click
+    # The box itself is for-screen-reader; Capybara clicks its label and waits
+    # for the box to actually flip, instead of racing the counter's text.
+    uncheck "lesson_ids[]", id: "lesson_#{lessons(:pteep).id}", allow_label_click: true
     assert_selector ".map-checklist__bar .todo__count", text: "1 из 4"
     within all(".map-course").last do
       click_on "Все"
