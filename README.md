@@ -155,7 +155,7 @@ Hotwire, no Node.js anywhere in sight.
 
 ## Getting started
 
-You need Ruby 4.0.5 and Git. No Node, no Yarn, no asset pipeline to configure.
+You need the Ruby version in `.ruby-version` and Git. No Node, no Yarn, no asset pipeline to configure.
 
 ```bash
 git clone https://github.com/andreiyurik/industrialprofi.git
