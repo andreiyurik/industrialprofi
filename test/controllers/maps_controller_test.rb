@@ -105,6 +105,16 @@ class MapsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 2, maps(:expert_map).lessons.size, "a failed save changes nothing"
   end
 
+  test "more rows than a map may hold is refused, and nothing is saved" do
+    sign_in_as users(:editor)
+    rows = (0..Map::MAX_ITEMS).to_h { |i| [ i.to_s, { title: "Ссылка #{i}", url: "https://example.com/#{i}" } ] }
+
+    assert_no_difference -> { MapItem.count } do
+      patch map_path, params: { lesson_ids: [ lessons(:pteep).id ], map: { items_attributes: rows } }
+    end
+    assert_response :unprocessable_entity
+  end
+
   test "destroy removes the map, its items and its follows" do
     sign_in_as users(:editor)
     assert_difference [ -> { Map.count }, -> { MapFollow.count } ], -1 do
