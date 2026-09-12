@@ -6,26 +6,7 @@ class MapsTest < ApplicationSystemTestCase
     visit edit_map_path
 
     assert_selector ".map-checklist__bar .todo__count", text: "2 из 4"
-    box_id = "lesson_#{lessons(:pteep).id}"
-    warn page.evaluate_script(<<~JS)
-      (() => {
-        const box = document.getElementById(#{'"' + 'lesson_' + '"'} + #{lessons(:pteep).id});
-        const pick = document.querySelector("label.map-lesson-row__pick[for='" + box.id + "']");
-        const r = pick.getBoundingClientRect();
-        const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
-        let prevented = null;
-        box.addEventListener("click", e => { prevented = e.defaultPrevented; }, { once: true });
-        const before = box.checked;
-        box.click();
-        return JSON.stringify({
-          before, afterJsClick: box.checked, preventedAtBox: prevented,
-          labelsFor: document.querySelectorAll("label[for='" + box.id + "']").length,
-          topAtPickCenter: top ? top.tagName + "." + (top.className || "") : null,
-          boxParent: box.parentElement.className,
-          disabled: box.disabled
-        });
-      })()
-    JS
+    uncheck "lesson_ids[]", id: "lesson_#{lessons(:pteep).id}", allow_label_click: true
     assert_selector ".map-checklist__bar .todo__count", text: "1 из 4"
     within all(".map-course").last do
       click_on "Все"

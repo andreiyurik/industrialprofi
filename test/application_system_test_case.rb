@@ -44,6 +44,26 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     options.add_argument("--disable-dev-shm-usage")
   end
 
+  # Turbo animates every navigation through the View Transitions API, and while
+  # one runs the browser paints a snapshot above the page: a real click lands in
+  # the snapshot, does nothing, and raises nothing. Invisible on a fast machine,
+  # flaky on a slow one. Forcing reduced motion would hide it, but the app turns
+  # real animation off there too (transitions.css) — so wait the transition out
+  # instead, and keep testing what we ship.
+  SETTLED = <<~JS.freeze
+    !document.getAnimations().some(a => a.effect?.pseudoElement?.startsWith("::view-transition"))
+  JS
+
+  def visit(*)
+    super.tap { await_view_transition }
+  end
+
+  def await_view_transition
+    page.document.synchronize(errors: [ Capybara::ExpectationNotMet ]) do
+      raise Capybara::ExpectationNotMet, "view transition still running" unless page.evaluate_script(SETTLED)
+    end
+  end
+
   # Sign in through the real form. Waits on LEAVING the login page rather than on
   # the submit button disappearing: a negative assertion can match the old body
   # before Turbo swaps it in, which made this flake only in a full suite run. The
@@ -54,5 +74,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     fill_in "password", with: password
     find(".auth__submit").click
     assert_no_current_path new_session_path, wait: 10
+    await_view_transition
   end
 end
