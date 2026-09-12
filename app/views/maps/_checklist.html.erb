@@ -43,10 +43,14 @@
             <% filled = extra&.note.present? || links.any? %>
             <li class="map-lesson-row">
               <div class="builder-lesson">
-                <label class="map-lesson-row__pick" title="<%= t("maps.checklist.hint") %>">
-                  <%= check_box_tag "lesson_ids[]", lesson.id, !excluded_ids.include?(lesson.id),
-                        id: "lesson_#{lesson.id}", class: "for-screen-reader",
-                        data: { checklist_target: "box", action: "checklist#count" } %>
+                <%# The box sits OUTSIDE both of its labels on purpose: an input
+                    wrapped by one label and pointed at by another gets activated
+                    twice on a single click in some browsers, and the toggle
+                    silently cancels itself. Two plain `for` labels, one click. %>
+                <%= check_box_tag "lesson_ids[]", lesson.id, !excluded_ids.include?(lesson.id),
+                      id: "lesson_#{lesson.id}", class: "for-screen-reader map-lesson-row__box",
+                      data: { checklist_target: "box", action: "checklist#count" } %>
+                <label class="map-lesson-row__pick" for="lesson_<%= lesson.id %>" title="<%= t("maps.checklist.hint") %>">
                   <span class="todo__check" aria-hidden="true"><%= icon_tag "check" %></span>
                 </label>
                 <span class="builder-lesson__pos"><%= lesson.position %></span>
