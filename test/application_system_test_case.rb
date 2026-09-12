@@ -42,26 +42,24 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     options.binary = CHROME_BIN if CHROME_BIN
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
+    # Turbo animates every navigation through the View Transitions API, and
+    # while one runs the browser paints a snapshot above the page: a real click
+    # lands in the snapshot, does nothing and raises nothing — invisible on a
+    # fast machine, flaky on a slow one. The app already drops the animation
+    # under reduced motion (transitions.css), so asking the browser for it
+    # makes clicks deterministic while still exercising shipped CSS. A test
+    # that is ABOUT motion asks for it back with `with_motion`.
+    options.add_argument("--force-prefers-reduced-motion")
   end
 
-  # Turbo animates every navigation through the View Transitions API, and while
-  # one runs the browser paints a snapshot above the page: a real click lands in
-  # the snapshot, does nothing, and raises nothing. Invisible on a fast machine,
-  # flaky on a slow one. Forcing reduced motion would hide it, but the app turns
-  # real animation off there too (transitions.css) — so wait the transition out
-  # instead, and keep testing what we ship.
-  SETTLED = <<~JS.freeze
-    !document.getAnimations().some(a => a.effect?.pseudoElement?.startsWith("::view-transition"))
-  JS
-
-  def visit(*)
-    super.tap { await_view_transition }
-  end
-
-  def await_view_transition
-    page.document.synchronize(errors: [ Capybara::ExpectationNotMet ]) do
-      raise Capybara::ExpectationNotMet, "view transition still running" unless page.evaluate_script(SETTLED)
-    end
+  # Emulate a viewer who did not ask for reduced motion — for the one test whose
+  # subject IS an animation.
+  def with_motion
+    page.driver.browser.execute_cdp("Emulation.setEmulatedMedia",
+      features: [ { name: "prefers-reduced-motion", value: "no-preference" } ])
+    yield
+  ensure
+    page.driver.browser.execute_cdp("Emulation.setEmulatedMedia", features: [])
   end
 
   # Sign in through the real form. Waits on LEAVING the login page rather than on
@@ -74,6 +72,5 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     fill_in "password", with: password
     find(".auth__submit").click
     assert_no_current_path new_session_path, wait: 10
-    await_view_transition
   end
 end
