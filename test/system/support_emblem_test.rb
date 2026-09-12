@@ -5,19 +5,17 @@ require "application_system_test_case"
 # which has no inner paths to animate and left a static glyph. This catches that.
 class SupportEmblemTest < ApplicationSystemTestCase
   test "the hero emblem draws itself and the heart beats" do
-    with_motion do
-      visit support_us_path
+    visit support_us_path
 
-      paths = all(".support-emblem__icon svg path", visible: :all)
-      assert_equal 3, paths.size, "эмблема рисуется тремя путями: манжета, ладонь, сердце"
+    paths = all(".support-emblem__icon svg path", visible: :all)
+    assert_equal 3, paths.size, "эмблема рисуется тремя путями: манжета, ладонь, сердце"
 
-      animations = page.evaluate_script(<<~JS)
-        [...document.querySelectorAll(".support-emblem__icon svg path")]
-          .map(p => getComputedStyle(p).animationName)
-      JS
+    animations = page.evaluate_script(<<~JS)
+      [...document.querySelectorAll(".support-emblem__icon svg path")]
+        .map(p => getComputedStyle(p).animationName)
+    JS
 
-      assert animations.all? { it.include?("support-draw") }, "каждый путь должен прорисовываться"
-      assert_includes animations.last, "support-heartbeat", "сердце (третий путь) должно биться"
-    end
+    assert animations.all? { it.include?("support-draw") }, "каждый путь должен прорисовываться"
+    assert_includes animations.last, "support-heartbeat", "сердце (третий путь) должно биться"
   end
 end

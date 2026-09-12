@@ -42,36 +42,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     options.binary = CHROME_BIN if CHROME_BIN
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    # Turbo animates every navigation through the View Transitions API, and
-    # while one runs the browser paints a snapshot above the page: a real click
-    # lands in the snapshot, does nothing and raises nothing — invisible on a
-    # fast machine, flaky on a slow one. The app already drops the animation
-    # under reduced motion (transitions.css), so asking the browser for it
-    # makes clicks deterministic while still exercising shipped CSS. A test
-    # that is ABOUT motion asks for it back with `with_motion`.
-    options.add_argument("--force-prefers-reduced-motion")
-  end
-
-  # Four self-hosted faces load after first paint, and a face swapping reflows
-  # every row on the page. Selenium computes an element's centre, then clicks
-  # it: a reflow in between drops the click on whatever moved into that spot —
-  # no event on the target, and no error either. Wait for the fonts first.
-  def visit(*)
-    super.tap do
-      page.document.synchronize(errors: [ Capybara::ExpectationNotMet ]) do
-        raise Capybara::ExpectationNotMet, "fonts still loading" unless page.evaluate_script("document.fonts.status") == "loaded"
-      end
-    end
-  end
-
-  # Emulate a viewer who did not ask for reduced motion — for the one test whose
-  # subject IS an animation.
-  def with_motion
-    page.driver.browser.execute_cdp("Emulation.setEmulatedMedia",
-      features: [ { name: "prefers-reduced-motion", value: "no-preference" } ])
-    yield
-  ensure
-    page.driver.browser.execute_cdp("Emulation.setEmulatedMedia", features: [])
   end
 
   # Sign in through the real form. Waits on LEAVING the login page rather than on
