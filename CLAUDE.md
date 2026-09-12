@@ -75,7 +75,7 @@ speed; for trivial edits, use judgment.
 
 ## Stack
 
-- Ruby 4.0.5 / Rails 8.1.3
+- Ruby 4.0 / Rails 8.1 (exact versions: `.ruby-version`, `Gemfile.lock`)
 - SQLite3 (+ Solid Queue, Solid Cache, Solid Cable)
 - Hotwire: Turbo + Stimulus
 - **Pure CSS**, bundled into one file by `dartsass-rails` at `assets:precompile`.
