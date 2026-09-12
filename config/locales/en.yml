@@ -1036,6 +1036,15 @@ en:
     suggested: "Start a new direction"
     courses_title: "Progress by chapter"
     courses_hint: "Better to go in order."
+    maps_title: "Map versions"
+    maps_hint: "Your version and the versions you took from others."
+    map_followers:
+      zero: "nobody has taken it yet"
+      one: "%{count} person is on it"
+      other: "%{count} people are on it"
+    map_edit: "Edit"
+    map_invite: "«%{path}» with your notes for students, new hires or colleagues: one link instead of ten in a chat."
+    map_by: "by %{name}"
     start: "Start"
     course_done: "Completed"
     goal:
@@ -1221,8 +1230,14 @@ en:
       contributors:
         one: "%{count} contributor"
         other: "%{count} contributors"
-      contributors_title: "Whose edits and sources were accepted"
-      people_curators: "Curators"
+      contributors_title: "Improved the lessons"
+      contributors_hint: "Accepted edits and sources — each one visible in the lesson's history."
+      contributors_more:
+        one: "and %{count} more"
+        other: "and %{count} more"
+      people_curators: "Curate the map"
+      people_author: "Map author"
+      people_title: "Who stands behind the map"
       improve_title: "Improve this roadmap"
       improve_text: "Spotted an inaccuracy? Suggest an edit right in the article. Know a better source? Propose it under the article. Ready to lead the roadmap as a practitioner? You are exactly who we're looking for."
     theory:
@@ -1496,6 +1511,11 @@ en:
         who: "Open to everyone"
         what: "Found a mistake, an outdated link, or an imprecise wording — suggest an edit right on the article. You don't need to know git or anything technical: we have our own simple edit system anyone can use. All you need is an account — an email and a password. A couple of minutes."
         cta: "Browse professions"
+      teach:
+        title: "Teach with a roadmap"
+        who: "For foremen, mentors and teachers"
+        what: "Do you teach people? Add your own notes and links to the official roadmap: what to read, which sections, your own procedures and videos under the right article. Students and colleagues get one link instead of ten in a chat and tick lessons off. One map per person — the articles stay shared and update for everyone."
+        cta: "Pick a roadmap"
       expert:
         title: "Lead a profession"
         who: "For experienced practitioners"
@@ -1568,6 +1588,8 @@ en:
         a_html: "Yes, but sign-up is quick — just an email and a password. An account is needed so edits are signed with a real name: that's what makes them trustworthy, and it's how good authors unlock more access."
       - q: "I'm not sure about the wording. Should I suggest it anyway?"
         a_html: "Yes, definitely. An expert will read the edit either way — better to suggest it and point out what's off than stay quiet. Even a short note helps."
+      - q: "Can I put together a reading list for my students or crew?"
+        a_html: "Yes. On any profession page click “Add notes to this map for colleagues”: drop the articles you don't need, add your notes and links under the ones you do — and send people a single link. One map per person; the articles in it stay shared and update for everyone."
       - q: "What do I get in return?"
         a_html: "Your name quietly stays with your edit — in the article's edit history, open to every reader, forever. Not a leaderboard, not points — quiet, honest recognition of the work."
     cta_title: "Ready to get involved?"
@@ -1642,6 +1664,10 @@ en:
             d: "A personal work log: write down what you did with your hands — private, visible only to you."
           - t: "Activity heatmap"
             d: "Squares like on GitHub: your actual day-by-day practice, no pressure."
+          - t: "Your own map — one link for students and colleagues"
+            d: "Build a personal map from catalog lessons and your own links in two minutes and send it as one link. Whoever opens it sees the order; whoever signs in takes the map and ticks lessons off."
+          - t: "Public profile"
+            d: "A specialist's page: the map, curated professions and accepted edits, each linked to its history. Nothing that can be gamed; progress is shown only if you choose."
           - t: "Come-back reminder"
             d: "If you've paused for a week, one quiet email with the next article. No newsletters, one-click unsubscribe."
           - t: "A direct line to the author"
@@ -1739,6 +1765,10 @@ en:
     cta_telegram: "Write on Telegram"
 
   support:
+    array:
+      words_connector: ", "
+      two_words_connector: " and "
+      last_word_connector: ", and "
     page_title: "Support the project — industrialprofi.com"
     title: "Support the project"
     copy: "Copy"
@@ -2566,8 +2596,106 @@ en:
       one: "%{count} chapter"
       other: "%{count} chapters"
 
+  maps:
+    default_title: "%{path} — %{name}'s version"
+    build_from: "Add notes to this map for colleagues"
+    lessons_count:
+      zero: "%{count} lessons"
+      one: "%{count} lesson"
+      other: "%{count} lessons"
+    links_count:
+      zero: "%{count} links"
+      one: "%{count} link"
+      other: "%{count} links"
+    create:
+      created: "Your version is ready with every lesson in it. Untick what you don't need, add your own, share the link."
+    update:
+      updated: "Version saved."
+    destroy:
+      deleted: "Version deleted."
+    edit:
+      title: "My version of the map"
+      view: "Open"
+      delete: "Delete the version"
+      delete_confirm: "Delete your version? The link will stop working and everyone who took it will lose it."
+    checklist:
+      legend: "Lessons from the catalog"
+      hint: "ticked = on the map"
+      all: "All"
+      none: "None"
+      of: "%{count} of %{total}"
+    form:
+      title: "Title"
+      description: "Description"
+      description_hint: "Who this map is for and why — one or two sentences"
+      extend: "Note and links for this lesson"
+      lesson_note: "A note to the learner: what exactly to read, what to look at"
+      open_lesson: "Open the lesson"
+      link_title: "Title"
+      note: "What exactly to look at: chapter, minutes, sections"
+      add_link: "Add a link"
+      save: "Save"
+      remove: "Remove"
+    share:
+      lead: "Link to your version"
+      hint: "The page is public: the address is your name on the site, notes and links are visible to everyone."
+      copy: "Copy"
+      copied: "Copied"
+    why:
+      link: "What is this?"
+      title: "What this is for"
+      who_lead: "Who it's for"
+      who: "A master, a foreman, a teacher, a mentor: you send your students one link instead of ten in a chat, and they tick off what they've done."
+      what_lead: "What it solves"
+      what: "The official map is shared and complete. Your version is for your task: only the lessons you need, your notes on what exactly to read, and your regulations, videos and handouts under the right lesson."
+      not_lead: "What it is not"
+      not: "Not a copy and not a second map. The lessons stay shared: they keep improving, and a learner's progress on them counts everywhere."
+      fix_lead: "Found a mistake?"
+      fix: "Or know a better source — don't keep it in your version alone. Use «Suggest an edit» on the lesson itself: the map gets better for everyone, and your name joins those who improved it."
+      open_lead: "The page is public"
+      open: "Anyone with the address sees the version, no sign-up needed; the address is your name on the site and also leads to your profile. Whoever signs in can take the version and tick lessons off. Notes and links are visible to everyone, so keep out anything not meant for outsiders; links to internal documents open only for people who already have access."
+      one_lead: "Why only one"
+      one: "The project has no sponsors, runs on one small server, and we guard its resources. So each member has one personal version with notes and links — one profession of their choice. Pick the one you teach people. A version can be deleted and built again from another map."
+    show:
+      eyebrow: "Personal version of a map"
+      meta: "%{name}'s version of the map: %{lessons} in the right order, with progress ticks."
+      based_on: "based on"
+      own_links: "From the author"
+      take: "Take it"
+      take_hint: "The version shows up under «My learning»; the ticks on lessons are yours."
+      taken: "In your «My learning»"
+      drop: "Remove"
+      edit: "Edit"
+      notice: "A personal version of the map: its author put it together, the editors haven't reviewed it. Catalog lessons are reviewed; notes and off-site links are the author's responsibility."
+      build_lead: "The same map with your notes for students, colleagues or new hires — one click, two minutes to adjust."
+
+  profiles:
+    meta: "%{name} on IndustrialProfi: map and contributions."
+    self_described: "— in their own words"
+    since: "Member since %{date}"
+    map_title: "Map version"
+    contribution_title: "Contribution"
+    curates: "Curates:"
+    improved: "Accepted edits and sources: %{count}"
+    improved_hint: "Each row leads to the lesson's change history: open the edit and check it."
+    learning_title: "Learning"
+    learning_hint: "By the person's own ticks."
+    empty: "Nothing public yet."
+    follows:
+      create:
+        taken: "The version is in your «My learning»."
+        own: "This is your own version — it's already yours."
+      destroy:
+        dropped: "The version was removed from «My learning»."
+
   account:
     title: "Account settings"
+    handle_label: "Profile address"
+    handle_placeholder: "profile address, e.g. ivan-petrov"
+    handle_hint: "Public page: /u/address. Blank — no page. Latin letters, digits and hyphens, 3 to 30 characters. Changing it changes the link to your map version too."
+    profile_open: "Open profile"
+    show_progress_label: "Show my progress on the profile"
+    show_progress_hint: "Started maps, percentages and activity. Contributions are always visible."
     avatar_change: "Change avatar"
     avatar_default: "Initials"
     photo_upload: "Upload a photo"

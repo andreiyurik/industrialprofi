@@ -1,0 +1,436 @@
+/* Personal maps (see Map): the author's form pages and the public map page.
+   The public page is a reading list — one column, the same rail-less list
+   the course curriculum uses, plus the author line and one action. */
+
+/* ── Author's forms ── */
+.map-form__header {
+  align-items: center;
+  display: flex;
+  gap: var(--inline-space);
+  justify-content: space-between;
+  margin-block-end: var(--block-space);
+}
+
+.map-form__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-space);
+}
+
+.map-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-space-half);
+
+  label {
+    font-weight: 600;
+  }
+}
+
+.map-form__actions {
+  display: flex;
+  gap: var(--inline-space-half);
+}
+
+.map-form__danger {
+  border-block-start: 1px solid var(--color-subtle);
+  margin-block-start: var(--block-space-double);
+  padding-block-start: var(--block-space);
+}
+
+/* The button with its «Что это?» — and the explanation it opens, reused at the top
+   of the editor as a folded disclosure. */
+.map-version {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--inline-space-half);
+
+  form {
+    display: inline;
+  }
+}
+
+.map-version__why {
+  background: none;
+  border: 0;
+  color: var(--color-link);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  white-space: nowrap;
+}
+
+.map-why {
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75em;
+  margin-block-end: var(--block-space);
+  padding: 0.75rem var(--block-space);
+}
+
+.map-why__summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  font-weight: 600;
+  gap: var(--inline-space-half);
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.map-why[open] .map-why__summary {
+  margin-block-end: var(--block-space-half);
+}
+
+.map-why__text {
+  color: var(--color-subtle-dark);
+  font-size: 0.95rem;
+  line-height: 1.55;
+
+  > p {
+    margin-block: 0 0.75rem;
+  }
+
+  > p:last-child {
+    margin-block-end: 0;
+  }
+
+  /* Each lead is a heading of its own line, so the block scans as a list. */
+  > p > strong {
+    color: var(--color-ink);
+    display: block;
+  }
+
+  .callout {
+    color: var(--color-ink);
+    margin-block: 0 0.75rem;
+  }
+}
+
+/* The share box: the URL is the deliverable, so it reads first. */
+.map-share {
+  --panel-padding: var(--block-space);
+  margin-block-end: var(--block-space);
+}
+
+.map-share__lead {
+  font-weight: 600;
+  margin-block: 0 var(--block-space-half);
+}
+
+.map-share__row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--inline-space-half);
+}
+
+.map-share__url {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.map-share__hint {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  margin-block: var(--block-space-half) 0;
+}
+
+/* The lesson checklist wears the expert builder's clothes (builder.css):
+   chapter cards, numbered rows, a pencil at the row's end. What differs is the
+   verb — a round check chooses a lesson instead of dragging it, the pencil
+   opens the author's additions instead of the content editor. */
+.map-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-space-half);
+}
+
+.map-checklist__bar {
+  align-items: baseline;
+  display: flex;
+  gap: var(--inline-space);
+  justify-content: space-between;
+}
+
+.map-checklist__legend {
+  font-weight: 600;
+}
+
+/* A native disclosure in the builder card: the head is the summary. */
+.map-course > summary {
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.map-course .builder-course__toggle .icon {
+  transform: rotate(-90deg);
+  transition: transform 150ms ease;
+}
+
+.map-course[open] .builder-course__toggle .icon {
+  transform: none;
+}
+
+.map-course .builder-course__meta {
+  font-size: 0.85rem;
+}
+
+/* Chapter names wrap here — on a phone a truncated «Основы и электроб…» is
+   worse than a second line (the builder is a desktop tool, this is not). */
+.map-course .builder-course__title {
+  white-space: normal;
+}
+
+/* The round check (todo.css) fills with ink when the lesson is chosen —
+   selected, not done (done is the green of the reader's progress). */
+.map-lesson-row__pick {
+  cursor: pointer;
+  display: inline-flex;
+  line-height: 0;
+
+  .todo__check {
+    margin-block-start: 0;
+  }
+
+  .todo__check .icon {
+    visibility: hidden;
+  }
+
+  &:has(:checked) .todo__check {
+    background-color: var(--color-positive);
+    border-color: var(--color-positive);
+
+    .icon {
+      visibility: visible;
+    }
+  }
+
+  &:has(:focus-visible) .todo__check {
+    outline: 2px solid var(--color-link);
+    outline-offset: 2px;
+  }
+}
+
+.map-lesson-row .builder-lesson__title {
+  cursor: pointer;
+}
+
+/* An unchosen lesson is quiet and has nothing to add to. */
+.map-lesson-row:not(:has(.map-lesson-row__pick :checked)) {
+  .builder-lesson__title {
+    color: var(--color-subtle-dark);
+  }
+
+  .map-lesson-row__edit,
+  .map-lesson-row__count {
+    visibility: hidden;
+  }
+
+  .map-lesson-row__body {
+    display: none;
+  }
+}
+
+.map-lesson-row__count {
+  color: var(--color-subtle-dark);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+/* The pencil toggles the additions; filled = there is something under it. */
+.map-lesson-row__edit {
+  cursor: pointer;
+
+  &:has(:focus-visible) {
+    outline: 2px solid var(--color-link);
+    outline-offset: 2px;
+  }
+}
+
+.map-lesson-row__edit--filled,
+.map-lesson-row__edit:has(:checked) {
+  color: var(--color-ink);
+}
+
+.map-lesson-row__body {
+  display: none;
+  flex-direction: column;
+  gap: var(--block-space-half);
+  padding: 0.25rem 0.6rem 0.9rem calc(0.6rem + 1.3rem + 0.6rem + 1.5rem + 0.6rem);
+}
+
+.map-lesson-row:has(.map-lesson-row__edit :checked) .map-lesson-row__body {
+  display: flex;
+}
+
+.map-lesson-row__note {
+  --input-padding: 0.35rem 0.6rem;
+  font-size: 0.9rem;
+}
+
+.map-lesson-row__actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--inline-space);
+}
+
+.map-lesson-row__open {
+  font-size: 0.85rem;
+}
+
+.map-checklist__tools {
+  align-items: baseline;
+  display: flex;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  gap: var(--inline-space);
+}
+
+.map-checklist__toggles {
+  color: var(--color-subtle-dark);
+
+  button {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+  }
+}
+
+/* ── Public map page ── */
+.map-page__header {
+  margin-block-end: var(--block-space);
+}
+
+.map-page__eyebrow {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  margin-block: 0 var(--block-space-half);
+  text-transform: uppercase;
+}
+
+.map-page__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-block: 0 var(--block-space-half);
+}
+
+.map-page__author {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--inline-space-half);
+  margin-block: 0 var(--block-space-half);
+  --avatar-size: 1.75rem;
+}
+
+.map-page__author-link {
+  align-items: center;
+  color: var(--color-ink);
+  display: inline-flex;
+  font-weight: 600;
+  gap: var(--inline-space-half);
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.map-page__headline {
+  color: var(--color-subtle-dark);
+}
+
+.map-page__description {
+  color: var(--color-ink);
+  margin-block: 0 var(--block-space-half);
+}
+
+.map-page__facts {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  margin-block: 0;
+}
+
+.map-page__actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--inline-space-half);
+  margin-block-end: var(--block-space);
+
+  form {
+    display: inline;
+  }
+}
+
+.map-page__take-hint {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+}
+
+.map-page__taken {
+  align-items: center;
+  color: var(--color-positive);
+  display: inline-flex;
+  font-weight: 600;
+  gap: var(--inline-space-half);
+}
+
+.map-page__progress {
+  margin-block-end: var(--block-space);
+}
+
+.map-page__links {
+  margin-block-start: var(--block-space-double);
+}
+
+.map-page__notice {
+  align-items: start;
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75em;
+  color: var(--color-subtle-dark);
+  display: flex;
+  font-size: 0.85rem;
+  gap: var(--inline-space-half);
+  margin-block-start: var(--block-space-double);
+  padding: var(--block-space);
+
+  .icon {
+    flex-shrink: 0;
+    margin-block-start: 0.15em;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.map-page__build {
+  margin-block-start: var(--block-space);
+  text-align: center;
+
+  p {
+    color: var(--color-subtle-dark);
+    margin-block: 0 var(--block-space-half);
+  }
+}

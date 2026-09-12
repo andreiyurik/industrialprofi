@@ -1,0 +1,92 @@
+<%# locals: (path:, curators:) -%>
+<%# The people behind the map, Fizzy's way: a row of faces (each opening the
+    person's profile), who leads it, how many improved it, how mature it is.
+    One centred cluster under the identity at every width — never a corner
+    that collides with the emblem. Names, never scores. %>
+<% author = path.author unless curators.include?(path.author) %>
+<% people = path.contributors %>
+<% faces = (curators + [ author ].compact + people.faces.to_a).uniq.first(4) %>
+<div class="hub-people">
+  <% if faces.any? %>
+    <span class="hub-people__faces">
+      <% faces.each do |person| %><%= person_avatar(person) %><% end %>
+    </span>
+  <% end %>
+  <div class="hub-people__text">
+    <% if curators.any? %>
+      <p class="hub-people__line hub-people__line--lead">
+        <%= t("paths.curated_by", count: curators.size) %>
+        <%= people_sentence(curators.map { |curator| person_link(curator) }) %>
+      </p>
+    <% elsif author %>
+      <p class="hub-people__line hub-people__line--lead">
+        <%= t("paths.authored_by") %> <%= person_link(author) %>
+      </p>
+    <% end %>
+    <div class="hub-people__line hub-people__meta">
+      <% if people.any? %>
+        <button type="button" class="hub-people__button" popovertarget="path-people">
+          <%= t("paths.hub.contributors", count: people.count) %>
+          <%= icon_tag "caret-down" %>
+        </button>
+        <span class="hub-people__dot" aria-hidden="true">·</span>
+      <% end %>
+      <%= render "paths/maturity", path: path, curators: curators %>
+    </div>
+  </div>
+
+  <% if people.any? %>
+    <div id="path-people" class="hub-popover" popover>
+      <p class="hub-popover__title"><%= t("paths.hub.people_title") %></p>
+
+      <% if curators.any? %>
+        <p class="hub-popover__group"><%= t("paths.hub.people_curators") %></p>
+        <ul class="people-list" role="list">
+          <% curators.each do |curator| %>
+            <li class="people-list__row">
+              <%= person_avatar(curator) %>
+              <span class="people-list__text">
+                <%= person_link(curator, css: "people-list__name") %>
+                <% if curator.headline.present? %><span class="people-list__meta"><%= curator.headline %></span><% end %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <% if author %>
+        <p class="hub-popover__group"><%= t("paths.hub.people_author") %></p>
+        <ul class="people-list" role="list">
+          <li class="people-list__row">
+            <%= person_avatar(author) %>
+            <span class="people-list__text"><%= person_link(author, css: "people-list__name") %></span>
+          </li>
+        </ul>
+      <% end %>
+
+      <p class="hub-popover__group"><%= t("paths.hub.contributors_title") %></p>
+      <p class="hub-popover__hint"><%= t("paths.hub.contributors_hint") %></p>
+      <ul class="people-list" role="list">
+        <% people.members.each do |person| %>
+          <li class="people-list__row">
+            <%= person_avatar(person) %>
+            <span class="people-list__text">
+              <%= person_link(person, css: "people-list__name") %>
+              <% if person.headline.present? %><span class="people-list__meta"><%= person.headline %></span><% end %>
+            </span>
+          </li>
+        <% end %>
+        <%# A guest contributor has no account — only the name they signed with. %>
+        <% people.guests.each do |name| %>
+          <li class="people-list__row">
+            <%= avatar_initials_tag(name) %>
+            <span class="people-list__text"><span class="people-list__name"><%= name %></span></span>
+          </li>
+        <% end %>
+      </ul>
+      <% if people.more.positive? %>
+        <p class="hub-popover__hint hub-popover__more"><%= t("paths.hub.contributors_more", count: people.more) %></p>
+      <% end %>
+    </div>
+  <% end %>
+</div>

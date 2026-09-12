@@ -251,4 +251,11 @@ test "a lesson no calculator names renders no calculator block" do
 
   assert_select ".lesson-calculators", false
 end
+
+  test "two curators are joined with «и», never Rails' English «and»" do
+    Editorship.create!(user: users(:admin), path: paths(:electrician))
+    get lesson_path(lessons(:pteep))
+    assert_select ".lesson-attribution", text: /Админ и Эксперт|Эксперт и Админ/
+    assert_no_match " and ", response.body.scan(/lesson-attribution.*?<\/p>/m).join
+  end
 end

@@ -33,6 +33,9 @@ class Lesson < ApplicationRecord
   has_many :lesson_completions, dependent: :delete_all
   has_many :lesson_bookmarks, dependent: :delete_all
   has_many :journal_entries, dependent: :nullify
+  has_many :map_items, dependent: :delete_all
+  # A member's links filed under this lesson float loose in their map.
+  has_many :map_links, class_name: "MapItem", foreign_key: :after_lesson_id, dependent: :nullify
 
   # The admin resource editor edits resources inline with the lesson. A row with
   # neither a title nor a URL (an empty "add a link" the editor left behind) is

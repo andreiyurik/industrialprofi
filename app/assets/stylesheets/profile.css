@@ -1,0 +1,92 @@
+/* Public profile (/u/:handle): a visiting card in one column — identity,
+   the map, checkable contribution, progress only by the person's choice.
+   Nothing here is a score. */
+.profile__identity {
+  align-items: center;
+  display: flex;
+  gap: var(--inline-space);
+  margin-block-end: var(--block-space-double);
+  --avatar-size: 4rem;
+}
+
+.profile__name {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+  gap: var(--inline-space-half);
+  line-height: 1.15;
+  margin-block: 0 0.25rem;
+}
+
+.profile__role {
+  font-size: 0.65rem;
+}
+
+.profile__headline {
+  margin-block: 0 0.25rem;
+}
+
+.profile__muted {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  margin-block: 0;
+}
+
+.profile__section + .profile__section {
+  margin-block-start: var(--block-space-double);
+}
+
+.profile__section-title {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  margin-block: 0 var(--block-space-half);
+  text-transform: uppercase;
+}
+
+.profile__line {
+  margin-block: 0 var(--block-space-half);
+}
+
+.profile__lessons {
+  list-style: none;
+  margin: var(--block-space-half) 0 0;
+  padding: 0;
+
+  li {
+    border-block-start: 1px solid var(--color-subtle);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--inline-space-half);
+    padding-block: 0.5rem;
+  }
+}
+
+.profile-map {
+  align-items: center;
+  display: flex;
+  gap: var(--inline-space);
+  --icon-size: 1.75rem;
+}
+
+.profile-map__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.profile-path {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-block-end: var(--block-space);
+}
+
+.profile-path__title {
+  color: var(--color-ink);
+  font-weight: 600;
+  text-decoration: none;
+}

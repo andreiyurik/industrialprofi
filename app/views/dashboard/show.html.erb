@@ -147,6 +147,8 @@
       <% end %>
     <% end %>
 
+    <%= render "maps" if @map || @followed_maps.any? || @focus_path %>
+
     <% if @bookmarked_lessons.any? %>
       <section id="dashboard_bookmarks" class="dashboard__bookmarks">
         <h2 class="dashboard__section-title"><%= t("dashboard.bookmarks_title") %></h2>

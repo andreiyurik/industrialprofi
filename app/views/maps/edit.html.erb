@@ -1,0 +1,47 @@
+<% meta_title(t("maps.edit.title")) %>
+
+<section class="section">
+  <div class="container container--reading map-form">
+    <header class="map-form__header">
+      <h1 class="section-title"><%= t("maps.edit.title") %></h1>
+      <%= link_to t("maps.edit.view"), profile_map_path(@map), class: "btn btn--small" %>
+    </header>
+
+    <%# The share box comes first: the link IS the product — everything below
+        only makes it worth sending. Copy button is JS-revealed (copy-link). %>
+    <div class="panel map-share"
+         data-controller="copy-link"
+         data-copy-link-url-value="<%= profile_map_url(@map) %>"
+         data-copy-link-label-value="<%= t("maps.share.copy") %>"
+         data-copy-link-copied-value="<%= t("maps.share.copied") %>">
+      <p class="map-share__lead"><%= t("maps.share.lead") %></p>
+      <div class="map-share__row">
+        <span class="map-share__url"><%= profile_map_url(@map) %></span>
+        <button type="button" class="btn btn--small" hidden
+                data-copy-link-target="button" data-action="copy-link#copy">
+          <%= icon_tag "copy" %>
+          <span data-copy-link-target="label"><%= t("maps.share.copy") %></span>
+        </button>
+      </div>
+      <p class="map-share__hint"><%= t("maps.share.hint") %></p>
+    </div>
+
+    <%# Open once, right after the version was made (flash), folded to one
+        line on every later visit — the letter pattern without a column. %>
+    <details class="map-why"<%= " open" if flash[:map_welcome] %>>
+      <summary class="map-why__summary link-quiet">
+        <%= icon_tag "question" %>
+        <span><%= t("maps.why.title") %></span>
+      </summary>
+      <%= render "maps/why" %>
+    </details>
+
+    <%= render "maps/form", map: @map, courses: @courses, excluded_ids: @excluded_ids, extras: @extras %>
+
+    <div class="map-form__danger">
+      <%= button_to t("maps.edit.delete"), map_path, method: :delete,
+            class: "btn btn--negative btn--small",
+            data: { turbo_confirm: t("maps.edit.delete_confirm") } %>
+    </div>
+  </div>
+</section>

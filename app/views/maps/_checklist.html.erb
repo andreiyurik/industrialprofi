@@ -1,0 +1,68 @@
+<%# locals: (f:, courses:, excluded_ids:, extras:) -%>
+<%# The catalog half of a version, drawn like the expert's curriculum builder
+    (builder.css): collapsed chapter cards with a caret, the count and «Все ·
+    Ничего» in the head; numbered lesson rows inside, each with a round check
+    on the left and a pencil on the right. The pencil opens the author's
+    comment and links under that row — no JS, a hidden checkbox and :has().
+    A chapter opens by itself only where the author already changed something;
+    a fresh version has nothing excluded, so everything starts ticked. %>
+<div class="map-checklist" data-controller="checklist" data-checklist-format-value="<%= t("maps.checklist.of") %>">
+  <header class="map-checklist__bar">
+    <span class="map-checklist__legend"><%= t("maps.checklist.legend") %></span>
+    <span class="map-checklist__tools">
+      <span class="todo__count" data-checklist-target="count"></span>
+      <%= render "maps/checklist_toggles" %>
+    </span>
+  </header>
+
+  <%# One blank row for the whole page: every «Добавить ссылку» button clones
+      this, then stamps its own lesson onto the copy (nested-form defaults). %>
+  <template id="map_link_fields">
+    <%= f.fields_for :items, MapItem.new, child_index: "NEW_RECORD" do |item_f| %>
+      <%= render "maps/item_fields", f: item_f %>
+    <% end %>
+  </template>
+
+  <div class="builder__courses">
+    <% courses.each do |course| %>
+      <% touched = course.lessons.any? { |lesson| excluded_ids.include?(lesson.id) || extras[lesson.id] } %>
+      <details class="builder-course map-course" data-checklist-group<%= " open" if touched %>>
+        <summary class="builder-course__head">
+          <span class="builder-course__toggle" aria-hidden="true"><%= icon_tag "caret-down" %></span>
+          <span class="builder-course__title"><%= course.title %></span>
+          <span class="builder-course__meta map-checklist__tools">
+            <span class="todo__count" data-checklist-target="count"></span>
+            <%= render "maps/checklist_toggles" %>
+          </span>
+        </summary>
+
+        <ul class="builder-course__lessons">
+          <% course.lessons.each do |lesson| %>
+            <% extra = extras[lesson.id] %>
+            <% links = extra&.links || [] %>
+            <% filled = extra&.note.present? || links.any? %>
+            <li class="map-lesson-row">
+              <div class="builder-lesson">
+                <label class="map-lesson-row__pick" title="<%= t("maps.checklist.hint") %>">
+                  <%= check_box_tag "lesson_ids[]", lesson.id, !excluded_ids.include?(lesson.id),
+                        id: "lesson_#{lesson.id}", class: "for-screen-reader",
+                        data: { checklist_target: "box", action: "checklist#count" } %>
+                  <span class="todo__check" aria-hidden="true"><%= icon_tag "check" %></span>
+                </label>
+                <span class="builder-lesson__pos"><%= lesson.position %></span>
+                <label for="lesson_<%= lesson.id %>" class="builder-lesson__title"><%= lesson.title %></label>
+                <% if lesson.practice? %><span class="badge badge--marker"><%= t("admin.kind_practice") %></span><% end %>
+                <% if links.any? %><span class="map-lesson-row__count"><%= t("maps.links_count", count: links.size) %></span><% end %>
+                <label class="builder__edit map-lesson-row__edit<%= " map-lesson-row__edit--filled" if filled %>" title="<%= t("maps.form.extend") %>">
+                  <input type="checkbox" class="for-screen-reader"<%= " checked" if filled %> aria-label="<%= t("maps.form.extend") %>">
+                  <%= icon_tag "pencil-simple" %>
+                </label>
+              </div>
+              <%= render "maps/lesson_fields", f: f, lesson: lesson, extra: extra %>
+            </li>
+          <% end %>
+        </ul>
+      </details>
+    <% end %>
+  </div>
+</div>

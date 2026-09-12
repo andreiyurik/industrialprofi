@@ -20,6 +20,8 @@ class Course < ApplicationRecord
   scope :listable, -> { where(status: %w[published coming_soon]) }
   scope :ordered, -> { order(:position) }
 
+  def published? = status == "published"
+
   def coming_soon?
     status == "coming_soon"
   end

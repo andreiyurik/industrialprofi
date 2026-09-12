@@ -1,0 +1,3 @@
+member_takes_expert_map:
+  map: expert_map
+  user: member

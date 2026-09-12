@@ -18,6 +18,29 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  # ── Maps ──
+
+  test "an author sees their map with its follower count; a newcomer sees nothing about maps" do
+    sign_in_as users(:editor)
+    get dashboard_path
+    assert_select ".dashboard-map__title", text: "Первые 30 дней на участке"
+    assert_select ".dashboard-map__meta", text: "1 человек проходит"
+
+    sign_out
+    sign_in_as users(:admin)
+    get dashboard_path
+    assert_select ".dashboard__maps", count: 0
+  end
+
+  test "a follower sees the taken map with progress, and an invitation to build their own" do
+    sign_in_as users(:member)
+    users(:member).lesson_completions.create!(lesson: lessons(:pteep))
+    get dashboard_path
+    assert_select ".dashboard-map__title", text: "Первые 30 дней на участке"
+    assert_select ".dashboard-map .progress__label", text: /1.*2/
+    assert_select "form[action=?] button", map_path(path: "elektrik"), text: "Дополнить карту комментариями для коллег"
+  end
+
   # ── Header account menu: the quiet role mark + the editors' entry point ──
 
   test "an editor sees their role badge and the Редактура menu item" do
