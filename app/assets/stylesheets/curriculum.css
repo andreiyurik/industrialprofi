@@ -180,3 +180,43 @@
   }
 }
 
+
+/* A map author's additions under a lesson (shared/_curriculum_extra): the
+   note/source rhythm of a reading list, indented to the lesson title. */
+.curriculum__extra {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  margin-block: -0.35rem 0.5rem;
+  padding-inline: calc(0.75rem + 1.25rem + 0.75rem) 0.75rem;
+}
+
+.curriculum__extra-note {
+  color: var(--color-subtle-dark);
+  margin: 0;
+}
+
+.curriculum__extra-link {
+  align-items: center;
+  color: var(--color-link);
+  display: inline-flex;
+  gap: var(--inline-space-half);
+  text-decoration: none;
+
+  .icon {
+    color: var(--color-subtle-dark);
+    flex-shrink: 0;
+  }
+
+  @media (any-hover: hover) {
+    &:hover span:first-of-type {
+      text-decoration: underline;
+    }
+  }
+}
+
+.curriculum__extra-host {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+}

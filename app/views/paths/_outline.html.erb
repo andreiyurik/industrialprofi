@@ -24,5 +24,10 @@
   <p class="outline__all">
     <%= link_to t("paths.landing.outline_all"), path_theory_path(path), class: "link-quiet link-quiet--underline" %>
   </p>
+  <%# A master's «for my group» version starts here: the whole profession,
+      trimmed and extended in two minutes (see Map). %>
+  <div class="outline__own">
+    <%= render "maps/version_button", path: path %>
+  </div>
   </div>
 </section>

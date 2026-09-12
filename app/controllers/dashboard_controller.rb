@@ -24,6 +24,13 @@ class DashboardController < ApplicationController
                                  .order(created_at: :desc)
                                  .map(&:lesson)
 
+    # The personal map — mine to build and share, and the ones I took from
+    # others (each with my progress on its lessons). One preload and one set of
+    # ticks serve every row, however many maps are taken.
+    @map = Current.user.map
+    @followed_maps = Current.user.followed_maps.readable.includes(:user).to_a
+    @completed_ids = Current.user.completed_lesson_ids if @followed_maps.any?
+
     # «Мои правки»: the contributor's feedback loop — proposed text edits AND
     # proposed sources, newest-decision first. Rendering them here closes the
     # loop, so the outcome email (SuggestionEmailsJob) is never sent to someone

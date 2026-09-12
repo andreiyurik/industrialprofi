@@ -1,0 +1,32 @@
+<%# locals: (map:, courses:, excluded_ids:, extras:) -%>
+<%# The whole version on one form: name it, untick what this group does not
+    need (the rest follows the profession's own order), add a comment and links
+    under any lesson, save. %>
+<%= form_with model: map, url: map_path, class: "map-form__form" do |f| %>
+  <% if map.errors.any? %>
+    <div class="auth__errors" role="alert">
+      <ul>
+        <% map.errors.full_messages.each do |message| %><li><%= message %></li><% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="map-form__field">
+    <%= f.label :title, t("maps.form.title") %>
+    <%= f.text_field :title, class: "input", required: true, maxlength: 120 %>
+  </div>
+
+  <div class="map-form__field">
+    <%= f.label :description, t("maps.form.description") %>
+    <%= f.text_area :description, class: "input input--textarea", rows: 2, maxlength: 500,
+          placeholder: t("maps.form.description_hint") %>
+  </div>
+
+  <% if courses %>
+    <%= render "maps/checklist", f: f, courses: courses, excluded_ids: excluded_ids, extras: extras %>
+  <% end %>
+
+  <div class="map-form__actions">
+    <%= f.submit t("maps.form.save"), class: "btn btn--reversed btn--large" %>
+  </div>
+<% end %>

@@ -43,6 +43,28 @@ roadmap (v0.3 + what we refuse to build), see `docs/VISION.md → Roadmap & scop
   **text-only** work log (rich text + optional lesson link, rate-limited). The
   16-week heatmap counts completions + journal entries. **No photo uploads**
   (north star).
+- **Personal map versions (`Map`, `/map`, public at `/u/:handle/map`):** one per
+  member, and an **overlay on a profession, never a copy of it**. Creating one
+  writes no `map_items` at all; a row is stored only for a *difference* — a
+  lesson the author took off (`excluded`), their comment under a lesson they
+  kept (`note`), or a link of their own (`after_lesson_id`, or loose). So a
+  lesson added to the profession appears on every map built from it, progress
+  and review stay single, and per-user disk stays flat (north star). The editor
+  wears the expert builder's look (`builder.css`) with no JS beyond «Все ·
+  Ничего» and a live count (`checklist_controller`); disclosure and the pencil
+  toggle are native `<details>` and a hidden checkbox + `:has()`, and every
+  lesson's links box clones one page-level blank row. Text only. Public by
+  link, never listed: `noindex`, `rel="nofollow ugc"` on user links, gone with
+  a suspended account. A reader «takes» a map (`MapFollow`) onto their
+  dashboard; the author sees only a count. Built from an official path, so the
+  catalog stays single and curated (see the recorded «no community shelf»
+  decision).
+- **Public profiles (`/u/:handle`, `users.handle`):** a visiting card, not a
+  social layer — name, self-labelled headline, role mark, joined month, the
+  map, curated professions and accepted edits (each linked to the lesson's
+  revision history), learning progress only when `users.show_progress`.
+  The handle is generated from the name on first map creation and editable
+  on `/account`; no handle = no page. No karma, badges, followers or scores.
 - **Focus direction:** `User#focus_path` (derived from latest completion, no
   stored setting) drives the dashboard hero, catalog banner, `/projects` sort.
   Defaults, not walls — nothing is locked.

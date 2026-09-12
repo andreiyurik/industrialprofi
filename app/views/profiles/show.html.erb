@@ -1,0 +1,83 @@
+<% meta_title(@user.name) %>
+<% meta_description(t("profiles.meta", name: @user.name)) %>
+<% content_for(:robots, "noindex, follow") %>
+
+<section class="section">
+  <div class="container container--reading profile">
+    <%# Who: everything here is either granted by a human (the role), computed
+        from dated records (the joined date) or — the headline — explicitly
+        labelled as the person's own words. %>
+    <header class="profile__identity">
+      <span class="profile__portrait"><%= avatar_tag(@user) %></span>
+      <div class="profile__who">
+        <h1 class="profile__name">
+          <%= @user.name %>
+          <% if @user.can_edit_content? %>
+            <span class="badge badge--marker profile__role"><%= t("admin.roles.editor") %></span>
+          <% end %>
+        </h1>
+        <% if @user.headline.present? %>
+          <p class="profile__headline"><%= @user.headline %> <span class="profile__muted"><%= t("profiles.self_described") %></span></p>
+        <% end %>
+        <p class="profile__muted"><%= t("profiles.since", date: l(@user.created_at.to_date, format: "%B %Y")) %></p>
+      </div>
+    </header>
+
+    <% if @map %>
+      <section class="profile__section">
+        <h2 class="profile__section-title"><%= t("profiles.map_title") %></h2>
+        <%= link_to profile_map_path(@map), class: "panel panel--hover profile-map" do %>
+          <span class="profile-map__icon"><%= icon_tag "map-trifold" %></span>
+          <span class="profile-map__text">
+            <span class="panel__title"><%= @map.title %></span>
+            <span class="profile__muted">
+              <%= t("maps.lessons_count", count: @map.lessons.size) %> · <%= t("maps.links_count", count: @map.items.count(&:link?)) %>
+            </span>
+          </span>
+        <% end %>
+      </section>
+    <% end %>
+
+    <% if @curated_paths.any? || @improved_lessons.any? %>
+      <section class="profile__section">
+        <h2 class="profile__section-title"><%= t("profiles.contribution_title") %></h2>
+        <% if @curated_paths.any? %>
+          <p class="profile__line">
+            <%= t("profiles.curates") %>
+            <%= safe_join(@curated_paths.map { |path| link_to path.title, path_path(path) }, ", ") %>
+          </p>
+        <% end %>
+        <% if @improved_lessons.any? %>
+          <p class="profile__line"><%= t("profiles.improved", count: @improved_lessons.size) %></p>
+          <p class="profile__muted"><%= t("profiles.improved_hint") %></p>
+          <ul class="profile__lessons">
+            <% @improved_lessons.each do |lesson| %>
+              <li>
+                <%= link_to lesson.title, lesson_revisions_path(lesson) %>
+                <span class="profile__muted"><%= lesson.path.title %></span>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </section>
+    <% end %>
+
+    <% if @user.show_progress? %>
+      <section class="profile__section">
+        <h2 class="profile__section-title"><%= t("profiles.learning_title") %></h2>
+        <p class="profile__muted"><%= t("profiles.learning_hint") %></p>
+        <% @started_paths.each do |path| %>
+          <div class="profile-path">
+            <%= link_to path.title, path_path(path), class: "profile-path__title" %>
+            <%= render "shared/progress_bar", completed: @completed_counts.fetch(path.id, 0), total: path.lessons_count %>
+          </div>
+        <% end %>
+        <%= render "dashboard/heatmap", activity: @activity, since: @activity_since, hint: false %>
+      </section>
+    <% end %>
+
+    <% if @map.nil? && @curated_paths.empty? && @improved_lessons.empty? && !@user.show_progress? %>
+      <p class="profile__muted"><%= t("profiles.empty") %></p>
+    <% end %>
+  </div>
+</section>

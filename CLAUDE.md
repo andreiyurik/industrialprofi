@@ -585,8 +585,9 @@ the code already records, while CLAUDE.md holds decisions and conventions.
   content catalog stays gated on a native expert — the structure is ready,
   the content door opens per the recorded language-expansion trigger.
 
-**Not built yet (v0.3):** community-authored roadmaps (in the sandbox+promotion
-shape recorded above), public profiles, moderated public portfolio.
+**Not built yet (v0.3):** promotion of a personal map into the catalog (the
+«предложить в каталог» half of sandbox+promotion — the sandbox half shipped as
+personal maps, see `docs/ARCHITECTURE.md`), moderated public portfolio.
 
 ## Docs
 

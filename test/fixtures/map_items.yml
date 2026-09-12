@@ -1,0 +1,25 @@
+# The expert's map: an overlay on «Электрик» — two lessons taken off, a comment
+# left on a kept one, and one link of their own under it. What is kept is not
+# stored at all, so the map follows the profession as it grows.
+expert_drop_zazemlenie:
+  map: expert_map
+  lesson: zazemlenie
+  excluded: true
+
+expert_drop_shchitok:
+  map: expert_map
+  lesson: praktika_shchitok
+  excluded: true
+
+expert_pteep:
+  map: expert_map
+  lesson: pteep
+  note: "Только главы 1.1–1.4"
+
+expert_link:
+  map: expert_map
+  after_lesson: pteep
+  title: "Регламент участка"
+  url: "https://example.com/reglament.pdf"
+  note: "Разделы 2 и 4"
+  position: 1

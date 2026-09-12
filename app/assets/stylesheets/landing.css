@@ -168,3 +168,11 @@ a.outline__title {
   font-size: 0.9rem;
   margin-block: var(--block-space) 0;
 }
+
+.outline__own {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--inline-space);
+  margin-block: var(--block-space) 0;
+}

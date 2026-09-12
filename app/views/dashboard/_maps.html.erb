@@ -1,0 +1,35 @@
+<%# The learner's maps: their own (with how many people took it — the author's
+    one honest signal) and the ones taken from others, each with progress. %>
+<section class="dashboard__maps">
+  <h2 class="dashboard__section-title"><%= t("dashboard.maps_title") %></h2>
+  <p class="dashboard__section-hint"><%= t("dashboard.maps_hint") %></p>
+  <div class="panel dashboard-maps">
+    <% if @map %>
+      <div class="dashboard-map">
+        <span class="dashboard-map__icon"><%= icon_tag "map-trifold" %></span>
+        <div class="dashboard-map__info">
+          <%= link_to @map.title, profile_map_path(@map), class: "dashboard-map__title" %>
+          <span class="dashboard-map__meta"><%= t("dashboard.map_followers", count: @map.follows_count) %></span>
+        </div>
+        <%= link_to t("dashboard.map_edit"), edit_map_path, class: "btn btn--small" %>
+      </div>
+    <% elsif @focus_path %>
+      <div class="dashboard-map dashboard-map--invite">
+        <span class="dashboard-map__icon"><%= icon_tag "map-trifold" %></span>
+        <p class="dashboard-map__info"><%= t("dashboard.map_invite", path: @focus_path.title) %></p>
+        <%= render "maps/version_button", path: @focus_path %>
+      </div>
+    <% end %>
+
+    <% @followed_maps.each do |map| %>
+      <div class="dashboard-map">
+        <span class="dashboard-map__icon"><%= avatar_tag(map.user) %></span>
+        <div class="dashboard-map__info">
+          <%= link_to map.title, profile_map_path(map), class: "dashboard-map__title" %>
+          <span class="dashboard-map__meta"><%= t("dashboard.map_by", name: map.user.name) %></span>
+          <%= render "shared/progress_bar", completed: map.completed_count(@completed_ids), total: map.lessons.size %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
