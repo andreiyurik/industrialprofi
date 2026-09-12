@@ -7,11 +7,27 @@ class MapsTest < ApplicationSystemTestCase
 
     assert_selector ".map-checklist__bar .todo__count", text: "2 из 4"
     box_id = "lesson_#{lessons(:pteep).id}"
-    warn "DBG window=#{page.driver.browser.manage.window.size.inspect} " \
-         "chrome=#{page.driver.browser.capabilities[:browser_version]}"
-    warn "DBG labels=#{page.all(:label, for: find("##{box_id}", visible: :all), visible: :all).map { |l| [ l[:class], l.visible? ] }.inspect}"
-    uncheck "lesson_ids[]", id: box_id, allow_label_click: true
-    warn "DBG after uncheck: checked=#{find("##{box_id}", visible: :all).checked?} counter=#{find('.map-checklist__bar .todo__count').text.inspect}"
+    box = find("##{box_id}", visible: :all)
+    warn "DBG visible?=#{box.visible?} rect=#{box.native.rect.to_a.inspect rescue 'n/a'}"
+    [ "label.map-lesson-row__pick[for='#{box_id}']", "label.builder-lesson__title[for='#{box_id}']" ].each do |sel|
+      el = find(sel, visible: :all)
+      warn "DBG #{sel} visible?=#{el.visible?} rect=#{el.native.rect.to_a.inspect rescue 'n/a'}"
+    end
+    begin
+      find("label.map-lesson-row__pick[for='#{box_id}']").click
+      warn "DBG after pick.click: checked=#{find("##{box_id}", visible: :all).checked?}"
+    rescue => e
+      warn "DBG pick.click raised #{e.class}: #{e.message[0, 120]}"
+    end
+    if find("##{box_id}", visible: :all).checked?
+      begin
+        find("label.builder-lesson__title[for='#{box_id}']").click
+        warn "DBG after title.click: checked=#{find("##{box_id}", visible: :all).checked?}"
+      rescue => e
+        warn "DBG title.click raised #{e.class}: #{e.message[0, 120]}"
+      end
+    end
+    warn "DBG counter=#{find('.map-checklist__bar .todo__count').text.inspect}"
     assert_selector ".map-checklist__bar .todo__count", text: "1 из 4"
     within all(".map-course").last do
       click_on "Все"
