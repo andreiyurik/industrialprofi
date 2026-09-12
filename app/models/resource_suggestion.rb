@@ -14,7 +14,7 @@ class ResourceSuggestion < ApplicationRecord
 
   validates :title, presence: true
   # Unlike Resource, a suggested source without a URL is pointless — require one.
-  validates :url, presence: true, format: { with: /\Ahttps?:\/\/[^\s]+\z/i }
+  validates :url, presence: true, format: { with: URL_FORMAT }
   validates :kind, inclusion: { in: KINDS }
   validates :note, length: { maximum: 200 }, allow_blank: true
 
