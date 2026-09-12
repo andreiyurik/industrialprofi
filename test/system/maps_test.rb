@@ -25,11 +25,11 @@ class MapsTest < ApplicationSystemTestCase
 
     within find(".map-lesson-row", text: "ПУЭ глава 1.7: Заземление") do
       press find(".map-lesson-row__edit input", visible: :all)
-      fill_in "lessons[#{lessons(:zazemlenie).id}][note]", with: "до пункта 1.7.60"
+      type find("input[name='lessons[#{lessons(:zazemlenie).id}][note]']"), "до пункта 1.7.60"
       press find("button", text: "Добавить ссылку")
       within all(".resource-row").last do
-        find("input[placeholder='Название']").fill_in with: "Ролик про щиток"
-        find("input[placeholder='https://']").fill_in with: "https://youtube.com/watch?v=abc"
+        type find("input[placeholder='Название']"), "Ролик про щиток"
+        type find("input[placeholder='https://']"), "https://youtube.com/watch?v=abc"
       end
     end
     press find("input[type=submit]")
@@ -57,5 +57,13 @@ class MapsTest < ApplicationSystemTestCase
   private
     def press(element)
       page.execute_script("arguments[0].click()", element.native)
+    end
+
+    def type(element, text)
+      page.execute_script(<<~JS, element.native, text)
+        arguments[0].value = arguments[1];
+        arguments[0].dispatchEvent(new Event("input", { bubbles: true }));
+        arguments[0].dispatchEvent(new Event("change", { bubbles: true }));
+      JS
     end
 end
