@@ -6,9 +6,12 @@ class MapsTest < ApplicationSystemTestCase
     visit edit_map_path
 
     assert_selector ".map-checklist__bar .todo__count", text: "2 из 4"
-    # The box itself is for-screen-reader; Capybara clicks its label and waits
-    # for the box to actually flip, instead of racing the counter's text.
-    uncheck "lesson_ids[]", id: "lesson_#{lessons(:pteep).id}", allow_label_click: true
+    box_id = "lesson_#{lessons(:pteep).id}"
+    warn "DBG window=#{page.driver.browser.manage.window.size.inspect} " \
+         "chrome=#{page.driver.browser.capabilities[:browser_version]}"
+    warn "DBG labels=#{page.all(:label, for: find("##{box_id}", visible: :all), visible: :all).map { |l| [ l[:class], l.visible? ] }.inspect}"
+    uncheck "lesson_ids[]", id: box_id, allow_label_click: true
+    warn "DBG after uncheck: checked=#{find("##{box_id}", visible: :all).checked?} counter=#{find('.map-checklist__bar .todo__count').text.inspect}"
     assert_selector ".map-checklist__bar .todo__count", text: "1 из 4"
     within all(".map-course").last do
       click_on "Все"
