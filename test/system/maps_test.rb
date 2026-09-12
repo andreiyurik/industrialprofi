@@ -6,7 +6,20 @@ class MapsTest < ApplicationSystemTestCase
     visit edit_map_path
 
     assert_selector ".map-checklist__bar .todo__count", text: "2 из 4"
-    uncheck "lesson_ids[]", id: "lesson_#{lessons(:pteep).id}", allow_label_click: true
+    box_id = "lesson_#{lessons(:pteep).id}"
+    page.execute_script(<<~JS)
+      window.__log = [];
+      const box = document.getElementById("#{box_id}");
+      const pick = document.querySelector("label.map-lesson-row__pick[for='#{box_id}']");
+      box.addEventListener("click", e => window.__log.push(["box-click", e.isTrusted, e.defaultPrevented]));
+      box.addEventListener("change", () => window.__log.push(["box-change", box.checked]));
+      pick.addEventListener("click", e => window.__log.push(["label-click", e.isTrusted, e.defaultPrevented, e.target.tagName + "." + e.target.className]));
+      document.addEventListener("turbo:load", () => window.__log.push(["turbo:load"]));
+      document.addEventListener("turbo:render", () => window.__log.push(["turbo:render"]));
+    JS
+    find("label.map-lesson-row__pick[for='#{box_id}']").click
+    warn "DBG log=#{page.evaluate_script('JSON.stringify(window.__log)')}"
+    warn "DBG checked=#{find("##{box_id}", visible: :all).checked?} counter=#{find('.map-checklist__bar .todo__count').text.inspect}"
     assert_selector ".map-checklist__bar .todo__count", text: "1 из 4"
     within all(".map-course").last do
       click_on "Все"
