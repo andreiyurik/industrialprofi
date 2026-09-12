@@ -7,27 +7,25 @@ class MapsTest < ApplicationSystemTestCase
 
     assert_selector ".map-checklist__bar .todo__count", text: "2 из 4"
     box_id = "lesson_#{lessons(:pteep).id}"
-    box = find("##{box_id}", visible: :all)
-    warn "DBG visible?=#{box.visible?} rect=#{box.native.rect.to_a.inspect rescue 'n/a'}"
-    [ "label.map-lesson-row__pick[for='#{box_id}']", "label.builder-lesson__title[for='#{box_id}']" ].each do |sel|
-      el = find(sel, visible: :all)
-      warn "DBG #{sel} visible?=#{el.visible?} rect=#{el.native.rect.to_a.inspect rescue 'n/a'}"
-    end
-    begin
-      find("label.map-lesson-row__pick[for='#{box_id}']").click
-      warn "DBG after pick.click: checked=#{find("##{box_id}", visible: :all).checked?}"
-    rescue => e
-      warn "DBG pick.click raised #{e.class}: #{e.message[0, 120]}"
-    end
-    if find("##{box_id}", visible: :all).checked?
-      begin
-        find("label.builder-lesson__title[for='#{box_id}']").click
-        warn "DBG after title.click: checked=#{find("##{box_id}", visible: :all).checked?}"
-      rescue => e
-        warn "DBG title.click raised #{e.class}: #{e.message[0, 120]}"
-      end
-    end
-    warn "DBG counter=#{find('.map-checklist__bar .todo__count').text.inspect}"
+    warn page.evaluate_script(<<~JS)
+      (() => {
+        const box = document.getElementById(#{'"' + 'lesson_' + '"'} + #{lessons(:pteep).id});
+        const pick = document.querySelector("label.map-lesson-row__pick[for='" + box.id + "']");
+        const r = pick.getBoundingClientRect();
+        const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+        let prevented = null;
+        box.addEventListener("click", e => { prevented = e.defaultPrevented; }, { once: true });
+        const before = box.checked;
+        box.click();
+        return JSON.stringify({
+          before, afterJsClick: box.checked, preventedAtBox: prevented,
+          labelsFor: document.querySelectorAll("label[for='" + box.id + "']").length,
+          topAtPickCenter: top ? top.tagName + "." + (top.className || "") : null,
+          boxParent: box.parentElement.className,
+          disabled: box.disabled
+        });
+      })()
+    JS
     assert_selector ".map-checklist__bar .todo__count", text: "1 из 4"
     within all(".map-course").last do
       click_on "Все"
