@@ -52,6 +52,18 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     options.add_argument("--force-prefers-reduced-motion")
   end
 
+  # Four self-hosted faces load after first paint, and a face swapping reflows
+  # every row on the page. Selenium computes an element's centre, then clicks
+  # it: a reflow in between drops the click on whatever moved into that spot —
+  # no event on the target, and no error either. Wait for the fonts first.
+  def visit(*)
+    super.tap do
+      page.document.synchronize(errors: [ Capybara::ExpectationNotMet ]) do
+        raise Capybara::ExpectationNotMet, "fonts still loading" unless page.evaluate_script("document.fonts.status") == "loaded"
+      end
+    end
+  end
+
   # Emulate a viewer who did not ask for reduced motion — for the one test whose
   # subject IS an animation.
   def with_motion
