@@ -1,6 +1,7 @@
-<%# locals: (lessons_by_stage:, completed_ids:) -%>
+<%# locals: (lessons_by_stage:, completed_ids:, extras: {}) -%>
 <%# The "big block": sections (stages) on a vertical journey rail, each holding
-    its lessons. Shared by the course page. %>
+    its lessons. Shared by the course page and a personal map, which may hang
+    its author's comment and links under a lesson (`extras`, by lesson id). %>
 <div class="curriculum">
   <% lessons_by_stage.each_with_index do |(stage, lessons), index| %>
     <% stage_completed = lessons.count { |lesson| completed_ids.include?(lesson.id) } %>
@@ -38,6 +39,9 @@
             <% end %>
             <span class="curriculum__lesson-title"><%= lesson.title %></span>
           </a>
+          <% if (extra = extras[lesson.id]) %>
+            <%= render "shared/curriculum_extra", extra: extra %>
+          <% end %>
         <% end %>
       </div>
     </div>

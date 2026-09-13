@@ -87,6 +87,19 @@ Rails.application.routes.draw do
     # Professional abbreviations decoded — a static reference page (see Glossary).
     resource :glossary, only: [ :show ], controller: "glossaries"
     resources :journal_entries, path: "journal", except: [ :show ]
+    # The member's ONE personal map (see Map): one click on a profession makes
+    # it (create), one form edits it, and it is read at its public address
+    # under the author's profile (/u/:handle/map) — the link people share.
+    resource :map, only: [ :create, :edit, :update, :destroy ]
+    # Public profiles — a visiting card, not a social network: who this is,
+    # their map, what they improved (checkable), progress only by their choice.
+    resources :profiles, path: "u", param: :handle, only: :show do
+      scope module: :profiles do
+        resource :map, only: :show do
+          resource :follow, only: [ :create, :destroy ]
+        end
+      end
+    end
     resources :feedbacks, only: [ :new, :create ]
     # Expert-entry gate (loop #1): a structured "become a co-author" application.
     # Stored as a tagged Feedback for now — no separate model until volume warrants

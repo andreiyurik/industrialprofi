@@ -65,9 +65,9 @@ module Admin
 
     private
 
-    # Trust, with transparency: lessons carry no draft status (recorded decision
-    # in CLAUDE.md), so adding or deleting one inside a PUBLISHED course changes
-    # reader-visible content immediately. The fact is logged, not gated.
+    # Trust, with transparency: lessons carry no draft status, so adding or deleting
+    # one inside a PUBLISHED course changes reader-visible content immediately.
+    # The fact is logged, not gated.
     def log_live_lesson_change(action)
       return unless live_lesson?
 

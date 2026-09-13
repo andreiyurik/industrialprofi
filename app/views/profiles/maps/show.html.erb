@@ -1,0 +1,100 @@
+<% lessons_n = @lessons_by_course.sum { |_course, lessons| lessons.size } %>
+<% links_n = @extras.values.sum { |extra| extra.links.size } + @loose_links.size %>
+<% meta_title(@map.title) %>
+<% meta_description(t("maps.show.meta", name: @author.name, lessons: t("maps.lessons_count", count: lessons_n))) %>
+<%# Shared by link, never listed: a personal map stays out of the index so the
+    domain never ranks on user-supplied links. %>
+<% content_for(:robots, "noindex, follow") %>
+
+<section class="section">
+  <div class="container container--reading map-page">
+    <header class="map-page__header">
+      <p class="map-page__eyebrow"><%= t("maps.show.eyebrow") %></p>
+      <h1 class="map-page__title"><%= @map.title %></h1>
+      <p class="map-page__author">
+        <%= link_to profile_path(@author.handle), class: "map-page__author-link" do %>
+          <%= avatar_tag(@author) %>
+          <span><%= @author.name %></span>
+        <% end %>
+        <% if @author.headline.present? %>
+          <span class="map-page__headline"><%= @author.headline %></span>
+        <% end %>
+      </p>
+      <% if @map.description.present? %>
+        <p class="map-page__description"><%= @map.description %></p>
+      <% end %>
+      <p class="map-page__facts">
+        <%= t("maps.lessons_count", count: lessons_n) %> · <%= t("maps.links_count", count: links_n) %>
+        <% if @map.path %>
+          · <%= t("maps.show.based_on") %> <%= link_to @map.path.title, path_path(@map.path) %>
+        <% end %>
+      </p>
+    </header>
+
+    <div class="map-page__actions">
+      <% if @author == Current.user %>
+        <%= link_to t("maps.show.edit"), edit_map_path, class: "btn btn--reversed" %>
+      <% elsif @follow %>
+        <span class="map-page__taken"><%= icon_tag "check-circle-fill" %> <%= t("maps.show.taken") %></span>
+        <%= button_to t("maps.show.drop"), profile_map_follow_path(@map), method: :delete, class: "btn btn--small" %>
+      <% elsif signed_in? %>
+        <%= button_to t("maps.show.take"), profile_map_follow_path(@map), class: "btn btn--reversed" %>
+        <span class="map-page__take-hint"><%= t("maps.show.take_hint") %></span>
+      <% else %>
+        <%= link_to t("maps.show.take"), new_session_path(return_to: profile_map_path(@map)), class: "btn btn--reversed" %>
+        <span class="map-page__take-hint"><%= t("maps.show.take_hint") %></span>
+      <% end %>
+    </div>
+
+    <% if signed_in? && lessons_n.positive? %>
+      <% done = @lessons_by_course.sum { |_course, lessons| lessons.count { |lesson| @completed_ids.include?(lesson.id) } } %>
+      <div class="map-page__progress">
+        <%= render "shared/progress_bar", completed: done, total: lessons_n %>
+      </div>
+    <% end %>
+
+    <%# The chapters, in the profession's order, as the course page draws them
+        (shared/_stage_curriculum): the reader meets the shape they already know. %>
+    <%= render "shared/stage_curriculum",
+          lessons_by_stage: @lessons_by_course.transform_keys(&:title), completed_ids: @completed_ids, extras: @extras %>
+
+    <% if @loose_links.any? %>
+      <%# The author's own sources, in the lesson page's «Документы и ресурсы»
+          panel. Off-site, no link equity, marked as user content for crawlers. %>
+      <section class="resource-block map-page__links">
+        <div class="resource-block__head">
+          <span class="resource-block__icon"><%= icon_tag "link" %></span>
+          <h2 class="resource-block__title"><%= t("maps.show.own_links") %></h2>
+        </div>
+        <ul class="lesson-resources">
+          <% @loose_links.each do |item| %>
+            <li class="lesson-resource">
+              <span class="lesson-resource__marker"><%= icon_tag "arrow-up-right" %></span>
+              <span class="lesson-resource__body">
+                <a href="<%= item.url %>" class="lesson-resource__link" target="_blank" rel="nofollow ugc noopener"><%= item.title %></a>
+                <% if item.note.present? || item.host %>
+                  <span class="lesson-resource__meta">
+                    <% if item.host %><span class="lesson-resource__meta-lang"><%= item.host %></span><% end %>
+                    <% if item.note.present? %><span class="lesson-resource__note"><%= item.note %></span><% end %>
+                  </span>
+                <% end %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      </section>
+    <% end %>
+
+    <aside class="map-page__notice">
+      <%= icon_tag "info" %>
+      <p><%= t("maps.show.notice") %></p>
+    </aside>
+
+    <% if @map.path && @author != Current.user && Current.user&.map.nil? %>
+      <div class="map-page__build">
+        <p><%= t("maps.show.build_lead") %></p>
+        <%= render "maps/version_button", path: @map.path, small: false %>
+      </div>
+    <% end %>
+  </div>
+</section>

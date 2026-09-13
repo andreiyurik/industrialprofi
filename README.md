@@ -17,7 +17,7 @@ the way real craftsmen actually learn: by reading official standards
 [![Ruby 4.0](https://img.shields.io/badge/Ruby-4.0-CC342D.svg)](.ruby-version)
 [![Rails 8.1](https://img.shields.io/badge/Rails-8.1-D30001.svg)](Gemfile)
 
-[Vision](docs/VISION.md) · [Roadmap](docs/VISION.md#roadmap--scope)
+[Vision](docs/VISION.md) · [Roadmap](docs/VISION.md#roadmap--scope) · [Docs](docs/README.md)
 
 <br>
 
@@ -143,8 +143,8 @@ Hotwire, no Node.js anywhere in sight.
 - **Ruby 4.0 / Rails 8.1**
 - **SQLite3** + Solid Queue, Solid Cache, Solid Cable
 - **Hotwire** (Turbo + Stimulus) — server-rendered HTML, no SPA
-- **Pure CSS**, served as-is by **Propshaft** — no Tailwind, no PostCSS, no
-  bundler, no build. The cascade is just filenames in alphabetical order.
+- **Pure CSS** — no Tailwind, no PostCSS, no Node; `dartsass-rails` only
+  concatenates and minifies the plain files. The cascade is filenames in alphabetical order.
 - **Importmap** — no Node, no Webpack, no Vite
 - Auth via `has_secure_password` (bcrypt) — no Devise
 - **Kamal 2** + Docker + Thruster for deploys
@@ -155,7 +155,7 @@ Hotwire, no Node.js anywhere in sight.
 
 ## Getting started
 
-You need Ruby 4.0.5 and Git. No Node, no Yarn, no asset pipeline to configure.
+You need the Ruby version in `.ruby-version` and Git. No Node, no Yarn, no asset pipeline to configure.
 
 ```bash
 git clone https://github.com/andreiyurik/industrialprofi.git
@@ -182,8 +182,10 @@ app/views/                  # ERB templates + Turbo Frame/Stream partials
 app/javascript/controllers/ # Stimulus controllers
 app/assets/stylesheets/     # all CSS — one self-contained file per component
 db/migrate/                 # migrations = source of truth for schema
-docs/                       # VISION.md, DEPLOY.md (English project docs)
-tools/                      # reusable content-authoring tools (content tooling)
+docs/                       # project wiki — start at docs/README.md (English)
+tools/                      # content-authoring canon and prompts (Russian)
+AGENTS.md                   # instructions for AI coding agents
+CLAUDE.md                   # imports AGENTS.md + Claude Code specifics; config in .claude/
 ```
 
 Content hierarchy:

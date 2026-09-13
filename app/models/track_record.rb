@@ -6,7 +6,7 @@
 #
 # This is an INTERNAL signal — it gates trust (earned editorship) and informs
 # moderation review. It is NOT a public leaderboard: recognition lives in
-# contributor attribution, competition is deliberately absent (see CLAUDE.md).
+# contributor attribution, competition is deliberately absent.
 #
 # Pass a path to slice the record to one profession — the grain Editorship
 # works at, so trust in «Электрик» never leaks into «Сварщик».

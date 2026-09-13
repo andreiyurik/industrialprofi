@@ -34,24 +34,24 @@ monolith, «Rails defaults до последнего», fat models / skinny cont
 
 ## Сначала прочитай (иначе не суди)
 
-1. `CLAUDE.md` — конвенции, **«Code rules (DHH/Basecamp style)»**,
-   **«Anti-patterns»** и раздел **«UI — Canonical DHH style»**. Анти-паттерны и
-   «Recorded decisions» — **жёсткие ограничения**: рекомендация, нарушающая их
+1. `AGENTS.md` — **«Code rules»**, **«Anti-patterns»**, и `docs/conventions/`
+   (rails, views, css, javascript). Анти-паттерны и решения из `docs/decisions/` — **жёсткие ограничения**: рекомендация, нарушающая их
    (Tailwind, сервис-объект ради CRUD, лишний гем, `@layer`/`@import` между CSS,
    build-step, Devise, React), — невалидна и в отчёт не идёт.
-2. **`CLAUDE.md → «Model invariants — don't "fix" these"»`** — денормализованный
+2. **`docs/conventions/content-model.md → «Invariants — don't "fix" these»`** — денормализованный
    `lessons.path_id`, глобальный `lesson.position`, destroy-цепочка через Course,
    create-only сид, глобально-уникальный `Lesson.slug`. Это **сознательные**
    решения. Предложить «отнормализовать» их — грубая ошибка ревью; наоборот,
    проверь, что код их не нарушает.
 3. **Референсные кодовые базы** (сравнивай стиль против них, не против абстрактного
    идеала):
-   - `/home/pingvinus/dhh-references/writebook/` — **канон CSS и auth**: раскладка
+   (склонируй их командой `bin/references`)
+   - `tmp/references/writebook/` — **канон CSS и auth**: раскладка
      стилей, токены, компонентно-локальные переменные, паттерн `Session`/`Current`.
-   - `/home/pingvinus/dhh-references/fizzy/` — **канон большого Hotwire-приложения**:
+   - `tmp/references/fizzy/` — **канон большого Hotwire-приложения**:
      Turbo Stream, фильтры, крупные модели, «многие маленькие concern'ы»,
      Stimulus-идиомы. Бери идиому, но не то, что нарушает наши ограничения (см.
-     «Don't adopt» в `CLAUDE.md`).
+     `docs/conventions/rails.md`).
 4. `docs/VISION.md` — north star: минимум стоимости и сложности. Рефакторинг не
    должен добавлять ops-поверхность, платную зависимость или per-user диск.
 
@@ -60,7 +60,7 @@ monolith, «Rails defaults до последнего», fat models / skinny cont
 Пройди по **ключевому коду**, слоями:
 
 - **Модели** (`app/models/`). Особое внимание:
-  - `lesson.rb` (**уже ~204 строки — за порогом ~200, где `CLAUDE.md` велит думать
+  - `lesson.rb` (**уже ~204 строки — за порогом ~200, где `AGENTS.md` велит думать
     о concern'е**): есть ли связная ответственность, которую честно вынести в
     concern, или это ложное срабатывание и дробить вредно? (правило проекта:
     «premature extraction is worse than duplication» — реши, не механически режь).

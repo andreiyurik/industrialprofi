@@ -1,3 +1,7 @@
+---
+summary: First-deploy runbook — VPS, Kamal, secrets, SMTP, SQLite and blob backups, monitoring.
+---
+
 # Deploy — step by step
 
 The first deploy, step by step; every deploy after that is a single command.

@@ -1,0 +1,20 @@
+<%# locals: (path:, small: true) -%>
+<%# «Дополнить карту комментариями для коллег» — one click creates the member's
+    version of this profession. A guest signs in first and comes straight back.
+    «Что это?» beside it opens the one explanation (maps/_why) — a native
+    popover, nothing that interrupts. %>
+<% css = "btn#{" btn--small" if small}" %>
+<span class="map-version">
+  <% if signed_in? %>
+    <%= button_to t("maps.build_from"), map_path(path: path.slug), class: css %>
+  <% else %>
+    <%= link_to t("maps.build_from"), new_session_path(return_to: path_path(path)), class: css %>
+  <% end %>
+  <button type="button" class="map-version__why" popovertarget="map-why">
+    <%= t("maps.why.link") %>
+  </button>
+  <div id="map-why" class="hub-popover" popover>
+    <p class="hub-popover__title"><%= t("maps.why.title") %></p>
+    <%= render "maps/why" %>
+  </div>
+</span>

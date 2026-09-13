@@ -9,6 +9,10 @@ class User < ApplicationRecord
   has_many :lesson_bookmarks, dependent: :destroy
   has_many :bookmarked_lessons, through: :lesson_bookmarks, source: :lesson
   has_many :journal_entries, dependent: :destroy
+  # The ONE personal map (see Map) and the maps this person took from others.
+  has_one :map, dependent: :destroy
+  has_many :map_follows, dependent: :destroy
+  has_many :followed_maps, through: :map_follows, source: :map
   has_many :feedbacks, dependent: :destroy
   has_many :reactions, dependent: :destroy
   # Per-profession edit grants (see Editorship). Admins edit all and need none.
@@ -35,6 +39,10 @@ class User < ApplicationRecord
   # shown next to their name on professions they maintain when they opt in.
   normalizes :headline, with: ->(line) { line.strip.presence }
 
+  # The public profile address (/u/:handle); blank = no public profile. Same
+  # alphabet as content slugs, so it reads as a URL and never needs escaping.
+  normalizes :handle, with: ->(handle) { handle.strip.downcase.presence }
+
   # Single-use by construction: the token embeds part of the password salt,
   # so changing the password invalidates every outstanding reset link.
   generates_token_for :password_reset, expires_in: 1.hour do
@@ -51,6 +59,11 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 8 }, allow_nil: true
   validates :learning_goal, length: { maximum: 200 }
   validates :headline, length: { maximum: 120 }
+  validates :handle, uniqueness: true, length: { in: 3..30 }, format: { with: Path::SLUG_FORMAT }, allow_nil: true
+  # The map lives at the handle's address, so the address can't be cleared
+  # while a map exists. Guarded by handle_changed? — otherwise every save of
+  # every user anywhere pays a lookup for the map.
+  validates :handle, presence: true, if: -> { handle_changed? && map }
   validates :avatar_token, inclusion: { in: Avatar.tokens }, allow_blank: true
   # Emails render in the reader's language, not the language of the request
   # that happened to trigger them.
@@ -59,9 +72,46 @@ class User < ApplicationRecord
   # Suspension is a reversible ban: active users can sign in, suspended ones
   # can't. `active` is the scope login authenticates through (Writebook pattern).
   scope :active, -> { where(suspended_at: nil) }
+  # Everyone with a public page: an address they chose, and good standing.
+  scope :with_profile, -> { active.where.not(handle: nil) }
   scope :suspended, -> { where.not(suspended_at: nil) }
 
   def first_name = name.split.first
+
+  # A profile page exists only for someone who chose (or was given) an address
+  # and is in good standing — a suspended account disappears from the public
+  # side along with its map.
+  def profile? = handle.present? && !suspended?
+
+  # Give the first map an address without asking: the name, transliterated,
+  # de-duplicated with -2, -3… The person can rename it on /account.
+  def ensure_handle!
+    return handle if handle.present?
+
+    base = Path.slugify(name).first(24).delete_suffix("-").presence || "user"
+    base = base.ljust(3, "0")
+    candidate = base
+    suffix = 2
+    while User.exists?(handle: candidate)
+      candidate = "#{base}-#{suffix}"
+      suffix += 1
+    end
+    update!(handle: candidate)
+    candidate
+  end
+
+  # Professions this person publicly curates — the grant is the credential.
+  def curated_paths
+    can_edit_content? ? editable_paths.published.ordered : Path.none
+  end
+
+  # Lessons this person improved with an ACCEPTED edit or source — each one
+  # links to its revision history, so the claim is checkable. Catalog order.
+  def improved_lessons
+    ids = lesson_suggestions.approved.select(:lesson_id)
+    source_ids = resource_suggestions.approved.select(:lesson_id)
+    Lesson.where(id: ids).or(Lesson.where(id: source_ids)).ordered.includes(:path)
+  end
 
   def can_administer? = administrator?
 
@@ -143,6 +193,10 @@ class User < ApplicationRecord
   def completed_lesson_ids_for_course(course)
     completed_lesson_ids_where(course_id: course.id)
   end
+
+  # Every lesson this person has ticked, whatever profession it belongs to —
+  # one set for pages that measure progress across several maps at once.
+  def completed_lesson_ids = lesson_completions.pluck(:lesson_id).to_set
 
   # The milestone moment reached by completing `lesson`, given the course-level
   # completion set the caller already loaded. Ordered most-significant first: a

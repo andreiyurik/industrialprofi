@@ -1,4 +1,4 @@
-<%# locals: (activity:, since:) -%>
+<%# locals: (activity:, since:, hint: true) -%>
 <%# GitHub-style activity grid: columns are weeks, rows are weekdays. It only
     mirrors real work (completions + journal entries + suggested edits) — gaps
     are visible but nothing "burns down", unlike streaks. %>
@@ -29,5 +29,7 @@
     <span><%= t("dashboard.heatmap_more") %></span>
   </div>
 
-  <p class="heatmap__hint"><%= t("dashboard.heatmap_hint") %></p>
+  <% if hint %>
+    <p class="heatmap__hint"><%= t("dashboard.heatmap_hint") %></p>
+  <% end %>
 </section>

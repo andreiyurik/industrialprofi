@@ -4,8 +4,7 @@
 # Pure derivation from existing Resource rows: no new model, no curation column.
 # Same URL referenced by many lessons collapses to ONE entry ("в N статьях").
 # "Top" is automatic and self-curating: required (★) first, then by how many
-# lessons reference it. Cached (Solid Cache), keyed by content version, per the
-# scaling seam in CLAUDE.md.
+# lessons reference it. Cached (Solid Cache), keyed by content version.
 class ResourceLibrary
   # A resource counts as "notable" (cross-cutting) only when several lessons
   # reference it; below this the count is noise and isn't shown. It also gates

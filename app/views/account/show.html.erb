@@ -89,12 +89,31 @@
           </span>
         </label>
 
-        <% if Current.user.can_edit_content? %>
+        <% if Current.user.can_edit_content? || Current.user.handle.present? %>
           <%= f.text_field :headline, value: Current.user.headline, name: "user[headline]",
                 maxlength: 120, placeholder: t("account.headline_placeholder"), class: "input",
                 aria: { label: t("account.headline_label") } %>
           <span class="account-card__hint"><%= t("account.headline_hint") %></span>
         <% end %>
+
+        <%# The public profile address — blank means no public page at all. %>
+        <%= f.text_field :handle, value: Current.user.handle, name: "user[handle]",
+              maxlength: 30, placeholder: t("account.handle_placeholder"), class: "input input--mono",
+              autocomplete: "off", spellcheck: false, aria: { label: t("account.handle_label") } %>
+        <span class="account-card__hint">
+          <%= t("account.handle_hint") %>
+          <% if Current.user.profile? %>
+            <%= link_to t("account.profile_open"), profile_path(Current.user.handle) %>
+          <% end %>
+        </span>
+        <label class="account-card__checkbox">
+          <%= hidden_field_tag "user[show_progress]", "0", id: nil %>
+          <%= check_box_tag "user[show_progress]", "1", Current.user.show_progress? %>
+          <span>
+            <%= t("account.show_progress_label") %>
+            <span class="account-card__hint"><%= t("account.show_progress_hint") %></span>
+          </span>
+        </label>
 
         <% if @name_errors.any? %>
           <p class="account-card__error" role="alert"><%= @name_errors.first %></p>

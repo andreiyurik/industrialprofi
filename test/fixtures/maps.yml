@@ -1,0 +1,7 @@
+# The expert's map: built from «Электрик», one link of their own on top.
+expert_map:
+  user: editor
+  path: electrician
+  title: "Первые 30 дней на участке"
+  description: "Что читать новичку до выхода на объект."
+  follows_count: 1

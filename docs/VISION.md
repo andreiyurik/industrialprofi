@@ -1,3 +1,7 @@
+---
+summary: What we build, for whom and why — the librarian model, target professions, business model, roadmap and the not-building list.
+---
+
 # IndustrialProfi — Vision
 
 **Tagline** (shown in Russian on the site): «Мастерство, практика, документация»
@@ -117,9 +121,9 @@ A school gives a 500-page textbook. We give: "read these 3 pages of ПУЭ and d
 ## Content Architecture
 
 > **This document is the product intent, not a status ledger.** What has
-> actually shipped lives in **git history** and the **Feature map in
-> `CLAUDE.md`** — not duplicated here. The codebase conventions live in
-> `CLAUDE.md`; the forward roadmap is the "Roadmap & scope" section below.
+> actually shipped lives in **git history** and [ARCHITECTURE](ARCHITECTURE.md)
+> — not duplicated here. The codebase conventions live in
+> [conventions/](README.md#conventions); the forward roadmap is the "Roadmap & scope" section below.
 
 ### Hierarchy: Profession → Course → Lesson
 
@@ -342,7 +346,7 @@ room.
 
 What shipped (v0.1 static catalog, v0.2 accounts/progress, and a large set of
 editor/admin/retention features built ahead of plan) lives in **git history** and
-the **Feature map in `CLAUDE.md`** — not duplicated here. This section is
+[ARCHITECTURE](ARCHITECTURE.md) — not duplicated here. This section is
 forward-looking only.
 
 ### Next — v0.3 (not built)

@@ -16,6 +16,16 @@ module AvatarsHelper
     AVATAR_HUES[name.to_s.sum % AVATAR_HUES.size]
   end
 
+  # For someone with no account to take a photo or a preset from — a guest
+  # contributor is only the name they signed with.
+  def avatar_initials_tag(name)
+    content_tag :span, avatar_initials(name),
+      class: "avatar",
+      style: "--avatar-hue: var(#{avatar_hue_token(name)})",
+      title: name,
+      aria: { hidden: true }
+  end
+
   # Takes the user, not the name: a chosen preset glyph (Avatar) wins, the
   # generated initials remain the default for everyone who never picked one.
   def avatar_tag(user, title: user.name)

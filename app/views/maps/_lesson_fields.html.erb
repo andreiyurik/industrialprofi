@@ -1,0 +1,29 @@
+<%# locals: (f:, lesson:, extra:) -%>
+<%# The author's additions to one chosen lesson — a comment to the learner and
+    their own links under it. Shown only while the row's pencil is toggled on
+    (CSS), hidden while the lesson itself is unchecked. The blank row a new
+    link is cloned from lives once per page (maps/_checklist). %>
+<div class="map-lesson-row__body">
+  <%= text_field_tag "lessons[#{lesson.id}][note]", extra&.note, id: "lesson_#{lesson.id}_note",
+        maxlength: 200, placeholder: t("maps.form.lesson_note"), class: "input input--ghost map-lesson-row__note" %>
+
+  <div class="resource-editor" data-controller="nested-form"
+       data-nested-form-template-id-value="map_link_fields"
+       data-nested-form-defaults-value="<%= { after_lesson_id: lesson.id }.to_json %>">
+    <div class="resource-editor__list" data-nested-form-target="list">
+      <%= f.fields_for :items, extra&.links || [] do |item_f| %>
+        <%= render "maps/item_fields", f: item_f %>
+      <% end %>
+    </div>
+
+    <div class="map-lesson-row__actions">
+      <button type="button" class="btn btn--small" data-action="nested-form#addItem">
+        <%= icon_tag "plus" %>
+        <span><%= t("maps.form.add_link") %></span>
+      </button>
+      <%= link_to lesson_path(lesson), class: "link-quiet link-quiet--underline map-lesson-row__open", target: "_blank", rel: "noopener" do %>
+        <%= t("maps.form.open_lesson") %> <%= icon_tag "arrow-up-right" %>
+      <% end %>
+    </div>
+  </div>
+</div>

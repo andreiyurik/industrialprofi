@@ -134,4 +134,16 @@ class PathTest < ActiveSupport::TestCase
     users(:editor).suspend!
     assert_empty paths(:electrician).reload.curators, "a suspended curator leaves the map"
   end
+
+  test "contributors are counted by person, not by accepted row" do
+    path = paths(:electrician)
+    lesson_suggestions(:approved_suggestion).update_columns(user_id: users(:member).id)
+    2.times { |i| LessonSuggestion.create!(lesson: lessons(:pteep), body_markdown: "ещё #{i}", section: "body", author_name: "Иван", status: "approved", user_id: users(:member).id) }
+    LessonSuggestion.create!(lesson: lessons(:pteep), body_markdown: "гость", section: "body", author_name: "Пётр Гость", status: "approved")
+    LessonSuggestion.create!(lesson: lessons(:pteep), body_markdown: "гость снова", section: "body", author_name: "Пётр Гость", status: "approved")
+
+    assert_equal 2, path.contributors.count
+    assert_equal [ users(:member) ], path.contributors.faces.to_a
+    assert_equal [ "Пётр Гость" ], path.contributors.guests
+  end
 end
