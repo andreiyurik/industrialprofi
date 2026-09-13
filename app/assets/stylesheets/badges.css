@@ -25,7 +25,7 @@
 }
 
 /* Resource-type badges (roadmap.sh-style): one fixed hue per kind, tinted fill
-   + matching text. The only place category colours are allowed (see CLAUDE.md).
+   + matching text. The only place category colours are allowed.
    Norm = red (official standard, stands apart from blue links); Book = teal. */
 .badge--norm {
   background-color: oklch(var(--lch-red) / 0.18);

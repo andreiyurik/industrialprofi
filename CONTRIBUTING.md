@@ -34,7 +34,10 @@ bin/rubocop        # lint must be clean
 
 This is a deliberately conventional Rails app. When in doubt, **do what Rails
 does by default**, and look at how Basecamp's open-source apps (Writebook,
-Fizzy) solve the same problem.
+Fizzy) solve the same problem — `bin/references` clones them into `tmp/references/`.
+The conventions per area live in [docs/conventions](docs/README.md#conventions); settled
+decisions in [docs/decisions](docs/README.md#decisions). Using an AI agent? It reads
+[AGENTS.md](AGENTS.md).
 
 - **HTML-first.** Server-render everything. Turbo Frames for partial updates,
   Turbo Streams for real-time. Stimulus only for behavior that genuinely needs

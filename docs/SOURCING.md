@@ -1,3 +1,7 @@
+---
+summary: Where each trade's world-best practice comes from, by country and layer, localized to the CIS standard.
+---
+
 # Sourcing — where the world's best practice comes from
 
 ## The thesis
