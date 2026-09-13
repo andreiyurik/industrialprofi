@@ -1,0 +1,47 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bin/rails test)",
+      "Bash(bin/rails test *)",
+      "Bash(bin/rubocop)",
+      "Bash(bin/rubocop *)",
+      "Bash(bin/references)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)"
+    ],
+    "ask": [
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git merge *)",
+      "Bash(git rebase *)",
+      "Bash(git reset *)",
+      "Bash(git tag *)",
+      "Bash(git stash *)",
+      "Bash(git checkout -b *)",
+      "Bash(bin/kamal *)"
+    ],
+    "deny": [
+      "Read(./config/master.key)",
+      "Read(./config/credentials/*.key)",
+      "Read(./.env*)",
+      "Read(./.kamal/secrets*)",
+      "Read(./docs/diagrams/**/*.excalidraw.md)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "ruby \"$CLAUDE_PROJECT_DIR/.claude/hooks/comment_budget.rb\""
+          }
+        ]
+      }
+    ]
+  }
+}
