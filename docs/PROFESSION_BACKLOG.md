@@ -1,3 +1,7 @@
+---
+summary: The prioritized queue of professions to package next, with the selection filter and per-profession status.
+---
+
 # Profession backlog — the priority list
 
 The operational to-do of which professions to package next, and in what order.

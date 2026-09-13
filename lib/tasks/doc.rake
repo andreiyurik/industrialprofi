@@ -8,7 +8,7 @@
 # next *definition* (class / module / def / constant). `has_many`, `validates` and
 # `scope` are plain method calls, so the comments above them — which is where this
 # codebase keeps its reasoning — are dropped. The reasoning lives in
-# docs/ARCHITECTURE.md and CLAUDE.md on purpose; read those, not this.
+# docs/ on purpose; read those, not this.
 namespace :doc do
   desc "Generate a browsable HTML map of the app into doc/ (RDoc, no gem needed)"
   task :map do
