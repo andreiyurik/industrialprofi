@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+require "fileutils"
+
+REPOSITORIES = %w[ basecamp/writebook basecamp/fizzy basecamp/once-campfire ]
+TARGET = File.expand_path("../tmp/references", __dir__)
+
+FileUtils.mkdir_p TARGET
+
+REPOSITORIES.each do |repository|
+  path = File.join(TARGET, File.basename(repository))
+
+  if Dir.exist?(path)
+    puts "== Updating #{repository} =="
+    system "git", "-C", path, "pull", "--ff-only", "--quiet", exception: true
+  else
+    puts "== Cloning #{repository} =="
+    system "git", "clone", "--depth", "1", "--quiet", "https://github.com/#{repository}.git", path, exception: true
+  end
+end
