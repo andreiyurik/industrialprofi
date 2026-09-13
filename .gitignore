@@ -44,3 +44,6 @@
 # gem, stamped with the local Ruby SDK name, so a version bump rewrites all of
 # it; the IDE recreates the folder on open.
 /.idea/
+
+# Obsidian vault settings are personal.
+/.obsidian/
