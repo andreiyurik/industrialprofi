@@ -31,7 +31,7 @@
   --lch-grade-yellow: 62% 0.04 75;
   --lch-grade-red: 51% 0.10 27;
   /* Resource-type badge accents — the one sanctioned set of category hues
-     outside the monochrome+blue rule (see CLAUDE.md). Used ONLY for the small
+     outside the monochrome+blue rule. Used ONLY for the small
      type pills on lesson resources, never for general UI. */
   --lch-purple: 70% 0.17 300;
   --lch-yellow: 84% 0.14 95;
