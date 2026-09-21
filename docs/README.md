@@ -54,6 +54,7 @@ Settled — don't re-propose without the listed trigger.
 - [2026-07-31 No community maps shelf](decisions/2026-07-31-no-community-maps-shelf.md) — sandbox + promotion instead.
 - [2026-07-31 Spacing primitives: three sizes](decisions/2026-07-31-spacing-primitives-three-sizes.md) — no fourth tier.
 - [2026-08-04 Symmetric URL locales](decisions/2026-08-04-symmetric-url-locales.md) — `/ru` and `/en`, content in one locale.
+- [2026-09-21 Users before features](decisions/2026-09-21-users-before-features.md) — measure real learners on one profession before building more.
 
 ## Operations
 
