@@ -27,6 +27,10 @@ class AccountMenuTest < ApplicationSystemTestCase
     assert_equal popover, sheet, "меню аккаунта разъехались между поповером и ящиком"
   end
 
+  # The browser is shared by the whole suite, so a width left behind here is a
+  # width every later test inherits, in whatever order the seed picked.
+  teardown { page.driver.browser.manage.window.resize_to(*ApplicationSystemTestCase::SCREEN_SIZE) }
+
   private
     def resize(width)
       page.driver.browser.manage.window.resize_to(width, 900)
