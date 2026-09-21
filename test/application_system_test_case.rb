@@ -36,7 +36,9 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # Chrome's sandbox needs privileges that containers/WSL don't grant, and
   # /dev/shm there is too small for a renderer — without these two flags the
   # browser exits before the session is created.
-  driven_by :selenium, using: :headless_chrome, screen_size: [ 1400, 1400 ] do |options|
+  SCREEN_SIZE = [ 1400, 1400 ]
+
+  driven_by :selenium, using: :headless_chrome, screen_size: SCREEN_SIZE do |options|
     options.binary = CHROME_BIN if CHROME_BIN
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")

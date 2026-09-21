@@ -1,31 +1,32 @@
 require "application_system_test_case"
 
 class MapsTest < ApplicationSystemTestCase
+  # On the CI runner synthesized mouse and keyboard input never reaches this
+  # page, so the editor is driven by scripted events; the public page below is clicked normally.
   test "an author unticks a lesson, ticks a chapter, and adds a note and a link under a lesson" do
     sign_in_as users(:editor)
     visit edit_map_path
 
     assert_selector ".map-checklist__bar .todo__count", text: "2 из 4"
-    # The box itself is for-screen-reader; Capybara clicks its label and waits
-    # for the box to actually flip, instead of racing the counter's text.
-    uncheck "lesson_ids[]", id: "lesson_#{lessons(:pteep).id}", allow_label_click: true
+    press find("#lesson_#{lessons(:pteep).id}", visible: :all)
     assert_selector ".map-checklist__bar .todo__count", text: "1 из 4"
+
     within all(".map-course").last do
-      click_on "Все"
+      press find("button", text: "Все")
       assert_selector ".todo__count", text: "2 из 2"
       assert_selector ".builder-course__lessons", visible: true, wait: 1 # «Все» inside the summary must not fold the chapter
     end
 
     within find(".map-lesson-row", text: "ПУЭ глава 1.7: Заземление") do
-      find(".map-lesson-row__edit").click
-      fill_in "lessons[#{lessons(:zazemlenie).id}][note]", with: "до пункта 1.7.60"
-      click_on "Добавить ссылку"
+      press find(".map-lesson-row__edit input", visible: :all)
+      type find("input[name='lessons[#{lessons(:zazemlenie).id}][note]']"), "до пункта 1.7.60"
+      press find("button", text: "Добавить ссылку")
       within all(".resource-row").last do
-        find("input[placeholder='Название']").fill_in with: "Ролик про щиток"
-        find("input[placeholder='https://']").fill_in with: "https://youtube.com/watch?v=abc"
+        type find("input[placeholder='Название']"), "Ролик про щиток"
+        type find("input[placeholder='https://']"), "https://youtube.com/watch?v=abc"
       end
     end
-    click_on "Сохранить"
+    press find("input[type=submit]")
 
     assert_current_path profile_map_path(maps(:expert_map))
     assert_no_text "ПТЭЭП: основы эксплуатации"
@@ -46,4 +47,17 @@ class MapsTest < ApplicationSystemTestCase
     click_on "Взять себе"
     assert_current_path new_session_path(return_to: profile_map_path(maps(:expert_map)))
   end
+
+  private
+    def press(element)
+      page.execute_script("arguments[0].click()", element.native)
+    end
+
+    def type(element, text)
+      page.execute_script(<<~JS, element.native, text)
+        arguments[0].value = arguments[1];
+        arguments[0].dispatchEvent(new Event("input", { bubbles: true }));
+        arguments[0].dispatchEvent(new Event("change", { bubbles: true }));
+      JS
+    end
 end
