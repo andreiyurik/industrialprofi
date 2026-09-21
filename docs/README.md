@@ -46,7 +46,7 @@ Settled — don't re-propose without the listed trigger.
 - [2026-06-24 Monetization deferred](decisions/2026-06-24-monetization-deferred.md) — free forever, retention before revenue.
 - [2026-06-24 No wiki social governance](decisions/2026-06-24-no-wiki-social-governance.md) — wiki data mechanics only.
 - [2026-06-27 Callouts are blockquotes](decisions/2026-06-27-callouts-are-blockquotes.md) — no custom editor block.
-- [2026-06-27 Lesson images: editor-gated](decisions/2026-06-27-lesson-images-editor-gated.md) — no SVG, no watermark, local blobs.
+- [2026-06-27 Lesson images: editor-gated](decisions/2026-06-27-lesson-images-editor-gated.md) — no SVG, no watermark, local blobs; web-filled placeholders too.
 - [2026-07-11 Lessons have no draft status](decisions/2026-07-11-lessons-have-no-draft-status.md) — transparency over a gate.
 - [2026-07-15 SQLite backups, not Litestream](decisions/2026-07-15-sqlite-backups-not-litestream.md) — `.backup` + cron + rclone.
 - [2026-07-16 No notification bell](decisions/2026-07-16-no-notification-bell.md) — the one loop is already closed.
