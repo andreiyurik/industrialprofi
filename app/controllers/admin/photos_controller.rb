@@ -1,6 +1,5 @@
 module Admin
-  # Remove a curator's photo — the one moderation act a public face needs,
-  # logged like every other action over people.
+  # Removes a curator's photo — logged like every other action over people.
   class PhotosController < AdministratorController
     def destroy
       user = User.find(params[:user_id])

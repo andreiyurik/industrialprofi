@@ -1,17 +1,14 @@
 module SeoHelper
   SITE_NAME = "IndustrialProfi"
 
-  # og:locale wants a territory ("ru_RU"); fall back to the bare code for
-  # locales we haven't mapped yet.
+  # og:locale wants a territory ("ru_RU"); fall back to the bare code if unmapped.
   OG_LOCALES = { ru: "ru_RU", en: "en_US", kk: "kk_KZ" }.freeze
 
   def og_locale
     OG_LOCALES.fetch(I18n.locale, I18n.locale.to_s)
   end
 
-  # Chrome pages (UI-only, same page in every language) get hreflang pairs;
-  # content pages live in ONE locale (Path#locale) and get none. Query-string
-  # variants (?path=) point at locale-bound data, so they are excluded too.
+  # Only chrome pages (same UI per locale) get hreflang pairs — content lives in one locale.
   def bilingual_page?
     request.get? && request.query_parameters.blank? &&
       (controller_name == "pages" ||
@@ -26,14 +23,12 @@ module SeoHelper
     links = I18n.available_locales.map do |locale|
       tag.link(rel: "alternate", hreflang: locale, href: url_for(locale: locale, only_path: false))
     end
-    # x-default = the language-neutral entry; today that's the default locale.
     links << tag.link(rel: "alternate", hreflang: "x-default",
                       href: url_for(locale: I18n.default_locale, only_path: false))
     safe_join(links, "\n    ")
   end
 
-  # Rack keeps the raw query string BINARY, so bot-sent unencoded bytes would
-  # crash UTF-8 template rendering — retag and scrub before echoing the URL.
+  # Rack keeps the query string BINARY; unencoded bot bytes would crash UTF-8 rendering.
   def og_url
     content_for(:canonical) || request.original_url.force_encoding(Encoding::UTF_8).scrub
   end
@@ -52,8 +47,7 @@ module SeoHelper
       dateModified: lesson.updated_at.iso8601,
       url: "#{site_url}/#{I18n.locale}/lessons/#{lesson.slug}"
     }
-    # E-E-A-T: the profession's curators vouch for the material.
-    # Emitted only when a real person actually stands behind the map.
+    # E-E-A-T: emitted only when a real curator actually stands behind the map.
     curators = lesson.path.curators.to_a
     if curators.any?
       data[:reviewedBy] = curators.map do |curator|
@@ -63,7 +57,6 @@ module SeoHelper
     data.to_json
   end
 
-  # Profession landing page (a program made of courses).
   def course_json_ld(path)
     data = {
       "@context": "https://schema.org",
@@ -79,7 +72,6 @@ module SeoHelper
     data.to_json
   end
 
-  # A single course page.
   def course_page_json_ld(course)
     data = {
       "@context": "https://schema.org",
@@ -95,8 +87,6 @@ module SeoHelper
     data.to_json
   end
 
-  # /glossary — one DefinedTermSet over every profession's abbreviations, so
-  # each расшифровка is machine-readable for the long-tail «X расшифровка» SERP.
   def glossary_json_ld(groups)
     data = {
       "@context": "https://schema.org",
@@ -122,8 +112,6 @@ module SeoHelper
     data.to_json
   end
 
-  # Brand entity for the SERP/knowledge graph — ties the name, logo and official
-  # channels together so Google/Yandex recognise "IndustrialProfi" as one org.
   def organization_json_ld
     site = Rails.application.config.x.site
     data = {

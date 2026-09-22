@@ -1,8 +1,6 @@
 module Admin
-  # The reader-proposed-sources queue. Editors of a profession see its lessons'
-  # link suggestions; approving turns one into a real Resource on the lesson,
-  # rejecting closes it. The moderation surface mirrors LessonSuggestions, but a
-  # link is structured, so it lives in its own small model and queue.
+  # Reader-proposed-sources queue; approving turns one into a real Resource. Mirrors
+  # LessonSuggestions, but a link is structured, so it's its own small model/queue.
   class ResourceSuggestionsController < BaseController
     before_action :set_suggestion, only: %i[approve reject]
 

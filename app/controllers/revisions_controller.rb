@@ -5,10 +5,8 @@ class RevisionsController < ApplicationController
 
   before_action :set_lesson
 
-  # Reader-facing change history. Keyset pagination on `version` (descending):
-  # "показать ещё" appends the next batch via Turbo Stream, so rows already on
-  # screen are never re-queried or re-rendered — the page stays light whether a
-  # lesson has 5 revisions or 5000. Grouped by day for scannability.
+  # Keyset pagination on version (descending): показать ещё appends via Turbo Stream, so
+  # existing rows are never re-queried — light whether a lesson has 5 revisions or 5000.
   def index
     scope = @lesson.lesson_revisions.ordered
     scope = scope.where("version < ?", params[:before]) if params[:before].present?
@@ -16,13 +14,10 @@ class RevisionsController < ApplicationController
     @revisions, @more = paginate_window(scope, per_page: PER_PAGE)
     @next_cursor = @revisions.last&.version
 
-    # Community-added sources credited on this lesson (approved link suggestions).
-    # Shown once, above the revision log — the open credit for source contributors,
-    # who have no revision row of their own.
+    # Credits source contributors, who have no revision row of their own.
     @credited_sources = @lesson.resources.where.not(contributor_name: [ nil, "" ]).order(:created_at)
 
-    # Date already at the bottom of the list we're appending to — lets the append
-    # skip a duplicate day heading when the new batch continues the same day.
+    # Last date already on screen, so the append can skip a duplicate day heading.
     @boundary_date = parse_date(params[:d])
 
     respond_to do |format|

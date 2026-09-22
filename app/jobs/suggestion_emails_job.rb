@@ -1,7 +1,3 @@
-# Daily sweep (config/recurring.yml) closing the suggestion feedback loop by
-# email — the Fizzy pattern: the app is the primary channel, mail goes only to
-# people who didn't see the news there. The "should we email" judgment lives in
-# LessonSuggestion#needs_outcome_email? and User#needs_suggestion_digest?.
 class SuggestionEmailsJob < ApplicationJob
   queue_as :default
 
@@ -13,8 +9,6 @@ class SuggestionEmailsJob < ApplicationJob
 
   private
 
-  # Same close-the-loop rule as text edits, for proposed sources: one email per
-  # decision after a day's grace, only if the author didn't see it in-app.
   def notify_resource_authors
     ResourceSuggestion.decided
                       .where(outcome_notified_at: nil, reviewed_at: ..ResourceSuggestion::OUTCOME_EMAIL_AFTER.ago)
@@ -25,9 +19,7 @@ class SuggestionEmailsJob < ApplicationJob
     end
   end
 
-  # One email per decision, after a day's grace for the author to see it on
-  # their dashboard. outcome_notified_at is set either way — seen in the app,
-  # emailed, or consciously skipped — so a decision is handled exactly once.
+  # outcome_notified_at is set whether the email sent or not, so each decision is handled once.
   def notify_authors
     LessonSuggestion.decided
                     .where(outcome_notified_at: nil, reviewed_at: ..LessonSuggestion::OUTCOME_EMAIL_AFTER.ago)

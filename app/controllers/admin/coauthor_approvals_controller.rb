@@ -1,9 +1,6 @@
 module Admin
-  # The one-gesture approval of a coauthor application: promote the applicant to
-  # editor (if needed), create the draft profession under their name, grant them
-  # the editorship, and log it — the mechanical grant the founder used to do by
-  # hand across two screens. The trust call (reading the application) and the
-  # final publish stay human; this only removes the busywork between them.
+  # One-gesture coauthor approval: promotes to editor, creates the draft profession,
+  # grants editorship, and logs it. The trust call and final publish stay human.
   class CoauthorApprovalsController < AdministratorController
     def create
       feedback = Feedback.coauthor_applications.find(params[:feedback_id])
@@ -14,8 +11,7 @@ module Admin
         return redirect_to admin_feedbacks_path, alert: t("admin.coauthor_approve.incomplete")
       end
 
-      # Idempotency: a double-submit lands back on the draft it already made
-      # rather than spawning a second "Профессия-2".
+      # Idempotent: a double-submit lands on the already-made draft, not a second "Профессия-2".
       if (existing = applicant.editable_paths.find_by(title: title, status: "draft"))
         return redirect_to edit_admin_path_path(existing),
           notice: t("admin.coauthor_approve.already", profession: existing.title)

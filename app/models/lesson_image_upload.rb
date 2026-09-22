@@ -1,11 +1,6 @@
-# Policy for editor-uploaded lesson images — the single home for what the gated
-# upload endpoint accepts and what the editor form advertises, so enforcement
-# (Admin::UploadsController) and the editor's allowlist/hint can't drift.
-#
-# The cap is generous on purpose: readers are served a resized WebP variant,
-# never the original, so an author can drop a raw phone photo without fighting a
-# size wall. SVG is intentionally excluded — it can carry script (XSS), and
-# diagrams stay the curated public/ commit, never an upload.
+# Single home for what uploads accept — enforcement (Admin::UploadsController) and the
+# editor form can't drift. SVG excluded (XSS risk); cap is generous since readers get a
+# resized WebP, never the original.
 module LessonImageUpload
   PERMITTED_TYPES = %w[image/png image/jpeg image/webp image/gif].freeze
   MAX_BYTES = 10.megabytes
@@ -18,10 +13,8 @@ module LessonImageUpload
     PERMITTED_TYPES.join(" ")
   end
 
-  # The blob a reader will be SERVED, for the markdown fill flow — whose src is
-  # baked into the lesson text, so there's no per-render variant branch to hide
-  # behind. Transcode once at upload (bounded WebP) where vips exists; keep the
-  # file as-is where it doesn't (a dev box) or for GIFs (animation would be lost).
+  # Baked into lesson markdown as a static src, so no per-render variant branch.
+  # Transcodes to bounded WebP where vips exists; GIFs and vips-less boxes keep the original.
   def self.reader_ready_blob(upload)
     if ApplicationHelper.variant_processing_available? && upload.content_type != "image/gif"
       require "image_processing/vips"

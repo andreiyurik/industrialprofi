@@ -1,9 +1,4 @@
-# [[week_start_date, count], ...] oldest → newest, zero-filled, for any relation
-# with a created_at (User, LessonCompletion, …) — the admin dashboard's charts.
-#
-# Buckets by LOCAL date, not SQLite's DATE() (which reads the UTC-stored
-# timestamp and would misfile late-evening activity into the wrong day — the
-# same trade-off User#activity_by_day makes, for the same reason).
+# Buckets by LOCAL date, not SQLite's DATE() — that reads UTC and misfiles evening activity.
 class WeeklyCounts
   def self.for(scope, weeks:)
     new(scope, weeks).to_a

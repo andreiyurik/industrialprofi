@@ -1,6 +1,4 @@
-# Dismisses the founder's one-shot letter to a newly promoted editor. A real
-# POST (not a JS close): the letter must stay until acknowledged, and must
-# never be consumed by a prefetch — so the flag flips only here.
+# Real POST, not a JS close: a GET prefetch must never consume this, so the flag flips only here.
 class EditorWelcomesController < ApplicationController
   def destroy
     Current.user.update!(editor_welcomed_at: Time.current)

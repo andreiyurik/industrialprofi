@@ -1,11 +1,8 @@
-# Owns the FTS5 side of lesson search: keeping lesson_search_index in sync
-# (Lesson calls index/remove from its commit callbacks) and querying it. The
-# virtual table has no ActiveRecord model — all FTS SQL lives behind this PORO.
+# No ActiveRecord model for the virtual table — all FTS SQL lives here.
 class LessonSearch
   LIMIT = 25
   SNIPPET_WORDS = 20
-  # bm25 weights per indexed column (title, description, body, lesson_id):
-  # a title hit should easily outrank a passing mention deep in a body.
+  # bm25 weights (title, description, body) — a title hit should outrank a passing mention.
   RANKING = "bm25(lesson_search_index, 8.0, 4.0, 1.0, 0.0)"
 
   Result = Data.define(:lesson, :snippet)
@@ -36,9 +33,6 @@ class LessonSearch
     def connection = ActiveRecord::Base.connection
 
     private
-      # A section's searchable text is what the reader sees: rich text when a
-      # human has edited it, the markdown column otherwise. Task rides in the
-      # body column — nobody searches "the task", they search the words.
       def indexable_sections(lesson)
         [ section_text(lesson, :description),
           [ section_text(lesson, :body), section_text(lesson, :task) ].compact_blank.join("\n\n") ]
@@ -49,8 +43,6 @@ class LessonSearch
         rich.present? ? rich.to_plain_text : strip_markdown(lesson.public_send(section))
       end
 
-      # Snippets come straight from the indexed text, so markdown syntax would
-      # leak into search results as noise ("## Что ты поймёшь…").
       def strip_markdown(text)
         text.to_s
             .gsub(/!\[[^\]]*\]\([^)]*\)/, " ")
@@ -89,9 +81,7 @@ class LessonSearch
   end
 
   private
-    # User input becomes a safe FTS5 expression: bare words only, each quoted
-    # (so FTS operators like NEAR/OR/- are inert) and prefix-matched — the
-    # closest cheap fit for Russian morphology (кабел* → кабель/кабеля/…).
+    # Each word quoted so FTS operators (NEAR/OR/-) stay inert; prefix-matched for morphology.
     def match_expression
       @query.scan(/\p{Word}+/).first(8).map { |term| %("#{term}"*) }.join(" ")
     end

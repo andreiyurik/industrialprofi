@@ -1,15 +1,3 @@
-# Industrial calculators / converters — the kind of tool a tradesperson googles
-# before every job ("расчёт сечения кабеля", "4-20 мА в единицы"). They bring
-# people back and rank one page per query, but our edge over the calculator
-# farms is the link to the *standard* and the *lesson* behind each number.
-#
-# These are static tools (like the about/faq pages), NOT user content, so they
-# live in code — a tiny registry, no table (YAGNI: add a model only if experts
-# start authoring their own). Each entry maps a slug to a category and an
-# optional related lesson. All human text (title, intro, the normative note)
-# lives in config/locales as calculators.<slug>.*; the form markup lives in
-# app/views/calculators/forms/_<slug>.html.erb and the math in the single
-# calculator Stimulus controller.
 class Calculator
   CATEGORIES = %w[electrician kipia photo].freeze
 
@@ -22,9 +10,6 @@ class Calculator
     @lesson_slug = lesson
   end
 
-  # Each calculator gets its own Phosphor glyph — not one repeated icon for the
-  # whole catalog — so the index reads as a scannable set of distinct tools
-  # instead of a wall of near-identical rows (founder call, 2026-08-15).
   ALL = [
     new("cable-cross-section", category: "electrician", icon: "ruler",           lesson: "02-vybor-secheniya-kabelya"),
     new("ohms-law",            category: "electrician", icon: "lightning",       lesson: "01-zakon-oma-i-kirkhgofa"),
@@ -40,8 +25,6 @@ class Calculator
     new("subnet",              category: "kipia",       icon: "tree-structure",  lesson: "osnovy-setey-osi-ip-kabeli"),
     new("modbus-rtu",          category: "kipia",       icon: "arrows-clockwise", lesson: "modbus-registry-adresaciya"),
     new("twisted-pair-line",   category: "kipia",       icon: "plugs-connected", lesson: "osnovy-setey-osi-ip-kabeli"),
-    # Фото/видео: здесь норматива в духе ПУЭ нет, опора — физика и статья
-    # (как у ohms-law, где в `norm` стоит сама формула, а не стандарт).
     new("hyperfocal",          category: "photo",       icon: "aperture",       lesson: "03-fv-grip-i-giperfokal"),
     new("nd-filter",           category: "photo",       icon: "sun",            lesson: "02-fv-pravilo-180-i-nd"),
     new("crop-factor",         category: "photo",       icon: "frame-corners",  lesson: "02-fv-fokusnoe-eto-tochka-zreniya"),
@@ -54,28 +37,14 @@ class Calculator
   def self.all = ALL
   def self.find(slug) = ALL.find { it.slug == slug }
 
-  # The reverse of #lesson, derived from the same registry so the two can't
-  # drift: a lesson shows the calculators that name it, and a new calculator
-  # appears on its lesson the day it is registered — no content edit anywhere.
-  # Several may share one lesson (сечение кабеля and ток КЗ both sit on
-  # "02-vybor-secheniya-kabelya").
   def self.for_lesson(lesson_slug) = ALL.select { it.lesson_slug == lesson_slug }
 
-  # A profession's tools, for its hub «Библиотека» tab — derived through the
-  # lesson each calculator names (a calculator declares no path of its own;
-  # categories are audiences, not professions). One query for the whole set.
   def self.for_path(path)
     slugs = path.lessons.where(slug: ALL.filter_map(&:lesson_slug)).pluck(:slug)
     ALL.select { slugs.include?(it.lesson_slug) }
   end
 
-  # Title/tagline match for site search and the palette. Twenty-odd entries in
-  # memory, so a plain scan beats indexing them — they are code, not content.
-  #
-  # Matching is по основам, not by substring: Russian inflects, and people type
-  # the nominative — «сечение кабеля» has to find «Расчёт сечения кабеля». A
-  # real stemmer would be overkill for two dozen headlines, so we compare words
-  # trimmed of their ending and require every query word to land somewhere.
+  # Russian inflects: compare words trimmed of their ending, not substring.
   ENDING = 2
   MIN_STEM = 3
 
@@ -97,23 +66,14 @@ class Calculator
   end
   private_class_method :tokenize, :same_stem?
 
-  # Catalog order = the CATEGORIES order, each group keeping registry order.
   def self.grouped = ALL.group_by(&:category).sort_by { CATEGORIES.index(it.first) }
 
-  # Calculators with their own Stimulus controller — because they draw a diagram
-  # or need behaviour the shared formula dispatch can't express. The rest run on
-  # the shared `calculator` controller; move a slug here the same day its
-  # controller lands in app/javascript/controllers/calculators/.
   CUSTOM = %w[
     cable-cross-section ohms-law voltage-drop grounding ma-scaling resistance-thermometer
     measurement-error subnet twisted-pair-line hyperfocal golden-hour
   ].freeze
 
-  # Нормативные данные, которые страница и показывает читателю, и отдаёт своему
-  # расчёту — один источник вместо копии в JS. Здесь же проходит шов на будущие
-  # рынки: у немецкого электрика это будет таблица DIN VDE 0298-4, а формула та
-  # же. ПУЭ-7, гл. 1.3: таблицы 1.3.4/1.3.6 (медь) и 1.3.7/1.3.8 (алюминий) —
-  # длительно допустимые токи, А, по сечению жилы, мм².
+  # ПУЭ-7 гл. 1.3, табл. 1.3.4/1.3.6 (медь), 1.3.7/1.3.8 (алюминий) — ток, А, по сечению, мм².
   CABLE_NORMS = {
     sections: {
       cu: {
@@ -129,9 +89,7 @@ class Calculator
     breakers: [ 6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125 ]
   }.freeze
 
-  # Витая пара: сопротивление жилы по калибру AWG (Ом/м, медь 20 °C) и параметры
-  # PoE по IEEE 802.3 — сколько пар несут питание, ток, напряжение источника и
-  # минимум на устройстве. Длина канала — ISO/IEC 11801 и ГОСТ Р 53246.
+  # AWG — Ом/м, медь 20°C; PoE — IEEE 802.3; длина канала — ISO/IEC 11801, ГОСТ Р 53246.
   TWISTED_PAIR_NORMS = {
     awg: [
       { awg: 26, area: 0.129, ohms_per_metre: 0.1345 },
@@ -148,10 +106,7 @@ class Calculator
     channel_metres: 100
   }.freeze
 
-  # ГОСТ 6651-2009: НСХ термопреобразователей сопротивления — R₀ и материал
-  # чувствительного элемента, а по материалу — температурный коэффициент α,
-  # коэффициенты уравнения Каллендара–Ван Дюзена и рабочий диапазон. По ним
-  # считаются оба хода и рисуется кривая на схеме.
+  # ГОСТ 6651-2009: R₀ и коэффициенты уравнения Каллендара–Ван Дюзена по материалу.
   RTD_NORMS = {
     sensors: [
       { type: "pt100", label: "Pt100", r0: 100, material: "pt" },
@@ -169,9 +124,6 @@ class Calculator
     }
   }.freeze
 
-  # Единицы давления: значение одной единицы в паскалях. Через них идёт и
-  # перевод, и таблица множителей под калькулятором, и порядок строк на
-  # странице — он не алфавитный, а по частоте на наших щитах.
   PRESSURE_NORMS = {
     units: [
       { unit: "bar", pascals: 1e5 },
@@ -197,19 +149,12 @@ class Calculator
 
   def norms = NORMS[slug]
 
-  # camelCase the slug → the method name on the shared calculator Stimulus
-  # controller (short-circuit → shortCircuit).
   def formula = slug.gsub(/-([a-z])/) { Regexp.last_match(1).upcase }
 
   def custom? = CUSTOM.include?(slug)
 
   def controller = custom? ? "calculators--#{slug}" : "calculator"
 
-  # Everything the calculator panel needs to boot its controller. Kept here so
-  # the view stays a single `data:` hash across both wiring styles. A Stimulus
-  # value is addressed by the controller's IDENTIFIER, not by the class that
-  # declares it — so a calculator with its own controller reads its norms from
-  # data-calculators--<slug>-norms-value, not from the shared prefix.
   def stimulus_data
     actions = %w[input->%s#compute change->%s#compute click->%s#copy].map { format(it, controller) }
     data = { controller: controller, action: actions.join(" ") }
@@ -221,8 +166,6 @@ class Calculator
   def title = I18n.t("calculators.#{slug}.title")
   def tagline = I18n.t("calculators.#{slug}.tagline")
 
-  # The related lesson is rendered only when it actually exists, so a renamed or
-  # not-yet-seeded slug simply hides the link instead of 500-ing.
   def lesson
     return nil if lesson_slug.blank?
     return @lesson if defined?(@lesson)

@@ -1,8 +1,5 @@
-# The B2B demand sensor (/business): training centers and employers tell us
-# what they need before anything gets built — the founder decides from real
-# inquiries, not guesses (docs/VISION.md → Business model). Public on purpose:
-# a training-center director has no learner account. Folded into a tagged
-# Feedback (coauthor-application pattern) — one inbox, no new model.
+# Public on purpose: a training-center director has no learner account. Folded into a
+# tagged Feedback (coauthor-application pattern) — one inbox, no new model.
 class BusinessInquiriesController < ApplicationController
   allow_unauthenticated_access
   rate_limit to: 5, within: 1.hour, only: :create,

@@ -1,9 +1,6 @@
 module Admin::EditorHelper
-  # Shared options for a Lexxy rich_text_area that permits image uploads: routes
-  # them through the validating, size-capped Admin::UploadsController and wires
-  # the client-side size pre-check (lexxy-uploads controller). Spread onto the
-  # field — `f.rich_text_area :rich_body, class: "lexxy-content", **lexxy_image_options`
-  # — so the lesson and news editors stay in sync from one definition.
+  # Routes uploads through the validating, size-capped Admin::UploadsController and wires the
+  # client-side size pre-check; spread onto both the lesson and news editors so they stay in sync.
   def lexxy_image_options
     max_bytes = LessonImageUpload::MAX_BYTES
     {

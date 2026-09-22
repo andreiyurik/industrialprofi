@@ -4,9 +4,8 @@ class MapsController < ApplicationController
 
   before_action :set_map, only: %i[ edit update destroy ]
 
-  # One click: the profession becomes the member's version, ready to trim and
-  # extend in the editor. Nothing is copied — the map is an overlay on the
-  # profession's own lessons (see Map), so this writes no item rows at all.
+  # The map is an overlay on the profession's lessons (see Map), not a copy —
+  # this writes no item rows at all.
   def create
     return redirect_to(edit_map_path) if Current.user.map
 

@@ -1,6 +1,5 @@
 module Admin
-  # The transparency log («Журнал действий») — read-only view of the append-only
-  # AdminAction trail. Administrator-only: seeing who exercised power over people
+  # «Журнал действий» — administrator-only: seeing who exercised power over people
   # and moderation is itself an administrator concern.
   class AdminActionsController < AdministratorController
     PER_PAGE = 50
@@ -19,8 +18,7 @@ module Admin
     def index
       @category = params[:type] if CATEGORIES.key?(params[:type])
       @actor_id = params[:actor].presence
-      # The actor dropdown lists who CAN act (small, fixed), not a DISTINCT scan
-      # over the whole log — keeps the page cheap however large the log grows.
+      # Who CAN act (small, fixed) — not a DISTINCT scan over the growing log.
       @actors = User.where(role: %w[editor administrator]).order(:name)
 
       scope = AdminAction.includes(:actor)
@@ -31,12 +29,8 @@ module Admin
     end
 
     private
-      # Keyset (cursor) pagination on the primary key — cheap at any depth, with
-      # no COUNT and no OFFSET, so the log stays light however long it grows.
-      # `before`/`after` carry the edge ids; filters reset the cursor.
-      # The ordering is index-only for the full feed and single-value filters; a
-      # multi-action category (the IN clause) adds a sort bounded by the category
-      # size — negligible at staff-action volume, so we don't index per action.
+      # No COUNT/OFFSET, so cheap at any depth. The category filter's IN clause is
+      # deliberately unindexed — bounded by category size, negligible at this volume.
       def paginate(scope)
         if (after = params[:after]).present?
           rows = scope.where("admin_actions.id > ?", after).order(id: :asc).limit(PER_PAGE + 1).to_a

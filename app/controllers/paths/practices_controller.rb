@@ -1,7 +1,4 @@
-# The «Практика» tab of a profession hub: that profession's tasks as a ladder
-# — one group per level (ученик → подмастерье → мастер), the same list the
-# chapter page draws, under the hub header. /projects shows the same rows
-# across all professions.
+# «Практика» tab: one profession's tasks grouped by level, same rows /projects shows across all professions.
 class Paths::PracticesController < ApplicationController
   include PathScoped
 

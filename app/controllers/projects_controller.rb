@@ -6,9 +6,6 @@ class ProjectsController < ApplicationController
     @paths = Path.localized.where(status: "published")
                  .joins(:lessons).merge(Lesson.practice).distinct.order(:position)
 
-    # One profession's tasks live on its hub now (the «Практика» tab, grouped
-    # by level — so only the saved-view rides along); old ?path= links 301
-    # there. An unknown slug is just ignored, as any bad filter value is.
     if (selected_path = @paths.find { |path| path.slug == params[:path] })
       return redirect_to path_practice_path(selected_path, saved: params[:saved].presence), status: :moved_permanently
     end
@@ -23,19 +20,13 @@ class ProjectsController < ApplicationController
     scope = scope.where(difficulty: @selected_difficulty) if @selected_difficulty
     scope = scope.where(id: Current.user.lesson_bookmarks.select(:lesson_id)) if @saved_only
 
-    # Anonymous pages carry no personal state (no completions, no bookmarks),
-    # so crawlers and repeat visitors revalidate instead of re-rendering —
-    # same contract as lessons#show. The count guards against deletions,
-    # which don't move max(updated_at).
+    # count guards the etag against deletions, which alone wouldn't move max(updated_at).
     if Current.user.nil?
       last_change = [ scope.maximum(:updated_at), @paths.maximum(:updated_at) ].compact.max
       fresh_when etag: [ scope.count, last_change ], last_modified: last_change
       return if performed?
     end
 
-    # The page reads as a document — one section per profession, focus
-    # profession first (defaults, not walls); within a group the lesson
-    # position is already the easy→hard curriculum ladder.
     @lessons_by_path = scope.group_by(&:path)
                             .sort_by { |path, _| [ path == @focus_path ? 0 : 1, path.position ] }
                             .map { |path, lessons| [ path, lessons.sort_by(&:position) ] }

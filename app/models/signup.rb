@@ -1,6 +1,5 @@
-# Step-by-step signup state (Fizzy-style), kept in the encrypted session —
-# no table: nothing exists in the database until the final step creates the
-# User, and abandoned signups evaporate with the session.
+# Signup state kept in the encrypted session, not a table — nothing exists until
+# the final step creates the User; abandoned signups evaporate with the session.
 class Signup
   include SessionVerificationCode
 

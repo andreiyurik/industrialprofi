@@ -1,8 +1,5 @@
-# A curator's face next to their name — for people who hold a grant (editors,
-# administrators); members keep the generated disc, so storage is bounded by
-# grants, never by users. Only one SIZE-square WebP is ever kept: the upload is
-# resized and stripped of metadata (EXIF/GPS) on the way in and the original
-# never touches the disk.
+# Storage is bounded by grants, not users — members keep the generated disc.
+# Upload is resized to one SIZE-square WebP and stripped of EXIF/GPS; the original never touches disk.
 module User::Photo
   extend ActiveSupport::Concern
 
@@ -16,8 +13,7 @@ module User::Photo
 
   def shows_photo? = photo_allowed? && photo.attached?
 
-  # Same allowlist as lesson images (LessonImageUpload). Returns false — with an
-  # error on :photo — for anything that isn't a readable image within the cap.
+  # Same allowlist as lesson images (LessonImageUpload).
   def update_photo(upload)
     unless LessonImageUpload.permits?(content_type: upload.content_type, byte_size: upload.size)
       errors.add(:photo, :invalid)

@@ -1,6 +1,5 @@
-# The «Словарь» tab of a profession hub: that profession's abbreviations,
-# decoded — the same rows the site-wide /glossary shows across professions.
-# The tab exists only for professions whose lessons define any (GlossaryTerm).
+# «Словарь» tab: one profession's abbreviations, same rows /glossary shows across all.
+# Exists only for professions whose lessons define any.
 class Paths::GlossariesController < ApplicationController
   include PathScoped
 
@@ -11,8 +10,7 @@ class Paths::GlossariesController < ApplicationController
     terms = GlossaryTerm.for_path(@path)
     raise ActiveRecord::RecordNotFound unless terms.exists?
 
-    # Render-free 304 for re-crawls: the page changes with a term or a
-    # referenced lesson's title (the /glossary idiom).
+    # 304 for re-crawls: changes with a term or referenced lesson title (the /glossary idiom).
     if Current.user.nil?
       fresh_when last_modified: [ @path.updated_at, terms.maximum(:updated_at), Lesson.maximum(:updated_at) ].compact.max
       return if performed?

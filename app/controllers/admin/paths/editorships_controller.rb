@@ -1,9 +1,7 @@
 module Admin
   module Paths
-    # Grant/revoke a direct-edit seat on one profession, from the profession's
-    # own team panel (see Admin::PathsController#show). Same effect as the
-    # per-user picker in Admin::UsersController#update_access, just entered
-    # from the other side — admin-only, same promotion/notification rules.
+    # Grant/revoke a direct-edit seat from the profession's team panel — same effect
+    # as UsersController#update_access, entered from the other side; same promotion rules.
     class EditorshipsController < Admin::AdministratorController
       before_action :set_path
 
@@ -43,9 +41,8 @@ module Admin
           @path = Path.find_by!(slug: params[:path_slug])
         end
 
-        # Turbo-replaces just the team panel (no full-page reload, no lost
-        # scroll position on a long curriculum tree) — the HTML fallback still
-        # redirects for no-JS/direct-link requests.
+        # Turbo-replaces just the team panel (no reload, no lost scroll on a long
+        # tree); HTML falls back to redirect.
         def respond(notice)
           @editorships = @path.editorships.includes(:user).joins(:user).merge(User.order(:name))
           @editorship_candidates = Editorship.candidates_for(@path)

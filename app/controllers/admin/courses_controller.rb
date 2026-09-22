@@ -30,13 +30,12 @@ module Admin
 
     def edit; end
 
-    # Course owns the lesson destroy chain (path → courses → lessons), so this
-    # also clears the course's lessons and their dependents.
+    # Course owns the destroy chain (path → courses → lessons); its lessons and
+    # their dependents go too.
     def destroy
       path = @course.path
       title = @course.title
-      # Same cascade preload as paths#destroy — lessons and their resources in
-      # two reads instead of one per lesson.
+      # Same cascade preload as paths#destroy — two reads instead of one per lesson.
       @course = Course.includes(lessons: [ :resources, :lesson_suggestions, :resource_suggestions ]).find(@course.id)
       @course.destroy!
       record_admin_action("course_deleted", subject: title, path: path&.title)
@@ -67,13 +66,11 @@ module Admin
       @editable_paths = Path.editable_by(Current.user).ordered
     end
 
-    # status is handled separately via sanitized_status (trust ladder). path_id
-    # is create-only — courses don't move between professions, and permitting it
-    # on update would let a scoped editor push a course into a profession they
-    # don't own. slug is locked once the course is live (see slug_locked?).
+    # status is handled via sanitized_status (trust ladder). path_id is create-only:
+    # permitting it on update would let a scoped editor move a course they don't own.
     def course_params
       permitted = [ :title, :description, :position, :icon ]
-      permitted << :path_id unless @course # only on create (set_course runs on update)
+      permitted << :path_id unless @course
       permitted << :slug unless slug_locked?(@course)
       params.require(:course).permit(*permitted)
     end

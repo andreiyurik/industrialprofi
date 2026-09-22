@@ -5,9 +5,7 @@ module Admin
 
     PER_PAGE = 100
 
-    # Two-level: without ?path it's a profession picker (bounded by # of
-    # professions); with ?path it's that ONE profession's lessons, grouped by
-    # course/stage and paginated. Never loads every lesson of every profession.
+    # With ?path: paginates that one profession's lessons — never loads every lesson at once.
     def index
       if params[:path].present?
         @path = Path.editable_by(Current.user).find_by!(slug: params[:path])
@@ -19,8 +17,6 @@ module Admin
       end
     end
 
-    # A lesson is born as a small stub (where it lives + title + kind); the rich
-    # body/task and resources are filled in straight away on the edit page.
     def new
       @lesson = Lesson.new(course_id: params[:course_id], kind: "lesson")
     end
@@ -65,9 +61,7 @@ module Admin
 
     private
 
-    # Trust, with transparency: lessons carry no draft status, so adding or deleting
-    # one inside a PUBLISHED course changes reader-visible content immediately.
-    # The fact is logged, not gated.
+    # Lessons carry no draft status: changes inside a published course go live immediately.
     def log_live_lesson_change(action)
       return unless live_lesson?
 
@@ -88,8 +82,7 @@ module Admin
       @editable_paths = Path.editable_by(Current.user).ordered.includes(:courses)
     end
 
-    # Position is global within the profession (continuous prev/next across
-    # courses), so a new lesson appends to the end of its path.
+    # Position is global within the profession (continuous prev/next across courses).
     def next_lesson_position(course)
       return 1 unless course
 

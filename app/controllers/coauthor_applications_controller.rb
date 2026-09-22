@@ -1,15 +1,10 @@
-# The expert-entry gate (loop #1): a structured "стать соавтором" application.
-# Requires sign-in — a co-author needs an account anyway, and it filters for
-# seriousness. The fields are folded into a tagged Feedback (no separate model
-# until real volume warrants tracking application status); the founder reads it
-# in /admin/feedbacks, replies, and grants the editor role + editorship by hand.
+# Folded into a tagged Feedback — no separate model until volume warrants tracking status;
+# founder reads it in /admin/feedbacks, replies, and grants the editor role by hand.
 class CoauthorApplicationsController < ApplicationController
   rate_limit to: 5, within: 1.hour, only: :create,
              with: -> { redirect_to new_coauthor_application_path, alert: t("auth.rate_limited") }
 
-  # Three fields keep first contact low-friction; the rest (portfolio, specific
-  # credentials) come up in the reply. All three are required — each is essential
-  # to judge an application.
+  # Kept to three fields for low-friction first contact; portfolio/credentials come up in the reply.
   FIELDS = %i[profession background motivation].freeze
 
   def new

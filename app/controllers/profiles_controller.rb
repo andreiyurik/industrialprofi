@@ -1,6 +1,5 @@
-# A person's public page: identity, their map, what they improved (each claim
-# links to a checkable revision), and — only if they chose so — what they are
-# learning. Nothing here is self-assigned except the headline, labelled as such.
+# A person's public page: identity, their map, checkable-revision credit, and, if opted
+# in, what they're learning. Nothing here is self-assigned except the labelled headline.
 class ProfilesController < ApplicationController
   allow_unauthenticated_access
 

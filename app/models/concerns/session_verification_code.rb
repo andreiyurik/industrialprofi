@@ -1,8 +1,5 @@
-# Shared skeleton for a short-lived, session-backed verification code
-# (signup email confirmation, account email-change confirmation): generate a
-# human-typeable code, store its digest + expiry in the session, verify it,
-# expire it. No table — nothing exists in the database until the flow
-# completes, and an abandoned flow evaporates with the session.
+# Shared skeleton for a short-lived, session-backed verification code (signup,
+# email change). No table — an abandoned flow evaporates with the session.
 module SessionVerificationCode
   extend ActiveSupport::Concern
 
@@ -17,8 +14,7 @@ module SessionVerificationCode
     @session = session
   end
 
-  # Starts (or restarts) the flow: stores the email + code digest, returns the
-  # plain code exactly once — for the mailer.
+  # Returns the plain code exactly once, for the mailer; only its digest is stored.
   def start!(email_address)
     alphabet = self.class::ALPHABET
     code = Array.new(self.class::CODE_LENGTH) { alphabet[SecureRandom.random_number(alphabet.size)] }.join

@@ -1,7 +1,5 @@
-# One learner's standing in one profession — the object every hub view reads
-# instead of asking `Current.user` five different questions. Built once per
-# request; a guest gets the Guest null object, so views never branch on
-# signed-in state (exercism's UserTrack::External pattern).
+# One learner's standing in one profession, built once per request. A guest
+# gets the Guest null object, so views never branch on signed-in state.
 class Path::Progress
   def self.for(path, user)
     user ? new(path, user) : Guest.new(path)
@@ -31,8 +29,7 @@ class Path::Progress
                             .where(lessons: { path_id: path.id }).group("lessons.course_id").count
   end
 
-  # Where «Продолжить» lands: the first lesson not yet done; nil once the map
-  # is finished (the button then hides).
+  # Where «Продолжить» lands; nil once finished (the button then hides).
   def next_lesson
     return @next_lesson if defined?(@next_lesson)
     @next_lesson = user.next_lesson_in(path)

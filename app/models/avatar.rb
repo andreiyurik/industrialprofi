@@ -1,7 +1,5 @@
-# Preset glyph avatars — a work glyph on a tinted disc, picked on /account.
-# The glyphs are the existing emblem icons (assets), the choice is one string
-# column on users: zero per-user storage, no uploads, no moderation (the same
-# reasoning as the generated initials in AvatarsHelper, which stay the default).
+# One string column on users: zero per-user storage, no uploads, no moderation —
+# same reasoning as the generated initials in AvatarsHelper, which stay the default.
 class Avatar
   PRESETS = {
     "hard-hat" => { icon: "hard-hat-light", hue: "--lch-yellow" },

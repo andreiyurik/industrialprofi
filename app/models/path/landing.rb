@@ -1,11 +1,3 @@
-# The profession's «О профессии» landing — the slots every profession in every
-# country has (what the work is, what a master can do, strong and weak sides,
-# history, the questions newcomers ask) plus one cover image. One JSON column:
-# a new slot is code, not a migration, and it is added only when two
-# professions ask for it. Anything national or trade-specific (разряды,
-# standards, pay, licences) is PROSE inside a slot, never schema — that is what
-# keeps one template universal. Two field types only: markdown text and a list
-# of one-line items; the admin form is a textarea per slot.
 module Path::Landing
   extend ActiveSupport::Concern
 
@@ -17,8 +9,6 @@ module Path::Landing
 
   included do
     store_accessor :landing, *SLOTS, :cover_credit
-    # One committed-size image per profession (readers get resized WebP
-    # variants) — bounded by the number of professions, never by users.
     has_one_attached :cover
 
     before_validation :normalize_landing
@@ -26,7 +16,6 @@ module Path::Landing
     validate :landing_lists_within_bounds
   end
 
-  # The list slots edit as plain textareas, one item per line.
   LIST_SLOTS.each do |slot|
     define_method(:"#{slot}_text") { Array(public_send(slot)).join("\n") }
     define_method(:"#{slot}_text=") do |text|
@@ -36,19 +25,14 @@ module Path::Landing
 
   def landing_present? = SLOTS.any? { |slot| public_send(slot).present? }
 
-  # A pack's landing fills an EMPTY one even on a profession a human already
-  # owns: nothing human is overwritten, so the import freeze (Importable) has
-  # nothing to guard. A landing with any human text stays as it is.
+  # Fills only an EMPTY landing — a landing with any human text stays as is.
   def fill_landing(data)
     return false if data.blank? || landing.present?
 
     update!(landing: data)
   end
 
-  # The FAQ slot as [[question, answer_markdown], …]: every `### ` heading
-  # opens an entry (the page renders them as native disclosures). Text before
-  # the first heading is ignored; no headings at all → [] and the slot renders
-  # as plain prose instead.
+  # No headings at all means the slot falls back to rendering as plain prose.
   def faq_entries
     faq.to_s.split(/^###[ \t]+/).drop(1).filter_map do |chunk|
       question, answer = chunk.split("\n", 2)
@@ -57,8 +41,6 @@ module Path::Landing
   end
 
   class_methods do
-    # A landing as it arrives from a pack (landing.yml) or a pasted document:
-    # only known slots, strings stripped, lists as arrays of non-blank lines.
     def normalize_landing(data)
       data = data.to_h.stringify_keys
       TEXT_SLOTS.to_h { |slot| [ slot.to_s, data[slot.to_s].to_s.strip.presence ] }

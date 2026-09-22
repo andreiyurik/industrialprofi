@@ -1,9 +1,7 @@
 module Admin
   module Paths
-    # Download a profession as a content pack — a .zip of the exporter's tree,
-    # the same archive /admin/imports accepts. Closes the round-trip without
-    # console access: an editor takes their map offline (backup, AI factory,
-    # another install), then brings it back through the dry-run preview.
+    # Downloads a profession as the same .zip /admin/imports accepts — round-trips
+    # a map offline (backup, AI factory, another install) without console access.
     class ExportsController < Admin::BaseController
       def show
         path = Path.editable_by(Current.user).find_by!(slug: params[:path_slug])

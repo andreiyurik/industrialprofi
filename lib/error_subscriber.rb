@@ -1,9 +1,6 @@
-# Hand-rolled error monitoring (no SaaS, no gems) — subscribes to the Rails
-# error reporter, which receives every unhandled exception from web requests
-# and Solid Queue jobs. Each new error emails the administrators; a Solid Cache
-# throttle keeps a repeating error from becoming an inbox storm.
-#
-# Subscribed in production only — see config/initializers/error_reporting.rb.
+# Hand-rolled error monitoring (no SaaS, no gems): subscribes to the Rails error
+# reporter, emails administrators, and throttles repeats via Solid Cache so they
+# don't become an inbox storm. Subscribed in production only (config/initializers/error_reporting.rb).
 class ErrorSubscriber
   THROTTLE_TTL = 30.minutes
 

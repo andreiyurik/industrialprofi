@@ -1,6 +1,5 @@
-# The «Теория» tab of a profession hub: the programme — chapters in reading
-# order, each with its lessons and the practice tasks in their place — under
-# the shared hub header. The overview (paths#show) keeps only the outline.
+# «Теория» tab: chapters in reading order with lessons/tasks in place; paths#show
+# keeps only the outline.
 class Paths::TheoriesController < ApplicationController
   include PathScoped
 

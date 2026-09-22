@@ -1,7 +1,6 @@
 module RevisionsHelper
   # Tags/attrs a lesson section can legitimately use (prose + callouts + tables).
-  # A reader's proposed_html may come from raw markdown (kramdown passes inline
-  # HTML through), so the side-by-side view sanitises before rendering it.
+  # A reader's proposed_html may carry raw HTML (kramdown passes it through) — sanitize before rendering.
   PROSE_TAGS = %w[p br hr h2 h3 h4 strong em b i u s del ins ul ol li blockquote
                   pre code a img figure figcaption div span table thead tbody tr th td].freeze
   PROSE_ATTRS = %w[href src alt title class colspan rowspan].freeze
@@ -18,7 +17,6 @@ module RevisionsHelper
     revision.editor_name.presence || t("revisions.by_admin")
   end
 
-  # Day heading for the grouped history list: «Сегодня» / «Вчера» / full date.
   def revision_date_heading(date)
     case date
     when Date.current     then t("revisions.dates.today")

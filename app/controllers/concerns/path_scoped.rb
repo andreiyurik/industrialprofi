@@ -1,6 +1,5 @@
-# The profession hub: paths#show and its tabs all open on one published path
-# and share the locale rule — content lives in exactly ONE locale, so the wrong
-# prefix 301s to the same page under the right one, never a thin mirror.
+# One published path per locale, no mirror pages: the wrong locale prefix 301s
+# to the same content under the right one.
 module PathScoped
   extend ActiveSupport::Concern
 
@@ -16,8 +15,7 @@ module PathScoped
       @progress = Path::Progress.for(@path, Current.user)
     end
 
-    # The chapters with their lesson/practice counts — the «Теория» tab's cards
-    # and the overview's outline read the same two queries.
+    # Shared by the Теория tab's cards and the overview's outline — same two queries.
     def load_curriculum
       @courses = @path.courses.listable.ordered.to_a
       # [course_id, kind] => count, for the lesson/practice counters.

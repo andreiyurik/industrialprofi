@@ -2,24 +2,17 @@ module Admin
   class PathsController < BaseController
     before_action :set_path, only: %i[edit update destroy]
 
-    # Editors see the maps they hold; an administrator sees every map, with the
-    # ones they curate themselves first and marked — a grant is what lets them
-    # set the expert mark, so it should be visible at a glance.
     def index
       @curated_ids = Current.user.editorships.pluck(:path_id).to_set
       @paths = Path.editable_by(Current.user).ordered
                    .sort_by { |path| [ @curated_ids.include?(path.id) ? 0 : 1, path.position ] }
     end
 
-    # The curriculum builder: one profession's whole tree (courses → stage →
-    # lessons), reorderable by drag. editable_by scopes it, so a non-owner editor
-    # gets a 404 rather than someone else's workspace.
+    # editable_by scopes this find; a non-owner editor 404s instead of seeing another workspace.
     def show
       @path = Path.editable_by(Current.user).find_by!(slug: params[:slug])
       @courses = @path.courses.ordered.includes(:lessons)
-      # The profession's team — everyone holding a direct-edit grant here.
       @editorships = @path.editorships.includes(:user).joins(:user).merge(User.order(:name))
-      # Only admins can grant, so skip the candidates query for editors.
       @editorship_candidates = Editorship.candidates_for(@path) if Current.user.can_administer?
     end
 
@@ -45,13 +38,10 @@ module Admin
 
     def edit; end
 
-    # Deleting a whole profession (and its courses → lessons) is an admin act,
-    # not an editor one — even an editor granted this profession can't do it.
     def destroy
       return redirect_to(admin_path_path(@path), alert: t("auth.not_authorized")) unless Current.user.can_administer?
 
-      # The destroy cascade walks courses → lessons → resources one by one;
-      # preloading the tree turns that N+1 crawl into three reads.
+      # Preloads courses→lessons→resources so the destroy cascade doesn't N+1 crawl.
       @path = Path.includes(courses: { lessons: [ :resources, :lesson_suggestions, :resource_suggestions ] }).find(@path.id)
       @path.destroy!
       record_admin_action("path_deleted", subject: @path.title)
@@ -78,14 +68,11 @@ module Admin
       authorize_path!(@path)
     end
 
-    # An editor who creates a profession owns it from then on; admins edit
-    # everything, so they don't accumulate grants they don't need.
     def grant_editorship(path)
       Current.user.editorships.create(path:) unless Current.user.administrator?
     end
 
-    # status is handled separately via sanitized_status (trust ladder); slug is
-    # locked once the path is live (see slug_locked?).
+    # status excluded — handled via sanitized_status (trust ladder), not raw params.
     def path_params
       permitted = [ :title, :description, :icon,
                     :cover, :cover_credit, :about, :history, :faq, :highlights_text, :pros_text, :cons_text ]

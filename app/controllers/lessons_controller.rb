@@ -2,38 +2,26 @@ class LessonsController < ApplicationController
   allow_unauthenticated_access
 
   def show
-    # No includes on purpose: for ONE record eager loading saves nothing (same
-    # three queries), but it always runs them — even for a 304 or .md response
-    # that never touches resources. Lazy loading pays only on real renders.
+    # No includes: eager loading would still run for a 304 or .md response that never renders.
     @lesson = Lesson.find_by!(slug: params[:slug])
     @course = @lesson.course
     @path = @lesson.path
-    # Same one-locale-home rule as paths#show.
     unless @path.locale == params[:locale]
       return redirect_to lesson_path(@lesson, locale: @path.locale), status: :moved_permanently
     end
 
-    # Published content is public; an editor/admin may PREVIEW their own drafts
-    # (so "view live" works while authoring). Everyone else gets a 404.
     @preview = !publicly_visible?(@lesson)
     raise ActiveRecord::RecordNotFound if @preview && !Current.user&.can_edit_path?(@path)
 
-    # Crawlers and signed-out visitors get a conditional GET: re-requesting an
-    # unchanged lesson returns 304 and skips rendering entirely — the cheapest
-    # possible response, and a crawl-efficiency signal Google rewards. Only when
-    # signed out: a signed-in page carries personalization (completion state)
-    # that last_modified can't capture, so they always render fresh.
+    # Signed-out only: a signed-in page carries completion state last_modified can't capture.
     if Current.user.nil?
       fresh_when last_modified: content_last_modified
       return if performed?
     end
 
-    # Sidebar is scoped to the current course (TOP-style course contents).
     @lessons_by_stage = @course.lessons.group_by(&:stage)
     @completed_ids = signed_in? ? Current.user.completed_lesson_ids_for_course(@course) : Set.new
 
-    # The practice loop, closed both ways: did → logged → the log is visible
-    # right where the task lives on the next visit.
     @my_journal_entries =
       @lesson.practice? && signed_in? ? Current.user.journal_entries.where(lesson: @lesson).ordered : []
 
@@ -48,10 +36,7 @@ class LessonsController < ApplicationController
       lesson.course&.status == "published" && lesson.path&.status == "published"
     end
 
-    # The newest timestamp among everything an anonymous lesson page shows: the
-    # lesson and its siblings (sidebar, prev/next), its links, and the course /
-    # profession. Conservative on purpose — any edit in the profession revalidates,
-    # which is fine since lessons are read far more than they change.
+    # Deliberately broad: any edit to the course/profession revalidates the lesson too.
     def content_last_modified
       [
         @path.lessons.maximum(:updated_at),

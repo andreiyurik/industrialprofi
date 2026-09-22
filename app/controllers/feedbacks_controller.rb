@@ -4,9 +4,8 @@ class FeedbacksController < ApplicationController
 
   def new
     @feedback = Feedback.new(page_url: params[:from].presence)
-    # Arriving from the catalog's "предложить профессию" tile: tailor the page and
-    # seed a marker so profession ideas stand out in the founder's inbox. Still a
-    # plain Feedback — no separate model for a low-volume, free-text channel.
+    # Arriving from the catalog's «предложить профессию» tile: tailors the page and
+    # seeds a marker so profession ideas stand out. Still a plain Feedback, no separate model.
     if params[:about] == "profession"
       @feedback.body = t("feedbacks.profession_prefill")
       @title = t("feedbacks.profession_title")

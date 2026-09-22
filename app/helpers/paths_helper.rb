@@ -1,15 +1,8 @@
 module PathsHelper
-  # One landing list item as inline markup — a **bold** key phrase or a link
-  # inside the line, the Basecamp checklist idiom — without the paragraph
-  # wrapper a markdown renderer puts around a lone line.
   def landing_line(text)
     markdown(text).to_str.sub(%r{\A\s*<p>(.*)</p>\s*\z}m, '\1').html_safe
   end
 
-  # The hub header's one-line inventory: «N глав · M статей · K заданий» —
-  # chapters = published only (coming-soon stubs aren't content yet), the
-  # two lesson kinds split as the course cards split them. Tasks appear only
-  # when there are some: a «0 заданий» is a promise, not a fact.
   def hub_facts(path)
     kinds = path.lessons.group(:kind).count
     facts = [ t("common.course", count: path.courses.published.count),
@@ -18,10 +11,7 @@ module PathsHelper
     safe_join(facts, " · ")
   end
 
-  # Maturity-gauge geometry — Basecamp's Needle, faithfully: a long shallow
-  # outlined arc (80° of a large circle) divided into cells, filled up to the
-  # needle. Plain trig here means the gauge ships as inline SVG — no images,
-  # no JS; the needle angle rides out as a CSS variable.
+  # Arc geometry for an inline SVG gauge; the needle angle rides out as a CSS variable.
   MATURITY_GAUGE = { span: 80.0, ticks: 13, cx: 186.0, cy: 290.0, outer: 264.0, inner: 238.0 }.freeze
   # Cells lit per stage — a needle position, not a score.
   MATURITY_FILL = { 1 => 2, 2 => 5, 3 => 9, 4 => 13 }.freeze
@@ -31,17 +21,14 @@ module PathsHelper
     (-gauge[:span] / 2 + gauge[:span] * MATURITY_FILL.fetch(stage) / gauge[:ticks]).round(1)
   end
 
-  # The outlined track: a closed annular band from edge to edge.
   def maturity_track_path
     maturity_annulus(-MATURITY_GAUGE[:span] / 2, MATURITY_GAUGE[:span] / 2)
   end
 
-  # The progress fill: the same band, cut off at the needle.
   def maturity_fill_path(stage)
     maturity_annulus(-MATURITY_GAUGE[:span] / 2, maturity_needle_angle(stage))
   end
 
-  # Cell dividers — [x1, y1, x2, y2] per internal boundary, inner→outer.
   def maturity_ticks
     gauge = MATURITY_GAUGE
     step = gauge[:span] / gauge[:ticks]
@@ -52,7 +39,6 @@ module PathsHelper
   end
 
   private
-    # Closed band between the outer and inner radii across [from, to] degrees.
     def maturity_annulus(from_deg, to_deg)
       gauge = MATURITY_GAUGE
       x0o, y0o = maturity_point(from_deg, gauge[:outer])
@@ -64,8 +50,7 @@ module PathsHelper
              x1i, y1i, gauge[:inner], gauge[:inner], x0i, y0i)
     end
 
-    # Angle is measured from 12 o'clock, positive clockwise — same convention
-    # the needle's CSS rotate() uses.
+    # Measured from 12 o'clock, positive clockwise — same convention as the needle's CSS rotate().
     def maturity_point(deg, radius)
       gauge = MATURITY_GAUGE
       rad = deg * Math::PI / 180

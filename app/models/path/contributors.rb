@@ -1,12 +1,9 @@
-# Everyone whose proposed edit or source was accepted into one profession — the
-# object the hub reads instead of asking the Path five different questions.
+# Everyone whose proposed edit or source was accepted into one profession.
 # Names, not scores: attribution is the one recognition mechanic here (no
-# leaderboard, by decision). Members are counted by account, guests by the name
-# they signed with; every query is DISTINCT so cost follows people, not
-# accepted rows, and each is made once per object.
+# leaderboard, by decision). Every query is DISTINCT so cost follows people,
+# not accepted rows.
 class Path::Contributors
-  # How many people «Кто стоит за картой» names before it stops listing them
-  # and says how many more there are.
+  # How many people «Кто стоит за картой» names before it collapses the rest into a count.
   SHOWN = 20
 
   attr_reader :path
@@ -22,8 +19,7 @@ class Path::Contributors
   # The header's row of faces — photos ride along in one query.
   def faces(limit: 3) = users(limit)
 
-  # The popover's window: members first (they have faces and profiles), guests
-  # fill the rest of it, and whatever is left over is one honest line.
+  # Members first (they have faces and profiles), guests fill the rest of the popover.
   def members = @members ||= users(SHOWN).to_a
 
   def guests = @guests ||= guest_names.first(SHOWN - members.size)
