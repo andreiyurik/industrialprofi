@@ -1,6 +1,4 @@
-/* "Моё обучение" — the signed-in home, TOP-style: identity card (direction +
-   personal goal + ONE next action), then per-course progress rows. Lives in a
-   reading-width column: it's a personal work page, not a catalog. */
+/* "Моё обучение" — the signed-in home: identity card + one next action, then per-course progress rows. */
 
 /* Warm but quiet — the hero card owns the first screen, not the greeting. */
 .dashboard__greeting {
@@ -9,8 +7,7 @@
   margin-block: 0 1.25rem;
 }
 
-/* Activity heatmap (GitHub-style): server-rendered divs, no canvas/JS;
-   green intensity = real actions that day. */
+/* Server-rendered divs, no canvas/JS; green intensity = real actions that day. */
 .heatmap {
   border: 1px solid var(--color-subtle);
   border-radius: 0.75em;
@@ -40,8 +37,7 @@
   font-size: 0.8rem;
 }
 
-/* Cells flex between phone-tight and desktop-chunky; aspect-ratio keeps them
-   square whatever width the column resolves to. */
+/* aspect-ratio keeps cells square whatever width the column resolves to. */
 .heatmap__grid {
   display: grid;
   gap: 3px;
@@ -90,8 +86,7 @@
   }
 }
 
-/* What fills a cell and why regularity beats volume — written out in words:
-   a hover-only "?" would be invisible on touch and undiscoverable anywhere. */
+/* Written out in words — a hover-only "?" would be invisible on touch. */
 .heatmap__hint {
   color: var(--color-subtle-dark);
   font-size: 0.8rem;
@@ -99,8 +94,7 @@
   margin-block: 0.9rem 0;
 }
 
-/* The identity card (TOP-style): direction + personal goal, ONE next action.
-   Brighter border than anything else on the page — attention goes here. */
+/* Brighter border than anything else on the page — attention goes here. */
 .dashboard-hero {
   border-color: var(--color-subtle-dark);
   display: flex;
@@ -202,10 +196,7 @@
   padding: 0.25rem 1.5rem;
 }
 
-/* Grid, not wrapping flex: with wrap, the action (button / «Пройдена») fell to
-   a new full-width line under the RING while the meta centred itself — three
-   different axes in one row. Now every piece has a fixed cell: ring | info |
-   action; on phones the action drops under the info and stays aligned to it. */
+/* Grid, not wrapping flex — with wrap, the action fell under the ring while the meta centred itself, three axes in one row. */
 .dashboard-course {
   align-items: center;
   column-gap: 1.25rem;
@@ -235,7 +226,7 @@
   opacity: 0.6;
 }
 
-/* Ring with no icon disc — the percent shows by default (TOP's dashboard). */
+/* Ring with no icon disc — the percent shows by default. */
 .dashboard-course__ring {
   block-size: 5rem;
   flex-shrink: 0;
@@ -430,8 +421,7 @@
   max-inline-size: 36rem;
 }
 
-/* Extra bottom margin keeps «Сохранить/Отмена» from clustering with
-   «Продолжить» into one button pile. */
+/* Extra bottom margin keeps «Сохранить/Отмена» from clustering with «Продолжить». */
 .dashboard-hero__info .learning-goal-form {
   margin-block: 0.25rem var(--block-space);
 
@@ -462,8 +452,7 @@
   margin-block: 0;
 }
 
-/* ── «Отложенные задания» — the remove ✕ unbookmarks via Turbo Stream
-   (row disappears; whole section goes with the last row). ───────────── */
+/* ── «Отложенные задания» — the remove ✕ unbookmarks via Turbo Stream ── */
 .dashboard__bookmarks {
   margin-block-start: 3rem;
 }
@@ -593,8 +582,7 @@
   }
 }
 
-/* Maps on the dashboard: mine (with its one honest count) and the ones I
-   took — the same row rhythm as the course rows above. */
+/* Same row rhythm as the course rows above. */
 .dashboard-maps {
   --panel-padding: 0;
   overflow: hidden;

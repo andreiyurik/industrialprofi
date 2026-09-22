@@ -1,9 +1,4 @@
-/* Practice tasks as a to-do list — Basecamp's own pattern for things to do:
-   a list per group with a heading, round checkboxes on every task, the done
-   ones ticked and struck through. Bare rows, air between lists — deliberately
-   unlike the chapter page's rail-and-panels, so the eye tells practice from
-   theory at a glance. Shared by the profession hub's «Практика» tab (grouped
-   by level) and /projects (grouped by profession). */
+/* Shared by the hub's «Практика» tab (grouped by level) and /projects (grouped by profession). */
 .todo {
   display: flex;
   flex-direction: column;
@@ -21,8 +16,7 @@
   padding-block-end: 0.6rem;
 }
 
-/* «I Ученик — бумага и стол…»: the РАЗРЯД numeral, the level, its honest
-   definition, on one line; the definition wraps under on phones. */
+/* «I Ученик — бумага и стол…»: numeral, level, definition on one line; the definition wraps under on phones. */
 .todo__title {
   align-items: baseline;
   display: flex;
@@ -63,8 +57,7 @@
   padding: 0;
 }
 
-/* A row is the link plus its sibling bookmark (a button can't live inside a
-   link); the link takes the room, the bookmark trails it. */
+/* Link plus its sibling bookmark — a button can't live inside a link. */
 .todo__item {
   align-items: center;
   display: flex;
@@ -90,7 +83,6 @@
   }
 }
 
-/* The checkbox: a thin ring; done = green fill with the check. */
 .todo__check {
   border: 1.5px solid var(--color-subtle-dark);
   border-radius: 50%;
@@ -134,7 +126,6 @@
   line-height: 1.4;
 }
 
-/* Done: struck through and dimmed, the to-do signal everyone knows. */
 .todo__item--done .todo__name {
   color: var(--color-subtle-dark);
   text-decoration: line-through;
@@ -165,8 +156,7 @@
   inline-size: 0.95rem;
 }
 
-/* /projects: two columns on wide screens (CSS columns, not grid — a row's
-   height depends only on its own text); the РАЗРЯД numeral rides on the name. */
+/* CSS columns, not grid — a row's height then depends only on its own text. */
 .todo__items--columns {
   /* A flex container ignores `columns` — switch to block for the multi-column layout. */
   @media (min-width: 64em) {
@@ -179,8 +169,7 @@
     break-inside: avoid;
   }
 
-  /* In a narrow column the meta always sits under the name — a short title
-     would otherwise float its meta to the right while long ones wrap under. */
+  /* A short title would otherwise float its meta to the right while long ones wrap under. */
   .todo__text {
     flex-direction: column;
     gap: 0.1rem;
@@ -192,9 +181,7 @@
   }
 }
 
-/* The bookmark is a row action, not row content: it appears when the row is
-   hovered or focused, and stays visible once set. Touch screens have no
-   hover, so there it is always shown — dimmed — instead of unreachable. */
+/* Row action, not content — shown on hover/focus. Touch has no hover, so it's always shown dimmed instead of unreachable. */
 .todo__item .bookmark-toggle {
   opacity: 0;
   transition: opacity 150ms ease;

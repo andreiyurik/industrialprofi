@@ -1,5 +1,4 @@
-/* Admin lesson resource (links) editor — roadmap.sh-style, compact: two lines
-   per link (kind badge + select + title, then URL). Pure CSS, tokens only. */
+/* Compact: two lines per link (kind badge + select + title, then URL). */
 .resource-editor__list {
   display: flex;
   flex-direction: column;
@@ -68,9 +67,7 @@
   gap: var(--block-space-half);
 }
 
-/* The kind's hue compressed to a dot: the badge modifier class sets `color`,
-   the dot paints itself with it. background-color must outrank the modifier's
-   tinted fill — this file loads after badges.css, so source order does it. */
+/* background-color must outrank the modifier's tinted fill — loads after badges.css, so source order does it. */
 .resource-row__dot {
   background-color: currentColor;
   block-size: 0.55rem;
@@ -79,8 +76,7 @@
   inline-size: 0.55rem;
 }
 
-/* Fixed width so switching kind (e.g. "Видео" → "Инструмент") never resizes
-   the select — otherwise the row's elements jump. */
+/* Fixed width so switching kind never resizes the select — otherwise the row's elements jump. */
 .resource-row__kind {
   flex-shrink: 0;
   width: 9.5rem;

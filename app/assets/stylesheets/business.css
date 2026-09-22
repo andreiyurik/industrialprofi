@@ -1,5 +1,4 @@
-/* /business — the pitch page for training centers/employers + the inquiry
-   form (the B2B demand sensor). Form fields reuse the .feedback__* classes. */
+/* Form fields reuse the .feedback__* classes. */
 .business__eyebrow {
   color: var(--color-subtle-dark);
   font-size: 0.85rem;

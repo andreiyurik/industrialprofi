@@ -31,8 +31,7 @@ h4 {
   /* hyphens: auto; */
 }
 
-/* Page-level overflow + scroll-behavior live in base.css; an `overflow-x: hidden`
-   here would clip the sticky header (header.css), so it's deliberately omitted. */
+/* overflow-x: hidden here would clip the sticky header (header.css) — deliberately omitted. */
 body {
   min-height: 100dvh;
   font-family: sans-serif;

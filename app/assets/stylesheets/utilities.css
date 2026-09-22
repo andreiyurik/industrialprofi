@@ -30,8 +30,7 @@
   position: absolute;
 }
 
-/* Notify dot — the one quiet "news for you" signal (an unseen decision on a
-   suggested edit). Inline by default; --corner pins it to a button's edge. */
+/* Inline by default; --corner pins it to a button's edge. */
 .notify-dot {
   background: var(--color-link);
   block-size: 0.5rem;

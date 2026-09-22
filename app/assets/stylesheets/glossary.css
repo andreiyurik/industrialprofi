@@ -1,5 +1,4 @@
-/* /glossary — professional abbreviations, decoded. A reading page: one group
-   per profession, a definition list of terms inside. */
+/* /glossary — professional abbreviations decoded: one group per profession, a definition list inside. */
 
 .glossary-toolbar {
   display: grid;
@@ -12,8 +11,7 @@
   max-inline-size: 24rem;
 }
 
-/* The script toggle (все / рус / межд) — chip-shaped radio buttons; the
-   pressed one gets the interactive border + a filled ground. */
+/* Script toggle (все / рус / межд) — chip-shaped; the pressed one gets the interactive border + a filled ground. */
 .glossary-scripts {
   display: flex;
   flex-wrap: wrap;
@@ -119,10 +117,7 @@
   margin-block: 0;
 }
 
-/* Row anatomy: term | body | one compact action at the right edge (the
-   repeated full-sentence link read as noise; a small uniform control doesn't).
-   Mobile-first: tighter rows — a lookup page earns its keep by entries
-   per screen. */
+/* term | body | action grid areas. Mobile-first: tighter rows — a lookup page earns its keep by entries per screen. */
 .glossary__entry {
   align-items: start;
   border-block-end: 1px solid var(--color-subtle-light);
@@ -144,9 +139,7 @@
   }
 }
 
-/* The abbr is the SCAN KEY — it must out-weigh the расшифровка below it,
-   especially on mobile where there is no dedicated left rail. The GOST face
-   is monoline (reads thin), so it gets size instead of weight. */
+/* The GOST face is monoline (reads thin) — the term gets size, not weight, to out-weigh the расшифровка below it. */
 .glossary__term {
   font-size: 1.3rem;
   grid-area: term;
@@ -158,9 +151,7 @@
   }
 }
 
-/* The equipment-nameplate chip: a quiet plate around the abbreviation gives
-   the scanning eye a repeated SHAPE to latch onto — monochrome, no color to
-   shout or to impersonate a link. */
+/* A quiet plate around the abbreviation gives the scanning eye a repeated shape to latch onto — monochrome, not a link. */
 .glossary__term-plate {
   background-color: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);
@@ -175,9 +166,7 @@
   grid-area: action;
   margin-inline-start: 0;
 
-  /* Ghost action: borderless and muted, so the only outlined shape in the row
-     is the term plate — content outranks control. Uniform width keeps the
-     column reading as one rail. */
+  /* Borderless and muted so the term plate is the only outlined shape in the row; uniform width keeps the column a rail. */
   .btn {
     --btn-border-color: transparent;
     --btn-hover-border: transparent;
@@ -201,9 +190,7 @@
   }
 }
 
-/* The cross-system counterpart («АВ ≈ MCB») — an analog, honestly, never a
-   "translation": most terms have none and carry no mark at all. Inline with
-   the term, so it costs the entry no extra line. */
+/* An analog, never a "translation" («АВ ≈ MCB») — most terms have none. Inline so it costs no extra line. */
 .glossary__analog {
   color: var(--color-disabled);
   font-family: var(--font-sans);

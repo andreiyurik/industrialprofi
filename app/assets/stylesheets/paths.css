@@ -5,15 +5,13 @@
   margin-block-start: var(--block-space-double);
 }
 
-/* An open invitation, not a roadmap — a flat list, every name equal (no
-   status dots, no highlighting), ending in one call: become a curator. */
+/* A flat list, every name equal — no status dots, no highlighting. */
 .catalog-soon {
   margin-block-start: 3.5rem;
   text-align: center;
 }
 
-/* The label doubles as a section divider — fading hairlines (Fizzy's
-   divider--fade) separate the dead list from the live grid. */
+/* The label doubles as a section divider — fading hairlines separate the dead list from the live grid. */
 .catalog-soon__label {
   align-items: center;
   color: var(--color-subtle-dark);
@@ -52,8 +50,7 @@
   max-inline-size: 52rem;
 }
 
-/* Dashed border = the hidden-contour line of a ГОСТ drawing. Not a link
-   itself — the block below carries the CTA link. */
+/* Dashed border = the hidden-contour line of a ГОСТ drawing. */
 .catalog-soon__slot {
   border: 1px dashed var(--color-subtle);
   border-radius: 2rem;
@@ -64,12 +61,7 @@
   padding: 0.35rem 0.9rem;
 }
 
-/* The way onward, not another vacancy — so it drops the dashed capsule and takes
-   an arrow instead. Vertical metrics match a slot exactly, so it sits on the row's
-   baseline as a peer; only the horizontal padding is tighter, since without a
-   border there's no frame needing air. Stays in this block's quiet register (grey →
-   ink), never an accent: the whole section is deliberately dimmer than the live
-   cards above it. */
+/* Vertical metrics match a slot so it sits on the row's baseline as a peer. */
 .catalog-soon__more {
   align-items: center;
   display: inline-flex;
@@ -99,9 +91,7 @@
   hyphens: none;
   margin-block: var(--block-space-double) 0;
 
-  /* The rough-notation oval IS this button's frame — the default capsule
-     border would draw a frame around a frame. Hover nudges the arrow
-     instead of decorating the (invisible) box. */
+  /* The rough-notation oval IS this button's frame — a capsule border would draw a frame around a frame. */
   .btn {
     --btn-border-color: transparent;
   }
@@ -124,7 +114,6 @@
   }
 }
 
-/* Card grid — multi-col layout for path/profession cards (dashboard "other paths") */
 .card-grid {
   display: grid;
   gap: 1.5rem;
@@ -141,9 +130,7 @@
   }
 }
 
-/* A drawing-sheet poster: the profession NAME in the GOST drafting face
-   (--font-technical) is the design; corner ticks are the one decorative nod
-   to an engineering-drawing frame. */
+/* A drawing-sheet poster: the profession name in the GOST face is the design; corner ticks are the one decorative nod. */
 .path-card {
   --panel-padding: 1.75rem;
   --panel-background: var(--color-bg);
@@ -153,8 +140,7 @@
   gap: var(--block-space);
   position: relative;
   transition: border-color 200ms ease, box-shadow 200ms ease;
-  /* Low floor only — desktop height is content-/row-stretch-driven; this just
-     stops a lone single-line card from looking stubby. */
+  /* Low floor only — stops a lone single-line card from looking stubby. */
   min-block-size: 6rem;
 }
 
@@ -199,8 +185,7 @@
 
 .path-card__title {
   font-family: var(--font-technical);
-  /* Large enough for the monoline drafting face to show its character —
-     at body sizes it reads as a broken monospace, at poster size as a drawing */
+  /* Large enough for the monoline drafting face to read as a drawing, not a broken monospace. */
   font-size: clamp(1.75rem, 2.4vw, 2.3rem);
   font-weight: 400;
   /* GOST is a monoline drafting face — a hair of tracking lets it breathe */
@@ -209,8 +194,7 @@
   hyphens: none;
   line-height: 1.1;
   margin-block: 0;
-  /* Sentence case, like the profession's own hero title: this is a navigation
-     label people scan, and the word's shape is what they scan by. */
+  /* Sentence case, like the hero title — this is a scanned label, not a heading. */
   text-wrap: balance;
 }
 
@@ -267,8 +251,7 @@
   }
 }
 
-/* One quiet icon style for every course/path circle — the framing circle itself
-   comes from the caller's context (progress ring, bordered badge, hero circle). */
+/* One quiet icon style for every course/path circle — the framing circle comes from the caller's context. */
 .topic-badge {
   block-size: 100%;
   display: inline-grid;
@@ -299,7 +282,7 @@
   }
 }
 
-/* Bigger than the plain hero badge — TOP renders its course-page circle at 7rem. */
+/* Bigger than the plain hero badge — 7rem for the course-page circle. */
 .topic-hero-icon--ring {
   block-size: 7rem;
   border: none;
@@ -320,8 +303,7 @@
   text-align: center;
 }
 
-/* Same GOST face AND same case as the catalog card poster — the profession name
-   keeps one identity at every size it appears. */
+/* Same GOST face and case as the catalog card poster — one identity at every size. */
 .path__title {
   font-family: var(--font-technical);
   font-size: clamp(2rem, 5vw, 3rem);
@@ -331,8 +313,7 @@
   margin-block: 0;
 }
 
-/* GOST is reserved for the profession identity, not every hero underneath it;
-   a chapter title is a largest-title instead — Inter Tight 800 + uppercase. */
+/* GOST is reserved for the profession identity — a chapter title gets the largest-title treatment instead. */
 .path__title--course {
   font-family: var(--font-display);
   font-weight: 800;
@@ -341,8 +322,7 @@
   text-transform: uppercase;
 }
 
-/* Tight on purpose: this page is a table of contents — the first lesson row
-   should make the first phone screen, so the hero can't hoard it. */
+/* Tight on purpose — the first lesson row should make the first phone screen. */
 .path__overview {
   margin-block: 1.25rem 1.5rem;
 }
@@ -397,8 +377,6 @@
   font-size: 0.8rem;
 }
 
-/* A learner mid-path sees their direction before any new profession competes
-   for attention. */
 .focus-banner {
   align-items: center;
   display: flex;
@@ -448,8 +426,6 @@
   text-align: center;
 }
 
-/* A language with no maps yet: one honest panel with the way to the catalog
-   that exists (today: English → Russian). */
 .catalog-empty {
   align-items: center;
   display: flex;

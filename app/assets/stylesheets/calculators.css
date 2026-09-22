@@ -1,5 +1,4 @@
-/* ── Index: deliberately list-like, NOT the panel-card grid used for
-   paths/courses — narrow column, hairline dividers, reads as a reference index. ── */
+/* ── Index: list-like, not the panel-card grid used for paths/courses ── */
 .calc-group {
   margin-block-start: 2.75rem;
   margin-inline: auto;
@@ -68,9 +67,8 @@
   }
 }
 
-/* ── Show: title + intro + the calculator panel ────────────────────── */
-/* NOT the big uppercase marketing `.page-title` — sentence case and lighter,
-   so long SEO-tuned titles stay calm instead of a giant hyphenated caps block. */
+/* ── Show: title + intro + the calculator panel ── */
+/* NOT .page-title — sentence case and lighter so long SEO-tuned titles stay calm. */
 .calc-title {
   font-size: clamp(1.55rem, 4vw, 2.1rem);
   font-weight: 700;
@@ -169,9 +167,7 @@
   font-weight: 400;
 }
 
-/* Unit sits inside the field's trailing edge; the input reserves room for it.
-   Block, not the inline default: an absolutely positioned child needs a real
-   box to measure against, or a sibling can drag it out of the field. */
+/* Block, not inline: an absolutely positioned child needs a real box to measure against. */
 .calc-field__control {
   display: block;
   position: relative;
@@ -191,9 +187,6 @@
   transform: translateY(-50%);
 }
 
-/* "Typical values" select above its number input — turns "введите удельное
-   сопротивление грунта" into "выберите грунт", without taking away the field
-   for anyone who measured it. */
 .calc-field__presets {
   font-size: 0.9rem;
   margin-block-end: 0.4rem;
@@ -223,9 +216,7 @@
   pointer-events: none;
 }
 
-/* A slider paired with its number input. It duplicates a control that is
-   already labelled, so it stays out of the tab order and the a11y tree —
-   the number input is the one people (and screen readers) operate. */
+/* Duplicates the labelled number input — stays out of the tab order and the a11y tree. */
 .calc-field__range {
   accent-color: var(--color-link);
   block-size: 1.5rem;
@@ -234,10 +225,9 @@
   margin-block-start: 0.4rem;
 }
 
-/* ── Diagrams ──────────────────────────────────────────────────────────
-   Inline SVG drawn by the per-calculator controllers: they set data-state
-   and a transform, everything else (colour, motion) belongs to CSS. Panels
-   sit on --color-subtle-light, so a shape only reads against --color-bg. ── */
+/* ── Diagrams ── */
+/* Controllers set data-state + a transform; colour and motion stay in CSS.
+   Shapes fill --color-bg since the panels sit on --color-subtle-light. */
 .calc-figure {
   margin: 0 0 var(--block-space);
 
@@ -378,8 +368,7 @@
   fill: var(--color-bg);
 }
 
-/* scaleX, not a width attribute: transforms animate everywhere, SVG geometry
-   properties do not. */
+/* scaleX, not a width attribute: transforms animate everywhere, SVG geometry properties do not. */
 .drop-figure__fill,
 .loop-gauge__fill,
 .poe-line__fill {
@@ -401,8 +390,7 @@
   stroke-width: 1.5;
 }
 
-/* 4–20 mA gauge — the marker carries both the signal and the same point in
-   engineering units, which is the whole conversion in one glance. */
+/* 4–20 mA gauge — the marker carries both the signal and engineering units in one glance. */
 .loop-gauge {
   --gauge-accent: var(--color-link);
   margin-inline: auto;
@@ -467,8 +455,7 @@
   transition: fill 200ms ease-out;
 }
 
-/* Cable section — a ladder of the standard sections, each step as tall as the
-   current it carries. The answer is the first step to rise above the line. */
+/* Cable section — a ladder of standard sections; the answer is the first step to rise above the line. */
 .section-ladder {
   margin-inline: auto;
   max-inline-size: 30rem;
@@ -576,8 +563,7 @@
   text-anchor: middle;
 }
 
-/* Measurement error — the class-of-accuracy band with the instrument's own
-   reduced error marked on it: fit or not is a position, not a comparison. */
+/* Measurement error — the class-of-accuracy band with the instrument's reduced error marked on it. */
 .tol-scale {
   --tol-accent: var(--color-subtle-dark);
   margin-inline: auto;
@@ -653,8 +639,7 @@
   text-anchor: middle;
 }
 
-/* Resistance thermometer — the sensor's own curve across its whole range, with
-   both directions landing on it: filled dot from °C, ring from Ω. */
+/* Resistance thermometer — the sensor's curve across its range: filled dot from °C, ring from Ω. */
 .rtd-curve {
   margin-inline: auto;
   max-inline-size: 30rem;
@@ -700,8 +685,7 @@
   text-anchor: end;
 }
 
-/* PoE line — switch to device up top, the 100 m channel down below with the
-   powering limit standing where the line stops being able to feed the device. */
+/* PoE line — switch to device up top, the 100 m channel below with the powering limit marked. */
 .poe-line {
   --poe-accent: var(--color-subtle-dark);
   margin-inline: auto;
@@ -778,8 +762,7 @@
   opacity: 0;
 }
 
-/* Grounding — the loop in a cut of soil: solid rods are driven, dashed ones
-   are what the norm still asks for. */
+/* Grounding — the loop in a cut of soil: solid rods are driven, dashed ones are what the norm still asks for. */
 .ground-figure {
   margin-inline: auto;
   max-inline-size: 30rem;
@@ -829,8 +812,7 @@
   text-anchor: end;
 }
 
-/* Hyperfocal — the sharp zone on a distance axis compressed by d/(d + H), so
-   the hyperfocal tick never moves and infinity fits on screen. */
+/* Hyperfocal — axis compressed by d/(d + H), so the hyperfocal tick never moves and infinity fits on screen. */
 .dof-band {
   margin-inline: auto;
   max-inline-size: 30rem;
@@ -920,10 +902,7 @@
   }
 }
 
-/* ── The headline answer + the verdict in words ─────────────────────
-   The one number the page exists to produce, sized so it reads as the
-   answer rather than as row three of five. Colour never carries the
-   verdict alone — the sentence below states it. ── */
+/* ── The headline answer + the verdict in words — colour never carries the verdict alone ── */
 .calc-answer {
   background-color: var(--color-bg);
   border: 1px solid var(--color-subtle);
@@ -952,9 +931,7 @@
     font-weight: 800;
     letter-spacing: -0.02em;
     line-height: 1.05;
-    /* Deliberately not transitioned: the verdict colour is settled on the very
-       first paint, and easing into it reads as the page flashing. The digits
-       change at the same moment anyway, so a hard switch is the readable one. */
+    /* Deliberately not transitioned — colour settles on first paint; easing would read as a flash. */
   }
 
   .calc-copy {
@@ -991,8 +968,7 @@
   }
 }
 
-/* Both marks ship in the markup; the state picks one. Nothing shows until
-   there is something to say. */
+/* Both marks ship in the markup; the state picks one via display. */
 .calc-verdict__mark {
   display: none;
   flex-shrink: 0;
@@ -1049,9 +1025,7 @@
   font-size: 0.85rem;
 }
 
-/* On a narrow screen the label and the value fight over one line and both end
-   up broken — worst on subnet, where every value is a whole address. Below that
-   width the row reads top-to-bottom instead. */
+/* Label and value fight over one line below 480px — worst on subnet, where every value is a whole address. */
 @media (max-width: 480px) {
   .calc-result {
     display: block;
@@ -1116,8 +1090,7 @@
   }
 }
 
-/* ── "?" term glossary: opens a native popover (top layer, never clips,
-   dismissed via backdrop tap or Esc) — zero JS, one element. ──────────── */
+/* ── "?" term glossary: native popover (top layer, dismissed via backdrop tap or Esc), zero JS ── */
 .term-info {
   appearance: none;
   background: none;
@@ -1162,10 +1135,7 @@
   }
 }
 
-/* ── "Как считается": the substance under the tool ──────────────────
-   A calculator page is otherwise almost text-free, which is exactly what
-   makes it indistinguishable from a calculator farm. This is where the
-   difference lives, so it reads as prose, not as a footnote. ── */
+/* ── "Как считается": the substance under the tool ── */
 .calc-method {
   margin-block: var(--block-space-double);
 }
@@ -1205,8 +1175,7 @@
   margin-inline-end: 0.4em;
 }
 
-/* Normative tables — wide by nature, so they scroll inside themselves and
-   never push the page sideways. */
+/* Wide by nature — scrolls inside itself instead of pushing the page sideways. */
 .calc-table {
   margin-block: var(--block-space-double) 0;
   margin-inline: 0;

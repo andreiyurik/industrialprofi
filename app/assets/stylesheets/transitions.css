@@ -1,6 +1,4 @@
-/* Turbo drives page changes through the View Transitions API (enabled by the
-   <meta name="view-transition"> tag). The browser's default cross-fade is the
-   effect; here we just keep it quick and honour reduced-motion. */
+/* Enabled by the <meta name="view-transition"> tag; here we just keep the default cross-fade quick. */
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root),
   ::view-transition-new(root) {

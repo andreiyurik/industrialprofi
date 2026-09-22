@@ -1,5 +1,4 @@
-/* Curriculum builder — the profession tree (courses → stage → lessons) with
-   drag-and-drop reordering. Driven by curriculum_controller.js. */
+/* Drag-and-drop reordering is driven by curriculum_controller.js. */
 
 .builder-cards {
   display: grid;

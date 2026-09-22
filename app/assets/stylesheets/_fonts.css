@@ -1,9 +1,4 @@
-/*
- * Web fonts — self-hosted via Propshaft (no Google Fonts, no CDN at runtime).
- * Inter (OFL, from Fontsource) is body/UI; Inter Tight is the heading-optimized
- * display cut. Propshaft auto-includes app/assets/fonts/, so each bare woff2
- * reference below resolves to the digested asset automatically.
- */
+/* Propshaft auto-includes app/assets/fonts/ — bare woff2 references below resolve to the digested asset automatically. */
 
 /* Inter */
 /* latin */
@@ -100,8 +95,7 @@
   src: url("gost-typeb-400-normal.woff2") format("woff2");
 }
 
-/* IBM Plex Mono — lesson table-of-contents rail only, not the general
-   --font-mono stack (code/kbd/auth-code stay on the system stack). */
+/* IBM Plex Mono — lesson table-of-contents rail only; code/kbd/auth-code stay on the system --font-mono stack. */
 /* latin */
 @font-face {
   font-family: "IBM Plex Mono";

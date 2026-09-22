@@ -1,6 +1,4 @@
-/* Personal maps (see Map): the author's form pages and the public map page.
-   The public page is a reading list — one column, the same rail-less list
-   the course curriculum uses, plus the author line and one action. */
+/* Personal maps (see Map): author's form pages + public map page — reuses the course curriculum's rail-less list. */
 
 /* ── Author's forms ── */
 .map-form__header {
@@ -38,8 +36,7 @@
   padding-block-start: var(--block-space);
 }
 
-/* The button with its «Что это?» — and the explanation it opens, reused at the top
-   of the editor as a folded disclosure. */
+/* The button with its «Что это?» — reused at the top of the editor as a folded disclosure. */
 .map-version {
   align-items: center;
   display: inline-flex;
@@ -143,10 +140,7 @@
   margin-block: var(--block-space-half) 0;
 }
 
-/* The lesson checklist wears the expert builder's clothes (builder.css):
-   chapter cards, numbered rows, a pencil at the row's end. What differs is the
-   verb — a round check chooses a lesson instead of dragging it, the pencil
-   opens the author's additions instead of the content editor. */
+/* Wears the expert builder's clothes (builder.css) — check chooses a lesson instead of dragging, pencil opens additions not the editor. */
 .map-checklist {
   display: flex;
   flex-direction: column;
@@ -164,7 +158,6 @@
   font-weight: 600;
 }
 
-/* A native disclosure in the builder card: the head is the summary. */
 .map-course > summary {
   cursor: pointer;
   list-style: none;
@@ -187,14 +180,12 @@
   font-size: 0.85rem;
 }
 
-/* Chapter names wrap here — on a phone a truncated «Основы и электроб…» is
-   worse than a second line (the builder is a desktop tool, this is not). */
+/* Chapter names wrap here — a truncated «Основы и электроб…» is worse than a second line (the builder is desktop-only, this is not). */
 .map-course .builder-course__title {
   white-space: normal;
 }
 
-/* The round check (todo.css) fills with ink when the lesson is chosen —
-   selected, not done (done is the green of the reader's progress). */
+/* Fills with ink when chosen — selected, not done (done is the green of the reader's progress). */
 .map-lesson-row__pick {
   cursor: pointer;
   display: inline-flex;

@@ -1,6 +1,5 @@
 .flash {
-  /* Clears the sticky header (same idiom as the lesson sidebar) — parked at the
-     very top it covered the nav words behind it. */
+  /* Clears the sticky header — parked at the very top it covered the nav words behind it. */
   inset-block-start: calc(var(--header-height) + var(--block-space-half));
   inset-inline: 0;
   margin-inline: auto;
@@ -11,8 +10,7 @@
   z-index: 50;
 }
 
-/* Rise-and-fade in, hold, fade out — timed to the 4s element-removal delay so
-   the toast leaves gracefully instead of vanishing mid-screen. */
+/* 4000ms matches the element's removal delay so it fades out instead of vanishing mid-screen. */
 @media (prefers-reduced-motion: no-preference) {
   .flash {
     animation: appear-then-fade 4000ms ease both;
@@ -30,8 +28,7 @@
   pointer-events: auto;
 }
 
-/* "Не сохранилось" must not look identical to "сохранено" — the toast is the
-   only place the outcome is stated, and it leaves after four seconds. */
+/* Must not look identical to a success toast — it's the only place the outcome is stated. */
 .flash__inner--alert {
   --flash-background: var(--color-negative);
   --flash-color: var(--color-ink-reversed);

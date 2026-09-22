@@ -1,25 +1,18 @@
 body {
   display: grid;
-  /* The single column is minmax(0, 1fr), NOT the default `auto`: `auto` sizes to
-     content, so any over-wide child (a comparison table, code block, long URL)
-     blows the whole page past the viewport and everything clips on mobile. The
-     0 minimum lets the column — and its grid items — shrink to the viewport so
-     wide content scrolls inside its own wrapper instead. */
+  /* minmax(0, 1fr), not auto — auto sizes to content, so an over-wide child blows the page past the viewport on mobile. */
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto 1fr auto;
   min-block-size: 100dvh;
 }
 
-/* Grid items default to min-width:auto (won't shrink below content); zero it so
-   <main>'s content is bound by the viewport, not by its widest descendant. */
+/* Grid items default to min-width:auto — zero it so <main> is bound by the viewport, not its widest descendant. */
 body > * {
   min-inline-size: 0;
 }
 
-/* Parked off-canvas, so it costs nothing visually and lands in view on the very
-   first Tab — otherwise a keyboard reader walks the header's ~15 links again on
-   every lesson page. Fixed, not absolute: the header is sticky and would cover
-   an absolutely-placed link once the page is scrolled. */
+/* Off-canvas so it lands on the first Tab — otherwise a keyboard reader repeats the header's ~15 links every page.
+   Fixed, not absolute: the sticky header would cover an absolute link once scrolled. */
 .skip-nav {
   background-color: var(--color-ink);
   border-radius: 0.5em;

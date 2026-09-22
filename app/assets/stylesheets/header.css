@@ -4,20 +4,17 @@
   position: sticky;
   inset-block-start: 0;
   transition: transform 250ms ease;
-  /* Writebook's trick: naming the chrome takes it OUT of the page cross-fade, so
-     it holds still between pages instead of blinking. Removes motion, not adds. */
+  /* Named so it's excluded from the page cross-fade — holds still instead of blinking. */
   view-transition-name: header;
   z-index: 40;
 }
 
-/* Auto-hide (TOP-style): the header-reveal controller hides this past the
-   header's height, showing it again only at the very top. */
+/* Hidden by the header-reveal controller past its own height; reappears at the top. */
 .header--hidden {
   transform: translateY(-100%);
 }
 
-/* The mobile sheet is a child of the header, so a hidden header would drag it
-   off-screen with it. Outranks .header--hidden by specificity. */
+/* Outranks .header--hidden by specificity — the mobile sheet is a header child and would hide with it otherwise. */
 .header:has(.header__menu[open]) {
   transform: none;
 }
@@ -28,14 +25,7 @@
   }
 }
 
-/* The top bar carries ONLY "use the product" links (Профессии · Практика ·
-   Библиотека · Калькуляторы) — everything "about the project" lives in the
-   footer. ONE exception, and only in the mobile sheet: a guest gets О проекте
-   + Частые вопросы (.header__menu-guest). The rule guards the DESKTOP row,
-   where space is scarce and the footer is one scroll away; in the sheet the
-   footer is a whole catalog away and it's a guest's only nav. Inline nav shows
-   ≥1024px; below that it collapses behind the hamburger so the row never
-   wraps — nowrap is enforced in both compact blocks as a safety valve. */
+/* Inline ≥1024px, else collapses behind the hamburger; nowrap in both compact blocks keeps the row from wrapping. */
 .header__nav {
   align-items: center;
   column-gap: 1.5rem;
@@ -51,8 +41,7 @@
   margin-inline-end: auto;
 }
 
-/* Grouping via spacing, no dividers: nav words keep 1.5rem air; search +
-   account read as one tight cluster, separated by the menu's trailing margin. */
+/* Grouping by spacing, not dividers: search + account read as one tight cluster. */
 .header__right {
   align-items: center;
   column-gap: 0.75rem;
@@ -64,8 +53,7 @@
   margin-inline-end: 0.75rem;
 }
 
-/* Icon-only search entry (Writebook pattern) — a quiet glyph among the nav
-   words, always visible even when the nav collapses into the hamburger. */
+/* Always visible even when the nav collapses behind the hamburger. */
 .header__search {
   align-items: center;
   color: var(--color-ink);
@@ -82,9 +70,7 @@
   color: var(--color-link);
 }
 
-/* The donation door. Worded from 1024px up, where the nav words are inline and
-   the row has room; below that the label collapses to screen-reader-only and
-   the glyph carries it, same as search. */
+/* Label collapses to screen-reader-only below the breakpoint; the glyph carries it, like search. */
 .header__support {
   align-items: center;
   color: var(--color-ink);
@@ -108,8 +94,7 @@
   font-weight: 400;
 }
 
-/* Not 1024px, where the inline nav appears: measured, the word tips the row
-   into wrapping there. It gets its word once the row can actually hold it. */
+/* Not 1024px: measured, the label tips the row into wrapping until 1200px. */
 @media (max-width: 1199px) {
   .header__support-label {
     block-size: 1px;
@@ -121,15 +106,12 @@
   }
 }
 
-/* Palette wrapper only scopes the Stimulus controller; the link must stay a
-   direct flex item of .header__right. */
+/* Scopes the Stimulus controller only; the link must stay a direct flex item of .header__right. */
 .header__palette {
   display: contents;
 }
 
-/* Desktop: the <details> disclosure is "transparent" — the toggle is hidden and
-   the panel always renders as the inline nav row (overriding the UA rule that
-   hides a closed <details>'s content). */
+/* Toggle hidden, panel always renders as the inline row — overrides the UA rule that hides closed <details> content. */
 .header__menu-toggle {
   display: none;
 }
@@ -142,18 +124,11 @@
   row-gap: var(--block-space-half);
 }
 
-/* The UA hides a closed <details>' content instantly via ::details-content
-   (content-visibility). Turn that off at every width: the desktop inline row
-   must show while the <details> is closed, and the mobile dropdown's exit
-   animation needs the content to survive until the fade finishes — hiding is
-   ours, via the panel's display rule in the ≤819px block below. */
+/* Overrides the UA's instant content-visibility hide on closed <details> — visibility is managed by the panel's own display rule below instead. */
 .header__menu::details-content {
   content-visibility: visible;
 }
 
-/* Desktop default: account section, guest orientation group, the drawer's ✕,
-   its brand slot and the signup row are hidden (the inline nav row, the CTA
-   pill and the popover button are used instead). */
 .header__menu-account,
 .header__menu-guest,
 .header__menu-close,
@@ -176,10 +151,7 @@
   text-transform: none;
 }
 
-/* Brand lockup: the profi seats INSIDE the wordmark, between «industrial» and
-   «profi.com». Taller than the line on purpose — helmet above the caps, beard
-   below the baseline — and flex-centring does the seating; the header's 4rem
-   min-height absorbs the overshoot without growing. */
+/* Taller than the line on purpose — flex-centring seats it; the header's min-height absorbs the overshoot. */
 .brand__mark {
   display: block;
   height: var(--brand-mark-height);
@@ -191,13 +163,11 @@
   position: relative;
 }
 
-/* Nav icons exist for the mobile dropdown (they match the palette tiles);
-   the desktop inline row stays words-only. */
+/* Icons exist for the mobile dropdown (match the palette tiles); desktop inline row stays words-only. */
 .nav__link .icon {
   display: none;
 }
 
-/* "You are here" — quiet cue via weight + brightness, no underline. */
 .nav__link[aria-current="page"] {
   color: var(--color-ink);
   font-weight: 600;
@@ -211,11 +181,7 @@
   overflow: hidden;
 }
 
-/* Hand-drawn underline that draws itself in on hover/focus of a desktop nav word
-   (CodeMyUI technique: one shared <path>, reused per link via <use>, revealed by
-   animating stroke-dashoffset — a big absolute dash sidesteps the non-scaling-stroke
-   marching artifact). Same blue + hand-drawn language as the hero underline.
-   Absolute, so it never shifts the row; hidden on the mobile sheet below. */
+/* dasharray/dashoffset draw the stroke in on hover; a large absolute value avoids the non-scaling-stroke marching-ants artifact. */
 .nav__link .nav__underline {
   display: block;
   position: absolute;
@@ -242,14 +208,12 @@
   }
 }
 
-/* Identity header inside the hamburger dropdown — mobile-only (desktop shows
-   it in the account popover instead). Scoped selector: it must outrank
-   .account-menu__header's display:flex, which the element also carries. */
+/* Outranks .account-menu__header's display:flex, which this element also carries. */
 .header__menu-panel .header__menu-identity {
   display: none;
 }
 
-/* ── Account menu (Fizzy-style hub): one name button, one popover ────── */
+/* ── Account menu: one name button, one popover ── */
 .account-menu-button {
   align-items: center;
   background: none;
@@ -284,11 +248,7 @@
   }
 }
 
-/* Native popover: the top layer ignores ancestors, so it positions against
-   the viewport — but the button sits at the right edge of the centered 72rem
-   .container, not of the viewport. Mirror the container math
-   ((100vw - max-width) / 2 + its padding per breakpoint) so the menu hangs
-   under the button at any window width. */
+/* Top-layer popover ignores ancestors — inset mirrors the .container's centring math so it stays under the button at any width. */
 .account-menu {
   background-color: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);
@@ -340,8 +300,7 @@
   gap: 0.4rem;
 }
 
-/* The quiet role mark (Эксперт/Администратор) — visible only to its owner,
-   inside the opened menu; deliberately not in the always-on header chrome. */
+/* Deliberately not shown in the always-on header chrome — only inside the opened menu. */
 .account-menu__role {
   font-size: 0.65rem;
 }
@@ -386,23 +345,13 @@
     }
   }
 
-  /* The row of the page the reader is ON — same orientation the global nav
-     rows give via aria-current. */
   &[aria-current="page"] {
     background-color: var(--color-subtle);
     color: var(--color-ink);
   }
 }
 
-/* The admin/editor workspace link: first in the list, brighter than the personal
-   items, with a hairline separating work from personal.
-
-   The hairline FLOATS in the gap below the row instead of being the row's border.
-   As a border it sat inside the hover fill and forced square bottom corners, so the
-   fill came out lopsided — taller at the bottom (padding was 0.5rem/0.65rem),
-   rounded on top, cut off underneath. The row is now the same symmetric pill as
-   every other item, and the rule is a separator between groups, which is what it
-   means. Same treatment for sign-out below, which had the mirror-image defect. */
+/* Floats in the gap below the row (not a border) so the hover pill stays symmetric. */
 .account-menu__link--work,
 .account-menu__signout {
   position: relative;
@@ -427,16 +376,12 @@
   }
 }
 
-/* button_to wraps sign-out in a form. Grid, so the single button stretches to the
-   row's width in BOTH menus instead of shrinking to its label — the rows size
-   themselves off their container, and a plain block form leaves the button
-   content-width. */
+/* Grid so the button stretches to the row's width instead of shrinking to its label. */
 .account-menu .button_to,
 .header__menu-account .button_to {
   display: grid;
 }
 
-/* Sign-out sits after a hairline, like Fizzy's bottom row. */
 .account-menu__signout {
   margin-block-start: 0.75rem;
 
@@ -445,16 +390,9 @@
   }
 }
 
-/* ── Mobile (≤819px): the nav collapses behind ONE menu ─────────────────
-   Two quiet glyphs (search, ☰) + the CTA. The hamburger dropdown carries
-   everything — identity header, nav, personal links — styled with the same
-   row component as the desktop popover, so both read as one menu. This block
-   stays LAST in the file: its overrides must win by source order. */
+/* ── Mobile (≤819px) — stays LAST: overrides must win by source order ── */
 @media (max-width: 1023px) {
-  /* Below the width where the full inline nav comfortably fits, collapse the
-     nav words behind the hamburger — one clean row that can never wrap onto a
-     second line. The brand wordmark STAYS here (there's room and it anchors the
-     identity); only true phones drop it (the narrower block at the file's end). */
+  /* Wordmark stays here — only true phones (block at file's end) drop it. */
   .header__nav {
     column-gap: 0.6rem;
     flex-wrap: nowrap;
@@ -467,8 +405,7 @@
     white-space: nowrap;
   }
 
-  /* Signed-in: the avatar button hides — the hamburger is the one account
-     surface on mobile (its dropdown opens with the identity header). */
+  /* Hamburger is the one account surface on mobile; the identity header lives in its dropdown. */
   .account-menu-button {
     display: none;
   }
@@ -479,7 +416,6 @@
     position: relative;
   }
 
-  /* A bare glyph, same quiet treatment as the search icon next to it. */
   .header__menu-toggle {
     align-items: center;
     color: var(--color-ink);
@@ -492,8 +428,7 @@
   }
   .header__menu-toggle::-webkit-details-marker { display: none; }
 
-  /* Open, the ✕ floating in the strip lands almost exactly on the veiled
-     hamburger — hide the glyph while its job is taken. */
+  /* The floating ✕ in the strip lands almost on the veiled hamburger — hide this glyph while open. */
   .header__menu[open] .header__menu-toggle :is(.icon, .notify-dot) {
     opacity: 0;
   }
@@ -502,9 +437,7 @@
     inline-size: 1.4rem;
   }
 
-  /* The sheet's ✕ sets the house rule — every touch control clears 44px. The
-     compact header's three controls keep their quiet 30–33px look; an invisible
-     overlay extends the hit area to the standard. */
+  /* Invisible overlay extends the hit area to the 44px touch-target minimum without growing the visible glyph. */
   .header__search,
   .header__cta {
     position: relative;
@@ -523,22 +456,12 @@
     position: absolute;
   }
 
-  /* A full-height left drawer — The Odin Project's off-canvas menu
-     (Overlays::DrawerComponent), adopted 2026-07-26 over the earlier bottom
-     sheet. Same modal anatomy (veil, scroll-lock, ✕); the geometry trades the
-     bottom sheet's thumb-arc reach for the app-drawer pattern every mobile
-     user already knows. A ~4.5rem strip of the page stays visible and
-     tappable on the right (TOP's `mr-16`), so the page never fully vanishes. */
-  /* Geometry and spacing lifted verbatim from TOP's off-canvas menu:
-     w-full max-w-xs (20rem) with an mr-16 (4rem) strip; the panel itself is
-     flat — no border, no shadow, the veil does the separation. pt-3 pb-4,
-     rows spaced by space-y-1. */
+  /* 20rem drawer with a 4rem visible strip on the right so the page never fully vanishes. */
   .header__menu-panel {
     align-items: stretch;
     background-color: var(--color-subtle-light);
     flex-direction: column;
-    /* A height-capped column must not wrap — flex would spill the overflow
-       into a second column instead of scrolling it. */
+    /* A height-capped column must not wrap — flex would spill overflow into a second column instead of scrolling it. */
     flex-wrap: nowrap;
     inline-size: min(20rem, calc(100vw - 4rem));
     inset-block: 0;
@@ -551,24 +474,17 @@
     z-index: 50;
   }
 
-  /* The ✕ is a direct <details> child now (not inside the panel), so the
-     closed state must hide it explicitly too. */
+  /* The ✕ is a direct <details> child, not inside the panel — hide it explicitly when closed too. */
   .header__menu:not([open]) :is(.header__menu-panel, .header__menu-close) {
     display: none;
   }
 
-  /* The inline nav's "Admin" context badge would stretch into a full-width banner
-     here, and the identity row already names the role. Scoped to that badge alone:
-     as a blanket `.badge` rule it also hid the role mark in the identity row, so
-     the drawer and the popover disagreed about the same markup. */
+  /* Scoped to this badge only — a blanket `.badge` rule also hid the role mark in the identity row. */
   .header__menu-panel .header__context-badge {
     display: none;
   }
 
-  /* The drawer slides in from the left edge it's anchored to (TOP's
-     -translate-x-full → translate-x-0) — one straight slide, nothing scaled.
-     allow-discrete holds `display` until the exit slide finishes. Gated on
-     reduced-motion so the base transform never strands the menu. */
+  /* Gated on reduced-motion — ungated, the base transform would strand the menu off-screen for users who disable motion. */
   @media (prefers-reduced-motion: no-preference) {
     .header__menu-panel {
       opacity: 0;
@@ -590,13 +506,9 @@
     }
   }
 
-  /* Backdrop — what turns the sheet into a mode instead of a floating block.
-     It hangs off the SUMMARY on purpose: a click on it targets the toggle
-     itself, so the native <details> flips shut. Hanging it off .header__menu
-     would read as "inside" to the details controller's outside-click check and
-     the sheet would never close. */
+  /* Hangs off the <summary>, not .header__menu: a click on it then targets the toggle and closes
+     the native <details>. On .header__menu it reads as "inside" to the outside-click check and never closes. */
   .header__menu-toggle::before {
-    /* TOP's veil verbatim: a plain dark:bg-black/70, no blur. */
     background-color: oklch(var(--lch-always-black) / 0.7);
     content: "";
     display: none;
@@ -613,7 +525,6 @@
 
   @media (prefers-reduced-motion: no-preference) {
     .header__menu-toggle::before {
-      /* TOP: transition-opacity ease-linear duration-200 */
       transition: var(--sheet-duration, 200ms) linear allow-discrete;
       transition-property: display, opacity;
     }
@@ -625,9 +536,6 @@
     }
   }
 
-  /* TOP's close button verbatim: floats in the 4rem strip right of the panel
-     (`absolute left-full top-0 w-16 justify-center pt-5`), white ✕ h-6 w-6,
-     p-2.5 tap padding. Fixed to the viewport; a closed <details> hides it. */
   .header__menu-close {
     align-items: flex-start;
     background: none;
@@ -639,7 +547,7 @@
     inset-block-start: 0;
     inset-inline-start: min(20rem, calc(100vw - 4rem));
     justify-content: center;
-    /* pt-5 on the strip minus the button's -m-2.5: icon lands 1.25rem down. */
+    /* Padding pins the icon 1.25rem down in the strip. */
     padding: 0.625rem 0 0;
     position: fixed;
     z-index: 50;
@@ -652,17 +560,14 @@
     padding: 0.625rem;
   }
 
-  /* TOP's logo slot: px-4 column, then nav mt-3 — but the full brand
-     (mark + wordmark), reusing the header's .brand component. Guest only; a
-     signed-in reader gets the identity row in this slot instead. */
+  /* Guest only; a signed-in reader gets the identity row in this slot instead. */
   .brand.header__menu-brand {
     align-self: start;
     display: flex;
     margin: 0 1rem 0.75rem;
   }
 
-  /* The ✕ lives in the strip now, not over the panel — the identity row only
-     needs the same px-4 column as the logo slot. */
+  /* Same inline padding as the logo slot above, for a flush column. */
   .header__menu-panel .header__menu-identity {
     padding-inline: 1rem;
   }
@@ -676,9 +581,7 @@
     display: flex;
   }
 
-  /* Nav rows take the popover's row component: icon + label, same metrics —
-     one visual language across the sheet, the popover and the palette.
-     No [open] qualifier: the styles must hold during the exit fade too. */
+  /* No [open] qualifier — styles must still apply during the exit fade. */
   .header__menu-panel .nav__link {
     align-items: center;
     color: var(--color-subtle-dark);
@@ -698,17 +601,7 @@
     display: none;
   }
 
-  /* TOP's Nav::ItemComponent verbatim: rows are `px-2 py-2 text-base
-     font-medium` inside a `px-2` container — square corners, fill inset
-     0.5rem from the drawer edges, text starting at 1rem. Icons at their
-     native 24px (w-6 h-6) with the mr-4 gap; scaling them down was what made
-     them thin. */
-  /* Rows run edge to edge, text indented by padding — the same anatomy the identity
-     row and the guest pair already use ("sheds the row inset to run full width like
-     the group dividers"). An inset pill instead gave the row three different left
-     edges — divider at 0, fill at 0.5rem, icon at 1rem — which is what read as
-     lopsided. Full-bleed, every horizontal edge in the sheet lines up.
-     inline-size: auto (not the base row's 100%) so a row can't outgrow its column. */
+  /* Full-bleed rows (no inset) so dividers, fill and icon share one left edge; inline-size:auto keeps a row from outgrowing its column. */
   .header__menu-panel :is(.nav__link, .account-menu__link) {
     border-radius: 0;
     font-size: 1rem;
@@ -718,9 +611,7 @@
     margin-inline: 0;
     padding: var(--block-space-half) 1rem;
   }
-  /* One tone quieter than the label (TOP: icon text-gray-400 vs label
-     gray-300) — the icon accompanies, the word leads. Hover and the active
-     row lift it back to the row's colour. */
+  /* Icon one tone quieter than the label; hover/active lift it to match. */
   .header__menu-panel :is(.nav__link, .account-menu__link) .icon {
     block-size: 1.5rem;
     color: var(--color-disabled);
@@ -734,9 +625,6 @@
       color: inherit;
     }
   }
-  /* TOP's Nav::ItemComponent states: the active row is a filled pill
-     (dark:bg-gray-700/60), hover fills quieter — hierarchy by fill, not
-     just weight. */
   .header__menu-panel :is(.nav__link, .account-menu__link)[aria-current="page"] {
     background-color: oklch(var(--lch-gray) / 0.4);
     color: var(--color-ink);
@@ -750,10 +638,6 @@
     }
   }
 
-  /* Account section under a hairline, ending with sign-out — same anatomy
-     as the desktop popover. */
-  /* TOP's group divider: a full-width hr with my-4 — 1rem of air on both
-     sides of the hairline. */
   .header__menu-account,
   .header__menu-guest {
     border-block-start: 1px solid var(--color-subtle);
@@ -764,17 +648,12 @@
     padding-block-start: var(--block-space);
   }
 
-  /* The shared partial nests the rows in their own <nav>; the sheet keeps its
-     roomier row rhythm rather than inheriting the popover's tighter one. */
+  /* Scoped so the sheet keeps its own row gap instead of inheriting the popover's tighter one. */
   .header__menu-account .account-menu__nav {
     gap: 0.25rem;
   }
 
-  /* The floating hairlines under «Админка» / above «Выйти» are hand-centred
-     for the popover's tighter rhythm; inherited as-is they sat visibly
-     off-centre in the sheet's roomier one. Give them the sheet's own
-     arithmetic — the same 1rem of air on each side that the group dividers
-     keep (TOP's my-4). Total gap = the margin + the 0.25rem flex gap. */
+  /* 1.75rem margin = 1rem hairline air + 0.25rem row gap, so the divider centres at -1rem. */
   .header__menu-account .account-menu__link--work {
     margin-block-end: 1.75rem;
 
@@ -792,9 +671,6 @@
   }
 
 
-  /* TOP's guest pair (Get started + Sign in) sits under the last divider —
-     the signup row opens the group and carries the hairline, which sheds the
-     row inset to run full width like the group dividers (TOP's hr). */
   .header__menu-panel .header__menu-signup {
     border-block-start: 1px solid var(--color-subtle);
     display: flex;
@@ -806,14 +682,9 @@
 
 }
 
-/* True phones: the wordmark would crowd the row beside search + CTA + ☰, so drop
-   it and let the profi mark stand alone as the identity. Stays LAST so it wins
-   over the medium block above at these widths. */
+/* True phones: wordmark would crowd the row; profi mark stands alone. Stays LAST to win over the block above. */
 @media (max-width: 599px) {
-  /* Hidden from sight, NOT from the accessibility tree: the mark is
-     aria-hidden, so `display: none` here left the home link with no name at all
-     ("Links must have discernible text"). Same one-label-two-states trick as
-     .header__support-label. */
+  /* Visually hidden, not aria-hidden — display:none here left the home link with no accessible name. */
   .header__brand .brand__text {
     block-size: 1px;
     clip-path: inset(50%);

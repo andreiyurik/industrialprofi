@@ -17,8 +17,7 @@
   text-transform: uppercase;
 }
 
-/* A curator's photo (User::Photo): the same disc, filled by the image. */
-/* A face that opens a profile: the ring says "clickable" without a new colour. */
+/* The ring says "clickable" without a new colour. */
 .avatar-link {
   border-radius: 50%;
   display: inline-flex;
@@ -37,8 +36,7 @@
   object-fit: cover;
 }
 
-/* Preset glyph avatar (Avatar model): same disc, the work glyph painted in its
-   own hue — the badge recipe (tinted fill + matching glyph). */
+/* Same recipe as badges: tinted fill + matching glyph. */
 .avatar--glyph {
   color: oklch(var(--avatar-hue));
 

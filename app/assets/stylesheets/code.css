@@ -1,6 +1,4 @@
-/* Rouge syntax highlighting for fenced code blocks (kramdown + rouge, server-side,
-   no JS). Block chrome lives in text.css — this file only colors the tokens.
-   Palette follows The Odin Project's dark Prism theme. */
+/* Rouge syntax highlighting (kramdown + rouge, server-side, no JS). Block chrome lives in text.css — this file only colors the tokens. */
 .highlight {
   /* comments */
   .c, .c1, .cm, .cs, .cd {

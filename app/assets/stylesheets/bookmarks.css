@@ -1,7 +1,4 @@
-/* Save-for-later bookmark toggle (practice tasks). One component for every
-   context: the lesson meta row shows icon + label; the project card hides the
-   label (see projects.css) and keeps the corner icon. button_to renders a
-   <form><button> pair, hence the inner selector. */
+/* button_to renders a <form><button> pair, hence the inner selector. Project card hides the label (projects.css). */
 .bookmark-toggle,
 .bookmark-toggle form {
   display: inline-flex;
@@ -31,8 +28,7 @@
   }
 }
 
-/* Saved — solid icon, ink-bright: the same "this is yours" brightness as the
-   current sidebar item, no extra hue needed. */
+/* Saved: ink-bright, same "this is yours" brightness as the current sidebar item — no extra hue needed. */
 .bookmark-btn--on {
   color: var(--color-ink);
 }

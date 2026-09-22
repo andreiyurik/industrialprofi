@@ -1,7 +1,4 @@
-/* Attention blocks rendered from `> [!ВАЖНО] …` markdown admonitions.
-   Visual model borrowed from the Rails Guides "interstitial": a full rounded
-   border, a soft accent-tinted fill, and an accent icon — one hue per meaning,
-   instead of a flat gray box with a thin coloured stripe. */
+/* Rendered from `> [!ВАЖНО] …` markdown admonitions — one hue per meaning, not a flat box with a stripe. */
 .callout {
   --callout-accent: var(--color-subtle-dark);
   background-color: color-mix(in oklab, var(--callout-accent) 12%, transparent);
@@ -31,10 +28,7 @@
   text-transform: uppercase;
 }
 
-/* One element: the glyph IS the mark, at the label's full accent (currentColor).
-   No tinted chip behind it — a masked .icon paints its glyph with
-   background-color, so a chip fill on the same element becomes the glyph's own
-   colour and fades it to the tint's alpha. */
+/* No tinted chip behind the glyph: a masked .icon paints with background-color, so a chip fill would double as its own colour. */
 .callout__label .icon {
   --icon-size: 1.7em;
 

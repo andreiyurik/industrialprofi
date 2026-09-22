@@ -31,8 +31,7 @@
   }
 }
 
-/* Native <select> dropdown: theme the popup so options aren't light-on-white
-   in dark mode (belt-and-suspenders alongside :root color-scheme). */
+/* Themes the native <select> popup so options aren't light-on-white in dark mode. */
 select.input option {
   background-color: var(--color-bg);
   color: var(--color-ink);
@@ -43,9 +42,7 @@ select.input option {
   font-family: var(--font-mono);
 }
 
-/* Ghost field for optional, tertiary text (e.g. the reader-facing link note):
-   frameless at rest, so it reads like the muted output line it produces —
-   the base :focus rule brings the border back, this restores the fill. */
+/* Frameless at rest, so it reads like the muted output line it produces — this restores the fill on focus. */
 .input--ghost {
   --input-background: transparent;
   --input-border-color: transparent;
@@ -58,8 +55,7 @@ select.input option {
 
 .input--textarea {
   --input-padding: 0.6em 0.8em;
-  /* NB: --input-padding holds TWO values, so it can't be used inside calc() —
-     1.2em below is the vertical padding (2 × 0.6em) written out. */
+  /* --input-padding holds two values, so it can't be used in calc() — 1.2em below is the vertical padding written out. */
   line-height: 1.4;
   min-block-size: calc(4lh + 1.2em);
 

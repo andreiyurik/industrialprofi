@@ -12,8 +12,7 @@
   }
 }
 
-/* Scale-only, no opacity — the element is already on screen, so a fade would
-   blink it. Used for the lesson-complete check the moment it's earned. */
+/* Scale-only, no opacity — the element is already on screen, so a fade would blink it. */
 @keyframes pop {
   0% {
     scale: 1;
@@ -44,8 +43,7 @@
   }
 }
 
-/* Homepage hero headline stack; pair with per-child animation-delay for a
-   light stagger. */
+/* Pair with per-child animation-delay for a light stagger. */
 @keyframes rise-in {
   from {
     opacity: 0;
@@ -57,8 +55,7 @@
   }
 }
 
-/* Toast lifecycle in one keyframe, timed to land exactly when the
-   element-removal controller pulls the node (4s). */
+/* Timed to land exactly when the element-removal controller pulls the node (4s) — keep them in sync. */
 @keyframes appear-then-fade {
   0% {
     opacity: 0;
@@ -75,10 +72,8 @@
   }
 }
 
-/* :where() keeps specificity at zero, so a component can still override
-   transform-origin/--overlay-duration. Gated on reduced-motion so the base
-   opacity:0 never leaves a surface invisible when motion is off; browsers
-   without allow-discrete/@starting-style support just show it instantly. */
+/* :where() keeps specificity at zero, so a component can still override transform-origin/--overlay-duration.
+   Gated on reduced-motion so the base opacity:0 never leaves a surface invisible when motion is off. */
 @media (prefers-reduced-motion: no-preference) {
   :where(dialog, [popover]) {
     opacity: 0;

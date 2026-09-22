@@ -24,9 +24,7 @@
   color: var(--color-subtle-dark);
 }
 
-/* Resource-type badges (roadmap.sh-style): one fixed hue per kind, tinted fill
-   + matching text. The only place category colours are allowed.
-   Norm = red (official standard, stands apart from blue links); Book = teal. */
+/* One fixed hue per kind, tinted fill + matching text — the only place category colours are allowed. */
 .badge--norm {
   background-color: oklch(var(--lch-red) / 0.18);
   color: oklch(var(--lch-red));
@@ -67,9 +65,7 @@
   color: oklch(var(--lch-pink));
 }
 
-/* Practice difficulty (the trade's own разряд ladder, named): reuses the grade
-   hues already defined for the difficulty ring/numeral, just as a legible
-   word pill instead of a bare Roman numeral. */
+/* Reuses the grade hues already defined for the difficulty ring/numeral. */
 .badge--beginner {
   background-color: oklch(var(--lch-grade-green) / 0.18);
   color: oklch(var(--lch-grade-green));
@@ -85,14 +81,12 @@
   color: oklch(var(--lch-grade-red));
 }
 
-/* Pairs the badge with the filter chips above it (I/II/III) — same numeral,
-   plus the word the chips don't have room for. */
+/* Same numeral as the filter chips (I/II/III), plus the word the chips don't have room for. */
 .badge .difficulty-mark {
   margin-inline-end: 0.35em;
 }
 
-/* Marker axis (orthogonal to type): a small, muted outline pill — language now,
-   partner later. Deliberately monochrome so it reads as a marker, not a type. */
+/* Deliberately monochrome — reads as a marker, not a resource type. */
 .badge--lang {
   background-color: transparent;
   border: 1px solid var(--color-subtle);

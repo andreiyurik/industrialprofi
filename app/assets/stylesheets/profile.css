@@ -1,6 +1,4 @@
-/* Public profile (/u/:handle): a visiting card in one column — identity,
-   the map, checkable contribution, progress only by the person's choice.
-   Nothing here is a score. */
+/* Progress shows only by the person's choice — nothing here is a score. */
 .profile__identity {
   align-items: center;
   display: flex;

@@ -1,11 +1,3 @@
-/* News — the founder's «проект живёт» channel: a technical log, not a social
-   feed. Index is a reading-width register grouped by month — hairline rules
-   between entries, not boxed cards — with headlines set in the GOST drafting
-   face (--font-technical), the same one the profession cards use. The article
-   is single-column and quiet: one small reaction tucked in the corner, an
-   equal-weight copy-link/share pair, and a chronological older/newer nav
-   instead of a "more posts" rail. */
-
 /* Index */
 .news-index__header {
   margin-block-end: 2.5rem;
@@ -168,9 +160,7 @@
   padding-block: 1.5rem;
 }
 
-/* Bare icon tools — same quiet voice as the lesson topbar's .lesson__tool
-   (no border, no fill, just the glyph). The label is a native `title` plus a
-   screen-reader-only span, same as every other icon on the site. */
+/* Same quiet voice as .lesson__tool; label is a native `title` plus a screen-reader-only span. */
 .news-article__tool {
   align-items: center;
   background: none;
@@ -201,8 +191,7 @@
   }
 }
 
-/* Inline-flex collapses the span to its glyph, so the icon centres in the
-   button row like its siblings instead of riding the text baseline. */
+/* Inline-flex collapses the span to its glyph so the icon centres in the row instead of riding the text baseline. */
 .news-article__copy-icon {
   display: inline-flex;
 }

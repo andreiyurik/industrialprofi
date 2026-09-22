@@ -1,5 +1,4 @@
-/* The founder's one-shot welcome letter — a native <dialog> styled as a calm
-   personal note, not a marketing popup. */
+/* Styled as a calm personal note, not a marketing popup. */
 .welcome-letter {
   background-color: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);
@@ -80,8 +79,7 @@
   margin-block-start: 1.5rem;
 }
 
-/* The editor letter dismisses via real POSTs (button_to) — let the wrapping
-   forms disappear so the buttons lay out as before. */
+/* Dismisses via real POSTs (button_to) — display:contents lets the buttons lay out as if the forms weren't there. */
 .welcome-letter__close-form,
 .welcome-letter__actions form {
   display: contents;

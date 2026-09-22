@@ -1,10 +1,4 @@
-/* Profession maturity (path hero). The hero carries only a quiet centered
-   line with a stage-toned dot — the poster stays symmetric and the learner's
-   progress bar below keeps the page's sole meter. The full Basecamp-style
-   needle lives in the popover, where the checklist explains its ticks. The
-   tone climbs the trust ladder: muted gray (draft) → ink (community) →
-   blue (curated) → green (expert-verified) — all existing primitives. */
-
+/* Tone climbs the trust ladder: muted gray (draft) → ink (community) → blue (curated) → green (expert-verified). */
 .maturity {
   display: flex;
   justify-content: center;
@@ -16,8 +10,7 @@
 .maturity--stage-3 { --gauge-tone: oklch(var(--lch-blue)); }
 .maturity--stage-4 { --gauge-tone: var(--color-positive); }
 
-/* Reads as a control, not a caption: interactive-grade border + chevron.
-   Still a size below the primary CTA button underneath. */
+/* Reads as a control, not a caption: interactive-grade border + chevron, sized below the primary CTA underneath. */
 .maturity__line {
   align-items: center;
   background: none;
@@ -59,8 +52,7 @@
   inline-size: 0.55rem;
 }
 
-/* Top-layer popover: centered near the top of the viewport, styled like the
-   account menu's panel. Enter/exit animation comes from animation.css. */
+/* Enter/exit animation comes from animation.css. */
 .maturity-popover {
   background-color: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);
@@ -74,8 +66,7 @@
   margin: 14vh auto auto;
   padding: 1.6rem 1.5rem 1.5rem;
   position: fixed;
-  /* A top-layer panel, not part of the header's flow: it must not inherit the
-     right-hung alignment of the people cluster it is opened from. */
+  /* Top-layer panel — must not inherit the right-hung alignment of the people cluster it opened from. */
   text-align: start;
 }
 
@@ -83,8 +74,7 @@
   background: oklch(var(--lch-always-black) / 0.35);
 }
 
-/* The Basecamp Needle anatomy, dark-adapted: hairline cell-track, tone fill,
-   flag pointer with grip lines. Geometry comes from PathsHelper. */
+/* Needle anatomy: hairline cell-track, tone fill, flag pointer with grip lines. Geometry comes from PathsHelper. */
 .maturity__gauge {
   block-size: auto;
   display: block;
@@ -110,10 +100,8 @@
   stroke-width: 1.5;
 }
 
-/* The dark contour cuts the flag out of whatever is behind it — the filled
-   band is the same tone, so without the rim the pointer melts into it. The
-   flag itself runs a step brighter than the band (Basecamp shades its needle
-   darker on white; on black we invert) — older browsers keep the plain tone. */
+/* Stroke cuts the flag out of the band, which is the same tone — without the rim it would melt in.
+   First fill is a fallback for browsers without relative-color oklch(from ...); keep both. */
 .maturity__needle-flag {
   fill: var(--gauge-tone);
   fill: oklch(from var(--gauge-tone) calc(l + 0.14) c h);
@@ -133,9 +121,7 @@
   transform-origin: 186px 290px;
 }
 
-/* The one flourish: the needle sweeps in from zero. The popover's children
-   get their first box on every open, so @starting-style re-runs the sweep
-   each time. Elsewhere (and with reduced motion) it simply starts in place. */
+/* The popover's children get a fresh first box on every open, so @starting-style re-runs the sweep each time. */
 @media (prefers-reduced-motion: no-preference) {
   .maturity__needle {
     transition: transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);

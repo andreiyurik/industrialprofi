@@ -1,5 +1,4 @@
-/* Lesson figures (markdown diagrams) + the full-screen image viewer, a native
-   <dialog> built by the lightbox Stimulus controller. */
+/* Full-screen viewer is a native <dialog> built by the lightbox Stimulus controller. */
 
 .prose-figure {
   position: relative;
