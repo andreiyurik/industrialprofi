@@ -3,10 +3,7 @@ import CalculatorController from "controllers/calculator_controller"
 import { subnet, toDottedQuad } from "calculators/math/kipia"
 import { EMPTY } from "calculators/format"
 
-// Линейка из 32 бит адреса. Префикс — это буквально граница на ней: слева
-// закрашенные биты сети, справа пустые биты хостов. Тяните ползунок префикса —
-// и «/24» перестаёт быть заклинанием: видно, сколько бит уходит сети и почему
-// хостов остаётся именно столько.
+// Префикс — граница на линейке 32 бит: слева сеть, справа хосты.
 const BITS = 32
 const OCTETS = 4
 

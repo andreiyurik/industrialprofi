@@ -5,7 +5,6 @@
     <%= render "admin/shared/nav" %>
 
     <% if @path %>
-      <%# Drill-in: ONE profession's lessons, grouped by course → stage. %>
       <div class="admin-header">
         <div class="admin-header__title-group">
           <a href="<%= admin_lessons_path %>" class="admin-header__back" aria-label="<%= t('admin.back') %>">
@@ -25,8 +24,7 @@
       <% if @lessons.empty? %>
         <div class="admin-empty"><p class="admin-empty__text"><%= t("admin.lessons_empty") %></p></div>
       <% else %>
-        <%# @lessons is one bounded page, already ordered by global position — a
-            course's lessons are contiguous, so group_by renders each course once. %>
+        <%# group_by relies on @lessons already ordered so each course's rows are contiguous. %>
         <% @lessons.group_by(&:course).each do |course, course_lessons| %>
           <div class="admin-group">
             <div class="admin-group__head">
@@ -57,7 +55,6 @@
       <% end %>
 
     <% else %>
-      <%# Picker: choose a profession, then manage its lessons. %>
       <div class="admin-header">
         <h1 class="admin-header__title"><%= t("admin.lessons_title") %></h1>
         <div class="admin-header__actions">

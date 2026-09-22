@@ -1,7 +1,6 @@
 module Admin
   module Paths
-    # A drag that reorders lessons (or moves one to another course) in the
-    # builder. The whole work lives in Path::Curriculum.
+    # Drag reorder/move for lessons; the work lives in Path::Curriculum.
     class LessonMovesController < Admin::BaseController
       def create
         path = Path.editable_by(Current.user).find_by!(slug: params[:path_slug])

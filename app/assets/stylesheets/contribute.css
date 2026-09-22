@@ -1,10 +1,3 @@
-/* /contribute — "Как поучаствовать?" The community-invitation page: an
-   inspiring address plus a clear, scannable map of every way to help. Reuses
-   panels, buttons, badges and the FAQ <details> accordion; adds a hero with a
-   gently animated "?" and two small schematics (the edit pipeline + the trust
-   ladder). One blue accent, otherwise monochrome — hierarchy from type, weight
-   and spacing, per the house style. */
-
 .contribute {
   margin-inline: auto;
   max-inline-size: 44rem;
@@ -119,8 +112,7 @@
   max-inline-size: 40rem;
 }
 
-/* ---- Three ways — editorial numbered index -----------------------------
-   Replaces the three boxed cards: full-measure text, no cramped hyphenation. */
+/* ---- Three ways — editorial numbered index ---- */
 
 .contribute-ways {
   border-block-start: 1px solid var(--color-subtle);
@@ -173,8 +165,7 @@
   margin-block: 0 0.6rem;
 }
 
-/* Hyphenation off + pretty wrap: long Russian words wrap whole, never split
-   mid-word the way the old narrow columns did. */
+/* Hyphenation off + pretty wrap — long Russian words wrap whole, never split mid-word. */
 .contribute-way__text {
   color: var(--color-ink);
   hyphens: none;
@@ -235,8 +226,7 @@
   }
 }
 
-/* ---- Wanted-professions board -------------------------------------------
-   Chips are plain <li>, not links — there's nothing to open yet. */
+/* ---- Wanted-professions board — chips are plain <li>, not links; nothing to open yet ---- */
 
 .contribute-wanted {
   display: grid;
@@ -296,7 +286,6 @@
   padding-block-end: 0;
 }
 
-/* The connector line linking the numbered nodes. */
 .contribute-pipeline__step:not(:last-child)::before {
   background: var(--color-subtle);
   content: "";

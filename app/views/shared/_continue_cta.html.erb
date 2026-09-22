@@ -1,6 +1,3 @@
-<%# Shared by the path and course pages: the big "продолжить/начать обучение"
-    button. `show_progress` adds the progress bar above it (path page only —
-    the course page has its own per-course bar elsewhere on the curriculum). %>
 <%# locals: (continue_lesson:, completed_ids:, show_progress: false, total: nil) %>
 <div class="path__start">
   <% if signed_in? && completed_ids.any? %>

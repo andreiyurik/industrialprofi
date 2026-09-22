@@ -17,7 +17,6 @@
     <% if @slot %>
       <div class="admin-group">
         <h2 class="admin-group__title"><%= @lesson.title %></h2>
-        <%# The author's brief is the illustrator's ТЗ — the loudest thing on the screen. %>
         <p class="illustration-fill__brief"><%= @slot.display_brief || t("admin.illustrations.no_brief") %></p>
 
         <%= form_with url: admin_lesson_illustrations_path(@lesson), scope: :illustration, class: "illustration-fill__form" do |form| %>

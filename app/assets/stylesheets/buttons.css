@@ -47,18 +47,13 @@
   }
 }
 
-/* Submitting state — Turbo flags the enclosing form [aria-busy] for the whole
-   round-trip; freeze the submit button and overlay a spinner (no JS) for
-   instant "working" feedback. The spinner border picks up --btn-color so it
-   stays legible on any variant. */
+/* Turbo flags the form [aria-busy] for the round-trip; spinner border picks up --btn-color to stay legible on any variant. */
 form[aria-busy="true"] :is(button[type="submit"], button:not([type]), input[type="submit"]).btn {
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* The "working" look waits 250ms: a fast round-trip swaps the button before
-     anything changes, so nothing ever flashes. Only a genuinely slow response
-     hides the label and fades the spinner in. */
+  /* Waits 250ms so a fast round-trip never flashes the spinner. */
   form[aria-busy="true"] :is(button[type="submit"], button:not([type])).btn {
     color: transparent !important;
     position: relative;

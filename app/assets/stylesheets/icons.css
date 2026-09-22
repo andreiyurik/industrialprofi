@@ -1,18 +1,4 @@
-/*
- * Icons — Phosphor (https://phosphoricons.com, MIT), self-hosted in
- * app/assets/images/icons. The glyph is a CSS mask painted with currentColor, so
- * `icon_tag` emits a bare <span> and no SVG reaches the HTML (our lesson pages
- * render ~20 icons and are cached — inlining them would bloat every cache entry).
- *
- * Size comes from --icon-size, defaulting to 1em: an icon in a line of text
- * scales with the text and needs no rule of its own. Set --icon-size on the
- * CONTEXT, never on the icon.
- *
- * Weight is part of the name, and follows one rule: a filled glyph reads heavier
- * than our type, so anything ≥32px (profession/chapter emblems) uses `-light`,
- * everything smaller uses regular. `-fill` is reserved for STATE — done, active,
- * saved — never for decoration.
- */
+/* Lesson pages render ~20 icons each and are cached — inline SVG would bloat every cache entry, so icon_tag emits a masked <span> instead. */
 
 .icon {
   background-color: currentColor;
@@ -21,9 +7,7 @@
   flex-shrink: 0;
   inline-size: var(--icon-size, 1em);
   mask-image: var(--svg);
-  /* content-box, not the default border-box: where padding is a hit area (the
-     sheet's ✕), a border-box mask would blow the glyph up to fill it. Padding
-     stays padding. */
+  /* content-box, not border-box — where padding is a hit area (the sheet's ✕), a border-box mask would blow the glyph up to fill it. */
   mask-origin: content-box;
   mask-position: center;
   mask-repeat: no-repeat;

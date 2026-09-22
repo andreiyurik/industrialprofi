@@ -2,8 +2,7 @@
 <% links_n = @extras.values.sum { |extra| extra.links.size } + @loose_links.size %>
 <% meta_title(@map.title) %>
 <% meta_description(t("maps.show.meta", name: @author.name, lessons: t("maps.lessons_count", count: lessons_n))) %>
-<%# Shared by link, never listed: a personal map stays out of the index so the
-    domain never ranks on user-supplied links. %>
+<%# noindex: a personal map stays out of the index so the domain never ranks on user-supplied links. %>
 <% content_for(:robots, "noindex, follow") %>
 
 <section class="section">
@@ -53,14 +52,12 @@
       </div>
     <% end %>
 
-    <%# The chapters, in the profession's order, as the course page draws them
-        (shared/_stage_curriculum): the reader meets the shape they already know. %>
+    <%# Same chapter order as the course page, so the reader meets a shape they already know. %>
     <%= render "shared/stage_curriculum",
           lessons_by_stage: @lessons_by_course.transform_keys(&:title), completed_ids: @completed_ids, extras: @extras %>
 
     <% if @loose_links.any? %>
-      <%# The author's own sources, in the lesson page's «Документы и ресурсы»
-          panel. Off-site, no link equity, marked as user content for crawlers. %>
+      <%# Same «Документы и ресурсы» panel as the lesson page, for the author's own sources. %>
       <section class="resource-block map-page__links">
         <div class="resource-block__head">
           <span class="resource-block__icon"><%= icon_tag "link" %></span>

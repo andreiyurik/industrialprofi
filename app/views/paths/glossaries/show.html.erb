@@ -22,8 +22,7 @@
         <p class="hub-section__meta"><%= t("paths.glossary.count", count: @terms.size) %></p>
       </div>
 
-      <%# The same live filter as /glossary (glossary_filter_controller): one
-          server render, the VPS never hears a keystroke. %>
+      <%# Pure client-side DOM filter, same as /glossary — the VPS never hears a keystroke. %>
       <div class="glossary-toolbar">
         <input type="search" class="input glossary-toolbar__input"
                placeholder="<%= t("glossary.filter_placeholder") %>"

@@ -1,8 +1,7 @@
 module Admin
   module Paths
-    # Inline rename of a section (stage) heading from the builder tree. The work
-    # — updating the shared label across the course's lessons — lives in
-    # Path::Curriculum#rename_stage!.
+    # Inline stage-heading rename from the builder tree; updates the shared label
+    # across the course's lessons via Path::Curriculum#rename_stage!.
     class StageRenamesController < Admin::BaseController
       def update
         return head :unprocessable_entity if params[:value].blank?

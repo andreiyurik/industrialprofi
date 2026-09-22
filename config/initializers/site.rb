@@ -7,40 +7,24 @@ site.author_url    = ENV.fetch("AUTHOR_URL", "https://github.com/andreiyurik")
 site.donate_url    = ENV.fetch("DONATE_URL", "https://pay.cloudtips.ru/p/61fe8ef3")
 site.contact_email = ENV.fetch("CONTACT_EMAIL", "hello@industrialprofi.com")
 
-# Direct-transfer rails (no platform fee) shown on /support_us. Public on purpose,
-# but kept in ENV — NEVER hardcoded — so no card/wallet number ever lands in this
-# open (AGPL) repo's git history. Blank → that row simply isn't rendered. Tip: use
-# a dedicated/virtual card, not your main one, since the number is public.
-site.yoomoney_url    = ENV["YOOMONEY_URL"]      # https://yoomoney.ru/to/<wallet> — opens a pay-by-card form
-site.yoomoney_wallet = ENV["YOOMONEY_WALLET"]   # the wallet number, shown + copyable
-site.card_number     = ENV["CARD_NUMBER"]       # shown + copyable
-site.card_bank       = ENV["CARD_BANK"]         # optional label, e.g. "Сбербанк" / "Т-Банк"
+# Public payment details but NEVER hardcoded — this repo is public (AGPL).
+site.yoomoney_url    = ENV["YOOMONEY_URL"]
+site.yoomoney_wallet = ENV["YOOMONEY_WALLET"]
+site.card_number     = ENV["CARD_NUMBER"]
+site.card_bank       = ENV["CARD_BANK"]
 
-# Boosty: the main page plus a deep link per subscription level (Boosty's own
-# per-level "share" purchase links), so each recurring card on /support_us lands
-# straight on the matching tier. Re-create a tier on Boosty → update the env var.
 site.boosty_url           = ENV.fetch("BOOSTY_URL", "https://boosty.to/industrialprofi")
 site.boosty_supporter_url = ENV.fetch("BOOSTY_SUPPORTER_URL", "https://boosty.to/industrialprofi/purchase/3985879?ssource=DIRECT&share=subscription_link")
 site.boosty_ally_url      = ENV.fetch("BOOSTY_ALLY_URL", "https://boosty.to/industrialprofi/purchase/3985880?ssource=DIRECT&share=subscription_link")
 site.boosty_pillar_url    = ENV.fetch("BOOSTY_PILLAR_URL", "https://boosty.to/industrialprofi/purchase/3985881?ssource=DIRECT&share=subscription_link")
 
-# Search-engine ownership verification (Google Search Console / Яндекс.Вебмастер).
-# These codes are public by design (they ship in a <head> meta tag); set them via
-# ENV at deploy time. Blank = the tag is simply omitted. No tracking — these
-# consoles only report what the crawlers already do.
 site.google_site_verification = ENV["GOOGLE_SITE_VERIFICATION"]
 site.yandex_verification      = ENV["YANDEX_VERIFICATION"]
 
-# Absolute URL of the default social-share image (1200×630). Blank → og:image is
-# omitted and the Twitter card stays "summary". Set OG_IMAGE_URL once you drop a
-# branded image in public/ (e.g. https://industrialprofi.com/og.png).
 site.og_image = ENV["OG_IMAGE_URL"]
 
-# IndexNow key (Yandex + Bing instant indexing). A random string you generate
-# once; it is served at /<key>.txt to prove ownership. Blank → pinging is off.
+# Served at /<key>.txt (see routes.rb) to prove ownership for instant indexing.
 site.indexnow_key = ENV["INDEXNOW_KEY"]
 
-# Yandex Metrika counter id (digits only). Blank → no analytics script is
-# rendered at all. Disclosed in the privacy policy — keep that page truthful
-# if you ever swap the provider.
+# Privacy policy names this provider by name — update it if you swap providers.
 site.metrika_id = ENV["YANDEX_METRIKA_ID"]

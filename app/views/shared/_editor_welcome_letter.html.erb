@@ -1,12 +1,4 @@
-<%#
-  ═══════════════════════════════════════════════════════════════════
-  ✏️  ПИСЬМО НОВОМУ ЭКСПЕРТУ — редактируется прямо здесь.
-  Показывается один раз после выдачи прав редактора и висит, пока
-  человек его не подтвердит кнопкой (честный POST — см.
-  EditorWelcomesController): письмо нельзя потерять, закрыв вкладку.
-  Меняйте текст между <p>…</p> как угодно — это обычный HTML.
-  ═══════════════════════════════════════════════════════════════════
-%>
+<%# Edit the <p> text directly — stays until dismissed via a real DELETE (EditorWelcomesController), so it can't be lost by closing the tab. %>
 <% profession_titles = Current.user.editable_paths.pluck(:title) %>
 <div data-controller="dialog">
   <dialog class="welcome-letter" data-dialog-target="dialog">

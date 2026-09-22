@@ -1,6 +1,4 @@
-<%# `f` is the form builder, `record` the path/course/post/lesson — slug_locked?
-    gates on record.persisted? && status_live?(record), so a new record always
-    renders the editable branch. %>
+<%# slug_locked? gates on persisted? && status_live? — a new record is always editable. %>
 <div class="admin-form__field">
   <label><%= t("admin.field_slug") %></label>
   <% if slug_locked?(record) %>

@@ -1,7 +1,5 @@
 <%# locals: (extra_class: nil) -%>
-<%# The signed-in identity row, rendered by BOTH menu surfaces — the hamburger
-    drawer and the desktop popover — so they can't drift apart. `extra_class` is
-    the surface's own hook (the drawer needs one to show/hide by breakpoint). %>
+<%# Rendered by both the drawer and the popover so they can't drift apart; `extra_class` is the drawer's show/hide hook. %>
 <p class="account-menu__header <%= extra_class %>">
   <%= avatar_tag(Current.user) %>
   <span class="account-menu__identity">

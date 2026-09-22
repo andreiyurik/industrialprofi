@@ -1,13 +1,5 @@
-# The app's design system, hand-translated for email: hex instead of OKLCH, px
-# instead of custom properties, a system stack instead of Inter. Keep in step
-# with colors.css.
-#
-# Fizzy styles its mail from a <style> block of classes, which reads far better
-# than this. We can't: Fizzy is dark-ink-on-white, so a client that strips
-# <style> (Gmail's app on a non-Google mailbox) degrades it to nearly itself. We
-# are inverted, and bgcolor attributes survive that stripping while <style>
-# doesn't — black ink left on a black ground is an unreadable email. So anything
-# carrying colour ships inline; only the safe resets live in the layout's <style>.
+# Hand-translated design system for email (hex, px, system stack) — keep in step with colors.css.
+# Inverted (dark bg): colour ships inline, not via <style> — a client that strips <style> would leave black ink on black.
 module MailerHelper
   FONT_STACK = "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif".freeze
   MONO_STACK = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace".freeze
@@ -22,20 +14,16 @@ module MailerHelper
   BASE = "margin: 0; font-family: #{FONT_STACK};".freeze
   BODY = "#{BASE} font-size: 16px; line-height: 1.5;".freeze
 
-  # The letter's spine — seal, headline, the one line that says why, the CTA —
-  # is centred. Prose, lists and quotes stay left: a centred ragged block is
-  # slower to read, and Russian lines are long.
+  # Headline/CTA spine is centred; prose, lists and quotes stay left — a centred ragged
+  # block is slower to read, especially with long Russian lines.
   CENTRED = "text-align: center;".freeze
 
   STYLES = {
-    # Fizzy's title/subtitle pair opens every letter: a heavy headline, then one
-    # normal-weight line that says what the mail is for.
     title: "#{BASE} #{CENTRED} color: #{INK}; font-size: 26px; line-height: 1.2; font-weight: 900; letter-spacing: -0.02em; padding-bottom: 12px;",
     subtitle: "#{BASE} #{CENTRED} color: #{INK}; font-size: 18px; line-height: 1.5; font-weight: 400; padding-bottom: 28px;",
     paragraph: "#{BODY} color: #{INK}; padding-bottom: 16px;",
     muted: "#{BASE} #{CENTRED} color: #{MUTED}; font-size: 14px; line-height: 1.5; padding-bottom: 12px;",
-    # Metadata in the founder-facing mails ("От:", "Страница:") — a label/value
-    # pair reads as a column, not as a centred statement.
+    # Label/value metadata reads as a column, not centred like the other blocks.
     meta: "#{BASE} color: #{MUTED}; font-size: 14px; line-height: 1.5; padding-bottom: 12px;",
     link: "color: #{LINK}; text-decoration: underline;",
     list: "#{BODY} color: #{INK}; padding: 0 0 16px 22px;",

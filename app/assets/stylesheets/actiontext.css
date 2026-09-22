@@ -1,10 +1,5 @@
-/* Make Lexxy (the rich-text editor + rendered ActionText) follow our theme.
-   Lexxy ships a hardcoded light palette in :root; we remap its variables onto
-   our semantic tokens, which already flip with dark mode — so the editor and
-   rendered content theme themselves for free.
-
-   :root:root has specificity (0,2,0), outranking Lexxy's own :root (0,1,0),
-   so this wins regardless of stylesheet load order. */
+/* Remaps Lexxy's hardcoded light palette onto our semantic tokens (already dark-mode aware).
+   :root:root (0,2,0) outranks Lexxy's own :root (0,1,0), regardless of load order — don't simplify to :root. */
 :root:root {
   --lexxy-color-canvas: var(--color-bg);
   --lexxy-color-ink: var(--color-ink);
@@ -46,10 +41,7 @@ lexxy-editor {
   border-radius: 0.5em;
 }
 
-/* A quote inside the editor reads as a callout shell — so an author building a
-   `[!ВАЖНО]` block sees a real, bounded block, not just indented text. The
-   reader-side colour and label come from the marker on the first line
-   (ApplicationHelper#render_callouts turns the quote into a `.callout`). */
+/* Reader-side colour/label come from the marker on the first line — ApplicationHelper#render_callouts turns the quote into a .callout. */
 lexxy-editor blockquote {
   background-color: var(--color-subtle-light);
   border-inline-start: 3px solid oklch(var(--lch-yellow));
@@ -58,9 +50,7 @@ lexxy-editor blockquote {
   font-style: normal;
 }
 
-/* The @-mention picker for internal lesson links. Lexxy's prompt menu is built
-   for "avatar + short name"; our lesson TITLES are long, so widen it a touch and
-   stack each row as title-over-profession instead of a squished flex pair. */
+/* Lexxy's prompt menu is built for "avatar + short name"; lesson titles are long, so widen it. */
 .lexxy-prompt-menu {
   min-inline-size: 26ch;
   max-inline-size: min(40ch, calc(100% - var(--lexxy-prompt-offset-x, 0)));

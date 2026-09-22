@@ -1,6 +1,5 @@
 module Admin
-  # News is site-wide official content (no Path scope, no trust-ladder review) —
-  # authored by an administrator, so it's gated tighter than the editor CRUD.
+  # Site-wide official content (no Path scope, no trust-ladder review) — administrator-only.
   class PostsController < AdministratorController
     before_action :set_post, only: %i[edit update destroy]
 

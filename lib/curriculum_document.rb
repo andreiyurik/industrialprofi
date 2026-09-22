@@ -1,22 +1,10 @@
 require "yaml"
 
-# Parses ONE pasted profession (a single YAML document — path → courses →
-# sections → lessons → resources) and imports it through the same create-or-refresh
-# safety as the seed importer, but stamped origin "ai" and forced to DRAFT:
-# AI scaffolds breadth, a human verifies and publishes later via the trust ladder.
-# A human-frozen row (origin "human" or carrying a revision) is skipped, so a paste
-# can never overwrite an expert's work; a pristine AI draft IS refreshed in place
-# (that is how AI deepens its own stubs). A slug that already belongs to ANOTHER
-# profession is refused, not silently re-parented (see ImportUpsert).
-#
-# `plan` runs the exact same code as `import!` inside a rolled-back transaction,
-# so the preview can never disagree with what the commit does.
+# `plan` runs `import!`'s code inside a rolled-back transaction — it can't disagree.
 class CurriculumDocument
   include ImportUpsert
 
   SOURCE = "ai"
-  # Room for a full profession arriving as a pack (CurriculumPack re-serializes
-  # the tree into this document), not just a pasted draft.
   MAX_BYTES = 2.megabytes
 
   Result = Struct.new(:path_node, :course_nodes, :counts, :path, keyword_init: true)
@@ -120,9 +108,7 @@ class CurriculumDocument
       [ course, node("course", course.title, status) ]
     end
 
-    # A slug-less lesson is matched by its title-derived slug, so re-import reuses
-    # the row instead of creating a "-2" duplicate. Only a NEW lesson takes a
-    # fresh appended position; an existing one keeps its global position.
+    # A slug-less lesson is matched by its title-derived slug, so re-import reuses the row.
     def upsert_lesson(course, stage, data, position, counts, lesson_nodes)
       lesson = Lesson.find_or_initialize_by(slug: lookup_slug(Lesson, data))
       position += 1 if lesson.new_record?
@@ -143,15 +129,11 @@ class CurriculumDocument
       position
     end
 
-    # Maps the shared create-or-refresh (ImportUpsert) onto the preview tree's
-    # status vocabulary (:new / :updated / :exists) and counts everything the
-    # import would write (created or refreshed, but not the frozen rows it skips).
-    # Same rule as the seed importer: create-only, and an emblem the pack names but
-    # we don't have is dropped rather than refused — the row then inherits.
     def emblem(name)
       name.presence && Icon.emblem?(name) ? name : nil
     end
 
+    # Maps ImportUpsert's result onto the preview tree's own status vocabulary.
     def upsert(record, counts, table, attrs, target_path: nil, &create_defaults)
       claim_slug!(@seen, record) unless record.is_a?(Path)
       result = import_upsert(record, SOURCE, attrs, target_path: target_path, &create_defaults)
@@ -163,15 +145,13 @@ class CurriculumDocument
       data["slug"].presence || klass.slugify(data["title"].to_s)
     end
 
-    # Theory lessons carry no difficulty; a practice lesson defaults to beginner.
     def lesson_difficulty(data)
       return nil unless (data["kind"].presence || "lesson") == "practice"
 
       data["difficulty"].presence || "beginner"
     end
 
-    # Lessons may be nested under sections (section title → stage) or listed
-    # directly under the course (each carrying its own optional stage).
+    # Lessons nest under sections (title → stage) or list directly under the course.
     def normalized_lessons(course_data)
       if course_data["sections"].is_a?(Array)
         course_data["sections"].flat_map do |section|

@@ -1,8 +1,6 @@
 <%# locals: (path:, curators:) -%>
-<%# The people behind the map, Fizzy's way: a row of faces (each opening the
-    person's profile), who leads it, how many improved it, how mature it is.
-    One centred cluster under the identity at every width — never a corner
-    that collides with the emblem. Names, never scores. %>
+<%# One centred cluster under the identity at every width — never a corner that collides with the emblem.
+    Names, never scores. %>
 <% author = path.author unless curators.include?(path.author) %>
 <% people = path.contributors %>
 <% faces = (curators + [ author ].compact + people.faces.to_a).uniq.first(4) %>

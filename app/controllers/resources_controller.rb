@@ -1,8 +1,7 @@
 class ResourcesController < ApplicationController
   allow_unauthenticated_access
 
-  # The public document library: every published profession with a preview of
-  # its top documents. One profession's full library is its hub «Библиотека»
+  # Preview across professions; a profession's full library is its hub «Библиотека»
   # tab — the old ?path=<slug> page 301s there.
   def index
     if params[:path].present?

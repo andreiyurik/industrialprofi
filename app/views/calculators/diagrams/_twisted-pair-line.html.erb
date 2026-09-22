@@ -1,7 +1,4 @@
-<%# Линия коммутатор → устройство и шкала длины до 100 м канала. Сверху видно,
-    сколько вольт ушло в кабель, снизу — докуда вообще можно тянуть: заливка
-    длины против отметки предельной. Состояние всей схемы (ok / warn / empty)
-    ставит контроллер (см. twisted_pair_line_controller). %>
+<%# data-state is set at runtime by twisted_pair_line_controller, not static here. %>
 <figure class="calc-figure">
   <svg class="poe-line" viewBox="0 0 400 142" role="img" aria-labelledby="poe-line-title"
        data-diagram data-state="empty">

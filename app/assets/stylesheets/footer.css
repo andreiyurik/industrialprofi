@@ -6,8 +6,7 @@
   view-transition-name: footer;
 }
 
-/* Mobile stacks; tablet shows the 3 link columns under the brand; desktop
-   puts the brand as the leftmost column. */
+/* Mobile stacks; tablet shows link columns under the brand; desktop puts the brand as the leftmost column. */
 .footer__inner {
   display: grid;
   gap: 1.4rem 2rem;
@@ -53,8 +52,7 @@
   gap: 0.4rem;
 }
 
-/* Bright heading over muted links, deliberately distinct — the eye scans
-   categories first, then the quiet links brighten on hover. */
+/* Deliberately distinct from the links below — the eye scans categories first. */
 .footer__heading {
   color: var(--color-ink);
   font-family: var(--font-sans);
@@ -86,8 +84,7 @@
   }
 }
 
-/* align-items: baseline pins privacy to the credit line's FIRST line, so the
-   bar reads as a clean grid, not a floating link. */
+/* align-items: baseline pins privacy to the credit line's first line, not a floating link. */
 .footer__bottom {
   align-items: baseline;
   border-block-start: 1px solid var(--color-subtle);

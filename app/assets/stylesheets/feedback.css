@@ -1,6 +1,4 @@
-/* Vertically centre the page in the viewport: <main> is the 1fr grid row
-   between header and footer, so we fill it and centre the section's content.
-   A reusable layout modifier (set via @layout_class), same idea as .main--auth. */
+/* Reusable layout modifier (set via @layout_class), same idea as .main--auth. */
 main.main--centered {
   display: flex;
   flex-direction: column;

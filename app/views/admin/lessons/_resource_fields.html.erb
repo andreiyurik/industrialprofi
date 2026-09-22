@@ -1,5 +1,4 @@
-<%# One editable resource row. `f` is a fields_for builder for a Resource.
-    Two compact lines: kind badge + select + title + controls, then the URL. %>
+<%# `f` is a fields_for builder for a Resource. %>
 <div class="resource-row" data-nested-form-target="item">
   <button type="button" class="resource-row__handle" draggable="true"
           aria-label="<%= t("admin.resources.reorder") %>"
@@ -9,8 +8,7 @@
 
   <div class="resource-row__fields">
     <div class="resource-row__head">
-      <%# The kind's colour compressed to a dot — the select carries the word,
-          so the reader-facing hue survives without saying "Норматив" twice. %>
+      <%# Colour compressed to a dot — the select already carries the word. %>
       <span class="resource-row__dot" data-nested-form-target="badge"></span>
       <%= f.select :kind,
             Resource::KINDS.map { |k| [ t("lessons.resource_kinds.#{k}"), k ] },
@@ -26,16 +24,11 @@
 
     <%= f.url_field :url, placeholder: "https://", class: "input input--mono resource-row__url" %>
 
-    <%# Quiet bottom line: the ghost note plus the two flag checkboxes — moved
-        off the head row so the title gets its full width. %>
     <div class="resource-row__foot">
-      <%# Ghost field: renders like the muted note line the reader gets, so the
-          editor sees what the text is for; the frame returns on focus. The
-          placeholder IS the whole manual — the worked example lives in /guide. %>
+      <%# Renders like the muted note line the reader gets; the placeholder is the whole manual — worked example is in /guide. %>
       <%= f.text_field :note, placeholder: t("admin.resources.note_placeholder"),
             maxlength: 200, class: "input input--ghost resource-row__note" %>
-      <%# One-click language marker: checked = English source, unchecked = Russian
-          (default). Only EN exists, so a checkbox beats a two-click select. %>
+      <%# Checked = English source, unchecked = Russian (default); only EN exists, so a checkbox beats a select. %>
       <label class="resource-row__lang" title="<%= t('lessons.resource_languages.en') %>">
         <%= f.check_box :language, {}, "en", "" %>
         <span>EN</span>

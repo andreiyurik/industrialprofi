@@ -1,56 +1,33 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # www resolves to this server too, so it is SERVED only to be sent away: one
-  # permanent redirect to the bare domain keeps a single canonical for search
-  # and stops www from 404ing. kamal-proxy holds the cert for both (deploy.yml).
-  # First in the file — it must win over every route below.
-  #
-  # Matched against OUR www host exactly, never /\Awww\./: that pattern also
-  # catches www.example.com, the default host of every integration test.
+  # First in file — must win over every route below.
   constraints(host: "www.#{URI(Rails.application.config.x.site.url).host}") do
     match "(*path)", via: :all, to: redirect(status: 301) { |_params, request|
       "#{Rails.application.config.x.site.url}#{request.fullpath}"
     }
   end
 
-  # Installable PWA: dynamic manifest + service worker from app/views/pwa/*.
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest, defaults: { format: :json }
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker, defaults: { format: :js }
 
-  # Crawler infrastructure lives at the domain root, outside any locale.
   get "robots.txt" => "sitemaps#robots", defaults: { format: :text }
   get "sitemap.xml" => "sitemaps#show", defaults: { format: :xml }
 
-  # IndexNow ownership proof: serve the key as plain text at /<key>.txt. Only
-  # mounted when a key is configured (the key IS the route — no controller needed).
   if (indexnow_key = ENV["INDEXNOW_KEY"]).present?
     get "#{indexnow_key}.txt",
         to: ->(_env) { [ 200, { "Content-Type" => "text/plain" }, [ indexnow_key ] ] }
   end
 
-  # Every user-facing URL carries a locale prefix (/ru/..., /en/...) — symmetric
-  # subdirectories on one domain, the structure Google recommends for a
-  # multilingual site. The segment is OPTIONAL in the route (the Rails Guides
-  # i18n pattern: positional helper args keep mapping to their own segments;
-  # default_url_options fills the prefix in), but canonical in practice —
-  # ApplicationController 301s any unprefixed GET to its /ru twin.
+  # Optional here but canonical in practice — ApplicationController 301s unprefixed GETs.
   get "/", to: redirect("/#{I18n.default_locale}", status: 301)
 
   scope "(:locale)", locale: Regexp.new(I18n.available_locales.join("|")) do
     root "paths#index"
     get "about" => "pages#about"
     get "contribute" => "pages#contribute"
-    # The recruitment landing for practitioners — what a master gets by leading a
-    # profession; funnels into the co-author application.
     get "authors" => "pages#authors"
     get "faq" => "pages#faq"
-    # The author's reference — public like the content itself: readers suggesting
-    # an edit and editors reviewing one read the SAME rules.
     get "guide" => "pages#guide"
     get "partners" => "pages#partners"
     get "roadmap" => "pages#roadmap"
@@ -73,7 +50,7 @@ Rails.application.routes.draw do
       resource :completion, only: [ :new, :create ]
     end
     resources :passwords, param: :token, only: [ :new, :create, :edit, :update ]
-    # Reminder-email opt-out (link + RFC 8058 one-click POST from mail clients).
+    # RFC 8058 one-click unsubscribe: mail clients POST this without a confirm page.
     get "unsubscribe/:token" => "unsubscribes#show", as: :unsubscribe
     post "unsubscribe/:token" => "unsubscribes#create"
     get "dashboard" => "dashboard#show"
@@ -81,18 +58,11 @@ Rails.application.routes.draw do
     resource :learning_goal, only: [ :edit, :update ]
     get "projects" => "projects#index"
     get "resources" => "resources#index"
-    # Merged into cable-cross-section, which already derives the current from power.
     get "calculators/power-current", to: redirect("/calculators/cable-cross-section", status: 301)
     resources :calculators, only: [ :index, :show ], param: :slug
-    # Professional abbreviations decoded — a static reference page (see Glossary).
     resource :glossary, only: [ :show ], controller: "glossaries"
     resources :journal_entries, path: "journal", except: [ :show ]
-    # The member's ONE personal map (see Map): one click on a profession makes
-    # it (create), one form edits it, and it is read at its public address
-    # under the author's profile (/u/:handle/map) — the link people share.
     resource :map, only: [ :create, :edit, :update, :destroy ]
-    # Public profiles — a visiting card, not a social network: who this is,
-    # their map, what they improved (checkable), progress only by their choice.
     resources :profiles, path: "u", param: :handle, only: :show do
       scope module: :profiles do
         resource :map, only: :show do
@@ -101,25 +71,15 @@ Rails.application.routes.draw do
       end
     end
     resources :feedbacks, only: [ :new, :create ]
-    # Expert-entry gate (loop #1): a structured "become a co-author" application.
-    # Stored as a tagged Feedback for now — no separate model until volume warrants
-    # tracking application status.
     resource :coauthor_application, only: [ :new, :create ]
-    # Acknowledging the founder's one-shot letter to a newly promoted editor.
     resource :editor_welcome, only: [ :destroy ]
-    # B2B demand sensor: the pitch page for training centers/employers + their
-    # inquiry form (also a tagged Feedback). GET shows the page, POST sends.
     get "business" => "business_inquiries#new", as: :business
     post "business" => "business_inquiries#create"
 
-    # News — the founder's «проект живёт» channel. Read-only public pages under
-    # /news; the one engagement affordance is a ❤️ (no comments, zero moderation).
     resources :posts, path: "news", only: [ :index, :show ], param: :slug do
       resource :reaction, only: [ :create, :destroy ]
     end
 
-    # The profession hub: paths#show is the «Обзор» tab (programme); its sibling
-    # tabs are nested resources sharing the hub header (exercism's track pages).
     resources :paths, only: [ :index, :show ], param: :slug do
       scope module: :paths do
         resource :theory, only: :show
@@ -134,8 +94,6 @@ Rails.application.routes.draw do
       resource :bookmark, only: [ :create, :destroy ], controller: "lesson_bookmarks"
       resources :revisions, only: [ :index, :show ]
       resources :suggestions, only: [ :new, :create ], controller: "lesson_suggestions"
-      # Reader-proposed sources (the community links half) — a structured link
-      # goes to its own moderation queue, unlike the text-section suggestions above.
       resources :resource_suggestions, only: [ :new, :create ]
     end
 
@@ -146,14 +104,9 @@ Rails.application.routes.draw do
         resources :revisions, only: [ :index ] do
           member { post :rollback }
         end
-        # The fill screen: brief + one file field; creating swaps the lesson's
-        # placeholder for the uploaded image (Lesson#fill_illustration!).
         resources :illustrations, only: [ :new, :create ]
       end
-      # paths#show is the curriculum builder (the tree); #index is its landing.
-      # Builder mutations (reorder, rename) are nested RESTful resources scoped to
-      # the profession, so the path slug rides in the URL (cleaner auth than a body
-      # param). The work itself lives in Path::Curriculum.
+      # Nested under the profession — path slug rides in the URL, cleaner auth than a body param.
       resources :paths, only: [ :index, :new, :create, :show, :edit, :update, :destroy ], param: :slug do
         scope module: :paths do
           resources :lesson_moves, only: :create
@@ -161,21 +114,14 @@ Rails.application.routes.draw do
           resources :lesson_names, only: :update
           resources :course_names, only: :update
           resource  :stage_rename, only: :update
-          # The curator's hand-set «проверено экспертом» mark (see Path::Maturity).
           resource  :verification, only: [ :create, :destroy ]
-          # The profession as a downloadable content pack (.zip) — the same
-          # archive /admin/imports takes back.
           resource  :export, only: :show
-          # Grant/revoke a direct-edit seat on this profession's own team panel
-          # (admin-only) — the counterpart to the per-user picker in admin/users.
           resources :editorships, only: [ :create, :destroy ]
         end
       end
       resources :courses, only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug
       resources :posts, path: "news", only: [ :index, :new, :create, :edit, :update, :destroy ], param: :slug
       resources :imports, only: [ :new, :create ]
-      # The guide went public (readers suggesting edits need it too) — old
-      # editor bookmarks land on the new home.
       get "guide", to: redirect("/guide")
       resources :users, only: [ :index, :show, :update ] do
         resource :suspension, only: [ :create, :destroy ]
@@ -191,24 +137,17 @@ Rails.application.routes.draw do
           patch :reject
         end
       end
-      # Reader-proposed sources queue: approving creates the Resource on the lesson.
       resources :resource_suggestions, only: [ :index ] do
         member do
           patch :approve
           patch :reject
         end
       end
-      # Content-health queue: every lesson image placeholder still waiting for a
-      # real picture, with its illustrator brief and a link into the editor.
       resources :illustrations, only: :index
-
-      # Feeds the editor's @-mention picker for internal lesson links: returns
-      # matching lessons as <lexxy-prompt-item> HTML for a given ?filter=.
       resources :lesson_links, only: :index
 
       post "preview", to: "preview#create"
-      # Editor/admin-only image uploads for lesson rich text — a gated, validating
-      # replacement for the open ActiveStorage direct-upload endpoint.
+      # Gated, validating replacement for the open ActiveStorage direct-upload endpoint.
       resources :uploads, only: :create
     end
   end

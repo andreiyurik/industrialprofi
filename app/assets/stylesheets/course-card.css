@@ -1,7 +1,3 @@
-/* Course cards on the profession page — layout copied from The Odin Project's
-   course card: big progress badge + title with lesson/practice counts + open
-   button in the header row, divider, description below. Stacks centered on
-   small screens, becomes a row from 48em (same breakpoint behaviour as TOP). */
 .course-cards {
   display: flex;
   flex-direction: column;
@@ -21,8 +17,7 @@
   opacity: 0.6;
 }
 
-/* Full-width strip across the card top once every lesson is done
-   (TOP's "Completed" banner). */
+/* Full-width strip across the card top once every lesson is done. */
 .course-card__completed {
   align-items: center;
   background-color: oklch(var(--lch-green) / 0.18);

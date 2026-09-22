@@ -2,28 +2,11 @@ require "yaml"
 require "zip"
 require "tmpdir"
 
-# The reverse of CurriculumImporter: writes one profession from the database
-# back into the same YAML/Markdown tree the importer reads, so content
-# round-trips — an on-prem instance gets a content pack, an outside expert can
-# author offline, and the content outlives any single install.
-#
-#   <dir>/<path.slug>/path.yml
-#   <dir>/<path.slug>/<NN>-<course.slug>/course.yml
-#   <dir>/<path.slug>/<NN>-<course.slug>/<MM>-section/section.yml
-#   <dir>/<path.slug>/<NN>-<course.slug>/<MM>-section/<lesson.slug>.md
-#
-# The importer orders lessons by filename WITHIN a section (filename = slug),
-# so a section whose lessons were drag-reordered out of alphabetical order is
-# split into consecutive section dirs sharing the same title — directory order
-# then reproduces the exact lesson order on import.
 class CurriculumExporter
   DEFAULT_DIR = Rails.root.join("tmp/export")
 
   def self.run(...) = new(...).run
 
-  # The pack as zip bytes — what /admin serves for download and /admin/imports
-  # accepts back. Exports into a throwaway tree, zips it in memory, leaves
-  # nothing on disk.
   def self.zip(path)
     Dir.mktmpdir do |dir|
       root = run(path, dir: dir, io: StringIO.new)
@@ -47,9 +30,7 @@ class CurriculumExporter
     root.rmtree if root.exist?
     root.mkpath
 
-    # The pack manifest: a format version lets future importers refuse packs
-    # they don't understand instead of half-reading them. The one place a
-    # timestamp is allowed — everything else must export deterministically.
+    # The one place a timestamp is allowed — everything else exports deterministically.
     write_yaml root.join("pack.yml"),
       meta(format: CurriculumPack::FORMAT, exported_at: Time.current.iso8601,
            courses: @path.courses.count, lessons: @path.lessons.count)
@@ -77,19 +58,15 @@ class CurriculumExporter
              icon: course.icon)
 
       sections(course).each.with_index(1) do |(stage, lessons), section_number|
-        # Section dir names are ordinal only: the importer takes the title from
-        # section.yml and Cyrillic doesn't parameterize into a useful slug.
+        # Section dirs are ordinal only — Cyrillic titles don't parameterize into a slug.
         section_dir = dir.join(format("%02d-section", section_number))
         write_yaml section_dir.join("section.yml"), meta(title: stage)
         lessons.each { |lesson| write_lesson(section_dir, lesson) }
       end
     end
 
-    # Contiguous same-stage runs whose slugs stay in ascending (filename) order —
-    # each run becomes one section dir, so import re-derives the exact order.
+    # Contiguous same-stage, ascending-slug runs each become one section dir on re-import.
     def sections(course)
-      # write_lesson reads each lesson's resources and rich texts — load them
-      # here in one pass, not per lesson.
       course.lessons.includes(:resources, :glossary_terms).with_all_rich_text.ordered.to_a
             .chunk_while { |a, b| a.stage == b.stage && b.slug > a.slug }
             .map { |lessons| [ lessons.first.stage, lessons ] }
@@ -129,16 +106,12 @@ class CurriculumExporter
       task.present? ? "#{body}\n\n## Задание\n\n#{task}" : body
     end
 
-    # What the reader currently sees: the markdown column, unless a human edit
-    # superseded it with rich text — then the rich HTML is the truth (markdown
-    # carries raw HTML through Kramdown intact, so a re-import renders the same).
+    # A human rich-text edit outranks the markdown column as the export source.
     def section_text(lesson, section)
       rich = lesson.public_send(:"rich_#{section}")
       rich.present? ? rich.body.to_html.strip : lesson.public_send(section).to_s.strip
     end
 
-    # to_yaml emits its own leading "---" line, which doubles as the
-    # frontmatter opener in lesson files.
     def meta(attrs)
       attrs.transform_keys(&:to_s).compact
     end

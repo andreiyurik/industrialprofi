@@ -4,9 +4,7 @@
 <% content_for(:og_type, "article") %>
 
 <% content_for(:head) do %>
-  <%# Freshness for crawlers (invisible to the reader): pairs with the JSON-LD
-      dateModified and the sitemap <lastmod>, so search engines see when the
-      article was last updated. %>
+  <%# Crawler-only freshness signal, pairs with the JSON-LD dateModified and sitemap <lastmod>. %>
   <meta property="article:published_time" content="<%= @lesson.created_at.iso8601 %>">
   <meta property="article:modified_time" content="<%= @lesson.updated_at.iso8601 %>">
   <%= json_ld_tag(learning_resource_json_ld(@lesson)) %>
@@ -19,8 +17,7 @@
   ])) %>
 <% end %>
 
-<%# reading_mode cookie → the server renders the stripped layout directly,
-    so flipping between lessons inside reading mode never flashes the chrome. %>
+<%# reading_mode cookie renders the stripped layout server-side, so switching lessons never flashes the chrome. %>
 <div class="lesson-layout<%= " lesson-layout--reading" if cookies[:reading_mode] == "1" %>"
      data-controller="lesson-sidebar reading-mode"
      data-lesson-sidebar-open-class="lesson-layout--sidebar-open"
@@ -31,21 +28,13 @@
 
   <div class="lesson-sidebar-backdrop" data-action="click->lesson-sidebar#close" aria-hidden="true"></div>
 
-  <%# --fillable reveals the fill links baked (hidden) into the shared cached
-      lesson HTML — set per-request, outside the cache, same gate as the pencil. %>
+  <%# --fillable reveals fill links baked hidden into the shared cached HTML; set per-request, outside the cache. %>
   <div class="lesson<%= " lesson--fillable" if Current.user&.can_edit_path?(@lesson.path) %>">
   <% if @preview %>
     <p class="lesson__preview-banner"><%= t("lessons.preview_banner") %></p>
   <% end %>
-  <%# Trail stops at the course on purpose: the <h1> right below already names
-      the lesson, so repeating it here is redundant noise (and the long title
-      forced a cramped two-line wrap). Full path stays in the breadcrumb JSON-LD
-      above for SEO. %>
-  <%# Quiet top toolbar: contents toggle + breadcrumb trail on the left,
-      icon-only utilities on the right — ONE meta row above the title, nothing
-      boxed, so the <h1> is the loudest thing on the page.
-      JS-dependent buttons (copy, reading mode) render `hidden` and are revealed
-      by their controllers on connect — no dead buttons without JS. %>
+  <%# Trail stops at the course — the <h1> below already names the lesson; full path is in the breadcrumb JSON-LD for SEO. %>
+  <%# Copy/reading-mode buttons render `hidden` and are revealed by their controllers on connect — no dead buttons without JS. %>
   <div class="lesson__topbar"
        data-controller="copy-link"
        data-copy-link-url-value="<%= "#{site_config.url}/lessons/#{@lesson.slug}" %>"
@@ -65,10 +54,7 @@
     </div>
 
     <div class="lesson__tools">
-      <%# Editors/admins skip the suggest-edit flow: jump straight to the editor
-          for this lesson. Only shown to a user who may actually edit this
-          profession, so the link never lands on a 403. A quiet pencil like the
-          rest of the cluster — the 2% who may edit know to look for it. %>
+      <%# Shown only to users who can edit this path, so the link never lands on a 403. %>
       <% if Current.user&.can_edit_path?(@lesson.path) %>
         <%= link_to edit_admin_lesson_path(@lesson), class: "lesson__tool lesson__edit",
               aria: { label: t("lessons.edit_lesson") }, title: t("lessons.edit_lesson") do %>
@@ -76,18 +62,14 @@
         <% end %>
       <% end %>
 
-      <%# History lives in the utility bar (Wikipedia-style "View history") —
-          always present, public to guests and crawlers alike: the article stays
-          minimal, but anyone who wants the provenance and contributor credit
-          can reach it in one click. The history page handles the empty case. %>
+      <%# Always public, no can_edit? gate — guests and crawlers can reach history too. %>
       <% history_title = t("revisions.history_updated", date: l(@lesson.updated_at.to_date)) %>
       <%= link_to lesson_revisions_path(@lesson), class: "lesson__tool",
             aria: { label: t("revisions.history") }, title: history_title do %>
         <%= icon_tag "clock" %>
       <% end %>
 
-      <%# Save-for-later — any lesson, not just practice: a reader may want to
-          come back to a theory lesson just as much as one waiting on tools. %>
+      <%# Bookmarkable on every lesson type, not just practice — theory gets revisited too. %>
       <% if signed_in? %>
         <%= render "lessons/bookmark_button", lesson: @lesson,
               bookmarked: Current.user.lesson_bookmarks.exists?(lesson: @lesson) %>
@@ -102,12 +84,7 @@
         <span class="for-screen-reader" data-copy-link-target="label"><%= t("lessons.copy_link") %></span>
       </button>
 
-      <%# Reading mode sits last, at the far edge — it's the one tool that
-          changes the whole screen, not just this lesson, so it reads as a
-          deliberate step away from the row rather than one of the cluster.
-          Icon-only in BOTH states (the exit pill included — a label there is
-          the loudest thing on an otherwise stripped screen). The state text
-          stays for screen readers; sighted users get the title + Esc. %>
+      <%# Icon-only in both states; the for-screen-reader state text is the only label — sighted users get title + Esc. %>
       <button type="button" class="lesson__tool lesson-reading-toggle" hidden
               data-reading-mode-target="toggle"
               data-action="reading-mode#toggle"
@@ -138,22 +115,15 @@
     <% end %>
 
     <% if @lesson.has_body? %>
-      <%# No "Что изучить" heading on purpose: lesson bodies open with their own
-          ## heading, so a label here read as a duplicate. The id stays — the
-          sidebar TOC anchors to it. %>
+      <%# No heading here — lesson bodies open with their own ##; the id stays for the sidebar TOC anchor. %>
       <section id="study" class="lesson__section">
         <div class="prose"><%= lesson_content(@lesson, :body) %></div>
         <%= render "lessons/edit_link", section: "body" %>
       </section>
     <% end %>
 
-    <%# The resources block is ALWAYS rendered: with no sources yet it becomes a
-        compact invitation — motivating copy + the contribution seam (readers
-        suggest, editors go straight to the resources editor). A lesson with
-        zero sources is exactly where that seam matters most. %>
-    <%# Partition the PRELOADED resources in Ruby — calling the .required/.optional
-        scopes here would discard the controller's includes(:resources) and fire
-        two fresh queries on the hottest page. %>
+    <%# Always rendered, even with zero resources — the empty state is the contribution seam readers need most. %>
+    <%# Partition preloaded resources in Ruby — the .required/.optional scopes would drop the controller's eager load and re-query. %>
     <% required_resources, optional_resources = @lesson.resources.to_a.partition(&:required?) %>
     <% can_edit_resources = Current.user&.can_edit_path?(@lesson.path) %>
     <section id="resources" class="lesson__section lesson__section--plain">
@@ -161,8 +131,6 @@
         <div class="resource-block__head">
           <span class="resource-block__icon"><%= icon_tag "file-text" %></span>
           <h2 class="resource-block__title"><%= t("lessons.resources_section") %></h2>
-          <%# Editors jump straight to the link editor (anchored to the resources
-              fields), so fixing a dead/wrong link is one click from the article. %>
           <% if can_edit_resources && @lesson.has_resources? %>
             <%= link_to edit_admin_lesson_path(@lesson, anchor: "resources-editor"),
                   class: "lesson__tool resource-block__edit",
@@ -190,8 +158,7 @@
           <p class="resource-block__empty"><%= t("resource_suggestions.block_empty") %></p>
         <% end %>
 
-        <%# Readers propose a source; on a sourceless lesson editors get an
-            explicit way in — the topbar pencil alone proved too hidden. %>
+        <%# Explicit way in for editors on a sourceless lesson — the topbar pencil alone is easy to miss. %>
         <% if can_edit_resources %>
           <% unless @lesson.has_resources? %>
             <%= link_to edit_admin_lesson_path(@lesson, anchor: "resources-editor"),
@@ -216,8 +183,6 @@
         </h2>
         <div class="lesson__task">
           <div class="prose"><%= lesson_content(@lesson, :task) %></div>
-          <%# The practice loop: did it → log it. The journal entry is the
-              "submission" (and the future v0.3 portfolio). %>
           <% if @lesson.practice? && signed_in? %>
             <%= link_to new_journal_entry_path(lesson_id: @lesson.id), class: "btn lesson-task-journal" do %>
               <%= icon_tag "pencil-simple" %>

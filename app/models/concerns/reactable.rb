@@ -1,8 +1,5 @@
-# Anything a reader can ❤️ once (currently: news posts). One reaction per
-# user, toggled on/off; the count is a counter_cache column on the host so the
-# button re-renders without a COUNT(*). Mirrors the LessonCompletion/
-# LessonBookmark binary-toggle pattern, made reusable via a polymorphic
-# association rather than duplicated per model.
+# One reaction per user, toggled on/off; counter_cache avoids a COUNT(*) on render.
+# Mirrors the LessonCompletion/LessonBookmark toggle pattern via a polymorphic association.
 module Reactable
   extend ActiveSupport::Concern
 

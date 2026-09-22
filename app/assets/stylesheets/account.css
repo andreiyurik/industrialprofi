@@ -1,7 +1,4 @@
-/* /account — Fizzy users/edit anatomy: ONE bordered .panel card (~45ch), the
-   avatar block on top, large rounded fields, a single full-width primary save.
-   Password + danger live under a hairline at the card's foot (flows Fizzy
-   keeps on separate pages; this is our only account surface). */
+/* One bordered .panel card — password + danger live under a hairline at the foot, since this is our only account surface. */
 
 .account-card {
   display: flex;
@@ -113,8 +110,7 @@
   gap: var(--block-space-half);
 }
 
-/* Fizzy's .input--actor: a container styled as an input, holding a value and
-   its action — the email row's change-link lives INSIDE the field. */
+/* A container styled as an input, holding a value and its action — the change-link lives inside the field. */
 .account-card__actor {
   align-items: center;
   display: flex;
@@ -166,7 +162,7 @@
   margin-block: 0;
 }
 
-/* Fizzy's single primary: one full-width reversed save per form. */
+/* One full-width reversed save per form. */
 .account-card__save {
   inline-size: 100%;
 }

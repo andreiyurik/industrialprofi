@@ -1,6 +1,5 @@
-# One ❤️ per signed-in reader on a news post — a binary toggle, same shape as
-# LessonCompletion/LessonBookmark. The count rides a counter_cache so the
-# Turbo Stream re-render skips a COUNT(*).
+# One ❤️ per reader, same toggle shape as LessonCompletion/LessonBookmark; counter_cache
+# lets the Turbo Stream re-render skip a COUNT(*).
 class ReactionsController < ApplicationController
   before_action :set_reactable
 

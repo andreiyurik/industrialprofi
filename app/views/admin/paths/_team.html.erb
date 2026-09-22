@@ -1,8 +1,6 @@
 <%# locals: (path:, editorships:, editorship_candidates:) -%>
-<%# The profession's team — the Adminland-style people slice, scoped to one
-    map: who holds a grant, who is publicly a curator, who verified. Add/remove
-    here hits Admin::Paths::EditorshipsController and turbo-replaces just this
-    block; bulk role/suspension management still lives in the user card. %>
+<%# Add/remove hits Admin::Paths::EditorshipsController; bulk role/suspension
+    management still lives in the user card. %>
 <div id="path_team" class="admin-group admin-group--spaced">
   <div class="admin-group__head">
     <h2 class="admin-group__title"><%= t("admin.builder.team_title") %></h2>

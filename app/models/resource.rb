@@ -1,21 +1,12 @@
 class Resource < ApplicationRecord
   belongs_to :lesson
-  # The community member whose approved ResourceSuggestion became this resource;
-  # nil for founder/seed/AI-authored rows. contributor_name is the denormalized
-  # credit that survives the account, like lesson_revisions.editor_name.
+  # contributor_name is denormalized credit that survives the account.
   belongs_to :contributor, class_name: "User", optional: true, foreign_key: "user_id"
 
-  # The two axes of a resource. KINDS = what it is (one per link). `document` is a
-  # legacy kind kept valid for old rows — it splits to norm/book by title sniffing
-  # at display (see ApplicationHelper#resource_badge_meta); new rows pick norm or
-  # book explicitly. LANGUAGES = a source-language marker (nil = Russian), shown as
-  # a small secondary badge — only English, the international language; nothing
-  # else is sourced.
+  # `document` is a legacy kind: old rows sniff norm/book by title; new rows pick directly.
   KINDS = %w[norm book doc course video article software tool].freeze
   LANGUAGES = %w[en].freeze
 
-  # "" from the editor's "all countries"/"default language" options means
-  # universal — store nil so the scopes (nil = everyone) match.
   before_validation { self.country_code = country_code.presence }
   before_validation { self.language = language.presence }
 
@@ -24,19 +15,13 @@ class Resource < ApplicationRecord
   validates :url, format: { with: URL_FORMAT }, allow_blank: true
   validates :kind, inclusion: { in: KINDS + %w[document] }
   validates :language, inclusion: { in: LANGUAGES }, allow_nil: true
-  # Provenance only (no digest). Edit-safety rides primarily on the PARENT lesson's
-  # freeze: the importer syncs resources only while the lesson is still pristine, so
-  # an edited (frozen) lesson's links are never touched. The origin "human" guard is
-  # the secondary seam for the day a single link is owned independently of its lesson
-  # (a per-link editor); until then importer rows stay "seed"/"ai".
+  # No digest — edit-safety rides on the parent lesson's freeze, not this column.
   validates :origin, inclusion: { in: Importable::ORIGINS }
 
   scope :ordered, -> { order(:position) }
   scope :required, -> { where(required: true) }
   scope :optional, -> { where(required: false) }
   scope :for_country, ->(code) { where(country_code: [ nil, code ]) }
-  # Resources visible on the public site: their lesson's course AND profession
-  # are both published. Backs the /resources library (see ResourceLibrary).
   scope :published, -> {
     joins(lesson: [ :course, :path ])
       .where(courses: { status: "published" }, paths: { status: "published" })

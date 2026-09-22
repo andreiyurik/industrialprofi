@@ -1,8 +1,4 @@
-<%# Weekly chart, Chart.js (admin_chart_controller): bars = this week's count,
-    line = 4-week moving average trend. locals: (title:, data:, week_title_key:)
-    data = [[week_start_date, count], ...] oldest → newest. week_title_key is
-    unused by the JS chart but kept so callers stay unchanged if we ever need
-    a text fallback again. -%>
+<%# week_title_key is unused by the JS chart; kept so callers stay unchanged. -%>
 <div class="admin-group">
   <div class="admin-group__head">
     <h2 class="admin-group__title"><%= title %></h2>

@@ -1,6 +1,4 @@
-<%# The shared sensor-format select (hyperfocal, crop-factor).
-    The controller keeps the per-format constants (diagonal, circle of
-    confusion, physical width) next to the formulas that use them. %>
+<%# Per-format constants (diagonal, circle of confusion, width) live in the controller next to the formulas that use them. %>
 <%= render "calculators/select", field: "format", label: t("calculators.fields.format"),
       selected: local_assigns.fetch(:selected, "ff"),
       options: [["ff", t("calculators.options.format_ff")],

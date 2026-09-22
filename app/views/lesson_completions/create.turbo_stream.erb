@@ -7,8 +7,7 @@
         lessons_by_stage: @lessons_by_stage, completed_ids: @completed_ids %>
 <% end %>
 
-<%# Only finishing the whole profession earns the milestone dialog (stats +
-    share) — a section or a course keeps the quiet flash pill. %>
+<%# Only finishing the whole profession earns the milestone dialog — a section or course keeps the quiet flash pill. %>
 <% if @milestone == :path %>
   <%= turbo_stream.update :flash do %>
     <%= render "lesson_completions/milestone", path: @path %>
@@ -19,8 +18,7 @@
   <% end %>
 <% end %>
 
-<%# Completing un-bookmarks (done ≠ saved for later); refresh the toggle if
-    it's on the page — Turbo skips missing targets. %>
+<%# Completing un-bookmarks (done ≠ saved for later); Turbo skips this target if it's not on the page. %>
 <%= turbo_stream.replace dom_id(@lesson, :bookmark) do %>
   <%= render "lessons/bookmark_button", lesson: @lesson, bookmarked: false %>
 <% end %>

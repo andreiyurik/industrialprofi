@@ -1,6 +1,4 @@
-/* align-items is explicit at every nesting level (form included) — left to
-   the flexbox default of `stretch`, the heart drifts off the baseline of
-   whatever row it sits in. */
+/* align-items explicit at every nesting level — left to flex's default stretch, the heart drifts off the baseline. */
 .reaction {
   align-items: center;
   display: inline-flex;
@@ -64,8 +62,7 @@
   }
 }
 
-/* Hover previews ink, same as any other tool in the row — red stays reserved
-   for "already reacted", not for "you're merely pointing at it". */
+/* Hover previews ink — red stays reserved for "already reacted", not for pointing at it. */
 .reaction--bare-icon {
   display: inline-flex;
 }

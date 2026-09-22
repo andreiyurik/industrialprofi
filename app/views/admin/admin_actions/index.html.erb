@@ -11,8 +11,7 @@
       </div>
     </div>
 
-    <%# Category tabs — group the raw action types. Changing a filter drops the
-        cursor (back to newest of the narrowed set), keeps the actor choice. %>
+    <%# Changing a category filter drops the cursor (back to newest), but keeps the actor choice. %>
     <% tabs = [
          [ t("admin.log.filters.all"),        nil,          @category.nil? ],
          [ t("admin.log.filters.roles"),      "roles",      @category == "roles" ],
@@ -64,8 +63,7 @@
         <% end %>
       </div>
 
-      <%# Cursor nav — newer/older by edge id, no page numbers (the log is a feed,
-          not a finite table) so we never COUNT or OFFSET. %>
+      <%# Cursor nav by edge id, no page numbers — the log is a feed, never COUNT or OFFSET. %>
       <% if @has_newer || @has_older %>
         <% keep = request.query_parameters.except("before", "after") %>
         <nav class="admin-pagination" aria-label="<%= t("admin.pagination.label") %>">

@@ -1,6 +1,4 @@
 <%# locals: (lesson:, completed:, popped: false) -%>
-<%# TOP-style end-of-lesson bar: completion toggle left, "next" always right.
-    The toggle is one button — POST marks done, clicking it again un-marks. %>
 <div id="<%= dom_id(lesson, :completion) %>" class="lesson-complete">
   <% if signed_in? %>
     <% if completed %>
@@ -32,9 +30,7 @@
   <% end %>
 
   <div class="lesson-complete__side">
-    <%# The completion bar does one job: mark done + continue. Journaling lives
-        with the practice task itself (the .lesson-task-journal CTA), so it isn't
-        duplicated here. %>
+    <%# Journaling lives with the practice task's own CTA, not duplicated here. %>
     <% if (nxt = lesson.next_in_path) %>
       <%= link_to nxt, class: "btn btn--large lesson-complete__next" do %>
         <%= t("lessons.go_next") %>

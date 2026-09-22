@@ -1,6 +1,4 @@
-<%# The contributor's side of the pipeline: what happened to my proposed edits
-    AND my proposed sources. Rendering a decision here counts as "seen" — the
-    fallback email (SuggestionEmailsJob) then never fires for it. %>
+<%# Rendering a decision here counts as "seen" — SuggestionEmailsJob's fallback email then never fires for it. %>
 <section id="dashboard_suggestions" class="dashboard__suggestions">
   <h2 class="dashboard__section-title"><%= t("dashboard.suggestions_title") %></h2>
   <p class="dashboard__section-hint"><%= t("dashboard.suggestions_hint") %></p>
@@ -42,10 +40,7 @@
     <% end %>
   </div>
 
-  <%# Progress toward the earned editorship /contribute promises («после N принятых
-      правок система сама предложит права») — visible to the person earning it,
-      not just to admins. The threshold interpolates from TrackRecord so the
-      public promise can't drift from the code. %>
+  <%# Threshold interpolates from TrackRecord::TRUSTED_AT so the /contribute promise can't drift from code. %>
   <% if @trust_progress %>
     <% trust_path, accepted = @trust_progress %>
     <p class="dashboard__section-hint">

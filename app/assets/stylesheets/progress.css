@@ -1,4 +1,4 @@
-/* Binary lesson progress, Odin-style: completed / total as a thin bar. */
+/* Binary lesson progress: completed / total as a thin bar. */
 .progress {
   display: flex;
   flex-direction: column;
@@ -30,15 +30,11 @@
   color: var(--color-positive);
 }
 
-/* Design copied from The Odin Project's ProgressCircle. Content sits on an
-   opaque disc stacked over the always-rendered percent label; hovering the
-   circle fades the disc out, revealing "N% пройдено". */
+/* Content sits on an opaque disc stacked over the always-rendered percent label; hover fades the disc out. */
 .progress-ring {
   block-size: 100%;
   display: inline-grid;
-  /* One explicit full-size track: without it the auto track shrinks to the
-     widest stacked item (the percent label) and the 100%-sized SVG collapses
-     with it. */
+  /* Explicit full-size track — the auto track otherwise shrinks to the widest stacked item and the SVG collapses with it. */
   grid-template: 100% / 100%;
   inline-size: 100%;
   place-items: center;
@@ -52,8 +48,7 @@
   block-size: 100%;
   fill: none;
   inline-size: 100%;
-  /* The arc is thicker than the track and pokes past the viewBox edge —
-     let it render instead of clipping (TOP does the same). */
+  /* Arc is thicker than the track and pokes past the viewBox edge — let it render instead of clipping. */
   overflow: visible;
   transform: rotate(-90deg);
 }
@@ -81,9 +76,7 @@
   text-align: center;
 }
 
-/* Opaque, slightly smaller than the ring (the gap TOP leaves between artwork
-   and ring). Background must match the surface it sits on — override per
-   context. */
+/* Background must match the surface it sits on — override per context. */
 .progress-ring__body {
   align-items: center;
   background-color: var(--progress-ring-body-bg, var(--color-bg));

@@ -1,13 +1,8 @@
-# A message straight to the founder — the in-app feedback line. Async on
-# purpose: no chat, no presence, no expectations of an instant reply. The
-# founder reads them in /admin/feedbacks and answers by email. Usually from a
-# signed-in learner (the address is known); business inquiries (/business) may
-# arrive without a user — their contact is folded into the body.
+# Async by design: no chat, no presence, no expectation of an instant reply.
+# The founder answers by email; a userless inquiry folds its contact into the body.
 class Feedback < ApplicationRecord
-  # A tagged coauthor application (from /contribute) is an ordinary Feedback
-  # carrying this stable marker in page_url — no separate model until real
-  # application volume warrants tracking status (see CoauthorApplicationsController).
-  # Both the writer and the scope use this constant so they can't drift apart.
+  # An ordinary Feedback carrying this stable marker in page_url — no separate
+  # model until volume warrants it. Shared constant so writer and scope can't drift.
   COAUTHOR_APPLICATION_PATH = "/coauthor_application/new".freeze
 
   belongs_to :user, optional: true
@@ -22,9 +17,7 @@ class Feedback < ApplicationRecord
     page_url == COAUTHOR_APPLICATION_PATH
   end
 
-  # Folds a structured form (business inquiry, coauthor application, …) into a
-  # readable body, with an i18n header line that makes the message recognizable
-  # among ordinary feedback in the founder's inbox.
+  # I18n header line makes the message recognizable among ordinary feedback.
   def self.compose_message(i18n_scope, fields:, values:)
     lines = [ I18n.t("#{i18n_scope}.message.header") ]
     fields.each do |field|
@@ -33,9 +26,8 @@ class Feedback < ApplicationRecord
     lines.join("\n\n")
   end
 
-  # The profession the applicant named, parsed from the structured body so the
-  # approve form can prefill it. Uses the same i18n label the body was composed
-  # with; a miss just leaves the field blank for the admin to type.
+  # Parses the same i18n label compose_message used, to prefill the approve form;
+  # a miss just leaves the field blank.
   def suggested_profession
     return unless coauthor_application?
 

@@ -1,12 +1,5 @@
-<%# The one inline SVG in the app, and it earns it: this emblem draws itself path by
-    path and then the HEART beats on its own (support.css → support-draw /
-    support-heartbeat). A masked icon_tag can't do that — a mask has no inner
-    parts to address, only one silhouette. Same motif as the donate button's
-    hand-heart, drawn as strokes so each piece can be animated.
-
-    pathLength="100" normalizes every path so one stroke-draw keyframe fits them
-    all regardless of real length. Order matters: cuff → palm → heart, and the CSS
-    addresses the heart as :nth-child(3). %>
+<%# Inline SVG, not icon_tag — a mask can't animate individual parts (support.css).
+    Order matters: cuff → palm → heart; the CSS addresses the heart as :nth-child(3). %>
 <svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="14"
      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path pathLength="100" d="M48,208H16a8,8,0,0,1-8-8V160a8,8,0,0,1,8-8H48" />

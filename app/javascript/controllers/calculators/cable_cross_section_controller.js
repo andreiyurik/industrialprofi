@@ -2,11 +2,8 @@
 import CalculatorController from "controllers/calculator_controller"
 import { cableCrossSection } from "calculators/math/electrical"
 
-// Лестница сечений: ступени — стандартные сечения из таблицы ПУЭ, их высота —
-// длительно допустимый ток, линия поперёк — расчётный. Ответ читается сразу:
-// это первая ступень, которая поднялась выше линии. Окно из пяти ступеней
-// едет за ответом, поэтому мелкие сечения не сплющиваются рядом со 120 мм².
-// Дублирует координаты дорожки из diagrams/_cable-cross-section.html.erb.
+// Ответ — первая ступень выше линии тока. Дублирует координаты дорожки из
+// diagrams/_cable-cross-section.html.erb.
 const STEPS = 5
 const PLOT_HEIGHT = 128
 
@@ -26,8 +23,7 @@ export default class extends CalculatorController {
 
   // Private
 
-  // Ток выше последней строки таблицы — сечения в ней уже нет, но ответ «больше
-  // самого толстого» честнее прочерка.
+  // Ток выше таблицы — сечения нет; «больше самого толстого» честнее прочерка.
   #section(result) {
     if (result.index != null || result.current == null) return this.num(result.section, 1)
     return `> ${this.num(result.rows.at(-1)[0], 1)}`
@@ -65,8 +61,7 @@ export default class extends CalculatorController {
     if (line) line.style.transform = `translateY(${-share * PLOT_HEIGHT}px)`
   }
 
-  // Окно держит ответ третьей ступенью, пока таблица позволяет; без ответа
-  // (ток выше таблицы) показываем её конец — там и идёт разговор.
+  // Держит ответ третьей ступенью; без ответа показывает конец таблицы.
   #windowStart(count, index) {
     const last = Math.max(0, count - STEPS)
     if (index == null) return last

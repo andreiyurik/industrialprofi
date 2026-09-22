@@ -1,6 +1,5 @@
-# One-click unsubscribe — reached from an email link, so no login required and
-# the token alone is the authorization. ?kind= picks which emails to stop;
-# links without it (all reminder emails ever sent) keep working.
+# Reached from an email link, so the token alone is the authorization, no login.
+# ?kind= picks which emails to stop; links without it (older emails) keep working.
 class UnsubscribesController < ApplicationController
   allow_unauthenticated_access
   # The RFC 8058 one-click POST comes from the mail provider without a CSRF token.

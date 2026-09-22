@@ -1,10 +1,7 @@
 module Admin
   class ImportsController < BaseController
-    # Paste a profession (YAML) or upload a pack (.zip of the exported tree) →
-    # preview a dry-run plan → import as draft. A zip is converted to the same
-    # YAML document up front (CurriculumPack), so both inputs share one
-    # pipeline. Output is always draft + origin "ai", so a human verifies and
-    # publishes it afterwards through the normal trust ladder (see CurriculumDocument).
+    # Paste YAML or upload a pack (.zip) → dry-run preview → import as draft (both
+    # inputs share one pipeline via CurriculumPack). Output is always draft + origin "ai".
     def new
       @document = nil
     end

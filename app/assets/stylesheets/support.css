@@ -45,8 +45,7 @@
   text-wrap: balance;
 }
 
-/* One narrower measure + balanced wrap + no mid-word hyphenation, so centered
-   lines break evenly instead of zig-zagging with stray "ся." orphans. */
+/* Narrower measure + balanced wrap + no mid-word hyphenation, so centered lines don't zig-zag with stray orphans. */
 .support-hero__lede,
 .support-hero__signal {
   hyphens: manual;
@@ -96,8 +95,7 @@
   }
 }
 
-/* The hand-heart glyph carries more detail than a plain icon — needs more room
-   to stay legible at button scale. */
+/* The hand-heart glyph carries more detail than a plain icon — needs more room to stay legible. */
 .support-btn--give {
   --btn-icon-size: 1.35em;
 }
@@ -112,10 +110,8 @@
   text-wrap: balance;
 }
 
-/* ── Living hero emblem (pure CSS, no JS, no assets) ──────────────────── */
-/* The glyph draws itself on load (stroke-dashoffset), the glow hugs the line
-   (drop-shadow, not a background blob), then the HEART keeps beating — a real
-   lub-dub. On-brand for a line-icon system; honors prefers-reduced-motion. */
+/* ── Living hero emblem (pure CSS, no JS, no assets) ── */
+/* Draws itself on load via stroke-dashoffset; glow is a drop-shadow, not a background blob. */
 .support-emblem {
   block-size: 6.5rem;
   display: grid;
@@ -131,8 +127,7 @@
   filter: drop-shadow(0 0 7px oklch(var(--lch-black) / 0.35));
   place-items: center;
 
-  /* Inline SVG, not a masked .icon — the animation needs the paths (see
-     shared/_support_emblem). */
+  /* Inline SVG, not a masked .icon — the animation needs the paths. */
   svg {
     block-size: 3.4rem;
     inline-size: 3.4rem;
@@ -144,8 +139,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* 1) The line draws itself, hand → palm → heart, on load. `both` keeps each
-        path hidden through its stagger delay (backwards) and drawn after (forwards). */
+  /* `both` keeps each path hidden through its stagger delay and drawn after. */
   .support-emblem__icon path {
     animation: support-draw 1s ease both;
   }
@@ -153,8 +147,7 @@
   .support-emblem__icon path:nth-child(1) { animation-delay: 0s; }
   .support-emblem__icon path:nth-child(2) { animation-delay: 0.35s; }
 
-  /* 2) The heart (3rd path) draws last, then beats forever in place — scaled
-        around its own centre via transform-box: fill-box. */
+  /* transform-box: fill-box scales the heart around its own centre, not the SVG viewport's. */
   .support-emblem__icon path:nth-child(3) {
     transform-box: fill-box;
     transform-origin: center;
@@ -235,8 +228,7 @@
   gap: 0.75rem;
   grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
 
-  /* One confident column on phones: three squeezed cards broke «1000 ₽/мес»
-     mid-sum — the worst place to look untidy is next to the money. */
+  /* One column on phones — three squeezed cards broke «1000 ₽/мес» mid-sum. */
   @media (max-width: 640px) {
     grid-template-columns: 1fr;
   }

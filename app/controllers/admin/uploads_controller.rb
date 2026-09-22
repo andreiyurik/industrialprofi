@@ -1,16 +1,7 @@
 module Admin
-  # Image uploads for lesson rich text, gated to editors/admins (it lives in the
-  # admin namespace, so BaseController#ensure_can_edit_content runs first). This
-  # closes the hole where any member could POST straight to the open
-  # ActiveStorage direct-upload endpoint: lesson images are bounded, trusted
-  # content, so only the trust ladder writes them to the SQLite disk.
-  #
-  # Mirrors ActiveStorage::DirectUploadsController#create but refuses anything
-  # that isn't a small raster image. SVG is deliberately excluded — it can carry
-  # script (XSS), and diagrams stay the curated public/ commit, never an upload.
+  # Gated to editors/admins — closes ActiveStorage's open direct-upload endpoint to any member.
   class UploadsController < BaseController
-    # The direct-upload URL the Disk service signs is built from the request
-    # host — ActiveStorage's own controller sets this; we inherit ApplicationController, so opt in.
+    # Disk service signs the upload URL from the request host, normally set by AS's own controller.
     include ActiveStorage::SetCurrent
 
     def create

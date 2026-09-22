@@ -1,10 +1,6 @@
-# Pings IndexNow (Yandex + Bing) when a publicly-visible record is created or
-# meaningfully changed, so new professions/courses/lessons get crawled fast.
-# Including models define two methods:
-#   indexnow_url          → the public URL, or nil if the record isn't public
-#   indexnow_should_ping? → true only on a change worth re-indexing
-# The whole thing is a no-op unless an INDEXNOW_KEY is configured, so dev and
-# test never reach out to the network.
+# Pings IndexNow (Yandex + Bing) when a public record changes, so new content gets crawled fast.
+# Including models define indexnow_url (nil if not public) and indexnow_should_ping?.
+# No-op unless INDEXNOW_KEY is configured — dev/test never reach the network.
 module IndexNowNotifiable
   extend ActiveSupport::Concern
 

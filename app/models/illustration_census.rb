@@ -1,8 +1,4 @@
-# One profession's illustration health, computed live from the same rendered
-# sections a reader sees (rich text when present, the markdown fallback
-# otherwise) — nothing is stored, so the census can't drift from the content.
-# Briefs are unfilled placeholder stand-ins, images are the real ones, and a
-# broken image is a local reference whose file is gone from disk.
+# Briefs are unfilled placeholders; images are real; broken means a local file missing from disk.
 class IllustrationCensus
   SECTIONS = %w[description body task].freeze
   MARKDOWN_IMAGE = /!\[(?<alt>[^\]]*)\]\((?<src>[^)]+)\)/
@@ -10,8 +6,7 @@ class IllustrationCensus
   Image = Data.define(:lesson, :section, :src, :alt, :blob) do
     def external? = src.to_s.match?(%r{\Ahttps?://}i)
 
-    # Only local files can be verified without a network call. Blobs exist by
-    # construction — purging one removes the attachment with it.
+    # A purged blob's attachment is removed with it, so blob.nil? alone signals broken.
     def broken?
       blob.nil? && !external? && !IllustrationCensus.public_file?(src)
     end
@@ -23,9 +18,6 @@ class IllustrationCensus
     full.start_with?(Rails.public_path.to_s) && File.file?(full)
   end
 
-  # An <img src> written by the fill flow: a permanent ActiveStorage proxy URL.
-  # Resolving it back to the blob makes the census treat it like any uploaded
-  # image (live, thumbnail-able); a purged blob honestly comes back nil → broken.
   PROXY_SRC = %r{\A/rails/active_storage/blobs/proxy/(?<signed_id>[^/]+)/}
 
   def self.proxy_blob(src)
@@ -39,8 +31,7 @@ class IllustrationCensus
     @path = path
   end
 
-  # [[lesson, slot], ...] in curriculum order — the fill-me queue. Each slot
-  # carries the src that Lesson#fill_illustration! matches on.
+  # slot.src must match the format Lesson#fill_illustration! expects.
   def briefs
     @briefs ||= lessons.flat_map do |lesson|
       lesson.illustration_slots.map { |slot| [ lesson, slot ] }
@@ -61,8 +52,6 @@ class IllustrationCensus
               .uniq { |image| [ image.src, image.blob&.id ] }
     end
 
-    # Mirrors Revisable#section_html precedence: the rich text is what the
-    # reader sees once it exists; the markdown column only counts before that.
     def section_images(lesson, section)
       rich = lesson.public_send(:"rich_#{section}")
       if rich&.body.present?

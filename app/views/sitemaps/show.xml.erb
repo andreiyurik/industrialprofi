@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <%# Chrome pages exist in every locale; content URLs carry the locale their
-      Path lives in. Data hubs whose EN side is still empty (projects,
-      resources, glossary) stay RU-only until content exists — an empty page
-      in the sitemap reads as thin content, not as ambition. %>
+  <%# Data hubs (projects, resources, glossary) stay RU-only until EN content exists — empty pages read as thin content. %>
   <% I18n.available_locales.each do |locale| %>
   <% base = "#{site_config.url}/#{locale}" %>
   <url>
@@ -80,9 +77,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-  <%# The profession hub: the overview plus its tabs (practice only where
-      there are tasks, the dictionary only where lessons define abbreviations;
-      the reference shelf always — every map cites sources). %>
+  <%# Practice/glossary URLs are listed only where that path actually has tasks/terms. %>
   <% @paths.each do |path| %>
   <url>
     <loc><%= site_config.url %>/<%= path.locale %>/paths/<%= path.slug %></loc>

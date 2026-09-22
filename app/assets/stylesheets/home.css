@@ -1,6 +1,3 @@
-/* Homepage / catalog landing (paths#index) — the product's front door.
-   No eyebrow, no stat line, no texture: typography and restraint carry it. */
-
 .hero {
   padding-block: 2.25rem 1.5rem;
 
@@ -14,15 +11,11 @@
   text-align: center;
 }
 
-/* The catalog follows the hero directly — the hero's bottom padding is the only
-   gap. The double class beats `.section { padding-block }` in layout.css, which
-   loads after this file (alphabetical order) and would otherwise re-inject 5rem. */
+/* Double class beats `.section { padding-block }` in layout.css, which loads after this file and would otherwise re-inject 5rem. */
 .section.home-catalog {
   padding-block-start: 0;
 }
 
-/* One statement line — sentence case (a full phrase reads calmer than shouting
-   caps), tight display type, with a hairline blue caret typed at the end. */
 .hero__title {
   font-family: var(--font-display);
   font-size: clamp(1.5rem, 3.4vw, 2.35rem);
@@ -42,8 +35,7 @@
   inline-size: 0.1em;
   block-size: 0.86em;
   margin-inline-start: 0.14em;
-  /* Subtitle-gray, not link-blue: the caret is the page's one perpetual motion
-     and must not compete with the annotation underline for the blue accent. */
+  /* Subtitle-gray, not link-blue — the caret must not compete with the annotation underline for the blue accent. */
   background-color: var(--color-subtle-dark);
   border-radius: 0.03em;
   vertical-align: -0.06em;
@@ -55,9 +47,7 @@
   }
 }
 
-/* The thesis phrase gets a hand-drawn Rough Notation underline on load
-   (rough_annotation_controller.js draws its own overlay SVG). nowrap keeps the
-   phrase on one line so the annotation underlines one continuous span. */
+/* nowrap keeps the phrase on one line so rough_annotation_controller.js's underline spans it continuously. */
 .hero__mark {
   white-space: nowrap;
 }
@@ -73,8 +63,6 @@
   text-wrap: pretty;
 }
 
-/* Three doors in one row — theory (accent), practice, improve. Wraps on a
-   phone, stays centred; the buttons keep their own sizes. */
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
@@ -83,12 +71,9 @@
   margin-block: var(--block-space) 0;
 }
 
-/* The marker-swept phrase lifts out of the muted subtitle by brightness alone —
-   the house rule for emphasis (see --color-marker in colors.css). No bold: a
-   real marker doesn't change the letters it covers. */
+/* Brightness only, no bold — the house rule for emphasis (--color-marker in colors.css); a real marker doesn't change the letters. */
 .hero__sweep {
   color: var(--color-marker);
 }
 
-/* NOTE: the flat emblem-card styling lives in paths.css (which owns .path-card
-   and loads after this file — same-specificity overrides would lose here). */
+/* Emblem-card styling lives in paths.css, which owns .path-card and loads after this file. */

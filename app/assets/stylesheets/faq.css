@@ -18,12 +18,8 @@
   margin-block: 0 var(--block-space-double);
 }
 
-/* The FAQ accordion — shared by /faq and the profession landing: native
-   <details> as cards (the chapter cards' surface and radius), question on the
-   left, a round + that turns into × on the right, the answer unfolding inside
-   the same card. The unfold is CSS only (interpolate-size + a transition on
-   ::details-content, the technique Fizzy's base.css enables); browsers
-   without it simply snap open. */
+/* Shared by /faq and the profession landing. Unfold is CSS only (interpolate-size + a ::details-content
+   transition) — browsers without support simply snap open. */
 .faq-list {
   display: grid;
   gap: 0.75rem;

@@ -9,8 +9,7 @@ class LessonSuggestion < ApplicationRecord
   validate :body_content_present
   validates :section, inclusion: { in: %w[body task description] }
 
-  # The proposed content as HTML, regardless of whether it was submitted via the
-  # rich-text editor or the markdown fallback.
+  # HTML regardless of rich-text vs markdown-fallback submission.
   def proposed_html
     if rich_body.present?
       rich_body.body.to_html
@@ -19,14 +18,12 @@ class LessonSuggestion < ApplicationRecord
     end
   end
 
-  # The section moved on since this edit was submitted, so the moderator is
-  # reviewing against a newer base than the author saw.
+  # True when the section moved on since this suggestion's base was captured.
   def stale?
     base_content.present? && !RevisionDiff.new(base_content, lesson.section_html(section)).identical?
   end
 
-  # Snapshot the section as it stands right now, so a moderator can later be
-  # warned if the lesson moved on in the meantime (see #stale?).
+  # Snapshot for #stale? to compare against later.
   def capture_base_content
     self.base_content = lesson.section_html(section) if LessonRevision::SECTIONS.include?(section)
   end

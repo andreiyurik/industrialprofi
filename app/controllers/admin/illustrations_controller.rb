@@ -1,11 +1,4 @@
 module Admin
-  # The image control room, one profession at a time. The landing lists every
-  # profession with its illustration health (briefs waiting / images live /
-  # broken references) — numbers only, no thumbnails, so the page stays light
-  # however large the catalog grows. Opening a profession shows its brief
-  # queue, the gallery of images readers actually see, and any broken
-  # references. Editor-gated (BaseController); an editor trusted with exactly
-  # one profession lands straight in it.
   class IllustrationsController < BaseController
     before_action :set_lesson, only: %i[new create]
 
@@ -20,9 +13,6 @@ module Admin
       end
     end
 
-    # The fill screen for one placeholder: the brief, one file field, one
-    # button. Reached from the reader-page pending box (?src= / ?brief=) and
-    # the brief queue above; with no match it degrades to a slot chooser.
     def new
       @slots = @lesson.illustration_slots
       @slot = @slots.find { |slot| slot.src == params[:src] } ||

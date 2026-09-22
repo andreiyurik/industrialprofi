@@ -1,11 +1,5 @@
-/* Course-contents sidebar, TOP-style. Two presentations of one element:
-   ≥1280px — a full-height rail docked to the viewport's left edge, full-bleed
-   (NOT inside .container, like theodinproject.com); <1280px — an off-canvas
-   drawer. Stages are native <details> accordions: the current one starts open.
-
-   1280px is The Odin Project's single `xl` threshold: the left rail and the
-   right TOC appear together only when the viewport fits all three columns
-   (20 + ~44 + 15rem) — below it there's no half-docked middle zone. */
+/* Two presentations: ≥1280px a full-bleed rail (not inside .container); below it an off-canvas drawer.
+   1280px fits all three columns (20 + ~44 + 15rem) — below it there's no half-docked middle zone. */
 .lesson-layout {
   display: block;
 }
@@ -19,20 +13,13 @@
 
   .lesson-sidebar {
     block-size: calc(100dvh - var(--header-height));
-    inset-block-start: var(--header-height); /* clears the sticky header; matches its own natural flow position, so it locks in place with zero scroll creep */
+    inset-block-start: var(--header-height); /* clears the sticky header */
     position: sticky;
-    /* NOT overflow-y: auto here — it would clip the ::after divider below,
-       which deliberately extends above this box's own top edge. Scrolling
-       lives on .lesson-sidebar__scroll instead (see _sidebar.html.erb). */
+    /* NOT overflow-y: auto — it would clip the ::after divider below, which deliberately extends above this box's own top edge. */
   }
 
-  /* The divider rides along with .lesson-sidebar itself (position: absolute
-     against the sticky box, NOT position: fixed against the viewport — a
-     fixed line has no notion of where the sidebar ends and used to bleed
-     into the footer/subscribe sections past the end of the lesson). Stretched
-     upward by --header-height so it still reaches the very top when the
-     header auto-hides (header-reveal controller), without moving the
-     sidebar's own box — the pseudo-element just extends past its top edge. */
+  /* Absolute against the sticky box, not fixed against the viewport — a fixed line wouldn't know where the sidebar ends.
+     Stretched by --header-height so it still reaches the top when the header auto-hides. */
   .lesson-sidebar::after {
     background-color: var(--color-subtle);
     block-size: calc(100% + var(--header-height));
@@ -102,8 +89,7 @@
   }
 }
 
-/* The "open contents" affordance — unboxed, first on the breadcrumb row (it
-   keeps its word: primary reader navigation earns text, not a frame). */
+/* Unboxed, first on the breadcrumb row — primary reader navigation earns text, not a frame. */
 .lesson-contents-toggle {
   align-items: center;
   background: none;
@@ -129,8 +115,7 @@
     }
   }
 
-  /* Lives HERE, after the base rule: an earlier `display: none` would lose
-     the same-specificity cascade to `display: inline-flex` below it. */
+  /* Must come after display:inline-flex above — moved earlier, it would lose the same-specificity cascade to it. */
   @media (min-width: 1280px) {
     display: none;
   }
@@ -312,8 +297,7 @@
   min-inline-size: 0;
 }
 
-/* TOP-style completion mark on the right: the same solid check-circle,
-   gray while pending, green once done. */
+/* Same check-circle throughout — gray while pending, green once done. */
 .lesson-sidebar__status {
   color: var(--color-subtle);
   display: inline-flex;
@@ -331,10 +315,8 @@
   color: var(--color-positive);
 }
 
-/* ── Right rail: "В этой статье" (TOP's "Lesson contents") ──────────────
-   The lesson's own table of contents — fixed sections + its ## headings.
-   Wide screens only; sticky, with a left border rail and the current entry
-   marked by the lesson-toc Stimulus controller (aria-current). */
+/* ── Right rail: "В этой статье" — the lesson's own table of contents ── */
+/* Current entry marked by the lesson-toc Stimulus controller (aria-current). */
 .lesson-toc {
   display: none;
 }
@@ -390,11 +372,7 @@
   padding-inline-start: 1.85rem;
 }
 
-/* "Документы и ресурсы" is worth a reader's extra attention — weight plus a
-   quiet dot, one step past [aria-current]'s 600 so the two states stay
-   distinguishable even when this section is the one being read. currentColor
-   so the dot follows the link's own color instead of drifting out of sync
-   with the [aria-current] state below. */
+/* font-weight 700, one step past [aria-current]'s 600, so the two states stay distinguishable when both apply. */
 .lesson-toc__link--emphasis {
   font-weight: 700;
 }
@@ -405,20 +383,14 @@
   margin-inline-end: 0.4em;
 }
 
-/* "You are reading this" — ink text + ink rail segment, same brightness
-   hierarchy as the course sidebar's current item. */
+/* Same brightness hierarchy as the course sidebar's current item. */
 .lesson-toc__link[aria-current] {
   border-inline-start-color: var(--color-ink);
   color: var(--color-ink);
   font-weight: 600;
 }
 
-/* ── Reading mode ──────────────────────────────────────────────────────
-   Chrome off, words on. Toggled by the reading-mode Stimulus controller,
-   persisted in a cookie so the server renders the next lesson already
-   stripped. These rules live at the END of this file ON PURPOSE —
-   `.lesson-layout--reading { display: block }` must out-cascade the
-   same-specificity grid rules above (source order wins). */
+/* ── Reading mode — stays at the END of the file: must out-cascade the same-specificity grid rules above ── */
 body:has(.lesson-layout--reading) :is(.header, .support-cta, .footer) {
   display: none;
 }
@@ -426,10 +398,7 @@ body:has(.lesson-layout--reading) :is(.header, .support-cta, .footer) {
 .lesson-layout--reading {
   display: block;
 
-  /* Chrome off means ALL of it: the tool cluster hides too, or its row floats
-     against the fixed corner exit on a different axis and reads as a bug. The
-     only control left is that dimmed corner exit (position: fixed keeps it
-     alive below) + Esc. */
+  /* The tool cluster hides too, or its row floats against the fixed corner exit on a different axis and reads as a bug. */
   .lesson-sidebar,
   .lesson-sidebar-backdrop,
   .lesson-contents-toggle,
@@ -441,8 +410,7 @@ body:has(.lesson-layout--reading) :is(.header, .support-cta, .footer) {
   }
 }
 
-/* The mode toggle: a quiet meta-row button normally; once reading, it becomes
-   a fixed pill in the corner so leaving the mode never requires scrolling. */
+/* Quiet meta-row button normally; once reading, a fixed pill in the corner so leaving never requires scrolling. */
 .lesson-reading-toggle__enter,
 .lesson-reading-toggle__exit {
   align-items: center;
@@ -462,9 +430,7 @@ body:has(.lesson-layout--reading) :is(.header, .support-cta, .footer) {
   display: inline-flex;
 }
 
-/* Icon-only corner exit, dimmed to the edge of visibility — it must not pull
-   peripheral vision off the text, only be findable when looked for. Hover or
-   keyboard focus raises it back to a full button. Esc works too. */
+/* Dimmed to the edge of visibility — must not pull peripheral vision off the text. Hover/focus raises it back to a full button. */
 .lesson-layout--reading .lesson-reading-toggle {
   background-color: transparent;
   border: 1px solid transparent;

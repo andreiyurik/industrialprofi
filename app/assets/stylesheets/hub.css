@@ -1,14 +1,9 @@
-/* Profession hub — the header every tab of /paths/:slug shares (Обзор ·
-   Теория · Практика · Библиотека · Словарь) and the tab pages' own sections. One identity block,
-   one tab row; the reader stays inside the profession. Mobile-first: the
-   identity stacks and centers, the tab row scrolls sideways under the thumb;
-   from 48em the identity becomes a row. */
+/* Mobile-first: identity stacks and centers, tab row scrolls sideways; from 48em the identity becomes a row. */
 .hub {
   position: relative;
   text-align: center;
 }
 
-/* Identity: a centred column at every width. */
 .hub__identity {
   align-items: center;
   display: flex;
@@ -24,8 +19,7 @@
   }
 }
 
-/* The author's one line under the name (or the catalog sentence) — ink, not
-   grey: it is the map's own voice. */
+/* Ink, not grey — this is the map's own voice, not meta text. */
 .hub__description {
   color: var(--color-ink);
   font-size: 1.05rem;
@@ -43,10 +37,7 @@
   margin: 0.15rem 0 0;
 }
 
-/* The people cluster (paths/_hub_people): a row of faces beside two quiet
-   lines, centred under the identity at every width — Fizzy lays faces side by
-   side and links each to the person; nothing hangs in a corner where it can
-   collide with the emblem on a narrow screen. */
+/* Centred under the identity at every width — nothing hangs in a corner to collide with the emblem on narrow screens. */
 .hub-people {
   align-items: center;
   display: flex;
@@ -54,8 +45,7 @@
   gap: 0.6rem;
   margin-block-start: 1.25rem;
 
-  /* The maturity partial brings its own pill — here it is one more word in
-     the meta line. */
+  /* The maturity partial brings its own pill — here it's one more word in the meta line. */
   .maturity {
     display: inline-flex;
     margin-block-end: 0;
@@ -142,8 +132,6 @@
   }
 }
 
-/* The popover's people list — Fizzy's board-access rows: face, name, one
-   muted line. One column, generous rows. */
 .hub-popover__group {
   color: var(--color-subtle-dark);
   font-size: 0.8rem;
@@ -204,8 +192,7 @@
   font-size: 0.85rem;
 }
 
-/* Top-layer popover, styled like the maturity popover (enter/exit animation
-   comes from animation.css). */
+/* Top-layer popover, styled like the maturity popover (enter/exit animation lives in animation.css). */
 .hub-popover {
   background-color: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);
@@ -217,8 +204,7 @@
   inline-size: min(24rem, calc(100vw - 2rem));
   inset: 0;
   margin: 14vh auto auto;
-  /* Long people lists scroll inside the panel (Fizzy's settings lists), never
-     past the bottom of the screen. */
+  /* Long people lists scroll inside the panel, never past the bottom of the screen. */
   max-block-size: 72vh;
   overflow: auto;
   padding: 1.25rem 1.5rem;
@@ -235,12 +221,8 @@
   margin-block: 0 0.75rem;
 }
 
-/* Tabs: an underlined row — "sections of this profession", not site nav.
-   The active tab is the one with ink and an ink rule; weight never changes,
-   so the row doesn't jitter between pages. Phones: left-aligned and
-   thumb-scrollable (a centred row that overflows clips its own start —
-   the first tab becomes unreachable), glyphs dropped below 30em so all five
-   words fit a 390px screen; wide screens centre the row. */
+/* Weight never changes on the active tab (avoids jitter between pages); left-aligned on phones since
+   a centred overflow row clips its own start. Icons drop below 30em so all five words fit 390px. */
 .hub-tabs {
   border-block-end: 1px solid var(--color-subtle);
   display: flex;
@@ -350,8 +332,7 @@
   margin-block: 0 var(--block-space);
 }
 
-/* Jump links over the reference shelves — plain words, the page's own
-   table of contents. */
+/* Jump links over the reference shelves — plain words, the page's own table of contents. */
 .hub-jumps {
   display: flex;
   flex-wrap: wrap;
@@ -374,8 +355,7 @@
   }
 }
 
-/* «Улучшить карту» — the door to participation at the foot of every tab.
-   A footnote in register: hairline, small type, one quiet button. */
+/* «Улучшить карту» — the door to participation at the foot of every tab. */
 .hub-improve {
   border-block-start: 1px solid var(--color-subtle);
   margin-block-start: 3rem;
@@ -405,8 +385,7 @@
   margin: 0;
 }
 
-/* A quiet toggle link in a section head («· Сохранённые»): underlined like a
-   link, ink when active. */
+/* A quiet toggle link in a section head («· Сохранённые»): underlined like a link, ink when active. */
 .hub-section__toggle {
   color: var(--color-subtle-dark);
   text-decoration: underline;

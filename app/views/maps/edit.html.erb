@@ -7,8 +7,7 @@
       <%= link_to t("maps.edit.view"), profile_map_path(@map), class: "btn btn--small" %>
     </header>
 
-    <%# The share box comes first: the link IS the product — everything below
-        only makes it worth sending. Copy button is JS-revealed (copy-link). %>
+    <%# Copy button is JS-revealed (copy-link). %>
     <div class="panel map-share"
          data-controller="copy-link"
          data-copy-link-url-value="<%= profile_map_url(@map) %>"
@@ -26,8 +25,7 @@
       <p class="map-share__hint"><%= t("maps.share.hint") %></p>
     </div>
 
-    <%# Open once, right after the version was made (flash), folded to one
-        line on every later visit — the letter pattern without a column. %>
+    <%# Open once, right after the version is made (flash); folded to one line on every later visit. %>
     <details class="map-why"<%= " open" if flash[:map_welcome] %>>
       <summary class="map-why__summary link-quiet">
         <%= icon_tag "question" %>

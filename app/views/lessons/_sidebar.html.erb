@@ -1,7 +1,5 @@
 <%# locals: (course:, current_lesson:, lessons_by_stage:, completed_ids:) -%>
-<%# TOP-style course-contents sidebar: back link + title + progress up top,
-    then a native <details> accordion per section — the current lesson's section
-    starts open, the rest stay folded so long courses scan well. %>
+<%# Native <details> accordion per section; only the current lesson's section starts open. %>
 <aside id="lesson_sidebar" class="lesson-sidebar"
        aria-label="<%= t("lessons.sidebar_label") %>">
   <div class="lesson-sidebar__scroll" data-lesson-sidebar-target="panel">

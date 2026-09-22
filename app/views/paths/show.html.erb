@@ -1,8 +1,7 @@
 <% meta_title(@path.title) %>
 <% meta_description(@path.description.to_s.truncate(160)) %>
 <% canonical_url(path_url(@path)) %>
-<%# locale: nil — the storage routes live outside the locale scope, and the
-    helper would otherwise append a stray ?locale= to the share image URL. %>
+<%# locale: nil — the storage route helper would otherwise append a stray ?locale= to the URL. %>
 <% if @path.cover.attached? %>
   <% content_for(:og_image, ApplicationHelper.variant_processing_available? ?
        rails_representation_url(@path.cover.variant(resize_to_fill: [ 1200, 630 ], format: :webp), locale: nil) :
@@ -24,8 +23,7 @@
 
     <%= render "shared/continue_cta", continue_lesson: @progress.next_lesson, completed_ids: @progress.completed_ids %>
 
-    <%# The story (the slots an author filled — nothing when none), then the
-        chapter outline; the programme itself is the «Теория» tab. %>
+    <%# The story (author-filled slots, nothing when none), then the chapter outline; the programme is the «Теория» tab. %>
     <%= render "paths/landing", path: @path %>
     <%= render "paths/outline", path: @path, courses: @courses, kind_counts: @kind_counts %>
 

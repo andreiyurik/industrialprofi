@@ -1,5 +1,4 @@
-# Account email-change confirmation state, kept in the encrypted session —
-# mirrors Signup's verification-code flow (see SessionVerificationCode).
+# Mirrors Signup's verification-code flow, kept in the encrypted session.
 class EmailChange
   include SessionVerificationCode
 

@@ -7,9 +7,6 @@ module Admin
       @counts = filter_counts
 
       # Offset here (not keyset like the log): this list needs page numbers + search.
-
-      # The list is scan-and-navigate only; all management moved to the user
-      # card (show), so the rows stay clean and the page filters/paginates well.
       scope = User.filtered(role: params[:role], status: params[:status], q: params[:q])
 
       @total = scope.count
@@ -30,8 +27,6 @@ module Admin
       @completions = @user.lesson_completions.includes(lesson: :path).order(created_at: :desc).limit(8)
       @recent_journal = @user.journal_entries.includes(:lesson).ordered.limit(5)
       @user_sessions = @user.sessions.order(Arel.sql("COALESCE(last_active_at, created_at) DESC"))
-      # The trust this person has earned — derived live from their suggestions,
-      # now keyed to the account (user_id), not a display-name match.
       @track_record = TrackRecord.for(@user)
     end
 
@@ -41,7 +36,7 @@ module Admin
       if params[:user]&.key?(:editable_path_ids)
         update_access(user)
       elsif user == Current.user
-        # Lockout guard: the last administrator must not demote themselves.
+        # Lockout guard: an administrator can't demote themselves.
         redirect_to admin_users_path, alert: t("admin.users.cannot_change_own_role")
       elsif User.roles.key?(params.dig(:user, :role))
         previous = user.role
@@ -58,7 +53,6 @@ module Admin
     end
 
     private
-      # Tab counts for the filter bar — one grouped query plus the suspended count.
       def filter_counts
         by_role = User.group(:role).count
         {
@@ -70,8 +64,6 @@ module Admin
         }
       end
 
-      # Which professions this editor may edit directly. The has_many :through
-      # setter creates/destroys the Editorship rows to match the ticked boxes.
       def update_access(user)
         previous_path_ids = user.editable_path_ids
         promoted = false

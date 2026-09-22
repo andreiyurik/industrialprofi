@@ -1,5 +1,4 @@
-/* The milestone dialog: finishing a whole profession earns a real celebration
-   (stats + share button) — a finished course keeps the quiet flash pill. */
+/* Finishing a whole profession earns a real celebration; a finished course keeps the quiet flash pill. */
 .milestone {
   background-color: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);

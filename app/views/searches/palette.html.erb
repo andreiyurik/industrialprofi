@@ -1,6 +1,4 @@
-<%# Compact results for the header palette (see shared/_palette). A blank
-    query re-renders the quick destinations, so clearing the input restores
-    the palette's home state. %>
+<%# A blank query re-renders the quick destinations, so clearing the input restores the palette's home state. %>
 <%= turbo_frame_tag "palette_results", target: "_top" do %>
   <% if @query.blank? %>
     <%= render "shared/palette_home" %>
@@ -11,8 +9,7 @@
     </p>
   <% else %>
     <ul class="palette-results">
-      <%# Инструменты первыми: «посчитать» — это другой запрос, чем «почитать»,
-          и человек с ним обычно спешит. %>
+      <%# Инструменты первыми: «посчитать» — другой запрос, чем «почитать», и обычно спешат. %>
       <% @calculators.first(3).each do |calculator| %>
         <li>
           <%= link_to calculator_path(calculator), class: "palette-result" do %>

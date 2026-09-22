@@ -26,10 +26,8 @@ class Course < ApplicationRecord
     status == "coming_soon"
   end
 
-  # A chapter without its own emblem inherits its profession's — blank is a valid
-  # answer, not a gap: nothing in an icon set distinguishes МИГ welding from ТИГ,
-  # and repeating one glyph across sibling chapters reads as a bug. See Path#emblem
-  # for why this isn't an override of `icon`.
+  # Blank is valid, not a gap — nothing distinguishes МИГ from ТИГ, and repeating a
+  # glyph across sibling chapters reads as a bug. See Path#emblem for why this isn't an override.
   def emblem
     icon.presence || path.emblem
   end
@@ -38,10 +36,7 @@ class Course < ApplicationRecord
     slug
   end
 
-  # Per-course progress stats for a learner, given `lessons` (the course's
-  # lessons — pass the caller's already-preloaded set to avoid a fresh query
-  # per course) and the set of their completed lesson ids. Drives the
-  # dashboard's course rows.
+  # Pass the caller's preloaded lessons — avoids a fresh query per course on the dashboard.
   Progress = Struct.new(:done_count, :next_lesson, :lessons_count, :practice_count, keyword_init: true)
 
   def progress_for(lessons, completed_ids)

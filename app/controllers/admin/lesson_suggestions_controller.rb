@@ -24,9 +24,8 @@ module Admin
             suggestion: @suggestion
           )
           @suggestion.update!(status: "approved", reviewed_at: Time.current)
-          # This edit moved the map up the maturity ladder — keep that fact on
-          # the suggestion so the author's dashboard and outcome email can say
-          # so (the collective-achievement half of «recognition, not competition»).
+          # Records that this edit raised the maturity stage, so the author's
+          # dashboard/email can credit it.
           if (stage_after = @suggestion.lesson.path.maturity_stage) > stage_before
             @suggestion.update!(raised_path_stage: stage_after)
           end
@@ -38,9 +37,7 @@ module Admin
     end
 
     def reject
-      # A rejection always carries a reason — one wordless «Не принята» is the
-      # surest way to lose a contributor. The HTML `required` covers browsers;
-      # this guard covers everything else.
+      # HTML `required` covers browsers; this guard covers everything else.
       comment = params.dig(:lesson_suggestion, :reviewer_comment).to_s.strip
       if comment.blank?
         redirect_to admin_lesson_suggestion_path(@suggestion), alert: t("flash.reject_needs_reason") and return
@@ -75,10 +72,8 @@ module Admin
       editable_suggestions.pending.includes(:lesson).order(created_at: @order).group_by(&:lesson)
     end
 
-    # The decision came either from the queue's inline buttons (params[:inline] —
-    # update the list in place via Turbo Stream, no reload) or from the review
-    # page's forms (redirect back to the queue, as before). The no-JS fallback
-    # also redirects.
+    # Inline queue buttons (params[:inline]) update in place via Turbo Stream; the
+    # review page's forms (and the no-JS fallback) redirect back to the queue.
     def respond_to_decision(notice)
       if params[:inline] && request.format.turbo_stream?
         flash.now[:notice] = notice

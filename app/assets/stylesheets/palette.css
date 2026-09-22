@@ -1,5 +1,4 @@
-/* Command palette — a top-anchored <dialog>; enter/exit animation comes from
-   animation.css. */
+/* Top-anchored <dialog>; enter/exit animation comes from animation.css. */
 .palette {
   background-color: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);
@@ -21,8 +20,7 @@
   inline-size: 100%;
 }
 
-/* The list scrolls inside the dialog (Fizzy's scroll container), so the
-   rounded frame, input and colophon stay put. */
+/* Scrolls inside the dialog so the rounded frame, input and colophon stay put. */
 .palette__results {
   display: block;
   margin-block-start: 0.75rem;
@@ -30,7 +28,6 @@
   overflow-y: auto;
 }
 
-/* Quick destinations — the Fizzy hotkey tiles, minus the number chips. */
 .palette__quick {
   display: grid;
   gap: var(--block-space-half);

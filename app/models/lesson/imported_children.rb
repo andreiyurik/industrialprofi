@@ -1,13 +1,9 @@
-# A lesson's resources and abbreviations as they arrive from a pack — the one
-# place both import engines (the seed tree and a pasted/zipped document) sync
-# them, so the rules can't drift: matched by title/mark, a human-owned row is
-# never touched, a new row takes the import's origin. Called only while the
-# lesson itself is still importer-owned (the freeze lives on the parent).
+# Shared by both import engines (seed tree + pasted/zipped document) so the rules can't drift.
+# Matched by title/mark; a human-owned row is never touched. Called only while the lesson
+# itself is still importer-owned (the freeze lives on the parent).
 module Lesson::ImportedChildren
   extend ActiveSupport::Concern
 
-  # => { "resources_created" => n, "resources_updated" => n,
-  #      "glossary_terms_created" => n, "glossary_terms_updated" => n }
   def import_children(resources:, terms:, source:)
     counts = Hash.new(0)
 

@@ -8,42 +8,21 @@ class Path < ApplicationRecord
 
   SLUG_FORMAT = /\A[a-z0-9]+(-[a-z0-9]+)*\z/
 
-  # draft/pending_review = not public; published = live. A profession with no
-  # content is not a Path: the catalog's "ждут автора" list is plain copy
-  # (ru.yml → paths.soon_wanted), so nothing empty lives in the DB or the admin.
   STATUSES = %w[draft pending_review published].freeze
 
-  # role = full career path from scratch ("Электрик", "Инженер АСУ ТП");
-  # skill = specific tool/technology for working professionals ("Siemens TIA Portal", "SCADA").
   KINDS = %w[role skill].freeze
 
-  # Fields the YAML/AI importer manages (and digests for edit-safety). The slug
-  # is the stable key, not content. The landing rides here too: a pack's
-  # landing.yml refreshes a pristine profession and never touches one an
-  # expert has edited (any landing edit changes the digest → frozen).
   IMPORTABLE_FIELDS = %w[title description position status kind landing].freeze
 
-  # inverse_of is explicit because a scoped has_many gets no automatic detection —
-  # without it `course.icon` falling back to `path.icon` would re-query per card.
+  # inverse_of: a scoped has_many skips auto-detection — course.icon would re-query per card.
   has_many :courses, -> { order(:position) }, dependent: :destroy, inverse_of: :path
-  # NO dependent: :destroy here on purpose — Course owns the lesson destroy chain
-  # (path → courses → lessons). Adding it back would destroy each lesson twice.
-  # This association stays for total counts / catalog-wide lesson queries.
+  # NO dependent: :destroy — Course owns the lesson destroy chain; adding it back double-destroys.
   has_many :lessons, -> { order(:position) }
-  # Practice lessons only — the journal links a practice task you did, not theory,
-  # which keeps the "Связанная статья" picker short (see journal form).
   has_many :practice_lessons, -> { practice.ordered }, class_name: "Lesson"
-  # Editors granted direct edit access to this profession (see Editorship).
   has_many :editorships, dependent: :destroy
   has_many :editors, through: :editorships, source: :user
-  # Editors who opted in to be shown publicly as curators of this profession
-  # Whoever holds a grant is named on the map: curating is a public role, not
-  # an opt-in — a map is never anonymous, a person answers for it.
   has_many :curators, -> { active.order(:name) }, through: :editorships, source: :user
   belongs_to :author, class_name: "User", optional: true
-  # Personal maps are overlays on this profession, not copies: destroying it
-  # takes the lessons (and with them every overlay row), leaves each author
-  # their own links, and only unlinks the «на основе» reference.
   has_many :maps, dependent: :nullify
 
   validates :title, presence: true
@@ -59,17 +38,11 @@ class Path < ApplicationRecord
   scope :community, -> { where.not(author_id: nil) }
   scope :ordered, -> { order(:position) }
   scope :with_practice_lessons, -> { where(id: Lesson.practice.select(:path_id)) }
-  # Professions a user may edit in the admin: admins see all, editors only the
-  # ones granted to them. Backs the scoped admin index pages.
   scope :editable_by, ->(user) {
     user.administrator? ? all : where(id: user.editorships.select(:path_id))
   }
-  # Each language market gets its own paths (TOP model, not synced translations) —
-  # the catalog only ever lists the current locale's maps.
   scope :localized, ->(locale = I18n.locale) { where(locale: locale) }
 
-  # path_id => published-course count, for the catalog cards' meta line
-  # (the courses_count counter cache also counts coming-soon stubs).
   def self.published_course_counts
     Course.where(status: "published").group(:path_id).count
   end
@@ -78,23 +51,15 @@ class Path < ApplicationRecord
     slug
   end
 
-  # `icon` is the stored choice and may be blank; `emblem` is what to render. Kept
-  # separate on purpose — overriding the attribute reader would make `allow_blank`
-  # and form checkedness read the fallback instead of the choice.
+  # Kept as a separate reader — overriding `icon` would break allow_blank and form checkedness.
   def emblem
     icon.presence || Icon::DEFAULT_EMBLEM
   end
 
-  # The hub shows a «Словарь» tab only for a profession whose lessons define
-  # abbreviations — derived from data, not a setting.
   def has_glossary? = GlossaryTerm.for_path(self).exists?
 
-  # Who improved this profession (see Path::Contributors) — built once per
-  # request, like Path::Progress.
   def contributors = @contributors ||= Contributors.new(self)
 
-  # The hub header draws the curators' faces — their photos ride along in one
-  # query (the lesson byline and JSON-LD need only names: plain `curators`).
   def hub_curators = curators.includes(photo_attachment: :blob)
 
   private

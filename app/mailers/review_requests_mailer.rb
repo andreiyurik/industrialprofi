@@ -1,7 +1,6 @@
 class ReviewRequestsMailer < ApplicationMailer
-  # An editor flipped a profession or course to "на проверке" and is waiting for
-  # an administrator to publish. A rare administrative notice (no unsubscribe),
-  # so a submission is never missed sitting on the dashboard.
+  # An editor flipped a profession/course to «на проверке», waiting on an admin to publish.
+  # Rare admin notice, no unsubscribe — never missed sitting on the dashboard.
   def submitted(record, submitter)
     @record = record
     @submitter = submitter

@@ -1,8 +1,6 @@
 module Admin
-  # Feeds the Lexxy @-mention picker in the lesson editor: given ?filter=<text>,
-  # returns matching lessons as <lexxy-prompt-item> HTML so an author can insert
-  # an internal /lessons/:slug link by title instead of hand-writing the slug —
-  # the wiki fabric, minus the broken links content:audit used to catch after.
+  # Feeds the Lexxy @-mention picker: given ?filter=<text>, returns matching lessons
+  # as <lexxy-prompt-item> HTML so authors insert internal /lessons/:slug links by title.
   class LessonLinksController < BaseController
     LIMIT = 8
 

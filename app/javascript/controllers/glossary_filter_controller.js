@@ -1,11 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Live filter for the glossary: pure DOM, zero requests — every entry is
-// already server-rendered, we only toggle [hidden]. Two axes compose: a text
-// query (word-prefix matching — «узо» must find УЗО, not «нагрУЗОк») and a
-// script toggle (все / русскоязычные / международные) that shows or hides
-// whole subgroups. A group hides when nothing inside it survives; the empty
-// state links a fruitless query out to full-text search.
+// Pure DOM, zero requests — word-prefix matching («узо» must find УЗО, not
+// «нагрУЗОк»); the text query and script toggle compose across subgroups.
 export default class extends Controller {
   static targets = [ "entry", "group", "subgroup", "empty", "searchLink", "scriptTab" ]
 

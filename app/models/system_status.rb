@@ -1,18 +1,10 @@
 require "shellwords"
 
-# Read-only snapshot of the single VPS's health for the admin dashboard — the
-# numbers that guard the one thing that can take down a one-server SQLite app:
-# a full disk. Plus background-job health (production-only, where Solid Queue
-# runs in its own database). Every probe is defensive: if it can't run, it
-# returns nil and the dashboard hides that line — it never raises into a render.
+# Every probe is defensive — returns nil, never raises into the dashboard render.
 class SystemStatus
-  # Free space below this is flagged: time to act before the disk fills.
   DISK_WARN_THRESHOLD = 1.gigabyte
 
-  # Sum of every SQLite file in the database directory — the primary DB plus the
-  # Solid Queue/Cache/Cable databases and their -wal/-shm sidecars. This is the
-  # real on-disk footprint, unlike Active Storage blobs (≈0 since uploads were
-  # removed), so it's the honest "is the database growing" number.
+  # Includes -wal/-shm sidecars — the real on-disk footprint.
   def database_bytes
     Dir.glob(File.join(database_dir, "*.sqlite3*")).sum { |file| File.size(file) }
   rescue StandardError
@@ -27,14 +19,9 @@ class SystemStatus
     free.present? && free < DISK_WARN_THRESHOLD
   end
 
-  # { pending:, failed: } or nil when Solid Queue isn't reachable here (dev/test
-  # share the primary DB and have no queue tables — this is a production signal).
-  # `failed` is the alarm: a job dying silently (e.g. the signup-code mailer)
-  # breaks a user flow with no other warning.
   def jobs
     {
-      # A failed job keeps finished_at NULL, so it stays "pending" forever —
-      # excluded here or every failure would be counted by both numbers.
+      # Failed jobs keep finished_at NULL, so exclude them here or both numbers double-count.
       pending: SolidQueue::Job.where(finished_at: nil).where.missing(:failed_execution).count,
       failed:  SolidQueue::FailedExecution.count
     }
@@ -49,7 +36,6 @@ class SystemStatus
       File.dirname(path)
     end
 
-    # One `df` call per request, memoized; columns of the portable (-P) format.
     def df_fields
       @df_fields ||= `df -kP #{Shellwords.escape(database_dir)} 2>/dev/null`.lines.last&.split || []
     end

@@ -2,10 +2,8 @@
 import CalculatorController from "controllers/calculator_controller"
 import { grounding } from "calculators/math/electrical"
 
-// Контур в разрезе грунта. Сплошные электроды — забитые, пунктирные — те,
-// которых не хватает до нормы: главный вопрос заземления «сколько ещё штук»
-// перестаёт быть числом в строке результата и становится картинкой.
-// Дублирует координаты дорожки из diagrams/_grounding.html.erb.
+// Сплошные электроды — забитые, пунктирные — недостающие до нормы. Дублирует
+// координаты дорожки из diagrams/_grounding.html.erb.
 const RODS = 12
 const SURFACE = 38
 const SOIL_DEPTH = 84 // px на видимую толщу грунта
@@ -34,8 +32,7 @@ export default class extends CalculatorController {
     const { length, depth, count, required } = result
     diagram.dataset.state = result.single == null ? "empty" : "ok"
 
-    // Масштаб постоянный, пока контур влезает в грунт: тогда более длинный
-    // электрод виден как более длинный, а не как та же палка в другой рамке.
+    // Масштаб постоянный, пока контур влезает в грунт — длина видна как длина.
     const scale = Math.min(METRE, SOIL_DEPTH / (depth + length))
     const rods = diagram.querySelector("[data-rods]")
     if (rods) rods.style.transform = `translateY(${depth * scale}px) scaleY(${(length * scale) / SOIL_DEPTH})`

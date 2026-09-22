@@ -1,5 +1,3 @@
-/* "О проекте" — a personal letter from the creator. Narrow, calm reading column,
-   warmer than the marketing pages: body in full ink, generous line height. */
 .about-letter {
   margin-inline: auto;
   max-inline-size: 40rem;
@@ -58,8 +56,7 @@
   padding-inline-start: 1.1rem;
 }
 
-/* The letter's promise in a ten-second scan — three numbered goals for the
-   skimmer; the letter below unfolds them, never repeats them. */
+/* Skimmable promise — the letter below unfolds these goals, never repeats them. */
 .about-letter__goals {
   border-block: 1px solid var(--color-subtle);
   margin-block: 2.25rem;
@@ -126,9 +123,7 @@
   padding-block-start: 1.5rem;
 }
 
-/* Appendix after the letter: an honest comparison of ways to learn a trade —
-   categories, never competitors' names, so it stays fair and doesn't go stale.
-   Full reading-container width; the letter column above stays 40rem. */
+/* Categories only, never competitors' names — stays fair and doesn't go stale. Full width, unlike the 40rem letter above. */
 .about-compare {
   margin-block-start: 4rem;
 }

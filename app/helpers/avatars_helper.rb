@@ -1,8 +1,5 @@
 module AvatarsHelper
-  # Generated initials avatars — no uploads, no storage, no moderation. The
-  # background hue is picked from the OKLCH accent primitives in colors.css
-  # (never a raw colour) and is stable per name, so the same person always
-  # looks the same. This is the Basecamp/HEY pattern, server-rendered.
+  # Hue comes from the OKLCH accent primitives (colors.css), stable per name so the same person always looks the same.
   AVATAR_HUES = %w[--lch-blue --lch-teal --lch-purple --lch-green --lch-yellow --lch-red].freeze
 
   def avatar_initials(name)
@@ -16,8 +13,7 @@ module AvatarsHelper
     AVATAR_HUES[name.to_s.sum % AVATAR_HUES.size]
   end
 
-  # For someone with no account to take a photo or a preset from — a guest
-  # contributor is only the name they signed with.
+  # For a guest contributor who has no account for a photo or preset — only the name they signed with.
   def avatar_initials_tag(name)
     content_tag :span, avatar_initials(name),
       class: "avatar",
@@ -26,8 +22,7 @@ module AvatarsHelper
       aria: { hidden: true }
   end
 
-  # Takes the user, not the name: a chosen preset glyph (Avatar) wins, the
-  # generated initials remain the default for everyone who never picked one.
+  # Priority: uploaded photo, then a chosen preset glyph, then generated initials as the default.
   def avatar_tag(user, title: user.name)
     if user.shows_photo?
       image_tag rails_storage_proxy_path(user.photo), class: "avatar avatar--photo",

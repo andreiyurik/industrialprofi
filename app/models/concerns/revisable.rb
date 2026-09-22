@@ -1,22 +1,16 @@
-# The immutable edit-history behavior behind a lesson's content: producing the
-# HTML for a section, applying a change as a versioned revision, and reporting
-# who contributed. The lesson_revisions association itself stays on Lesson —
-# its dependent: :delete_all must run before lesson_suggestions in the destroy
-# cascade (see lesson.rb), which an include-order accident could silently break.
+# Immutable edit-history behind a lesson's content: section HTML, versioned revisions, contributor credit.
+# lesson_revisions stays on Lesson — delete_all must precede lesson_suggestions in the destroy cascade (see lesson.rb).
 module Revisable
   extend ActiveSupport::Concern
 
   def revised? = lesson_revisions_count.positive?
 
-  # A lesson is also frozen for the importer once it carries any revision: admin
-  # edits and approved suggestions land in rich text (not the markdown columns
-  # the digest covers), so the digest alone wouldn't notice them.
+  # Frozen once any revision exists: admin edits/suggestions land in rich text, invisible to the digest.
   def frozen_for_import?
     super || lesson_revisions.exists?
   end
 
-  # The HTML a reader currently sees for a section — rich text if present,
-  # otherwise the markdown fallback rendered the same way the view renders it.
+  # Mirrors how the view renders a section — rich text if present, else the markdown fallback.
   def section_html(section)
     rich = public_send(:"rich_#{section}")
     return rich.body.to_html if rich.present?
@@ -25,8 +19,7 @@ module Revisable
     text.present? ? Kramdown::Document.new(text, input: "GFM").to_html : ""
   end
 
-  # Apply new HTML to one section and record an immutable revision (version n+1),
-  # all in a single transaction. Used by suggestion approval and rollbacks.
+  # Records an immutable revision (version n+1) in one transaction. Used by suggestion approval and rollbacks.
   def revise!(section:, html:, editor_name:, edit_reason:, source:, suggestion: nil)
     transaction do
       before = section_html(section)
@@ -39,10 +32,8 @@ module Revisable
     end
   end
 
-  # Apply an admin edit (title/kind + rich sections + resources) and record one
-  # revision per section whose visible text actually changed — all in one
-  # transaction. A human edit takes ownership: origin becomes "human" so the
-  # YAML/AI importer leaves this lesson (and its resources) alone forever.
+  # One revision per section whose visible text changed, in one transaction.
+  # origin becomes "human" — the YAML/AI importer leaves this lesson (and resources) alone forever.
   def admin_update_with_revisions!(attrs, edit_reason:)
     transaction do
       befores = LessonRevision::SECTIONS.index_with { |section| section_html(section) }

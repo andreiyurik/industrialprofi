@@ -3,8 +3,7 @@
 <div class="flash"
      data-controller="element-removal"
      data-element-removal-delay-value="4000">
-  <%# role="alert" interrupts a screen reader, "status" waits its turn — a
-      failure is worth the interruption, a confirmation isn't. %>
+  <%# role="alert" interrupts a screen reader, "status" waits its turn. %>
   <div class="flash__inner <%= "flash__inner--alert" if alert %>"
        role="<%= alert ? "alert" : "status" %>" aria-atomic="true">
     <%= message %>

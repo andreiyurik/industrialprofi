@@ -8,8 +8,7 @@
   padding: 0.6rem 0.9rem;
 }
 
-/* Fallback for a missing image asset (e.g. a not-yet-drawn "TODO-*.png")
-   so one pending illustration never breaks the lesson. */
+/* Fallback for a missing image asset (e.g. an undrawn TODO-*.png) so one pending illustration never breaks the lesson. */
 .attachment__missing {
   align-items: center;
   background-color: var(--color-subtle-light);
@@ -23,9 +22,8 @@
   padding: var(--block-space);
 }
 
-/* The fill link ships hidden inside the shared cached HTML for every reader;
-   .lesson--fillable (set per-request for users who may edit this profession)
-   reveals it. The real gate is server-side in admin. */
+/* Ships hidden in the shared cached HTML; .lesson--fillable reveals it per-request.
+   The real access gate is server-side in admin, not this CSS. */
 .attachment__fill {
   display: none;
 }
@@ -64,13 +62,9 @@
   scroll-margin-block-start: 5rem;
 }
 
-/* Regular display face (Inter Tight), not GOST: this is the single most-read
-   heading on the site, often safety-critical content — clarity and reading
-   speed win over the "engineered" identity, which stays on the profession
-   card/hero where a reader only glances at it once. */
+/* Inter Tight, not GOST — this heading is the most-read, often safety-critical; clarity wins over the "engineered" identity. */
 .lesson__title {
-  /* Capped at 2.1rem (was 2.5) so long multi-word technical titles read as a
-     calmer landmark, not a wall. */
+  /* Capped at 2.1rem so long multi-word technical titles read as a landmark, not a wall. */
   font-size: clamp(1.75rem, 4.5vw, 2.1rem);
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -86,9 +80,7 @@
   margin-block-end: 0.75rem;
 }
 
-/* One line, always: the crumbs ellipsize per-crumb instead of wrapping, so the
-   meta row keeps the same 44px geometry on every lesson — a stacked trail left
-   the icon cluster centring against a variable-height block. */
+/* Crumbs ellipsize per-crumb instead of wrapping, so the row keeps the same 44px geometry on every lesson. */
 .lesson__trail {
   align-items: center;
   display: flex;
@@ -102,17 +94,14 @@
       flex-shrink: 0;
     }
 
-    /* The profession crumb never ellipsizes (hard cap = safety net only);
-       the deep, long chapter crumb is the one that gives way. */
+    /* Profession crumb never ellipsizes (hard cap is a safety net only) — the chapter crumb gives way instead. */
     > :first-child {
       flex-shrink: 0;
       max-inline-size: 14rem;
     }
 
-    /* Phones have no room for the chapter crumb at all — a mangled «Эле…»
-       helps nobody, and the «Содержание» sheet already opens on «К главе»
-       plus the chapter title. The profession may ellipsize here as overflow
-       protection: a signed-in editor's five 44px tools leave it no room. */
+    /* No room for the chapter crumb on phones — the «Содержание» sheet already shows it.
+       Profession may ellipsize too: an editor's five 44px tools leave no room. */
     @media (max-width: 640px) {
       > .breadcrumbs__separator,
       > :last-child {
@@ -126,9 +115,7 @@
   }
 }
 
-/* No gap: the hit boxes themselves set one even step, so the glyphs read as a
-   single cluster. The negative margin pulls the last glyph (not its box) flush
-   with the text column's right edge. */
+/* No gap — hit boxes set the step themselves; negative margin pulls the last glyph flush with the text column edge. */
 .lesson__tools {
   --tool-box: 2.75rem;
 
@@ -152,8 +139,7 @@
   cursor: pointer;
   display: inline-flex;
   font: inherit;
-  /* 44px hit area (a11y/mobile-first) — the glyph stays small but each button
-     fills a full touch target, so neighbours never overlap or mis-tap. */
+  /* 44px hit area (a11y) — the glyph stays small but the touch target keeps neighbours from mis-tapping. */
   justify-content: center;
   min-block-size: var(--tool-box, 2.75rem);
   min-inline-size: var(--tool-box, 2.75rem);
@@ -172,8 +158,7 @@
   }
 }
 
-/* Copy-link feedback is icon-only: the glyph briefly swaps to a green check
-   (the controller toggles `--copied` + updates the screen-reader label). */
+/* Icon-only feedback: glyph swaps to a green check when the controller toggles --copied. */
 .lesson__copy-icon {
   display: inline-flex;
 }
@@ -191,8 +176,7 @@
   color: var(--color-positive);
 }
 
-/* Bookmark keeps just the glyph here, matching the project-card treatment —
-   title/aria-label carry the meaning. */
+/* Glyph only, matching the project-card treatment — title/aria-label carry the meaning. */
 .lesson__tools .bookmark-btn__label {
   display: none;
 }
@@ -210,23 +194,20 @@
   margin-block: 0 0.25rem;
 }
 
-/* Each section (Что изучить / Документы / Задание) gets a hairline divider so
-   the lesson reads as distinct chunks, not one wall of text. */
+/* Hairline divider so the lesson reads as distinct chunks, not one wall of text. */
 .lesson__section {
   border-block-start: 1px solid var(--color-subtle);
   margin-block-start: 3rem;
   padding-block-start: 2.5rem;
 }
 
-/* For a section that's its own card (e.g. the resources panel): the panel is
-   the boundary, so drop the divider line and top padding. */
+/* Section is its own card (e.g. resources panel) — the panel is the boundary, so drop the divider and padding. */
 .lesson__section--plain {
   border-block-start: 0;
   padding-block-start: 0;
 }
 
-/* The body section has no own heading (the prose opens with its first ##),
-   so the prose must sit flush under the section divider. */
+/* Body section has no own heading — prose opens with its first ## so it must sit flush under the divider. */
 .lesson__section .prose > :first-child {
   margin-block-start: 0;
 }
@@ -267,26 +248,20 @@
   padding-block-end: 2.2rem;
 }
 
-/* When the brief is the last block before the end-of-lesson action bar, the
-   bar's own top border already serves as the divider — so drop the brief's
-   closing hairline (and its bottom padding) to avoid a stacked double line. */
+/* The bar's own top border already serves as the divider when it follows directly — drop the brief's hairline to avoid a stacked double line. */
 .lesson__section:has(+ .lesson-complete) .lesson__task {
   border-block-end: 0;
   padding-block-end: 0;
 }
 
-/* The brief's running text is set in the reading face: readers found whole
-   paragraphs of the GOST drafting face hard to read (2026-08-22). GOST stays
-   where it is legible and gives the brief its drawing-sheet character — the
-   section title and the short uppercase labels (ЦЕЛЬ, ПОНАДОБИТСЯ, ШАГИ…). */
+/* Reading face, not GOST — readers found long GOST paragraphs hard to read; GOST stays only for the short uppercase labels. */
 .lesson__task .prose {
   font-family: var(--font-sans);
   font-size: 1.05rem;
   line-height: 1.6;
 }
 
-/* All in-brief headings stay bright (ink) — a heading must never be dimmer
-   than the text it leads; hierarchy comes from size, not colour. */
+/* Headings stay bright — never dimmer than the text they lead; hierarchy comes from size, not colour. */
 .lesson__task .prose :is(h2, h3, h4) {
   color: var(--color-ink);
   font-family: var(--font-technical);
@@ -302,7 +277,6 @@
   padding-block-end: 0.35rem;
 }
 
-/* Sub-steps get a leading tick via ::before, like a drawing annotation mark. */
 .lesson__task .prose h4 {
   align-items: baseline;
   display: flex;
@@ -320,8 +294,7 @@
   transform: translateY(-0.35em);
 }
 
-/* Callouts keep their own sans voice so a safety [!ОПАСНО] block stays
-   recognisable. */
+/* Callouts keep their own sans voice so a safety [!ОПАСНО] block stays recognisable. */
 .lesson__task .callout {
   font-family: var(--font-sans);
 }
@@ -335,7 +308,6 @@
   }
 }
 
-/* The learner's own past entries for this task — the practice loop, visible. */
 .lesson-task-entries {
   margin-block-start: var(--block-space);
 }
@@ -364,8 +336,6 @@
   row-gap: 0.85rem;
 }
 
-/* Search-result shape: coloured kind glyph hanging in the margin, full-width
-   title, one quiet caption line beneath when there is one. */
 .lesson-resource {
   column-gap: 0.65rem;
   display: grid;
@@ -403,9 +373,7 @@
   inline-size: 0.95em;
 }
 
-/* A homogeneous link list (like the TOC): blue carries "clickable", so no
-   resting underline — multi-line titles otherwise render as a lattice. List
-   leading, not prose leading: multi-line titles stay one visual unit. */
+/* No resting underline — on multi-line titles it renders as a lattice; blue alone carries "clickable". */
 .lesson-resource__link {
   color: var(--color-link);
   font-size: 0.95rem;
@@ -419,14 +387,12 @@
   }
 }
 
-/* Importance is conveyed by the group heading and weight — not by link colour,
-   so every resource still reads as a clickable link. */
+/* Importance is conveyed by weight, not link colour — every resource still reads as clickable. */
 .lesson-resource--required .lesson-resource__link {
   font-weight: 600;
 }
 
-/* A name-only source: readable (the exact title IS the value), just not a link —
-   ink colour + no underline reads as "reference", the blue links read as clickable. */
+/* Ink, not link blue — reads as "reference" not clickable, since there's nowhere to click. */
 .lesson-resource__link--pending {
   color: var(--color-ink);
   text-decoration: none;
@@ -437,9 +403,7 @@
   gap: 0.15rem;
 }
 
-/* One caption line, only when there is something to say: language · the
-   curator's one-liner (WHAT exactly to read in a 400-page document). The
-   type is the glyph — its word lives in the tooltip and for screen readers. */
+/* Type is the glyph in the marker above — its word lives in the tooltip and for screen readers. */
 .lesson-resource__meta {
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
@@ -460,9 +424,7 @@
   margin-block-start: 2.5rem;
 }
 
-/* Faint by default so touch users can still find it; on pointer devices it
-   stays hidden until the reader hovers the section or tabs to it —
-   discoverable, never visual noise. */
+/* Faint by default (touch has no hover); pointer devices hide it until hover/focus. */
 .lesson-section-edit {
   font-size: 0.8rem;
   margin-block: var(--block-space) 0;
@@ -494,8 +456,7 @@
   gap: 0.25rem;
 }
 
-/* TOP-style: completion toggle on the left, "next lesson" always available
-   on the right — marking done is encouraged, never required to move on. */
+/* Completion toggle on the left, "next lesson" always available on the right — marking done is encouraged, never required. */
 .lesson-complete {
   align-items: center;
   border-block-start: 1px solid var(--color-subtle);
@@ -506,10 +467,7 @@
   margin-block-start: 3rem;
   padding-block-start: var(--block-space-double);
 
-  /* btn--large's 2em horizontal padding makes the toggle overrun the narrow
-     44rem lesson column when its label is long ("Отметить пройденным"),
-     orphaning it on its own wrapped row while the shorter "Урок пройден"
-     state still fits. Trim the footprint so both states sit on one line. */
+  /* btn--large's 2em padding overruns the 44rem lesson column with the long "Отметить пройденным" label — trim so it fits. */
   .btn--large {
     --btn-padding: 0.65em 1.3em;
     font-size: 1em;
@@ -521,12 +479,8 @@
   }
 }
 
-/* Marking done swaps in a fresh "completed" button (Turbo Stream replace). On
-   its own that snaps grey→green; @starting-style (below) gives it a starting
-   look identical to the grey "to-do" button, and this slower-than-default
-   transition glides it to green — a deliberate state change, not a snap.
-   min-inline-size pins both labels («Отметить пройденным» / «Урок пройден»)
-   to one footprint, so the swap never reflows the row — only colour moves. */
+/* Turbo Stream replaces this button fresh, so @starting-style below is what makes grey→green a transition, not a snap.
+   min-inline-size pins both labels to one footprint so the swap never reflows the row. */
 .lesson-complete__toggle {
   min-inline-size: 15.6em;
   transition-duration: 320ms;
@@ -534,9 +488,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* The completed button's first frame mimics the grey reversed button, so the
-     .btn colour transition has somewhere to travel FROM. Only fires because the
-     element is freshly inserted (a morph would keep the node and skip this). */
+  /* Mimics the grey button so the colour transition has somewhere to travel from. Only fires on fresh insertion — a morph would skip it. */
   @starting-style {
     .lesson-complete__toggle.btn--positive {
       background-color: var(--color-ink);
@@ -546,9 +498,7 @@
   }
 }
 
-/* The earned check "pops" once — but only when the lesson was just marked done
-   (the Turbo Stream passes popped: true). Page loads of an already-done lesson
-   carry no --pop class, so the reward never gets stale. */
+/* Pops only when just marked done (Turbo Stream passes popped: true) — an already-done page load carries no --pop class. */
 .lesson-complete__check {
   align-items: center;
   display: inline-flex;
@@ -560,11 +510,7 @@
   }
 }
 
-/* A quiet invitation, never a wall — a guest who won't register still owns the
-   page. The line is muted; the actions read as links by WEIGHT + BRIGHTNESS,
-   not by the loud --color-link blue or a permanent underline (both fought the
-   real action, the "next" button, and cluttered the sentence). Ink + 600 is an
-   unmistakable but calm signal; the underline only confirms on hover. */
+/* Actions read as links by weight + brightness, not link-blue or a permanent underline — those fought the real "next" button. */
 .lesson-complete__signin {
   color: var(--color-subtle-dark);
   font-size: 0.9rem;
@@ -586,9 +532,7 @@
   }
 }
 
-/* "Next" is the guest's real action, so it's pinned to the right — under the
-   right thumb on a phone, and it stays there even when the invitation above it
-   wraps to its own row (margin-auto beats the base space-between). */
+/* margin-auto keeps this pinned right even when the invitation above wraps to its own row (beats the base space-between). */
 .lesson-complete__side {
   align-items: center;
   display: flex;
@@ -597,11 +541,8 @@
   margin-inline-start: auto;
 }
 
-/* Narrow screens, signed in: the two large buttons ("Урок пройден" + "Следующий")
-   can't share a row without wrapping into an ugly diagonal stagger. Stack them
-   full-width instead — the reader's two actions, big and thumb-friendly, read
-   top→bottom in the order they're used. Scoped to :has(toggle) so the guest's
-   text + single right-aligned button keeps its own (already clean) layout. */
+/* Two large buttons wrap into a diagonal stagger below 40rem — stack full-width instead.
+   Scoped to :has(toggle) so the guest's single-button layout is untouched. */
 @media (max-width: 40rem) {
   .lesson-complete:has(.lesson-complete__toggle) {
     align-items: stretch;
@@ -620,19 +561,15 @@
   }
 }
 
-/* One muted line under the completion bar — part of the foot, not a block of
-   its own. Renders only when a curator stands behind the map. */
+/* Renders only when a curator stands behind the map. */
 .lesson-attribution {
   color: var(--color-subtle-dark);
   font-size: 0.75rem;
   margin-block: var(--block-space-half) 0;
 }
 
-/* ── "Посчитать по этой теме" ────────────────────────────────────────
-   Calculators for the lesson's topic, derived from the calculator registry
-   rather than written into the text. Deliberately lighter than the resource
-   panel next to it: reading material is the lesson's substance, the tool is
-   an offer — so this is a list of rows, not a second heavy card. */
+/* ── "Посчитать по этой теме" ── */
+/* Deliberately lighter than the resource panel next to it — a list of rows, not a second heavy card. */
 .lesson-calculators {
   border-block-start: 1px solid var(--color-subtle);
   padding-block-start: 1.25rem;

@@ -1,8 +1,4 @@
-<%# One draggable course in the builder tree, with its lessons (grouped by stage)
-    nested in a drop list. The whole <li> is draggable; grabbing a nested lesson
-    or stage heading drags that instead (it's the closer draggable). Titles and
-    section headings rename inline (double-click). `path` scopes the rename/move
-    endpoints. %>
+<%# Grabbing a nested lesson or stage heading drags that instead — it's the closer draggable. `path` scopes the rename/move endpoints. %>
 <li class="builder-course" data-curriculum-target="course" data-course-id="<%= course.id %>" draggable="true">
   <div class="builder-course__head">
     <span class="builder__handle" aria-hidden="true"><%= icon_tag "list" %></span>

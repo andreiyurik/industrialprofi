@@ -1,8 +1,5 @@
-# One row of a personal map — the difference from the official profession,
-# never a copy of it. Either an overlay on a catalog lesson (`lesson_id`):
-# `excluded` = the author took it off the map, `note` = their one-line comment
-# to the learner under it. Or the author's own link (title + url + note), hung
-# under one of the map's lessons (`after_lesson_id`) or loose at the end.
+# Either an overlay on a catalog lesson (`lesson_id` + `excluded`/`note`), or
+# the author's own link, hung under a lesson (`after_lesson_id`) or loose at the end.
 class MapItem < ApplicationRecord
   belongs_to :map, inverse_of: :items
   belongs_to :lesson, optional: true
@@ -22,8 +19,7 @@ class MapItem < ApplicationRecord
   def link? = !lesson?
   def comment? = lesson? && !excluded? && note.present?
 
-  # The bare domain shown next to an off-site link, so the reader knows where
-  # they are going before they click.
+  # The bare domain, shown next to an off-site link before the reader clicks.
   def host
     URI.parse(url.to_s).host&.delete_prefix("www.")
   rescue URI::InvalidURIError

@@ -1,7 +1,4 @@
 <%# locals: (map:, courses:, excluded_ids:, extras:) -%>
-<%# The whole version on one form: name it, untick what this group does not
-    need (the rest follows the profession's own order), add a comment and links
-    under any lesson, save. %>
 <%= form_with model: map, url: map_path, class: "map-form__form" do |f| %>
   <% if map.errors.any? %>
     <div class="auth__errors" role="alert">

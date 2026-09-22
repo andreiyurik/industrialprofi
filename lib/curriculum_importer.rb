@@ -1,19 +1,6 @@
 require "yaml"
 
-# Walks the YAML/Markdown curriculum tree and upserts it into the database.
-#
-#   <path>/path.yml
-#   <path>/<NN>-<course>/course.yml
-#   <path>/<NN>-<course>/<MM>-<section>/section.yml   (title → lesson.stage)
-#   <path>/<NN>-<course>/<MM>-<section>/<lesson>.md
-#
-# The database is the source of truth — this is a CREATE-ONLY feed. It creates
-# missing rows and refreshes rows that are still pristine (importer-owned and
-# unchanged by a human); any row a human authored or has since edited is frozen
-# (see Importable) and skipped, so a re-import can never overwrite human work.
-#
-# Freezing is per row, not per subtree: a frozen (e.g. published) path is still
-# walked, so new lessons added to the YAML still import beneath it.
+# Freezing is per row, not per subtree — a frozen path is still walked for new lessons.
 class CurriculumImporter
   include ImportUpsert
 
@@ -25,7 +12,7 @@ class CurriculumImporter
     @dir = Pathname(dir)
     @source = source
     @io = io
-    @only = only.presence # a profession slug, or nil to import the whole tree
+    @only = only.presence
     @counts = Hash.new(0)
     @icon_warnings = []
   end
@@ -37,22 +24,17 @@ class CurriculumImporter
       return @counts
     end
 
-    # Each profession imports all-or-nothing: a conflict (duplicate/cross-path slug)
-    # rolls back that profession instead of leaving half of it written.
+    # Each profession imports all-or-nothing — a conflict rolls back only that one.
     ymls.each { |path_yml| ActiveRecord::Base.transaction { import_path(path_yml) } }
     reset_counters
     report
     @counts
   end
 
-  # Parse one lesson .md file into the attributes a Lesson needs: frontmatter +
-  # WHY (description) + body + the "## Задание" task block.
   def self.parse_lesson(file_path)
     parse_lesson_content(File.read(file_path))
   end
 
-  # Same parse from a string — for lessons arriving inside a pack (CurriculumPack)
-  # rather than from disk.
   def self.parse_lesson_content(content)
     frontmatter, body = content.split(/^---\s*$/, 3).reject(&:blank?)
 
@@ -75,12 +57,7 @@ class CurriculumImporter
       Dir.glob(pattern).sort
     end
 
-    # New content defaults to draft; the founder publishes deliberately (sets
-    # status: published in the yml and re-seeds, or publishes via admin). An
-    # explicit status in the yml is always honored.
     def import_path(path_yml)
-      # Per-profession slug ledger: a duplicate WITHIN a profession raises here;
-      # a slug owned by ANOTHER profession is caught by the cross-path guard.
       @seen = Set.new
       meta = YAML.safe_load_file(path_yml)
       path = Path.find_or_initialize_by(slug: File.basename(File.dirname(path_yml)))
@@ -88,14 +65,13 @@ class CurriculumImporter
         title: meta["title"], description: meta["description"],
         position: meta["position"], status: meta["status"].presence || "draft"
       }
-      # landing.yml rides with path.yml as one more importable field — refreshed
-      # while the profession is pristine, frozen with it once an expert edits.
+      # landing.yml rides with path.yml — refreshed while pristine, frozen once edited.
       landing_yml = File.join(File.dirname(path_yml), "landing.yml")
       attrs[:landing] = Path.normalize_landing(YAML.safe_load_file(landing_yml)) if File.exist?(landing_yml)
       applied = upsert(path, attrs) { path.icon = emblem(meta["icon"], path.slug) }
       @counts["landings_filled"] += 1 if !applied && path.fill_landing(attrs[:landing])
 
-      position = 0 # lesson position is GLOBAL within the path (continuous prev/next)
+      position = 0
       Dir.glob(File.join(File.dirname(path_yml), "*/course.yml")).sort.each do |course_yml|
         position = import_course(course_yml, path, position)
       end
@@ -119,11 +95,7 @@ class CurriculumImporter
       position
     end
 
-    # Within a section, a lesson's own declared `position:` decides reading
-    # order — NOT the filename. Falls back to filename (alphabetical) when a
-    # file omits `position:`, so older content without it still imports
-    # deterministically. Filenames stay free-form (readable slugs, not forced
-    # into NN- prefixes) without silently scrambling the course.
+    # `position:` in frontmatter decides lesson order; falls back to filename order.
     def lessons_in_section(section_yml)
       Dir.glob(File.join(File.dirname(section_yml), "*.md")).sort.sort_by do |md_file|
         [ lesson_frontmatter_position(md_file) || Float::INFINITY, md_file ]
@@ -146,18 +118,13 @@ class CurriculumImporter
                          difficulty: data["difficulty"] || (data["kind"] == "practice" ? "beginner" : nil)
                        }, target_path: path)
 
-      # Resources and abbreviations ride with the lesson: only sync them while the
-      # lesson is still importer-owned. Once it's frozen, they belong to the editor.
+      # Resources and terms sync only while the lesson is still importer-owned.
       if applied
         lesson.import_children(resources: data["resources"], terms: data["terms"], source: @source)
               .each { |key, n| @counts[key] += n }
       end
     end
 
-    # Maps the shared create-or-refresh (ImportUpsert) onto the report's
-    # per-category counts. Returns true when the row was applied (created or
-    # refreshed), false when frozen and left untouched (so the caller skips its
-    # resources — once frozen, those belong to the editor).
     def upsert(record, attrs, target_path: nil, &create_defaults)
       claim_slug!(@seen, record) unless record.is_a?(Path)
       table = record.class.model_name.collection
@@ -166,14 +133,6 @@ class CurriculumImporter
       result != :frozen
     end
 
-    # The emblem is a create-only default, NOT an importable field: a re-import must
-    # never overwrite the glyph an expert picked in the admin, and picking one must
-    # not freeze the row from legitimate content refreshes. It also stays out of
-    # `import_digest` for that reason.
-    #
-    # An AI draft can confidently name an emblem that has no file. That's cosmetic,
-    # so we drop it (the row then inherits) and say so — failing a 60-lesson import
-    # over a glyph name would be absurd, but silence would ship it wrong.
     def emblem(name, slug)
       return nil if name.blank?
       return name if Icon.emblem?(name)
@@ -182,7 +141,6 @@ class CurriculumImporter
       nil
     end
 
-    # Counter caches are kept exact regardless of the create/update/skip mix.
     def reset_counters
       Course.find_each { |course| Course.reset_counters(course.id, :lessons) }
       Path.find_each   { |path| Path.reset_counters(path.id, :courses, :lessons) }

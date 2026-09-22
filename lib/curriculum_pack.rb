@@ -1,17 +1,8 @@
 require "yaml"
 require "zip"
 
-# Reads an uploaded profession pack — a .zip of the same YAML/Markdown tree
-# CurriculumExporter writes and CurriculumImporter reads — and re-serializes it
-# as the single YAML document CurriculumDocument understands. The zip is only
-# transport, the tree is the format, the document pipeline is the one engine:
-# an uploaded pack gets the exact same dry-run preview, draft status and
-# freeze-safety as a pasted draft.
-#
-# Everything happens in memory (no extraction to disk), which is also the
-# zip-slip defense: entry names are treated as keys, never as filesystem paths.
+# Everything happens in memory — the zip-slip defense: entry names are keys, never paths.
 class CurriculumPack
-  # Newest pack format this build understands (pack.yml → "format").
   FORMAT = 1
 
   MAX_BYTES = 20.megabytes      # the upload itself
@@ -31,7 +22,6 @@ class CurriculumPack
 
   def valid? = @errors.empty?
 
-  # The pack as a CurriculumDocument YAML string, or nil when unreadable.
   def to_yaml
     return nil unless valid?
 
@@ -69,8 +59,7 @@ class CurriculumPack
     {}
   end
 
-  # pack.yml is optional (older exports); a pack from a NEWER format is refused
-  # rather than half-understood.
+  # pack.yml is optional (older exports); a NEWER format is refused rather than guessed.
   def check_manifest
     manifest = yaml_at(names.find { |name| File.basename(name) == "pack.yml" })
     return if manifest.nil?
@@ -88,8 +77,6 @@ class CurriculumPack
     root = File.dirname(path_yml) # "." when path.yml sits at the zip root
     meta = yaml_at(path_yml) || {}
     @warnings << :images_skipped if names.any? { |name| name.start_with?(prefixed(root, "images/")) }
-    # Covers are not part of the pack format at all — a hand-built zip that
-    # still carries one is told so, and the editor adds it in the profession form.
     @warnings << :cover_skipped if names.any? { |name| name.match?(%r{\A#{Regexp.escape(prefixed(root, "cover."))}(jpe?g|png|webp)\z}) }
     landing_yml = names.find { |name| name == prefixed(root, "landing.yml") }
 
@@ -101,8 +88,7 @@ class CurriculumPack
     }
   end
 
-  # The exporter's tree carries the profession slug as its root directory name;
-  # a zip made from inside that directory falls back to the title-derived slug.
+  # root == "." when the zip was made from inside the profession directory.
   def path_slug(root)
     File.basename(root) unless root == "."
   end
@@ -133,8 +119,7 @@ class CurriculumPack
     end
   end
 
-  # `<dir>/<child>/<filename>` entries, sorted by name — mirrors the seed
-  # importer's Dir.glob(...).sort ordering, which is what fixes course/section order.
+  # Sorted by name to mirror the seed importer's Dir.glob(...).sort ordering.
   def child_ymls(dir, filename)
     names.select { |name| File.basename(name) == filename && File.dirname(File.dirname(name)) == dir }
          .sort.map { |name| [ File.dirname(name), yaml_at(name) || {} ] }

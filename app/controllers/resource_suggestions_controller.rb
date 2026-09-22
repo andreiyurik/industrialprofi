@@ -1,7 +1,5 @@
-# Readers proposing a source (link) for a lesson — the community half of the
-# "documents & resources" block. Mirrors LessonSuggestionsController: an account
-# is required (real identity = trustworthy attribution + the trust ladder), and
-# the same velocity + standing-backlog caps keep it spam-resistant.
+# Mirrors LessonSuggestionsController: account required (attribution + trust ladder),
+# same velocity + standing-backlog caps keep it spam-resistant.
 class ResourceSuggestionsController < ApplicationController
   rate_limit to: 5, within: 1.hour, only: :create,
              with: -> { redirect_to lesson_path(params[:lesson_slug]), alert: t("auth.rate_limited") }

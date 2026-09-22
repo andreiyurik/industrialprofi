@@ -1,11 +1,5 @@
 <%# locals: (f:, courses:, excluded_ids:, extras:) -%>
-<%# The catalog half of a version, drawn like the expert's curriculum builder
-    (builder.css): collapsed chapter cards with a caret, the count and «Все ·
-    Ничего» in the head; numbered lesson rows inside, each with a round check
-    on the left and a pencil on the right. The pencil opens the author's
-    comment and links under that row — no JS, a hidden checkbox and :has().
-    A chapter opens by itself only where the author already changed something;
-    a fresh version has nothing excluded, so everything starts ticked. %>
+<%# The pencil opens the row below via a hidden checkbox and :has() — no JS. A chapter starts open only where the author already touched it. %>
 <div class="map-checklist" data-controller="checklist" data-checklist-format-value="<%= t("maps.checklist.of") %>">
   <header class="map-checklist__bar">
     <span class="map-checklist__legend"><%= t("maps.checklist.legend") %></span>
@@ -15,8 +9,7 @@
     </span>
   </header>
 
-  <%# One blank row for the whole page: every «Добавить ссылку» button clones
-      this, then stamps its own lesson onto the copy (nested-form defaults). %>
+  <%# One blank row for the whole page — every «Добавить ссылку» button clones this and stamps its own lesson on. %>
   <template id="map_link_fields">
     <%= f.fields_for :items, MapItem.new, child_index: "NEW_RECORD" do |item_f| %>
       <%= render "maps/item_fields", f: item_f %>
@@ -43,10 +36,7 @@
             <% filled = extra&.note.present? || links.any? %>
             <li class="map-lesson-row">
               <div class="builder-lesson">
-                <%# The box sits OUTSIDE both of its labels on purpose: an input
-                    wrapped by one label and pointed at by another gets activated
-                    twice on a single click in some browsers, and the toggle
-                    silently cancels itself. Two plain `for` labels, one click. %>
+                <%# Box sits outside both labels on purpose — nesting it in one label while another points `for` it double-fires the toggle in some browsers. %>
                 <%= check_box_tag "lesson_ids[]", lesson.id, !excluded_ids.include?(lesson.id),
                       id: "lesson_#{lesson.id}", class: "for-screen-reader map-lesson-row__box",
                       data: { checklist_target: "box", action: "checklist#count" } %>

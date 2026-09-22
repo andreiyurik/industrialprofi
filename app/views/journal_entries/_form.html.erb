@@ -19,8 +19,7 @@
 
   <div class="journal-form__field">
     <%= form.label :lesson_id, t("journal.field_lesson") %>
-    <%# Practice lessons only: the journal logs a practice task done, not theory —
-        keeps this picker short instead of listing every lesson of every profession. %>
+    <%# Practice lessons only — the journal logs a practice task done, not theory. %>
     <%= form.grouped_collection_select :lesson_id,
           Path.published.localized.ordered.with_practice_lessons.includes(:practice_lessons), :practice_lessons, :title, :id, :title,
           { include_blank: t("journal.lesson_none") }, { class: "input" } %>
@@ -29,8 +28,7 @@
   <div class="journal-form__field">
     <%= form.label :body, t("journal.field_body") %>
     <p class="journal-form__hint"><%= t("journal.body_hint") %></p>
-    <%# Journal is text-only by design (no uploads on the SQLite disk) — disable
-        Lexxy attachments so there's no broken image button. Lessons keep theirs. %>
+    <%# Text-only by design (no uploads on the SQLite disk) — disable Lexxy attachments so there's no broken image button. %>
     <%= form.rich_text_area :body, class: "lexxy-content", attachments: "false",
           placeholder: t("journal.placeholder") %>
   </div>

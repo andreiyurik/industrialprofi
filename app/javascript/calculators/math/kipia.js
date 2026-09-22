@@ -2,10 +2,8 @@
 // КИПиА: чистая математика, только числа. См. комментарий в electrical.js.
 
 /**
- * Линейное масштабирование токовой петли ↔ инженерные единицы. Считает обе
- * стороны по одному диапазону: ток → величина (и доля диапазона) и величина →
- * ток. `fraction` — положение сигнала в диапазоне, 0…1 (может выходить за
- * границы, если пользователь ввёл ток вне 4–20 мА).
+ * `fraction` — положение сигнала в диапазоне, 0…1 (может выходить за границы,
+ * если пользователь ввёл ток вне 4–20 мА).
  * @param {{rmin: number|null, rmax: number|null, smin: number|null,
  *          smax: number|null, ma: number|null, eu: number|null}} input
  * @returns {{eu: number|null, percent: number|null, fraction: number|null, ma: number|null}}
@@ -32,10 +30,7 @@ export function maScaling(input) {
   return { eu, percent: fraction == null ? null : fraction * 100, fraction, ma }
 }
 
-// Термосопротивления (ТСМ/ТСП/Pt) по ГОСТ 6651-2009: оба хода между
-// температурой и сопротивлением. Сами НСХ — коэффициенты, диапазоны и R₀ —
-// приходят снаружи (Calculator::RTD_NORMS): в коде остаётся форма уравнения
-// Каллендара–Ван Дюзена, а у меди она своя, с дополнительным членом ниже нуля.
+// ТСМ/ТСП/Pt по ГОСТ 6651-2009; коэффициенты и R₀ приходят снаружи (Calculator::RTD_NORMS).
 const COPPER = "m"
 
 function sensor(norms, type) {
@@ -71,8 +66,7 @@ export function rtdRange(norms, type) {
 }
 
 /**
- * Прямой ход: температура → сопротивление, Ом. Вне диапазона датчика — null:
- * НСХ там не определена, и выдумывать её продолжение мы не станем.
+ * Вне диапазона датчика — null: НСХ там не определена.
  * @param {Object} norms
  * @param {string} type
  * @param {number|null} temperature
@@ -86,8 +80,7 @@ export function rtdResistance(norms, type, temperature) {
 }
 
 /**
- * Обратный ход: сопротивление → температура, °C. Делением отрезка (W монотонна
- * по t), без таблиц обратных коэффициентов.
+ * Деление отрезка: W монотонна по t, обратных таблиц коэффициентов не нужно.
  * @param {Object} norms
  * @param {string} type
  * @param {number|null} resistance
@@ -111,11 +104,7 @@ export function rtdTemperature(norms, type, resistance) {
 }
 
 /**
- * Погрешность измерения и поверка по классу точности (ГОСТ 8.401). Абсолютная
- * Δ = изм − действ; относительная δ = Δ/действ·100 %; приведённая
- * γ = Δ/Xн·100 % (Xн — нормирующее значение, обычно верхний предел диапазона).
- * Прибор годен, если |γ| ≤ класса точности — по этому же сравнению шкала
- * допуска решает, попала метка в полосу или вышла из неё.
+ * Погрешность измерения и поверка по классу точности — ГОСТ 8.401.
  * @param {{measured: number|null, actual: number|null, span: number|null, cls: number|null}} input
  * @returns {{abs: number|null, rel: number|null, reduced: number|null,
  *            limit: number|null, withinClass: boolean|null}}
@@ -141,12 +130,8 @@ export function measurementError(input) {
 // ── Сети и протоколы АСУ ТП ──────────────────────────────────────────
 
 /**
- * Линия витой пары с питанием PoE: падение напряжения и запас по длине.
- * R жилы (Ом/м, медь 20 °C) — по калибру AWG. PoE 2 пары (802.3af/at):
- * шлейф = Rж·L; 4 пары (802.3bt): жилы параллелятся → шлейф = Rж·L/2.
- * ΔU = I·Rшлейфа; U на устройстве = Uисточника − ΔU (должно быть ≥ Umin PD).
- * Предельная длина упирается либо в это Umin, либо в длину канала.
- * Таблицы приходят снаружи (Calculator::NORMS) — те же, что видит читатель.
+ * PoE 802.3af/at (2 пары): шлейф = Rж·L; 802.3bt (4 пары): шлейф = Rж·L/2.
+ * Таблицы — из Calculator::NORMS, те же, что видит читатель.
  * @param {{awg: string, std: string, l: number|null, i: number|null, vpse: number|null}} input
  * @param {{awg: Object[], poe: Object[], channel_metres: number}} norms
  * @returns {{loop: number|null, drop: number|null, atDevice: number|null,
@@ -189,11 +174,7 @@ export function twistedPairLine(input, norms) {
 }
 
 /**
- * Подсеть IPv4 по адресу и префиксу CIDR: чистая битовая арифметика
- * (>>> 0 — беззнаковые 32 бита). Адреса возвращаются числами — точки
- * расставляет toDottedQuad, а линейка бит считает прямо по префиксу.
- * Бесклассовая адресация — RFC 4632; /31 и /32 — особый случай RFC 3021:
- * там адрес сети и широковещательный тоже раздаются хостам.
+ * RFC 4632 (CIDR); /31 и /32 — особый случай RFC 3021 (оба адреса — хостам).
  * @param {{ip: string|null, prefix: number|null}} input
  * @returns {{prefix: number|null, ip: number|null, network: number|null,
  *            mask: number|null, wildcard: number|null, broadcast: number|null,
@@ -231,8 +212,7 @@ export function subnet(input) {
 }
 
 /**
- * 32-битный адрес → привычная запись через точки. Точки в адресе — не разряды
- * числа, поэтому это не форматирование локали, а часть самой записи.
+ * Точки — часть записи адреса, не разряды числа: не форматирование локали.
  * @param {number|null} value
  * @returns {string|null}
  */

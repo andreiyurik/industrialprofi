@@ -1,4 +1,3 @@
-<%# Full library for one set of entries, grouped by type (roadmap.sh-style). %>
 <% grouped = entries.group_by { |entry| resource_badge_meta(entry)[:label] } %>
 <% %w[norm book video article tool].each do |category| %>
   <% next unless grouped[category] %>

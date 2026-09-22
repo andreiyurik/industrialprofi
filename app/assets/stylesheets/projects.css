@@ -1,17 +1,10 @@
-/* /projects — the practice catalog as a typographic document: one section per
-   profession, quiet list rows, a monochrome difficulty ladder instead of the
-   old traffic-light pills. The profession axis is the group headings (each
-   leads into that profession's hub); difficulty + "saved" are chips. */
-
 .projects__stats {
   color: var(--color-subtle-dark);
   font-size: 0.9rem;
   margin-block: 0.75rem 0;
 }
 
-/* Left-aligned, not centered under the centred hero above it — once it's a
-   real toolbar (aria-current state, a live count), it should read as
-   controls anchored to the content, not more hero decoration. */
+/* Left-aligned, not centred under the hero above it — reads as controls anchored to the content, not decoration. */
 .project-filters {
   align-items: center;
   display: flex;
@@ -28,7 +21,6 @@
   justify-content: flex-start;
 }
 
-/* ≥641px: both chip groups on one row behind one divider. */
 @media (min-width: 641px) {
   .project-filters__group + .project-filters__group {
     border-inline-start: 1px solid var(--color-subtle);
@@ -77,11 +69,8 @@
   text-align: start;
 }
 
-/* Phones: centred wrapping stranded lone chips mid-screen («Челлендж»,
-   «Сохранённые» each on its own centred line — a staircase). Stack the axes
-   instead: each chip group as ONE thumb-scrollable line, everything on the
-   same left edge. Placed AFTER the base filter rules — source order is what
-   lets these win. */
+/* Each chip group becomes one thumb-scrollable line instead of centred wrapping. Placed after the base
+   filter rules — source order is what lets these win. */
 @media (max-width: 640px) {
   .project-filters {
     gap: 0.6rem;
@@ -106,10 +95,7 @@
 }
 
 /* ── Difficulty marks (filter chips + dashboard rows) ──────────────── */
-/* РАЗРЯДЫ: Roman numerals in the GOST drafting face — the trades' own rank
-   ladder as the difficulty scale. Steel temperatures, not traffic lights:
-   cold steel-green / warm graphite / oxide red (colors.css --lch-grade-*);
-   the numeral carries the scale, the tint is a temperature. */
+/* Steel-temperature tints, not traffic lights: cold steel-green / warm graphite / oxide red (colors.css --lch-grade-*). */
 .difficulty-mark {
   color: var(--difficulty-color, oklch(var(--lch-grade-green)));
   display: inline-flex;
@@ -150,7 +136,7 @@
   text-transform: uppercase;
 }
 
-/* Ledger-style set counter — plain body type, not display caps; green fires only when the set closes. */
+/* Plain body type, not display caps — green fires only when the set closes. */
 .project-group__count {
   color: var(--color-subtle-dark);
   font-family: var(--font-sans);

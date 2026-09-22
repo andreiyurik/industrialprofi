@@ -1,9 +1,6 @@
 // @ts-check
-// Number IO for the calculators, kept out of the maths so the formulas stay
-// locale-agnostic: they take and return plain numbers, this file turns those
-// into text for the current page language. The locale comes from <html lang>
-// (Rails renders I18n.locale there), so a new market is a locale file, never
-// a change here.
+// Kept out of the maths so formulas stay locale-agnostic (plain numbers in/out).
+// Locale comes from <html lang> — a new market is a locale file, never a code change.
 
 const FALLBACK_LOCALE = "ru"
 const EMPTY = "—"
@@ -22,11 +19,8 @@ function formatter(options) {
 }
 
 /**
- * Read a number the way a person actually types it, in any market's
- * convention: "1,5" (ru/de), "1.5" (en), "1 234,5", "1,234.5". When both
- * separators appear the LAST one is the decimal mark and the other groups
- * thousands — that rule covers every locale we care about without knowing
- * which one is active.
+ * "1,5" (ru/de), "1.5" (en), "1 234,5", "1,234.5" — when both separators
+ * appear, the LAST one is decimal; covers every locale without detection.
  * @param {string|null|undefined} text
  * @returns {number|null}
  */

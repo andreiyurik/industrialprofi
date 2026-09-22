@@ -1,8 +1,4 @@
-/* Interlanguage switcher — a globe in the header's utility cluster on every
-   screen, opening a small native popover (the account menu's panel, narrower)
-   that lists the languages in their own names. Plain links inside: the
-   crawler follows them, and the reader who needs one is the one who can't
-   read the current language. */
+/* Plain links, not JS — crawlers follow them, and a reader who needs this is one who can't read the current language. */
 .header__locale {
   position: relative;
 }
@@ -26,9 +22,7 @@
   }
 }
 
-/* The menu hangs right under the globe (a <details> panel stays in the
-   header's flow, so it can be anchored to its trigger — a top-layer popover
-   can't be). Right-aligned to the glyph, so it never runs off a phone's edge. */
+/* A <details> panel stays in the header's flow so it can anchor to its trigger — a top-layer popover can't. */
 .locale-menu {
   background-color: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);

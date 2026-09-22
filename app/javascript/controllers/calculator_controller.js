@@ -1,24 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 import { parseNumber, formatNumber, formatSignificant } from "calculators/format"
 
-// The shared calculator controller, in two roles.
-//
-// 1. On its own it runs every calculator that has no diagram: the form declares
-//    its formula via data-calculator-formula-value="grounding", and on each
-//    input the controller gathers the fields (data-field="u" → numbers,
-//    <select> → strings), calls the matching method below, and writes the
-//    returned strings into the output slots (data-output="i").
-// 2. As a base class it gives the per-calculator controllers in
-//    controllers/calculators/ their input/output plumbing, so those files hold
-//    only what is actually specific: the formula call and the diagram.
-//
-// Safety note: the numbers are estimates. The forms carry the normative source
-// and the "сверяйтесь с проектом" disclaimer — this controller only does the
-// arithmetic. Reference tables/constants are cited next to their formula.
+// Runs formula-only calculators directly and serves as the base class for
+// controllers/calculators/* that also draw a diagram; accuracy disclaimers live in the form.
 export default class extends Controller {
-  // `norms` — нормативные таблицы калькулятора, если они у него есть. Приходят
-  // с сервера, потому что их же рендерит страница под расчётом: одна копия и
-  // один шов под другие рынки (см. Calculator::NORMS).
+  // norms comes from the server so the page's own table and the formula share one copy.
   static values = { formula: String, norms: Object }
 
   connect() {
@@ -32,18 +18,14 @@ export default class extends Controller {
     this.paint(this.read())
   }
 
-  // What to do with the gathered input. The default drives the formula named by
-  // the form; a per-calculator controller overrides this to also draw its
-  // diagram, and inherits everything else untouched.
+  // Override to also draw a diagram; everything else in the base class stays untouched.
   paint(input) {
     const fn = this[this.formulaValue]
     if (typeof fn !== "function") return
     this.render(fn.call(this, input) || {})
   }
 
-  // Gather every labelled control: <select> → string, input with `data-text`
-  // → trimmed string (e.g. an IP address), numeric <input> → Number,
-  // blank/garbage → null (lets formulas test `x == null`).
+  // Blank/garbage input becomes null, so formulas can test `x == null`.
   read() {
     const data = {}
     this.element.querySelectorAll("[data-field]").forEach((el) => {
@@ -58,11 +40,8 @@ export default class extends Controller {
     return data
   }
 
-  // A formula returns either a plain string per output slot, or an object
-  // { text, status } — `status` ("ok"/"warn"/"") drives a verdict colour on the
-  // slot and its enclosing result row (green within norm / red over it).
-  // The reserved `verdict` key carries a bare status and spells the outcome out
-  // in words instead; it addresses no slot of its own.
+  // A formula returns a string, or { text, status } where status drives the result
+  // row's colour. The reserved `verdict` key has no output slot of its own.
   render(out) {
     for (const [key, value] of Object.entries(out)) {
       const text = value && typeof value === "object" ? value.text : value
@@ -79,10 +58,8 @@ export default class extends Controller {
     this.#renderVerdict(out.verdict)
   }
 
-  // Подписи на схеме — второй вид слотов рядом с [data-output]: тот же приём
-  // «имя → текст», но без статусов, потому что цвет на схеме несёт состояние
-  // всей картинки, а не отдельной строки. Живёт здесь, чтобы каждый рисующий
-  // контроллер не заводил себе такой же поиск по DOM.
+  // Diagram labels — like [data-output] but without status; the diagram's colour
+  // is set elsewhere, for the picture as a whole.
   label(figures) {
     for (const [key, text] of Object.entries(figures)) {
       const slot = this.element.querySelector(`[data-figure="${key}"]`)
@@ -90,11 +67,8 @@ export default class extends Controller {
     }
   }
 
-  // Copy a headline result to the clipboard — the one thing you want from a
-  // calculator mid-job. Button sits next to the value; flips to a check briefly.
-  // Bound on the panel, not on each button: the identifier differs per
-  // calculator, so a data-action spelled into the partial would only resolve
-  // for whichever controller the partial happened to name.
+  // Bound on the panel, not each button: the target differs per calculator, so a
+  // data-action spelled into the partial couldn't resolve generically.
   copy(event) {
     const btn = event.target.closest(".calc-copy")
     if (!btn) return
@@ -109,7 +83,7 @@ export default class extends Controller {
     })
   }
 
-  // ── number formatting (locale comes from <html lang>) ──
+  // locale comes from <html lang>
   num(value, digits = 2) {
     return formatNumber(value, digits)
   }
@@ -118,9 +92,7 @@ export default class extends Controller {
     return formatSignificant(value, digits)
   }
 
-  // A slider is not a field of its own — only its number input carries
-  // data-field, so read() can never see two values for one quantity. Dragging
-  // fills the input (#mirrorRange), typing drags the slider (#followRanges).
+  // Only the number input carries data-field, so read() never sees two values for one slider.
   #mirrorRange(target) {
     const field = target?.dataset?.rangeFor
     if (!field) return
@@ -128,8 +100,7 @@ export default class extends Controller {
     if (input) input.value = target.value
   }
 
-  // Colour says it faster, words say it at all. The phrasings come from the
-  // locale via data attributes, so this never holds Russian.
+  // Phrasings come from the locale via data attributes — never hardcode Russian here.
   #renderVerdict(status) {
     const el = this.element.querySelector("[data-verdict]")
     if (!el) return
@@ -147,9 +118,7 @@ export default class extends Controller {
     })
   }
 
-  // A preset <select> fills its number input with a typical value from a
-  // reference table, so "удельное сопротивление грунта" becomes "выберите
-  // грунт". Like a slider it is a helper, not a field: it never reaches read().
+  // Like a slider, a preset is a helper, not a field — it never reaches read().
   #applyPreset(target) {
     const field = target?.dataset?.presetFor
     if (!field || !target.value) return
@@ -157,8 +126,7 @@ export default class extends Controller {
     if (input) input.value = target.value
   }
 
-  // ...and it steps back to "своё значение" the moment the number stops
-  // matching, so the label never claims a soil the figure no longer describes.
+  // Falls back to the "custom value" option once the number stops matching the preset.
   #followPresets(data) {
     this.element.querySelectorAll("[data-preset-for]").forEach((select) => {
       const value = data[select.dataset.presetFor]
@@ -169,10 +137,7 @@ export default class extends Controller {
 
   // ── Электрик ─────────────────────────────────────────────────────────
 
-  // Ток утечки и выбор уставки УЗО (ПУЭ 7.1.83). Расчётный ток утечки: 0,4 мА
-  // на 1 А тока нагрузки (естественная утечка ЭП) + 0,01 мА на 1 м фазного
-  // проводника. Рабочий ток утечки должен быть ≤ 1/3 номинала УЗО — иначе
-  // ложные срабатывания; отсюда цвет. (Уставка 30 мА — защита человека.)
+  // Ток утечки и уставка УЗО — ПУЭ 7.1.83.
   rcd(v) {
     const setting = parseFloat(v.setting) || 30 // мА
     const { i, l } = v
@@ -187,13 +152,7 @@ export default class extends Controller {
     }
   }
 
-  // Ток однофазного КЗ петли «фаза-нуль» (ГОСТ 28249). Iₖ = Uф/(Zвнеш + Zп),
-  // Zп ≈ 2·ρ·L/S (фаза + нуль той же длины/сечения, реактивным пренебрегаем).
-  // Zвнеш — сопротивление до щита (трансформатор + магистраль) задаёт сам
-  // пользователь (или измеренное Z петли), чтобы не зашивать неточные таблицы.
-  // Проверка автомата: для ГАРАНТИРОВАННОГО мгновенного отключения берём верхнюю
-  // границу полосы расцепления Iₖ ≥ k·Iₙ (k: B=5, C=10, D=20 по ГОСТ IEC 60898) —
-  // консервативно, в пользу безопасности; отсюда цвет кратности.
+  // Ток КЗ петли «фаза-нуль» — ГОСТ 28249; проверка автомата — ГОСТ IEC 60898.
   shortCircuit(v) {
     const uf = v.uf ?? 220
     const zext = v.zext ?? 0
@@ -214,8 +173,7 @@ export default class extends Controller {
 
   // ── КИПиА ────────────────────────────────────────────────────────────
 
-  // Давление: всё через Паскали. Множители — значения единицы в Па; приходят с
-  // сервера, потому что их же страница показывает таблицей (Calculator::NORMS).
+  // Множители приходят с сервера, чтобы таблица на странице и формула не расходились.
   pressure(v) {
     const units = this.normsValue?.units ?? []
     const from = units.find((row) => row.unit === (v.unit || "bar"))
@@ -224,10 +182,7 @@ export default class extends Controller {
     return Object.fromEntries(units.map((row) => [row.unit, this.sig(pascals / row.pascals)]))
   }
 
-  // Пропускная способность Kv регулирующего клапана для жидкости (ГОСТ 23866 /
-  // IEC 60534, турбулентный режим): Kv = Q·√(ρотн/ΔP), ρотн = ρ/1000 (вода = 1),
-  // Q в м³/ч, ΔP в бар. Слева — подбор Kv по расходу; справа — проверка: какой
-  // расход даст выбранный Kvs при том же перепаде. Запас Kvs ≈ +20…30 % к Kv.
+  // Пропускная способность клапана Kv — ГОСТ 23866 / IEC 60534 (турбулентный режим).
   valveKv(v) {
     const dp = v.dp
     const rhoRel = (v.rho ?? 1000) / 1000
@@ -241,10 +196,7 @@ export default class extends Controller {
 
   // ── Сети и протоколы АСУ ТП ──────────────────────────────────────────
 
-  // Время опроса Modbus RTU (чтение N регистров, FC03). Кадр запроса — 8 байт,
-  // ответа — 5 + 2·N байт. Время байта = бит/байт ÷ скорость; межкадровая пауза
-  // t3.5 = 3,5 символа (по 11 бит) при ≤ 19200 бод и фиксированные 1,75 мс выше.
-  // Транзакция = (запрос+ответ)·tбайт + 2·t3.5 + задержка ответа slave.
+  // Тайминг кадра Modbus RTU (FC03) и межкадровой паузы t3.5 — по спецификации протокола.
   modbusRtu(v) {
     const baud = parseFloat(v.baud) || 9600
     const bpc = parseFloat(v.bpc) || 11
@@ -267,10 +219,7 @@ export default class extends Controller {
 
   // ── Фотографу и видеографу ───────────────────────────────────────────
 
-  // Параметры форматов матриц. d — диагональ (мм), из неё кроп-фактор; w/h —
-  // физический размер (мм) для шага пикселя; c — кружок нерезкости: традиционные
-  // 0,03 мм полного кадра, отмасштабированные по диагонали. c — не константа
-  // камеры, а допущение о размере отпечатка, отсюда дисклеймер в форме.
+  // c — не константа камеры, а допущение о размере отпечатка (отсюда дисклеймер в форме).
   formats() {
     return {
       ff: { d: 43.27, w: 36, h: 24, c: 0.03 },
@@ -280,9 +229,7 @@ export default class extends Controller {
     }
   }
 
-  // Плотность ND. Выдержка задана правилом 180°: t = 1/(2·fps). Перебор света =
-  // EV сцены, приведённый к ISO, минус EV выбранной пары: (EV + log₂(ISO/100)) −
-  // log₂(N²/t). Ряд стандартных фильтров — степени двойки ND2…ND1024.
+  // Выдержка — правило 180° (t = 1/(2·fps)); ряд фильтров — степени двойки ND2…ND1024.
   ndFilter(v) {
     const fps = v.fps ?? 25
     const iso = v.iso ?? 100
@@ -308,9 +255,7 @@ export default class extends Controller {
     }
   }
 
-  // Кроп-фактор как единый множитель по трём осям сразу: угол (f·k), глубина
-  // резкости (N·k) и собранный свет (2·log₂(k) стопов — площадь падает как k²).
-  // Экспозиция от формата НЕ зависит: f/2.8 одинаково ярок на любой матрице.
+  // Экспозиция от формата не зависит: f/2.8 одинаково ярок на любой матрице.
   cropFactor(v) {
     const fmt = this.formats()[v.format] || this.formats().ff
     const k = this.formats().ff.d / fmt.d
@@ -325,9 +270,7 @@ export default class extends Controller {
     }
   }
 
-  // Экспозиция и EV. EV пары = log₂(N²/t); освещённость сцены приводится к
-  // ISO 100: EV₁₀₀ = log₂(N²/t) − log₂(ISO/100). Дальше от заданного EV сцены
-  // решаем обратную задачу для каждого из трёх параметров по очереди.
+  // EV приводится к ISO 100 (EV₁₀₀), дальше решается обратная задача по параметру.
   exposureEv(v) {
     const iso = v.iso ?? 100
     const { n, ev } = v
@@ -339,7 +282,7 @@ export default class extends Controller {
     const hasPair = n != null && n > 0 && t != null
     if (hasPair) out.ev100 = this.num(Math.log2((n * n) / t) - isoShift, 1)
     if (ev == null) return out
-    const target = ev + isoShift // требуемое log₂(N²/t)
+    const target = ev + isoShift
     if (n != null && n > 0) {
       const tNeed = (n * n) / Math.pow(2, target)
       if (tNeed > 0) out.tneed = this.num(1 / tNeed, 0)
@@ -349,9 +292,7 @@ export default class extends Controller {
     return out
   }
 
-  // Дифракционный предел. Диск Эйри d = 2,44·λ·N (λ = 0,55 мкм). Шаг пикселя из
-  // числа мегапикселей и отношения сторон формата. Детализация начинает падать,
-  // когда диск перекрывает примерно два пикселя — отсюда предельная диафрагма.
+  // Диск Эйри d = 2,44·λ·N; детализация падает, когда диск перекрывает ~2 пикселя.
   diffraction(v) {
     const fmt = this.formats()[v.format] || this.formats().ff
     const { mp, n } = v
@@ -384,11 +325,6 @@ export default class extends Controller {
     return String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0")
   }
 
-  // Время и азимут солнца. Склонение δ ≈ 23,44·sin(360/365·(N − 81)); уравнение
-  // времени EoT = 9,87·sin2B − 7,53·cosB − 1,5·sinB. Поправка к гражданскому
-  // времени TC = 4·(λ − 15·UTC) + EoT (минуты). Часовой угол события на высоте h:
-  // cos H = (sin h − sin φ·sin δ)/(cos φ·cos δ); заход при h = −0,833° (рефракция
-  // и радиус диска), золотой час от +6° до −4°, синий от −4° до −6°.
   // Рельеф не учитывается — отсюда оговорка в форме.
   goldenHour(v) {
     const CUM = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
@@ -434,10 +370,7 @@ export default class extends Controller {
     return out
   }
 
-
-  // Интервальная съёмка: кадров = длительность съёмки ÷ интервал, ролик =
-  // кадров ÷ частоту, объём = кадров × вес кадра. Обратная задача: какой интервал
-  // даёт ролик желаемой длины при той же длительности съёмки.
+  // Обратная задача: какой интервал даёт ролик желаемой длины при той же длительности съёмки.
   timelapse(v) {
     const { interval, duration, fps, size, wantclip } = v
     const out = { frames: "—", clip: "—", disk: "—", needint: "—" }

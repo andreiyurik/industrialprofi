@@ -1,15 +1,11 @@
 class LessonSuggestionsController < ApplicationController
-  # Suggesting an edit requires an account: real identity makes attribution
-  # trustworthy and lets good contributors be promoted up the trust ladder.
-  # Signed-out visitors hit the default require_authentication gate, which
-  # stashes the return URL and brings them back to the form after signing in.
+  # Requires an account: identity backs attribution and the trust ladder; signed-out
+  # visitors hit the default auth gate, which returns them to the form after signing in.
   rate_limit to: 5, within: 1.hour, only: :create,
              with: -> { redirect_to lesson_path(params[:lesson_slug]), alert: t("auth.rate_limited") }
 
-  # A standing-backlog cap: one account can hold only so many un-reviewed
-  # suggestions at once. The per-IP rate limit throttles velocity; this throttles
-  # accumulation, so a script can't quietly pile up a huge pending queue over
-  # time. Trusted editors are exempt — they clear the queue, they don't flood it.
+  # Caps standing backlog per account — the rate limit throttles velocity, this throttles
+  # accumulation. Trusted editors are exempt: they clear the queue, they don't flood it.
   MAX_PENDING_PER_USER = 20
 
   before_action :ensure_pending_within_cap, only: :create

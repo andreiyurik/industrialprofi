@@ -1,6 +1,4 @@
 <%# locals: (course:, completed:, total:, lessons_n:, practice_n:) -%>
-<%# TOP-style course card: big progress badge + title with lesson/practice
-    counts + open button in the header row, description below the divider. %>
 <% done = signed_in? && total.positive? && completed == total %>
 <% ring = signed_in? && !course.coming_soon? && total.positive? %>
 <article class="course-card<%= " course-card--done" if done %><%= " course-card--soon" if course.coming_soon? %>">

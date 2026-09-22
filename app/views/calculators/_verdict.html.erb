@@ -1,8 +1,4 @@
-<%# The outcome said in words, not only in colour — a green number alone forces
-    the reader to decode a legend, and leaves nothing for a screen reader or a
-    colour-blind eye. Both phrasings ride in as data attributes so they stay in
-    the locale file: the controller only picks "ok" or "warn".
-    locals: ok, warn %>
+<%# Outcome is said in words, not only colour — a colour-blind eye or a screen reader gets nothing from colour alone. %>
 <p class="calc-verdict" data-verdict data-status=""
    data-verdict-ok="<%= ok %>" data-verdict-warn="<%= warn %>"
    data-verdict-idle="<%= t("calculators.verdict_idle") %>">

@@ -1,13 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 import { rafThrottle } from "helpers/timing_helpers"
 
-// Auto-hiding header (TOP-style): the sticky header is shown only near the very
-// top of the page. Once the reader scrolls past the header's own height it
-// slides up out of view and STAYS hidden — it returns only when scrolled back
-// to the top, NOT on an upward scroll. Position-based, not direction-based.
-//
-// Pure CSS transform does the moving (see header.css); this controller only
-// toggles the class, rAF-throttled so scroll stays smooth.
+// Position-based, not direction-based: hides past the header's own height and stays
+// hidden until scrolled back to the top. Pure CSS transform moves it (header.css).
 export default class extends Controller {
   static classes = ["hidden"]
 
@@ -23,8 +18,6 @@ export default class extends Controller {
   }
 
   update() {
-    // Threshold = the header's own height, so it hides the moment it scrolls
-    // off and reappears only once you're back within its height of the top.
     const threshold = this.element.offsetHeight || 64
     this.element.classList.toggle(this.hiddenClass, window.scrollY > threshold)
   }

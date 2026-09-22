@@ -1,8 +1,3 @@
-/* The profession's «О профессии» landing (paths/_landing) — basecamp.com's
-   shape on our palette: each section is a big headline on the left and large,
-   plain-spoken text on the right (one column on phones), checklists with a
-   filled blue mark and a bold key phrase, questions as native disclosures.
-   Hierarchy by size, weight and air — the one accent is the link blue. */
 .landing {
   display: flex;
   flex-direction: column;
@@ -10,9 +5,7 @@
   margin-block: 2.5rem 3rem;
 }
 
-/* Headline | body. Below 48em they stack; from 48em the headline takes the
-   left third. Static, like basecamp.com's — a heading that follows the scroll
-   is a flourish the short sections here don't need. */
+/* Static on purpose — a heading that follows the scroll is a flourish these short sections don't need. */
 .landing__section {
   display: grid;
   gap: 1rem;
@@ -64,7 +57,6 @@
   margin-block-start: 0.9em;
 }
 
-/* Checklist: a filled blue disc with the check, one line each. */
 .landing__checks {
   display: grid;
   gap: 0.7rem;
@@ -80,10 +72,7 @@
   }
 }
 
-/* The bullet: a filled disc in the link blue (basecamp.com's mark) with a
-   near-white check. Blue, not green, on purpose — in this palette green is the
-   "done" state (completions, finished chapters); a list of green checks on a
-   newcomer's page would read as progress already made. */
+/* Blue, not green, on purpose — green is the "done" state elsewhere; green checks here would read as progress already made. */
 .landing__mark {
   background-color: var(--color-link);
   block-size: 1.45rem;
@@ -124,8 +113,7 @@
   margin-block-start: 0.5rem;
 }
 
-/* «Что внутри» on the overview: the chapter outline — numbered titles with
-   their counts; the full cards live on the «Теория» tab. */
+/* «Что внутри» outline — the full cards live on the «Теория» tab. */
 .outline__list {
   display: grid;
   gap: 0.6rem;

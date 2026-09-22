@@ -1,10 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 import { annotate } from "rough-notation"
 
-// Draws a hand-drawn Rough Notation annotation over the element (default: an
-// underline in the app's link blue). Animates in shortly after connect; honors
-// prefers-reduced-motion by drawing instantly instead. The entrance animation
-// plays once per session — repeat visits get the drawn state immediately.
+// Honors prefers-reduced-motion by drawing instantly, and plays its entrance
+// animation once per session.
 const PLAYED_KEY = "rough-annotation-played"
 
 export default class extends Controller {
@@ -47,10 +45,8 @@ export default class extends Controller {
 
   // Private
 
-  // Draw only after web fonts are ready. rough-notation positions its stroke
-  // against the element's box at show() time; the async font (Inter Tight)
-  // reflows that box, so drawing earlier lays the line against fallback metrics
-  // and it ends up mislaid — e.g. crossing the next title line.
+  // Draw only after web fonts are ready: the async font (Inter Tight) reflows the
+  // box, so drawing earlier mislays the stroke against fallback metrics.
   #draw(instant) {
     const show = () => {
       this.timer = setTimeout(() => {
@@ -65,9 +61,7 @@ export default class extends Controller {
     }
   }
 
-  // Draw only once the element scrolls into view (the intended rough-notation
-  // pattern) — annotations below the fold feel earned, not all fired on load.
-  // Above-the-fold elements are already intersecting, so they draw immediately.
+  // Draws only once the element scrolls into view; above-the-fold elements draw immediately.
   #whenVisible(callback) {
     if (!("IntersectionObserver" in window)) return callback()
     this.observer = new IntersectionObserver((entries, observer) => {
@@ -79,12 +73,8 @@ export default class extends Controller {
     this.observer.observe(this.element)
   }
 
-  // Resolve the annotation colour. A CSS custom-property name (e.g. "--color-link")
-  // is read back as its used value via a throwaway probe — custom properties
-  // otherwise return unresolved ("oklch(var(--lch-blue))"). Anything else passes
-  // through; empty falls back to the link blue.
-  // Guarded: sessionStorage can throw with cookies fully blocked, and a
-  // decorative layer must never take the controller down with it.
+  // Guarded: sessionStorage can throw with cookies blocked; a decorative layer
+  // must never take the controller down.
   get #playedThisSession() {
     try { return sessionStorage.getItem(PLAYED_KEY) === "1" } catch { return false }
   }
@@ -93,6 +83,7 @@ export default class extends Controller {
     try { sessionStorage.setItem(PLAYED_KEY, "1") } catch {}
   }
 
+  // A CSS custom-property (e.g. "--color-link") is read back via a throwaway probe.
   #resolveColor(input) {
     const value = input || "--color-link"
     if (!value.startsWith("--")) return value

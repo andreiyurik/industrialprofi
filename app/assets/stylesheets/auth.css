@@ -1,12 +1,5 @@
-/* Auth screens — Fizzy-style: one narrow centered column, one question per
-   screen.
-   NOTE: .auth must live INSIDE .container, never on the same element —
-   layout.css sorts after auth.css, so .container's max-inline-size would win
-   the cascade and stretch the column to 72rem. */
-
-/* <main> is the 1fr grid row between header and footer; flex fills it and
-   centers content. .auth's padding-block is a min gap so the form never
-   kisses the header/footer on short screens. */
+/* .auth must live INSIDE .container, never on the same element — layout.css loads after this
+   file, so .container's max-inline-size would win the cascade and stretch the column to 72rem. */
 main.main--auth {
   display: flex;
   flex-direction: column;
@@ -29,7 +22,6 @@ main.main--auth {
   text-align: center;
 }
 
-/* Brand mark: the hard-hat profi, sized up like a seal. */
 .auth__brand {
   align-self: center;
   display: block;
@@ -59,7 +51,7 @@ main.main--auth {
   gap: var(--block-space);
 }
 
-/* Inputs inherit the centered text — that's the Fizzy look. */
+/* Inherits the centered text from .auth — deliberately not overridden. */
 .auth__form .input {
   --input-border-radius: 0.75em;
   --input-padding: 0.75em 1em;
@@ -117,7 +109,6 @@ main.main--auth {
   }
 }
 
-/* The 6-character verification code: one big, calm input. */
 .auth__code {
   font-family: var(--font-mono, monospace);
   font-size: 1.5rem;
@@ -139,8 +130,7 @@ main.main--auth {
   text-decoration-color: var(--color-subtle);
 }
 
-/* Three-dot step progress for the signup wizard — purely visual; screen
-   readers get aria-current + sr-only text instead. */
+/* Purely visual — screen readers get aria-current + sr-only text instead. */
 .auth-steps {
   align-items: center;
   display: flex;

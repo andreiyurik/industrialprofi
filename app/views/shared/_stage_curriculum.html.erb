@@ -1,7 +1,4 @@
 <%# locals: (lessons_by_stage:, completed_ids:, extras: {}) -%>
-<%# The "big block": sections (stages) on a vertical journey rail, each holding
-    its lessons. Shared by the course page and a personal map, which may hang
-    its author's comment and links under a lesson (`extras`, by lesson id). %>
 <div class="curriculum">
   <% lessons_by_stage.each_with_index do |(stage, lessons), index| %>
     <% stage_completed = lessons.count { |lesson| completed_ids.include?(lesson.id) } %>
@@ -18,10 +15,7 @@
       <% if stage.present? %>
         <div class="curriculum__header">
           <h2 class="curriculum__header-title"><%= stage %></h2>
-          <%# Partial progress inside a stage is invisible on the marker (it only
-              knows done/not-done), so a quiet counter fills the header's empty
-              right slot — but only mid-stage: untouched stages stay silent
-              («мёртвое тише живого»), finished ones already show the check. %>
+          <%# Counter shown only mid-stage — untouched stages stay silent, done ones show the check. %>
           <% if signed_in? && stage_completed.positive? && !stage_done %>
             <span class="curriculum__header-count"><%= t("courses.stage_progress", done: stage_completed, total: lessons.size) %></span>
           <% end %>

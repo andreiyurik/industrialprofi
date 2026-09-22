@@ -132,7 +132,7 @@
   text-decoration: underline;
 }
 
-/* "Показать ещё" is a submit button now — strip the native button chrome so it reads as the same quiet text link it replaced. */
+/* Submit button — strip the native chrome so it reads as a quiet text link. */
 .lesson-history__more {
   background: none;
   border: 0;

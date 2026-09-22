@@ -2,10 +2,8 @@
 import CalculatorController from "controllers/calculator_controller"
 import { twistedPairLine } from "calculators/math/kipia"
 
-// Линия от коммутатора до устройства и запас по длине. Верх схемы отвечает на
-// «доедет ли питание» (сколько вольт ушло в кабель и сколько осталось), низ —
-// на «докуда можно тянуть»: заливка ползёт до предельной длины и упирается в
-// её отметку. Дублирует координаты дорожки из diagrams/_twisted-pair-line.
+// Верх схемы — «доедет ли питание», низ — «докуда можно тянуть». Дублирует
+// координаты дорожки из diagrams/_twisted-pair-line.
 const TRACK_START = 4
 const TRACK_LENGTH = 392
 
@@ -37,8 +35,7 @@ export default class extends CalculatorController {
     const fill = diagram.querySelector("[data-length-fill]")
     if (fill) fill.style.transform = `scaleX(${share})`
 
-    // Отметку показываем, только когда предел ставит питание. Если тянуть
-    // мешает сам канал, она встала бы на конец шкалы и повторила бы его цифру.
+    // Отметку показываем только когда предел ставит питание, не канал.
     const limit = diagram.querySelector("[data-limit]")
     const limitShare = Math.min(1, (result.maxLength ?? 0) / result.channel)
     if (limit) {

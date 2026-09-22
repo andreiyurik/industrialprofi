@@ -1,6 +1,3 @@
-<%# One editable abbreviation row. `f` is a fields_for builder for a
-    GlossaryTerm. One line: the mark, its расшифровка, the optional analog,
-    remove; a quiet ghost line beneath for the one-sentence note. %>
 <div class="term-row" data-nested-form-target="item">
   <div class="term-row__head">
     <%= f.text_field :abbr, placeholder: t("admin.terms.abbr_placeholder"),
@@ -15,8 +12,7 @@
       <%= icon_tag "trash" %>
     </button>
   </div>
-  <%# Ghost field: renders like the muted note the reader gets; the frame
-      returns on focus. The placeholder is the whole manual. %>
+  <%# Ghost field: placeholder is the whole manual, frame returns on focus. %>
   <%= f.text_field :note, placeholder: t("admin.terms.note_placeholder"),
         maxlength: 200, class: "input input--ghost term-row__note" %>
   <%= f.hidden_field :_destroy, data: { nested_form_target: "destroy" } %>

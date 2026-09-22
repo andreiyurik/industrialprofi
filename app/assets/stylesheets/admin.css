@@ -45,9 +45,7 @@
   white-space: nowrap;
 }
 
-/* Narrow screens: title + subtitle side by side crushed the title to one
-   letter — let the group wrap and the title breathe on its own line. Same for
-   the header itself: three actions no longer share a row with the title. */
+/* Title + subtitle side by side crushed the title to one letter below 40rem — let both wrap instead. */
 @media (max-width: 40rem) {
   .admin-header {
     flex-wrap: wrap;
@@ -159,7 +157,6 @@
   text-align: end;
 }
 
-/* Person rows (a profession's team): avatar + name + status badges inline. */
 .admin-row__title--person {
   align-items: center;
   display: inline-flex;
@@ -219,8 +216,7 @@
   margin-block-start: var(--block-space);
 }
 
-/* A group standing after non-group content (the builder tree): give it air
-   and let the head's action sit at the far edge. */
+/* Following non-group content (the builder tree) — extra air, action pinned to the far edge. */
 .admin-group--spaced {
   margin-block-start: var(--block-space-double);
 
@@ -317,14 +313,12 @@
   padding: var(--block-space);
 
   @media (min-width: 640px) {
-    /* Bottom-align so Approve and Reject sit on one line — the reject label
-       floats above its input, so top-align left Approve looking "crooked". */
+    /* Bottom-align so Approve sits level with Reject's input, not its floating label. */
     align-items: flex-end;
     flex-direction: row;
   }
 }
 
-/* The button_to wrapper around Approve. */
 .admin-decision__approve {
   flex: 0 0 auto;
 }
@@ -346,9 +340,7 @@
   flex: 1;
 }
 
-/* Comfortable column width on the wide admin container — page stays full-width
-   (section nav never shifts between pages), only form content is capped. Wide
-   content (lesson rich editor, YAML import) opts out by not using this class. */
+/* Caps form width only — page stays full-width so the section nav never shifts between pages. */
 .admin-form {
   max-inline-size: 44rem;
 }
@@ -372,8 +364,6 @@
   margin-block-start: 1.5rem;
 }
 
-/* A grouped block of fields (the profession's landing editor): a hairline
-   above, a heading, then ordinary fields. */
 .admin-form__group {
   border: 0;
   border-block-start: 1px solid var(--color-subtle);
@@ -425,7 +415,7 @@
   margin-block: 0 var(--block-space-half);
 }
 
-/* Read-only section context on the suggestion form (replaces the old select) */
+/* Read-only section context on the suggestion form. */
 .suggestion-section {
   color: var(--color-ink);
   font-size: 0.95rem;
@@ -553,7 +543,6 @@
   margin-block: 0 var(--block-space-half);
 }
 
-/* Category tabs on one side, the actor picker on the other. */
 .admin-log-filters {
   align-items: center;
   display: flex;
@@ -583,7 +572,6 @@
   gap: var(--inline-space);
 }
 
-/* Role form + suspend/reinstate button, side by side. */
 .admin-row__actions {
   display: flex;
   flex-shrink: 0;
@@ -632,8 +620,7 @@
   --panel-padding: 0.9rem 1rem;
 }
 
-/* Children are explicit blocks: .panel (loaded after this file) forces
-   display: block on the card itself, so don't rely on flex here. */
+/* .panel loads after this file and forces display:block on the card — don't rely on flex here. */
 .admin-stat__value {
   display: block;
   font-family: var(--font-display);
@@ -648,8 +635,7 @@
   font-weight: 600;
 }
 
-/* Vital-sign warning: low disk or failed jobs — red value + border so it reads
-   as "needs attention" at a glance among the calm monochrome cards. */
+/* Low disk or failed jobs — red signals "needs attention" among the monochrome cards. */
 .admin-stat--warn {
   border-color: oklch(var(--lch-red) / 0.55);
 
@@ -666,14 +652,12 @@
   margin-block-start: 0.15rem;
 }
 
-/* The lazy vitals frame is layout-transparent, so its cards land directly in
-   the .admin-stats grid instead of forming one squashed cell. */
+/* display:contents so the lazy-loaded cards land directly in the .admin-stats grid. */
 #dashboard_vitals {
   display: contents;
 }
 
-/* Placeholder tiles shown while the vitals frame loads — same footprint as a
-   real card so the grid doesn't reflow when the numbers arrive. */
+/* Same footprint as a real card so the grid doesn't reflow once the vitals frame loads. */
 .admin-stat--skeleton {
   --panel-background: var(--color-subtle);
   --panel-border-color: transparent;
@@ -683,8 +667,7 @@
   }
 }
 
-/* Chart.js needs an explicitly sized ancestor to fill (maintainAspectRatio: false
-   in admin_chart_controller) — the canvas itself has no intrinsic block-size. */
+/* Chart.js needs an explicitly sized ancestor to fill (maintainAspectRatio: false in admin_chart_controller) — canvas has no intrinsic size. */
 .admin-chart-canvas {
   block-size: 14rem;
   margin-block-end: var(--block-space);
@@ -731,8 +714,6 @@
   margin-block-start: 0.4rem;
 }
 
-/* A hit goal gets the same positive signal as the rest of the app (e.g.
-   milestone completions) — color as state, not decoration. */
 .admin-goal--achieved {
   border-color: oklch(var(--lch-green) / 0.55);
 
@@ -786,8 +767,7 @@
   display: none;
 }
 
-/* Caret instead of the default disclosure triangle — points right, rotates
-   down when the message is open. */
+/* Caret instead of the default disclosure triangle; rotates open. */
 .inbox__summary::before {
   content: "";
   flex: none;
@@ -899,8 +879,7 @@
   }
 }
 
-/* Active = a more visible fill, NOT a heavier weight — changing font-weight
-   would widen the label and shove the other links (visible jitter on click). */
+/* Fill, not weight — font-weight would widen the label and jitter the other links. */
 .admin-nav__link[aria-current="page"] {
   background-color: var(--color-subtle);
   color: var(--color-ink);
@@ -950,8 +929,7 @@
   gap: var(--inline-space-half);
 }
 
-/* Native popover (zero JS), visual model mirrors .term-info__pop; marker chips
-   reuse the callout accent tokens, so each marker matches the rendered lesson. */
+/* Mirrors .term-info__pop; marker chips reuse the callout accent tokens so each marker matches the rendered lesson. */
 .editor-cheatsheet__trigger {
   background: none;
   border: none;
@@ -1045,8 +1023,7 @@
   margin-block-start: 1lh;
 }
 
-/* Copy-the-marker button inside the cheatsheet: the marker text itself is the
-   click target, with a copy icon that flips to a check on success. */
+/* Marker text is the click target; icon flips to a check on success. */
 .editor-cheatsheet__hint {
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
@@ -1092,8 +1069,7 @@
   display: inline-flex;
 }
 
-/* The row no longer links as a whole (see .admin-row--static) — this link
-   grows to fill the row, with approve/reject buttons pinned to the end. */
+/* Grows to fill the row; approve/reject buttons pin to the end. */
 .admin-row__main {
   color: var(--color-ink);
   flex: 1;
@@ -1105,8 +1081,7 @@
   margin: 0;
 }
 
-/* Inline reject-with-reason (resource queue): the reason field rides next to
-   the reject button, since links have no separate review page. */
+/* Reason field rides next to the button — links have no separate review page. */
 .admin-row__reject-form {
   display: flex;
   align-items: center;
@@ -1121,9 +1096,7 @@
 
 /* ── Illustration center ── */
 
-/* Narrow screens: the health chips drop below the profession title instead
-   of crushing it into an ellipsis. The title link's flex: 1 means basis 0 —
-   force it onto its own full-width line so the chips wrap under it. */
+/* flex:1 means basis 0 — force the title onto its own line below 40rem so chips wrap under it, not crush it. */
 @media (max-width: 40rem) {
   .illustration-row {
     flex-wrap: wrap;
@@ -1134,7 +1107,6 @@
   }
 }
 
-/* Per-profession health line: quiet count chips, broken in red. */
 .illustration-health {
   align-items: center;
   display: flex;
@@ -1162,7 +1134,6 @@
   color: var(--color-negative);
 }
 
-/* Gallery: one column on a phone, tiles on wider screens. */
 .illustration-grid {
   display: grid;
   gap: var(--inline-space);
@@ -1209,8 +1180,6 @@
   margin-block: 0;
 }
 
-/* Fill screen: the author's brief is the illustrator's ТЗ — the loudest thing
-   on the page; under it one file field and one button. */
 .illustration-fill__brief {
   border-inline-start: 3px solid var(--color-subtle);
   color: var(--color-ink);
@@ -1231,14 +1200,9 @@
   align-self: flex-start;
 }
 
-/* ── Emblem picker (admin/shared/_icon_field) ─────────────────────────────────
-   Native radios in a grid: the input is hidden, the label IS the swatch, and
-   :has(:checked) draws the selected ring. No JS.
-
-   Deliberately UNCAPPED — the whole set is on screen at once. A capped, scrolling
-   box hid the «inherit / default» row above the fold (the option most authors
-   want) and made picking a hunt through a viewport instead of a glance. The set is
-   small enough that laying it all out is both shorter to use and simpler to style. */
+/* ── Emblem picker (admin/shared/_icon_field) ── */
+/* Radios hidden, label is the swatch, :has(:checked) draws the ring — no JS.
+   Deliberately uncapped: a scrolling box hid the «inherit/default» row above the fold. */
 .icon-picker {
   border: 1px solid var(--color-subtle);
   border-radius: 0.5rem;
@@ -1287,11 +1251,8 @@
   }
 }
 
-/* The "inherit / default" option spans the row — it carries a caption, and it's the
-   answer most chapters want. Left-aligned on purpose: centred it read as a heading
-   for the block rather than a row you can pick. No rule under it — a border would
-   land inside its own hover fill and square the pill off (the mistake this file's
-   sibling, the account menu, already made once). */
+/* Left-aligned on purpose — centred read as a heading, not a pickable row.
+   No border under it: it would land inside the hover fill and square the pill off. */
 .icon-picker__option--blank {
   flex-direction: row;
   gap: var(--block-space-half);

@@ -1,5 +1,3 @@
-/* Long-form legal/prose pages (privacy policy, future terms). Self-contained,
-   reading-width, token-driven — same look as the rest of the site. */
 .legal__eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.08em;

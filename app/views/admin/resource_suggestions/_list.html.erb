@@ -23,9 +23,7 @@
                   <%= suggestion.author_name %> · <%= time_ago_in_words(suggestion.created_at) %> <%= t("admin.ago") %>
                 </p>
               </span>
-              <%# Rejection carries a required reason inline — links have no
-                  review page of their own, so the reason field lives right in
-                  the queue row. %>
+              <%# Links have no review page of their own, so rejection's reason field lives right in the queue row. %>
               <div class="admin-row__actions">
                 <%= button_to approve_admin_resource_suggestion_path(suggestion), method: :patch,
                       class: "btn btn--small btn--reversed admin-row__action",

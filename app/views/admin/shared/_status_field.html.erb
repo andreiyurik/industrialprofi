@@ -1,6 +1,4 @@
-<%# Status select gated by the trust ladder. Admins get every status; editors
-    get draft / pending_review, and can't touch an already-live item. `f` is the
-    form builder, `record` the path or course. %>
+<%# Gated by the trust ladder: editors get draft/pending_review only, and can't touch an already-live item. %>
 <div class="admin-form__field admin-form__field--lg">
   <label><%= t("admin.field_status") %></label>
 

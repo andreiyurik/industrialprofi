@@ -1,7 +1,5 @@
-# Auto-generates a URL slug from the title when one isn't given — so in-app
-# authors don't have to hand-transliterate Cyrillic. Only fires on create, so
-# existing slugs (which URLs and re-import keys depend on) can never auto-change.
-# A typed slug is respected as-is; an auto slug is de-duplicated with -2, -3…
+# Auto-generates a slug from the title when none is given. Only fires on create — existing slugs
+# (URLs and re-import keys depend on them) can never auto-change; a typed slug is respected as-is.
 module Sluggable
   extend ActiveSupport::Concern
 

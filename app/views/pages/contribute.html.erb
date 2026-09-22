@@ -6,7 +6,6 @@
   <div class="container container--reading">
     <div class="contribute">
 
-      <%# Hero — the animated "?" is decorative; the heading carries meaning. %>
       <header class="contribute-hero">
         <span class="contribute-hero__mark" aria-hidden="true">?</span>
         <p class="contribute-hero__eyebrow"><%= t("contribute.eyebrow") %></p>
@@ -20,7 +19,6 @@
         <p><%= t("contribute.manifesto2") %></p>
       </div>
 
-      <%# Levels of participation — most accessible first. %>
       <section class="contribute-block">
         <h2 class="contribute-block__title"><%= t("contribute.ways_title") %></h2>
         <p class="contribute-block__lead"><%= t("contribute.ways_lead") %></p>
@@ -73,8 +71,7 @@
               <p class="contribute-way__kicker"><%= t("contribute.ways.spread.who") %></p>
               <h3 class="contribute-way__title"><%= t("contribute.ways.spread.title") %></h3>
               <p class="contribute-way__text"><%= t("contribute.ways.spread.what") %></p>
-              <%# Share the SITE link (not a personal contact): a real Telegram
-                  share dialog + a copy-link button (progressive enhancement). %>
+              <%# Share the SITE link, not a personal contact; copy button is progressive enhancement. %>
               <div class="contribute-way__share">
                 <% tg_share = "https://t.me/share/url?#{ { url: site_config.url, text: t('contribute.ways.spread.share_text') }.to_query }" %>
                 <a href="<%= tg_share %>" class="contribute-way__link" target="_blank" rel="noopener">
@@ -96,8 +93,6 @@
         </ol>
       </section>
 
-      <%# Wanted board — the public excerpt of docs/PROFESSION_BACKLOG.md:
-          an invitation for co-authors, not a founder commitment. %>
       <section class="contribute-block" id="wanted">
         <h2 class="contribute-block__title"><%= t("contribute.wanted.title") %></h2>
         <p class="contribute-block__lead"><%= t("contribute.wanted.lead") %></p>
@@ -121,7 +116,6 @@
         </a>
       </section>
 
-      <%# How a suggestion travels — the git-free edit pipeline, as a timeline. %>
       <section class="contribute-block">
         <h2 class="contribute-block__title"><%= t("contribute.pipeline_title") %></h2>
         <p class="contribute-block__lead"><%= t("contribute.pipeline_lead") %></p>
@@ -139,7 +133,6 @@
         </ol>
       </section>
 
-      <%# Trust ladder — the growing accent bar shows rising trust/access. %>
       <section class="contribute-block">
         <h2 class="contribute-block__title"><%= t("contribute.ladder_title") %></h2>
         <p class="contribute-block__lead"><%= t("contribute.ladder_lead") %></p>
@@ -149,15 +142,12 @@
             <div class="contribute-rung contribute-rung--<%= level %>">
               <span class="contribute-rung__bar" style="--rung-level: <%= level %>" aria-hidden="true"></span>
               <h3 class="contribute-rung__title"><%= t("contribute.ladder.#{role}_title") %></h3>
-              <%# The editor rung states the earned path; the threshold comes from
-                  TrackRecord so the public promise can't drift from the code. %>
+              <%# Threshold comes from TrackRecord::TRUSTED_AT so the public promise can't drift from code. %>
               <p class="contribute-rung__desc"><%= t("contribute.ladder.#{role}_desc", threshold: TrackRecord::TRUSTED_AT) %></p>
             </div>
           <% end %>
         </div>
 
-        <%# The transparent rulebook: how trust is earned and who decides what.
-            Thresholds interpolate from TrackRecord so the promise can't drift. %>
         <h3 class="contribute-rules__title"><%= t("contribute.ladder_rules_title") %></h3>
         <ul class="contribute-rules">
           <% %w[review earn propose scope name log].each do |rule| %>
@@ -184,12 +174,10 @@
       <div class="contribute-cta panel">
         <h2 class="contribute-cta__title"><%= t("contribute.cta_title") %></h2>
         <p class="contribute-cta__text"><%= t("contribute.cta_text") %></p>
-        <%# The page's one conversion goal leads; browsing is the runner-up. %>
         <div class="contribute-cta__links">
           <a href="<%= new_coauthor_application_path %>" class="btn btn--reversed"><%= t("contribute.wanted.cta") %></a>
           <a href="<%= paths_path %>" class="btn"><%= t("contribute.cta_explore") %></a>
         </div>
-        <%# Quiet escape hatches: talk to the founder / the money page. %>
         <p class="contribute-cta__aside">
           <% if signed_in? %>
             <%= link_to t("contribute.cta_write"), new_feedback_path %>

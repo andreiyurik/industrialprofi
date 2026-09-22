@@ -3,11 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 const ZOOM_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM10.5 7.5v6m3-3h-6"/></svg>`
 const CLOSE_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>`
 
-// Click a lesson figure (or its zoom button) to view the image full-screen in a
-// native <dialog>; click the image again to toggle between fit-to-screen and
-// full resolution — diagrams carry fine text that needs a close look on phone
-// and desktop alike. Progressive enhancement: with no JS the images still render
-// inline, just without the zoom affordance.
+// Click a figure/zoom button for a fullscreen native <dialog>; click again to
+// toggle fit-to-screen vs full resolution.
 export default class extends Controller {
   connect() {
     this.element.querySelectorAll(".prose-figure").forEach((figure) => {

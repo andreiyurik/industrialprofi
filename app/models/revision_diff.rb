@@ -1,14 +1,7 @@
 require "cgi"
 
-# Word-level diff between two rich-text snapshots, rendered as <ins>/<del>.
-#
-# Both inputs are HTML; we strip tags down to plain text, tokenise into words
-# (whitespace preserved), run a Longest-Common-Subsequence pass, then emit the
-# result with added words wrapped in <ins> and removed words in <del>. Every
-# token is HTML-escaped before it is wrapped, so the output is safe to render.
-#
-# A plain word diff is plenty for the size of a single lesson section, so there
-# is no need for an external diff library.
+# Word-level diff via LCS on whitespace-tokenized text; every token is HTML-escaped before
+# wrapping in <ins>/<del>, so the output is safe to render. No external library needed for lesson-sized text.
 class RevisionDiff
   def initialize(before_html, after_html)
     @before = tokenize(plain_text(before_html))
@@ -32,8 +25,7 @@ class RevisionDiff
   end
 
   private
-    # Collapse the raw LCS edit script into runs of the same operation so we emit
-    # one <ins>/<del> per change instead of one per word.
+    # Collapses the raw LCS script into runs of the same op — one <ins>/<del> per change, not per word.
     def segments
       raw = edit_script
       raw.each_with_object([]) do |(op, text), acc|
@@ -88,10 +80,8 @@ class RevisionDiff
       text.scan(/\S+|\s+/)
     end
 
-    # Strip to plain text, but turn block boundaries into newlines first so a
-    # multi-paragraph section keeps its structure in the diff (rendered pre-wrap)
-    # instead of collapsing into one unreadable blob. Single-block content is
-    # unaffected (trailing newlines are trimmed), so identical? stays correct.
+    # Block boundaries become newlines first so multi-paragraph text keeps structure (rendered pre-wrap).
+    # Single-block content is unaffected (trailing newlines trimmed), so identical? stays correct.
     def plain_text(html)
       return "" if html.blank?
       with_breaks = html.to_s

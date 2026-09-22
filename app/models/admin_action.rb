@@ -1,11 +1,6 @@
-# The transparency log — our Special:Log. An append-only record of every
-# administrator action over PEOPLE and MODERATION (role changes, profession
-# grants, suggestion approve/reject, rollbacks), so delegated power stays
-# reviewable as the team grows. Content edits already have their own audit
-# trail in LessonRevision; this is the second log, for everything else.
-#
-# Human-readable facts live denormalized in `details`, so each entry reads
-# correctly forever — even if the actor or target is later deleted.
+# Admin actions over PEOPLE and MODERATION (role changes, grants, suggestion
+# decisions, rollbacks) — content edits have their own trail in LessonRevision.
+# `details` is denormalized so entries stay readable after the actor/target is deleted.
 class AdminAction < ApplicationRecord
   belongs_to :actor, class_name: "User", optional: true
   belongs_to :target, polymorphic: true, optional: true

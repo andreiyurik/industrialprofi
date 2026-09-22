@@ -6,8 +6,6 @@ module Admin
       @revisions = @lesson.lesson_revisions.ordered
     end
 
-    # Restore a past version's content as a brand-new revision — history is never
-    # rewritten, only appended to.
     def rollback
       revision = @lesson.lesson_revisions.find(params[:id])
       ActiveRecord::Base.transaction do

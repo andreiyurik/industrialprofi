@@ -2,18 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 import { csrfToken } from "helpers/http_helpers"
 import { elementAfter } from "helpers/dom_helpers"
 
-// The curriculum builder tree: drag to reorder lessons, whole stages (a heading
-// plus its lessons), and whole courses — within a course and across courses.
-// Native HTML5 drag-and-drop, no library — same house style as
-// nested_form_controller. On drop we persist the final DOM order; the server
-// renumbers positions (global within the path) and re-files each lesson's course
-// and stage from where it landed, so a stage moved as a block needs no special
-// server handling (its lessons simply follow their heading).
-//
-// The save is resilient: a no-op drag (dropped back in place) skips the request,
-// and a failed request restores the pre-drag order so the tree never lies about
-// what's stored. A lesson's stage is derived from the nearest preceding stage
-// heading in its list, so a heading moved with its lessons keeps them together.
+// Native HTML5 drag-and-drop, no library. On drop the final DOM order is persisted;
+// the server renumbers and re-files each lesson from where it landed. A no-op drag
+// skips the request, and a failed one restores the pre-drop order.
 export default class extends Controller {
   static targets = ["courseList", "course", "lessonList", "lesson", "pos", "empty"]
   static values = { lessonsUrl: String, coursesUrl: String, savedText: String, failedText: String }
@@ -95,8 +86,7 @@ export default class extends Controller {
 
   // Private
 
-  // A stage block = the heading plus its contiguous lessons, up to the next
-  // heading. These move together so a whole section can be re-filed at once.
+  // A stage block = the heading plus its contiguous lessons, up to the next heading.
   #stageBlock(heading) {
     const block = [heading]
     let node = heading.nextElementSibling
@@ -113,8 +103,7 @@ export default class extends Controller {
     }
   }
 
-  // Every lesson in on-screen order, tagged with the course it now sits under
-  // and the stage of the nearest heading above it.
+  // Tags each lesson with its course and the nearest heading's stage.
   #collectLessons() {
     const lessons = []
     this.lessonListTargets.forEach((list) => {
@@ -137,8 +126,7 @@ export default class extends Controller {
       : JSON.stringify(this.#collectLessons())
   }
 
-  // Positions are global within the profession, so the visible numbers run
-  // straight through the courses in their on-screen order.
+  // Positions are global within the profession, numbered straight through on-screen order.
   #renumberLessonLabels() {
     let position = 0
     this.lessonListTargets.forEach((list) => {
@@ -179,9 +167,7 @@ export default class extends Controller {
     return lists.map((list) => [list, [...list.children]])
   }
 
-  // A floating pill, reusing the app's flash look + element-removal auto-dismiss.
-  // Lives in <body> (not the tree) so it never shifts the list and stays in view
-  // at any scroll position. Replaces any earlier pill so rapid saves don't stack.
+  // Lives in <body> (not the tree) so it never shifts the list; replaces any earlier pill.
   #toast(text) {
     this.#toastEl?.remove()
     const pill = document.createElement("div")
@@ -219,8 +205,7 @@ export default class extends Controller {
     return elementAfter(candidates, y)
   }
 
-  // A stage block anchors only on other headings (or the list end), so it slots
-  // between sections instead of splitting one.
+  // Anchors only on other headings, so a stage slots between sections, not inside one.
   #stageAfter(list, y) {
     const candidates = Array.from(list.querySelectorAll(".builder-stage"))
       .filter((heading) => !this.#block.includes(heading))

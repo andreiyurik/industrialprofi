@@ -16,9 +16,7 @@
   }
 }
 
-/* The "›" marks the hierarchy step — muted like the links (not brighter), but
-   visible enough to read as a separator. A touch larger so the small glyph
-   doesn't disappear. */
+/* Muted like the links, not brighter — sized up a touch so the small glyph doesn't disappear. */
 .breadcrumbs__separator {
   color: var(--color-subtle-dark);
   font-size: 1.15em;

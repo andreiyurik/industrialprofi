@@ -10,15 +10,12 @@
     <meta name="application-name" content="<%= t('site.name') %>">
     <meta name="robots" content="<%= content_for?(:robots) ? content_for(:robots) : "index, follow" %>">
 
-    <%# Native-app feel, no JS: Turbo animates page changes via the View
-        Transitions API and morphs same-page refreshes while keeping scroll. %>
+    <%# Turbo drives page changes via the View Transitions API and morphs same-page refreshes, keeping scroll — no JS. %>
     <meta name="view-transition" content="same-origin">
     <meta name="turbo-refresh-method" content="morph">
     <meta name="turbo-refresh-scroll" content="preserve">
 
-    <%# Installable PWA (home-screen icon, standalone window). %>
-    <%# Literal path: the route lives outside the locale scope, and the URL
-        helper would append ?locale= as a stray query param. %>
+    <%# Literal /manifest path — a route helper would append a stray ?locale= param. %>
     <link rel="manifest" href="/manifest">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -35,15 +32,13 @@
     <% end %>
     <%= alternate_locale_links %>
 
-    <%# Open Graph %>
     <meta property="og:site_name" content="<%= t('site.name') %>">
     <meta property="og:locale" content="<%= og_locale %>">
     <meta property="og:type" content="<%= content_for(:og_type) || "website" %>">
     <meta property="og:title" content="<%= content_for?(:og_title) ? content_for(:og_title) : "#{t('site.name')} — #{t('site.tagline')}" %>">
     <meta property="og:description" content="<%= content_for?(:og_description) ? content_for(:og_description) : t('site.description') %>">
     <meta property="og:url" content="<%= og_url %>">
-    <%# A page may bring its own share image (a profession's cover); otherwise
-        the site default. Both are 1200×630. %>
+    <%# Page-specific og:image falls back to the site default; both are 1200×630. %>
     <% og_image = content_for?(:og_image) ? content_for(:og_image) : site_config.og_image %>
     <% if og_image.present? %>
       <meta property="og:image" content="<%= og_image %>">
@@ -66,13 +61,10 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# One built file instead of 64 links: every <link> blocks the first paint.
-        Built by dartsass at assets:precompile — see application.scss. %>
+    <%# One built stylesheet, not 64 <link> tags — each one blocks first paint. %>
     <%= stylesheet_link_tag "application", *vendor_stylesheets, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    <%# The controllers load on demand (importmap.rb), but the two files that
-        boot Stimulus are wanted on every page — name them here, or they hang
-        off application.js as two extra round trips before anything can react. %>
+    <%# Preload Stimulus's two boot files directly, or importmap's on-demand loading adds two round trips before anything can react. %>
     <%= javascript_module_preload_tag asset_path("controllers/index.js"), asset_path("controllers/application.js") %>
     <%= render "shared/metrika" if site_config.metrika_id.present? %>
   </head>
@@ -81,8 +73,7 @@
     <%# Absolute, so it stays out of body's 3-row grid until focus reveals it. %>
     <a href="#main-content" class="skip-nav"><%= t("nav.skip_to_content") %></a>
 
-    <%# Hand-drawn line reused by every nav word's hover underline (via <use>).
-        One rough double-stroke path; CodeMyUI "hand-drawn underline" technique. %>
+    <%# Hand-drawn double-stroke path, reused by every nav word's hover underline via <use>. %>
     <svg width="0" height="0" aria-hidden="true" class="svg-defs">
       <defs>
         <path id="hand-line" fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"
@@ -98,45 +89,35 @@
           <%= render "shared/brand" %>
         <% end %>
         <div class="header__right">
-          <%# A quiet dot = a decision on one of your suggested edits you
-              haven't seen yet; it leads to the dashboard, which clears it. %>
+          <%# A quiet dot flags an unseen decision on your suggested edits; it leads to the dashboard, which clears it. %>
           <% unseen_outcomes = signed_in? && Current.user.unseen_suggestion_outcomes? %>
-          <%# Compact (≤1023px): a <details> disclosure collapses the nav behind
-              a hamburger; the details controller adds menu-style light dismiss
-              (click outside / Esc). Wide (≥1024px): the toggle is hidden and
-              the panel flows inline as the nav row — single source of links. %>
+          <%# Compact (≤1023px): <details> collapses the nav behind a hamburger.
+              Wide (≥1024px): the toggle hides and the same panel flows inline as the nav row — single source of links. %>
           <details class="header__menu" data-controller="details" data-details-target="details"
                    data-action="click@document->details#closeOnClickOutside keydown.esc@window->details#close">
             <summary class="header__menu-toggle" aria-label="<%= t("nav.menu") %>">
               <%= icon_tag "list" %>
               <% if unseen_outcomes %><span class="notify-dot notify-dot--corner"></span><% end %>
             </summary>
-            <%# The ✕ floats in the strip right of the drawer (TOP's DrawerComponent:
-                `absolute left-full w-16 pt-5`) — outside the scrolling panel, or its
-                overflow would clip it. A closed <details> hides it natively. %>
+            <%# The ✕ sits outside the scrolling panel, or its overflow would clip it; a closed <details> hides it natively. %>
             <button type="button" class="header__menu-close" data-action="details#close"
                     aria-label="<%= t("common.close") %>">
               <%= icon_tag "x" %>
             </button>
             <div class="header__menu-panel">
-              <%# Guest drawer opens on the full brand (mark + wordmark), like
-                  TOP's logo slot — on phones the header shows only the mark, so
-                  this is the one nav surface carrying the project's name. A
-                  signed-in reader gets the identity row in this slot instead. %>
+              <%# The one nav surface carrying the full project name on phones (the header shows only the mark); signed-in readers get the identity row here instead. %>
               <% unless signed_in? %>
                 <%= link_to root_path, class: "brand header__menu-brand" do %>
                   <%= render "shared/brand" %>
                 <% end %>
               <% end %>
 
-              <%# Mobile-only identity header — the SAME partial the desktop popover
-                  renders, so the two menus read as one. %>
+              <%# Mobile-only identity header — same partial as the desktop popover, so the two menus stay in sync. %>
               <% if signed_in? %>
                 <%= render "shared/account_identity", extra_class: "header__menu-identity" %>
               <% end %>
 
-              <%# Icons render only in the mobile dropdown (hidden inline on
-                  desktop) and match the palette tiles — one visual language. %>
+              <%# Icons render only in the mobile dropdown, matching the palette tiles — hidden inline on desktop. %>
               <%= link_to paths_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if controller_path.start_with?("paths") || controller_name == "lessons") } do %>
                 <%= icon_tag "map-trifold" %><%= t("nav.professions") %><%= render "shared/nav_underline" %>
@@ -145,26 +126,21 @@
                     aria: { current: ("page" if current_page?(projects_path)) } do %>
                 <%= icon_tag "wrench" %><%= t("nav.projects") %><%= render "shared/nav_underline" %>
               <% end %>
-              <%# The library, glossary and calculators live inside each
-                  profession's hub («Библиотека», «Словарь»); their site-wide pages stay
-                  reachable from the footer and the palette, not the top bar —
-                  the bar leads INTO a profession, not away from it. %>
+              <%# Library, glossary and calculators live inside each profession's hub, not the top bar —
+                  the bar leads INTO a profession, not away from it (site-wide pages: footer/palette). %>
               <% if controller.class.module_parent_name == "Admin" %>
                 <span class="badge badge--marker header__context-badge">Admin</span>
               <% end %>
               <% unless signed_in? %>
-                <%# Orientation for guests — mobile only. On desktop the top bar
-                    stays product-only and these live in the footer, but there
-                    the footer is a scroll away and this sheet is the only nav,
-                    while "what is this site?" is a guest's first question. %>
+                <%# Guest orientation links — mobile only; on desktop these already live in the footer,
+                    but here the footer is a scroll away and this sheet is the only nav. %>
                 <div class="header__menu-guest">
                   <%= link_to about_path, class: "account-menu__link",
                         aria: { current: ("page" if current_page?(about_path)) } do %>
                     <%= icon_tag "info" %>
                     <%= t("nav.about") %>
                   <% end %>
-                  <%# The recruit-an-expert door. Cheap to place, existential to
-                      miss — a master who never finds it never authors a path. %>
+                  <%# The recruit-an-expert door — easy to place, costly to bury; a missed link means no new path authors. %>
                   <%= link_to authors_path, class: "account-menu__link",
                         aria: { current: ("page" if current_page?(authors_path)) } do %>
                     <%= icon_tag "users" %>
@@ -175,11 +151,8 @@
                     <%= icon_tag "question" %>
                     <%= t("nav.faq") %>
                   <% end %>
-                  <%# Support used to sit here too; it now lives in the top bar
-                      itself, visible on every screen and to members as well. %>
                 </div>
-                <%# TOP's guest pair: Get started + Sign in. The signup row is
-                    drawer-only (the desktop header has the CTA pill). %>
+                <%# Signup row is drawer-only — the desktop header already has the CTA pill. %>
                 <%= link_to new_signup_path, class: "nav__link link-quiet header__menu-signup",
                       aria: { current: ("page" if current_page?(new_signup_path)) } do %>
                   <%= icon_tag "user-plus" %><%= t("auth.sign_up") %>
@@ -190,8 +163,6 @@
                 <% end %>
               <% end %>
 
-              <%# The personal menu, reachable from the hamburger on a phone. Same
-                  partial as the desktop popover — one list, two containers. %>
               <% if signed_in? %>
                 <div class="header__menu-account">
                   <%= render "shared/account_links", unseen_outcomes: unseen_outcomes %>
@@ -201,25 +172,16 @@
             </div>
           </details>
 
-          <%# The project runs on donations, so the door to /support_us is the one
-              non-product link allowed in the top bar (see header.css). Worded on
-              desktop — a hand-with-heart alone reads as "favourites" — and icon
-              only where the row has no room. Same for guests and members: it
-              used to be guest-and-mobile-only, so a signed-in reader had it
-              nowhere but the footer. %>
+          <%# The one non-product link allowed in the top bar — an icon alone reads as "favourites", so desktop also shows the word. %>
           <%= link_to support_us_path, class: "header__support link-quiet",
                 title: t("nav.support"),
                 aria: { current: ("page" if current_page?(support_us_path)) } do %>
             <%= icon_tag "hand-heart-light" %>
-            <%# One label, two states: read aloud always, shown only where the
-                row has room (see header.css) — never a duplicated SR-only copy. %>
+            <%# One label, two states: read aloud always, shown only where the row has room — never a duplicated SR-only copy. %>
             <span class="header__support-label"><%= t("nav.support") %></span>
           <% end %>
 
-          <%# Language: a globe in the utility cluster on every screen, opening a
-              native popover with the languages named in their own tongue. The
-              one control a reader who can't read this page needs — always in
-              the same corner, never buried in a menu. %>
+          <%# The one control a reader who can't read this page needs — always in the same corner, never buried in a menu. %>
           <details class="header__locale" data-controller="details" data-details-target="details"
                    data-action="click@document->details#closeOnClickOutside keydown.esc@window->details#close">
             <summary class="header__locale-toggle link-quiet" title="<%= t("nav.language") %>" aria-label="<%= t("nav.language") %>">
@@ -230,10 +192,7 @@
             </div>
           </details>
 
-          <%# Search is a quiet icon in the utility cluster (search + account)
-              at the corner, after the nav words. Always visible, even on
-              mobile. With JS it opens the command palette instead of the page;
-              the hotkey is advertised by the tooltip and inside the palette. %>
+          <%# With JS this opens the command palette instead of navigating to the search page. %>
           <div class="header__palette" data-controller="palette"
                data-action="keydown@document->palette#hotkey">
             <%= link_to search_path, class: "header__search link-quiet",
@@ -247,8 +206,7 @@
           </div>
 
           <% if signed_in? %>
-            <%# Fizzy-style account hub: everything personal lives behind one
-                name button. Native popover — light-dismiss, zero JS. %>
+            <%# Everything personal lives behind one name button — native popover, light-dismiss, zero JS. %>
             <button type="button" class="account-menu-button" popovertarget="account-menu">
               <%= avatar_tag(Current.user) %>
               <span class="account-menu-button__name"><%= Current.user.name %></span>
@@ -321,7 +279,6 @@
           <a href="<%= authors_path %>" class="footer__link link-quiet"><%= t("nav.authors") %></a>
           <a href="<%= support_us_path %>" class="footer__link link-quiet"><%= t("nav.support") %></a>
           <a href="<%= partners_path %>" class="footer__link link-quiet"><%= t("nav.partners") %></a>
-          <%# Signed-in readers write to the founder right on the site; guests go to Telegram. %>
           <% if signed_in? %>
             <a href="<%= new_feedback_path %>" class="footer__link link-quiet"><%= t("footer.feedback") %></a>
           <% else %>
@@ -335,8 +292,7 @@
           <p class="footer__copy">
             <%= t("footer.copyright_html", year: Date.current.year, author_url: site_config.author_url) %>
           </p>
-          <%# Honest, verifiable trust signal: the repo is public (AGPL) and the
-              content is CC BY-SA — links go to the code and the license itself. %>
+          <%# Verifiable trust signal: links go to the public AGPL repo and the CC BY-SA license itself. %>
           <p class="footer__license">
             <%= t("footer.license_html", repo_url: site_config.github_url) %>
           </p>

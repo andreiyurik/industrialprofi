@@ -1,5 +1,4 @@
-/* Public document library (/resources) + the per-profession section on a path
-   page. Rows reuse .lesson-resources / .lesson-resource from the lesson view. */
+/* Rows reuse .lesson-resources / .lesson-resource from the lesson view. */
 .library-intro {
   color: var(--color-subtle-dark);
   margin-block: var(--block-space-half) var(--block-space-double);
@@ -35,8 +34,7 @@
   margin: 0;
 }
 
-/* The quiet bridge from a library row back to its lesson(s). Pushed to the row's
-   right edge; muted, so the document link stays the row's main action. */
+/* Muted and pushed to the row's right edge, so the document link stays the row's main action. */
 .lesson-resource__source {
   color: var(--color-subtle-dark);
   flex-shrink: 0;
@@ -64,8 +62,7 @@ a.lesson-resource__source {
   }
 }
 
-/* Several lessons: a native <details> disclosure opening a small floating menu
-   of lesson links — no JS beyond the shared click-outside/esc controller. */
+/* Native <details> disclosure — no JS beyond the shared click-outside/esc controller. */
 .lesson-resource__source--menu {
   position: relative;
 
@@ -101,11 +98,8 @@ a.lesson-resource__source {
   }
 }
 
-/* On a lesson, .lesson-resources and .lesson-resource are `display: contents`
-   so their pieces drop into the shared grid on .resource-block__list. The
-   library has no such ancestor, so the row must own its layout — reusing the
-   lesson classes here left every badge, title and bridge as a loose inline in
-   one long paragraph. */
+/* On a lesson these classes are display:contents and drop into .resource-block__list's grid;
+   the library has no such ancestor, so this row must own its own layout. */
 .library-list {
   display: grid;
   list-style: none;
@@ -122,16 +116,12 @@ a.lesson-resource__source {
   row-gap: 0.2rem;
 }
 
-/* A document title is a sentence, not a label: let it take the row and wrap,
-   keeping the badge at its start and the lesson bridge at its end. */
+/* A title is a sentence, not a label — let it take the row and wrap. */
 .lesson-resource--library > .lesson-resource__link {
   flex: 1 1 18rem;
 }
 
-/* Phones: three things (badge · long title · "в N статьях") can't share one
-   row without squeezing. Give the title the full width and drop the lesson
-   bridge to a quiet meta line beneath it — vertical hierarchy, nothing
-   abbreviated. Desktop keeps the single-row layout. */
+/* Below 40rem, badge + title + bridge can't share one row without squeezing — stack them instead. */
 @media (max-width: 40rem) {
   .lesson-resource--library {
     align-items: start;

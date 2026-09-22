@@ -56,8 +56,7 @@ code {
   padding: 0.1em 0.3em;
 }
 
-/* Keyboard keys (`<kbd>Ctrl</kbd>` in lesson bodies) — a keycap look: same
-   chrome as inline code plus a thicker bottom edge. */
+/* Keycap look: same chrome as inline code plus a thicker bottom edge. */
 kbd {
   background-color: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);
@@ -163,13 +162,9 @@ hr {
   margin: 2lh auto;
 }
 
-/* Logo divider — the profi mark centred on a hairline that's CRISP at the gap
-   (no muddy centre fade) but dissolves toward the column edges, so it reads as
-   "drawn" around the mark. Scoped to .prose so the plain <hr> still serves
-   mailers. Two stacked backgrounds (mark, then the tapered hairline). */
+/* Two stacked backgrounds (mark + tapered hairline). Scoped to .prose so a plain <hr> still serves mailers. */
 .prose hr {
-  --mark-size: 1.4em;    /* the profi mark height — the single knob to resize it;
-                            below ~1.4em the face's features stop resolving */
+  --mark-size: 1.4em;    /* single knob to resize the mark; below ~1.4em the face stops resolving */
   --divider-gap: 1em;    /* half-gap each side of centre — clears the mark */
 
   background-image:
@@ -192,8 +187,7 @@ hr {
   margin-block: 3.2lh;
   opacity: 0.6;
 
-  /* On a phone 3.2lh each side reads as an empty screen between sections —
-     keep the jewel, halve the air. */
+  /* 3.2lh each side reads as an empty screen on a phone — halve it. */
   @media (max-width: 640px) {
     margin-block: 1.8lh;
   }
@@ -229,8 +223,7 @@ ins {
   color: var(--color-positive);
 }
 
-/* The single source for the "secondary text link" voice — carries only colour +
-   hover; structural props (font-size, icon layout) stay on the component class. */
+/* The single source for the "secondary text link" voice — colour + hover only; structural props stay on the component class. */
 .link-quiet {
   color: var(--color-subtle-dark);
   text-decoration: none;
@@ -258,9 +251,8 @@ ins {
 .page-title {
   font-size: clamp(2.25em, 7vw, 4.25em);
   font-weight: 800;
-  /* Headings inherit hyphens:auto, which at this size splits a word across
-     lines («ДОКУ-МЕНТЫ») and reads cheap. text-wrap: balance already finds a
-     better break; an over-long single word still breaks via overflow-wrap. */
+  /* Headings inherit hyphens:auto, which at this size splits a word («ДОКУ-МЕНТЫ») and reads cheap;
+     text-wrap:balance already finds a better break, overflow-wrap covers an over-long word. */
   hyphens: manual;
   letter-spacing: -0.025em;
   line-height: 1;
@@ -279,9 +271,7 @@ ins {
   text-transform: uppercase;
 }
 
-/* Belongs beside its title, not in paths.css where it used to live: /projects,
-   /calculators and /glossary use it too, and a page sheet is the wrong home for
-   a component half the site renders. */
+/* Used by /projects, /calculators and /glossary too — not a paths.css-only component. */
 .section-subtitle {
   color: var(--color-subtle-dark);
   margin-block: var(--block-space) 0;
@@ -308,8 +298,7 @@ ins {
     margin-block-end: 0;
   }
 
-  /* In-body headings sit a step below the section heading, with air above and a
-     tight gap below — so each one visibly starts a new block of text. */
+  /* Air above, tight gap below — each heading visibly starts a new block. */
   :is(h2, h3, h4) {
     line-height: 1.2;
     margin-block: 1.5em 0.5em;
@@ -352,8 +341,7 @@ ins {
     > :last-child { margin-block-end: 0; }
   }
 
-  /* Figures: images fit the column; the `*Рис. N…*` caption (a lone <em>) sits
-     centred and quiet beneath. */
+  /* Below: the `*Рис. N…*` caption is a lone <em>, styled centred and quiet. */
   img {
     block-size: auto;
     border: 1px solid var(--color-subtle);
@@ -379,8 +367,7 @@ ins {
   }
 }
 
-/* Wrapper added around every table by the markdown helper, so wide comparison
-   tables scroll horizontally on phones instead of breaking the layout. */
+/* Added around every table by the markdown helper, so wide comparison tables scroll instead of breaking the layout. */
 .prose-table {
   margin-block: 1.25lh 0;
   max-inline-size: 100%;

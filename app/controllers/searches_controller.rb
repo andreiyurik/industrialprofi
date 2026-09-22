@@ -8,9 +8,8 @@ class SearchesController < ApplicationController
   def show
     @query = params[:q].to_s.strip
     @results = LessonSearch.new(@query).results
-    # Calculators live in code, not in the FTS index — matching 20-odd titles in
-    # memory is cheaper than indexing them, and they answer a different kind of
-    # query ("посчитать"), so they get their own group above the articles.
+    # Calculators live in code, not the FTS index — matching ~20 titles in memory beats
+    # indexing them, and they answer a different query kind, so they get their own group.
     @calculators = Calculator.search(@query)
     render :palette if turbo_frame_request_id == "palette_results"
   end
