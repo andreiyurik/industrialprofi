@@ -2,11 +2,8 @@
 <% meta_description(t("guide.intro").truncate(160)) %>
 <% canonical_url(guide_url) %>
 
-<%# The public author's reference — open like the content itself (CC BY-SA):
-    readers suggesting an edit and editors reviewing one read the SAME rules.
-    The badges and callouts below are rendered with the SAME helpers production
-    uses, so this page can never drift. Prose is inline (a static Russian doc),
-    labels come from the shared i18n. %>
+<%# The badges and callouts below render with the SAME helpers production uses,
+    so this page can never drift from what readers actually see. %>
 <% type_notes = {
      "norm"     => "Официальный обязательный документ: ГОСТ, ПУЭ, ПТЭЭП, СП, СНиП, НАКС, РД, приказы, а также международные IEC / ISO / ASME / EN / DIN. Спина контента — где тема регулируется, ссылаемся на первоисточник, а не на пересказ.",
      "book"     => "Учебник, справочник, руководство — систематическое изложение темы (справочник электрика, учебник по сварке). Когда нужна глубина и контекст, а не одна норма.",

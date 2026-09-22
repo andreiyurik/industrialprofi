@@ -1,13 +1,8 @@
 <%# locals: (path:, progress:, curators:, tab:) -%>
-<%# The profession hub's shared header — one identity block + one tab row on
-    every page of a profession (Обзор / Теория / Практика / Библиотека / Словарь), so the reader
-    never leaves the profession to reach its practice or its reference shelf
-    (the exercism track-page shape, server-rendered). The catalog card opens
-    into the identity block — the other half of the pair in paths/_path_card. %>
+<%# One identity block + one tab row on every page of a profession, so the reader never
+    leaves it to reach practice or reference. Pairs with the catalog card in paths/_path_card. %>
 <header class="hub">
-  <%# Identity, centred at every width (the catalog card is a centred poster,
-      and Basecamp centres a project's name and description too): emblem,
-      name, the catalog sentence, the inventory. %>
+  <%# Identity centred at every width, matching the catalog card's centred poster style. %>
   <div class="hub__identity" style="view-transition-name: path-<%= path.slug %>">
     <% ring = progress.started? && path.lessons_count.positive? %>
     <div class="topic-hero-icon<%= " topic-hero-icon--ring" if ring %>">
@@ -39,8 +34,7 @@
     <%= link_to path_library_path(path), class: "hub-tabs__link", aria: { current: ("page" if tab == :library) } do %>
       <%= icon_tag "book-open" %><span><%= t("paths.hub.library") %></span>
     <% end %>
-    <%# Optional and therefore last: only professions whose lessons define
-        abbreviations get it, and the fixed tabs keep their places either way. %>
+    <%# Optional and therefore last: only professions with abbreviations get this tab. %>
     <% if path.has_glossary? %>
       <%= link_to path_glossary_path(path), class: "hub-tabs__link", aria: { current: ("page" if tab == :glossary) } do %>
         <%= icon_tag "text-aa" %><span><%= t("paths.hub.glossary") %></span>

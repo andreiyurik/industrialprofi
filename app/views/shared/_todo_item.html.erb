@@ -1,8 +1,5 @@
 <%# locals: (lesson:, done:, bookmarked:, meta:, mark: false) -%>
-<%# One practice task as a to-do row (Basecamp's pattern): a round checkbox,
-    the title, a quiet meta line; done = ticked and struck through. The link
-    and the bookmark are siblings — a button can't live inside a link. `mark`
-    adds the РАЗРЯД numeral where the list isn't already grouped by level. %>
+<%# The link and the bookmark button are siblings — a button can't live inside a link. %>
 <li class="todo__item<%= " todo__item--done" if done %>">
   <a href="<%= lesson_path(lesson) %>" class="todo__link">
     <span class="todo__check" aria-hidden="true"><% if done %><%= icon_tag "check" %><% end %></span>

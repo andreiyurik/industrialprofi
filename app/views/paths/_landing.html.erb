@@ -1,9 +1,5 @@
 <%# locals: (path:) -%>
-<%# The «О профессии» landing in basecamp.com's shape: every section is a big
-    headline on the left and large, plain-spoken text on the right (stacked on
-    phones); lists are checklists with a filled blue mark and a bold key
-    phrase; questions are native disclosures. Only the slots an author filled
-    render (Path::Landing) — an empty map shows nothing. %>
+<%# Only the slots an author filled render (Path::Landing) — an empty map shows nothing. %>
 <% about, history = path.about, path.history %>
 <% highlights, pros, cons = Array(path.highlights), Array(path.pros), Array(path.cons) %>
 <% faq_entries = path.faq_entries %>

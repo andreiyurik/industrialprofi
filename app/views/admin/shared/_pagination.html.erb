@@ -1,7 +1,5 @@
-<%# Lightweight offset pager for admin lists ordered newest-first. Locals:
-    page (current 1-based page), more (is there an older page?), and optional
-    pages (total page count → shows "page X of Y"). Preserves ALL current query
-    params (search + filters). Renders nothing when everything fits on one page. %>
+<%# Locals: page (1-based), more (older page exists?), optional pages (total → "page X of Y").
+    Preserves all current query params; renders nothing when everything fits on one page. %>
 <% if page > 1 || more %>
   <nav class="admin-pagination" aria-label="<%= t("admin.pagination.label") %>">
     <% if page > 1 %>

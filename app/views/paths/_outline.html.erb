@@ -1,8 +1,4 @@
 <%# locals: (path:, courses:, kind_counts:) -%>
-<%# The programme in one glance on the overview: chapter titles with their
-    counts, each a link into the chapter; the full cards live on the «Теория»
-    tab. Keeps the profession page naming its chapters (orientation for the
-    newcomer, structure for search) without repeating the tab. %>
 <section class="landing__section outline">
   <h2 class="landing__title"><%= t("paths.landing.outline") %></h2>
   <div class="landing__body">
@@ -24,8 +20,6 @@
   <p class="outline__all">
     <%= link_to t("paths.landing.outline_all"), path_theory_path(path), class: "link-quiet link-quiet--underline" %>
   </p>
-  <%# A master's «for my group» version starts here: the whole profession,
-      trimmed and extended in two minutes (see Map). %>
   <div class="outline__own">
     <%= render "maps/version_button", path: path %>
   </div>

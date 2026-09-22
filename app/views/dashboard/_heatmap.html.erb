@@ -1,7 +1,5 @@
 <%# locals: (activity:, since:, hint: true) -%>
-<%# GitHub-style activity grid: columns are weeks, rows are weekdays. It only
-    mirrors real work (completions + journal entries + suggested edits) — gaps
-    are visible but nothing "burns down", unlike streaks. %>
+<%# Mirrors real work only (completions, journal entries, suggested edits) — gaps show, nothing "burns down" like a streak. %>
 <section class="heatmap" aria-label="<%= t("dashboard.heatmap_title") %>">
   <header class="heatmap__header">
     <h2 class="heatmap__title"><%= t("dashboard.heatmap_title") %></h2>

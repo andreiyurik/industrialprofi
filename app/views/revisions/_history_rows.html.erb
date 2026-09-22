@@ -1,6 +1,4 @@
-<%# Rows for one page of history, with a day heading before each new date.
-    `boundary_date` is the date already at the tail of the list (nil on first
-    load) — skips a repeated heading when an appended batch continues that day. %>
+<%# `boundary_date` is the list's last date (nil on first load) — skips a repeated heading when a batch continues that day. %>
 <% last_date = boundary_date %>
 <% revisions.each do |revision| %>
   <% date = revision.created_at.to_date %>

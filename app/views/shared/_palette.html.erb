@@ -1,7 +1,4 @@
-<%# Command palette — Fizzy's jump menu adapted to a learning platform: live
-    FTS5 search on top, quick destinations while the query is empty (the same
-    server view swaps them back in when the input clears). /search remains the
-    full page and the no-JS fallback. %>
+<%# /search is the full-page no-JS fallback; this dialog reuses the same server view for live results. %>
 <dialog id="palette" class="palette" data-palette-target="dialog"
         data-action="click->palette#backdropClose turbo:before-cache@document->palette#close">
   <%= form_with url: search_path, method: :get, class: "palette__form",

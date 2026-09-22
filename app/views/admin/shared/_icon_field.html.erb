@@ -1,10 +1,5 @@
-<%# Emblem picker. The choice is visual, so it's a grid of the glyphs themselves
-    rather than a select of names — nobody can judge «frame-corners-light» from the
-    string. Native radios, no JS: the checked ring comes from :has() in CSS.
-
-    The blank option is a real answer, not an empty state: a chapter with no emblem
-    of its own inherits its profession's, and repeating one glyph across sibling
-    chapters looks like a bug. `f` is the form builder, `record` the path or course. %>
+<%# Native radios, no JS — the checked ring comes from :has() in CSS. The blank option is a real answer (inherit the profession's emblem), not an empty state.
+    `f` is the form builder, `record` the path or course. %>
 <div class="admin-form__field admin-form__field--lg">
   <label><%= t("admin.field_icon") %></label>
 

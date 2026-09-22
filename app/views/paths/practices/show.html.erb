@@ -20,9 +20,7 @@
         <h2 class="hub-section__title"><%= t("paths.practice.heading") %></h2>
         <p class="hub-section__meta">
           <%= t("projects.tasks", count: @total_tasks) %>
-          <%# The one control: the save-for-later view for signed-in readers, a
-              quiet link beside the count. Levels need no filter — they ARE the
-              groups below. %>
+          <%# Levels need no filter — they ARE the groups below. %>
           <% if signed_in? && @total_tasks.positive? %>
             ·
             <%= link_to t("projects.saved_filter"), path_practice_path(@path, saved: @saved_only ? nil : "1"),
@@ -32,10 +30,6 @@
       </div>
 
       <% if @groups.any? %>
-        <%# A to-do list, Basecamp's own pattern: one list per level, a round
-            checkbox on every task, the done ones ticked and struck through.
-            Deliberately unlike the chapter page's rail-and-panels — the eye
-            should tell «practice» from «theory» before reading a word. %>
         <div class="todo">
           <% @groups.each do |difficulty, tasks| %>
             <% done_count = tasks.count { |task| @progress.completed?(task) } %>

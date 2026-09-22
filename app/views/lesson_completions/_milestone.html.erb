@@ -1,6 +1,4 @@
-<%# The loud cheer — reserved for finishing the whole profession, the one
-    moment a learner has something genuinely worth showing. Rendered into the
-    :flash frame, so the next flash update simply replaces it. %>
+<%# Rendered into the :flash frame, so the next flash update simply replaces it. %>
 <% path_url = "#{site_config.url}/paths/#{path.slug}" %>
 <% practice_count = path.lessons.practice.count %>
 <% tg_share = "https://t.me/share/url?#{ { url: path_url, text: t(".share_text", title: path.title) }.to_query }" %>
@@ -28,8 +26,6 @@
       <%= link_to t(".next_path"), paths_path, class: "btn" %>
     </div>
 
-    <%# The peak-gratitude moment: the one honest place to invite a thank-you
-        donation — after the value was delivered in full, never before. %>
     <p class="milestone__support">
       <%= t(".support_html", link: link_to(t(".support_link"), support_us_path, class: "milestone__support-link")) %>
     </p>

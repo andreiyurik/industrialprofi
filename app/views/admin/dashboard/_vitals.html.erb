@@ -1,7 +1,5 @@
-<%# The VPS vital-sign cards — lazy-loaded (see dashboard#vitals) because they
-    run a `df` shell-out and Solid Queue probes. Sit inside the .admin-stats grid. -%>
-<%# Disk safety — the metric that guards the single SQLite disk. Free space
-    is the headline; the database footprint is the detail. Red when low. %>
+<%# Lazy-loaded (see dashboard#vitals): a `df` shell-out and Solid Queue probes. %>
+<%# Free space guards the single SQLite disk; red when low. %>
 <div class="panel admin-stat <%= "admin-stat--warn" if @status.disk_low? %>">
   <span class="admin-stat__value">
     <%= @status.disk_free_bytes ? number_to_human_size(@status.disk_free_bytes) : "—" %>
@@ -13,16 +11,14 @@
   </span>
 </div>
 
-<%# Mail flow — a sudden zero means the SMTP-gated signup funnel is broken.
-    Counts delivered messages over the last 7 days (Solid Cache). %>
+<%# A sudden zero means the SMTP-gated signup funnel is broken. %>
 <div class="panel admin-stat">
   <span class="admin-stat__value"><%= @emails_week.nil? ? "—" : @emails_week %></span>
   <span class="admin-stat__label"><%= t("admin.dashboard.emails_week") %></span>
   <span class="admin-stat__detail"><%= t("admin.dashboard.emails_week_hint") %></span>
 </div>
 
-<%# Background-job health (Solid Queue) — shown only where the queue runs
-    (production). `failed` is the alarm: a silently dying mailer/job. %>
+<%# `failed` is the alarm: a silently dying mailer/job. %>
 <% if (jobs = @status.jobs) %>
   <div class="panel admin-stat <%= "admin-stat--warn" if jobs[:failed].positive? %>">
     <span class="admin-stat__value"><%= jobs[:failed] %></span>

@@ -1,5 +1,3 @@
-<%# The learner's own "why" under the greeting (TOP's "What's your learning
-    goal?"). Clicking swaps this frame for the inline edit form. %>
 <%= turbo_frame_tag "learning_goal" do %>
   <% if Current.user.learning_goal.present? %>
     <p class="learning-goal">

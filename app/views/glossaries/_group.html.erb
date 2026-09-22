@@ -1,8 +1,5 @@
 <%# locals: (path:, terms:, heading: true) -%>
-<%# One profession's terms — the /glossary page renders one per profession
-    (with its own heading), the profession hub renders its own under the
-    «Словарь» heading (heading: false). Entry anchors stay «slug-ТЕРМ» on
-    both, so a shared link lands the same either way. %>
+<%# Entry anchors stay «slug-ТЕРМ» on both /glossary and the path hub, so a shared link lands the same either way. %>
 <section class="glossary-group" id="<%= path.slug %>" data-glossary-filter-target="group">
   <% if heading %>
     <div class="glossary-group__head">
@@ -21,10 +18,8 @@
                data-text="<%= "#{term.abbr} #{term.full} #{term.note} #{term.analog}".downcase %>">
             <dt class="glossary__term">
               <span class="glossary__term-plate"><%= term.abbr %></span>
-              <%# «≈ RCD» — аналог в другой системе обозначений: ссылка-якорь,
-                  когда аналог есть в словаре записью, иначе просто текст. %>
-              <%# The class on the anchor also opts it out of the global
-                  a:not([class]) link styling — no blue, no :visited blue. %>
+              <%# Analog is a same-page anchor link when it's also a glossary entry, plain text otherwise. %>
+              <%# The class also opts the anchor out of the global a:not([class]) link styling. %>
               <% if term.analog %>
                 <span class="glossary__analog">≈
                   <% if (target = index[term.analog]) %>
@@ -42,7 +37,6 @@
               <% end %>
             </dd>
             <dd class="glossary__action">
-              <%# Every term is defined by a lesson — the button leads there. %>
               <%= link_to term.lesson, class: "btn btn--small", title: term.lesson.title do %>
                 <%= icon_tag "book-open" %>
                 <%= t("glossary.lesson_button") %>

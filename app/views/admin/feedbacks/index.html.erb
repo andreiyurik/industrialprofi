@@ -21,8 +21,7 @@
         <p class="admin-empty__text"><%= t("admin.feedbacks_none") %></p>
       </div>
     <% else %>
-      <%# Dense inbox: a compact row per message, full text on click (native
-          <details>, no JS) so a long queue stays scannable. %>
+      <%# Full text on click via native <details>, no JS, so a long queue stays scannable. %>
       <ul class="inbox">
         <% @feedbacks.each do |feedback| %>
           <li class="inbox__item">
@@ -48,8 +47,7 @@
                 </p>
                 <div class="inbox__body"><%= simple_format(feedback.body) %></div>
 
-                <%# Coauthor application → one-gesture approval: confirm the
-                    profession name, and role + draft + editorship land together. %>
+                <%# One-gesture approval — confirming lands role + draft + editorship together. %>
                 <% if feedback.coauthor_application? && feedback.user %>
                   <div class="inbox__approve panel">
                     <p class="inbox__approve-label"><%= t("admin.coauthor_approve.label") %></p>

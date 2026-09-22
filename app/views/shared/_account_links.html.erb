@@ -1,16 +1,7 @@
 <%# locals: (unseen_outcomes: false) -%>
-<%# The personal menu, rendered by BOTH surfaces — the hamburger drawer and the
-    desktop popover. One list, so an item can never exist in one menu and not the
-    other. The containers stay different on purpose: a full-height sheet on a phone,
-    an anchored popover on a wide screen. %>
 <nav class="account-menu__nav">
-  <%# The workspace link leads the list, separated from the personal items — an
-      admin/editor reaches for it daily. Admins land on the overview; editors on
-      their main job, the moderation queue. %>
-  <%# aria-current marks the row of the page the reader is ON — the global nav
-      rows already do this; without it the personal group gave no orientation.
-      Section-level on purpose (any admin page lights «Админка», any journal
-      page lights «Дневник»), matching the nav rows' controller checks. %>
+  <%# Admins land on the overview; editors on their main job, the moderation queue. %>
+  <%# aria-current is section-level — any admin page lights «Админка», matching the global nav rows' controller checks. %>
   <% if Current.user.can_edit_content? %>
     <%= link_to (Current.user.can_administer? ? admin_root_path : admin_lesson_suggestions_path),
           class: "account-menu__link account-menu__link--work",

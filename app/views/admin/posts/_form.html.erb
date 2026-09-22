@@ -1,5 +1,3 @@
-<%# Shared by new + edit. form_with routes to create/update by record state.
-    file_field flips the form to multipart automatically. %>
 <%# Asks the layout for the editor's stylesheets — readers don't get them. %>
 <% content_for :rich_text_editor, true %>
 <%= form_with(model: [ :admin, post ], class: "admin-form") do |f| %>
@@ -27,9 +25,7 @@
     <p class="admin-form__hint"><%= t("admin.hero_image_hint") %></p>
   </div>
 
-  <%# Images enabled on the body, routed through the same validating, gated
-      upload endpoint the lesson editor uses (image-only, size-capped) — shared
-      via lexxy_image_options. %>
+  <%# Routed through the same validating, gated upload endpoint (image-only, size-capped) as the lesson editor. %>
   <div class="admin-form__field admin-form__field--lg">
     <label><%= t("admin.field_body") %></label>
     <%= f.rich_text_area :rich_body, class: "lexxy-content",

@@ -52,9 +52,6 @@
     <% current_html  = @lesson.section_html(@suggestion.section) %>
     <% proposed_html = @suggestion.proposed_html %>
 
-    <%# Two lenses, toggled client-side (no reload): «Рядом» reads each version on
-        its own — legible at any edit size, the default — and «Изменения» is the
-        inline word diff for pinning down a small, precise change. %>
     <div class="review-compare" data-controller="segmented" data-segmented-active-value="side">
       <div class="segmented" role="tablist">
         <button type="button" class="segmented__tab" data-segmented-target="tab" data-view="side"

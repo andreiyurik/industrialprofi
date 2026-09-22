@@ -1,7 +1,5 @@
 <%# locals: (caption:, value:, link: nil) %>
-<%# One direct-transfer requisite row with a copy-to-clipboard button (reuses the
-    copy-link Stimulus controller). The button is rendered `hidden` and revealed by
-    JS, so without JS the number is still there to select and copy by hand. %>
+<%# The copy button is rendered `hidden` and revealed by JS — without JS the value is still there to select by hand. %>
 <div class="support-direct__row"
      data-controller="copy-link"
      data-copy-link-url-value="<%= value %>"

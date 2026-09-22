@@ -11,8 +11,6 @@
       </header>
 
       <% if @partners_by_tier.any? %>
-        <%# Only tiers that actually have entries render — no empty "Gold/Silver"
-            headings ever. The page grows into the tiered layout on its own. %>
         <% PagesController::TIER_ORDER.each do |tier| %>
           <% entries = @partners_by_tier[tier] %>
           <% next if entries.blank? %>
@@ -34,19 +32,15 @@
           </section>
         <% end %>
       <% else %>
-        <%# Invitation mode (no partners yet): forward-looking, never an empty roster. %>
         <p class="partners-invite"><%= t("partners.empty_invite") %></p>
       <% end %>
 
-      <%# The trust firewall, stated plainly — support is recognition, not
-          editorial influence. This is what keeps the trust the project runs on. %>
       <div class="partners-independence panel">
         <h2 class="partners-independence__title"><%= t("partners.independence_title") %></h2>
         <p class="partners-independence__text"><%= t("partners.independence_text") %></p>
       </div>
 
-      <%# Companies reach the founder directly — CloudTips caps at 5000 ₽ one-time,
-          so larger / recurring / corporate support is arranged here. %>
+      <%# CloudTips caps at 5000 ₽ one-time — larger/recurring support is arranged directly. %>
       <div class="partners-cta panel">
         <h2 class="partners-cta__title"><%= t("partners.cta_title") %></h2>
         <p class="partners-cta__text"><%= t("partners.cta_text_html") %></p>

@@ -91,13 +91,8 @@
         <span class="admin-stat__detail"><%= t("admin.dashboard.journal_hint") %></span>
       </div>
 
-      <%# VPS vital signs (disk, mail, jobs) load in their own frame — they run a
-          `df` shell-out + queue probes, so splitting them off lets the rest of
-          the dashboard paint at once while these fetch in parallel. The frame is
-          eager (default): it's above the fold, so fetch immediately, not on
-          scroll — and #dashboard_vitals is display:contents (no box of its own,
-          which is why lazy/IntersectionObserver wouldn't fire here) so its cards
-          drop straight into this grid. %>
+      <%# Own frame so the `df` shell-out + queue probes don't block the rest of the dashboard painting.
+          Eager, not lazy: #dashboard_vitals is display:contents, so IntersectionObserver would never fire. %>
       <%= turbo_frame_tag :dashboard_vitals, src: admin_dashboard_vitals_path do %>
         <% 3.times do %>
           <div class="panel admin-stat admin-stat--skeleton" aria-hidden="true">

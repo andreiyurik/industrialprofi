@@ -1,8 +1,7 @@
 <% meta_title(t("dashboard.title")) %>
 
 <section class="section">
-  <%# Reading-width column: this is a personal work page, not a catalog —
-      narrow keeps each row's label and action next to each other. %>
+  <%# Narrow reading column: a personal work page, not a catalog. %>
   <div class="container container--reading dashboard">
     <h1 class="dashboard__greeting"><%= t("dashboard.greeting", name: Current.user.first_name) %></h1>
 
@@ -10,8 +9,6 @@
       <% completed_ids = @completed_ids_by_path[@focus_path] %>
       <% next_lesson = @focus_path.lessons.detect { |lesson| !completed_ids.include?(lesson.id) } %>
 
-      <%# TOP-style identity card: the direction + the learner's own goal,
-          then ONE big next action. Everything below is quieter than this. %>
       <section class="panel dashboard-hero">
         <div class="dashboard-hero__identity">
           <span class="dashboard-hero__badge"><%= render "shared/topic_badge", token: @focus_path.emblem %></span>
@@ -39,8 +36,6 @@
         </div>
       </section>
 
-      <%# TOP's "Skills Progress": one row per course — ring with the percent
-          always visible, counts, and the right verb for the state. %>
       <h2 class="dashboard__section-title"><%= t("dashboard.courses_title") %></h2>
       <p class="dashboard__section-hint"><%= t("dashboard.courses_hint") %></p>
       <section class="panel dashboard-courses">
@@ -62,8 +57,7 @@
             <% practice_n = progress.practice_count %>
             <div class="dashboard-course">
               <% if done_count.zero? %>
-                <%# An untouched course shows its step number, not a reproachful
-                    "0%" — the list reads as a route, not a wall of zeros. %>
+                <%# Zero-progress course shows its step number, not an empty ring. %>
                 <span class="dashboard-course__ring dashboard-course__ring--step"><%= index + 1 %></span>
               <% else %>
                 <span class="dashboard-course__ring">
@@ -98,8 +92,7 @@
         <% end %>
       </section>
 
-      <%# Rendered even when empty: a returning learner should see the quiet
-          invitation to fill it, not a missing section. %>
+      <%# Rendered even when empty — the invitation to fill it, not a missing section. %>
       <%= render "heatmap", activity: @activity, since: @activity_since %>
 
       <% if @other_paths.any? %>
@@ -129,9 +122,6 @@
       <div class="dashboard__empty">
         <p class="dashboard__empty-text"><%= t("dashboard.empty") %></p>
         <%= link_to t("dashboard.browse_paths"), paths_path, class: "btn btn--reversed btn--large" %>
-        <%# The study method's second home after the one-shot welcome letter:
-            a newcomer can always find «как здесь учиться» from the very
-            surface where they land with zero progress. %>
         <%= link_to t("dashboard.how_it_works"), faq_path, class: "link-quiet link-quiet--underline" %>
       </div>
 

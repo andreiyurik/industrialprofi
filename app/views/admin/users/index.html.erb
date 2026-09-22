@@ -8,8 +8,7 @@
       <h1 class="admin-header__title"><%= t("admin.users_title") %></h1>
     </div>
 
-    <%# Filter tabs — one query param each, search preserved. Switching a filter
-        resets to page 1. Counts come from a single grouped query. %>
+    <%# Switching a filter resets to page 1; counts come from a single grouped query. %>
     <% filters = [
          [ t("admin.users.filter_all"),          {},                       @counts[:all],           params[:role].blank? && params[:status].blank? ],
          [ t("admin.roles.member"),               { role: "member" },        @counts[:member],        params[:role] == "member" ],
@@ -44,8 +43,7 @@
 
       <div class="admin-list">
         <% @users.each do |user| %>
-          <%# Scan-and-navigate row: name + state, click through to manage. All
-              role/access/suspend controls live on the user card now. %>
+          <%# Scan-and-navigate row: role/access/suspend controls live on the user card, not here. %>
           <a href="<%= admin_user_path(user) %>" class="admin-row">
             <span class="admin-row__column">
               <span class="admin-row__line">

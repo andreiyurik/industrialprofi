@@ -43,10 +43,7 @@
       </p>
       <%= render "admin/lessons/editor_cheatsheet" %>
 
-      <%# Images are enabled only on the body and task sections, only for editors
-          (this whole form is gated), routed through the validating upload
-          endpoint, capped at 2 MB, image-only. The description is a one-sentence
-          WHY — no images there. Upload config is shared via lexxy_image_options. %>
+      <%# Images only on body/task via lexxy_image_options; description stays text-only on purpose. %>
       <div class="admin-form__field admin-form__field--lg">
         <label><%= t("admin.field_description") %></label>
         <%= f.rich_text_area :rich_description, class: "lexxy-content", attachments: "false",
@@ -71,8 +68,7 @@
         <p class="admin-form__hint"><%= t("admin.lesson_links.hint") %></p>
       </div>
 
-      <%# Live badge palette for the editor: one colour per kind, mirroring the
-          reader's resource badges (documents skew "norm" red on this platform). %>
+      <%# Mirrors the reader's resource badges — documents skew "norm" red on this platform. %>
       <% kind_badges = Resource::KINDS.index_with { |k|
            [ "badge--#{k}", t("lessons.resource_kinds.#{k}") ]
          } %>
@@ -103,9 +99,7 @@
         </div>
       </div>
 
-      <%# The lesson's abbreviations — the profession's dictionary is derived from
-          these, so a term is added where it is explained. Same nested-form
-          controller as the links above; no order (a dictionary is alphabetical). %>
+      <%# The profession's dictionary is derived from these terms; no manual order — a dictionary is alphabetical. %>
       <div class="admin-form__field admin-form__field--lg" id="terms-editor">
         <label><%= t("admin.terms.heading") %></label>
         <p class="admin-form__hint"><%= t("admin.terms.hint") %></p>

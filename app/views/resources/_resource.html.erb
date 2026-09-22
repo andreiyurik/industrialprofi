@@ -1,8 +1,3 @@
-<%# One source: the coloured kind glyph in the margin (the type axis — its
-    word is for screen readers and the tooltip, never repeated under every
-    row), the title as the link, and beneath it only what adds information:
-    the language marker and the curator's one-liner («что именно смотреть»).
-    A source without either is a single clean line. %>
 <% meta = resource_badge_meta(resource) %>
 <% kind = t("lessons.resource_kinds.#{meta[:label]}", default: meta[:label].humanize) %>
 <li class="lesson-resource <%= resource.required? ? "lesson-resource--required" : "lesson-resource--optional" %>">
@@ -15,9 +10,7 @@
         <%= resource.title %>
       </a>
     <% else %>
-      <%# Name-only source (no vetted URL). Rendered readable (not a greyed-out
-          "disabled" look) — the exact title IS the value. One block-level note
-          below explains the missing link, instead of repeating on every row. %>
+      <%# No vetted URL — rendered readable, not greyed-out: the title IS the value. %>
       <span class="lesson-resource__link lesson-resource__link--pending"><%= resource.title %></span>
     <% end %>
     <% if resource.language.present? || resource.note.present? %>

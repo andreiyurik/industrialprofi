@@ -1,7 +1,5 @@
 <%# locals: (lesson:, bookmarked:) -%>
-<%# Save-for-later toggle. One markup for every context (lesson page, project
-    card) so the Turbo Stream replace can re-render it blindly; the card hides
-    the text label via CSS and keeps just the icon. %>
+<%# One markup for every context (lesson page, project card) so the Turbo Stream replace can re-render it blindly. %>
 <div id="<%= dom_id(lesson, :bookmark) %>" class="bookmark-toggle">
   <% if bookmarked %>
     <%= button_to lesson_bookmark_path(lesson), method: :delete,

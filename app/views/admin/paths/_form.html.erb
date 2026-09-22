@@ -1,4 +1,3 @@
-<%# Shared by new + edit. form_with routes to create/update by record state. %>
 <%= form_with(model: [ :admin, path ], class: "admin-form") do |f| %>
   <%= render "admin/shared/form_errors", object: path %>
 
@@ -18,17 +17,14 @@
 
   <%= render "admin/shared/status_field", f: f, record: path %>
 
-  <%# The «О профессии» landing: six slots, each a plain textarea (markdown or
-      one item per line) — the placeholder is the manual. Same slots the pack's
-      landing.yml carries; see Path::Landing. %>
+  <%# Six slots match Path::Landing's landing.yml; the placeholder text is the manual. %>
   <fieldset class="admin-form__group" id="landing-editor">
     <legend class="admin-form__group-title"><%= t("admin.landing.heading") %></legend>
     <p class="admin-form__hint"><%= t("admin.landing.hint") %></p>
 
     <div class="admin-form__field">
       <label><%= t("admin.landing.cover") %></label>
-      <%# Only a saved cover can be previewed — after a refused upload the form
-          re-renders with an unsaved attachment that has no URL yet. %>
+      <%# Only a saved cover can be previewed — a refused upload re-renders with no URL yet. %>
       <% if path.cover.attached? && path.cover.blob&.persisted? %>
         <%= image_tag path.cover, class: "admin-form__preview", alt: "" %>
         <label class="admin-form__check">

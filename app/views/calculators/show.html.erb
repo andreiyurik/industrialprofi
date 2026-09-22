@@ -1,5 +1,4 @@
-<%# Tools compete on head terms — keep <title> keyword-tight (no domain suffix,
-    which only ate the SERP char budget); brand stays in the OG title for shares. %>
+<%# Keep <title> keyword-tight, no domain suffix — it only eats the SERP char budget; brand stays in the OG title. %>
 <% content_for :title, @calculator.title %>
 <% content_for :og_title, "#{@calculator.title} — #{t('site.name')}" %>
 <% meta_description(@calculator.tagline) %>

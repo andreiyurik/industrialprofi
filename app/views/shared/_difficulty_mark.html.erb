@@ -1,8 +1,5 @@
 <%# locals: (difficulty:, sr_label: true, tooltip: true) -%>
-<%# Difficulty as a РАЗРЯД: a Roman numeral in the GOST drafting face — the
-    trades' own rank system (разряды, группы допуска) doubling as a game-style
-    level for the younger crowd. Steel grade hues from colors.css --lch-grade-*.
-    tooltip: false lets a wrapping control own the hover text instead. %>
+<%# tooltip: false lets a wrapping control own the hover text instead. %>
 <% numeral = { "beginner" => "I", "intermediate" => "II", "advanced" => "III" }.fetch(difficulty, "I") %>
 <span class="difficulty-mark difficulty-mark--<%= difficulty %>" aria-hidden="true"
       <% if tooltip %>title="<%= t("lessons.difficulty.#{difficulty}") %>"<% end %>><%= numeral %></span>

@@ -11,8 +11,6 @@
   ])) %>
 <% end %>
 
-<%# Two shelves, each shown only when it has something — a heading over an
-    empty list is noise («мёртвое тише живого»). %>
 <% shelves = { documents: @entries.any?, tools: @calculators.any? }.select { |_, present| present }.keys %>
 
 <section class="section">

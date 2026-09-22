@@ -5,10 +5,6 @@
 <section class="section">
   <div class="container">
     <div class="support-hero">
-      <%# Living emblem — a monochrome line "hand offering a heart" (the universal
-          give/support glyph, matching the donate button), with a soft ambient
-          glow breathing behind it and a gentle float. Pure CSS, no JS / no assets,
-          on-brand line-style. Honors prefers-reduced-motion. %>
       <div class="support-emblem" aria-hidden="true">
         <span class="support-emblem__icon"><%= render "shared/support_emblem" %></span>
       </div>
@@ -17,25 +13,17 @@
       <h1 class="support-hero__title"><%= t("support.title") %></h1>
       <p class="support-hero__lede"><%= t("support.intro") %></p>
       <div class="support-hero__cta">
-        <%# Coffee, not a third hand-heart: the emblem above owns that glyph,
-            and «купи кофе» is the one micro-donation gesture everyone knows. %>
         <a href="<%= site_config.donate_url %>" class="btn btn--reversed btn--large support-btn support-btn--give" target="_blank" rel="noopener">
           <%= t("support.donate_cta") %>
           <%= icon_tag "coffee" %>
         </a>
-        <%# GitHub Sponsors can't pay out to RU — so GitHub's role here is a free,
-            real way to help: a star = visibility = contributors (open-commons). %>
         <a href="<%= site_config.github_url %>" class="btn btn--large support-btn" target="_blank" rel="noopener">
           <%= t("support.github_cta") %>
           <%= icon_tag "star" %>
         </a>
       </div>
       <p class="support-hero__github-note"><%= t("support.github_note") %></p>
-      <%# The argument for the hesitant sits BELOW the actions: the already
-          convinced shouldn't scroll past a wall of persuasion to reach them. %>
       <p class="support-hero__signal"><%= t("support.signal") %></p>
-      <%# "Alive" signal for a pre-traction project: not usage numbers (which
-          would be empty), but visible momentum — the living roadmap + open code. %>
       <p class="support-hero__alive">
         <%= t("support.alive_html", roadmap_url: roadmap_path, github_url: site_config.github_url) %>
       </p>
@@ -43,9 +31,6 @@
   </div>
 </section>
 
-<%# The ask: recurring first (the real foundation), then one-time. Amounts are
-    honest anchors with soft impact captions — no donor counts, nothing that
-    reads empty at launch. %>
 <section class="section support-give">
   <div class="container">
     <div class="support-give__inner">
@@ -100,8 +85,6 @@
   </div>
 </section>
 
-<%# Companies need a different rail (CloudTips caps at 5000 ₽ one-time) — point
-    them to /partners rather than an empty sponsor wall here. %>
 <section class="section">
   <div class="container">
     <div class="support-company">
@@ -112,8 +95,6 @@
   </div>
 </section>
 
-<%# Destination, not traction: sell where this is going (the platform-constructor
-    ambition), framed honestly as direction — the donor funds a future. %>
 <section class="section">
   <div class="container">
     <div class="support-vision__inner">

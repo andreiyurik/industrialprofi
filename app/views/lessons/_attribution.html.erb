@@ -1,9 +1,5 @@
 <%# locals: (lesson:) -%>
-<%# The quiet byline under the completion bar — the same words as the hub
-    header («Карту ведёт …»): a search visitor lands on the article, not the
-    hub, and should still see who answers for the map (the machine-readable
-    half is the lesson's JSON-LD). Reader-contributor names deliberately stay
-    OFF this page — their credit lives in the open revision history. %>
+<%# Reader-contributor names deliberately stay off this page — their credit lives in the open revision history. %>
 <% curators = lesson.path.curators.to_a %>
 <% if curators.any? %>
   <p class="lesson-attribution">

@@ -1,11 +1,5 @@
 <% meta_title(t("account.title")) %>
 
-<%# Fizzy users/edit anatomy, verbatim: ONE bordered panel card (~45ch), the
-    avatar block on top, large rounded fields (no per-field labels — values and
-    placeholders speak), the email value carries its change-link INSIDE the
-    field row, and a single full-width primary save. Password/danger sit under
-    a hairline at the card's foot — flows Fizzy keeps on separate pages, kept
-    here because this is our only account surface. %>
 <section class="section">
   <div class="container">
     <h1 class="section-title"><%= t("account.title") %></h1>
@@ -14,8 +8,6 @@
       <div class="account-card__identity">
         <span class="account-card__portrait"><%= avatar_tag(Current.user) %></span>
 
-        <%# Preset picker (no uploads — see Avatar): radio grid on the admin
-            emblem-field mechanic, auto-submit saves the click. %>
         <details class="avatar-picker">
           <summary class="avatar-picker__summary"><%= t("account.avatar_change") %></summary>
           <%= form_with url: account_path, method: :patch,
@@ -39,9 +31,7 @@
         </details>
 
         <% if Current.user.photo_allowed? %>
-          <%# A curator may show a face (members keep the disc — bounded by
-              grants, not users). Picking a file uploads it at once; one 256px
-              WebP is stored, the original is never kept (User::Photo). %>
+          <%# Uploads at once; only a 256px WebP is stored, the original is never kept (User::Photo). %>
           <div class="photo-actions">
             <%= form_with url: account_photo_path, method: :post, multipart: true,
                   data: { controller: "auto-submit" } do |f| %>
@@ -60,13 +50,12 @@
         <% end %>
       </div>
 
-      <%# One form, one save — Fizzy's shape. The readonly email row lives
-          inside it visually; without a name attribute it never submits. %>
       <%= form_with url: account_path, method: :patch, class: "account-card__form" do |f| %>
         <%= f.text_field :name, value: Current.user.name, name: "user[name]",
               required: true, autocomplete: "name", class: "input",
               placeholder: t("account.name_label"), aria: { label: t("account.name_label") } %>
 
+        <%# No name attribute — this row must never submit through this form. %>
         <div class="input account-card__actor">
           <span class="account-card__actor-value"><%= Current.user.email_address %></span>
           <%= link_to t("account.change_email"), edit_account_email_path, class: "account-card__actor-link" %>

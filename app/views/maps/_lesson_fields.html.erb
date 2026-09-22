@@ -1,8 +1,5 @@
 <%# locals: (f:, lesson:, extra:) -%>
-<%# The author's additions to one chosen lesson — a comment to the learner and
-    their own links under it. Shown only while the row's pencil is toggled on
-    (CSS), hidden while the lesson itself is unchecked. The blank row a new
-    link is cloned from lives once per page (maps/_checklist). %>
+<%# Shown only while the row's pencil is toggled on (CSS), hidden while the lesson itself is unchecked. %>
 <div class="map-lesson-row__body">
   <%= text_field_tag "lessons[#{lesson.id}][note]", extra&.note, id: "lesson_#{lesson.id}_note",
         maxlength: 200, placeholder: t("maps.form.lesson_note"), class: "input input--ghost map-lesson-row__note" %>

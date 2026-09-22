@@ -1,6 +1,4 @@
-<%# The pending-suggestions queue. Wrapped in #suggestions so a decision (approve/
-    reject) can replace it in place via Turbo Stream — the empty state and any
-    now-empty group disappear naturally on re-render, no surgical row removal. %>
+<%# Wrapped in #suggestions so a decision's Turbo Stream can replace it whole — no surgical row removal. %>
 <div id="suggestions">
   <% if @grouped.empty? %>
     <div class="admin-empty">
@@ -32,10 +30,7 @@
                   </p>
                 </span>
               </a>
-              <%# Quick approve without leaving the queue (params[:inline]).
-                  Rejection deliberately has no one-click shortcut: it goes
-                  through the row's review page, where the full diff and the
-                  required reason field live — the author always learns why. %>
+              <%# Rejection has no one-click shortcut on purpose — it routes through the review page's required reason field. %>
               <div class="admin-row__actions">
                 <%= button_to approve_admin_lesson_suggestion_path(suggestion), method: :patch,
                       params: { inline: true, order: @order },

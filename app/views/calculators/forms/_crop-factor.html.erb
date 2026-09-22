@@ -1,8 +1,7 @@
 <div class="calc__grid">
   <div class="calc__inputs">
     <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
-    <%# Открываем на микро 4/3: на полном кадре коэффициент равен 1 и калькулятор
-        не показывает того, ради чего существует. %>
+    <%# Открываем на микро 4/3 — на полном кадре коэффициент равен 1, и калькулятор не показывает смысла. %>
     <%= render "calculators/format_select", selected: "m43" %>
     <div class="calc__row">
       <%= render "calculators/field", field: "f", label: t("calculators.fields.focal"), unit: "мм", value: 25 %>

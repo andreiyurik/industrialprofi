@@ -74,7 +74,6 @@
       <% end %>
     </div>
 
-    <%# ── Snapshot ── %>
     <div class="admin-stats">
       <div class="panel admin-stat">
         <span class="admin-stat__value"><%= @completions_total %></span>
@@ -128,7 +127,6 @@
       </div>
     <% end %>
 
-    <%# ── Progress by profession ── %>
     <% if @started_paths.any? %>
       <div class="admin-group">
         <div class="admin-group__head">
@@ -175,7 +173,6 @@
       <% end %>
     </div>
 
-    <%# ── Recent activity ── %>
     <% if @completions.any? || @recent_journal.any? %>
       <div class="admin-group">
         <div class="admin-group__head">

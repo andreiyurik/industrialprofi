@@ -1,8 +1,4 @@
-<%# Interlanguage menu: plain crawlable links, never a cookie or an
-    Accept-Language redirect (Googlebot crawls from the US and must reach /ru
-    freely). Opened from the globe in the header on every screen; each
-    language names itself in its own tongue — no flags (a language is not a
-    country). %>
+<%# Plain crawlable links, never a cookie or Accept-Language redirect — Googlebot crawls from the US and must reach /ru freely. %>
 <nav class="locale-switcher" aria-label="<%= t("nav.language") %>">
   <% I18n.available_locales.each do |locale| %>
     <% if locale == I18n.locale %>

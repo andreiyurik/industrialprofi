@@ -2,8 +2,7 @@
   <div class="calc__inputs">
     <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
 
-    <%# Дефолт — Москва и сегодняшний день: и то и другое лучше произвольной даты,
-        а кнопка заменяет все три поля координатами самого читателя. %>
+    <%# Дефолт — Москва и сегодняшний день, лучше произвольной даты. %>
     <p class="calc-locate">
       <button type="button" class="btn btn--small" data-action="<%= @calculator.controller %>#locate">
         <%= icon_tag "map-trifold" %>
