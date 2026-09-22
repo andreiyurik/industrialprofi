@@ -1,14 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Reading mode: strips the page chrome (header, both rails, breadcrumbs) so
-// only the lesson text remains, and — Writebook-style — takes the browser
-// fullscreen on top (best effort: silently skipped where the Fullscreen API
-// is unavailable, e.g. iPhone Safari). The choice lives in a cookie, so the
-// server renders every next lesson already stripped — no flash of chrome.
-// Esc leaves the mode (and fullscreen with it).
-//
-// Progressive enhancement: the toggle button is rendered `hidden` and revealed
-// here on connect — without JS there is no dead button.
+// Cookie-backed so the server renders the next lesson already stripped — no flash
+// of chrome. The toggle button ships `hidden`, revealed here so there's no dead
+// button without JS.
 export default class extends Controller {
   static targets = ["toggle"]
   static classes = ["active"]
@@ -33,9 +27,8 @@ export default class extends Controller {
     this.leaveFullscreen()
   }
 
-  // Fullscreen is page state, not preference: it survives Turbo visits to the
-  // next lesson by itself and is NOT re-requested from the cookie on load —
-  // browsers only allow the request from a user gesture anyway.
+  // Fullscreen is page state, not preference — it survives Turbo visits by itself
+  // and isn't re-requested from the cookie (browsers require a user gesture anyway).
   enterFullscreen() {
     if (document.documentElement.requestFullscreen) {
       document.documentElement.requestFullscreen().catch(() => {})

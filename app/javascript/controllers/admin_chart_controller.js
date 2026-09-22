@@ -3,9 +3,7 @@ import { Chart, registerables } from "chart.js"
 
 Chart.register(...registerables)
 
-// One reusable weekly bar+trend chart for the admin dashboard — pass labels
-// and counts as JSON values, get bars (this week's count) with a 4-week
-// moving-average line laid over them (the trend, not just the noise).
+// Weekly bar chart with a 4-week moving-average trend line overlaid.
 export default class extends Controller {
   static values = {
     labels: Array,
@@ -46,8 +44,7 @@ export default class extends Controller {
         scales: {
           x: {
             grid: { display: false },
-            // Force horizontal labels and thin them out instead — a dozen
-            // diagonal week labels read as clutter on a phone-width chart.
+            // Horizontal labels, thinned out — diagonal week labels clutter a phone-width chart.
             ticks: { color: this.#color("--color-subtle-dark"), maxRotation: 0, autoSkip: true },
           },
           y: { beginAtZero: true, ticks: { precision: 0, color: this.#color("--color-subtle-dark") } },
@@ -73,9 +70,7 @@ export default class extends Controller {
     })
   }
 
-  // Reads a CSS custom property's used value, so the chart follows the app's
-  // OKLCH palette instead of hardcoding a colour (see rough_annotation_controller
-  // for the same probe pattern).
+  // Reads a CSS custom property's used value, so the chart follows the OKLCH palette.
   #color(variable) {
     const probe = document.createElement("span")
     probe.style.cssText = `color: var(${variable}); display: none`

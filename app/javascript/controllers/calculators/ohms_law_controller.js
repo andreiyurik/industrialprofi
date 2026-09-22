@@ -2,9 +2,7 @@
 import CalculatorController from "controllers/calculator_controller"
 import { ohmsLaw } from "calculators/math/electrical"
 
-// Колесо закона Ома. Четыре сектора U-I-R-P меняют состояние вместе с формой:
-// заданное вами — ярко и своим цветом, выведенное калькулятором — акцентом,
-// пустое — приглушено. Так видно не только числа, но и КТО их поставил.
+// Заданное — ярко своим цветом, выведенное — акцентом, пустое — приглушено.
 const QUANTITIES = ["u", "i", "r", "p"]
 
 export default class extends CalculatorController {
@@ -25,8 +23,7 @@ export default class extends CalculatorController {
       const value = solved[key]
       sector.dataset.state = input[key] != null ? "given" : value == null ? "empty" : "derived"
       const slot = sector.querySelector("[data-sector-value]")
-      // Значащие цифры, а не знаки после запятой: в секторе мало места, а
-      // величины гуляют от миллиампер до киловатт.
+      // Значащие цифры, не знаки после запятой: величины гуляют от мА до кВт.
       if (slot) slot.textContent = this.sig(value, 4)
     })
   }

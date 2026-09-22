@@ -2,11 +2,8 @@
 import CalculatorController from "controllers/calculator_controller"
 import { rtdRange, rtdResistance, rtdTemperature } from "calculators/math/kipia"
 
-// Кривая НСХ выбранного датчика во весь его рабочий диапазон и точка, в которую
-// попал расчёт. Оба хода живут на одной кривой: закрашенная точка — та, что
-// пришла от температуры, кольцо — та, что от сопротивления. На умолчаниях они
-// совпадают, и это и есть ответ на вопрос «почему 138,5 Ом — это 100 °C».
-// Дублирует координаты дорожки из diagrams/_resistance-thermometer.html.erb.
+// Закрашенная точка — от температуры, кольцо — от сопротивления; на умолчаниях
+// совпадают. Дублирует координаты дорожки из diagrams/_resistance-thermometer.html.erb.
 const PLOT_X = 46
 const PLOT_Y = 14
 const PLOT_WIDTH = 344

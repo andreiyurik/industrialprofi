@@ -1,10 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import { elementAfter } from "helpers/dom_helpers"
 
-// Add / remove / reorder rows for a has_many rendered with
-// accepts_nested_attributes_for. No gem — the Rails "child_index template"
-// pattern plus a little native drag-and-drop. Used by the lesson resource
-// (links) editor; generic enough to reuse elsewhere.
+// No gem — Rails "child_index template" plus native drag-and-drop.
 export default class extends Controller {
   static targets = ["list", "template", "item", "badge", "kind", "position", "destroy"]
   static values = { kinds: Object, templateId: String, defaults: Object }
@@ -72,14 +69,12 @@ export default class extends Controller {
 
   // Private
 
-  // Editors that repeat down a page (a links box under every lesson of a map)
-  // share one blank row instead of shipping a copy each.
+  // Editors that repeat down a page share one blank row instead of a copy each.
   get #template() {
     return this.hasTemplateTarget ? this.templateTarget : document.getElementById(this.templateIdValue)
   }
 
-  // What a shared blank row cannot know: which lesson this particular box
-  // hangs under.
+  // What a shared blank row cannot know: which lesson this box hangs under.
   #applyDefaults(item) {
     Object.entries(this.defaultsValue).forEach(([name, value]) => {
       const field = item.querySelector(`[name$="[${name}]"]`)
@@ -87,9 +82,7 @@ export default class extends Controller {
     })
   }
 
-  // The kind dot borrows the reader-facing badge hue (the modifier class sets
-  // `color`; the dot paints itself with currentColor). Updates live as the
-  // kind <select> changes; the word itself lives in the select.
+  // The dot borrows the badge hue via currentColor; updates live as the kind <select> changes.
   #paintBadge(item) {
     const badge = item?.querySelector("[data-nested-form-target='badge']")
     const kind = item?.querySelector("[data-nested-form-target='kind']")

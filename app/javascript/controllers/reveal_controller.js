@@ -1,12 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 import { nextFrame, delay } from "helpers/timing_helpers"
 
-// Reliable in-page anchoring for a page whose layout settles late. The lesson
-// page's "edit links" button links to #resources-editor, but a native anchor
-// jump lands too high: the rich-text (Lexxy) editors above expand AFTER load and
-// push the target down. When this element is the current URL anchor, we re-scroll
-// to it once layout has settled and focus the first link's URL field, so the
-// expert lands right in the link editor.
+// A native anchor jump to #resources-editor lands too high: rich-text (Lexxy)
+// editors above expand AFTER load and push the target down. Re-scroll once layout
+// has settled and focus the first link's URL field.
 export default class extends Controller {
   connect() {
     if (location.hash !== `#${this.element.id}`) return

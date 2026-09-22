@@ -1,14 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 import { csrfToken } from "helpers/http_helpers"
 
-// Inline rename: double-click a title to edit it in place; Enter (form submit)
-// PATCHes a thin endpoint and the new text simply stays. Escape cancels; on a
-// failed request we revert and flash the title red. Used in the builder for
-// lesson/course titles and section headings — the heading also mirrors the new
-// name into its data-stage, which the reorder payload reads.
-//
-// While editing we disable the nearest draggable ancestor so selecting text in
-// the input doesn't start a drag.
+// Enter PATCHes and the text stays; Escape/a failed request reverts. mirrorAttr
+// also updates data-stage, which the reorder payload reads. The nearest draggable
+// ancestor is disabled while editing so text selection doesn't start a drag.
 export default class extends Controller {
   static targets = ["display", "form", "input"]
   static values = {

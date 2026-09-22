@@ -1,12 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 import { rafThrottle } from "helpers/timing_helpers"
 
-// The lesson TOC ("В этой статье"). Two jobs:
-//  - mark the entry for the section under the reading line (30% down the
-//    viewport), tracked with a passive scroll listener;
-//  - on click, glide to the section smoothly, mark the clicked entry at once
-//    (no flicker through the sections passed on the way), and update the URL
-//    hash with replaceState so Back still leaves the page in one step.
+// Marks the entry at the 30% reading line while scrolling; on click, glides and
+// updates the URL hash with replaceState so Back leaves the page in one step.
 export default class extends Controller {
   static targets = ["link"]
 
@@ -39,8 +35,7 @@ export default class extends Controller {
     event.preventDefault()
     this.mark(link)
 
-    // Hold the highlight on the chosen entry while the page glides past the
-    // sections in between, then hand tracking back to the scroll listener.
+    // Holds the highlight on the clicked entry while the page glides past sections in between.
     this.settling = true
     clearTimeout(this.settleTimer)
     this.settleTimer = setTimeout(() => {
@@ -59,8 +54,7 @@ export default class extends Controller {
     const entries = [...this.anchored.entries()]
     if (entries.length === 0) return
 
-    // At the very bottom the last sections can never reach the reading line —
-    // there the deepest entry wins.
+    // At the very bottom the last sections can never reach the reading line.
     const atBottom =
       window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
     if (atBottom) {

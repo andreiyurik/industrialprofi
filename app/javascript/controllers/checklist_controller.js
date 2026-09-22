@@ -1,8 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-// «Все · Ничего» over a checkbox list, plus a live «chosen of total» count —
-// Fizzy's toggle_class_controller#checkAll/checkNone, scoped: a button inside
-// a [data-checklist-group] acts on that group, one outside on the whole list.
+// Fizzy's toggle_class_controller#checkAll/checkNone: «Все · Ничего» plus a live count.
 export default class extends Controller {
   static targets = [ "box", "count" ]
   static values = { format: String }
@@ -15,8 +13,7 @@ export default class extends Controller {
 
   // Actions
 
-  // preventDefault: the buttons live inside a <summary>, whose default
-  // action would fold the chapter on every click.
+  // preventDefault: the buttons live inside a <summary>, which would fold the chapter otherwise.
   all(event) {
     event.preventDefault()
     this.#check(event.target, true)
@@ -42,8 +39,7 @@ export default class extends Controller {
     this.count()
   }
 
-  // A counter or a button inside a chapter acts on that chapter; one outside
-  // acts on the whole list.
+  // A button/counter inside a chapter acts on that chapter; one outside acts on the whole list.
   #boxesAround(element) {
     const scope = element.closest("[data-checklist-group]") || this.element
     return [ ...scope.querySelectorAll("[data-checklist-target~='box']") ]

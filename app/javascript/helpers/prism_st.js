@@ -1,10 +1,6 @@
-// Prism grammar for IEC 61131-3 Structured Text (PLC programming). Lexxy bundles
-// Prism but not ST, and it highlights through the global `window.Prism`, so
-// registering the grammar here lights up every `<pre data-language="st">` block —
-// both live in the editor and in rendered rich text (highlightCode). No build step.
-//
-// Token order matters: earlier keys win, so comments/strings/time-literals come
-// before words, keywords before the function-name catch-all.
+// Lexxy bundles Prism but not ST; registering here lights up every
+// `<pre data-language="st">` block, in the editor and in rendered rich text.
+// Token order matters: earlier keys win (comments/strings/time-literals before words).
 export function registerStructuredText(prism = window.Prism) {
   if (!prism || prism.languages.st) return
 

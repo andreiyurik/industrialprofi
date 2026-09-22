@@ -1,8 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Command palette: the header search icon, Ctrl/Cmd+K or "/" opens a native
-// <dialog> with live lesson search plus quick destinations. The trigger stays
-// a real link to /search, so without JS it falls back to the full page.
+// Ctrl/Cmd+K or "/" opens a native <dialog> with live search; the trigger stays a
+// real link to /search, so without JS it falls back to the full page.
 export default class extends Controller {
   static targets = ["dialog", "input"]
 

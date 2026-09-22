@@ -3,11 +3,8 @@ import CalculatorController from "controllers/calculator_controller"
 import { measurementError } from "calculators/math/kipia"
 import { EMPTY } from "calculators/format"
 
-// Шкала допуска: полоса — класс точности прибора, метка — его приведённая
-// погрешность. Годен или не годен перестаёт быть сравнением двух чисел в
-// голове: метка либо внутри полосы, либо снаружи. Масштаб шкалы подстраивается
-// под большее из двух, поэтому и допуск, и промах видны в любом случае.
-// Дублирует координаты дорожки из diagrams/_measurement-error.html.erb.
+// Полоса — класс точности, метка — приведённая погрешность; масштаб подстраивается
+// под большее из двух. Дублирует координаты дорожки из diagrams/_measurement-error.html.erb.
 const CENTRE = 200
 const HALF_WIDTH = 176
 const HEADROOM = 1.25
@@ -41,8 +38,7 @@ export default class extends CalculatorController {
     const { reduced, limit } = result
     diagram.dataset.state = reduced == null ? "empty" : status || "plain"
 
-    // Шкала всегда шире и допуска, и самой погрешности — иначе одно из двух
-    // упёрлось бы в край и перестало читаться.
+    // Шкала всегда шире и допуска, и погрешности — иначе одно упёрлось бы в край.
     const halfRange = Math.max(Math.abs(reduced ?? 0), Math.abs(limit ?? 0)) * HEADROOM || 1
 
     const band = diagram.querySelector("[data-band]")

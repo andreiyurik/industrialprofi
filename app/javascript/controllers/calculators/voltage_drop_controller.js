@@ -2,9 +2,7 @@
 import CalculatorController from "controllers/calculator_controller"
 import { voltageDrop, DROP_LIMIT_PERCENT } from "calculators/math/electrical"
 
-// Линия от щита до потребителя плюс шкала падения против нормы. Тяните
-// ползунок длины — заполнение ползёт вправо и краснеет ровно там, где линия
-// перестаёт укладываться в норму; это и есть ответ, ради которого сюда пришли.
+// Заполнение краснеет ровно там, где линия перестаёт укладываться в норму.
 const SCALE_MAX_PERCENT = 10
 
 export default class extends CalculatorController {
@@ -32,8 +30,7 @@ export default class extends CalculatorController {
 
     diagram.dataset.state = result.percent == null ? "empty" : this.#status(result)
 
-    // Заполнение через scaleX, а не через ширину: transform анимируется CSS-ом
-    // в любом браузере, геометрические свойства SVG — не везде.
+    // scaleX, не ширина: transform анимируется CSS-ом везде, геометрия SVG — не везде.
     const fill = diagram.querySelector("[data-drop-fill]")
     if (fill) {
       const share = Math.min(1, Math.max(0, (result.percent ?? 0) / SCALE_MAX_PERCENT))

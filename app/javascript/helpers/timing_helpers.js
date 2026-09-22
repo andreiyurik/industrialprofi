@@ -1,6 +1,4 @@
-// Shared timing utilities — the Fizzy pattern of one helpers module instead of
-// re-authoring rAF/setTimeout plumbing inside every controller. Only what the
-// controllers actually use lives here; add an export when a real caller needs it.
+// Fizzy pattern: one helpers module instead of re-authoring rAF/setTimeout plumbing.
 
 // Coalesce rapid calls into one trailing call after `delay` ms of quiet.
 export function debounce(fn, delay = 300) {
@@ -11,9 +9,7 @@ export function debounce(fn, delay = 300) {
   }
 }
 
-// Run `fn` at most once per animation frame — the right throttle for scroll
-// handlers, since it paces work to paint rather than an arbitrary interval. The
-// returned handler carries cancel() to drop a frame still pending on disconnect.
+// Paces work to paint rather than an arbitrary interval; cancel() drops a pending frame.
 export function rafThrottle(fn) {
   let frame = null
   const handler = (...args) => {

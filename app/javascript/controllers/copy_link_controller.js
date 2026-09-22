@@ -1,11 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Copies a URL (or any value) to the clipboard and briefly confirms: swaps
-// the label to "Скопировано" and, when the host page passes a copied-class
-// (data-copy-link-copied-class), toggles it on the button for icon feedback.
-//
-// Progressive enhancement: the copy button is rendered with `hidden`, and only
-// this controller reveals it on connect — so without JS there is no dead button.
+// Swaps the label to "Скопировано" and toggles the copied-class if one is passed.
+// The button ships `hidden` and is revealed here, so there's no dead button without JS.
 export default class extends Controller {
   static targets = ["button", "label"]
   static classes = ["copied"]
