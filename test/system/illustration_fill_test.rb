@@ -35,7 +35,8 @@ class IllustrationFillTest < ApplicationSystemTestCase
     assert_selector ".attachment__missing"
 
     find(".attachment__fill").click
-    assert_text "Схема допуска — кто кого допускает"
+    # A cold admin page plus the view transition can outlast the 2 s default on a CI runner.
+    assert_text "Схема допуска — кто кого допускает", wait: 10
 
     # Turbo animates navigations with a document view transition (the layout's
     # view-transition meta); its overlay can swallow the submit click. A fresh
