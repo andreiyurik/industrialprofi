@@ -9,15 +9,16 @@
   <div class="container hero__inner">
     <h1 class="hero__title is-caret"><%= t("paths.hero.title_html") %></h1>
     <p class="hero__subtitle"><%= t("paths.hero.subtitle_html") %></p>
+    <%# Same icons as the hub tabs; only the primary keeps the arrow. Hover effects: Magic UI Shiny Button and Hover.css icons, both MIT. %>
     <p class="hero__actions">
-      <%= link_to "#catalog", class: "btn btn--reversed" do %>
-        <%= t("paths.hero.theory") %> <%= icon_tag "arrow-right" %>
+      <%= link_to "#catalog", class: "btn btn--reversed hero__action hero__action--primary" do %>
+        <span class="hero__shine"><%= icon_tag "graduation-cap" %><%= t("paths.hero.theory") %><%= icon_tag "arrow-right" %></span>
       <% end %>
-      <%= link_to projects_path, class: "btn" do %>
-        <%= t("paths.hero.practice") %> <%= icon_tag "arrow-right" %>
+      <%= link_to projects_path, class: "btn hero__action hero__action--practice" do %>
+        <%= icon_tag "wrench" %><%= t("paths.hero.practice") %>
       <% end %>
-      <%= link_to contribute_path, class: "btn" do %>
-        <%= t("paths.hero.improve") %> <%= icon_tag "arrow-right" %>
+      <%= link_to contribute_path, class: "btn hero__action hero__action--improve" do %>
+        <%= icon_tag "pencil-simple" %><%= t("paths.hero.improve") %>
       <% end %>
     </p>
   </div>
