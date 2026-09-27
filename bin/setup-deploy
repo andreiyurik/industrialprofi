@@ -1,0 +1,84 @@
+#!/usr/bin/env ruby
+# Lay out the local deploy prerequisites on a new machine: the gitignored key
+# files, KAMAL_WEB_IP and an ssh check. Secrets are typed hidden and never printed.
+# Re-runnable: whatever is already in place is left alone (--force re-asks the keys).
+
+require "io/console"
+require "yaml"
+
+ROOT = File.expand_path("..", __dir__)
+KEYS = {
+  "config/master.key" => ->(v) { v.match?(/\A\h{32}\z/) || "expected 32 hex characters" },
+  "config/indexnow.key" => ->(v) { v.match?(/\A\S+\z/) || "expected a single token" },
+  "config/sberbank_card.key" => ->(v) { !v.empty? || "must not be empty" }
+}.freeze
+BASHRC = File.expand_path("~/.bashrc")
+
+force = ARGV.include?("--force")
+abort "Run it in a terminal: secrets are read without echo." unless $stdin.tty?
+
+def ask(prompt, secret: false)
+  print "#{prompt}: "
+  value = secret ? $stdin.noecho(&:gets) : $stdin.gets
+  puts if secret
+  value.to_s.strip
+end
+
+KEYS.each do |path, check|
+  full = File.join(ROOT, path)
+  if File.size?(full) && !force
+    puts "ok       #{path} (already there)"
+    next
+  end
+
+  loop do
+    value = ask("#{path} — paste from the password manager, Enter to skip", secret: true)
+    if value.empty?
+      puts "skipped  #{path}"
+      break
+    end
+
+    verdict = check.call(value)
+    if verdict == true
+      File.open(full, "w", 0o600) { |f| f.write(value) }
+      puts "written  #{path} (mode 600)"
+      break
+    end
+    puts "invalid  #{verdict}, try again"
+  end
+end
+
+ip = ENV["KAMAL_WEB_IP"].to_s
+if ip.empty? && File.exist?(BASHRC)
+  ip = File.read(BASHRC)[/^export KAMAL_WEB_IP=["']?([^"'\s]+)/, 1].to_s
+end
+
+if ip.empty?
+  ip = ask("KAMAL_WEB_IP — server IP, Enter to skip")
+  if ip.match?(/\A[\w.:-]+\z/)
+    File.open(BASHRC, "a") { |f| f.puts "export KAMAL_WEB_IP=#{ip}" }
+    puts "written  KAMAL_WEB_IP in ~/.bashrc (open a new shell or `source ~/.bashrc`)"
+  else
+    puts "skipped  KAMAL_WEB_IP"
+    ip = ""
+  end
+else
+  puts "ok       KAMAL_WEB_IP (already set)"
+end
+
+unless ip.empty?
+  config = YAML.safe_load(File.read(File.join(ROOT, "config/deploy.yml")).gsub(/<%.*?%>/, "x"), aliases: true)
+  user = config.dig("ssh", "user") || "root"
+  ssh = %W[ssh -o BatchMode=yes -o ConnectTimeout=8 -o StrictHostKeyChecking=accept-new #{user}@#{ip} true]
+  if system(*ssh, out: File::NULL, err: File::NULL)
+    puts "ok       ssh #{user}@server works without a password"
+  else
+    pub = Dir[File.expand_path("~/.ssh/id_*.pub")].first
+    puts "FAILED   ssh #{user}@server (no key access)"
+    puts pub ? "         add #{pub} to the server's authorized_keys (ssh-copy-id #{user}@#{ip})" \
+              : "         no key yet: ssh-keygen -t ed25519, then ssh-copy-id #{user}@#{ip}"
+  end
+end
+
+missing = KEYS.keys.reject { |path| File.size?(File.join(ROOT, path)) }
+puts missing.empty? ? "\nAll key files present. Next: bin/pullbackup, then bin/kamal deploy." : "\nStill missing: #{missing.join(", ")}"

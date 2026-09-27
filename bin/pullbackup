@@ -8,12 +8,14 @@
 
 require "bundler/setup"
 require "yaml"
+require "erb"
 require "fileutils"
 
 DEST = File.expand_path("~/backups/industrialprofi")
 KEEP = 14
 
-config = YAML.load_file(File.expand_path("../config/deploy.yml", __dir__), aliases: true)
+deploy_yml = File.expand_path("../config/deploy.yml", __dir__)
+config = YAML.safe_load(ERB.new(File.read(deploy_yml)).result, aliases: true)
 servers = config.fetch("servers")
 hosts = servers.is_a?(Hash) ? servers.values.flatten : Array(servers)
 hosts = hosts.flat_map { |h| h.is_a?(Hash) ? Array(h["hosts"]) : h }
