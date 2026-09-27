@@ -8,7 +8,8 @@ class PathsController < ApplicationController
     # Signed-in landing on / goes straight to the dashboard; catalog stays reachable at /paths.
     return redirect_to dashboard_path if signed_in? && request.path == root_path
 
-    @paths = Path.published.localized.ordered
+    @paths = Path.published.localized.industrial.ordered
+    @hobby_paths = Path.published.localized.hobby.ordered
     @course_counts = Path.published_course_counts
     @completed_counts = signed_in? ? Current.user.lesson_completions.joins(:lesson).group("lessons.path_id").count : {}
 

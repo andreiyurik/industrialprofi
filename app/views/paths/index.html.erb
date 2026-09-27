@@ -55,6 +55,19 @@
       </div>
     <% end %>
 
+    <% if @hobby_paths.any? %>
+      <div class="catalog-hobby" id="hobby">
+        <h2 class="catalog-soon__label"><%= t("paths.group_hobby") %></h2>
+        <div class="catalog-grid">
+          <% @hobby_paths.each do |path| %>
+            <%= render "path_card", path: path,
+                  completed_count: @completed_counts.fetch(path.id, 0),
+                  courses_count: @course_counts.fetch(path.id, 0) %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
     <div class="catalog-soon">
       <h2 class="catalog-soon__label"><%= t("paths.group_upcoming") %></h2>
       <p class="catalog-soon__list">

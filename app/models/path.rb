@@ -12,6 +12,8 @@ class Path < ApplicationRecord
 
   KINDS = %w[role skill].freeze
 
+  FIELDS = %w[industry hobby].freeze
+
   IMPORTABLE_FIELDS = %w[title description position status kind landing].freeze
 
   # inverse_of: a scoped has_many skips auto-detection — course.icon would re-query per card.
@@ -30,12 +32,15 @@ class Path < ApplicationRecord
   validates :status, inclusion: { in: STATUSES }
   validates :icon, inclusion: { in: ->(_) { Icon.emblems } }, allow_blank: true
   validates :kind, inclusion: { in: KINDS }
+  validates :field, inclusion: { in: FIELDS }
   validates :position, numericality: { greater_than_or_equal_to: 0 }
   validates :locale, presence: true, format: { with: /\A[a-z]{2}\z/ }
 
   scope :published, -> { where(status: "published") }
   scope :official, -> { where(author_id: nil) }
   scope :community, -> { where.not(author_id: nil) }
+  scope :industrial, -> { where(field: "industry") }
+  scope :hobby, -> { where(field: "hobby") }
   scope :ordered, -> { order(:position) }
   scope :with_practice_lessons, -> { where(id: Lesson.practice.select(:path_id)) }
   scope :editable_by, ->(user) {
