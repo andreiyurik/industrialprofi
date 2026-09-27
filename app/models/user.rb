@@ -49,6 +49,14 @@ class User < ApplicationRecord
   scope :active, -> { where(suspended_at: nil) }
   scope :with_profile, -> { active.where.not(handle: nil) }
   scope :suspended, -> { where.not(suspended_at: nil) }
+  scope :top_learners, ->(count, since:) {
+    joins(:lesson_completions)
+      .where(lesson_completions: { created_at: since.. })
+      .select("users.*, COUNT(lesson_completions.id) AS completions_count")
+      .group("users.id")
+      .order(Arel.sql("COUNT(lesson_completions.id) DESC"))
+      .limit(count)
+  }
 
   def first_name = name.split.first
 

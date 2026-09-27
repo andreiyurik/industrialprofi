@@ -137,6 +137,25 @@ class Admin::DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_no_match I18n.t("admin.dashboard.review_now"), response.body
   end
 
+  test "top learners this week surface with a link to the user card" do
+    member = users(:member)
+    member.lesson_completions.create!(lesson: lessons(:pteep))
+    member.lesson_completions.create!(lesson: lessons(:gruppy_dopuska))
+
+    sign_in_as users(:admin)
+    get admin_root_path
+    assert_match I18n.t("admin.dashboard.top_learners_title"), response.body
+    assert_match member.name, response.body
+    assert_match admin_user_path(member), response.body
+    assert_match I18n.t("admin.dashboard.learner_completions_count", count: 2), response.body
+  end
+
+  test "no top learners block when nobody completed a lesson this week" do
+    sign_in_as users(:admin)
+    get admin_root_path
+    assert_no_match I18n.t("admin.dashboard.top_learners_title"), response.body
+  end
+
   test "a recent coauthor application surfaces as a dashboard callout to the filtered inbox" do
     Feedback.create!(user: users(:member), body: "Профессия: Пекарь",
                      page_url: Feedback::COAUTHOR_APPLICATION_PATH)

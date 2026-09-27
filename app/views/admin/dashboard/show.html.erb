@@ -180,6 +180,25 @@
       </div>
     <% end %>
 
+    <% if @top_learners_week.any? %>
+      <div class="admin-group">
+        <div class="admin-group__head">
+          <h2 class="admin-group__title"><%= t("admin.dashboard.top_learners_title") %></h2>
+          <span class="admin-group__meta"><%= t("admin.dashboard.top_learners_hint") %></span>
+        </div>
+        <div class="admin-list">
+          <% @top_learners_week.each do |user| %>
+            <%= link_to admin_user_path(user), class: "admin-row" do %>
+              <span class="admin-row__title"><%= user.name %></span>
+              <span class="admin-row__meta">
+                <%= t("admin.dashboard.learner_completions_count", count: user.completions_count) %>
+              </span>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
     <div class="admin-group">
       <div class="admin-group__head">
         <h2 class="admin-group__title"><%= t("admin.dashboard.recent_users") %></h2>

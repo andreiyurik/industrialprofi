@@ -2366,6 +2366,11 @@ en:
       bookmarks_count:
         one: "%{count} bookmark"
         other: "%{count} bookmarks"
+      top_learners_title: "Top by completions"
+      top_learners_hint: "last 7 days"
+      learner_completions_count:
+        one: "%{count} completion"
+        other: "%{count} completions"
       recent_users: "Recent signups"
       all_users: "All users"
     edit_lesson: "Edit article"
