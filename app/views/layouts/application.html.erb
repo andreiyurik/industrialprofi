@@ -81,6 +81,9 @@
       </defs>
     </svg>
 
+    <%# Outside the sticky header, so it scrolls away and --header-height stays true. %>
+    <%= render "shared/feedback_banner" unless in_admin? || cookies[:feedback_banner_dismissed] %>
+
     <header class="header"
             data-controller="header-reveal"
             data-header-reveal-hidden-class="header--hidden">
