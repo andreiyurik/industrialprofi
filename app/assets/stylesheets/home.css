@@ -71,6 +71,80 @@
   margin-block: var(--block-space) 0;
 }
 
+.hero__action {
+  --btn-background: oklch(var(--lch-gray-light) / 0.55);
+  --btn-border-color: var(--color-subtle);
+  --btn-border-radius: 0.7em;
+  --btn-gap: 0.55em;
+  --btn-hover-background: var(--color-subtle-light);
+  --btn-hover-border: var(--color-border-interactive);
+  --btn-padding: 0.8em 1.4em;
+  box-shadow: inset 0 1px 0 oklch(var(--lch-always-white) / 0.06);
+  font-size: 1rem;
+  transition: background-color 200ms ease-out, border-color 200ms ease-out, box-shadow 300ms ease-out;
+
+  .icon {
+    color: var(--color-subtle-dark);
+    transition: color 200ms ease-out, transform 300ms ease-out;
+  }
+}
+
+.hero__action--primary {
+  --btn-background: var(--color-ink);
+  --btn-border-color: var(--color-ink);
+  --btn-hover-background: var(--color-always-white);
+  --btn-hover-border: var(--color-always-white);
+  box-shadow:
+    inset 0 1px 0 oklch(var(--lch-always-white) / 0.5),
+    0 10px 28px -12px oklch(var(--lch-always-white) / 0.35);
+
+  .icon {
+    color: inherit;
+  }
+}
+
+.hero__shine {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--btn-gap);
+}
+
+@media (any-hover: hover) {
+  .hero__action:hover .icon {
+    color: inherit;
+  }
+
+  /* Lights up instead of the filled-button dim, which reads as a disabled grey here. */
+  .hero__action--primary:hover {
+    box-shadow:
+      inset 0 1px 0 oklch(var(--lch-always-white) / 1),
+      0 0 0 1px oklch(var(--lch-always-white) / 0.55),
+      0 0 18px 1px oklch(var(--lch-always-white) / 0.4),
+      0 8px 44px 6px oklch(var(--lch-amber) / 0.22);
+    opacity: 1;
+  }
+}
+
+@media (any-hover: hover) and (prefers-reduced-motion: no-preference) {
+  /* Shiny Button: a glint passes through the label itself — no overlay can outshine a white fill. */
+  .hero__action--primary:hover .hero__shine {
+    animation: shiny 1.2s cubic-bezier(0.4, 0, 0.2, 1) 150ms;
+    mask-image: linear-gradient(-75deg, black calc(var(--shine-x) + 15%), oklch(var(--lch-always-black) / 0.2) calc(var(--shine-x) + 25%), black calc(var(--shine-x) + 40%));
+  }
+
+  .hero__action--primary:hover .icon:last-child {
+    transform: translateX(0.25em);
+  }
+
+  .hero__action--practice:hover .icon {
+    transform: rotate(-30deg);
+  }
+
+  .hero__action--improve:hover .icon {
+    animation: icon-write 0.6s ease-in-out;
+  }
+}
+
 /* Brightness only, no bold — the house rule for emphasis (--color-marker in colors.css); a real marker doesn't change the letters. */
 .hero__sweep {
   color: var(--color-marker);

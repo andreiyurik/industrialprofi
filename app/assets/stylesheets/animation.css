@@ -115,3 +115,22 @@
     }
   }
 }
+
+/* Hero button hover effects, ported from Magic UI (Shiny Button) and Hover.css (icon buzz). */
+@property --shine-x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+
+@keyframes shiny {
+  from { --shine-x: 100%; }
+  to { --shine-x: -100%; }
+}
+
+@keyframes icon-write {
+  0%, 100% { transform: rotate(0) translate(0); }
+  25% { transform: rotate(-10deg) translate(-1px, 1px); }
+  50% { transform: rotate(6deg) translate(1px, -1px); }
+  75% { transform: rotate(-4deg) translate(0); }
+}
