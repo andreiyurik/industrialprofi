@@ -4,12 +4,12 @@ module Admin
 
     def index
       if params[:path].present?
-        @path = Path.find_by!(slug: params[:path])
+        @path = editable_paths.find_by!(slug: params[:path])
         @census = IllustrationCensus.new(@path)
       elsif (only = solo_editor_path)
         redirect_to admin_illustrations_path(path: only.slug)
       else
-        @censuses = Path.ordered.map { |path| [ path, IllustrationCensus.new(path) ] }
+        @censuses = editable_paths.ordered.map { |path| [ path, IllustrationCensus.new(path) ] }
       end
     end
 
@@ -21,19 +21,23 @@ module Admin
     end
 
     def create
+      @slots = @lesson.illustration_slots
+      @slot = @slots.find { |slot| slot.src == illustration_params[:src] } or raise Lesson::PlaceholderMissing
       upload = illustration_params[:file]
-      unless upload.respond_to?(:content_type) &&
-             LessonImageUpload.permits?(content_type: upload.content_type, byte_size: upload.size)
-        return redirect_to new_admin_lesson_illustration_path(@lesson, src: illustration_params[:src]),
-          alert: t("admin.uploads.rejected", max: helpers.number_to_human_size(LessonImageUpload::MAX_BYTES))
-      end
 
-      blob = LessonImageUpload.reader_ready_blob(upload)
-      @lesson.fill_illustration!(src: illustration_params[:src], blob: blob,
-        edit_reason: t("admin.illustrations.fill_reason"))
-      redirect_to lesson_path(@lesson), notice: t("admin.illustrations.filled")
+      if (@rejection = upload.respond_to?(:tempfile) ? LessonImageUpload.rejection(upload) : :not_image)
+        render :new, status: :unprocessable_entity
+      else
+        @lesson.fill_illustration!(src: @slot.src, blob: LessonImageUpload.reader_ready_blob(upload),
+          edit_reason: t("admin.illustrations.fill_reason"))
+        redirect_to admin_illustrations_path(path: @lesson.path.slug),
+          notice: t("admin.illustrations.filled", lesson: @lesson.title)
+      end
     rescue Lesson::PlaceholderMissing
       redirect_to new_admin_lesson_illustration_path(@lesson), alert: t("admin.illustrations.slot_missing")
+    rescue Vips::Error
+      @rejection = :not_image
+      render :new, status: :unprocessable_entity
     end
 
     private
@@ -46,6 +50,8 @@ module Admin
     def illustration_params
       params.expect(illustration: [ :src, :file ])
     end
+
+    def editable_paths = Path.editable_by(Current.user)
 
     def solo_editor_path
       return if Current.user.can_administer?

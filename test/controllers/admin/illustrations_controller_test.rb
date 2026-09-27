@@ -26,6 +26,14 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
     get admin_illustrations_path
     assert_response :success
     assert_match paths(:electrician).title, response.body
+    assert_no_match paths(:welder).title, response.body
+  end
+
+  test "an editor can't open another profession's queue" do
+    sign_out
+    sign_in_as users(:editor)
+    get admin_illustrations_path(path: paths(:welder).slug)
+    assert_response :not_found
   end
 
   test "an editor trusted with exactly one profession lands straight in it" do
@@ -132,7 +140,7 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to admin_lessons_path
   end
 
-  test "create fills the placeholder and returns the expert to the article" do
+  test "create fills the placeholder and returns the expert to the queue" do
     lesson = lessons(:pteep)
     lesson.update!(body: "![Схема допуска](TODO-elektrik-dopusk.png)")
 
@@ -142,7 +150,8 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_redirected_to lesson_path(lesson)
+    assert_redirected_to admin_illustrations_path(path: paths(:electrician).slug)
+    assert_equal I18n.t("admin.illustrations.filled", lesson: lesson.title), flash[:notice]
     lesson.reload
     assert_includes lesson.body, "](/rails/active_storage/blobs/proxy/"
     assert lesson.illustrations.attached?
@@ -162,16 +171,45 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "img.illustration-card__thumb"
   end
 
-  test "create refuses a non-image upload" do
+  test "create refuses a text file named like an image, keeping the slot" do
     lesson = lessons(:pteep)
     lesson.update!(body: "![Схема](TODO-shema.png)")
 
     post admin_lesson_illustrations_path(lesson), params: {
-      illustration: { src: "TODO-shema.png", file: fixture_file_upload("cover.png", "text/plain") }
+      illustration: { src: "TODO-shema.png", file: fixture_file_upload("not_an_image.png", "image/png") }
     }
 
-    assert_redirected_to new_admin_lesson_illustration_path(lesson, src: "TODO-shema.png")
+    assert_response :unprocessable_entity
+    assert_select "[role=alert]", text: I18n.t("admin.uploads.not_image")
+    assert_select "input[type=hidden][name=?][value=?]", "illustration[src]", "TODO-shema.png"
     assert_includes lesson.reload.body, "TODO-shema.png"
+    assert_not lesson.illustrations.attached?
+  end
+
+  test "create refuses an SVG" do
+    lessons(:pteep).update!(body: "![Схема](TODO-shema.png)")
+
+    post admin_lesson_illustrations_path(lessons(:pteep)), params: {
+      illustration: { src: "TODO-shema.png", file: fixture_file_upload("scheme.svg", "image/svg+xml") }
+    }
+
+    assert_response :unprocessable_entity
+    assert_select "[role=alert]", text: I18n.t("admin.uploads.not_image")
+  end
+
+  test "create names the size limit when the file is too large" do
+    lessons(:pteep).update!(body: "![Схема](TODO-shema.png)")
+
+    Tempfile.create([ "big", ".png" ], binmode: true) do |big|
+      big.write(file_fixture("cover.png").binread.ljust(LessonImageUpload::MAX_BYTES + 1, "\0"))
+      big.rewind
+      post admin_lesson_illustrations_path(lessons(:pteep)), params: {
+        illustration: { src: "TODO-shema.png", file: Rack::Test::UploadedFile.new(big.path, "image/png") }
+      }
+    end
+
+    assert_response :unprocessable_entity
+    assert_select "[role=alert]", text: I18n.t("admin.uploads.too_large", max: ActiveSupport::NumberHelper.number_to_human_size(LessonImageUpload::MAX_BYTES))
   end
 
   test "create on a vanished placeholder refuses honestly, without corrupting the text" do

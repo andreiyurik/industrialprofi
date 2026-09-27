@@ -17,12 +17,22 @@
     <% if @slot %>
       <div class="admin-group">
         <h2 class="admin-group__title"><%= @lesson.title %></h2>
-        <p class="illustration-fill__brief"><%= @slot.display_brief || t("admin.illustrations.no_brief") %></p>
+        <div class="illustration-fill__brief">
+          <p><%= @slot.display_brief || t("admin.illustrations.no_brief") %></p>
+          <% if @slot.instructions %><p class="admin-row__subtle"><%= @slot.instructions %></p><% end %>
+        </div>
 
         <%= form_with url: admin_lesson_illustrations_path(@lesson), scope: :illustration, class: "illustration-fill__form" do |form| %>
           <%= form.hidden_field :src, value: @slot.src %>
-          <%= form.file_field :file, accept: LessonImageUpload.accept_attribute, required: true, class: "input" %>
-          <p class="admin-row__subtle"><%= t("admin.illustrations.file_hint", max: number_to_human_size(LessonImageUpload::MAX_BYTES)) %></p>
+          <% if @rejection %>
+            <div class="admin-alert admin-alert--error" id="illustration_error" role="alert">
+              <p><%= t("admin.uploads.#{@rejection}", max: number_to_human_size(LessonImageUpload::MAX_BYTES)) %></p>
+            </div>
+          <% end %>
+          <%= form.label :file, t("admin.illustrations.file_label") %>
+          <%= form.file_field :file, accept: LessonImageUpload.accept_attribute, required: true, class: "input",
+                aria: { describedby: [ "illustration_hint", ("illustration_error" if @rejection) ].compact.join(" ") } %>
+          <p class="admin-row__subtle" id="illustration_hint"><%= t("admin.illustrations.file_hint", max: number_to_human_size(LessonImageUpload::MAX_BYTES)) %></p>
           <%= form.submit t("admin.illustrations.submit"), class: "btn btn--reversed" %>
         <% end %>
       </div>

@@ -4,7 +4,7 @@ require "application_system_test_case"
 # carries a fill link hidden in the shared cached HTML, revealed only for a
 # user who may edit this profession (.lesson--fillable) — a CSS-reveal no
 # request test can see. Clicking it lands on the fill screen; uploading swaps
-# the placeholder for the image in the article the expert is returned to.
+# the placeholder for the image, and the expert is returned to the queue.
 class IllustrationFillTest < ApplicationSystemTestCase
   # gruppy_dopuska on purpose: an anonymous lesson page is cacheable
   # (fresh_when, second-precision Last-Modified) and Chrome keeps its HTTP cache
@@ -48,14 +48,18 @@ class IllustrationFillTest < ApplicationSystemTestCase
     # Headless Chrome sometimes swallows the click right after attach_file (no
     # POST reaches the server; elementFromPoint shows nothing covers the
     # button). Fall back to requestSubmit() — the same native submit path.
-    unless page.has_text?(I18n.t("admin.illustrations.filled"), wait: 5)
+    filled = I18n.t("admin.illustrations.filled", lesson: lessons(:gruppy_dopuska).title)
+    unless page.has_text?(filled, wait: 5)
       begin
         page.execute_script("arguments[0].form.requestSubmit()", find("input[type=submit]", wait: 0))
       rescue Capybara::ElementNotFound, Selenium::WebDriver::Error::StaleElementReferenceError
         # the first click was merely slow — the assert below sees it through
       end
     end
-    assert_text I18n.t("admin.illustrations.filled"), wait: 10
+    assert_text filled, wait: 10
+    assert_selector "img.illustration-card__thumb"
+
+    visit lesson_path(lessons(:gruppy_dopuska))
     assert_selector ".prose-figure img"
     assert_no_selector ".attachment__missing"
   end
