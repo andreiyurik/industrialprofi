@@ -1,4 +1,10 @@
 /* Enabled by the <meta name="view-transition"> tag; here we just keep the default cross-fade quick. */
+
+/* The overlay is transparent by default; any frame it doesn't cover shows Chromium's white base. */
+::view-transition {
+  background-color: var(--color-bg);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root),
   ::view-transition-new(root) {
