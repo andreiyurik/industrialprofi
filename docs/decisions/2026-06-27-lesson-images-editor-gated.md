@@ -31,13 +31,19 @@ status: accepted
   `public/lesson-images` stay; the census resolves both.
 - Debt: `content:export` doesn't carry blob images into packs yet.
 
-## 2026-09-27: placeholders survive the lesson editor
+## 2026-09-27: images and placeholders survive the lesson editor
 
-- Opening a Markdown lesson in the editor used to hand Lexxy the reader HTML, so a
-  placeholder became the text «Иллюстрация готовится» and left the queue on save.
-- The editor now gets plain HTML (`Admin::EditorHelper#editor_html`) with each
-  placeholder as an `<action-text-attachment>`: `content-type="image/png"` (Lexxy drops
-  `image/*`), the src percent-encoded (Lexxy's DOMPurify strips `placeholder:` as a
-  URI scheme), the brief as `caption` (Action Text persists no `alt`).
-- `Lesson#illustration_slots` and `#fill_illustration!` read both Markdown and rich
-  sections; `test/system/illustration_fill_test.rb` saves through real Lexxy.
+- Opening a Markdown lesson in the editor used to hand Lexxy the reader HTML: a
+  placeholder became the text «Иллюстрация готовится», and every plain `<img>` was
+  dropped on save. Lexxy imports an `<img>` as `image/*`, which isn't in our
+  `permitted-attachment-types`, and its DOMPurify strips `placeholder:` as a URI scheme.
+- So the editor gets every image as an attachment. A filled image is its blob. Any other
+  URL, placeholders included, carries a permitted type as a label. Placeholder srcs are
+  percent-encoded before rendering, in the reader too, so sanitizers keep them.
+- Action Text keeps no `alt`: its `caption` is both alt and figcaption. A placeholder's
+  brief rides in `caption` while it waits. It is illustrator direction (often 150–300
+  characters), so a filled image never inherits it. The fill form asks for a caption
+  instead, prefilled from the Markdown `*italic*` line or the brief's lead. Left empty,
+  the image has no caption.
+- The fill locks the lesson, so two experts filling the same article can't overwrite
+  each other. The lesson editor is still last-write-wins.

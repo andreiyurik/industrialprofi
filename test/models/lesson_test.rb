@@ -257,22 +257,80 @@ class LessonTest < ActiveSupport::TestCase
     assert_empty lesson.reload.illustration_slots
   end
 
-  test "fill_illustration! swaps a rich placeholder for the image, keeping the brief as its caption" do
+  test "fill_illustration! swaps a rich placeholder for the image with the given caption, not the brief" do
     lesson = lessons(:pteep)
     lesson.update!(rich_body: RICH_PLACEHOLDER)
-    blob = ActiveStorage::Blob.create_and_upload!(io: StringIO.new("data"),
-      filename: "shema.webp", content_type: "image/webp")
+    blob = image_blob("shema.webp")
 
     assert_difference -> { lesson.lesson_revisions.count } => 1 do
-      lesson.fill_illustration!(src: "TODO-shema.png", blob: blob)
+      lesson.fill_illustration!(src: "TODO-shema.png", blob: blob, caption: "Рис. 1. Допуск")
     end
 
     lesson.reload
     attachment = lesson.rich_body.body.attachments.sole
     assert_equal blob, attachment.attachable
-    assert_equal "Схема допуска", attachment.caption
+    assert_equal "Рис. 1. Допуск", attachment.caption
     assert_includes lesson.rich_body.body.to_plain_text, "После."
     assert_empty lesson.illustration_slots
+
+    revision = lesson.lesson_revisions.last
+    assert_includes revision.content_before, "TODO-shema.png"
+    assert_includes revision.content_after, "sgid="
+  end
+
+  test "fill_illustration! without a caption leaves the image uncaptioned" do
+    lesson = lessons(:pteep)
+    lesson.update!(rich_body: RICH_PLACEHOLDER)
+
+    lesson.fill_illustration!(src: "TODO-shema.png", blob: image_blob("shema.webp"), caption: " ")
+    assert_nil lesson.reload.rich_body.body.attachments.sole.caption
+  end
+
+  test "fill_illustration! fills only the first of two placeholders sharing a src" do
+    lesson = lessons(:pteep)
+    placeholder = %(<action-text-attachment url="TODO" caption="Схема" content-type="image/png"></action-text-attachment>)
+    lesson.update!(rich_body: placeholder + placeholder)
+
+    lesson.fill_illustration!(src: "TODO", blob: image_blob("shema.webp"))
+    assert_equal [ "TODO" ], lesson.reload.illustration_slots.map(&:src)
+  end
+
+  test "fill_illustration! on a stale copy keeps an image filled meanwhile" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "![Первая](TODO-1.png)\n\n![Вторая](TODO-2.png)")
+    stale = Lesson.find(lesson.id)
+
+    lesson.fill_illustration!(src: "TODO-1.png", blob: image_blob("1.webp"))
+    stale.fill_illustration!(src: "TODO-2.png", blob: image_blob("2.webp"))
+
+    assert_empty lesson.reload.illustration_slots
+    assert_equal 2, lesson.body.scan("/rails/active_storage/blobs/proxy/").size
+  end
+
+  test "a placeholder src with parentheses is one slot and fills whole" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "![Схема](placeholder: точка P3 на отметке (62%); провода к электродам)\n\nПосле.")
+
+    assert_equal [ "placeholder: точка P3 на отметке (62%); провода к электродам" ], lesson.illustration_slots.map(&:src)
+    lesson.fill_illustration!(src: lesson.illustration_slots.sole.src, blob: image_blob("shema.webp"))
+    assert_no_match(/провода|62%/, lesson.reload.body)
+    assert_includes lesson.body, "После."
+  end
+
+  test "an italic line under a placeholder is its caption, and the fill keeps or replaces it" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "![Схема допуска: кто кого допускает](TODO-a.png)\n*Рис. 1. Допуск.*\n\n![Щит: вид спереди](TODO-b.png)")
+
+    slots = lesson.illustration_slots
+    assert_equal [ "Рис. 1. Допуск.", "Щит" ], slots.map(&:suggested_caption)
+
+    lesson.fill_illustration!(src: "TODO-a.png", blob: image_blob("a.webp"), caption: "Рис. 1. Кто кого допускает")
+    lesson.fill_illustration!(src: "TODO-b.png", blob: image_blob("b.webp"), caption: "")
+
+    body = lesson.reload.body
+    assert_match %r{\]\(/rails/[^)]+\)\n\*Рис\. 1\. Кто кого допускает\*\n\n!\[Щит}, body
+    assert_not_includes body, "Рис. 1. Допуск."
+    assert_match %r{\]\(/rails/[^)]+\)\z}, body
   end
 
   test "fill_illustration! swaps the placeholder for a proxy URL, attaches and records a revision" do
@@ -306,4 +364,9 @@ class LessonTest < ActiveSupport::TestCase
     assert_equal before, lesson.reload.body
     assert_not lesson.illustrations.attached?
   end
+
+  private
+    def image_blob(filename)
+      ActiveStorage::Blob.create_and_upload!(io: StringIO.new("data"), filename:, content_type: "image/webp")
+    end
 end

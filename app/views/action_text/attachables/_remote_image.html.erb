@@ -1,8 +1,8 @@
 <%# Override of ActionText's core partial: a missing asset renders a calm placeholder
     instead of raising Propshaft::MissingAssetError and 500-ing the lesson. %>
-<% if (src = Lesson.placeholder_src(remote_image)).match?(Lesson::PENDING_SRC) %>
+<% if pending_remote_image?(remote_image) %>
   <%# A bare img: wrap_figures turns it into the pending box with the fill link. %>
-  <%= tag.img src: src, alt: remote_image.try(:caption) %>
+  <%= tag.img src: Lesson.encode_placeholder(Lesson.decode_placeholder(remote_image.node["url"])), alt: remote_image.caption %>
 <% else %>
   <figure class="attachment attachment--preview">
     <%= safe_remote_image_tag(remote_image) %>
