@@ -38,7 +38,7 @@ class CurriculumExporter
     write_yaml root.join("path.yml"),
       meta(title: @path.title, description: @path.description,
            position: @path.position, status: @path.status,
-           icon: @path.icon)
+           icon: @path.icon, field: (@path.field if @path.field == "hobby"))
     write_yaml root.join("landing.yml"), @path.landing if @path.landing_present? || @path.cover_credit.present?
 
     @path.courses.order(:position).each.with_index(1) do |course, number|

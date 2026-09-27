@@ -254,9 +254,18 @@ class CurriculumImporterTest < ActiveSupport::TestCase
     CurriculumImporter.run(dir: dir, io: StringIO.new)
 
     assert_equal "draft", Path.find_by!(slug: "draftprof").status
+    assert_equal "industry", Path.find_by!(slug: "draftprof").field
     assert_equal "draft", Course.find_by!(slug: "draft-course-x").status
   ensure
     FileUtils.remove_entry(dir)
+  end
+
+  test "a hobby profession keeps its field" do
+    File.write(File.join(@dir, "testprof", "path.yml"),
+               %(title: "Тестовая профессия"\ndescription: "x"\nposition: 99\nstatus: published\nfield: hobby\n))
+    import
+
+    assert_equal "hobby", Path.find_by!(slug: "testprof").field
   end
 
   test "refuses to move a lesson whose slug already belongs to another profession" do

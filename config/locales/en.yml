@@ -1152,6 +1152,7 @@ en:
     empty_locale_html: "There are no roadmaps in this language yet — all material is in Russian for now. The Russian catalog is open to everyone."
     empty_locale_cta: "Open the Russian catalog"
     group_upcoming: "Coming up"
+    group_hobby: "Hobbies and crafts"
     soon_full_list: "Full list..."
     soon_curator: "Build your own profession roadmap"
     # A vacancy board, not a queue: plain copy, deliberately NOT Path rows — an
@@ -1671,6 +1672,8 @@ en:
             d: "A specialist's page: the map, curated professions and accepted edits, each linked to its history. Nothing that can be gamed; progress is shown only if you choose."
           - t: "Come-back reminder"
             d: "If you've paused for a week, one quiet email with the next article. No newsletters, one-click unsubscribe."
+          - t: "A hobby shelf"
+            d: "Roadmaps for pastimes, like «Photographer-videographer», sit on their own shelf below the catalog and go through the same review as professions."
           - t: "A direct line to the author"
             d: "“Write to the author” in the menu — the message comes straight to me, no middlemen; I reply by email within a day or two."
           - t: "The “My learning” dashboard"
