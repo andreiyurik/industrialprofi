@@ -1,7 +1,7 @@
 site = Rails.application.config.x.site
 
 site.url           = ENV.fetch("SITE_URL", "https://industrialprofi.com")
-site.telegram_url  = ENV.fetch("TELEGRAM_URL", "https://t.me/industrialprofi")
+site.telegram_url  = ENV.fetch("TELEGRAM_URL", "https://t.me/andrei_yurik")
 site.github_url    = ENV.fetch("GITHUB_URL", "https://github.com/andreiyurik/industrialprofi")
 site.author_url    = ENV.fetch("AUTHOR_URL", "https://github.com/andreiyurik")
 site.donate_url    = ENV.fetch("DONATE_URL", "https://pay.cloudtips.ru/p/61fe8ef3")
