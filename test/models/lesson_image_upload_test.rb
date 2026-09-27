@@ -20,10 +20,17 @@ class LessonImageUploadTest < ActiveSupport::TestCase
     assert_nil LessonImageUpload.rejection(upload("cover.png"))
     assert_equal :not_image, LessonImageUpload.rejection(upload("not_an_image.png"))
     assert_equal :not_image, LessonImageUpload.rejection(upload("scheme.svg"))
+    assert_equal :not_image, LessonImageUpload.rejection(nil)
+  end
+
+  test "reader_ready_blob transcodes a PNG the browser called a GIF" do
+    skip "no libvips here" unless ApplicationHelper.variant_processing_available?
+
+    assert_equal "image/webp", LessonImageUpload.reader_ready_blob(upload("cover.png", "image/gif")).content_type
   end
 
   private
-    def upload(name)
-      Rack::Test::UploadedFile.new(file_fixture(name), "image/png")
+    def upload(name, content_type = "image/png")
+      Rack::Test::UploadedFile.new(file_fixture(name), content_type)
     end
 end

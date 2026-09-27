@@ -61,12 +61,15 @@ class IllustrationFillTest < ApplicationSystemTestCase
 
     visit lesson_path(lessons(:gruppy_dopuska))
     assert_selector ".prose-figure img"
+    assert_selector ".prose-figure__caption", text: "Рис. 1. Порядок допуска."
     assert_no_selector ".attachment__missing"
   end
 
-  test "saving the lesson editor keeps unfilled placeholders and callouts" do
+  test "saving the lesson editor keeps placeholders, filled images and callouts" do
     lesson = lessons(:gruppy_dopuska)
-    lesson.update!(body: lesson.body + "\n![Щит](placeholder: щит в разрезе, вводной автомат сверху)\n\n> [!ПРОВЕРЬ]\n> Кто выдаёт допуск?\n")
+    blob = ActiveStorage::Blob.create_and_upload!(io: file_fixture("cover.png").open, filename: "pribor.png", content_type: "image/png")
+    filled = "![Прибор](#{Rails.application.routes.url_helpers.rails_service_blob_proxy_path(blob.signed_id, blob.filename)})\n*Рис. 2. Прибор.*"
+    lesson.update!(body: lesson.body + "\n![Щит](placeholder: щит в разрезе, вводной автомат сверху)\n\n#{filled}\n\n> [!ПРОВЕРЬ]\n> Кто выдаёт допуск?\n")
     sign_in_as users(:admin)
 
     visit edit_admin_lesson_path(lesson)
@@ -75,8 +78,9 @@ class IllustrationFillTest < ApplicationSystemTestCase
     assert_text I18n.t("flash.lesson_updated")
 
     assert lesson.reload.rich_body.present?
-    assert_equal [ "TODO-elektrik-dopusk.png", "placeholder: щит в разрезе, вводной автомат сверху" ],
-                 lesson.illustration_slots.map(&:src)
+    assert_equal [ [ "TODO-elektrik-dopusk.png", "Схема допуска — кто кого допускает" ], [ "placeholder: щит в разрезе, вводной автомат сверху", "Щит" ] ],
+                 lesson.illustration_slots.map { [ it.src, it.brief ] }
+    assert_equal [ [ blob, "Рис. 2. Прибор." ] ], blob_attachments(lesson)
 
     # A real edit makes Lexxy re-export its own document rather than echo ours.
     visit edit_admin_lesson_path(lesson)
@@ -86,11 +90,16 @@ class IllustrationFillTest < ApplicationSystemTestCase
 
     assert_equal [ "TODO-elektrik-dopusk.png", "placeholder: щит в разрезе, вводной автомат сверху" ],
                  lesson.reload.illustration_slots.map(&:src)
+    assert_equal [ [ blob, "Рис. 2. Прибор." ] ], blob_attachments(lesson)
     assert_includes lesson.rich_body.to_plain_text, "Правка."
     assert_match %r{<blockquote>.*\[!ПРОВЕРЬ\]}m, lesson.rich_body.body.to_html
   end
 
   private
+    def blob_attachments(lesson)
+      lesson.rich_body.body.attachments.select { it.attachable.is_a?(ActiveStorage::Blob) }.map { [ it.attachable, it.caption ] }
+    end
+
     def resize(width)
       page.driver.browser.manage.window.resize_to(width, 900)
     end

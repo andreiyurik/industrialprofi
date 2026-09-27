@@ -47,7 +47,7 @@ module ApplicationHelper
     html = Kramdown::Document.new(text, input: "GFM",
       syntax_highlighter: "rouge",
       syntax_highlighter_opts: { formatter: RougeFormatter }).to_html
-    html = sanitize(html, tags: MARKDOWN_TAGS, attributes: MARKDOWN_ATTRS)
+    html = sanitize(Lesson.encode_placeholder_srcs(html), tags: MARKDOWN_TAGS, attributes: MARKDOWN_ATTRS)
     enrich_prose(html, anchor_headings: anchor_headings, fill_links_for: fill_links_for).html_safe
   end
 
@@ -121,23 +121,25 @@ module ApplicationHelper
 
   def placeholder_image?(img_tag)
     src = img_tag[/\ssrc=(["'])(.*?)\1/, 2]
-    src.blank? || src.match?(Lesson::PENDING_SRC)
+    src.blank? || Lesson.placeholder_src?(CGI.unescapeHTML(src))
   end
 
   # Fill link ships in cached HTML for everyone, hidden by CSS — the real gate is server-side.
   def pending_illustration(img_tag, lesson = nil)
     alt = img_tag[/\salt=(["'])(.*?)\1/, 2]
-    src = img_tag[/\ssrc=(["'])(.*?)\1/, 2]
+    src = CGI.unescapeHTML(img_tag[/\ssrc=(["'])(.*?)\1/, 2].to_s)
     label = alt.present? ? %( role="img" aria-label="#{alt}" title="#{alt}") : ""
-    box = %(<span class="attachment__missing"#{label}>Иллюстрация готовится</span>)
+    box = %(<span class="attachment__missing"#{label}>#{ERB::Util.html_escape(t("lessons.image_pending"))}</span>)
     return box unless lesson
 
     # Keyword arg: a positional lesson would be swallowed by the route's optional :locale segment.
-    slot_params = src.present? ? { src: src } : { brief: alt }
+    slot_params = src.present? ? { src: Lesson.decode_placeholder(src) } : { brief: CGI.unescapeHTML(alt.to_s) }
     box + link_to(new_admin_lesson_illustration_path(lesson_slug: lesson.slug, **slot_params), class: "attachment__fill") do
       safe_join([ icon_tag("plus-circle"), tag.span(t("lessons.fill_illustration")) ])
     end
   end
+
+  def pending_remote_image?(attachment) = Lesson.placeholder_node?(attachment.node)
 
   def wrap_code_blocks(html)
     button =
@@ -174,7 +176,7 @@ module ApplicationHelper
   end
 
   # Bump when the render pipeline changes — template-digest busting doesn't reach a helper cache.
-  LESSON_CONTENT_RENDER_VERSION = 6
+  LESSON_CONTENT_RENDER_VERSION = 7
 
   def lesson_content(lesson, field)
     @lesson_content ||= {}

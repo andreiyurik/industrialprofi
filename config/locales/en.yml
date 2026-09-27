@@ -2122,6 +2122,8 @@ en:
       filled: "Illustration added to “%{lesson}”."
       slot_missing: "This placeholder is already filled or changed — the spot wasn't found."
       file_label: "Image file"
+      caption_label: "Caption"
+      caption_hint: "Readers see it under the illustration; it also describes the image. You can leave it empty."
       file_hint: "Landscape, 4:3 or 16:9, at least 1200 px wide. PNG, JPEG, WebP or GIF up to %{max} — readers get an optimized copy."
       submit: "Add to the article"
       choose_slot: "This article has several image spots — pick the one to fill."

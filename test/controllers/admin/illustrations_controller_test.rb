@@ -122,6 +122,7 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
     assert_match "Схема допуска", response.body
     assert_select "input[type=hidden][name=?][value=?]", "illustration[src]", "TODO-elektrik-dopusk.png"
     assert_select "input[type=file]"
+    assert_select "input[name=?][value=?]", "illustration[caption]", "Схема допуска"
   end
 
   test "fill screen without an identifier offers the slot chooser" do
@@ -140,13 +141,26 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to admin_lessons_path
   end
 
+  test "create is closed to an editor of another profession" do
+    lesson = lessons(:svarka_intro)
+    lesson.update!(body: "![Шов](TODO-shov.png)")
+    sign_out
+    sign_in_as users(:editor)
+
+    post admin_lesson_illustrations_path(lesson), params: {
+      illustration: { src: "TODO-shov.png", file: fixture_file_upload("cover.png", "image/png") }
+    }
+    assert_redirected_to admin_lessons_path
+    assert_includes lesson.reload.body, "TODO-shov.png"
+  end
+
   test "create fills the placeholder and returns the expert to the queue" do
     lesson = lessons(:pteep)
     lesson.update!(body: "![Схема допуска](TODO-elektrik-dopusk.png)")
 
     assert_difference -> { lesson.lesson_revisions.count } => 1 do
       post admin_lesson_illustrations_path(lesson), params: {
-        illustration: { src: "TODO-elektrik-dopusk.png", file: fixture_file_upload("cover.png", "image/png") }
+        illustration: { src: "TODO-elektrik-dopusk.png", file: fixture_file_upload("cover.png", "image/png"), caption: "Рис. 1. Допуск" }
       }
     end
 
@@ -154,6 +168,7 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
     assert_equal I18n.t("admin.illustrations.filled", lesson: lesson.title), flash[:notice]
     lesson.reload
     assert_includes lesson.body, "](/rails/active_storage/blobs/proxy/"
+    assert_includes lesson.body, "\n*Рис. 1. Допуск*"
     assert lesson.illustrations.attached?
   end
 
@@ -184,6 +199,24 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "input[type=hidden][name=?][value=?]", "illustration[src]", "TODO-shema.png"
     assert_includes lesson.reload.body, "TODO-shema.png"
     assert_not lesson.illustrations.attached?
+  end
+
+  test "create refuses an image vips can't read, keeping the typed caption" do
+    skip "no libvips here" unless ApplicationHelper.variant_processing_available?
+    lessons(:pteep).update!(body: "![Схема](TODO-shema.png)")
+
+    Tempfile.create([ "broken", ".png" ], binmode: true) do |broken|
+      broken.write(file_fixture("cover.png").binread.first(64))
+      broken.rewind
+      post admin_lesson_illustrations_path(lessons(:pteep)), params: {
+        illustration: { src: "TODO-shema.png", caption: "Моя подпись", file: Rack::Test::UploadedFile.new(broken.path, "image/png") }
+      }
+    end
+
+    assert_response :unprocessable_entity
+    assert_select "[role=alert]", text: I18n.t("admin.uploads.not_image")
+    assert_select "input[name=?][value=?]", "illustration[caption]", "Моя подпись"
+    assert_includes lessons(:pteep).reload.body, "TODO-shema.png"
   end
 
   test "create refuses an SVG" do

@@ -21,21 +21,20 @@ module Admin
     end
 
     def create
-      @slots = @lesson.illustration_slots
-      @slot = @slots.find { |slot| slot.src == illustration_params[:src] } or raise Lesson::PlaceholderMissing
+      @slot = @lesson.illustration_slots.find { |slot| slot.src == illustration_params[:src] } or raise Lesson::PlaceholderMissing
       upload = illustration_params[:file]
 
-      if (@rejection = upload.respond_to?(:tempfile) ? LessonImageUpload.rejection(upload) : :not_image)
+      if (@rejection = LessonImageUpload.rejection(upload))
         render :new, status: :unprocessable_entity
       else
         @lesson.fill_illustration!(src: @slot.src, blob: LessonImageUpload.reader_ready_blob(upload),
-          edit_reason: t("admin.illustrations.fill_reason"))
+          caption: illustration_params[:caption], edit_reason: t("admin.illustrations.fill_reason"))
         redirect_to admin_illustrations_path(path: @lesson.path.slug),
           notice: t("admin.illustrations.filled", lesson: @lesson.title)
       end
     rescue Lesson::PlaceholderMissing
       redirect_to new_admin_lesson_illustration_path(@lesson), alert: t("admin.illustrations.slot_missing")
-    rescue Vips::Error
+    rescue LessonImageUpload::Unreadable
       @rejection = :not_image
       render :new, status: :unprocessable_entity
     end
@@ -48,7 +47,7 @@ module Admin
     end
 
     def illustration_params
-      params.expect(illustration: [ :src, :file ])
+      params.expect(illustration: [ :src, :file, :caption ])
     end
 
     def editable_paths = Path.editable_by(Current.user)

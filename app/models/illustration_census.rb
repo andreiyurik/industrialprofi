@@ -74,7 +74,7 @@ class IllustrationCensus
 
     def markdown_images(lesson, section, markdown)
       markdown.scan(MARKDOWN_IMAGE).filter_map do |alt, src|
-        next if src.match?(/\A\s*(TODO|placeholder)/i) # a brief, not an image
+        next if src.match?(Lesson::PENDING_SRC) # a brief, not an image
         src = src.strip
         Image.new(lesson:, section:, src:, alt:, blob: IllustrationCensus.proxy_blob(src))
       end
