@@ -39,6 +39,18 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_modified
   end
 
+  test "an anonymous re-request with a stale etag gets the changed lesson" do
+    get lesson_path(lessons(:pteep))
+    etag = response.headers["ETag"]
+
+    travel 2.seconds do
+      lessons(:pteep).update!(title: "Новый заголовок урока")
+      get lesson_path(lessons(:pteep)), headers: { "If-None-Match" => etag }
+    end
+    assert_response :success
+    assert_includes response.body, "Новый заголовок урока"
+  end
+
   test "signed-in users always render fresh (no conditional 304)" do
     get lesson_path(lessons(:pteep))
     anon_last_modified = response.headers["Last-Modified"]
