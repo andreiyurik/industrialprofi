@@ -48,6 +48,10 @@ config/sberbank_card.key  # donation card number shown on /support_us
                           # git history; the bank label rides in deploy.yml clear:)
 ```
 
+On a new machine `bin/setup-deploy` does this whole step and step 2's `KAMAL_WEB_IP`:
+it asks for each key without echo, writes the files with mode 600, appends
+`KAMAL_WEB_IP` to `~/.bashrc` and checks passwordless ssh. Safe to re-run.
+
 ## 2. Config
 
 The server IP is **not** committed (this is a public repo). `deploy.yml` reads it
