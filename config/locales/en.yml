@@ -2599,6 +2599,9 @@ en:
       admin: "Administrator edit"
       rollback: "Rollback"
 
+  feedback_banner:
+    text: "The project is still growing, and your opinion matters to me: criticism, ideas, remarks — message me on Telegram"
+
   common:
     close: "Close"
     lesson:

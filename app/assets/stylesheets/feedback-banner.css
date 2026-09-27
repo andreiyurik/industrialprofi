@@ -1,0 +1,92 @@
+.feedback-banner {
+  background-color: var(--color-subtle-light);
+  border-block-end: 1px solid var(--color-subtle);
+  color: var(--color-subtle-dark);
+  font-size: 0.875rem;
+}
+
+.feedback-banner__inner {
+  align-items: center;
+  column-gap: 0.75rem;
+  display: flex;
+  justify-content: center;
+  padding-block: 0.45rem;
+}
+
+.feedback-banner__text {
+  margin: 0;
+  text-wrap: balance;
+}
+
+.feedback-banner__link {
+  align-items: center;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-subtle);
+  border-radius: 999px;
+  color: var(--color-ink);
+  display: inline-flex;
+  flex-shrink: 0;
+  font-weight: 600;
+  gap: 0.45rem;
+  padding: 0.2rem 0.25rem 0.2rem 0.7rem;
+  text-decoration: none;
+  transition: border-color 150ms ease;
+  white-space: nowrap;
+
+  .telegram-logo {
+    block-size: 1.35rem;
+    inline-size: 1.35rem;
+  }
+}
+
+@media (any-hover: hover) {
+  .feedback-banner__link:hover {
+    border-color: var(--color-telegram);
+  }
+}
+
+.feedback-banner__close {
+  --icon-size: 0.875rem;
+  align-items: center;
+  background: none;
+  border: 0;
+  border-radius: 0.3em;
+  color: var(--color-disabled);
+  cursor: pointer;
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-inline-start: 0.25rem;
+  padding: 0.4rem;
+  transition: color 150ms ease-out;
+}
+
+.feedback-banner__close:hover {
+  color: var(--color-ink);
+}
+
+@media (max-width: 1099px) {
+  .feedback-banner__text {
+    flex: 1;
+  }
+}
+
+@media (max-width: 639px) {
+  .feedback-banner {
+    font-size: 0.8125rem;
+  }
+
+  /* In one row the pill squeezes the text to a 100–170px column; the pill drops under the text instead. */
+  .feedback-banner__inner {
+    column-gap: 0.5rem;
+    display: grid;
+    grid-template-areas: "text close" "link close";
+    grid-template-columns: 1fr auto;
+    justify-items: start;
+    padding-block: 0.5rem;
+    row-gap: 0.4rem;
+  }
+
+  .feedback-banner__text { grid-area: text; }
+  .feedback-banner__link { grid-area: link; }
+  .feedback-banner__close { align-self: start; grid-area: close; }
+}

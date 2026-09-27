@@ -9,6 +9,15 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_includes cache_control, "private", "static pages cache privately, not in shared caches"
   end
 
+  test "feedback banner links to Telegram until dismissed" do
+    get about_path
+    assert_select ".feedback-banner a[href=?]", Rails.application.config.x.site.telegram_url
+
+    cookies[:feedback_banner_dismissed] = "1"
+    get about_path
+    assert_select ".feedback-banner", count: 0
+  end
+
   test "search-engine verification meta tags render only when configured" do
     site = Rails.application.config.x.site
 
