@@ -9,8 +9,19 @@ module LessonImageUpload
     PERMITTED_TYPES.include?(content_type) && byte_size.to_i <= MAX_BYTES
   end
 
+  # The browser's content type comes from the file extension, so sniff the bytes too.
+  def self.rejection(upload)
+    if upload.size > MAX_BYTES
+      :too_large
+    elsif !PERMITTED_TYPES.include?(Marcel::MimeType.for(upload.tempfile))
+      :not_image
+    end
+  ensure
+    upload.tempfile.rewind
+  end
+
   def self.accept_attribute
-    PERMITTED_TYPES.join(" ")
+    PERMITTED_TYPES.join(",")
   end
 
   # Baked into lesson markdown as a static src, so no per-render variant branch.

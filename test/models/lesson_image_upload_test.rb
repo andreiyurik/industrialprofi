@@ -12,7 +12,18 @@ class LessonImageUploadTest < ActiveSupport::TestCase
     assert_not LessonImageUpload.permits?(content_type: "image/svg+xml", byte_size: 1.kilobyte)
   end
 
-  test "accept_attribute lists the permitted types space-separated" do
-    assert_equal "image/png image/jpeg image/webp image/gif", LessonImageUpload.accept_attribute
+  test "accept_attribute lists the permitted types comma-separated, as HTML requires" do
+    assert_equal "image/png,image/jpeg,image/webp,image/gif", LessonImageUpload.accept_attribute
   end
+
+  test "rejection judges the bytes, not the browser's content type" do
+    assert_nil LessonImageUpload.rejection(upload("cover.png"))
+    assert_equal :not_image, LessonImageUpload.rejection(upload("not_an_image.png"))
+    assert_equal :not_image, LessonImageUpload.rejection(upload("scheme.svg"))
+  end
+
+  private
+    def upload(name)
+      Rack::Test::UploadedFile.new(file_fixture(name), "image/png")
+    end
 end

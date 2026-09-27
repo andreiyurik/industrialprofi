@@ -88,6 +88,7 @@ class Lesson < ApplicationRecord
 
   IllustrationSlot = Data.define(:section, :brief, :src) do
     def display_brief = brief.presence || src.sub(/\A(?:TODO[-_]?|placeholder:?)\s*/i, "").presence
+    def instructions = (src[/\Aplaceholder:\s*(.+)/im, 1] if brief.present?)
   end
 
   def illustration_slots

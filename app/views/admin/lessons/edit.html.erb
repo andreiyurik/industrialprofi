@@ -56,7 +56,7 @@
               placeholder: t("admin.placeholders.body"), **lexxy_image_options do %>
           <%= render "admin/lessons/link_prompt" %>
         <% end %>
-        <p class="admin-form__hint"><%= t("admin.lesson_links.hint") %> <%= t("admin.uploads.hint") %></p>
+        <p class="admin-form__hint"><%= t("admin.lesson_links.hint") %> <%= t("admin.uploads.hint", max: number_to_human_size(LessonImageUpload::MAX_BYTES)) %></p>
       </div>
 
       <div class="admin-form__field admin-form__field--lg">
