@@ -35,6 +35,10 @@ flowchart TB
   `cover.*`; frozen by an expert's edit, but an empty landing is filled even on a
   human-owned profession (`Path#fill_landing`). National specifics live in prose; a new
   slot becomes code only when two professions ask.
+- **Hobby shelf**: `paths.field` is `industry` or `hobby` (`field:` in `path.yml`).
+  Hobby maps render in `.catalog-hobby` between the grid and «В планах», never in the main grid or
+  dashboard suggestions — see [the decision](../decisions/2026-09-27-hobby-shelf.md).
+  Outside the import digest, so adding it froze nothing.
 - **Glossary**: `GlossaryTerm` rows are owned by the lesson that explains each term,
   edited next to its links, `terms:` in pack frontmatter.
 - `Path::Progress` is the per-reader null object the hub reads — no `Current.user`

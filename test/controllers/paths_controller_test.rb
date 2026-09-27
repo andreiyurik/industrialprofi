@@ -29,6 +29,19 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_equal Path.published.localized.count, css_select(".catalog-grid .path-card").size
   end
 
+  test "index puts hobby paths on their own shelf below the catalog" do
+    get paths_path
+    assert_select ".catalog-hobby", count: 0
+
+    paths(:welder).update!(field: "hobby")
+    get paths_path
+    assert_select "#catalog .path-card", count: Path.published.localized.industrial.count
+    assert_select ".catalog-hobby .path-card", count: 1
+    assert_select ".catalog-hobby", text: /#{paths(:welder).title}/
+    assert_operator response.body.index("catalog-hobby"), :<, response.body.index("catalog-soon"),
+      "live maps come before the vacancy board"
+  end
+
   test "index invites a co-author with a single call" do
     get paths_path
     # One CTA button, never several competing ones. The quiet "весь список"

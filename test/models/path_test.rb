@@ -14,6 +14,13 @@ class PathTest < ActiveSupport::TestCase
     assert path.errors[:title].any?
   end
 
+  test "field is industry or hobby" do
+    path = paths(:electrician)
+    assert_equal "industry", path.field
+    path.field = "leisure"
+    assert_not path.valid?
+  end
+
   test "auto-generates a slug from the title when blank" do
     path = Path.new(title: "Новый Электрик", status: "published")
     assert path.valid?

@@ -63,7 +63,8 @@ class CurriculumImporter
       path = Path.find_or_initialize_by(slug: File.basename(File.dirname(path_yml)))
       attrs = {
         title: meta["title"], description: meta["description"],
-        position: meta["position"], status: meta["status"].presence || "draft"
+        position: meta["position"], status: meta["status"].presence || "draft",
+        field: meta["field"].presence || "industry"
       }
       # landing.yml rides with path.yml — refreshed while pristine, frozen once edited.
       landing_yml = File.join(File.dirname(path_yml), "landing.yml")

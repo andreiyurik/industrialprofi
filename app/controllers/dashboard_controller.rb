@@ -7,7 +7,7 @@ class DashboardController < ApplicationController
     @other_paths = @started_paths.reject { |path| path == @focus_path }
     @completed_ids_by_path = @started_paths.index_with { |path| Current.user.completed_lesson_ids_for(path) }
 
-    @suggested_paths = @started_paths.any? ? [] : Path.published.official.localized.ordered.limit(3)
+    @suggested_paths = @started_paths.any? ? [] : Path.published.official.industrial.localized.ordered.limit(3)
 
     @activity_since = 15.weeks.ago.to_date.beginning_of_week
     @activity = Current.user.activity_by_day(since: @activity_since)
