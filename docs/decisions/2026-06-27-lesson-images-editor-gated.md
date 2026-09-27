@@ -30,3 +30,14 @@ status: accepted
   (`LessonImageUpload.reader_ready_blob`). Files already committed under
   `public/lesson-images` stay; the census resolves both.
 - Debt: `content:export` doesn't carry blob images into packs yet.
+
+## 2026-09-27: placeholders survive the lesson editor
+
+- Opening a Markdown lesson in the editor used to hand Lexxy the reader HTML, so a
+  placeholder became the text «Иллюстрация готовится» and left the queue on save.
+- The editor now gets plain HTML (`Admin::EditorHelper#editor_html`) with each
+  placeholder as an `<action-text-attachment>`: `content-type="image/png"` (Lexxy drops
+  `image/*`), the src percent-encoded (Lexxy's DOMPurify strips `placeholder:` as a
+  URI scheme), the brief as `caption` (Action Text persists no `alt`).
+- `Lesson#illustration_slots` and `#fill_illustration!` read both Markdown and rich
+  sections; `test/system/illustration_fill_test.rb` saves through real Lexxy.

@@ -13,4 +13,22 @@ module Admin::EditorHelper
       }
     }
   end
+
+  # Editor input, not reader output: no enrich wrappers, and placeholders arrive in the attachment
+  # shape Lexxy keeps — a concrete image type and a URI-safe (percent-encoded) src.
+  def editor_html(markdown)
+    return "" if markdown.blank?
+
+    slots = markdown.scan(Lesson::PENDING_IMAGE_PATTERN)
+    html = sanitize(Kramdown::Document.new(markdown, input: "GFM").to_html,
+      tags: ApplicationHelper::MARKDOWN_TAGS, attributes: ApplicationHelper::MARKDOWN_ATTRS)
+    fragment = Nokogiri::HTML5.fragment(html)
+    fragment.css("img").select { |img| img["src"].blank? || img["src"].match?(Lesson::PENDING_SRC) }
+            .zip(slots) do |img, (brief, src)|
+      next unless src
+      img.replace(ActionText::HtmlConversion.create_element(ActionText::Attachment.tag_name,
+        "url" => ERB::Util.url_encode(src), "caption" => brief, "content-type" => "image/png"))
+    end
+    fragment.to_html
+  end
 end

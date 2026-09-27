@@ -17,6 +17,27 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes html, I18n.t("lessons.image_pending")
   end
 
+  test "a rich-text placeholder renders the pending box with a fill link, not the brief as caption" do
+    lesson = lessons(:pteep)
+    lesson.update!(rich_body: %(<action-text-attachment url="TODO-shema.png" caption="Схема допуска" content-type="image/png"></action-text-attachment>))
+
+    html = lesson_content(lesson, :body)
+    assert_includes html, "attachment__missing"
+    assert_includes html, new_admin_lesson_illustration_path(lesson_slug: lesson.slug, src: "TODO-shema.png")
+    assert_not_includes html, "attachment__caption"
+  end
+
+  test "an uncaptioned image shows no filename or size to readers" do
+    lesson = lessons(:pteep)
+    blob = ActiveStorage::Blob.create_and_upload!(io: file_fixture("cover.png").open,
+      filename: "IMG_2034.png", content_type: "image/png")
+    lesson.update!(rich_body: ActionText::Attachment.from_attachable(blob).to_html)
+
+    html = lesson_content(lesson, :body)
+    assert_includes html, "<img"
+    assert_not_includes html, "attachment__caption"
+  end
+
   test "markdown renders heading" do
     result = markdown("## Title")
     assert_includes result, "<h2"
