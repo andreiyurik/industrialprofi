@@ -35,7 +35,7 @@ module Admin::EditorHelper
       return if src.blank? || src.start_with?("data:")
 
       if (blob = IllustrationCensus.proxy_blob(src))
-        ActionText::Attachment.from_attachable(blob, caption: take_figure_caption(img))
+        Lesson.image_attachment(blob, caption: take_figure_caption(img))
       else
         caption = Lesson.placeholder_src?(src) ? img["alt"] : take_figure_caption(img)
         ActionText::Attachment.from_attributes({ "url" => src, "caption" => caption, "content-type" => editor_image_type(src) }.compact)
