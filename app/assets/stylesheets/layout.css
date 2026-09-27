@@ -2,9 +2,22 @@ body {
   display: grid;
   /* minmax(0, 1fr), not auto — auto sizes to content, so an over-wide child blows the page past the viewport on mobile. */
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto 1fr auto;
+  /* Named areas, not child order: a script or extension injecting a body child would otherwise shift every row.
+     The footer takes the slack, not main — a stretched main shows as a bare band above the footer's border. */
+  grid-template-areas: "banner" "header" "main" "footer";
+  grid-template-rows: auto auto auto 1fr;
   min-block-size: 100dvh;
 }
+
+/* These pages centre a form in main, so main takes the slack instead. */
+body:has(> .main--auth, > .main--centered) {
+  grid-template-rows: auto auto 1fr auto;
+}
+
+body > .feedback-banner { grid-area: banner; }
+body > .header { grid-area: header; }
+body > main { grid-area: main; }
+body > .footer { grid-area: footer; }
 
 /* Grid items default to min-width:auto — zero it so <main> is bound by the viewport, not its widest descendant. */
 body > * {
