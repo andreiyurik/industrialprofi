@@ -8,12 +8,12 @@ resources:
     kind: article
     required: false
   - title: "naks.ru — Аттестация специалистов сварочного производства (ССП: ИСС, ИТС, СТС, СИС)"
-    url: "https://naks.ru/specialist/"
+    url: "https://naks.ru/sasv/"
     kind: norm
     required: true
     country_code: RU
   - title: "СДОС — Система добровольной сертификации в области неразрушающего контроля (НК-персонал)"
-    url: "https://www.sndtpb.ru/"
+    url: "https://naks.ru/sdsnk/"
     kind: norm
     required: false
     country_code: RU
