@@ -206,7 +206,7 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
     lessons(:pteep).update!(body: "![Схема](TODO-shema.png)")
 
     Tempfile.create([ "broken", ".png" ], binmode: true) do |broken|
-      broken.write(file_fixture("cover.png").binread.first(64))
+      broken.write("\x89PNG\r\n\x1A\n".b + "not really a png" * 8)
       broken.rewind
       post admin_lesson_illustrations_path(lessons(:pteep)), params: {
         illustration: { src: "TODO-shema.png", caption: "Моя подпись", file: Rack::Test::UploadedFile.new(broken.path, "image/png") }

@@ -34,6 +34,11 @@ module Lesson::Illustratable
     def placeholder_src?(src) = decode_placeholder(src).match?(PENDING_SRC)
 
     def placeholder_node?(node) = node["sgid"].blank? && placeholder_src?(node["url"])
+
+    # With a url, as Lexxy's own uploads carry: without one Lexxy imports a custom node and drops the caption.
+    def image_attachment(blob, caption:)
+      ActionText::Attachment.from_attachable(blob, caption:, url: Rails.application.routes.url_helpers.rails_blob_path(blob, only_path: true))
+    end
   end
 
   def illustration_slots
@@ -82,7 +87,7 @@ module Lesson::Illustratable
           Lesson.decode_placeholder(attachment.node["url"]) != slot.src
 
         filled = true
-        ActionText::Attachment.from_attachable(blob, caption:).node
+        Lesson.image_attachment(blob, caption:).node
       end
     end
 

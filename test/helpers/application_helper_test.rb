@@ -72,11 +72,11 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes html, new_admin_lesson_illustration_path(lesson_slug: lesson.slug, src: "TODO-elektrik-dopusk.png")
   end
 
-  test "markdown identifies a src-less placeholder by its brief" do
+  test "markdown links a placeholder: src to its fill screen by src" do
     lesson = lessons(:pteep)
     html = markdown("![Стенд](placeholder: фото стенда)", fill_links_for: lesson)
 
-    assert_includes html, new_admin_lesson_illustration_path(lesson_slug: lesson.slug, brief: "Стенд")
+    assert_includes html, new_admin_lesson_illustration_path(lesson_slug: lesson.slug, src: "placeholder: фото стенда")
   end
 
   # The link must never leak into content that gets STORED — the suggestion
