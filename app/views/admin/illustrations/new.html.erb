@@ -33,6 +33,10 @@
           <%= form.file_field :file, accept: LessonImageUpload.accept_attribute, required: true, class: "input",
                 aria: { describedby: [ "illustration_hint", ("illustration_error" if @rejection) ].compact.join(" ") } %>
           <p class="admin-row__subtle" id="illustration_hint"><%= t("admin.illustrations.file_hint", max: number_to_human_size(LessonImageUpload::MAX_BYTES)) %></p>
+          <%= form.label :caption, t("admin.illustrations.caption_label") %>
+          <%= form.text_field :caption, value: params.dig(:illustration, :caption) || @slot.suggested_caption,
+                maxlength: 200, class: "input", aria: { describedby: "illustration_caption_hint" } %>
+          <p class="admin-row__subtle" id="illustration_caption_hint"><%= t("admin.illustrations.caption_hint") %></p>
           <%= form.submit t("admin.illustrations.submit"), class: "btn btn--reversed" %>
         <% end %>
       </div>

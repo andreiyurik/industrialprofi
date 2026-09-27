@@ -1,5 +1,6 @@
 class Lesson < ApplicationRecord
   include IndexNowNotifiable
+  include Illustratable
   include Importable
   include ImportedChildren
   include Revisable
@@ -84,57 +85,6 @@ class Lesson < ApplicationRecord
     [ body.to_s, rich_body&.body.to_s ].join(" ").scan(INTERNAL_LINK_PATTERN).flatten.uniq - [ slug ]
   end
 
-  PENDING_IMAGE_PATTERN = /!\[(?<brief>[^\]]*)\]\(\s*(?<src>(?:TODO|placeholder)[^)]*?)\s*\)/i
-  PENDING_SRC = /\A\s*(?:TODO|placeholder)/i
-
-  IllustrationSlot = Data.define(:section, :brief, :src) do
-    def display_brief = brief.presence || src.sub(/\A(?:TODO[-_]?|placeholder:?)\s*/i, "").presence
-    def instructions = (src[/\Aplaceholder:\s*(.+)/im, 1] if brief.present?)
-  end
-
-  def self.placeholder_src(attachment) = URI.decode_uri_component(attachment.node["url"].to_s)
-
-  def illustration_slots
-    %w[body task].flat_map do |section|
-      if (rich = public_send(:"rich_#{section}")).present?
-        pending_attachments(rich).map do |attachment|
-          IllustrationSlot.new(section:, brief: attachment.caption.to_s, src: Lesson.placeholder_src(attachment))
-        end
-      else
-        public_send(section).to_s.scan(PENDING_IMAGE_PATTERN).map do |brief, src|
-          IllustrationSlot.new(section:, brief:, src:)
-        end
-      end
-    end
-  end
-
-  def pending_illustration_briefs = illustration_slots.map(&:brief)
-
-  class PlaceholderMissing < StandardError; end
-
-  # Matches by exact src, not position — a concurrent edit removal raises, not corrupts text.
-  def fill_illustration!(src:, blob:, edit_reason: nil)
-    slot = illustration_slots.find { |candidate| candidate.src == src }
-    raise PlaceholderMissing, src.to_s unless slot
-
-    transaction do
-      illustrations.attach(blob)
-      before = section_html(slot.section)
-      if (rich = public_send(:"rich_#{slot.section}")).present?
-        fill_rich_placeholder(rich, slot, blob)
-      else
-        url = Rails.application.routes.url_helpers.rails_service_blob_proxy_path(blob.signed_id, blob.filename)
-        public_send(:"#{slot.section}=",
-          public_send(slot.section).sub(/\]\(\s*#{Regexp.escape(slot.src)}\s*\)/, "](#{url})"))
-      end
-      self.origin = "human"
-      save!
-      # Not admin_update_with_revisions! — its diff is blind to a src-only change.
-      record_revision!(section: slot.section, before: before, after: section_html(slot.section),
-        editor_name: nil, edit_reason: edit_reason, source: "admin")
-    end
-  end
-
   def prev_in_path
     path.lessons.where("position < ?", position).ordered.last
   end
@@ -156,20 +106,6 @@ class Lesson < ApplicationRecord
   end
 
   private
-    def pending_attachments(rich)
-      rich.body.attachments.select do |attachment|
-        attachment.attachable.is_a?(ActionText::Attachables::RemoteImage) && Lesson.placeholder_src(attachment).match?(PENDING_SRC)
-      end
-    end
-
-    def fill_rich_placeholder(rich, slot, blob)
-      rich.body = rich.body.render_attachments do |attachment|
-        next attachment.node unless Lesson.placeholder_src(attachment) == slot.src
-
-        ActionText::Attachment.from_attachable(blob, caption: slot.brief.presence).node
-      end
-    end
-
     def index_for_search = LessonSearch.index(self)
     def deindex_for_search = LessonSearch.remove(id)
 

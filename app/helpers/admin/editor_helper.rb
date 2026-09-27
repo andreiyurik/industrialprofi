@@ -14,21 +14,45 @@ module Admin::EditorHelper
     }
   end
 
-  # Editor input, not reader output: no enrich wrappers, and placeholders arrive in the attachment
-  # shape Lexxy keeps — a concrete image type and a URI-safe (percent-encoded) src.
+  # Lexxy imports a plain <img> as image/* and drops it as not permitted, so images arrive as attachments.
   def editor_html(markdown)
     return "" if markdown.blank?
 
-    slots = markdown.scan(Lesson::PENDING_IMAGE_PATTERN)
-    html = sanitize(Kramdown::Document.new(markdown, input: "GFM").to_html,
+    html = sanitize(Lesson.encode_placeholder_srcs(Kramdown::Document.new(markdown, input: "GFM").to_html),
       tags: ApplicationHelper::MARKDOWN_TAGS, attributes: ApplicationHelper::MARKDOWN_ATTRS)
     fragment = Nokogiri::HTML5.fragment(html)
-    fragment.css("img").select { |img| img["src"].blank? || img["src"].match?(Lesson::PENDING_SRC) }
-            .zip(slots) do |img, (brief, src)|
-      next unless src
-      img.replace(ActionText::HtmlConversion.create_element(ActionText::Attachment.tag_name,
-        "url" => ERB::Util.url_encode(src), "caption" => brief, "content-type" => "image/png"))
+    fragment.css("img").each do |img|
+      if (attachment = editor_attachment_for(img))
+        img.replace(attachment.node)
+      end
     end
     fragment.to_html
   end
+
+  private
+    def editor_attachment_for(img)
+      src = img["src"].to_s
+      return if src.blank? || src.start_with?("data:")
+
+      if (blob = IllustrationCensus.proxy_blob(src))
+        ActionText::Attachment.from_attachable(blob, caption: take_figure_caption(img))
+      else
+        caption = Lesson.placeholder_src?(src) ? img["alt"] : take_figure_caption(img)
+        ActionText::Attachment.from_attributes({ "url" => src, "caption" => caption, "content-type" => editor_image_type(src) }.compact)
+      end
+    end
+
+    # Only labels an existing URL for Lexxy's allowlist; uploads are checked separately.
+    def editor_image_type(src)
+      type = Marcel::MimeType.for(name: File.basename(Lesson.decode_placeholder(src).sub(/[?#].*/, "")))
+      LessonImageUpload::PERMITTED_TYPES.include?(type) ? type : "image/png"
+    end
+
+    def take_figure_caption(img)
+      br = img.next_element
+      em = br&.next_element
+      return unless br&.name == "br" && em&.name == "em" && em.next_sibling.nil?
+
+      em.text.tap { [ br, em ].each(&:remove) }
+    end
 end

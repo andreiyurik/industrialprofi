@@ -27,6 +27,25 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_not_includes html, "attachment__caption"
   end
 
+  test "a placeholder: src links its fill screen by src, in Markdown and rich text alike" do
+    lesson = lessons(:pteep)
+    fill_path = new_admin_lesson_illustration_path(lesson_slug: lesson.slug, src: "placeholder: щит (вид спереди) & автомат")
+
+    lesson.update!(body: "![Щит & автомат](placeholder: щит (вид спереди) & автомат)")
+    assert_includes lesson_content(lesson, :body), ERB::Util.html_escape(fill_path)
+
+    lesson.update!(rich_body: %(<action-text-attachment url="#{ERB::Util.url_encode("placeholder: щит (вид спереди) & автомат")}" caption="Щит" content-type="image/png"></action-text-attachment>))
+    @lesson_content = nil
+    assert_includes lesson_content(lesson, :body), ERB::Util.html_escape(fill_path)
+  end
+
+  test "a remote image with a non-UTF-8 escaped url still renders" do
+    lesson = lessons(:pteep)
+    lesson.update!(rich_body: %(<action-text-attachment url="https://example.ru/%CF%F0%E8.jpg" content-type="image/jpeg"></action-text-attachment>))
+
+    assert_includes lesson_content(lesson, :body), "https://example.ru/%CF%F0%E8.jpg"
+  end
+
   test "an uncaptioned image shows no filename or size to readers" do
     lesson = lessons(:pteep)
     blob = ActiveStorage::Blob.create_and_upload!(io: file_fixture("cover.png").open,
