@@ -1189,6 +1189,14 @@
   padding-inline-start: var(--block-space);
 }
 
+.illustration-fill__brief > p {
+  margin-block: 0;
+}
+
+.illustration-fill__brief > p + p {
+  margin-block-start: var(--block-space-half);
+}
+
 .illustration-fill__form {
   display: flex;
   flex-direction: column;

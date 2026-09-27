@@ -222,6 +222,13 @@ class LessonTest < ActiveSupport::TestCase
     assert_equal "фото стенда", slots.last.display_brief
   end
 
+  test "a placeholder slot with a brief keeps its src as illustrator instructions" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "![Щит](placeholder: щит в разрезе, вводной автомат сверху)\n\n![Схема](TODO-shema.png)")
+
+    assert_equal [ "щит в разрезе, вводной автомат сверху", nil ], lesson.illustration_slots.map(&:instructions)
+  end
+
   test "a section edited into rich text drops out of the fill queue" do
     lesson = lessons(:pteep)
     lesson.update!(body: "![Схема](TODO-shema.png)")

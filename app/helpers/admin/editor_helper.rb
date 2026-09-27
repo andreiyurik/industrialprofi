@@ -4,7 +4,7 @@ module Admin::EditorHelper
   def lexxy_image_options
     max_bytes = LessonImageUpload::MAX_BYTES
     {
-      "permitted-attachment-types" => LessonImageUpload.accept_attribute,
+      "permitted-attachment-types" => LessonImageUpload::PERMITTED_TYPES.join(" "),
       data: {
         direct_upload_url: admin_uploads_path,
         controller: "lexxy-uploads",

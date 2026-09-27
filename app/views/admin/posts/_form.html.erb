@@ -30,7 +30,7 @@
     <label><%= t("admin.field_body") %></label>
     <%= f.rich_text_area :rich_body, class: "lexxy-content",
           placeholder: t("admin.placeholders.post_body"), **lexxy_image_options %>
-    <p class="admin-form__hint"><%= t("admin.uploads.hint") %></p>
+    <p class="admin-form__hint"><%= t("admin.uploads.hint", max: number_to_human_size(LessonImageUpload::MAX_BYTES)) %></p>
   </div>
 
   <%= render "admin/shared/status_field", f: f, record: post %>
