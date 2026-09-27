@@ -1,0 +1,14 @@
+<%# Dismissal is a cookie, so the server stops rendering it — no flash on the next page. %>
+<div class="feedback-banner" data-controller="feedback-banner">
+  <div class="container feedback-banner__inner">
+    <p class="feedback-banner__text"><%= t("feedback_banner.text") %></p>
+    <%= link_to site_config.telegram_url, class: "feedback-banner__link", target: "_blank", rel: "noopener" do %>
+      <span>@<%= site_config.telegram_url.delete_prefix("https://t.me/") %></span>
+      <%= render "shared/telegram_logo" %>
+    <% end %>
+    <button type="button" class="feedback-banner__close" data-action="feedback-banner#dismiss"
+            aria-label="<%= t("common.close") %>" title="<%= t("common.close") %>">
+      <%= icon_tag "x" %>
+    </button>
+  </div>
+</div>

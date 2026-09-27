@@ -31,6 +31,7 @@
   /* Code syntax-highlighting accents (code.css only) — never general UI. */
   --lch-orange: 76% 0.14 60;
   --lch-rose: 72% 0.12 20;
+  --lch-telegram: 69% 0.135 237;    /* brand blue, only inside the official logo */
   --lch-always-black: 0% 0 0;
   --lch-always-white: 100% 0 0;
 
@@ -57,4 +58,5 @@
   --color-selection-ink: var(--color-ink-reversed);
   --color-always-black: oklch(var(--lch-always-black));
   --color-always-white: oklch(var(--lch-always-white));
+  --color-telegram: oklch(var(--lch-telegram));
 }
