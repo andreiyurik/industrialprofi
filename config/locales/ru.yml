@@ -2444,6 +2444,13 @@ ru:
         few: "%{count} сохранения"
         many: "%{count} сохранений"
         other: "%{count} сохранения"
+      top_learners_title: "Лидеры по завершениям"
+      top_learners_hint: "за последние 7 дней"
+      learner_completions_count:
+        one: "%{count} завершение"
+        few: "%{count} завершения"
+        many: "%{count} завершений"
+        other: "%{count} завершения"
       recent_users: "Последние регистрации"
       all_users: "Все пользователи"
     edit_lesson: "Редактирование статьи"

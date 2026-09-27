@@ -37,6 +37,7 @@ module Admin
       @lessons_total = Lesson.count
 
       @top_bookmarked_lessons = Lesson.top_bookmarked(10)
+      @top_learners_week = User.top_learners(5, since: 7.days.ago)
 
       @signups_by_week = WeeklyCounts.for(User.all, weeks: CHART_WEEKS)
       @completions_by_week = WeeklyCounts.for(LessonCompletion.all, weeks: CHART_WEEKS)

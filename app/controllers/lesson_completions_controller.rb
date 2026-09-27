@@ -1,4 +1,7 @@
 class LessonCompletionsController < ApplicationController
+  # No with: (matches SearchesController) — a rate-limited turbo_stream POST just gets Rails' default 429.
+  rate_limit to: 60, within: 1.hour, only: :create
+
   before_action :set_lesson
 
   def create
