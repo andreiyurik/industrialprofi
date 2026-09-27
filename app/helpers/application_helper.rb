@@ -121,7 +121,7 @@ module ApplicationHelper
 
   def placeholder_image?(img_tag)
     src = img_tag[/\ssrc=(["'])(.*?)\1/, 2]
-    src.blank? || src.match?(/\ATODO/i)
+    src.blank? || src.match?(Lesson::PENDING_SRC)
   end
 
   # Fill link ships in cached HTML for everyone, hidden by CSS — the real gate is server-side.
@@ -174,7 +174,7 @@ module ApplicationHelper
   end
 
   # Bump when the render pipeline changes — template-digest busting doesn't reach a helper cache.
-  LESSON_CONTENT_RENDER_VERSION = 5
+  LESSON_CONTENT_RENDER_VERSION = 6
 
   def lesson_content(lesson, field)
     @lesson_content ||= {}

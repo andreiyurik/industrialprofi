@@ -16,12 +16,12 @@
     <% end %>
   <% end %>
 
-  <figcaption class="attachment__caption">
-    <% if caption = blob.try(:caption) %>
-      <%= caption %>
-    <% else %>
+  <% if (caption = blob.try(:caption).presence) %>
+    <figcaption class="attachment__caption"><%= caption %></figcaption>
+  <% elsif !blob.image? %>
+    <figcaption class="attachment__caption">
       <span class="attachment__name"><%= blob.filename %></span>
       <span class="attachment__size"><%= number_to_human_size blob.byte_size %></span>
-    <% end %>
-  </figcaption>
+    </figcaption>
+  <% end %>
 </figure>

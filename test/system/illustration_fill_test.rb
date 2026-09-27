@@ -64,6 +64,32 @@ class IllustrationFillTest < ApplicationSystemTestCase
     assert_no_selector ".attachment__missing"
   end
 
+  test "saving the lesson editor keeps unfilled placeholders and callouts" do
+    lesson = lessons(:gruppy_dopuska)
+    lesson.update!(body: lesson.body + "\n![Щит](placeholder: щит в разрезе, вводной автомат сверху)\n\n> [!ПРОВЕРЬ]\n> Кто выдаёт допуск?\n")
+    sign_in_as users(:admin)
+
+    visit edit_admin_lesson_path(lesson)
+    assert_selector "lexxy-editor[connected]"
+    click_on I18n.t("admin.save")
+    assert_text I18n.t("flash.lesson_updated")
+
+    assert lesson.reload.rich_body.present?
+    assert_equal [ "TODO-elektrik-dopusk.png", "placeholder: щит в разрезе, вводной автомат сверху" ],
+                 lesson.illustration_slots.map(&:src)
+
+    # A real edit makes Lexxy re-export its own document rather than echo ours.
+    visit edit_admin_lesson_path(lesson)
+    find("lexxy-editor#lesson_rich_body[connected] [contenteditable]", match: :first).send_keys(:end, " Правка.")
+    click_on I18n.t("admin.save")
+    assert_text I18n.t("flash.lesson_updated")
+
+    assert_equal [ "TODO-elektrik-dopusk.png", "placeholder: щит в разрезе, вводной автомат сверху" ],
+                 lesson.reload.illustration_slots.map(&:src)
+    assert_includes lesson.rich_body.to_plain_text, "Правка."
+    assert_match %r{<blockquote>.*\[!ПРОВЕРЬ\]}m, lesson.rich_body.body.to_html
+  end
+
   private
     def resize(width)
       page.driver.browser.manage.window.resize_to(width, 900)

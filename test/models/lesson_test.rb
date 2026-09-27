@@ -229,12 +229,50 @@ class LessonTest < ActiveSupport::TestCase
     assert_equal [ "щит в разрезе, вводной автомат сверху", nil ], lesson.illustration_slots.map(&:instructions)
   end
 
-  test "a section edited into rich text drops out of the fill queue" do
+  # The shape Lexxy keeps for a placeholder handed over by editor_html.
+  RICH_PLACEHOLDER = %(<p>До.</p><action-text-attachment url="TODO-shema.png" caption="Схема допуска" content-type="image/png"></action-text-attachment><p>После.</p>)
+
+  test "a placeholder kept through the editor stays in the fill queue" do
     lesson = lessons(:pteep)
-    lesson.update!(body: "![Схема](TODO-shema.png)")
-    lesson.rich_body.update!(body: "<p>Правленый текст</p>")
+    lesson.update!(body: "![Схема](TODO-shema.png)", rich_body: RICH_PLACEHOLDER)
+
+    assert_equal [ [ "body", "Схема допуска", "TODO-shema.png" ] ],
+                 lesson.reload.illustration_slots.map { |slot| [ slot.section, slot.brief, slot.src ] }
+  end
+
+  test "a placeholder: src survives the editor percent-encoded and fills by its original src" do
+    lesson = lessons(:pteep)
+    lesson.update!(rich_body: %(<action-text-attachment url="#{ERB::Util.url_encode("placeholder: щит")}" caption="Щит" content-type="image/png"></action-text-attachment>))
+    blob = ActiveStorage::Blob.create_and_upload!(io: StringIO.new("data"), filename: "shchit.webp", content_type: "image/webp")
+
+    assert_equal [ "placeholder: щит" ], lesson.illustration_slots.map(&:src)
+    lesson.fill_illustration!(src: "placeholder: щит", blob: blob)
+    assert_equal blob, lesson.reload.rich_body.body.attachments.sole.attachable
+  end
+
+  test "a placeholder deleted in the editor drops out of the fill queue" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "![Схема](TODO-shema.png)", rich_body: "<p>Правленый текст</p>")
 
     assert_empty lesson.reload.illustration_slots
+  end
+
+  test "fill_illustration! swaps a rich placeholder for the image, keeping the brief as its caption" do
+    lesson = lessons(:pteep)
+    lesson.update!(rich_body: RICH_PLACEHOLDER)
+    blob = ActiveStorage::Blob.create_and_upload!(io: StringIO.new("data"),
+      filename: "shema.webp", content_type: "image/webp")
+
+    assert_difference -> { lesson.lesson_revisions.count } => 1 do
+      lesson.fill_illustration!(src: "TODO-shema.png", blob: blob)
+    end
+
+    lesson.reload
+    attachment = lesson.rich_body.body.attachments.sole
+    assert_equal blob, attachment.attachable
+    assert_equal "Схема допуска", attachment.caption
+    assert_includes lesson.rich_body.body.to_plain_text, "После."
+    assert_empty lesson.illustration_slots
   end
 
   test "fill_illustration! swaps the placeholder for a proxy URL, attaches and records a revision" do

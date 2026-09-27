@@ -97,7 +97,7 @@ module Admin
       %i[description body task].each do |field|
         rich_field = :"rich_#{field}"
         if @lesson.send(rich_field).blank? && @lesson.send(field).present?
-          html = helpers.markdown(@lesson.send(field))
+          html = helpers.editor_html(@lesson.send(field))
           @lesson.send(rich_field).body = html
         end
       end
