@@ -2,7 +2,7 @@ module Lesson::Illustratable
   extend ActiveSupport::Concern
 
   PENDING_IMAGE_PATTERN = /!\[(?<brief>[^\]]*)\]\(\s*(?<src>(?:TODO|placeholder)(?:[^()]|\([^()]*\))*?)\s*\)/i
-  PENDING_FIGURE_PATTERN = /#{PENDING_IMAGE_PATTERN}(?:[ \t]*\n\*(?<caption>[^*\n]+)\*)?/
+  PENDING_FIGURE_PATTERN = /#{PENDING_IMAGE_PATTERN}(?:[ \t]*\n\*(?<caption>[^*\n]+)\*(?=[ \t]*$))?/
   PENDING_SRC = /\A\s*(?:TODO|placeholder)/i
 
   IllustrationSlot = Data.define(:section, :brief, :src, :caption) do
@@ -44,8 +44,8 @@ module Lesson::Illustratable
   def illustration_slots
     %w[body task].flat_map do |section|
       if (rich = public_send(:"rich_#{section}")).present?
-        rich.body.attachments.select { Lesson.placeholder_node?(it.node) }.map do |attachment|
-          IllustrationSlot.new(section:, brief: attachment.caption.to_s, src: Lesson.decode_placeholder(attachment.node["url"]), caption: nil)
+        rich.body.fragment.find_all("action-text-attachment").select { Lesson.placeholder_node?(it) }.map do |node|
+          IllustrationSlot.new(section:, brief: node["caption"].to_s, src: Lesson.decode_placeholder(node["url"]), caption: nil)
         end
       else
         public_send(section).to_s.scan(PENDING_FIGURE_PATTERN).map do |brief, src, caption|
@@ -58,7 +58,7 @@ module Lesson::Illustratable
   def pending_illustration_briefs = illustration_slots.map(&:brief)
 
   def fill_illustration!(src:, blob:, caption: nil, edit_reason: nil)
-    caption = caption.to_s.gsub(/[*\\]/, "").squish.presence
+    caption = caption.to_s.squish.presence
 
     with_lock do
       slot = illustration_slots.find { |candidate| candidate.src == src }
@@ -93,6 +93,7 @@ module Lesson::Illustratable
 
     def fill_markdown_placeholder(slot, blob, caption)
       url = Rails.application.routes.url_helpers.rails_service_blob_proxy_path(blob.signed_id, blob.filename)
+      caption = caption&.gsub(/[*\\]/, "")&.squish.presence
       text = public_send(slot.section).dup
       match = text.to_enum(:scan, PENDING_FIGURE_PATTERN).map { Regexp.last_match }.find { it[:src] == slot.src }
       text[match.begin(0)...match.end(0)] = "![#{match[:brief]}](#{url})#{"\n*#{caption}*" if caption}"

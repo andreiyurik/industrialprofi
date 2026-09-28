@@ -286,6 +286,26 @@ class LessonTest < ActiveSupport::TestCase
     assert_nil lesson.reload.rich_body.body.attachments.sole.caption
   end
 
+  test "fill_illustration! keeps asterisks in a rich caption but strips them from a Markdown one" do
+    lesson = lessons(:pteep)
+    lesson.update!(rich_body: RICH_PLACEHOLDER)
+    lesson.fill_illustration!(src: "TODO-shema.png", blob: image_blob("shema.webp"), caption: "Сечение 4*16 мм")
+    assert_equal "Сечение 4*16 мм", lesson.reload.rich_body.body.attachments.sole.caption
+
+    lesson.update!(rich_body: nil, body: "![Схема](TODO-a.png)")
+    lesson.fill_illustration!(src: "TODO-a.png", blob: image_blob("a.webp"), caption: "Сечение 4*16 мм")
+    assert_includes lesson.reload.body, "*Сечение 416 мм*"
+  end
+
+  test "an emphasised word starting the next line is prose, not a placeholder caption" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "![Схема](TODO-a.png)\n*Важно* — соблюдайте допуск")
+
+    assert_nil lesson.illustration_slots.sole.caption
+    lesson.fill_illustration!(src: "TODO-a.png", blob: image_blob("a.webp"))
+    assert_includes lesson.reload.body, "*Важно* — соблюдайте допуск"
+  end
+
   test "fill_illustration! fills only the first of two placeholders sharing a src" do
     lesson = lessons(:pteep)
     placeholder = %(<action-text-attachment url="TODO" caption="Схема" content-type="image/png"></action-text-attachment>)
