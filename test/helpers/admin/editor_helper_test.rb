@@ -32,6 +32,12 @@ class Admin::EditorHelperTest < ActionView::TestCase
     assert_includes LessonImageUpload::PERMITTED_TYPES, attachment.node["content-type"]
   end
 
+  test "editor_html keeps the alt of a real image as its caption when no italic line gives one" do
+    attachment = ActionText::Content.new(editor_html("![Схема заземления в разрезе](/lesson-images/elektrik/shema.svg)")).attachments.sole
+
+    assert_equal "Схема заземления в разрезе", attachment.caption
+  end
+
   test "editor_html carries no reader-only wrappers" do
     html = editor_html("> [!ПРОВЕРЬ]\n> Вопрос?\n\n![Схема](TODO-shema.png)")
 

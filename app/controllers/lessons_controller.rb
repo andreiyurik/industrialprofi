@@ -16,7 +16,7 @@ class LessonsController < ApplicationController
     # Signed-out only: a signed-in page carries completion state last_modified can't capture.
     if Current.user.nil?
       last_modified = content_last_modified
-      fresh_when last_modified:, etag: [ last_modified, ApplicationHelper::LESSON_CONTENT_RENDER_VERSION ]
+      fresh_when last_modified:, etag: [ last_modified, ApplicationHelper::LESSON_CONTENT_RENDER_VERSION, I18n.locale ]
       return if performed?
     end
 

@@ -27,6 +27,16 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_not_includes html, "attachment__caption"
   end
 
+  test "cached lesson content is kept per locale" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "![Схема](TODO-shema.png)")
+
+    with_memory_cache do
+      I18n.with_locale(:en) { @lesson_content = nil; assert_includes lesson_content(lesson, :body), "Illustration coming soon" }
+      I18n.with_locale(:ru) { @lesson_content = nil; assert_includes lesson_content(lesson, :body), "Иллюстрация готовится" }
+    end
+  end
+
   test "a placeholder: src links its fill screen by src, in Markdown and rich text alike" do
     lesson = lessons(:pteep)
     fill_path = new_admin_lesson_illustration_path(lesson_slug: lesson.slug, src: "placeholder: щит (вид спереди) & автомат")
@@ -190,4 +200,13 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "", markdown("")
     assert_equal "", markdown("   ")
   end
+
+  private
+    def with_memory_cache
+      original = Rails.cache
+      Rails.cache = ActiveSupport::Cache::MemoryStore.new
+      yield
+    ensure
+      Rails.cache = original
+    end
 end

@@ -47,7 +47,7 @@ class LessonSuggestionsController < ApplicationController
     if @lesson.send(rich_field).present?
       @suggestion.rich_body = @lesson.send(rich_field).body
     elsif @lesson.send(@section).present?
-      @suggestion.rich_body.body = helpers.markdown(@lesson.send(@section))
+      @suggestion.rich_body.body = helpers.editor_html(@lesson.send(@section))
     end
   end
 
