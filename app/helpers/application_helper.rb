@@ -181,7 +181,7 @@ module ApplicationHelper
   def lesson_content(lesson, field)
     @lesson_content ||= {}
     @lesson_content[[ lesson.id, field ]] ||=
-      Rails.cache.fetch([ lesson.cache_key_with_version, "lesson_content", field, LESSON_CONTENT_RENDER_VERSION ]) do
+      Rails.cache.fetch([ lesson.cache_key_with_version, "lesson_content", field, LESSON_CONTENT_RENDER_VERSION, I18n.locale ]) do
         rich = lesson.send(:"rich_#{field}")
         if rich.present?
           enrich_prose(rich.to_s, anchor_headings: field == :body, fill_links_for: lesson)

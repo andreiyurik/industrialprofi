@@ -9,6 +9,16 @@ class LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     assert_match lessons(:pteep).title, response.body
   end
 
+  test "new hands a Markdown placeholder to the editor as an attachment, not the reader's pending box" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "![Схема](TODO-shema.png)")
+
+    get new_lesson_suggestion_path(lesson_slug: lesson.slug)
+    assert_response :success
+    assert_includes response.body, "action-text-attachment"
+    assert_not_includes response.body, I18n.t("lessons.image_pending")
+  end
+
   test "signed-out visitors are sent to sign in" do
     sign_out
     get new_lesson_suggestion_path(lesson_slug: lessons(:pteep).slug)
