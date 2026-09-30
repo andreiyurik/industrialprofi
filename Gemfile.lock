@@ -447,7 +447,7 @@ DEPENDENCIES
   propshaft
   puma (>= 5.0)
   rack-mini-profiler
-  rails (~> 8.1.3)
+  rails (~> 8.1.4)
   rouge
   rubocop-rails-omakase
   ruby-vips (~> 2.2)
