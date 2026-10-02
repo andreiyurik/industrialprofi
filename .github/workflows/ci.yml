@@ -65,6 +65,17 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .tool-versions
+
+      - name: Lint ERB templates
+        run: bin/herb-lint
+
+      - name: Check templates parse and compile with Herb
+        run: bin/herb analyze .
+
   test:
     runs-on: ubuntu-latest
 

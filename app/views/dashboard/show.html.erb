@@ -129,15 +129,13 @@
         <div class="dashboard__suggested">
           <h2 class="dashboard__suggested-title"><%= t("dashboard.suggested") %></h2>
           <div class="card-grid card-grid--3-col">
-            <% @suggested_paths.each do |path| %>
-              <%= render "paths/path_card", path: path %>
-            <% end %>
+            <%= render partial: "paths/path_card", collection: @suggested_paths, as: :path %>
           </div>
         </div>
       <% end %>
     <% end %>
 
-    <%= render "maps" if @map || @followed_maps.any? || @focus_path %>
+    <%= render "maps", map: @map, followed_maps: @followed_maps, focus_path: @focus_path, completed_ids: @completed_ids if @map || @followed_maps.any? || @focus_path %>
 
     <% if @bookmarked_lessons.any? %>
       <section id="dashboard_bookmarks" class="dashboard__bookmarks">
@@ -160,6 +158,6 @@
       </section>
     <% end %>
 
-    <%= render "suggestions" if @my_contributions.any? %>
+    <%= render "suggestions", my_contributions: @my_contributions, seen_before: @seen_before, trust_progress: @trust_progress if @my_contributions.any? %>
   </div>
 </section>

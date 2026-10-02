@@ -1,9 +1,10 @@
+<%# locals: (my_contributions:, seen_before:, trust_progress:) -%>
 <%# Rendering a decision here counts as "seen" — SuggestionEmailsJob's fallback email then never fires for it. %>
 <section id="dashboard_suggestions" class="dashboard__suggestions">
   <h2 class="dashboard__section-title"><%= t("dashboard.suggestions_title") %></h2>
   <p class="dashboard__section-hint"><%= t("dashboard.suggestions_hint") %></p>
   <div class="panel dashboard-suggestions">
-    <% @my_contributions.each do |contribution| %>
+    <% my_contributions.each do |contribution| %>
       <% is_source = contribution.is_a?(ResourceSuggestion) %>
       <div class="dashboard-suggestion">
         <div class="dashboard-suggestion__row">
@@ -11,7 +12,7 @@
             <%= t("dashboard.suggestion_status.#{contribution.status}") %>
           </span>
           <%= link_to contribution.lesson.title, contribution.lesson, class: "dashboard-suggestion__title" %>
-          <% if contribution.freshly_decided?(@seen_before) %>
+          <% if contribution.freshly_decided?(seen_before) %>
             <span class="notify-dot" title="<%= t("dashboard.suggestion_fresh") %>"></span>
           <% end %>
           <span class="dashboard-suggestion__date">
@@ -41,8 +42,8 @@
   </div>
 
   <%# Threshold interpolates from TrackRecord::TRUSTED_AT so the /contribute promise can't drift from code. %>
-  <% if @trust_progress %>
-    <% trust_path, accepted = @trust_progress %>
+  <% if trust_progress %>
+    <% trust_path, accepted = trust_progress %>
     <p class="dashboard__section-hint">
       <% if accepted >= TrackRecord::TRUSTED_AT %>
         <%= t("dashboard.trust_earned", path: trust_path.title, count: accepted) %>

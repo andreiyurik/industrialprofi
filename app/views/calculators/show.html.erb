@@ -23,7 +23,7 @@
     <p class="calc-intro"><%= t("calculators.#{@calculator.slug}.intro") %></p>
 
     <%= tag.div class: "panel calc", data: @calculator.stimulus_data do %>
-      <%= render "calculators/forms/#{@calculator.slug}" %>
+      <%= render "calculators/forms/#{@calculator.slug}", calculator: @calculator %>
     <% end %>
 
     <%= render "calculators/method", calculator: @calculator %>

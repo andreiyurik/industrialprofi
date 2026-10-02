@@ -21,7 +21,7 @@
     <nav class="lesson-sidebar__nav">
       <% lessons_by_stage.each do |stage, lessons| %>
         <% if stage.present? %>
-          <details class="lesson-sidebar__stage" <%= "open" if lessons.any? { |lesson| lesson.id == current_lesson.id } %>>
+          <%= tag.details class: "lesson-sidebar__stage", open: lessons.any? { |lesson| lesson.id == current_lesson.id } do %>
             <summary class="lesson-sidebar__stage-summary">
               <span class="lesson-sidebar__stage-title"><%= stage %></span>
               <% if signed_in? %>
@@ -33,7 +33,7 @@
               <%= render partial: "lessons/sidebar_item", collection: lessons, as: :lesson,
                     locals: { current_lesson: current_lesson, completed_ids: completed_ids } %>
             </ul>
-          </details>
+          <% end %>
         <% else %>
           <ul class="lesson-sidebar__list">
             <%= render partial: "lessons/sidebar_item", collection: lessons, as: :lesson,

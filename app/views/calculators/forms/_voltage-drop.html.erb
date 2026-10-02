@@ -17,7 +17,7 @@
     <div class="calc__results">
       <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
       <%= render "calculators/answer", output: "dupct", label: t("calculators.voltage-drop.result_percent"), unit: "%" %>
-      <%= render "calculators/verdict", ok: t("calculators.voltage-drop.verdict_ok"), warn: t("calculators.voltage-drop.verdict_warn") %>
+      <%= render "calculators/verdict", ok: t("calculators.voltage-drop.verdict_ok"), warning: t("calculators.voltage-drop.verdict_warn") %>
       <%= render "calculators/result", output: "du", label: t("calculators.voltage-drop.result_drop"), unit: "В" %>
       <p class="calc__note"><%= t("calculators.voltage-drop.norm_note") %></p>
     </div>
