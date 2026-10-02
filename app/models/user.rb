@@ -77,6 +77,13 @@ class User < ApplicationRecord
     candidate
   end
 
+  def sole_editable_path
+    return unless editor?
+
+    paths = editable_paths.limit(2).to_a
+    paths.first if paths.one?
+  end
+
   def curated_paths
     can_edit_content? ? editable_paths.published.ordered : Path.none
   end

@@ -6,7 +6,7 @@ module Admin
       if params[:path].present?
         @path = editable_paths.find_by!(slug: params[:path])
         @census = IllustrationCensus.new(@path)
-      elsif (only = solo_editor_path)
+      elsif (only = Current.user.sole_editable_path)
         redirect_to admin_illustrations_path(path: only.slug)
       else
         @censuses = editable_paths.ordered.map { |path| [ path, IllustrationCensus.new(path) ] }
@@ -51,11 +51,5 @@ module Admin
     end
 
     def editable_paths = Path.editable_by(Current.user)
-
-    def solo_editor_path
-      return if Current.user.can_administer?
-      paths = Current.user.editable_paths.to_a
-      paths.first if paths.one?
-    end
   end
 end

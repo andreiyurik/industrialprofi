@@ -95,6 +95,7 @@ class Admin::LessonSuggestionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "text/vnd.turbo-stream.html", response.media_type
     assert_match %r{target="suggestions"}, response.body          # queue re-rendered in place
     assert_match %r{target="admin_suggestions_count"}, response.body # nav badge refreshed
+    assert_match %r{target="admin_waiting_count"}, response.body
   end
 
   # Reject

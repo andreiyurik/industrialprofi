@@ -4,7 +4,8 @@ module Admin
     before_action :ensure_can_edit_content
 
     helper_method :pending_suggestions_count, :pending_resource_suggestions_count,
-                  :unread_feedbacks_count, :can_publish?,
+                  :unread_feedbacks_count, :pending_review_count, :new_users_count,
+                  :failed_jobs_count, :can_publish?,
                   :slug_locked?, :status_live?, :can_edit_path?
 
     LIVE_STATUSES = %w[published coming_soon].freeze
@@ -50,6 +51,18 @@ module Admin
 
       def unread_feedbacks_count
         @unread_feedbacks_count ||= Feedback.unread.count
+      end
+
+      def pending_review_count
+        @pending_review_count ||= Path.where(status: "pending_review").count + Course.where(status: "pending_review").count
+      end
+
+      def new_users_count
+        @new_users_count ||= User.where(created_at: 7.days.ago..).count
+      end
+
+      def failed_jobs_count
+        @failed_jobs_count ||= SystemStatus.new.jobs&.fetch(:failed).to_i
       end
 
       # details is denormalized so an entry keeps meaning after the actor or target is deleted.

@@ -75,7 +75,7 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as users(:editor)
     get admin_path_path(paths(:electrician))
     assert_select ".admin-row__title--person", text: /#{users(:editor).name}/
-    assert_select "a.admin-row", 0
+    assert_select "#path_team a.admin-row", 0
     assert_select "a[href=?]", admin_users_path, 0
   end
 

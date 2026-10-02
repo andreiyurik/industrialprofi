@@ -1,0 +1,66 @@
+<%# locals: (path:) -%>
+<% health = path.health %>
+<% waiting = health.pending_suggestions + health.pending_sources %>
+<% stalled_lesson, stalled_count = health.stall %>
+
+<div class="admin-group">
+  <div class="admin-group__head">
+    <h2 class="admin-group__title"><%= t("admin.health.title") %></h2>
+  </div>
+  <div class="admin-list">
+    <%= link_to admin_lesson_suggestions_path, class: "admin-row" do %>
+      <span class="admin-row__column"><span class="admin-row__title"><%= t("admin.health.waiting") %></span></span>
+      <span class="admin-row__meta">
+        <% if waiting.positive? %>
+          <%= t("admin.health.suggestions", count: health.pending_suggestions) %> ·
+          <%= t("admin.health.sources", count: health.pending_sources) %>
+        <% else %>
+          <%= t("admin.health.none") %>
+        <% end %>
+      </span>
+    <% end %>
+
+    <div class="admin-row admin-row--static">
+      <span class="admin-row__column"><span class="admin-row__title"><%= t("admin.health.verification") %></span></span>
+      <span class="admin-row__meta">
+        <% if path.verified? %>
+          <%= t("admin.health.verified_until", date: l((path.verified_at + Path::VERIFICATION_TTL).to_date, format: :long)) %>
+        <% elsif path.verification_expired? %>
+          <%= t("admin.health.verification_expired") %>
+        <% else %>
+          <%= t("admin.health.not_verified") %>
+        <% end %>
+      </span>
+    </div>
+
+    <%= link_to admin_illustrations_path(path: path.slug), class: "admin-row" do %>
+      <span class="admin-row__column"><span class="admin-row__title"><%= t("admin.health.illustrations") %></span></span>
+      <span class="admin-row__meta"><%= t("admin.health.briefs", count: health.illustration_briefs) %></span>
+    <% end %>
+
+    <div class="admin-row admin-row--static">
+      <span class="admin-row__column"><span class="admin-row__title"><%= t("admin.health.sources_title") %></span></span>
+      <span class="admin-row__meta"><%= t("admin.health.lessons_without_sources", count: health.lessons_without_sources) %></span>
+    </div>
+
+    <div class="admin-row admin-row--static">
+      <span class="admin-row__column"><span class="admin-row__title"><%= t("admin.health.learners") %></span></span>
+      <span class="admin-row__meta">
+        <%= t("admin.health.learners_count", count: health.learners) %>
+        <% if health.learners.positive? %>
+          · <%= t("admin.health.active_learners", count: health.active_learners) %>
+        <% end %>
+      </span>
+    </div>
+
+    <% if stalled_lesson %>
+      <%= link_to edit_admin_lesson_path(stalled_lesson), class: "admin-row" do %>
+        <span class="admin-row__column">
+          <span class="admin-row__title"><%= t("admin.health.stall") %></span>
+          <span class="admin-row__subtle"><%= stalled_lesson.title %></span>
+        </span>
+        <span class="admin-row__meta"><%= t("admin.health.stalled_learners", count: stalled_count) %></span>
+      <% end %>
+    <% end %>
+  </div>
+</div>

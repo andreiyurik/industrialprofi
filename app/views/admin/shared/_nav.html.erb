@@ -1,55 +1,74 @@
-<%# Identical links in identical order on every admin page, so nothing moves when switching sections. %>
 <% section = { "dashboard" => "dashboard",
                "paths" => "program", "courses" => "program", "lessons" => "program", "revisions" => "program",
+               "imports" => "program",
                "lesson_suggestions" => "suggestions", "resource_suggestions" => "resource_suggestions",
-               "illustrations" => "illustrations",
-               "imports" => "imports", "posts" => "news",
+               "illustrations" => "illustrations", "posts" => "news",
                "users" => "users", "feedbacks" => "feedbacks", "admin_actions" => "log" }[controller_name] %>
+<% admin = Current.user.can_administer? %>
+<% sole_path = Current.user.sole_editable_path %>
+<% section_labels = { "dashboard" => "admin.dashboard.title", "program" => "admin.manage_program",
+                      "suggestions" => "admin.manage_suggestions", "resource_suggestions" => "admin.manage_resource_suggestions",
+                      "illustrations" => "admin.manage_illustrations", "news" => "admin.manage_news",
+                      "users" => "admin.manage_users", "feedbacks" => "admin.manage_feedbacks", "log" => "admin.manage_log" } %>
 
-<nav class="admin-nav" aria-label="<%= t("admin.nav_label") %>">
-  <% if Current.user.can_administer? %>
-    <%= link_to t("admin.dashboard.title"), admin_root_path, class: "admin-nav__link",
-          aria: { current: ("page" if section == "dashboard") } %>
-  <% end %>
+<%# Compact: a <details> sheet under the header. Wide: the summary hides and the same list is the rail. %>
+<details class="admin-nav">
+  <summary class="admin-nav__toggle">
+    <%= icon_tag "list" %>
+    <span class="admin-nav__label">
+      <%= section == "program" && sole_path ? sole_path.title : t(section_labels.fetch(section, "admin.nav.sections")) %>
+    </span>
+    <%= render "admin/shared/waiting_count" %>
+    <%= icon_tag "caret-down" %>
+  </summary>
 
-  <%= link_to t("admin.manage_program"), admin_paths_path, class: "admin-nav__link",
-        aria: { current: ("page" if section == "program") } %>
+  <nav class="admin-nav__panel" aria-label="<%= t("admin.nav_label") %>">
+    <%= admin_nav_link t("admin.nav.back_to_site"), root_path, icon: "arrow-left" %>
 
-  <%= link_to admin_lesson_suggestions_path, class: "admin-nav__link",
-        aria: { current: ("page" if section == "suggestions") } do %>
-    <%= t("admin.manage_suggestions") %>
-    <%= render "admin/shared/suggestions_count" %>
-  <% end %>
-
-  <%= link_to admin_resource_suggestions_path, class: "admin-nav__link",
-        aria: { current: ("page" if section == "resource_suggestions") } do %>
-    <%= t("admin.manage_resource_suggestions") %>
-    <% if pending_resource_suggestions_count.positive? %>
-      <span class="admin-nav__count"><%= pending_resource_suggestions_count %></span>
-    <% end %>
-  <% end %>
-
-  <%= link_to t("admin.manage_illustrations"), admin_illustrations_path, class: "admin-nav__link",
-        aria: { current: ("page" if section == "illustrations") } %>
-
-  <%= link_to t("admin.manage_imports"), new_admin_import_path, class: "admin-nav__link",
-        aria: { current: ("page" if section == "imports") } %>
-  <%# The guide is public (/guide) — readers suggesting edits read the same rules. %>
-  <%= link_to t("admin.manage_guide"), guide_path, class: "admin-nav__link" %>
-
-  <% if Current.user.can_administer? %>
-    <%= link_to t("admin.manage_news"), admin_posts_path, class: "admin-nav__link",
-          aria: { current: ("page" if section == "news") } %>
-    <%= link_to admin_feedbacks_path, class: "admin-nav__link",
-          aria: { current: ("page" if section == "feedbacks") } do %>
-      <%= t("admin.manage_feedbacks") %>
-      <% if unread_feedbacks_count.positive? %>
-        <span class="admin-nav__count"><%= unread_feedbacks_count %></span>
+    <% if admin %>
+      <%= admin_nav_link t("admin.dashboard.title"), admin_root_path, icon: "gauge", current: section == "dashboard" do %>
+        <%= admin_nav_count failed_jobs_count, tone: :warn, title: t("admin.nav.failed_jobs", count: failed_jobs_count) %>
       <% end %>
     <% end %>
-    <%= link_to t("admin.manage_users"), admin_users_path, class: "admin-nav__link",
-          aria: { current: ("page" if section == "users") } %>
-    <%= link_to t("admin.manage_log"), admin_log_path, class: "admin-nav__link",
-          aria: { current: ("page" if section == "log") } %>
-  <% end %>
-</nav>
+
+    <p class="admin-nav__heading"><%= t("admin.nav.work") %></p>
+    <%= admin_nav_link t("admin.manage_suggestions"), admin_lesson_suggestions_path, icon: "pencil-simple",
+          current: section == "suggestions" do %>
+      <%= render "admin/shared/suggestions_count" %>
+    <% end %>
+    <%= admin_nav_link t("admin.manage_resource_suggestions"), admin_resource_suggestions_path, icon: "book-open",
+          current: section == "resource_suggestions" do %>
+      <%= admin_nav_count pending_resource_suggestions_count, title: t("admin.nav.pending", count: pending_resource_suggestions_count) %>
+    <% end %>
+    <% if admin %>
+      <%= admin_nav_link t("admin.manage_feedbacks"), admin_feedbacks_path, icon: "chat-circle-dots",
+            current: section == "feedbacks" do %>
+        <%= admin_nav_count unread_feedbacks_count, title: t("admin.nav.unread", count: unread_feedbacks_count) %>
+      <% end %>
+    <% end %>
+
+    <p class="admin-nav__heading"><%= t("admin.nav.content") %></p>
+    <%= admin_nav_link sole_path&.title || t("admin.manage_program"), sole_path ? admin_path_path(sole_path) : admin_paths_path,
+          icon: "tree-structure", current: section == "program" do %>
+      <%= admin_nav_count pending_review_count, title: t("admin.nav.pending_review", count: pending_review_count) if admin %>
+    <% end %>
+    <%= admin_nav_link t("admin.manage_illustrations"), admin_illustrations_path, icon: "frame-corners",
+          current: section == "illustrations" %>
+    <% if admin %>
+      <%= admin_nav_link t("admin.manage_news"), admin_posts_path, icon: "newspaper", current: section == "news" %>
+    <% end %>
+
+    <% if admin %>
+      <p class="admin-nav__heading"><%= t("admin.nav.site") %></p>
+      <%= admin_nav_link t("admin.manage_users"), admin_users_path, icon: "users", current: section == "users" do %>
+        <%= admin_nav_count new_users_count, tone: :info, title: t("admin.nav.new_users", count: new_users_count) %>
+      <% end %>
+      <%= admin_nav_link t("admin.manage_log"), admin_log_path, icon: "clipboard-text", current: section == "log" %>
+    <% end %>
+
+    <%# The guide is public (/guide) — readers suggesting edits read the same rules. %>
+    <div class="admin-nav__footer">
+      <%= admin_nav_link t("admin.manage_guide"), guide_path, icon: "lightbulb" %>
+    </div>
+  </nav>
+</details>

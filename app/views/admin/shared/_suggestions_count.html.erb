@@ -1,5 +1,5 @@
 <%# The wrapper id stays present even at zero so a moderation decision can refresh it via Turbo Stream. %>
-<span id="admin_suggestions_count">
+<span id="admin_suggestions_count" class="admin-nav__slot">
   <% if pending_suggestions_count.positive? %>
     <span class="admin-nav__count"><%= pending_suggestions_count %></span>
   <% end %>

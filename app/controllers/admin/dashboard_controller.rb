@@ -1,5 +1,7 @@
 module Admin
-  class DashboardController < AdministratorController
+  class DashboardController < BaseController
+    before_action :send_editor_to_their_professions, unless: -> { Current.user.can_administer? }
+
     CHART_WEEKS = 12
 
     GOALS = {
@@ -55,5 +57,11 @@ module Admin
       @emails_week = MailMetrics.sent_last(7)
       render layout: false
     end
+
+    private
+      def send_editor_to_their_professions
+        path = Current.user.sole_editable_path
+        redirect_to path ? admin_path_path(path) : admin_paths_path
+      end
   end
 end

@@ -14,10 +14,17 @@ class Admin::DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
   end
 
-  test "show as an editor is not allowed" do
+  test "an editor of several professions is sent to their list" do
     sign_in_as users(:editor)
     get admin_root_path
-    assert_redirected_to root_path
+    assert_redirected_to admin_paths_path
+  end
+
+  test "an editor of one profession is sent straight to it" do
+    editorships(:editor_draft).destroy
+    sign_in_as users(:editor)
+    get admin_root_path
+    assert_redirected_to admin_path_path(paths(:electrician))
   end
 
   # ── Content ──
