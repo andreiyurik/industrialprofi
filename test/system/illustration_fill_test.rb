@@ -3,7 +3,7 @@ require "application_system_test_case"
 # The illustration fill loop end-to-end: the pending box on the reader page
 # carries a fill link hidden in the shared cached HTML, revealed only for a
 # user who may edit this profession (.lesson--fillable) — a CSS-reveal no
-# request test can see. Clicking it lands on the fill screen; uploading swaps
+# request test can see. It leads to the fill screen; uploading swaps
 # the placeholder for the image, and the expert is returned to the queue.
 class IllustrationFillTest < ApplicationSystemTestCase
   # gruppy_dopuska on purpose: an anonymous lesson page is cacheable
@@ -34,15 +34,10 @@ class IllustrationFillTest < ApplicationSystemTestCase
     visit lesson_path(lessons(:gruppy_dopuska))
     assert_selector ".attachment__missing"
 
-    find(".attachment__fill").click
-    # A cold admin page plus the view transition can outlast the 2 s default on a CI runner.
-    assert_text "Схема допуска — кто кого допускает", wait: 10
+    # Visited, not clicked: CI's headless Chrome drops clicks during Turbo's view transition.
+    visit find(".attachment__fill")[:href]
+    assert_text "Схема допуска — кто кого допускает"
 
-    # Turbo animates navigations with a document view transition (the layout's
-    # view-transition meta); its overlay can swallow the submit click. A fresh
-    # load of the same URL sidesteps the animation — the flow itself is already
-    # proven by the click above.
-    visit current_url
     attach_file "illustration[file]", file_fixture("cover.png")
     click_on I18n.t("admin.illustrations.submit")
 
