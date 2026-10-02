@@ -122,7 +122,7 @@
 
               <%# Icons render only in the mobile dropdown, matching the palette tiles — hidden inline on desktop. %>
               <%= link_to paths_path, class: "nav__link link-quiet",
-                    aria: { current: ("page" if controller_path.start_with?("paths") || controller_name == "lessons") } do %>
+                    aria: { current: ("page" if controller_path.start_with?("paths") || controller_path == "lessons") } do %>
                 <%= icon_tag "map-trifold" %><%= t("nav.professions") %><%= render "shared/nav_underline" %>
               <% end %>
               <%= link_to projects_path, class: "nav__link link-quiet",
@@ -131,8 +131,10 @@
               <% end %>
               <%# Library, glossary and calculators live inside each profession's hub, not the top bar —
                   the bar leads INTO a profession, not away from it (site-wide pages: footer/palette). %>
-              <% if controller.class.module_parent_name == "Admin" %>
-                <span class="badge badge--marker header__context-badge">Admin</span>
+              <% if in_admin? %>
+                <span class="badge badge--marker header__context-badge">
+                  <%= Current.user.can_administer? ? t("nav.admin") : t("nav.editing") %>
+                </span>
               <% end %>
               <% unless signed_in? %>
                 <%# Guest orientation links — mobile only; on desktop these already live in the footer,
@@ -234,7 +236,14 @@
     <%= render "shared/editor_welcome_letter" if signed_in? && Current.user.needs_editor_welcome? %>
 
     <main id="main-content" class="<%= @layout_class %>">
-      <%= yield %>
+      <% if in_admin? %>
+        <div class="admin-layout">
+          <%= render "admin/shared/nav" %>
+          <div class="admin-layout__main"><%= yield %></div>
+        </div>
+      <% else %>
+        <%= yield %>
+      <% end %>
     </main>
 
     <% unless in_admin? %>

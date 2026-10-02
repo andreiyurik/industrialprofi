@@ -1,0 +1,5 @@
+<% waiting = pending_suggestions_count + pending_resource_suggestions_count +
+              (Current.user.can_administer? ? unread_feedbacks_count : 0) %>
+<span id="admin_waiting_count" class="admin-nav__slot">
+  <%= admin_nav_count waiting, title: t("admin.nav.pending", count: waiting) %>
+</span>

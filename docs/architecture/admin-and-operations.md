@@ -19,6 +19,14 @@ paths:
 Everything here is gated by `can_edit_content?` / `can_administer?`. No admin gems, no
 charting JS.
 
+- **Navigation**: one rail for every admin page, rendered by the application layout
+  (`admin/shared/_nav`) — a `<details>` sheet on compact screens, a sticky sidebar from
+  1024px. Groups: work queues, content, site (administrator only). Count pills: red waits
+  on you, amber is a failed job, blue is new users this week.
+- **Profession health** (`Path::Health`, top of `/admin/paths/:slug`): waiting edits and
+  sources, verification term, illustration briefs, lessons without sources, learners and
+  the lesson most quiet learners stopped at (members only). Editors opening `/admin` land
+  here (or on their list when they hold several professions).
 - **Dashboard** (`/admin`): signups 12-week CSS bar chart, active this week, pending
   suggestions, completions, journal volume, content health, and `SystemStatus` vitals
   (disk + SQLite footprint, Solid Queue health, `MailMetrics`). Plain group/count
