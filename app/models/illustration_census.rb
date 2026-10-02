@@ -42,7 +42,19 @@ class IllustrationCensus
   def broken = @broken ||= images.select(&:broken?)
   def live   = @live ||= images.reject(&:broken?)
 
+  def lessons_total = lessons.size
+  def uncovered_lessons = lessons.reject { covered_ids.include?(it.id) }
+  def covered_lessons_count = lessons_total - uncovered_lessons.size
+
+  # 1.0 for an empty profession, so it never sorts as the worst one.
+  def coverage = lessons_total.zero? ? 1.0 : covered_lessons_count.fdiv(lessons_total)
+
   private
+    # A lesson is covered once it has a real image or a pending brief; broken links don't count.
+    def covered_ids
+      @covered_ids ||= (live.map { it.lesson.id } + briefs.map { |lesson, _| lesson.id }).to_set
+    end
+
     def lessons
       @lessons ||= @path.lessons.ordered.with_all_rich_text.to_a
     end

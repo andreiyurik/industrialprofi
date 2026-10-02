@@ -24,13 +24,16 @@ charting JS.
   1024px. Groups: work queues, content, site (administrator only). Count pills: red waits
   on you, amber is a failed job, blue is new users this week.
 - **Profession health** (`Path::Health`, top of `/admin/paths/:slug`): waiting edits and
-  sources, verification term, illustration briefs, lessons without sources, learners and
+  sources, verification term, illustration coverage (lessons with an image or placeholder), lessons without sources, learners and
   the lesson most quiet learners stopped at (members only). Editors opening `/admin` land
   here (or on their list when they hold several professions).
 - **Dashboard** (`/admin`): signups 12-week CSS bar chart, active this week, pending
   suggestions, completions, journal volume, content health, and `SystemStatus` vitals
   (disk + SQLite footprint, Solid Queue health, `MailMetrics`). Plain group/count
   queries; the scaling seam is `Rails.cache.fetch`.
+- **Illustration center** (`/admin/illustrations`, scoped to the editor's professions): per
+  profession, coverage (`IllustrationCensus`), placeholders waiting to be filled or removed,
+  gallery and broken links. The landing sorts the least covered profession first.
 - **Action log** (`/admin/log`): `AdminAction` — append-only record of role changes,
   grants, approvals/rejections, rollbacks, suspensions and live-content lesson changes.
   Denormalized `details` JSON, keyset pagination, category/actor filters, no free-text
