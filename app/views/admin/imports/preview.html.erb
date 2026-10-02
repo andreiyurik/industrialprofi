@@ -51,7 +51,7 @@
             courses: @plan.counts[:courses], lessons: @plan.counts[:lessons], resources: @plan.counts[:resources]) %>
     </p>
 
-    <%= form_with(url: admin_imports_path, method: :post) do |f| %>
+    <%= form_with(url: admin_imports_path, method: :post) do %>
       <%= hidden_field_tag :yaml, @yaml %>
       <%= hidden_field_tag :confirm, "1" %>
       <div class="admin-form__actions">

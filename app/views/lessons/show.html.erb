@@ -37,7 +37,7 @@
   <%# Copy/reading-mode buttons render `hidden` and are revealed by their controllers on connect — no dead buttons without JS. %>
   <div class="lesson__topbar"
        data-controller="copy-link"
-       data-copy-link-url-value="<%= "#{site_config.url}/lessons/#{@lesson.slug}" %>"
+       data-copy-link-url-value="<%= site_config.url %>/lessons/<%= @lesson.slug %>"
        data-copy-link-label-value="<%= t("lessons.copy_link") %>"
        data-copy-link-copied-value="<%= t("lessons.link_copied") %>"
        data-copy-link-copied-class="lesson__copy--copied">
@@ -110,7 +110,7 @@
       <section id="why" class="lesson__intro">
         <p class="lesson__intro-label"><%= t("lessons.why_section") %></p>
         <div class="prose"><%= lesson_content(@lesson, :description) %></div>
-        <%= render "lessons/edit_link", section: "description" %>
+        <%= render "lessons/edit_link", lesson: @lesson, section: "description" %>
       </section>
     <% end %>
 
@@ -118,7 +118,7 @@
       <%# No heading here — lesson bodies open with their own ##; the id stays for the sidebar TOC anchor. %>
       <section id="study" class="lesson__section">
         <div class="prose"><%= lesson_content(@lesson, :body) %></div>
-        <%= render "lessons/edit_link", section: "body" %>
+        <%= render "lessons/edit_link", lesson: @lesson, section: "body" %>
       </section>
     <% end %>
 
@@ -202,7 +202,7 @@
             <% end %>
           <% end %>
         </div>
-        <%= render "lessons/edit_link", section: "task" %>
+        <%= render "lessons/edit_link", lesson: @lesson, section: "task" %>
       </section>
     <% end %>
 

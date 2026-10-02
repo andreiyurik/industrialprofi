@@ -30,7 +30,7 @@
         </p>
 
         <ol id="revisions_list" class="lesson-history__list">
-          <%= render "revisions/history_rows", revisions: @revisions, boundary_date: nil %>
+          <%= render "revisions/history_rows", lesson: @lesson, revisions: @revisions, boundary_date: nil %>
         </ol>
 
         <%= render "revisions/more", lesson: @lesson, more: @more,

@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require "yaml"
+
+# The npm linter runs at the version .herb.yml pins, so new rules arrive only when we bump it.
+version = YAML.load_file(File.expand_path("../.herb.yml", __dir__)).fetch("version")
+exec "npx", "--yes", "@herb-tools/linter@#{version}", *ARGV

@@ -6,5 +6,5 @@
     <li class="lesson-history__date"><%= revision_date_heading(date) %></li>
     <% last_date = date %>
   <% end %>
-  <%= render "revisions/revision_row", revision_row: revision %>
+  <%= render "revisions/revision_row", revision_row: revision, lesson: lesson %>
 <% end %>

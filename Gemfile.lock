@@ -146,6 +146,12 @@ GEM
     google-protobuf (4.36.2-x86_64-linux-musl)
       bigdecimal
       rake (~> 13.3)
+    herb (0.11.0-aarch64-linux-gnu)
+    herb (0.11.0-aarch64-linux-musl)
+    herb (0.11.0-arm-linux-gnu)
+    herb (0.11.0-arm-linux-musl)
+    herb (0.11.0-x86_64-linux-gnu)
+    herb (0.11.0-x86_64-linux-musl)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     image_processing (2.2.0)
@@ -430,6 +436,7 @@ DEPENDENCIES
   capybara
   dartsass-rails
   debug
+  herb
   image_processing (~> 2.0)
   importmap-rails
   json (< 3)

@@ -1,0 +1,18 @@
+# Bumping version is how new linter rules get turned on — on purpose, never by an upgrade.
+version: 0.11.0
+
+framework: actionview
+
+files:
+  exclude:
+    - "public/**/*"
+
+linter:
+  enabled: true
+  rules:
+    # Our meta_title/meta_description/canonical_url helpers write content_for; their value is meant to be dropped.
+    erb-no-unused-expressions:
+      enabled: false
+
+formatter:
+  enabled: false

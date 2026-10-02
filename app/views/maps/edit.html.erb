@@ -26,13 +26,13 @@
     </div>
 
     <%# Open once, right after the version is made (flash); folded to one line on every later visit. %>
-    <details class="map-why"<%= " open" if flash[:map_welcome] %>>
+    <%= tag.details class: "map-why", open: flash[:map_welcome].present? do %>
       <summary class="map-why__summary link-quiet">
         <%= icon_tag "question" %>
         <span><%= t("maps.why.title") %></span>
       </summary>
       <%= render "maps/why" %>
-    </details>
+    <% end %>
 
     <%= render "maps/form", map: @map, courses: @courses, excluded_ids: @excluded_ids, extras: @extras %>
 

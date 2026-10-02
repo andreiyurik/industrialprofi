@@ -1,11 +1,11 @@
 <%# Idle-loaded so tag.js never competes with rendering. `defer: true` suppresses
     the automatic first hit — turbo:load reports each navigation exactly once. %>
-<script>
+<%= javascript_tag nonce: true do %>
   window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
   window.ym.l = 1 * new Date();
 
-  ym(<%= site_config.metrika_id.to_i %>, "init", { defer: true, clickmap: true, trackLinks: true, accurateTrackBounce: true });
-  document.addEventListener("turbo:load", function () { ym(<%= site_config.metrika_id.to_i %>, "hit", location.href); });
+  ym(<%= site_config.metrika_id.to_i.to_json %>, "init", { defer: true, clickmap: true, trackLinks: true, accurateTrackBounce: true });
+  document.addEventListener("turbo:load", function () { ym(<%= site_config.metrika_id.to_i.to_json %>, "hit", location.href); });
 
   function loadMetrika() {
     var script = document.createElement("script");
@@ -18,5 +18,5 @@
   } else {
     setTimeout(loadMetrika, 3000);
   }
-</script>
+<% end %>
 <noscript><div><img src="https://mc.yandex.ru/watch/<%= site_config.metrika_id.to_i %>" style="position:absolute; left:-9999px" alt=""></div></noscript>

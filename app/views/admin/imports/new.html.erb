@@ -22,7 +22,7 @@
     </details>
 
 <%# data-turbo=false: the preview is a plain 200 render on POST, which Turbo silently drops (it expects a redirect). %>
-    <%= form_with(url: admin_imports_path, method: :post, multipart: true, data: { turbo: false }) do |f| %>
+    <%= form_with(url: admin_imports_path, method: :post, multipart: true, data: { turbo: false }) do %>
       <div class="admin-form__field admin-form__field--lg">
         <label for="archive"><%= t("admin.imports.archive_label") %></label>
         <%= file_field_tag :archive, id: "archive", accept: ".zip", class: "input" %>

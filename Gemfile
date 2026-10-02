@@ -76,6 +76,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # HTML-aware ERB parser and template checks [https://herb-tools.dev]
+  gem "herb", require: false
 end
 
 group :development do

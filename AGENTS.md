@@ -17,6 +17,7 @@ dirty, summarize, and report every git command you ran.
 bin/rails test test/models/lesson_test.rb    # run the tests for what you touched
 bin/rails test                               # full suite before hand-off (test:system for Capybara)
 bin/rails content:check                      # mechanical content QA
+bin/herb-lint                                # ERB linter (Node, version pinned in .herb.yml)
 bin/references                               # clone Writebook, Fizzy, Campfire into tmp/references
 ```
 
@@ -27,7 +28,7 @@ CSS changes can't break tests — check them in the browser.
 When convenience conflicts with these, they win:
 
 - Minimum running cost under growth: one small VPS, SQLite on one disk. A feature must not
-  add per-user disk, a paid dependency, S3, Node, a build step or ops surface.
+  add per-user disk, a paid dependency, S3, Node at runtime, a build step or ops surface.
 - Self-developing content: suggest-edit → expert review → immutable revision, and the
   `member → editor → administrator` ladder. Credit contributors; never rank them.
 - Only as many mechanics as needed. Before proposing a new one, check the decisions list in
@@ -36,7 +37,8 @@ When convenience conflicts with these, they win:
 ## Code style
 
 - HTML-first: ERB partials (no ViewComponent, Haml, Slim), Turbo Frames/Streams, Stimulus
-  only where JS is required. Importmap — no Node or npm.
+  only where JS is required. Importmap — no npm packages in the app; Node is only for
+  dev tools (`bin/herb-lint`).
 - RESTful: add a resource before a custom action. Fat models; no service objects for CRUD;
   extract a concern only past ~200 lines; at most 2 `before_action`s.
 - No new gem unless Rails can't do the job. No Devise — auth is `has_secure_password` +

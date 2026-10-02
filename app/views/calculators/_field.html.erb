@@ -10,14 +10,14 @@
     <select class="input calc-field__presets" data-preset-for="<%= field %>" aria-label="<%= t("calculators.preset_label", quantity: label) %>">
       <option value=""><%= t("calculators.preset_custom") %></option>
       <% presets.each do |value, text| %>
-        <option value="<%= value %>" <%= "selected" if local_assigns[:value].to_s == value.to_s %>><%= text %></option>
+        <%= tag.option text, value: value, selected: local_assigns[:value].to_s == value.to_s %>
       <% end %>
     </select>
   <% end %>
   <span class="calc-field__control">
-    <input type="text" inputmode="<%= local_assigns[:text] ? "text" : "decimal" %>" autocomplete="off"
-           class="input calc-field__input" data-field="<%= field %>"
-           <%= "data-text" if local_assigns[:text] %> value="<%= calculator_value(local_assigns[:value]) %>">
+    <%= tag.input type: "text", inputmode: local_assigns[:text] ? "text" : "decimal", autocomplete: "off",
+          class: "input calc-field__input", data: { field: field, text: ("" if local_assigns[:text]) },
+          value: calculator_value(local_assigns[:value]) %>
     <% if local_assigns[:unit].present? %>
       <span class="calc-field__unit"><%= unit %></span>
     <% end %>

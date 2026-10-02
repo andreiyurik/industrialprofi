@@ -7,8 +7,9 @@ paths:
 
 # JavaScript conventions
 
-Importmap, no Node, no npm, no build. Stimulus only for behaviour the server can't
-provide. References: `tmp/references/fizzy/app/javascript/` for controller shape,
+Importmap, no npm packages, no build; Node runs dev tools only
+([decision](../decisions/2026-10-02-node-for-dev-tools-only.md)). Stimulus only for
+behaviour the server can't provide. References: `tmp/references/fizzy/app/javascript/` for controller shape,
 `tmp/references/once-campfire/app/javascript/` for native Web APIs.
 
 ## Stimulus controllers (Fizzy idiom)

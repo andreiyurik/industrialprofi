@@ -6,10 +6,10 @@
       <h2 class="calc__heading"><%= t("calculators.inputs_heading") %></h2>
       <%# Состав и порядок вариантов — из той же таблицы, что показана под калькулятором. %>
       <%= render "calculators/select", field: "std", label: t("calculators.twisted-pair-line.standard"), selected: "at",
-            options: @calculator.norms[:poe].map { [it[:std], t("calculators.twisted-pair-line.std_#{it[:std]}")] },
+            options: calculator.norms[:poe].map { [it[:std], t("calculators.twisted-pair-line.std_#{it[:std]}")] },
             info: t("calculators.twisted-pair-line.info.std") %>
       <%= render "calculators/select", field: "awg", label: t("calculators.twisted-pair-line.awg"), selected: "24",
-            options: @calculator.norms[:awg].map { [it[:awg].to_s, t("calculators.twisted-pair-line.awg_#{it[:awg]}")] },
+            options: calculator.norms[:awg].map { [it[:awg].to_s, t("calculators.twisted-pair-line.awg_#{it[:awg]}")] },
             info: t("calculators.twisted-pair-line.info.awg") %>
       <%= render "calculators/field", field: "l", label: t("calculators.twisted-pair-line.length"), unit: "м", value: 50,
             slider: { min: 1, max: 120, step: 1 } %>
@@ -23,7 +23,7 @@
       <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
       <%= render "calculators/result", output: "rloop", label: t("calculators.twisted-pair-line.result_rloop"), unit: "Ом" %>
       <%= render "calculators/answer", output: "vpd", label: t("calculators.twisted-pair-line.result_vpd"), unit: "В", info: t("calculators.twisted-pair-line.info.vpd") %>
-      <%= render "calculators/verdict", ok: t("calculators.twisted-pair-line.verdict_ok"), warn: t("calculators.twisted-pair-line.verdict_warn") %>
+      <%= render "calculators/verdict", ok: t("calculators.twisted-pair-line.verdict_ok"), warning: t("calculators.twisted-pair-line.verdict_warn") %>
       <%= render "calculators/result", output: "vdrop", label: t("calculators.twisted-pair-line.result_vdrop"), unit: "В" %>
       <%= render "calculators/result", output: "lmax", label: t("calculators.twisted-pair-line.result_lmax"), unit: "м" %>
       <p class="calc__note"><%= t("calculators.twisted-pair-line.note") %></p>

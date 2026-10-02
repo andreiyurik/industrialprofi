@@ -1,10 +1,11 @@
+<%# locals: (grouped:) -%>
 <div id="resource_suggestions">
-  <% if @grouped.empty? %>
+  <% if grouped.empty? %>
     <div class="admin-empty">
       <p class="admin-empty__text"><%= t("admin.no_resource_suggestions") %></p>
     </div>
   <% else %>
-    <% @grouped.each do |lesson, suggestions| %>
+    <% grouped.each do |lesson, suggestions| %>
       <div class="admin-group">
         <h2 class="admin-group__title"><%= lesson.title %></h2>
         <div class="admin-list">
