@@ -11,18 +11,18 @@
   <div id="path-maturity" class="maturity-popover" popover>
     <svg class="maturity__gauge" viewBox="0 0 372 124" aria-hidden="true"
          style="--gauge-angle: <%= maturity_needle_angle(stage) %>deg">
-      <path class="maturity__fill" d="<%= maturity_fill_path(stage) %>"/>
+      <path class="maturity__fill" d="<%= maturity_fill_path(stage) %>" />
       <g class="maturity__ticks">
         <% maturity_ticks.each do |x1, y1, x2, y2| %>
-          <line x1="<%= x1 %>" y1="<%= y1 %>" x2="<%= x2 %>" y2="<%= y2 %>"/>
+          <line x1="<%= x1 %>" y1="<%= y1 %>" x2="<%= x2 %>" y2="<%= y2 %>" />
         <% end %>
       </g>
-      <path class="maturity__track" d="<%= maturity_track_path %>"/>
+      <path class="maturity__track" d="<%= maturity_track_path %>" />
       <g class="maturity__needle">
         <g transform="translate(186 290)">
-          <path class="maturity__needle-flag" d="M -5 -250 L 5 -250 L 0 -228 Z"/>
-          <rect class="maturity__needle-flag" x="-8" y="-278" width="16" height="32" rx="5.5"/>
-          <path class="maturity__needle-grips" d="M -3.5 -270 v 16 M 0 -270 v 16 M 3.5 -270 v 16"/>
+          <path class="maturity__needle-flag" d="M -5 -250 L 5 -250 L 0 -228 Z" />
+          <rect class="maturity__needle-flag" x="-8" y="-278" width="16" height="32" rx="5.5" />
+          <path class="maturity__needle-grips" d="M -3.5 -270 v 16 M 0 -270 v 16 M 3.5 -270 v 16" />
         </g>
       </g>
     </svg>

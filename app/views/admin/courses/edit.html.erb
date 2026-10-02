@@ -12,7 +12,7 @@
       <a href="<%= course_path(@course) %>" class="admin-header__view-live link-quiet" target="_blank"><%= t("admin.view_live") %> ↗</a>
     </div>
 
-    <%= render "admin/courses/form", course: @course %>
+    <%= render "admin/courses/form", course: @course, editable_paths: @editable_paths %>
 
     <div class="admin-danger">
       <h2 class="admin-danger__title"><%= t("admin.builder.danger_zone") %></h2>

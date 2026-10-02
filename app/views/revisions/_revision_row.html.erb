@@ -1,5 +1,5 @@
 <li class="lesson-history__item">
-  <%= link_to lesson_revision_path(@lesson, revision_row), class: "lesson-history__link" do %>
+  <%= link_to lesson_revision_path(lesson, revision_row), class: "lesson-history__link" do %>
     <span class="lesson-history__head">
       <span class="lesson-history__version"><%= t("revisions.version_n", version: revision_row.version) %></span>
       <span class="badge badge--marker"><%= t("revisions.sections.#{revision_row.section}") %></span>

@@ -1,5 +1,5 @@
 <%= turbo_stream.append "revisions_list" do %>
-  <%= render "revisions/history_rows", revisions: @revisions, boundary_date: @boundary_date %>
+  <%= render "revisions/history_rows", lesson: @lesson, revisions: @revisions, boundary_date: @boundary_date %>
 <% end %>
 
 <%= turbo_stream.replace "revisions_more" do %>

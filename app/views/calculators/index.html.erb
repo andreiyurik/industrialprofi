@@ -20,9 +20,7 @@
       <div class="calc-group">
         <h2 class="calc-group__title"><%= t("calculators.categories.#{category}") %></h2>
         <div class="calc-catalog">
-          <% calculators.each do |calculator| %>
-            <%= render "card", calculator: calculator %>
-          <% end %>
+          <%= render partial: "card", collection: calculators, as: :calculator %>
         </div>
       </div>
     <% end %>

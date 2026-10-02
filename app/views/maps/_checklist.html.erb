@@ -19,7 +19,7 @@
   <div class="builder__courses">
     <% courses.each do |course| %>
       <% touched = course.lessons.any? { |lesson| excluded_ids.include?(lesson.id) || extras[lesson.id] } %>
-      <details class="builder-course map-course" data-checklist-group<%= " open" if touched %>>
+      <%= tag.details class: "builder-course map-course", data: { checklist_group: "" }, open: touched do %>
         <summary class="builder-course__head">
           <span class="builder-course__toggle" aria-hidden="true"><%= icon_tag "caret-down" %></span>
           <span class="builder-course__title"><%= course.title %></span>
@@ -48,7 +48,7 @@
                 <% if lesson.practice? %><span class="badge badge--marker"><%= t("admin.kind_practice") %></span><% end %>
                 <% if links.any? %><span class="map-lesson-row__count"><%= t("maps.links_count", count: links.size) %></span><% end %>
                 <label class="builder__edit map-lesson-row__edit<%= " map-lesson-row__edit--filled" if filled %>" title="<%= t("maps.form.extend") %>">
-                  <input type="checkbox" class="for-screen-reader"<%= " checked" if filled %> aria-label="<%= t("maps.form.extend") %>">
+                  <%= tag.input type: "checkbox", class: "for-screen-reader", checked: filled, aria: { label: t("maps.form.extend") } %>
                   <%= icon_tag "pencil-simple" %>
                 </label>
               </div>
@@ -56,7 +56,7 @@
             </li>
           <% end %>
         </ul>
-      </details>
+      <% end %>
     <% end %>
   </div>
 </div>
