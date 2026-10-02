@@ -8,9 +8,8 @@ class Path::Health
   def pending_suggestions = LessonSuggestion.pending.where(lesson: lessons).count
   def pending_sources = ResourceSuggestion.pending.where(lesson: lessons).count
 
-  def illustration_briefs
-    lessons.includes(:rich_text_rich_body, :rich_text_rich_task).sum { it.illustration_slots.size }
-  end
+  def illustration_census = @illustration_census ||= IllustrationCensus.new(@path)
+  def illustration_briefs = illustration_census.briefs.size
   def lessons_without_sources = lessons.where.missing(:resources).count
 
   def learners = latest_ticks.size

@@ -9,7 +9,7 @@ module Admin
       elsif (only = Current.user.sole_editable_path)
         redirect_to admin_illustrations_path(path: only.slug)
       else
-        @censuses = editable_paths.ordered.map { |path| [ path, IllustrationCensus.new(path) ] }
+        @censuses = editable_paths.ordered.map { |path| [ path, IllustrationCensus.new(path) ] }.sort_by { |_, census| census.coverage }
       end
     end
 

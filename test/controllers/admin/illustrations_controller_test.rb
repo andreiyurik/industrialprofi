@@ -111,6 +111,59 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  # Coverage
+
+  test "per-profession page lists lessons with neither an image nor a placeholder" do
+    covered = lessons(:pteep)
+    covered.update!(body: "![Схема](TODO-shema.png)")
+    bare = paths(:electrician).lessons.where.not(id: covered.id).first
+
+    get admin_illustrations_path(path: paths(:electrician).slug)
+    assert_response :success
+    assert_select "a[href=?]", edit_admin_lesson_path(bare)
+    assert_select "a[href=?]", edit_admin_lesson_path(covered), 0
+  end
+
+  test "landing sorts the least covered profession first" do
+    paths(:electrician).lessons.each { |lesson| lesson.update!(body: "![Схема](TODO-#{lesson.id}.png)") }
+
+    get admin_illustrations_path
+    assert_response :success
+    titles = css_select(".illustration-row .admin-row__title").map(&:text)
+    assert_operator titles.index(paths(:electrician).title), :>, 0
+  end
+
+  # Removing a placeholder
+
+  test "removing a placeholder cuts it from the lesson and records a revision" do
+    lesson = lessons(:pteep)
+    lesson.update!(body: "До.\n\n![Схема](TODO-shema.png)\n\nПосле.")
+
+    assert_difference -> { lesson.lesson_revisions.count } => 1 do
+      delete admin_lesson_placeholder_path(lesson, src: "TODO-shema.png")
+    end
+    assert_redirected_to admin_illustrations_path(path: paths(:electrician).slug)
+    assert_empty lesson.reload.illustration_slots
+    assert_includes lesson.body, "До."
+    assert_includes lesson.body, "После."
+  end
+
+  test "removing a placeholder that is already gone redirects with an alert" do
+    delete admin_lesson_placeholder_path(lessons(:pteep), src: "TODO-net.png")
+    assert_redirected_to admin_illustrations_path(path: paths(:electrician).slug)
+    assert_equal I18n.t("admin.illustrations.slot_missing"), flash[:alert]
+  end
+
+  test "an editor can't remove a placeholder in another profession" do
+    lesson = lessons(:svarka_intro)
+    lesson.update!(body: "![Схема](TODO-shema.png)")
+    sign_out
+    sign_in_as users(:editor)
+
+    delete admin_lesson_placeholder_path(lesson, src: "TODO-shema.png")
+    assert_equal 1, lesson.reload.illustration_slots.size
+  end
+
   # Fill screen
 
   test "fill screen shows the brief for the matched placeholder" do

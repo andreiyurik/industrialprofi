@@ -35,7 +35,10 @@
 
     <%= link_to admin_illustrations_path(path: path.slug), class: "admin-row" do %>
       <span class="admin-row__column"><span class="admin-row__title"><%= t("admin.health.illustrations") %></span></span>
-      <span class="admin-row__meta"><%= t("admin.health.briefs", count: health.illustration_briefs) %></span>
+      <span class="admin-row__meta">
+        <%= t("admin.health.coverage", covered: health.illustration_census.covered_lessons_count, total: health.illustration_census.lessons_total) %>
+        <% if health.illustration_briefs.positive? %>· <%= t("admin.health.briefs", count: health.illustration_briefs) %><% end %>
+      </span>
     <% end %>
 
     <div class="admin-row admin-row--static">
