@@ -6,6 +6,7 @@
 .admin-header {
   align-items: center;
   display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
   justify-content: space-between;
   margin-block-end: 1.25rem;
@@ -97,7 +98,7 @@
 
 .admin-header__actions {
   display: flex;
-  flex-shrink: 0;
+  flex-wrap: wrap;
   gap: 0.75rem;
 }
 
@@ -850,26 +851,107 @@
   font-size: 0.75rem;
 }
 
-/* ── Persistent section nav (tabs) ── */
+/* ── Section nav: a sheet on compact screens, a sticky rail from 1024px ── */
+
+.admin-layout {
+  @media (min-width: 1024px) {
+    align-items: start;
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+  }
+}
 
 .admin-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  margin-block-end: var(--block-space);
-  padding-block-end: var(--block-space-half);
   border-block-end: 1px solid var(--color-subtle);
+
+  @media (min-width: 1024px) {
+    block-size: calc(100dvh - var(--header-height));
+    border-block-end: none;
+    border-inline-end: 1px solid var(--color-subtle);
+    inset-block-start: var(--header-height);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    position: sticky;
+    transition-duration: 200ms;
+    transition-property: block-size, inset-block-start;
+    transition-timing-function: ease-out;
+
+    body:has(.header--hidden) & {
+      block-size: 100dvh;
+      inset-block-start: 0;
+    }
+
+    &::details-content {
+      content-visibility: visible;
+    }
+  }
+}
+
+.admin-nav__toggle {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  font-weight: 600;
+  gap: var(--inline-space-half);
+  list-style: none;
+  padding: 0.75rem 1rem;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  .icon--caret-down {
+    transition: rotate 150ms ease-out;
+  }
+
+  .admin-nav[open] & .icon--caret-down {
+    rotate: 180deg;
+  }
+
+  /* Without ::details-content the rail can't force itself open, so the toggle stays. */
+  @media (min-width: 1024px) {
+    @supports selector(::details-content) {
+      display: none;
+    }
+  }
+}
+
+.admin-nav__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0 0.75rem var(--block-space);
+
+  @media (min-width: 1024px) {
+    padding-block-start: 1.5rem;
+  }
+}
+
+.admin-nav__heading {
+  border-block-start: 1px solid var(--color-subtle);
+  color: var(--color-subtle-dark);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-block: var(--block-space-half) 0.25rem;
+  padding: var(--block-space-half) 0.6rem 0;
+  text-transform: uppercase;
 }
 
 .admin-nav__link {
-  display: inline-flex;
   align-items: center;
-  gap: var(--inline-space-half);
-  padding: 0.3rem 0.7rem;
   border-radius: 0.5rem;
   color: var(--color-subtle-dark);
+  display: flex;
   font-weight: 600;
+  gap: 0.6rem;
+  padding: 0.4rem 0.6rem;
   text-decoration: none;
+}
+
+.admin-nav__label {
+  flex: 1;
+  min-inline-size: 0;
 }
 
 @media (any-hover: hover) {
@@ -879,25 +961,51 @@
   }
 }
 
-/* Fill, not weight — font-weight would widen the label and jitter the other links. */
 .admin-nav__link[aria-current="page"] {
   background-color: var(--color-subtle);
   color: var(--color-ink);
 }
 
-/* Moderation-queue count on «Правки» — same red as .badge--norm */
+.admin-nav__footer {
+  border-block-start: 1px solid var(--color-subtle);
+  margin-block-start: var(--block-space-half);
+  padding-block-start: var(--block-space-half);
+}
+
 .admin-nav__count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-inline-size: 1.4em;
-  padding: 0.05em 0.4em;
+  --count-color: var(--lch-red);
+
+  background-color: oklch(var(--count-color) / 0.18);
+  block-size: 1.25rem;
   border-radius: 1em;
-  background-color: oklch(var(--lch-red) / 0.18);
-  color: oklch(var(--lch-red));
-  font-size: 0.75rem;
+  color: oklch(var(--count-color));
+  display: inline-grid;
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
   font-weight: 700;
-  line-height: 1.5;
+  line-height: 1;
+  min-inline-size: 1.25rem;
+  padding-inline: 0.35rem;
+  place-items: center;
+  text-box: trim-both cap alphabetic;
+}
+
+/* Keeps the Turbo Stream target id without becoming a box that sits on the text baseline. */
+.admin-nav__slot {
+  display: contents;
+}
+
+.admin-nav__link[aria-current="page"] .admin-nav__count {
+  background-color: oklch(var(--count-color));
+  color: var(--color-bg);
+}
+
+.admin-nav__count--warn {
+  --count-color: var(--lch-amber);
+}
+
+.admin-nav__count--info {
+  --count-color: var(--lch-blue);
 }
 
 /* Per-profession edit-access grant on /admin/users (shown under expert rows) */

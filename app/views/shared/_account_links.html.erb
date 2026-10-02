@@ -1,9 +1,9 @@
 <%# locals: (unseen_outcomes: false) -%>
 <nav class="account-menu__nav">
-  <%# Admins land on the overview; editors on their main job, the moderation queue. %>
+  <%# Admins land on the overview; editors are sent on to their profession. %>
   <%# aria-current is section-level — any admin page lights «Админка», matching the global nav rows' controller checks. %>
   <% if Current.user.can_edit_content? %>
-    <%= link_to (Current.user.can_administer? ? admin_root_path : admin_lesson_suggestions_path),
+    <%= link_to admin_root_path,
           class: "account-menu__link account-menu__link--work",
           aria: { current: ("page" if controller.class.module_parent_name == "Admin") } do %>
       <%= icon_tag "gear-six" %>

@@ -2129,6 +2129,43 @@ en:
       choose_slot: "This article has several image spots — pick the one to fill."
       none_left: "No unfilled image spots are left in this article."
       open_editor: "Open the article in the editor"
+    health:
+      title: "Profession health"
+      waiting: "Awaiting a decision"
+      none: "nothing"
+      suggestions:
+        one: "%{count} edit"
+        other: "%{count} edits"
+      sources:
+        one: "%{count} source"
+        other: "%{count} sources"
+      verification: "Expert verification"
+      verified_until: "valid until %{date}"
+      verification_expired: "expired — needs renewing"
+      not_verified: "not done yet"
+      illustrations: "Illustrations"
+      briefs:
+        zero: "every slot is filled"
+        one: "%{count} slot awaits a picture"
+        other: "%{count} slots await a picture"
+      sources_title: "Sources"
+      lessons_without_sources:
+        zero: "every lesson has them"
+        one: "%{count} lesson without sources"
+        other: "%{count} lessons without sources"
+      learners: "Learners"
+      learners_count:
+        zero: "nobody has started yet"
+        one: "%{count} started"
+        other: "%{count} started"
+      active_learners:
+        zero: "nobody studied this week"
+        one: "%{count} studied this week"
+        other: "%{count} studied this week"
+      stall: "Most often stop at the lesson"
+      stalled_learners:
+        one: "%{count} learner"
+        other: "%{count} learners"
     builder:
       title: "Builder"
       landing_title: "Curriculum"
@@ -2193,6 +2230,27 @@ en:
       filter_note: "Showing only co-author applications."
       filter_reset: "All messages"
     nav_label: "Admin sections"
+    nav:
+      sections: "Sections"
+      back_to_site: "Back to site"
+      work: "Work"
+      content: "Content"
+      site: "Site"
+      pending:
+        one: "%{count} awaiting a decision"
+        other: "%{count} awaiting a decision"
+      unread:
+        one: "%{count} unread"
+        other: "%{count} unread"
+      pending_review:
+        one: "%{count} awaiting publication"
+        other: "%{count} awaiting publication"
+      new_users:
+        one: "%{count} new in 7 days"
+        other: "%{count} new in 7 days"
+      failed_jobs:
+        one: "%{count} failed job"
+        other: "%{count} failed jobs"
     users_search_placeholder: "Name or email"
     users_search: "Search"
     users_none: "No one found"

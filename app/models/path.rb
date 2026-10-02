@@ -65,6 +65,8 @@ class Path < ApplicationRecord
 
   def contributors = @contributors ||= Contributors.new(self)
 
+  def health = @health ||= Health.new(self)
+
   def hub_curators = curators.includes(photo_attachment: :blob)
 
   private
