@@ -105,6 +105,7 @@ Rails.application.routes.draw do
           member { post :rollback }
         end
         resources :illustrations, only: [ :new, :create ]
+        resource :placeholder, only: :destroy
       end
       # Nested under the profession — path slug rides in the URL, cleaner auth than a body param.
       resources :paths, only: [ :index, :new, :create, :show, :edit, :update, :destroy ], param: :slug do

@@ -79,7 +79,43 @@ module Lesson::Illustratable
     end
   end
 
+  def remove_illustration!(src:, edit_reason: nil)
+    with_lock do
+      slot = illustration_slots.find { |candidate| candidate.src == src }
+      raise PlaceholderMissing, src.to_s unless slot
+
+      before = section_html(slot.section)
+      if (rich = public_send(:"rich_#{slot.section}")).present?
+        remove_rich_placeholder(rich, slot)
+      else
+        remove_markdown_placeholder(slot)
+      end
+      self.origin = "human"
+      save!
+      record_revision!(section: slot.section, before: before, after: section_html(slot.section),
+        editor_name: nil, edit_reason: edit_reason, source: "admin")
+    end
+  end
+
   private
+    def remove_rich_placeholder(rich, slot)
+      removed = false
+      rich.body = rich.body.render_attachments do |attachment|
+        next attachment.node if removed || !Lesson.placeholder_node?(attachment.node) ||
+          Lesson.decode_placeholder(attachment.node["url"]) != slot.src
+
+        removed = true
+        ""
+      end
+    end
+
+    def remove_markdown_placeholder(slot)
+      text = public_send(slot.section).dup
+      match = text.to_enum(:scan, PENDING_FIGURE_PATTERN).map { Regexp.last_match }.find { it[:src] == slot.src }
+      text[match.begin(0)...match.end(0)] = ""
+      public_send(:"#{slot.section}=", text.gsub(/\n{3,}/, "\n\n"))
+    end
+
     def fill_rich_placeholder(rich, slot, blob, caption)
       filled = false
       rich.body = rich.body.render_attachments do |attachment|

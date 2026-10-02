@@ -278,6 +278,21 @@ class LessonTest < ActiveSupport::TestCase
     assert_includes revision.content_after, "sgid="
   end
 
+  test "remove_illustration! drops a rich placeholder and keeps the text" do
+    lesson = lessons(:pteep)
+    lesson.update!(rich_body: RICH_PLACEHOLDER)
+
+    assert_difference -> { lesson.lesson_revisions.count } => 1 do
+      lesson.remove_illustration!(src: "TODO-shema.png")
+    end
+    assert_empty lesson.reload.illustration_slots
+    assert_includes lesson.rich_body.body.to_plain_text, "После."
+  end
+
+  test "remove_illustration! raises when the placeholder is gone" do
+    assert_raises(Lesson::PlaceholderMissing) { lessons(:pteep).remove_illustration!(src: "TODO-net.png") }
+  end
+
   test "fill_illustration! without a caption leaves the image uncaptioned" do
     lesson = lessons(:pteep)
     lesson.update!(rich_body: RICH_PLACEHOLDER)

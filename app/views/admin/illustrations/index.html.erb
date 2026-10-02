@@ -31,12 +31,34 @@
                 <div class="admin-row__actions">
                   <%= link_to t("admin.illustrations.fill"), new_admin_lesson_illustration_path(lesson, src: slot.src),
                         class: "btn btn--small admin-row__action" %>
+                  <%= button_to t("admin.illustrations.remove"), admin_lesson_placeholder_path(lesson, src: slot.src), method: :delete,
+                        class: "btn btn--small btn--negative admin-row__action",
+                        data: { turbo_confirm: t("admin.illustrations.remove_confirm") } %>
                 </div>
               </div>
             <% end %>
           </div>
         <% else %>
           <p class="admin-row__subtle"><%= t("admin.illustrations.pending_empty") %></p>
+        <% end %>
+      </div>
+
+      <div class="admin-group">
+        <h2 class="admin-group__title">
+          <%= t("admin.illustrations.uncovered_title") %>
+          <span class="illustration-health__stat"><%= t("admin.illustrations.coverage", covered: @census.covered_lessons_count, total: @census.lessons_total) %></span>
+        </h2>
+        <% if @census.uncovered_lessons.any? %>
+          <p class="admin-row__subtle"><%= t("admin.illustrations.uncovered_hint") %></p>
+          <div class="admin-list">
+            <% @census.uncovered_lessons.each do |lesson| %>
+              <%= link_to edit_admin_lesson_path(lesson), class: "admin-row" do %>
+                <span class="admin-row__column"><span class="admin-row__title"><%= lesson.title %></span></span>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="admin-row__subtle"><%= t("admin.illustrations.uncovered_empty") %></p>
         <% end %>
       </div>
 
@@ -121,6 +143,7 @@
               </span>
             </a>
             <span class="illustration-health">
+              <span class="illustration-health__stat<%= " illustration-health__stat--broken" if census.covered_lessons_count.zero? && census.lessons_total.positive? %>"><%= t("admin.illustrations.coverage", covered: census.covered_lessons_count, total: census.lessons_total) %></span>
               <span class="illustration-health__stat"><%= t("admin.illustrations.briefs_count", count: census.briefs.size) %></span>
               <span class="illustration-health__stat"><%= t("admin.illustrations.images_count", count: census.live.size) %></span>
               <% if census.broken.any? %>
