@@ -4,9 +4,17 @@ updates:
   directory: "/"
   schedule:
     interval: weekly
-  open-pull-requests-limit: 10
+  open-pull-requests-limit: 5
+  # Minor and patch bumps land in one weekly PR; a major bump gets its own so it's read before merging.
+  groups:
+    gems:
+      update-types: [minor, patch]
+    gems-major:
+      update-types: [major]
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
     interval: weekly
-  open-pull-requests-limit: 10
+  groups:
+    actions:
+      patterns: ["*"]
