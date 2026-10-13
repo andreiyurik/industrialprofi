@@ -1,0 +1,59 @@
+<% meta_title(t("illustrations.title")) %>
+<% meta_description(t("illustrations.meta_description")) %>
+<% canonical_url(illustrations_url) %>
+
+<section class="section">
+  <div class="container container--reading">
+    <div class="contribute">
+      <header class="contribute-hero">
+        <p class="contribute-hero__eyebrow"><%= t("contribute.eyebrow") %></p>
+        <h1 class="contribute-hero__title"><%= t("illustrations.title") %></h1>
+        <p class="contribute-hero__intro"><%= t("illustrations.intro") %></p>
+      </header>
+
+      <section class="contribute-block">
+        <h2 class="contribute-block__title"><%= t("illustrations.how_title") %></h2>
+        <ul class="illustration-queue__rules">
+          <% t("illustrations.how").each do |rule| %>
+            <li><%= rule %></li>
+          <% end %>
+        </ul>
+      </section>
+
+      <% @paths.each do |path| %>
+        <%# Each profession's census reads every lesson body — cached until one of its lessons changes. %>
+        <% cache [ path, :illustration_queue, @touched_at[path.id], @lesson_counts[path.id] ] do %>
+          <% briefs = IllustrationCensus.new(path).briefs %>
+          <% if briefs.any? %>
+            <section class="contribute-block">
+              <h2 class="contribute-block__title">
+                <%= link_to path.title, path_path(path), class: "illustration-queue__path" %>
+                <span class="illustration-queue__count"><%= t("illustrations.count", count: briefs.size) %></span>
+              </h2>
+              <ol class="illustration-queue">
+                <% briefs.each do |lesson, slot| %>
+                  <li class="illustration-queue__item">
+                    <div class="illustration-queue__body">
+                      <%= link_to lesson.title, lesson_path(lesson), class: "illustration-queue__lesson" %>
+                      <p class="illustration-queue__brief"><%= slot.display_brief || t("admin.illustrations.no_brief") %></p>
+                    </div>
+                    <%= link_to t("illustrations.suggest"), new_lesson_illustration_suggestion_path(lesson, brief: slot.display_brief),
+                          class: "btn btn--small" %>
+                  </li>
+                <% end %>
+              </ol>
+            </section>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <p class="illustration-queue__foot">
+        <%= t("illustrations.foot") %>
+        <%= link_to t("illustrations.changes_link"), changes_path, class: "contribute-way__link" %>
+        <% if site_config.telegram_chat_url.present? %>
+          <%= link_to t("illustrations.chat_link"), site_config.telegram_chat_url, class: "contribute-way__link", target: "_blank", rel: "noopener" %>
+        <% end %>
+      </p>
+    </div>
+  </div>
+</section>

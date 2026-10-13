@@ -134,9 +134,14 @@ module ApplicationHelper
 
     # Keyword arg: a positional lesson would be swallowed by the route's optional :locale segment.
     slot_params = src.present? ? { src: Lesson.decode_placeholder(src) } : { brief: CGI.unescapeHTML(alt.to_s) }
-    box + link_to(new_admin_lesson_illustration_path(lesson_slug: lesson.slug, **slot_params), class: "attachment__fill") do
+    fill = link_to(new_admin_lesson_illustration_path(lesson_slug: lesson.slug, **slot_params), class: "attachment__fill") do
       safe_join([ icon_tag("plus-circle"), tag.span(t("lessons.fill_illustration")) ])
     end
+    brief = Lesson::Illustratable::IllustrationSlot.new(section: nil, brief: CGI.unescapeHTML(alt.to_s), src: slot_params[:src].to_s, caption: nil).display_brief
+    suggest = link_to(new_lesson_illustration_suggestion_path(lesson_slug: lesson.slug, brief: brief), class: "attachment__suggest") do
+      safe_join([ icon_tag("camera-light"), tag.span(t("lessons.suggest_illustration")) ])
+    end
+    box + fill + suggest
   end
 
   def pending_remote_image?(attachment) = Lesson.placeholder_node?(attachment.node)
@@ -176,7 +181,7 @@ module ApplicationHelper
   end
 
   # Bump when the render pipeline changes — template-digest busting doesn't reach a helper cache.
-  LESSON_CONTENT_RENDER_VERSION = 7
+  LESSON_CONTENT_RENDER_VERSION = 8
 
   def lesson_content(lesson, field)
     @lesson_content ||= {}

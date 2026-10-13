@@ -352,7 +352,7 @@ forward-looking only.
 ### Next — v0.3 (not built)
 
 The "self-developing platform" milestone — content grows through other people,
-not the founder:
+not the founder. The operating plan is [COMMUNITY](COMMUNITY.md):
 
 - **Community-authored roadmaps:** an in-app create flow (profession → course →
   lesson → resources/task) with `draft → pending_review → published`; admins

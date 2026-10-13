@@ -33,7 +33,8 @@ charting JS.
   queries; the scaling seam is `Rails.cache.fetch`.
 - **Illustration center** (`/admin/illustrations`, scoped to the editor's professions): per
   profession, coverage (`IllustrationCensus`), placeholders waiting to be filled or removed,
-  gallery and broken links. The landing sorts the least covered profession first.
+  gallery and broken links. The landing sorts the least covered profession first. The
+  same census feeds the public queue at `/illustrations` and the home-page count.
 - **Action log** (`/admin/log`): `AdminAction` — append-only record of role changes,
   grants, approvals/rejections, rollbacks, suspensions and live-content lesson changes.
   Denormalized `details` JSON, keyset pagination, category/actor filters, no free-text

@@ -11,6 +11,9 @@ paths:
   - "app/controllers/lesson_suggestions_controller.rb"
   - "app/controllers/resource_suggestions_controller.rb"
   - "app/controllers/revisions_controller.rb"
+  - "app/controllers/changes_controller.rb"
+  - "app/controllers/illustration_suggestions_controller.rb"
+  - "app/controllers/illustrations_controller.rb"
   - "app/controllers/admin/lesson_suggestions_controller.rb"
   - "app/controllers/admin/resource_suggestions_controller.rb"
   - "app/controllers/admin/revisions_controller.rb"
@@ -45,6 +48,11 @@ sequenceDiagram
 - **Attribution, not competition**: a muted «Статью улучшили» credit from revisions;
   the founder's direct edits store `editor_name: nil`. `TrackRecord` powers the
   profile's accepted edits. No leaderboard ([decision](../decisions/2026-06-24-no-leaderboard.md)).
+- **Public doors** ([decision](../decisions/2026-10-13-community-doors.md)): `/changes`
+  lists the latest revisions across published professions with their authors;
+  `/illustrations` lists every pending brief, and a reader suggests an image by link
+  from the placeholder or the queue — it folds into a `Feedback` on the lesson, and an
+  editor fills the slot through the illustration center.
 - Approvals and rejections are also written to the [admin action log](admin-and-operations.md).
 - An approval that raises the profession's maturity stage is recorded on the
   suggestion (`raised_path_stage`) so the author hears about it.

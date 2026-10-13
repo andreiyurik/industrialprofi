@@ -142,6 +142,8 @@ en:
     feedback: "Contact me"
     faq: "FAQ"
     contribute: "How to help"
+    illustrations: "Illustrations wanted"
+    changes: "Recent changes"
     authors: "For authors"
     admin: "Admin"
     editing: "Editing"
@@ -1097,6 +1099,7 @@ en:
     welder: "Welder"
     project: "Project"
     feedback: "Feedback"
+    chat: "«Цех» chat"
     support: "Support us"
     resources: "Resources"
     standards: "Standards"
@@ -1155,6 +1158,10 @@ en:
     group_hobby: "Hobbies and crafts"
     soon_full_list: "Full list..."
     soon_curator: "Build your own profession roadmap"
+    illustrations_call:
+      one: "The articles are missing %{count} illustration. Got a photo from a site or a diagram? Send it — it goes in with your name."
+      other: "The articles are missing %{count} illustrations. Got a photo from a site or a diagram? Send it — it goes in with your name."
+    illustrations_call_cta: "See what's needed"
     # A vacancy board, not a queue: plain copy, deliberately NOT Path rows — an
     # empty Path is admin noise, and a DB-driven list only ever shows whatever
     # stubs happen to exist (which is how this list turned all-ICS). Order is
@@ -1332,6 +1339,7 @@ en:
     toc_label: "In this article"
     image_pending: "Illustration coming soon"
     fill_illustration: "Add an illustration"
+    suggest_illustration: "Have a fitting photo? Suggest it"
     preview_banner: "Draft — this page isn't published yet. Only you can see it this way."
     mark_complete: "Mark as done"
     uncomplete: "Unmark"
@@ -1507,12 +1515,18 @@ en:
     manifesto2: "The platform is deliberately built to hold any complex, modern trade where skill and practice are what matter. Today that's electrician, welder, instrumentation tech; tomorrow — agronomist, farmer, mechanic. Only someone who's lived a trade themselves can review and validate its roadmap. If your trade isn't here yet — its roadmap starts with you: the experience you've gathered over the years becomes the road for the people who come after."
     ways_title: "Levels of involvement"
     ways_lead: "From two minutes to leading an entire profession — pick what fits your time and experience. Every contribution has its place."
+    changes_link: "See recent changes"
     ways:
       fix:
         title: "Fix or clarify something"
         who: "Open to everyone"
         what: "Found a mistake, an outdated link, or an imprecise wording — suggest an edit right on the article. You don't need to know git or anything technical: we have our own simple edit system anyone can use. All you need is an account — an email and a password. A couple of minutes."
         cta: "Browse professions"
+      photo:
+        title: "Send a photo or a diagram"
+        who: "Open to everyone"
+        what: "Some articles have a spot marked «Illustration coming soon». If you have a photo from a site, a shot of a tool or a free image from Wikimedia Commons — send the link right from the article. It goes in with your name. Five minutes."
+        cta: "What's needed now"
       teach:
         title: "Teach with a roadmap"
         who: "For foremen, mentors and teachers"
@@ -1598,6 +1612,7 @@ en:
     cta_text: "Ready to lead a section — send a co-author application. Or start small: pick a profession you know and suggest your first edit."
     cta_explore: "Browse professions"
     cta_write: "Write to the author"
+    cta_chat: "A chat for people who work with their hands"
     cta_support: "Support with a donation"
 
   faq:
@@ -1656,6 +1671,8 @@ en:
             d: "Standards, books, videos, and tools with clear type badges."
           - t: "Reader edits and change history"
             d: "Anyone can suggest an improvement to an article; every accepted edit is visible in the open history. You can track the fate of your own edit on the “My learning” dashboard, and if you don't check back for a while, a single email tells you the outcome."
+          - t: "Open illustration queue and recent changes"
+            d: "A list of spots in the articles missing a picture: anyone can send a photo or a free image right from the article — it goes in with their name. All accepted edits across every profession on one page."
           - t: "Accounts and “completed” marks"
             d: "A free account with password recovery, a “completed” mark on every article, and clear progress through a profession."
           - t: "The “Practice” page"
@@ -1943,6 +1960,53 @@ en:
       profession: "Profession"
       background: "Experience and qualifications"
       motivation: "Why and what they want to give"
+
+  illustrations:
+    title: "Illustrations wanted"
+    meta_description: "An open list of spots in the articles missing a photo or a diagram. Send yours — it goes in with your name."
+    intro: "An open list of spots in the articles missing a picture: a photo from a site, a diagram, a shot of a tool. Each item is a five-minute task for someone who knows what it really looks like."
+    how_title: "What fits"
+    how:
+      - "Your own photo or diagram — you allow publication under CC BY-SA 4.0, with your name in the caption."
+      - "A free image from Wikimedia Commons or another source under CC BY, CC BY-SA or CC0 — a link is enough."
+      - "No watermarks, logos or screenshots from someone else's textbook."
+    count:
+      one: "%{count} spot"
+      other: "%{count} spots"
+    suggest: "Suggest"
+    foot: "Every placed picture lands in the article's history with the name of the person who sent it."
+    changes_link: "Recent changes"
+    chat_link: "Or drop the photo in the chat"
+
+  illustration_suggestions:
+    title: "Suggest an illustration"
+    intro: "Send a link to a photo or a picture — I or the profession's expert will check it and put it in the article. Your name goes in the caption."
+    lesson: "Article"
+    brief: "What's needed"
+    fields:
+      link: "Link to the picture"
+      note: "A few words about it"
+    placeholders:
+      link: "https://… — a cloud file, a Telegram post or a Wikimedia Commons page"
+      note: "Where it was taken and whose photo it is; if not yours — under which licence. Optional."
+    licence: "By sending, you confirm this is your own work or a free image (CC BY, CC BY-SA, CC0) and allow publication under CC BY-SA 4.0."
+    send: "Send"
+    promise: "I read every suggestion and reply by email."
+    incomplete: "A link to the picture is needed."
+    sent: "Thanks! I'll take a look and reply to %{email}."
+    message:
+      header: "Illustration suggestion"
+      lesson: "Article"
+      brief: "Spot"
+      link: "Link"
+      note: "Note"
+
+  changes:
+    title: "Recent changes"
+    meta_description: "Every accepted change across all professions: who fixed what and when."
+    intro: "Every accepted edit carries the name of the person who sent it. That's how the roadmaps grow."
+    empty: "No changes yet."
+    cta: "How to suggest yours"
 
   business_inquiries:
     eyebrow: "Collaboration"
