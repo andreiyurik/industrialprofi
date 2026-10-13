@@ -6,10 +6,11 @@ CIS market. A conventional Rails 8 monolith in the Basecamp style.
 
 ## Git
 
-IMPORTANT: never run write-side git (`add`, `commit`, `push`, `merge`, `tag`, `rebase`,
-`reset`, `stash`, `checkout -b`) unless the user asks for that specific action in this
-conversation — even if a plan or skill says to commit. Finish the file work, leave the tree
-dirty, summarize, and report every git command you ran.
+When the task is finished and the tests are green, commit it yourself on a branch off
+`master` and open a PR (`git push -u origin <branch>`, `gh pr create --fill`), then report
+every git command you ran. Never commit on `master` directly. Merging, deploying, tagging,
+force-pushing, `reset` and any history rewrite happen only when the user asks for that
+specific action in this conversation — even if a plan or skill says otherwise.
 
 ## Commands
 
