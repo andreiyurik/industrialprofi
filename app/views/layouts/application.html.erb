@@ -288,6 +288,11 @@
         <div class="footer__col">
           <p class="footer__heading"><%= t("footer.col_support") %></p>
           <a href="<%= contribute_path %>" class="footer__link link-quiet"><%= t("nav.contribute") %></a>
+          <% if site_config.telegram_chat_url.present? %>
+            <a href="<%= site_config.telegram_chat_url %>" class="footer__link link-quiet" target="_blank" rel="noopener"><%= t("footer.chat") %></a>
+          <% end %>
+          <a href="<%= illustrations_path %>" class="footer__link link-quiet"><%= t("nav.illustrations") %></a>
+          <a href="<%= changes_path %>" class="footer__link link-quiet"><%= t("nav.changes") %></a>
           <a href="<%= authors_path %>" class="footer__link link-quiet"><%= t("nav.authors") %></a>
           <a href="<%= support_us_path %>" class="footer__link link-quiet"><%= t("nav.support") %></a>
           <a href="<%= partners_path %>" class="footer__link link-quiet"><%= t("nav.partners") %></a>

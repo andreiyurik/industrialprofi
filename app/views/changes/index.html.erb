@@ -1,0 +1,43 @@
+<% meta_title(t("changes.title")) %>
+<% meta_description(t("changes.meta_description")) %>
+<% canonical_url(changes_url) %>
+
+<section class="section">
+  <div class="container container--reading">
+    <h1 class="lesson-history__page-title"><%= t("changes.title") %></h1>
+    <p class="lesson-history__count">
+      <%= t("changes.intro") %>
+      <%= link_to t("changes.cta"), contribute_path, class: "link-quiet link-quiet--underline" %>
+    </p>
+
+    <% if @revisions.empty? %>
+      <p class="lesson-history__empty"><%= t("changes.empty") %></p>
+    <% else %>
+      <ol class="lesson-history__list">
+        <% last_date = nil %>
+        <% @revisions.each do |revision| %>
+          <% date = revision.created_at.to_date %>
+          <% unless date == last_date %>
+            <li class="lesson-history__date"><%= revision_date_heading(date) %></li>
+            <% last_date = date %>
+          <% end %>
+          <li class="lesson-history__item">
+            <%= link_to lesson_revision_path(revision.lesson, revision), class: "lesson-history__link" do %>
+              <span class="lesson-history__head">
+                <span class="lesson-history__version"><%= revision.lesson.title %></span>
+                <span class="badge badge--marker"><%= t("revisions.sections.#{revision.section}") %></span>
+                <span class="lesson-history__source"><%= t("revisions.source.#{revision.source}") %></span>
+              </span>
+              <span class="lesson-history__byline">
+                <%= revision_editor(revision) %> · <%= l(revision.created_at, format: :long) %>
+              </span>
+              <% if revision.edit_reason.present? %>
+                <span class="lesson-history__reason"><%= revision.edit_reason %></span>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ol>
+    <% end %>
+  </div>
+</section>

@@ -27,13 +27,20 @@ class IllustrationCensus
     nil
   end
 
+  # One number for the home page nudge; an hour stale is fine.
+  def self.pending_total
+    Rails.cache.fetch([ "illustrations/pending_total", I18n.locale ], expires_in: 1.hour) do
+      Path.published.localized.sum { |path| new(path).briefs.size }
+    end
+  end
+
   def initialize(path)
     @path = path
   end
 
   # slot.src must match the format Lesson#fill_illustration! expects.
   def briefs
-    @briefs ||= lessons.flat_map do |lesson|
+    @briefs ||= brief_lessons.flat_map do |lesson|
       lesson.illustration_slots.map { |slot| [ lesson, slot ] }
     end
   end
@@ -57,6 +64,11 @@ class IllustrationCensus
 
     def lessons
       @lessons ||= @path.lessons.ordered.with_all_rich_text.to_a
+    end
+
+    # Slots live in body and task; the public queue reads neither the description nor the embeds.
+    def brief_lessons
+      @lessons || @path.lessons.ordered.includes(:rich_text_rich_body, :rich_text_rich_task).to_a
     end
 
     def lesson_images(lesson)

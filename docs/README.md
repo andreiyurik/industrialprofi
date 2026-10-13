@@ -10,6 +10,7 @@ open only what the task needs. How the wiki is kept is in
 - [VISION](VISION.md) — what we build, for whom and why; business model, roadmap, the not-building list.
 - [PROFESSION_BACKLOG](PROFESSION_BACKLOG.md) — which professions to package next and why.
 - [SOURCING](SOURCING.md) — where each trade's world-best practice comes from.
+- [COMMUNITY](COMMUNITY.md) — how content grows through other people: funnel, doors in the app, work outside it.
 
 ## Architecture
 
@@ -57,6 +58,7 @@ Settled — don't re-propose without the listed trigger.
 - [2026-09-21 Users before features](decisions/2026-09-21-users-before-features.md) — measure real learners on one profession before building more.
 - [2026-09-27 Hobby shelf](decisions/2026-09-27-hobby-shelf.md) — `paths.field`, a quiet section below the catalog, same curated pipeline.
 - [2026-10-02 Node for dev tools only](decisions/2026-10-02-node-for-dev-tools-only.md) — Herb's linter in CI; nothing Node ships to production.
+- [2026-10-13 Community doors](decisions/2026-10-13-community-doors.md) — every gap public, one link is a contribution; no new roles, models or uploads.
 
 ## Operations
 

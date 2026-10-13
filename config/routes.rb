@@ -72,6 +72,8 @@ Rails.application.routes.draw do
     end
     resources :feedbacks, only: [ :new, :create ]
     resource :coauthor_application, only: [ :new, :create ]
+    resources :illustrations, only: :index
+    resources :changes, only: :index
     resource :editor_welcome, only: [ :destroy ]
     get "business" => "business_inquiries#new", as: :business
     post "business" => "business_inquiries#create"
@@ -95,6 +97,7 @@ Rails.application.routes.draw do
       resources :revisions, only: [ :index, :show ]
       resources :suggestions, only: [ :new, :create ], controller: "lesson_suggestions"
       resources :resource_suggestions, only: [ :new, :create ]
+      resource :illustration_suggestion, only: [ :new, :create ]
     end
 
     namespace :admin do

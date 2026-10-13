@@ -1,0 +1,44 @@
+<% meta_title(t("illustration_suggestions.title")) %>
+<% @layout_class = "main--centered" %>
+
+<section class="section">
+  <div class="container">
+    <div class="feedback">
+      <header class="feedback__head">
+        <h1 class="feedback__title"><%= t("illustration_suggestions.title") %></h1>
+        <p class="feedback__intro"><%= t("illustration_suggestions.intro") %></p>
+      </header>
+
+      <dl class="feedback__context">
+        <dt><%= t("illustration_suggestions.lesson") %></dt>
+        <dd><%= link_to @lesson.title, lesson_path(@lesson) %></dd>
+        <% if @suggestion[:brief].present? %>
+          <dt><%= t("illustration_suggestions.brief") %></dt>
+          <dd><%= @suggestion[:brief] %></dd>
+        <% end %>
+      </dl>
+
+      <%= form_with url: lesson_illustration_suggestion_path(@lesson), scope: :illustration_suggestion, method: :post, class: "feedback__form" do |f| %>
+        <%= f.hidden_field :brief, value: @suggestion[:brief] %>
+
+        <div class="feedback__field">
+          <%= f.label :link, t("illustration_suggestions.fields.link"), class: "feedback__label" %>
+          <%= f.url_field :link, value: @suggestion[:link], required: true, maxlength: 500, autofocus: true,
+                placeholder: t("illustration_suggestions.placeholders.link"), class: "input" %>
+        </div>
+
+        <div class="feedback__field">
+          <%= f.label :note, t("illustration_suggestions.fields.note"), class: "feedback__label" %>
+          <%= f.text_area :note, value: @suggestion[:note], rows: 3, maxlength: 1000,
+                placeholder: t("illustration_suggestions.placeholders.note"), class: "input input--textarea" %>
+        </div>
+
+        <p class="feedback__promise"><%= t("illustration_suggestions.licence") %></p>
+
+        <%= f.submit t("illustration_suggestions.send"), class: "btn btn--reversed btn--large" %>
+      <% end %>
+
+      <p class="feedback__promise"><%= t("illustration_suggestions.promise") %></p>
+    </div>
+  </div>
+</section>

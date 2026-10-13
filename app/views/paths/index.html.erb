@@ -40,6 +40,16 @@
       </div>
     <% end %>
 
+    <% if @pending_illustrations.positive? %>
+      <div class="panel focus-banner">
+        <span class="focus-banner__text"><%= t("paths.illustrations_call", count: @pending_illustrations) %></span>
+        <%= link_to illustrations_path, class: "btn btn--small" do %>
+          <%= icon_tag "camera-light" %>
+          <%= t("paths.illustrations_call_cta") %>
+        <% end %>
+      </div>
+    <% end %>
+
     <% if @paths.any? %>
       <div class="catalog-grid" id="catalog">
         <% @paths.each do |path| %>

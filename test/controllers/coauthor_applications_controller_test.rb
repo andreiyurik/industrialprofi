@@ -53,6 +53,13 @@ class CoauthorApplicationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", new_coauthor_application_path
   end
 
+  test "the contribute page and footer link the community chat" do
+    get contribute_url
+    assert_response :success
+    assert_select ".contribute-cta__aside a[href=?]", Rails.application.config.x.site.telegram_chat_url
+    assert_select ".footer a[href=?]", Rails.application.config.x.site.telegram_chat_url
+  end
+
   test "the contribute page states the trust rules with the real threshold" do
     get contribute_url
     assert_response :success
