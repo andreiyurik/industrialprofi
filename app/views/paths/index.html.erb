@@ -9,16 +9,13 @@
   <div class="container hero__inner">
     <h1 class="hero__title is-caret"><%= t("paths.hero.title_html") %></h1>
     <p class="hero__subtitle"><%= t("paths.hero.subtitle_html") %></p>
-    <%# Same icons as the hub tabs; only the primary keeps the arrow. Hover effects: Magic UI Shiny Button and Hover.css icons, both MIT. %>
+    <%# Only the primary keeps the arrow. Hover effects: Magic UI Shiny Button and Hover.css icons, both MIT. %>
     <p class="hero__actions">
       <%= link_to "#catalog", class: "btn btn--reversed hero__action hero__action--primary" do %>
-        <span class="hero__shine"><%= icon_tag "graduation-cap" %><%= t("paths.hero.theory") %><%= icon_tag "arrow-right" %></span>
+        <span class="hero__shine"><%= icon_tag "graduation-cap" %><%= t("paths.hero.start") %><%= icon_tag "arrow-right" %></span>
       <% end %>
-      <%= link_to projects_path, class: "btn hero__action hero__action--practice" do %>
-        <%= icon_tag "wrench" %><%= t("paths.hero.practice") %>
-      <% end %>
-      <%= link_to contribute_path, class: "btn hero__action hero__action--improve" do %>
-        <%= icon_tag "pencil-simple" %><%= t("paths.hero.improve") %>
+      <%= link_to calculators_path, class: "btn hero__action hero__action--calculators" do %>
+        <%= icon_tag "calculator" %><%= t("paths.hero.calculators") %>
       <% end %>
     </p>
   </div>
@@ -40,16 +37,6 @@
       </div>
     <% end %>
 
-    <% if @pending_illustrations.positive? %>
-      <div class="panel focus-banner">
-        <span class="focus-banner__text"><%= t("paths.illustrations_call", count: @pending_illustrations) %></span>
-        <%= link_to illustrations_path, class: "btn btn--small" do %>
-          <%= icon_tag "camera-light" %>
-          <%= t("paths.illustrations_call_cta") %>
-        <% end %>
-      </div>
-    <% end %>
-
     <% if @paths.any? %>
       <div class="catalog-grid" id="catalog">
         <% @paths.each do |path| %>
@@ -65,6 +52,19 @@
       </div>
     <% end %>
 
+    <div class="calc-group home-calculators">
+      <h2 class="calc-group__title"><%= t("paths.featured_calculators.title") %></h2>
+      <div class="calc-catalog">
+        <%= render partial: "calculators/card", collection: Calculator.featured, as: :calculator %>
+      </div>
+      <p class="home-calculators__all">
+        <%= link_to calculators_path, class: "link-quiet" do %>
+          <%= t("paths.featured_calculators.all") %>
+          <%= icon_tag "arrow-right" %>
+        <% end %>
+      </p>
+    </div>
+
     <% if @hobby_paths.any? %>
       <div class="catalog-hobby" id="hobby">
         <h2 class="catalog-soon__label"><%= t("paths.group_hobby") %></h2>
@@ -75,6 +75,17 @@
                   courses_count: @course_counts.fetch(path.id, 0) %>
           <% end %>
         </div>
+      </div>
+    <% end %>
+
+    <%# Contributor doors live below the learner's path, not in the first screen. %>
+    <% if @pending_illustrations.positive? %>
+      <div class="panel focus-banner home-illustrations">
+        <span class="focus-banner__text"><%= t("paths.illustrations_call", count: @pending_illustrations) %></span>
+        <%= link_to illustrations_path, class: "btn btn--small" do %>
+          <%= icon_tag "camera-light" %>
+          <%= t("paths.illustrations_call_cta") %>
+        <% end %>
       </div>
     <% end %>
 

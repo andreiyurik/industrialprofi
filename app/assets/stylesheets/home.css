@@ -136,12 +136,8 @@
     transform: translateX(0.25em);
   }
 
-  .hero__action--practice:hover .icon {
-    transform: rotate(-30deg);
-  }
-
-  .hero__action--improve:hover .icon {
-    animation: icon-write 0.6s ease-in-out;
+  .hero__action--calculators:hover .icon {
+    transform: rotate(-12deg);
   }
 }
 

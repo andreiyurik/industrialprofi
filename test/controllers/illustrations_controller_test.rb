@@ -14,11 +14,12 @@ class IllustrationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href^=?]", new_lesson_illustration_suggestion_path(@lesson)
   end
 
-  test "the home page nudges with the pending count" do
+  test "the home page nudges with the pending count, below the catalog" do
     get root_url(locale: :ru)
     assert_response :success
-    assert_select ".focus-banner a[href=?]", illustrations_path
+    assert_select ".home-illustrations a[href=?]", illustrations_path
     assert_match I18n.t("paths.illustrations_call", count: 1), response.body
+    assert_operator response.body.index("catalog-grid"), :<, response.body.index("home-illustrations")
   end
 
   test "a reader sees the suggest link on the placeholder, an editor the fill link" do

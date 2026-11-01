@@ -1,7 +1,7 @@
 .catalog-grid {
   display: grid;
   gap: 1.25rem;
-  grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
   margin-block-start: var(--block-space-double);
 }
 
@@ -450,4 +450,18 @@
   color: var(--color-subtle-dark);
   line-height: 1.55;
   margin: 0;
+}
+
+/* Full width so its edges line up with the card grid above and the banner below. */
+.calc-group.home-calculators {
+  max-inline-size: none;
+}
+
+.home-calculators__all {
+  margin-block-start: var(--block-space);
+  text-align: end;
+}
+
+.home-illustrations {
+  margin-block-start: var(--block-space-double);
 }

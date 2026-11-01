@@ -83,6 +83,16 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_match lessons(:praktika_shchitok).title, response.body
   end
 
+  test "a bookmarked theory lesson shows no difficulty mark" do
+    lesson = Lesson.where(difficulty: nil).first!
+    users(:member).lesson_bookmarks.create!(lesson:)
+    sign_in_as users(:member)
+
+    get dashboard_path
+    assert_select "#dashboard_bookmarks .difficulty-mark", 0
+    assert_no_match "beginner:", response.body
+  end
+
   test "hides the bookmarks section when there are none" do
     sign_in_as users(:member)
     get dashboard_path
