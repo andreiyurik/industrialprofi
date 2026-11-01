@@ -69,7 +69,11 @@ class CurriculumImporter
       # landing.yml rides with path.yml — refreshed while pristine, frozen once edited.
       landing_yml = File.join(File.dirname(path_yml), "landing.yml")
       attrs[:landing] = Path.normalize_landing(YAML.safe_load_file(landing_yml)) if File.exist?(landing_yml)
-      applied = upsert(path, attrs) { path.icon = emblem(meta["icon"], path.slug) }
+      # listed only on create: afterwards the admin checkbox owns it, outside the import digest.
+      applied = upsert(path, attrs) do
+        path.icon = emblem(meta["icon"], path.slug)
+        path.listed = meta.fetch("listed", true)
+      end
       @counts["landings_filled"] += 1 if !applied && path.fill_landing(attrs[:landing])
 
       position = 0

@@ -40,7 +40,8 @@
        data-copy-link-url-value="<%= site_config.url %>/lessons/<%= @lesson.slug %>"
        data-copy-link-label-value="<%= t("lessons.copy_link") %>"
        data-copy-link-copied-value="<%= t("lessons.link_copied") %>"
-       data-copy-link-copied-class="lesson__copy--copied">
+       data-copy-link-copied-class="lesson__copy--copied"
+       data-copy-link-goal-value="link_copied">
     <div class="lesson__trail">
       <button type="button" class="lesson-contents-toggle" data-action="lesson-sidebar#open"
               title="<%= t("lessons.sidebar_label") %>">
@@ -104,6 +105,8 @@
   <header class="lesson__header">
     <h1 class="lesson__title"><%= @lesson.title %></h1>
   </header>
+
+  <%= render "paths/unlisted_notice", path: @path %>
 
   <article data-controller="lightbox">
     <% if @lesson.has_description? %>

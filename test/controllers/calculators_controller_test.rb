@@ -9,6 +9,18 @@ class CalculatorsControllerTest < ActionDispatch::IntegrationTest
     assert_match I18n.t("calculators.categories.electrician"), response.body
   end
 
+  test "index hides a calculator tied to an unlisted profession, but its page still opens" do
+    lessons(:svarka_intro).update!(slug: Calculator.find("ohms-law").lesson_slug)
+    paths(:welder).update!(listed: false)
+
+    get calculators_path
+    assert_select ".calc-row[href=?]", calculator_path(Calculator.find("ohms-law")), count: 0
+    assert_select ".calc-row", Calculator.all.size - 1
+
+    get calculator_path(Calculator.find("ohms-law"))
+    assert_response :success
+  end
+
   test "each calculator renders its form, source and disclaimer" do
     Calculator.all.each do |calculator|
       get calculator_path(calculator)

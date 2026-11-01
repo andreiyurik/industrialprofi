@@ -125,12 +125,15 @@
                     aria: { current: ("page" if controller_path.start_with?("paths") || controller_path == "lessons") } do %>
                 <%= icon_tag "map-trifold" %><%= t("nav.professions") %><%= render "shared/nav_underline" %>
               <% end %>
+              <%# Calculators are the top search entry, so they earn a slot; library and glossary stay in the hub. %>
+              <%= link_to calculators_path, class: "nav__link link-quiet",
+                    aria: { current: ("page" if controller_path == "calculators") } do %>
+                <%= icon_tag "calculator" %><%= t("nav.calculators") %><%= render "shared/nav_underline" %>
+              <% end %>
               <%= link_to projects_path, class: "nav__link link-quiet",
                     aria: { current: ("page" if current_page?(projects_path)) } do %>
                 <%= icon_tag "wrench" %><%= t("nav.projects") %><%= render "shared/nav_underline" %>
               <% end %>
-              <%# Library, glossary and calculators live inside each profession's hub, not the top bar —
-                  the bar leads INTO a profession, not away from it (site-wide pages: footer/palette). %>
               <% if in_admin? %>
                 <span class="badge badge--marker header__context-badge">
                   <%= Current.user.can_administer? ? t("nav.admin") : t("nav.editing") %>
@@ -232,7 +235,10 @@
     </header>
 
     <%= render "shared/flash" %>
-    <%= render "shared/welcome_letter" if flash[:welcome_letter] %>
+    <% if flash[:welcome_letter] %>
+      <%= render "shared/welcome_letter" %>
+      <div hidden data-controller="goal" data-goal-name-value="signup" data-goal-on-connect-value="true"></div>
+    <% end %>
     <%= render "shared/editor_welcome_letter" if signed_in? && Current.user.needs_editor_welcome? %>
 
     <main id="main-content" class="<%= @layout_class %>">

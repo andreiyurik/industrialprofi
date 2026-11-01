@@ -7,6 +7,16 @@ class LessonsControllerTest < ActionDispatch::IntegrationTest
     assert_match lessons(:pteep).title, response.body
   end
 
+  test "a lesson of an unlisted profession stays public and points to the listed ones" do
+    get lesson_path(lessons(:svarka_intro))
+    assert_select ".callout a[href=?]", path_path(paths(:electrician)), count: 0
+
+    paths(:welder).update!(listed: false)
+    get lesson_path(lessons(:svarka_intro))
+    assert_response :success
+    assert_select ".callout a[href=?]", path_path(paths(:electrician))
+  end
+
   test "show returns 404 for unknown slug" do
     get lesson_path(slug: "nonexistent")
     assert_response :not_found

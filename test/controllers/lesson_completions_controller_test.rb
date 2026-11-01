@@ -27,6 +27,7 @@ class LessonCompletionsControllerTest < ActionDispatch::IntegrationTest
     assert_match "completion_lesson_#{@lesson.id}", response.body
     assert_match "lesson_sidebar", response.body
     assert_match I18n.t("lessons.completed"), response.body
+    assert_match 'data-goal-name-value="lesson_completed"', response.body
   end
 
   test "create is idempotent" do

@@ -21,7 +21,7 @@ class GlossaryTerm < ApplicationRecord
   end
 
   def self.by_path(locale: I18n.locale)
-    published.where(paths: { locale: locale }).includes(lesson: :path).alphabetical
+    published.where(paths: { locale: locale, listed: true }).includes(lesson: :path).alphabetical
              .group_by { |term| term.lesson.path }
              .sort_by { |path, _terms| path.position }
   end

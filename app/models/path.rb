@@ -41,6 +41,8 @@ class Path < ApplicationRecord
   scope :community, -> { where.not(author_id: nil) }
   scope :industrial, -> { where(field: "industry") }
   scope :hobby, -> { where(field: "hobby") }
+  scope :listed, -> { where(listed: true) }
+  scope :in_catalog, -> { published.listed }
   scope :ordered, -> { order(:position) }
   scope :with_practice_lessons, -> { where(id: Lesson.practice.select(:path_id)) }
   scope :editable_by, ->(user) {

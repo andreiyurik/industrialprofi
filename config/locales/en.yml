@@ -1140,6 +1140,7 @@ en:
     donate: "Say thanks"
 
   paths:
+    unlisted_notice_html: "This profession is still in the works and hidden from the catalog. Right now we're building %{paths}."
     page_title: "Professions — industrialprofi.com"
     title: "Profession roadmaps"
     subtitle: "An open encyclopedia of professions: roadmaps are led by practitioners, and edits are reviewed by the community. Free, forever."
@@ -1709,8 +1710,8 @@ en:
             d: "An open project built by practitioners: how to suggest an edit without knowing git, how to take on a whole profession, and why the code is open."
           - t: "A clean dark interface"
             d: "Clean design in plain CSS, adapted for the phone."
-          - t: "Seven professions in the catalog"
-            d: "Electrician, welder, plumber, auto mechanic, process-control (ASU TP) engineer, CNC machine setter-operator and photographer-videographer — each with a full roadmap from the basics to a specialist. Two more, road builder and electronics engineer, are maturing as drafts."
+          - t: "Focus on two professions: process-control (ASU TP) engineer and electrician"
+            d: "Readers picked them, so the catalog shows only these two for now. Welder, plumber, auto mechanic, CNC operator and photographer-videographer aren't deleted: their articles and calculators open by link and in search, and they return to the catalog when their turn comes."
           - t: "About, FAQ, and this roadmap"
             d: "An honest account of why the project exists, where it's headed, and what it actually delivers (and what it doesn't)."
           - t: "Support and partnerships"
@@ -2561,6 +2562,7 @@ en:
     kind_lesson: "Lesson"
     kind_practice: "Practice"
     field_status: "Status"
+    field_listed: "Show in the catalog (uncheck to hide the profession from lists — its pages and lessons stay reachable by link)"
     field_icon: "Emblem"
     icon_default: "Default"
     icon_inherited: "Same as the profession"

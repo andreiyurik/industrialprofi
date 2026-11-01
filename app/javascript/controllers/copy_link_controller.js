@@ -9,6 +9,7 @@ export default class extends Controller {
     url: String,
     label: String,
     copied: String,
+    goal: String,
     duration: { type: Number, default: 2000 }
   }
 
@@ -20,6 +21,7 @@ export default class extends Controller {
     try {
       await navigator.clipboard.writeText(this.urlValue)
       this.confirm()
+      if (this.goalValue) window.reachGoal?.(this.goalValue)
     } catch (e) {
       // Clipboard unavailable (e.g. insecure context) — fail quietly.
     }

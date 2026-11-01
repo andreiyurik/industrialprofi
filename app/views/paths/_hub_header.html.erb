@@ -19,6 +19,8 @@
     <p class="hub__facts"><%= hub_facts(path) %></p>
   </div>
 
+  <%= render "paths/unlisted_notice", path: path %>
+
   <%= render "paths/hub_people", path: path, curators: curators %>
 
   <nav class="hub-tabs" aria-label="<%= t("paths.hub.tabs_label") %>">

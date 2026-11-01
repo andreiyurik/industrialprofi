@@ -17,6 +17,15 @@
 
   <%= render "admin/shared/status_field", f: f, record: path %>
 
+  <% if Current.user.can_administer? %>
+    <div class="admin-form__field">
+      <label class="admin-form__check">
+        <%= f.check_box :listed %>
+        <span><%= t("admin.field_listed") %></span>
+      </label>
+    </div>
+  <% end %>
+
   <%# Six slots match Path::Landing's landing.yml; the placeholder text is the manual. %>
   <fieldset class="admin-form__group" id="landing-editor">
     <legend class="admin-form__group-title"><%= t("admin.landing.heading") %></legend>

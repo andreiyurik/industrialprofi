@@ -13,6 +13,11 @@ export default class extends Controller {
 
   // data-action on the root re-runs on every input/change inside the form.
   compute(event) {
+    // Counts a visitor's first own input, not the render on connect.
+    if (event && !this.goalReached) {
+      this.goalReached = true
+      window.reachGoal?.("calculator_used")
+    }
     this.#mirrorRange(event?.target)
     this.#applyPreset(event?.target)
     this.paint(this.read())

@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
 
   def index
     @focus_path = signed_in? ? Current.user.focus_path : nil
-    @paths = Path.localized.where(status: "published")
+    @paths = Path.in_catalog.localized
                  .joins(:lessons).merge(Lesson.practice).distinct.order(:position)
 
     if (selected_path = @paths.find { |path| path.slug == params[:path] })
@@ -14,8 +14,7 @@ class ProjectsController < ApplicationController
     @saved_only = signed_in? && params[:saved] == "1"
 
     scope = Lesson.practice.joins(:path)
-                  .where(paths: { status: "published" })
-                  .merge(Path.localized)
+                  .merge(Path.in_catalog.localized)
                   .includes(:path)
     scope = scope.where(difficulty: @selected_difficulty) if @selected_difficulty
     scope = scope.where(id: Current.user.lesson_bookmarks.select(:lesson_id)) if @saved_only
@@ -31,8 +30,7 @@ class ProjectsController < ApplicationController
                             .sort_by { |path, _| [ path == @focus_path ? 0 : 1, path.position ] }
                             .map { |path, lessons| [ path, lessons.sort_by(&:position) ] }
     @found_count = @lessons_by_path.sum { |_, lessons| lessons.size }
-    @total_tasks = Lesson.practice.joins(:path).where(paths: { status: "published" })
-                         .merge(Path.localized).count
+    @total_tasks = Lesson.practice.joins(:path).merge(Path.in_catalog.localized).count
     @completed_ids = signed_in? ? Current.user.lesson_completions.pluck(:lesson_id).to_set : Set.new
     @bookmarked_ids = signed_in? ? Current.user.lesson_bookmarks.pluck(:lesson_id).to_set : Set.new
   end
