@@ -268,6 +268,18 @@ class CurriculumImporterTest < ActiveSupport::TestCase
     assert_equal "hobby", Path.find_by!(slug: "testprof").field
   end
 
+  test "an unlisted profession imports hidden, and a listed one by default" do
+    path_yml = File.join(@dir, "testprof", "path.yml")
+    File.write(path_yml, %(title: "Тестовая профессия"\ndescription: "x"\nposition: 99\nstatus: published\nlisted: false\n))
+    import
+
+    assert_not Path.find_by!(slug: "testprof").listed?
+
+    Path.find_by!(slug: "testprof").update!(listed: true)
+    import
+    assert Path.find_by!(slug: "testprof").listed?, "the admin checkbox outlives a re-import"
+  end
+
   test "refuses to move a lesson whose slug already belongs to another profession" do
     dir = Dir.mktmpdir
     %w[prof-a prof-b].each do |slug|

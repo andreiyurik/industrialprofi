@@ -1,0 +1,10 @@
+<%# locals: (path:) -%>
+<% focus = path.listed? ? Path.none : Path.in_catalog.localized(path.locale).ordered %>
+<% if focus.any? %>
+  <aside class="callout callout--tip">
+    <p>
+      <%= t("paths.unlisted_notice_html",
+            paths: people_sentence(focus.map { |listed| link_to(listed.title, path_path(listed)) })) %>
+    </p>
+  </aside>
+<% end %>

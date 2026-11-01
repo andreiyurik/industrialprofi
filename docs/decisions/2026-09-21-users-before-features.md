@@ -16,6 +16,8 @@ measured usage behind them. The thirtieth feature adds less than the tenth learn
   done. The admin dashboard and `WeeklyCounts` already hold the raw counts.
 - **One profession first** — the electrician path is the deepest — and real
   electricians from Telegram channels, training centres and colleges walking through it.
+  Revised by [focus on two professions](2026-11-01-focus-two-professions.md): readers
+  picked АСУ ТП, so it leads with Электрик.
 - **Resume features only from where they get stuck.** Illustrations, tasks and links
   for that profession come before anything new.
 

@@ -42,6 +42,18 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
       "live maps come before the vacancy board"
   end
 
+  test "index leaves out an unlisted profession, whose hub stays reachable with a notice" do
+    paths(:welder).update!(listed: false)
+
+    get paths_path
+    assert_select ".path-card", text: /#{paths(:welder).title}/, count: 0
+    assert_select ".path-card", text: /#{paths(:electrician).title}/
+
+    get path_path(paths(:welder))
+    assert_response :success
+    assert_select ".hub .callout a[href=?]", path_path(paths(:electrician))
+  end
+
   test "index invites a co-author with a single call" do
     get paths_path
     # One CTA button, never several competing ones. The quiet "весь список"

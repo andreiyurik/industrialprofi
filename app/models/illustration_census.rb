@@ -30,7 +30,7 @@ class IllustrationCensus
   # One number for the home page nudge; an hour stale is fine.
   def self.pending_total
     Rails.cache.fetch([ "illustrations/pending_total", I18n.locale ], expires_in: 1.hour) do
-      Path.published.localized.sum { |path| new(path).briefs.size }
+      Path.in_catalog.localized.sum { |path| new(path).briefs.size }
     end
   end
 

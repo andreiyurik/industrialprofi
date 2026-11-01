@@ -10,7 +10,7 @@ class ResourcesController < ApplicationController
     end
 
     version = ResourceLibrary.version
-    @groups = Path.published.localized.ordered
+    @groups = Path.in_catalog.localized.ordered
                   .map { |path| [ path, ResourceLibrary.for(path:, version:) ] }
                   .reject { |_path, entries| entries.empty? }
   end

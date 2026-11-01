@@ -6,6 +6,7 @@
 
   ym(<%= site_config.metrika_id.to_i.to_json %>, "init", { defer: true, clickmap: true, trackLinks: true, accurateTrackBounce: true });
   document.addEventListener("turbo:load", function () { ym(<%= site_config.metrika_id.to_i.to_json %>, "hit", location.href); });
+  window.reachGoal = function (name) { ym(<%= site_config.metrika_id.to_i.to_json %>, "reachGoal", name); };
 
   function loadMetrika() {
     var script = document.createElement("script");

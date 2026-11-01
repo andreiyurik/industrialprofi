@@ -66,7 +66,13 @@ class Calculator
   end
   private_class_method :tokenize, :same_stem?
 
-  def self.grouped = ALL.group_by(&:category).sort_by { CATEGORIES.index(it.first) }
+  def self.grouped = listed.group_by(&:category).sort_by { CATEGORIES.index(it.first) }
+
+  # A calculator tied to a hidden profession leaves the index but keeps its page.
+  def self.listed
+    hidden = Lesson.joins(:path).where(paths: { listed: false }, slug: ALL.filter_map(&:lesson_slug)).pluck(:slug)
+    ALL.reject { hidden.include?(it.lesson_slug) }
+  end
 
   CUSTOM = %w[
     cable-cross-section ohms-law voltage-drop grounding ma-scaling resistance-thermometer

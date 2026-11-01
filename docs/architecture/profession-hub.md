@@ -39,6 +39,12 @@ flowchart TB
   Hobby maps render in `.catalog-hobby` between the grid and «В планах», never in the main grid or
   dashboard suggestions — see [the decision](../decisions/2026-09-27-hobby-shelf.md).
   Outside the import digest, so adding it froze nothing.
+- **Unlisted**: `Path.in_catalog` (published and `listed`) feeds the catalog, dashboard
+  suggestions, practice, library, glossary, changes feed and calculator index; an unlisted
+  hub and its lessons stay public with a notice. The journal form keeps every profession so
+  existing entries stay editable. `listed:` in `path.yml` applies only on create — after that
+  the admin checkbox owns it. See
+  [the decision](../decisions/2026-11-01-focus-two-professions.md).
 - **Glossary**: `GlossaryTerm` rows are owned by the lesson that explains each term,
   edited next to its links, `terms:` in pack frontmatter.
 - `Path::Progress` is the per-reader null object the hub reads — no `Current.user`
