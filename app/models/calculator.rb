@@ -34,7 +34,11 @@ class Calculator
     new("timelapse",           category: "photo",       icon: "film-slate",     lesson: "03-fv-banki-nastroek")
   ].freeze
 
+  # The top search entries in Metrika, plus the electrician's everyday one.
+  FEATURED = %w[ma-scaling modbus-rtu twisted-pair-line cable-cross-section].freeze
+
   def self.all = ALL
+  def self.featured = FEATURED.map { find(it) }
   def self.find(slug) = ALL.find { it.slug == slug }
 
   def self.for_lesson(lesson_slug) = ALL.select { it.lesson_slug == lesson_slug }

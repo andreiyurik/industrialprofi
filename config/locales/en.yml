@@ -1145,13 +1145,14 @@ en:
     title: "Profession roadmaps"
     subtitle: "An open encyclopedia of professions: roadmaps are led by practitioners, and edits are reviewed by the community. Free, forever."
     hero:
-      # The <span> gets a hand-drawn Rough Notation underline on load
-      # (rough_annotation_controller.js). Same words as the email colophon copy below.
-      title_html: 'The first open, <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">free encyclopedia</span> of applied trades'
-      subtitle_html: 'An independent, open project: professions are created, edited, and reviewed by the community. Anyone can suggest an edit; any experienced specialist can become an <span class="hero__sweep" data-controller="rough-annotation" data-rough-annotation-type-value="highlight" data-rough-annotation-color-value="--color-highlight" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="1200" data-rough-annotation-duration-value="700">author or curator</span>.'
-      theory: "Theory"
-      practice: "Practice"
-      improve: "Improve a roadmap"
+      # The <span> gets a hand-drawn Rough Notation underline on load (rough_annotation_controller.js).
+      title_html: 'Learn to be a <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">process-control engineer or an electrician</span> for free'
+      subtitle_html: "Lessons built on official standards, hands-on tasks and engineering calculators. Reading needs no account — sign up only to mark lessons done."
+      start: "Choose a profession"
+      calculators: "Calculators"
+    featured_calculators:
+      title: "The most-used calculators"
+      all: "All calculators"
     # Shown when the current language has no maps yet (today: English).
     empty_locale_html: "There are no roadmaps in this language yet — all material is in Russian for now. The Russian catalog is open to everyone."
     empty_locale_cta: "Open the Russian catalog"

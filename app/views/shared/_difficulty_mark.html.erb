@@ -1,8 +1,10 @@
 <%# locals: (difficulty:, sr_label: true, tooltip: true) -%>
-<%# tooltip: false lets a wrapping control own the hover text instead. %>
-<% numeral = { "beginner" => "I", "intermediate" => "II", "advanced" => "III" }.fetch(difficulty, "I") %>
-<span class="difficulty-mark difficulty-mark--<%= difficulty %>" aria-hidden="true"
-      <% if tooltip %>title="<%= t("lessons.difficulty.#{difficulty}") %>"<% end %>><%= numeral %></span>
-<% if sr_label %>
-  <span class="for-screen-reader"><%= t("lessons.difficulty.#{difficulty}") %></span>
+<%# tooltip: false lets a wrapping control own the hover text instead. Theory lessons have no difficulty. %>
+<% if difficulty.present? %>
+  <% numeral = { "beginner" => "I", "intermediate" => "II", "advanced" => "III" }.fetch(difficulty, "I") %>
+  <span class="difficulty-mark difficulty-mark--<%= difficulty %>" aria-hidden="true"
+        <% if tooltip %>title="<%= t("lessons.difficulty.#{difficulty}") %>"<% end %>><%= numeral %></span>
+  <% if sr_label %>
+    <span class="for-screen-reader"><%= t("lessons.difficulty.#{difficulty}") %></span>
+  <% end %>
 <% end %>

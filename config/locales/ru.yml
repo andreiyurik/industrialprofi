@@ -1178,13 +1178,14 @@ ru:
     title: "Карты профессий"
     subtitle: "Открытая энциклопедия профессий: карты ведут практики, а правки проверяет сообщество. Бесплатно и навсегда."
     hero:
-      # The <span> gets a hand-drawn Rough Notation underline on load
-      # (rough_annotation_controller.js). Same words as the email colophon copy below.
-      title_html: 'Первая открытая <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">свободная энциклопедия</span> прикладных профессий'
-      subtitle_html: 'Независимый открытый проект: профессии создаёт, редактирует и проверяет сообщество. Предложить правку может каждый, стать <span class="hero__sweep" data-controller="rough-annotation" data-rough-annotation-type-value="highlight" data-rough-annotation-color-value="--color-highlight" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="1200" data-rough-annotation-duration-value="700">автором или куратором</span> — любой опытный специалист.'
-      theory: "Теория"
-      practice: "Практика"
-      improve: "Улучшить карту"
+      # The <span> gets a hand-drawn Rough Notation underline on load (rough_annotation_controller.js).
+      title_html: 'Учись на <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">инженера АСУ ТП и электрика</span> бесплатно'
+      subtitle_html: "Уроки по официальным нормативам, практические задания и инженерные калькуляторы. Читать можно без регистрации — аккаунт нужен, только чтобы отмечать пройденное."
+      start: "Выбрать профессию"
+      calculators: "Калькуляторы"
+    featured_calculators:
+      title: "Калькуляторы, которые считают чаще всего"
+      all: "Все калькуляторы"
     # Shown when the current language has no maps yet (today: English).
     empty_locale_html: "На этом языке карт профессий пока нет — все материалы сейчас на русском. Каталог на русском открыт для всех."
     empty_locale_cta: "Открыть каталог на русском"
