@@ -63,13 +63,21 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".catalog-soon a.link-quiet[href=?]", contribute_path(anchor: "wanted")
   end
 
-  test "index shows the hero headline and the three doors" do
+  test "index shows the learner's hero: choose a profession or open the calculators" do
     get paths_path
     assert_match I18n.t("paths.hero.title_html"), response.body
-    assert_select ".hero__actions a.btn--reversed[href='#catalog']", text: /#{I18n.t("paths.hero.theory")}/
-    assert_select ".hero__actions a.btn[href=?]", projects_path, text: /#{I18n.t("paths.hero.practice")}/
-    assert_select ".hero__actions a.btn[href=?]", contribute_path, text: /#{I18n.t("paths.hero.improve")}/
+    assert_select ".hero__actions a", count: 2
+    assert_select ".hero__actions a.btn--reversed[href='#catalog']", text: /#{I18n.t("paths.hero.start")}/
+    assert_select ".hero__actions a.btn[href=?]", calculators_path, text: /#{I18n.t("paths.hero.calculators")}/
     assert_select "#catalog"
+  end
+
+  test "index features the most-used calculators below the catalog" do
+    get paths_path
+    Calculator.featured.each do |calculator|
+      assert_select ".home-calculators .calc-row[href=?]", calculator_path(calculator)
+    end
+    assert_operator response.body.index("catalog-grid"), :<, response.body.index("home-calculators")
   end
 
   test "show names every curator — a grant is a public role, not an opt-in" do
