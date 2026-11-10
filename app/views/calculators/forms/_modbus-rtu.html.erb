@@ -13,6 +13,7 @@
 
   <div class="calc__results">
     <h2 class="calc__heading"><%= t("calculators.results_heading") %></h2>
+    <%= render "calculators/verdict", ok: t("calculators.modbus-rtu.verdict_ok"), warning: t("calculators.modbus-rtu.verdict_warn") %>
     <%= render "calculators/result", output: "respbytes", label: t("calculators.modbus-rtu.result_respbytes"), unit: "байт" %>
     <%= render "calculators/result", output: "ttrans", label: t("calculators.modbus-rtu.result_ttrans"), unit: "мс", strong: true, info: t("calculators.modbus-rtu.info.ttrans") %>
     <%= render "calculators/result", output: "rate", label: t("calculators.modbus-rtu.result_rate"), unit: "1/с" %>
