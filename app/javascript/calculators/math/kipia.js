@@ -129,6 +129,36 @@ export function measurementError(input) {
 
 // ── Сети и протоколы АСУ ТП ──────────────────────────────────────────
 
+// Modbus Application Protocol v1.1b3, §6.3: FC03 читает 1–125 регистров; адреса slave — 1–247.
+export const MODBUS_MAX_REGISTERS = 125
+export const MODBUS_MAX_DEVICES = 247
+
+/** @param {{baud: string, bpc: string, n: number|null, dev: number|null, delay: number|null}} input — времена в ответе в мс */
+export function modbusRtu(input) {
+  const baud = parseFloat(input.baud) || 9600
+  const bpc = parseFloat(input.bpc) || 11
+  const n = Math.round(input.n ?? 10)
+  const dev = Math.max(1, Math.round(input.dev ?? 1))
+
+  if (n < 1 || n > MODBUS_MAX_REGISTERS || dev > MODBUS_MAX_DEVICES) {
+    return { respBytes: null, transaction: null, rate: null, cycle: null, withinProtocol: false }
+  }
+
+  const reqBytes = 8
+  const respBytes = 5 + 2 * n
+  const tChar = bpc / baud
+  const t35 = baud > 19200 ? 0.00175 : (3.5 * 11) / baud
+  const transaction = (reqBytes + respBytes) * tChar + 2 * t35 + (input.delay ?? 0) / 1000
+
+  return {
+    respBytes,
+    transaction: transaction * 1000,
+    rate: 1 / transaction,
+    cycle: transaction * dev * 1000,
+    withinProtocol: true
+  }
+}
+
 /**
  * PoE 802.3af/at (2 пары): шлейф = Rж·L; 802.3bt (4 пары): шлейф = Rж·L/2.
  * Таблицы — из Calculator::NORMS, те же, что видит читатель.

@@ -765,6 +765,8 @@ en:
       result_ttrans: "Transaction time"
       result_rate: "Polls per second"
       result_tcycle: "Full cycle for all devices"
+      verdict_ok: "Within the protocol: up to 125 registers per request and up to 247 devices on the bus"
+      verdict_warn: "Outside the protocol: FC03 reads 1 to 125 registers per request, and a bus has at most 247 addresses. Split the read into several requests"
       info:
         format: "How many bits go into one byte on the line, including overhead. 8N1 (no parity) is 10 bits; with parity or two stop bits, 11 bits."
         ttrans: "How long a single request-response exchange with one device takes. It determines how often every device can be polled."

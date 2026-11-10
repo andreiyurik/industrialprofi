@@ -231,4 +231,15 @@ class CalculatorsTest < ApplicationSystemTestCase
     find("[data-field='ma']").set("24")
     assert_selector ".loop-gauge[data-state='out']"
   end
+
+  test "the Modbus RTU poll refuses a register count the protocol can't carry" do
+    visit calculator_path("modbus-rtu")
+
+    assert_selector ".calc-verdict[data-status='ok']", text: I18n.t("calculators.modbus-rtu.verdict_ok")
+    assert_equal "45,8", find("[data-output='ttrans']").text
+
+    find("[data-field='n']").set("200")
+    assert_selector ".calc-verdict[data-status='warn']", text: I18n.t("calculators.modbus-rtu.verdict_warn")
+    assert_equal "—", find("[data-output='ttrans']").text
+  end
 end

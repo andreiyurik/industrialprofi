@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { parseNumber, formatNumber, formatSignificant } from "calculators/format"
+import * as kipia from "calculators/math/kipia"
 
 // Runs formula-only calculators directly and serves as the base class for
 // controllers/calculators/* that also draw a diagram; accuracy disclaimers live in the form.
@@ -201,24 +202,14 @@ export default class extends Controller {
 
   // ── Сети и протоколы АСУ ТП ──────────────────────────────────────────
 
-  // Тайминг кадра Modbus RTU (FC03) и межкадровой паузы t3.5 — по спецификации протокола.
   modbusRtu(v) {
-    const baud = parseFloat(v.baud) || 9600
-    const bpc = parseFloat(v.bpc) || 11
-    const n = Math.max(0, Math.round(v.n ?? 10))
-    const dev = Math.max(1, Math.round(v.dev ?? 1))
-    const slaveS = (v.delay ?? 0) / 1000
-    if (baud <= 0) return { respbytes: "—", ttrans: "—", rate: "—", tcycle: "—" }
-    const reqBytes = 8
-    const respBytes = 5 + 2 * n
-    const tChar = bpc / baud
-    const t35 = baud > 19200 ? 0.00175 : (3.5 * 11) / baud
-    const tTrans = (reqBytes + respBytes) * tChar + 2 * t35 + slaveS
+    const result = kipia.modbusRtu(v)
     return {
-      respbytes: this.num(respBytes, 0),
-      ttrans: this.num(tTrans * 1000, 1),
-      rate: this.num(tTrans > 0 ? 1 / tTrans : null, 0),
-      tcycle: this.num(tTrans * dev * 1000, 1)
+      respbytes: this.num(result.respBytes, 0),
+      ttrans: this.num(result.transaction, 1),
+      rate: this.num(result.rate, 0),
+      tcycle: this.num(result.cycle, 1),
+      verdict: result.withinProtocol ? "ok" : "warn"
     }
   }
 

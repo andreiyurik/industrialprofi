@@ -140,6 +140,25 @@ class CalculatorMathTest < ApplicationSystemTestCase
     assert_equal 100, kipia("twistedPairLine", { std: "at", awg: "22", l: 10 }, norms)["maxLength"]
   end
 
+  test "опрос Modbus RTU считается только в пределах протокола" do
+    poll = { baud: "9600", bpc: "11", n: 10, dev: 1, delay: 0 }
+
+    ten = kipia("modbusRtu", poll)
+    assert_equal 25, ten["respBytes"]
+    assert_in_delta 45.8, ten["transaction"], 0.1
+    assert_in_delta 22, ten["rate"], 0.5
+    assert_in_delta 45.8 * 4, kipia("modbusRtu", poll.merge(dev: 4))["cycle"], 0.5
+
+    assert_equal 255, kipia("modbusRtu", poll.merge(n: 125))["respBytes"]
+    assert_equal true, kipia("modbusRtu", poll.merge(dev: 247))["withinProtocol"]
+
+    [ { n: 126 }, { n: 0 }, { n: 1000 }, { dev: 248 } ].each do |outside|
+      result = kipia("modbusRtu", poll.merge(outside))
+      assert_equal false, result["withinProtocol"], outside.inspect
+      assert_nil result["transaction"], outside.inspect
+    end
+  end
+
   test "термосопротивление ходит в обе стороны и молчит вне диапазона" do
     norms = Calculator::RTD_NORMS.as_json
 
