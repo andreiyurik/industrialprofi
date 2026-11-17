@@ -122,9 +122,8 @@ ADMIN_EMAIL=... ADMIN_PASSWORD=... bin/kamal app exec "bin/rails db:seed"
      (no longer ≈0 since editors can attach images to lessons).
      `/root/backup-blobs.sh`, cron at 03:17 server time:
      ```bash
-     # Active Storage creates blobs/ lazily on first upload — mkdir keeps a
-     # pre-upload sync from erroring instead of no-op-ing.
-     mkdir -p /var/lib/docker/volumes/industrialprofi_storage/_data/blobs
+     # Owned by the container's rails user (1000): a root-owned blobs/ breaks every upload.
+     install -d -o 1000 -g 1000 /var/lib/docker/volumes/industrialprofi_storage/_data/blobs
      rclone sync /var/lib/docker/volumes/industrialprofi_storage/_data/blobs \
        s3backup:<your-bucket>/blobs
      ```
