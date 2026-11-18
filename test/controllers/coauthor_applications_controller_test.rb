@@ -59,7 +59,9 @@ class CoauthorApplicationsControllerTest < ActionDispatch::IntegrationTest
 
     site.telegram_chat_url = nil
     get contribute_url
+    assert_response :success
     assert_select "a", text: I18n.t("footer.chat"), count: 0
+    assert_select "a[href*='t.me/industrialprofi']", count: 0
     assert_select "a", text: I18n.t("contribute.cta_chat"), count: 0
 
     site.telegram_chat_url = "https://t.me/example_chat"

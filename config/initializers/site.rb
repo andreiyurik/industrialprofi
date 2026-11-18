@@ -2,7 +2,7 @@ site = Rails.application.config.x.site
 
 site.url           = ENV.fetch("SITE_URL", "https://industrialprofi.com")
 site.telegram_url  = ENV.fetch("TELEGRAM_URL", "https://t.me/andrei_yurik")
-# Unset until the chat has live people: an empty room repels (docs/COMMUNITY.md).
+# Unset until the chat has live people: an empty room repels.
 site.telegram_chat_url = ENV["TELEGRAM_CHAT_URL"]
 site.github_url    = ENV.fetch("GITHUB_URL", "https://github.com/andreiyurik/industrialprofi")
 site.author_url    = ENV.fetch("AUTHOR_URL", "https://github.com/andreiyurik")
