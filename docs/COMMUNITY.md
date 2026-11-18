@@ -31,7 +31,7 @@ flowchart LR
 | Recent changes feed with authors | `/changes`, footer, `/contribute` | shipped 2026-10 |
 | Lower first step for editors | grant on one accepted edit + a message, not an application | next |
 | Lighter application | rename «вести профессию» to «хочу помочь», one field | next |
-| External chat «Цех» | `t.me/industrialprofi`; footer, `/contribute`, `/illustrations` | shipped 2026-10 |
+| External chat «Цех» | `t.me/industrialprofi`; footer, `/contribute`, `/illustrations` — shown only when `TELEGRAM_CHAT_URL` is set | hidden 2026-11 until it has live people |
 
 Constraints: no member uploads, no leaderboard, no in-app chat, no new roles.
 
