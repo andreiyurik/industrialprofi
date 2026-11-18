@@ -44,9 +44,7 @@ module ApplicationHelper
 
   def markdown(text, anchor_headings: false, fill_links_for: nil)
     return "" if text.blank?
-    html = Kramdown::Document.new(text, input: "GFM",
-      syntax_highlighter: "rouge",
-      syntax_highlighter_opts: { formatter: RougeFormatter }).to_html
+    html = Markdown.to_html(text, syntax_highlighter: "rouge", syntax_highlighter_opts: { formatter: RougeFormatter })
     html = sanitize(Lesson.encode_placeholder_srcs(html), tags: MARKDOWN_TAGS, attributes: MARKDOWN_ATTRS)
     enrich_prose(html, anchor_headings: anchor_headings, fill_links_for: fill_links_for).html_safe
   end

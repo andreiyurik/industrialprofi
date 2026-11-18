@@ -16,7 +16,7 @@ module Revisable
     return rich.body.to_html if rich.present?
 
     text = public_send(section)
-    text.present? ? Kramdown::Document.new(text, input: "GFM").to_html : ""
+    text.present? ? Markdown.to_html(text) : ""
   end
 
   # Records an immutable revision (version n+1) in one transaction. Used by suggestion approval and rollbacks.

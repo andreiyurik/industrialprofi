@@ -18,7 +18,7 @@ module Admin::EditorHelper
   def editor_html(markdown)
     return "" if markdown.blank?
 
-    html = sanitize(Lesson.encode_placeholder_srcs(Kramdown::Document.new(markdown, input: "GFM").to_html),
+    html = sanitize(Lesson.encode_placeholder_srcs(Markdown.to_html(markdown)),
       tags: ApplicationHelper::MARKDOWN_TAGS, attributes: ApplicationHelper::MARKDOWN_ATTRS)
     fragment = Nokogiri::HTML5.fragment(html)
     fragment.css("img").each do |img|
