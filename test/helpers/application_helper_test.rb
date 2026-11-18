@@ -5,6 +5,18 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes markdown("**bold**"), "<strong>"
   end
 
+  test "markdown renders a header-only table as a table with an empty row" do
+    html = markdown("Таблица:\n\n| Имя тега | Тип |\n|----------|-----|\n\nДальше.\n")
+
+    assert_includes html, "<th>Имя тега</th>"
+    assert_select Nokogiri::HTML5.fragment(html), "tbody tr", 1
+    assert_not_includes html, "|—"
+  end
+
+  test "markdown leaves a table separator inside a code block alone" do
+    assert_includes markdown("```\n| a | b |\n|---|---|\n```\n"), "|---|---|\n</code>"
+  end
+
   # In dev/prod Propshaft raises on a missing asset (a not-yet-drawn "TODO-*.png");
   # the helper must swallow that and render a placeholder, not 500 the lesson.
   # (The test-env resolver is lenient and won't raise, so we force it.)

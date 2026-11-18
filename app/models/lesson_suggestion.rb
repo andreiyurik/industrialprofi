@@ -14,7 +14,7 @@ class LessonSuggestion < ApplicationRecord
     if rich_body.present?
       rich_body.body.to_html
     else
-      Kramdown::Document.new(body_markdown.to_s, input: "GFM").to_html
+      Markdown.to_html(body_markdown)
     end
   end
 
