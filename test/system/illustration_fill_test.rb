@@ -80,7 +80,12 @@ class IllustrationFillTest < ApplicationSystemTestCase
 
     # A real edit makes Lexxy re-export its own document rather than echo ours.
     visit edit_admin_lesson_path(lesson)
-    find("lexxy-editor#lesson_rich_body[connected] [contenteditable]", match: :first).send_keys(:end, " Правка.")
+    editor = find("lexxy-editor#lesson_rich_body[connected]")
+    editor.find("[contenteditable]", match: :first).send_keys(:end, " Правка.")
+    # Lexxy syncs its form value from an async update listener; saving before it lands posts the old body.
+    page.document.synchronize do
+      raise Capybara::ExpectationNotMet, "edit not in form value yet" unless page.evaluate_script("arguments[0].value", editor).include?("Правка.")
+    end
     click_on I18n.t("admin.save")
     assert_text I18n.t("flash.lesson_updated")
 
