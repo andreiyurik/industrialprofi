@@ -179,7 +179,7 @@ module ApplicationHelper
   end
 
   # Bump when the render pipeline changes — template-digest busting doesn't reach a helper cache.
-  LESSON_CONTENT_RENDER_VERSION = 8
+  LESSON_CONTENT_RENDER_VERSION = 9
 
   def lesson_content(lesson, field)
     @lesson_content ||= {}

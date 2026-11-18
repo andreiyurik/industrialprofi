@@ -13,8 +13,17 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_not_includes html, "|—"
   end
 
-  test "markdown leaves a table separator inside a code block alone" do
-    assert_includes markdown("```\n| a | b |\n|---|---|\n```\n"), "|---|---|\n</code>"
+  test "markdown leaves table separators inside code blocks alone" do
+    assert_not_includes markdown("```\n~~~\n| a | b |\n|---|---|\n```\n"), "| | |"
+    assert_not_includes markdown("text\n\n    | a | b |\n    |---|---|\n\nafter\n"), "| | |"
+  end
+
+  test "markdown completes header-only tables of every separator style" do
+    [ "| a | b |\n|:--|--:|\n", "a | b\n--- | ---\n", "> | a | b |\n> |---|---|\n", "````\n```\n````\n\n| a | b |\n|---|---|\n" ].each do |source|
+      cells = Nokogiri::HTML5.fragment(markdown(source))
+      assert_equal 2, cells.css("th").size, source
+      assert_equal 2, cells.css("tbody td").size, source
+    end
   end
 
   # In dev/prod Propshaft raises on a missing asset (a not-yet-drawn "TODO-*.png");
