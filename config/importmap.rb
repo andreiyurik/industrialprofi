@@ -11,4 +11,4 @@ pin "lexxy", to: "lexxy.min.js", preload: false
 pin "@rails/activestorage", to: "activestorage.esm.js", preload: false
 pin "rough-notation", to: "rough-notation.js", preload: false
 # esm.sh's self-contained ?bundle build — the plain jspm one breaks standalone.
-pin "chart.js", to: "chart.js.js", preload: false # @4.5.1
+pin "chart.js", to: "chart.js.js", preload: false # @4.6.2
