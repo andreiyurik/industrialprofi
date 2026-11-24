@@ -15,6 +15,7 @@ class WebvisorMaskTest < ActionDispatch::IntegrationTest
 
     assert_select "main.ym-hide-content", false
     assert_select ".account-menu-button.ym-hide-content"
+    assert_select ".account-menu__header:not(.ym-hide-content)", false
   end
 
   test "personal, admin and form pages are masked by default" do

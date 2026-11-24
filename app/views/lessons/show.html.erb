@@ -192,7 +192,7 @@
               <%= t("lessons.log_result") %>
             <% end %>
             <% if @my_journal_entries.any? %>
-              <div class="lesson-task-entries">
+              <div class="lesson-task-entries ym-hide-content">
                 <p class="lesson-task-entries__title"><%= t("lessons.journal_entries_title") %></p>
                 <ul class="lesson-task-entries__list">
                   <% @my_journal_entries.each do |entry| %>
