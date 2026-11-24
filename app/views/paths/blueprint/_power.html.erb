@@ -1,0 +1,35 @@
+<%# locals: (tall:) -%>
+<%# The power panel, drawn in the phone sheet's coordinates; the wide sheet moves the whole group. %>
+<g data-part="power" style="--d: 0.15s">
+  <path class="art-ink art-body bp-fade" d="M13 66h3v14h-3zM13 192h3v14h-3z"></path>
+  <path class="art-wire bp-fade" d="M<%= tall ? 7 : 0 %> 104H12"></path>
+  <rect class="art-ink art-body bp-draw" pathLength="1" x="16" y="44" width="144" height="184" rx="2"></rect>
+  <g class="bp-fade" style="--d: 0.55s">
+    <rect class="art-quiet" x="21" y="49" width="134" height="174" rx="1"></rect>
+    <path class="art-quiet bp-bus" d="M21 104H40V112M44 178V186H66V109.5H80"></path>
+    <path class="art-quiet bp-wire bp-wire--drive" d="<%= tall ? "M132 178V223" : "M132 178V200H155" %>"></path>
+    <path class="art-quiet bp-wire bp-wire--control" d="<%= tall ? "M88 178V200H127a5 5 0 0 1 10 0H155" : "M88 178V190H127a5 5 0 0 1 10 0H155" %>"></path>
+    <rect class="art-ink art-body bp-bus" x="80" y="107" width="60" height="5"></rect>
+    <path class="art-ink art-body" d="M12 100h4v8h-4z<%= tall ? "M128 228h8v4h-8zM160 196h4v8h-4z" : "M160 186h4v8h-4zM160 196h4v8h-4z" %>"></path>
+  </g>
+  <% { main: 28, control: 72, drive: 116 }.each do |key, x| %>
+    <g class="bp-hit bp-fade" style="--d: 0.6s" role="button" tabindex="0" aria-pressed="true" aria-label="<%= t("paths.plant.#{key}") %>"
+       data-step="<%= key %>" data-plant-target="switch" data-plant-key-param="<%= key %>"
+       data-action="click->plant#toggle keydown.enter->plant#toggle keydown.space->plant#toggle:prevent">
+      <rect class="bp-target" x="<%= x - 6 %>" y="52" width="44" height="130"></rect>
+      <rect class="art-ink art-body" x="<%= x %>" y="112" width="32" height="66" rx="2"></rect>
+      <text class="bp-label" x="<%= x + 16 %>" y="125" text-anchor="middle"><%= t("paths.blueprint.#{key}") %></text>
+      <rect class="art-quiet bp-paper" x="<%= x + 9 %>" y="131" width="14" height="27" rx="1"></rect>
+      <rect class="bp-handle bp-handle--<%= key %>" x="<%= x + 11 %>" y="133" width="10" height="11" rx="1"></rect>
+      <circle class="bp-led bp-led--<%= key %>" cx="<%= x + 16 %>" cy="168" r="3"></circle>
+      <g class="bp-marker">
+        <rect class="bp-pulse" x="<%= x %>" y="112" width="32" height="66" rx="2"></rect>
+        <g class="bp-nudge">
+          <path class="bp-pen" pathLength="1" d="M<%= x + 16 %> 68.5V94"></path>
+          <path class="bp-pen bp-pen--head" pathLength="1" d="M<%= x + 9 %> 87 <%= x + 16 %> 95 <%= x + 23 %> 87"></path>
+          <text class="bp-pen-text" x="<%= x + 16 %>" y="63.5" text-anchor="middle"><%= t("paths.blueprint.switch_on") %></text>
+        </g>
+      </g>
+    </g>
+  <% end %>
+</g>

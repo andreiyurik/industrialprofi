@@ -34,6 +34,12 @@ module PathsHelper
     paths.filter_map { |path| [ BLUEPRINT_SLOTS[path.slug], path ] if BLUEPRINT_SLOTS.key?(path.slug) }.to_h
   end
 
+  # One span per letter, so CSS can type the heading.
+  def typed_heading(html)
+    index = -1
+    safe_join(html.gsub("&nbsp;", " ").each_char.map { |char| char == " " ? char : tag.span(char, class: "typed__char", style: "--i: #{index += 1}") })
+  end
+
   # A scene's legend chip: `scope` holds «<key>» and «<key>_does»; `data-chip` pairs it with the drawing's `data-part`.
   def scene_chip(key, part, scope:, course: nil)
     body = safe_join([ tag.strong(t(key, scope: scope), class: "scene__name"), tag.span(t("#{key}_does", scope: scope), class: "scene__does") ])

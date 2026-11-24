@@ -1,0 +1,10 @@
+<%# locals: (callouts:, power:, control:, y:) -%>
+<% { power: power, control: control }.each do |slot, x| %>
+  <% if (path = callouts[slot]) %>
+    <%= link_to path_path(path), class: "bp-callout bp-fade", style: "--d: 0.9s", data: { chip: slot } do %>
+      <rect class="bp-target" x="<%= x - 72 %>" y="7" width="144" height="37"></rect>
+      <text x="<%= x %>" y="<%= y %>" text-anchor="middle"><%= path.title %> <tspan>→</tspan></text>
+      <path class="art-quiet" d="M<%= x %> <%= y + 5 %>V<%= y + 13 %>"></path>
+    <% end %>
+  <% end %>
+<% end %>

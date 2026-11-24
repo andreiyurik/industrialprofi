@@ -1,0 +1,13 @@
+<%# locals: (id:, width:, height:) -%>
+<defs>
+  <pattern id="<%= id %>-mm" width="6" height="6" patternUnits="userSpaceOnUse"><path class="bp-mm" d="M6 0H0V6"></path></pattern>
+  <pattern id="<%= id %>-cm" width="30" height="30" patternUnits="userSpaceOnUse"><path class="bp-cm" d="M30 0H0V30"></path></pattern>
+  <pattern id="<%= id %>-hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path class="bp-hatch" d="M0 0V5"></path></pattern>
+</defs>
+<g class="bp-fade" style="--d: 0s">
+  <rect width="<%= width %>" height="<%= height %>" fill="url(#<%= id %>-mm)"></rect>
+  <rect width="<%= width %>" height="<%= height %>" fill="url(#<%= id %>-cm)"></rect>
+  <rect class="bp-edge" x=".5" y=".5" width="<%= width - 1 %>" height="<%= height - 1 %>"></rect>
+  <path class="bp-edge" d="<%= (60...width).step(60).map { |x| "M#{x} .5v6M#{x} #{height - 0.5}v-6" }.join %><%= (60...height).step(60).map { |y| "M.5 #{y}h6M#{width - 0.5} #{y}h-6" }.join %>"></path>
+</g>
+<rect class="bp-frame bp-draw" pathLength="1" style="--d: 0s" x="6.5" y="6.5" width="<%= width - 13 %>" height="<%= height - 13 %>"></rect>

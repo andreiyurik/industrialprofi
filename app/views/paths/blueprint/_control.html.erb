@@ -1,0 +1,34 @@
+<%# locals: (tall:) -%>
+<g data-part="control" style="--d: 0.25s">
+  <path class="art-ink art-body bp-fade" d="M344 66h3v14h-3zM344 192h3v14h-3z"></path>
+  <rect class="art-ink art-body bp-draw" pathLength="1" x="200" y="44" width="144" height="184" rx="2"></rect>
+  <g class="bp-fade" style="--d: 0.65s">
+    <rect class="art-quiet" x="205" y="49" width="134" height="174" rx="1"></rect>
+    <path class="art-ink art-body" d="<%= tall ? "M196 196h4v8h-4zM240 228h8v4h-8zM296 228h8v4h-8z" : "M196 130h4v8h-4zM196 150h4v8h-4zM196 170h4v8h-4z" %>"></path>
+    <rect class="art-ink art-body" x="212" y="66" width="36" height="56" rx="2"></rect>
+    <rect class="art-quiet bp-paper" x="218" y="73" width="24" height="12" rx="1"></rect>
+    <% [ 222, 230, 238 ].each do |x| %><circle class="bp-led bp-led--plc" cx="<%= x %>" cy="95" r="2.2"></circle><% end %>
+    <text class="bp-label" x="230" y="115" text-anchor="middle"><%= t("paths.blueprint.plc") %></text>
+    <% [ 252, 276, 300 ].each_with_index do |x, index| %>
+      <rect class="art-ink art-body" x="<%= x %>" y="66" width="22" height="56" rx="2"></rect>
+      <% [ 76, 84, 92, 100 ].each do |y| %><circle class="bp-led bp-led--io" style="--blink: <%= (index * 0.23 + y * 0.011).round(2) %>s" cx="<%= x + 7 %>" cy="<%= y %>" r="1.7"></circle><circle class="bp-led bp-led--io" style="--blink: <%= (index * 0.31 + y * 0.017).round(2) %>s" cx="<%= x + 15 %>" cy="<%= y %>" r="1.7"></circle><% end %>
+      <path class="art-quiet" d="M<%= x + 4 %> 110h14M<%= x + 4 %> 115h14"></path>
+    <% end %>
+    <path class="art-quiet bp-paper" d="M212 128h110v12h-110z<%= (222..312).step(10).map { |x| "M#{x} 128v12" }.join %>"></path>
+    <circle class="art-ink bp-paper bp-alarm" cx="320" cy="181" r="6"></circle>
+  </g>
+  <g class="bp-hit bp-fade" style="--d: 0.7s" role="button" tabindex="0" aria-label="<%= t("paths.plant.start") %>" data-step="start"
+     data-action="click->plant#start keydown.enter->plant#start keydown.space->plant#start:prevent">
+    <rect class="bp-target" x="250" y="142" width="44" height="82"></rect>
+    <circle class="art-quiet bp-paper" cx="272" cy="181" r="17"></circle>
+    <circle class="art-ink art-body bp-start" cx="272" cy="181" r="12.5"></circle>
+    <text class="bp-label" x="272" y="212.5" text-anchor="middle"><%= t("paths.blueprint.start") %></text>
+    <g class="bp-marker">
+      <circle class="bp-pulse" cx="272" cy="181" r="17"></circle>
+      <g class="bp-nudge">
+        <path class="bp-pen" pathLength="1" d="M272 143.5V159.5"></path>
+        <path class="bp-pen bp-pen--head" pathLength="1" d="M265.5 153.5 272 160.5 278.5 153.5"></path>
+      </g>
+    </g>
+  </g>
+</g>

@@ -52,16 +52,26 @@ flowchart TB
   phases, legend) and `:poster` on the catalog card (a crop of the drawing frozen `--poster`
   seconds into its lap, running on hover). `uid:` keeps SVG ids apart when a scene is drawn
   twice on a page. A profession without a scene gets an emblem poster.
-- **Home sheet** (`paths/_blueprint`, `blueprint.css`): the home page opens with one drawing
-  that belongs to no single profession — an installation that draws itself once, then
-  switches on. Professions hang on it as callouts (`PathsHelper::BLUEPRINT_SLOTS` maps a
-  slug to its place; one without a place lives in the catalog only).
-- **The sheet is a control desk** (`plant` Stimulus controller): the visitor powers the
-  installation up — supply, motor and control breakers, the valve, «Пуск» — by the desk's
-  keys or by clicking the parts on the drawing. The controller keeps the state as data
-  attributes on the figure and `blueprint.css` draws each one; a start with the valve shut
-  trips the dry-run protection and says why. Without JS the sheet simply runs. Metrika
-  goals: `plant_started`, `plant_launched`, `link_copied`.
+- **Home hero** (`paths/index`, `home.css`): a heading, one button, the sheet, one status
+  line. The heading is set in the drawing's GOST face and types itself once per browser
+  session (`typed_heading` puts each letter in a span, CSS types them, the `typed`
+  controller remembers the session). A «Профессии» heading and breathing room separate
+  the sheet from the catalog cards.
+- **Home sheet** (`paths/_blueprint`, `paths/blueprint/*`, `blueprint.css`): one drawing that
+  belongs to no single profession — a power panel, a control cabinet and a pump on drawing
+  paper. The parts are partials laid out twice: a portrait sheet for phones and a
+  landscape one from 64em, where the pump is drawn 1.6× as the subject; CSS shows one.
+  Professions hang on it as callouts (`PathsHelper::BLUEPRINT_SLOTS` maps a slug to its
+  place; one without a place lives in the catalog only).
+- **The sheet is a game** (`plant` Stimulus controller): the visitor presses the parts
+  themselves — the supply, control and motor breakers, the valve, «Пуск». An orange
+  marker arrow (`data-next`) points at the next part; the controller keeps the state as
+  data attributes on the figure and `blueprint.css` draws each one. A start with the valve
+  shut, or shutting it on the run, trips the dry-run protection; every refusal says why
+  and links to the profession that explains it. The result line gives the time and the
+  attempt, then «how it works», share (Web Share, else the clipboard) and «again».
+  Without JS the sheet simply runs. Metrika goals: `plant_started`, `plant_launched`,
+  `link_copied`.
 - **Landing «О профессии»** (`Path::Landing`): six slots in one JSON column
   (`paths.landing`: about/history/faq markdown; highlights/pros/cons line lists) +
   `has_one_attached :cover` (also the og:image). Carried by packs as `landing.yml` +

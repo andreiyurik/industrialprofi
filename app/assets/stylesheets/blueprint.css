@@ -1,133 +1,184 @@
-/* The home page's drawing sheet (paths/_blueprint). It draws itself once — each part waits its own
-   --d seconds — then switches on at 4s and keeps running. The un-animated styles are the finished,
-   running drawing, which is what reduced motion shows. Keyframes stay here: they are this drawing's
-   choreography. The pen (art-*) comes from scene.css. */
-.blueprint {
-  margin: 2rem 0 0;
-  --sheet-rule: color-mix(in oklch, var(--color-subtle-dark) 50%, transparent);
+/* The home page’s drawing sheet (paths/_blueprint). Without `data-plant` it is the finished, running
+   installation — what no-JS shows; the plant controller adds `data-plant` and one attribute per thing
+   switched on. The doubled class outranks the shared pen in scene.css, which loads later. */
+.blueprint.scene--art {
+  margin: 0.6rem 0 0;
+  --bp-on: var(--color-link);
+  --bp-call: var(--color-signal);
+
+  @media (min-width: 64em) {
+    margin-block-start: 1.1rem;
+  }
+
+  .bp-mm { fill: none; opacity: 0.2; stroke: var(--color-subtle-dark); stroke-width: 0.4; }
+  .bp-cm { fill: none; opacity: 0.26; stroke: var(--color-subtle-dark); stroke-width: 0.5; }
+  .bp-hatch { opacity: 0.7; stroke: var(--color-subtle-dark); stroke-width: 0.8; }
+  .bp-edge { fill: none; opacity: 0.5; stroke: var(--color-subtle-dark); stroke-width: 1; }
+  .bp-frame { fill: none; stroke: var(--color-subtle-dark); stroke-width: 1.25; }
+  .bp-dim { fill: none; stroke: var(--color-subtle-dark); stroke-width: 0.8; }
+  .bp-arrow { fill: var(--color-subtle-dark); }
+  .bp-paper { fill: var(--color-bg); }
+  .bp-bolt { fill: var(--color-bg); stroke: var(--color-ink); stroke-width: 1; }
+  .bp-target { fill: transparent; stroke: none; }
+
+  :is(.bp-tag, .bp-label, .bp-callout text, .bp-pen-text) { font-family: var(--font-technical); }
+  .bp-tag { fill: var(--color-subtle-dark); font-size: 11px; }
+  .bp-label { fill: var(--color-ink); font-size: 11px; }
 
   .bp-draw {
-    animation: bp-draw 1.1s ease-out var(--d, 0s) backwards;
+    animation: bp-draw 0.6s ease-out var(--d, 0s) backwards;
     stroke-dasharray: 1;
   }
 
-  /* A cable flashes live at the switch-on, after it has been drawn. */
-  .bp-cable {
-    animation: bp-draw 1.1s ease-out var(--d, 0s) backwards, bp-energize 1.4s ease-out 4s;
-  }
-
-  .bp-target { fill: none; }
-  .bp-valve { fill: var(--color-bg); }
-
   .bp-fade {
-    animation: appear 0.6s ease-out var(--d, 0s) backwards;
+    animation: appear 0.35s ease-out var(--d, 0s) backwards;
   }
 
-  .bp-axis {
-    fill: none;
-    opacity: 0.6;
-    stroke: var(--color-subtle-dark);
-    stroke-dasharray: 14 4 2 4;
-    stroke-width: 0.75;
-  }
+  .bp-callout {
+    text { fill: var(--color-ink); font-size: 15px; }
+    tspan { fill: var(--color-link); }
 
-  .bp-arrow { fill: var(--color-subtle-dark); }
-
-  .bp-letters {
-    fill: var(--color-ink);
-    font-family: var(--font-technical);
-    font-size: 11.5px;
-  }
-
-  .bp-balloon { fill: var(--color-bg); stroke: var(--color-ink); stroke-width: 1.25; }
-  .bp-number { fill: var(--color-ink); font-family: var(--font-technical); font-size: 13px; }
-
-  /* Doubled class: must outrank the pen's own `.art-dots` animation in scene.css. */
-  .art-dots.bp-dots {
-    animation: scene-march 0.7s linear infinite, appear 0.8s ease-out var(--d, 4s) backwards;
-  }
-
-  .bp-rotor {
-    animation: bp-spin-up 2.2s cubic-bezier(0.55, 0, 1, 0.45) 4s backwards, bp-spin 1.5s linear 6.2s infinite;
-    transform-box: view-box;
-    transform-origin: 480px 200px;
+    @media (any-hover: hover) {
+      &:hover text { fill: var(--color-link); }
+    }
   }
 
   .bp-handle {
-    animation: appear 0.3s ease-out 2.4s backwards, bp-flip 0.3s ease-out var(--d, 4s) backwards;
-    fill: var(--color-ink);
+    fill: var(--bp-on);
+    transition: translate 160ms cubic-bezier(0.3, 1.7, 0.6, 1), fill 160ms ease-out;
   }
 
   .bp-led {
-    animation: appear 0.3s ease-out var(--d, 4s) backwards, bp-glow 1.6s ease-in-out calc(var(--d, 4s) + 0.3s) infinite;
     fill: var(--color-positive);
+    transition: fill 200ms ease-out;
   }
 
-  .bp-led--blue { fill: var(--color-link); }
-}
+  .bp-led--io {
+    animation: bp-blink 1.3s steps(1) var(--blink, 0s) infinite;
+    fill: var(--bp-on);
+  }
 
-.blueprint__sheet {
-  position: relative;
+  :is(.bp-cable, .bp-bus, .bp-wire) {
+    stroke: var(--bp-on);
+    transition: stroke 300ms ease-out;
+  }
+
+  .art-dots.bp-dots {
+    animation: scene-march 0.7s linear infinite;
+    transition: opacity 400ms ease-out;
+  }
+
+  .art-dots.bp-dots--water {
+    stroke-dasharray: 0.1 12;
+    stroke-width: 5;
+  }
+
+  .bp-rotor {
+    animation: bp-spin 1.1s linear infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .bp-valve {
+    fill: var(--color-subtle-light);
+    transition: fill 200ms ease-out;
+  }
+
+  .bp-stem {
+    transition: translate 250ms ease-out;
+    translate: 0 -5px;
+  }
+
+  .bp-start {
+    fill: var(--color-positive);
+    transition: fill 200ms ease-out;
+  }
+
+  .bp-casing {
+    filter: drop-shadow(0 0 3px var(--bp-on));
+    stroke: var(--bp-on);
+    transition: stroke 200ms ease-out, filter 600ms ease-out;
+  }
+
+  .bp-wave {
+    fill: none;
+    opacity: 0;
+    stroke: var(--bp-on);
+    stroke-width: 2;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .bp-marker {
+    display: none;
+  }
+
+  .bp-pen {
+    animation: bp-draw 0.35s ease-out var(--call, 0s) backwards;
+    fill: none;
+    stroke: var(--bp-call);
+    stroke-dasharray: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.6;
+  }
+
+  .bp-pen--head {
+    animation-delay: calc(var(--call, 0s) + 0.3s);
+    animation-duration: 0.2s;
+  }
+
+  .bp-pen-text {
+    animation: appear 0.3s ease-out calc(var(--call, 0s) + 0.4s) backwards;
+    fill: var(--bp-call);
+    font-size: 13px;
+  }
+
+  .bp-pulse {
+    animation: bp-pulse 1.8s ease-in-out calc(var(--call, 0s) + 0.5s) infinite backwards;
+    fill: none;
+    stroke: var(--bp-call);
+    stroke-width: 2;
+  }
+
+  .bp-nudge {
+    animation: bp-nudge 2.6s ease-in-out calc(var(--call, 0s) + 1.2s) infinite;
+  }
+
+  /* Drawn 1.6× on the wide sheet: the pen and the lettering are scaled back so they stay one hand. */
+  .bp-big {
+    .art-ink { stroke-width: 1.2; }
+    .art-quiet { stroke-width: 0.9; }
+    .bp-dim { stroke-width: 0.5; }
+    .bp-bolt { stroke-width: 0.7; }
+    .bp-tag { font-size: 7.5px; }
+    .bp-label { font-size: 8px; }
+    .bp-pen { stroke-width: 1.9; }
+    .bp-pen-text { font-size: 9.5px; }
+    .bp-wave { stroke-width: 1.4; }
+  }
 }
 
 .blueprint__art {
-  aspect-ratio: 960 / 400;
   block-size: auto;
   display: block;
   inline-size: 100%;
-
-  @media (max-width: 40em) {
-    aspect-ratio: 5 / 4;
-  }
 }
 
-/* Each name sits at its balloon: --x and --y are that balloon's place in the 960×400 box. */
-.blueprint__callouts {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.blueprint__art--tall {
+  aspect-ratio: 360 / 470;
+  margin-inline: auto;
+  max-inline-size: clamp(21.25rem, 72vw, 34rem);
 }
 
-.blueprint__callout {
-  animation: appear 0.6s ease-out 3.7s backwards;
-  font-family: var(--font-technical);
-  font-size: clamp(1rem, 1.7vw, 1.3rem);
-  inset-block-start: calc(var(--y) / 400 * 100%);
-  line-height: 1;
-  position: absolute;
-  translate: 0 -50%;
-  white-space: nowrap;
-
-  a {
-    align-items: center;
-    color: var(--color-ink);
-    display: inline-flex;
-    gap: 0.4em;
-    text-decoration: none;
-  }
-
-  .icon {
-    color: var(--color-subtle-dark);
-    transition: transform 150ms ease-out;
-    --icon-size: 0.75em;
-  }
-
-  @media (any-hover: hover) {
-    a:hover .icon {
-      color: var(--color-link);
-      transform: translateX(0.25em);
-    }
-  }
+.blueprint__art--wide {
+  aspect-ratio: 880 / 460;
+  display: none;
 }
 
-.blueprint__callout--power {
-  --y: 64;
-  inset-inline-start: calc(178 / 960 * 100%);
-}
-
-.blueprint__callout--control {
-  --y: 64;
-  inset-inline-end: calc(178 / 960 * 100%);
+@media (min-width: 64em) {
+  .blueprint__art--tall { display: none; }
+  .blueprint__art--wide { display: block; }
 }
 
 .blueprint:has([data-chip="power"]:is(:hover, :focus-visible)) [data-part="power"],
@@ -135,221 +186,187 @@
   filter: drop-shadow(0 0 6px var(--color-link));
 }
 
-@media (max-width: 40em) {
-  .blueprint__callouts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
-    justify-content: center;
-    margin-block: 0.75rem 1rem;
-  }
-
-  .blueprint__callout {
-    position: static;
-    translate: none;
-  }
-}
-
-/* The control desk (plant controller). Its data attributes on the figure are the whole state:
-   main, drive, control, valve, run, the derived drive-live / control-live, and trip while the
-   protection flashes. Everything below is off until its attribute appears. */
 .blueprint[data-plant] {
-  :is(.bp-draw, .bp-fade) {
-    animation-delay: calc(var(--d, 0s) * 0.4);
-    animation-duration: 0.8s;
-  }
+  --call: 0s;
 
-  .bp-cable {
-    animation: bp-draw 0.8s ease-out calc(var(--d, 0s) * 0.4) backwards;
-    transition: stroke 300ms ease-out;
+  &[data-fresh] {
+    --call: 1.6s;
   }
 
   .bp-hit {
     cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus-visible :is(.art-ink.art-body, .bp-valve):first-of-type {
+      stroke: var(--color-link);
+      stroke-width: 2.5;
+    }
   }
 
-  .bp-target {
-    fill: transparent;
-    pointer-events: all;
-  }
-
-  .bp-handle {
-    animation: appear 0.3s ease-out 1s backwards;
-    transition: translate 160ms ease-out;
-    translate: 0 16px;
-  }
-
-  .bp-led {
-    animation: appear 0.3s ease-out 1.2s backwards;
-    opacity: 0.2;
-    transition: opacity 200ms ease-out;
-  }
-
-  .art-dots.bp-dots {
-    animation: scene-march 0.7s linear infinite;
-    opacity: 0;
-    transition: opacity 400ms ease-out;
-  }
-
-  .bp-rotor {
-    animation: none;
-  }
-
-  .bp-valve {
-    fill: var(--color-ink);
-    transition: fill-opacity 200ms ease-out;
-  }
-
-  .bp-start {
-    transition: fill 200ms ease-out;
-  }
-
-  .bp-casing {
-    transition: stroke 200ms ease-out;
-  }
+  .bp-handle { fill: var(--color-ink); translate: 0 11px; }
+  .bp-led { animation: none; fill: var(--color-subtle); }
+  :is(.bp-cable, .bp-bus, .bp-wire) { stroke: var(--color-subtle-dark); }
+  .art-dots.bp-dots { opacity: 0; }
+  .bp-rotor { animation: none; }
+  .bp-valve { fill: var(--color-subtle-dark); }
+  .bp-stem { translate: 0 0; }
+  .bp-start { fill: var(--color-subtle-light); }
+  .bp-casing { filter: none; stroke: var(--color-ink); }
 
   &[data-main] .bp-handle--main,
   &[data-drive] .bp-handle--drive,
   &[data-control] .bp-handle--control {
+    fill: var(--bp-on);
     translate: 0 0;
   }
 
   &[data-main] .bp-led--main,
   &[data-drive-live] .bp-led--drive,
   &[data-control-live] :is(.bp-led--control, .bp-led--plc) {
-    opacity: 1;
+    fill: var(--color-positive);
   }
 
-  &[data-control-live] .bp-led--plc {
-    animation: bp-glow 1.6s ease-in-out infinite;
+  &[data-control-live] .bp-led--io {
+    fill: var(--bp-on);
   }
 
-  &[data-drive-live] .bp-cable--drive,
-  &[data-control-live] .bp-cable--command {
-    stroke: var(--color-link);
+  &[data-run] .bp-led--io {
+    animation: bp-blink 1.3s steps(1) var(--blink, 0s) infinite;
+  }
+
+  &[data-main] .bp-bus,
+  &[data-drive-live] :is(.bp-cable--drive, .bp-wire--drive),
+  &[data-control-live] :is(.bp-cable--control, .bp-wire--control),
+  &[data-run] .bp-cable--command {
+    animation: bp-energize 0.7s ease-out;
+    stroke: var(--bp-on);
   }
 
   &[data-drive-live] .bp-dots--drive,
-  &[data-control-live] :is(.bp-dots--command, .bp-dots--plc),
-  &[data-run] .bp-dots--water {
+  &[data-control-live] .bp-dots--control,
+  &[data-run] .bp-dots--run {
     opacity: 1;
   }
 
-  &[data-valve] .bp-valve {
-    fill-opacity: 0;
-  }
+  &[data-valve] .bp-valve { fill: var(--color-subtle-light); }
+  &[data-valve] .bp-stem { translate: 0 -5px; }
 
   &[data-run] .bp-rotor {
     animation: bp-spin-up 1.6s cubic-bezier(0.55, 0, 1, 0.45), bp-spin 1.1s linear 1.6s infinite;
   }
 
-  &[data-run] .bp-start {
-    fill: var(--color-positive);
-  }
+  &[data-run] .bp-start { fill: var(--color-positive); }
+  &[data-run] .bp-casing { filter: drop-shadow(0 0 3px var(--bp-on)); stroke: var(--bp-on); }
+  &[data-run] .bp-wave { animation: bp-wave 1.4s ease-out 2; }
 
-  &[data-trip] :is(.bp-casing, .bp-start) {
+  &[data-trip] :is(.bp-casing, .bp-alarm) {
     animation: bp-alarm 0.4s steps(2) 6;
     stroke: var(--color-negative);
   }
+
+  &[data-trip] .bp-alarm { fill: var(--color-negative); }
+
+  &[data-next="main"] [data-step="main"] .bp-marker,
+  &[data-next="control"] [data-step="control"] .bp-marker,
+  &[data-next="drive"] [data-step="drive"] .bp-marker,
+  &[data-next="valve"] [data-step="valve"] .bp-marker,
+  &[data-next="start"] [data-step="start"] .bp-marker {
+    display: inline;
+  }
 }
 
+/* One line under the sheet in the drawing's hand: where the visitor is, then what just happened. */
 .plant {
-  border: 1px solid var(--sheet-rule);
-  border-block-start: 0;
-  display: grid;
-  gap: 0.9rem;
-  padding: 0.9rem 1rem 1rem;
-  text-align: start;
+  font-family: var(--font-technical);
+  margin-block-start: 0.7rem;
 
   @media (min-width: 64em) {
-    align-items: center;
-    column-gap: 1.5rem;
-    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    column-gap: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 
 .plant__status {
-  font-size: 0.95rem;
-  line-height: 1.4;
+  font-size: 1.05rem;
+  line-height: 1.3;
   margin: 0;
-  min-block-size: 2.8em;
+  min-block-size: 2.6em;
+  text-wrap: balance;
+
+  @media (min-width: 64em) {
+    min-block-size: 1.3em;
+  }
 
   &[data-tone="alarm"] { color: var(--color-negative); }
   &[data-tone="ok"] { color: var(--color-positive); }
 }
 
-.plant__controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+.plant__step {
+  color: var(--color-subtle-dark);
+  margin-inline-end: 0.4em;
 }
 
-/* A desk key: the lamp is its state, pressed keys keep their frame lit. */
-.plant__switch {
-  align-items: center;
-  background: none;
-  border: 1px solid var(--color-border-interactive);
-  border-radius: 0.25rem;
-  color: var(--color-ink);
-  cursor: pointer;
-  display: inline-flex;
-  font-family: var(--font-technical);
-  font-size: 0.95rem;
-  gap: 0.5em;
-  padding: 0.5rem 0.75rem;
-  transition: border-color 150ms ease-out, background-color 150ms ease-out;
+.plant__lesson {
+  color: var(--color-link);
+  margin-inline-start: 0.4em;
+  white-space: nowrap;
 
-  &[aria-pressed="true"] {
-    border-color: var(--color-ink);
-  }
-
-  @media (any-hover: hover) {
-    &:hover {
-      background-color: var(--color-subtle-light);
-    }
-  }
-}
-
-.plant__lamp {
-  background-color: var(--color-subtle);
-  block-size: 0.5rem;
-  border-radius: 50%;
-  inline-size: 0.5rem;
-  transition: background-color 150ms ease-out;
-}
-
-.plant__switch[aria-pressed="true"] .plant__lamp {
-  background-color: var(--color-positive);
-}
-
-.plant__switch--start {
-  background-color: var(--color-ink);
-  border-color: var(--color-ink);
-  color: var(--color-ink-reversed);
-
-  @media (any-hover: hover) {
-    &:hover {
-      background-color: var(--color-ink);
-      opacity: 0.85;
-    }
-  }
+  &[hidden] { display: none; }
+  .icon { margin-inline-start: 0.3em; --icon-size: 0.75em; }
 }
 
 .plant__done {
-  align-items: center;
   animation: appear 400ms ease-out;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  grid-column: 1 / -1;
-  margin: 0;
+  gap: 0.25rem 1.5rem;
+  justify-content: center;
+  margin: 0.35rem 0 0;
 
-  &[hidden] {
-    display: none;
+  &[hidden] { display: none; }
+
+  @media (min-width: 64em) {
+    margin: 0;
   }
+}
 
-  .icon {
-    --icon-size: 0.9em;
+.plant__act {
+  align-items: end;
+  background: none;
+  border: 0;
+  border-block-end: 1px solid var(--color-border-interactive);
+  border-radius: 0;
+  color: var(--color-ink);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  min-block-size: 2.75rem;
+  padding: 0.6rem 0 0.2rem;
+
+  @media (min-width: 64em) {
+    min-block-size: 0;
+    padding: 0 0 0.1rem;
+  }
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      border-color: var(--color-link);
+      color: var(--color-link);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blueprint * {
+    animation: none !important;
+    transition: none !important;
   }
 }
 
@@ -357,20 +374,28 @@
   50% { opacity: 0.35; }
 }
 
+@keyframes bp-blink {
+  50% { opacity: 0.25; }
+}
+
 @keyframes bp-draw {
   from { fill-opacity: 0; stroke-dashoffset: 1; }
 }
 
 @keyframes bp-energize {
-  0%, 30% { stroke: var(--color-link); stroke-width: 3; }
+  0%, 40% { stroke-width: 3.5; }
 }
 
-@keyframes bp-glow {
-  50% { opacity: 0.65; }
+@keyframes bp-nudge {
+  0%, 70%, 100% { translate: 0 0; }
+  78% { translate: 0 4px; }
+  86% { translate: 0 0; }
+  92% { translate: 0 2px; }
 }
 
-@keyframes bp-flip {
-  from { translate: 0 16px; }
+@keyframes bp-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
 }
 
 @keyframes bp-spin-up {
@@ -380,4 +405,9 @@
 
 @keyframes bp-spin {
   to { rotate: 360deg; }
+}
+
+@keyframes bp-wave {
+  from { opacity: 0.9; scale: 1; }
+  to { opacity: 0; scale: 1.5; }
 }

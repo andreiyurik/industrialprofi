@@ -1,147 +1,99 @@
 <%# locals: (callouts:) -%>
-<%# The home page's drawing sheet: one installation every profession has a hand in. It draws itself
-    once (each part waits --d seconds), then switches on and keeps running; the motion is in
-    blueprint.css. The art is hand-placed in a 960×400 box; phones see its middle (slice). %>
+<%# The same parts are laid out twice — a portrait sheet for phones, a landscape one from 64em.
+    Without JS the installation runs by itself; the plant controller switches it off and hands it over. %>
 <% scope = "paths.blueprint" %>
-<%# Without JS the sheet runs by itself; the plant controller switches it off and hands the visitor the panel. %>
-<figure class="blueprint scene--art" data-controller="plant" data-plant-messages-value="<%= t("paths.plant.messages").to_json %>">
-  <div class="blueprint__sheet">
-  <svg class="blueprint__art" viewBox="0 0 960 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="<%= t("alt", scope: scope) %>">
-    <g>
-      <rect class="art-far bp-draw" pathLength="1" style="--d: 0s" x="0.5" y="0.5" width="959" height="399" />
-      <path class="art-far bp-fade" style="--d: 0.3s" d="M120 .5v7M120 399.5v-7M240 .5v7M240 399.5v-7M360 .5v7M360 399.5v-7M480 .5v7M480 399.5v-7M600 .5v7M600 399.5v-7M720 .5v7M720 399.5v-7M840 .5v7M840 399.5v-7M.5 100h7M959.5 100h-7M.5 200h7M959.5 200h-7M.5 300h7M959.5 300h-7" />
-      <path class="bp-axis bp-fade" style="--d: 0.4s" d="M480 52V318" />
-      <path class="art-far bp-draw" pathLength="1" style="--d: 0.5s" d="M96 300H864" />
+<% lessons = callouts.transform_values { |path| path_path(path) } %>
+<figure class="blueprint scene--art" data-controller="plant"
+        data-plant-messages-value="<%= t("paths.plant.messages").to_json %>"
+        data-plant-share-value="<%= t("paths.plant.share_text") %>" data-plant-url-value="<%= root_url %>"
+        data-plant-shared-value="<%= t("paths.plant.shared") %>">
+  <svg class="blueprint__art blueprint__art--tall" viewBox="0 0 360 470" role="group" aria-label="<%= t("alt", scope: scope) %>">
+    <%= render "paths/blueprint/paper", id: "bp-tall", width: 360, height: 470 %>
+    <%= render "paths/blueprint/callouts", callouts: callouts, power: 88, control: 272, y: 29 %>
+    <g style="--d: 0.5s">
+      <path class="art-wire bp-cable bp-cable--drive bp-draw" pathLength="1" d="M132 228V256H170V276" />
+      <path class="art-wire bp-cable bp-cable--control bp-draw" pathLength="1" d="M160 200H200" />
+      <path class="art-wire bp-cable bp-cable--command bp-draw" pathLength="1" d="M244 228V256H190V276" />
+      <path class="art-wire art-wire--dashed bp-fade" d="M300 228V287" />
+      <path class="art-dots bp-dots bp-dots--drive" d="M132 228V256H170V276" />
+      <path class="art-dots bp-dots bp-dots--control" d="M160 200H200" />
+      <path class="art-dots bp-dots bp-dots--run" d="M244 228V256H190V276" />
+      <path class="art-dots bp-dots bp-dots--run" d="M300 287V228" />
+      <text class="bp-tag bp-fade" style="--d: 0.9s" x="138" y="247.5"><%= t("volts", scope: scope) %></text>
+      <text class="bp-tag bp-fade" style="--d: 0.9s" x="307" y="262"><%= t("signal", scope: scope) %></text>
     </g>
-
-    <g data-part="pump">
-      <path class="art-far bp-fade" style="--d: 1.4s" d="M380 300l-8 8M398 300l-8 8M416 300l-8 8M434 300l-8 8M452 300l-8 8M470 300l-8 8M488 300l-8 8M506 300l-8 8M524 300l-8 8M542 300l-8 8M560 300l-8 8M578 300l-8 8" />
-      <path class="art-ink bp-draw" pathLength="1" style="--d: 1.1s" d="M434 272V300M526 272V300" />
-      <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 1.0s" x="416" y="262" width="128" height="10" rx="2" />
-      <circle class="art-ink art-body bp-casing bp-draw" pathLength="1" style="--d: 0.6s" cx="480" cy="200" r="62" />
-      <circle class="art-quiet bp-draw" pathLength="1" style="--d: 0.9s" cx="480" cy="200" r="42" />
-      <g class="bp-rotor"><path class="art-ink bp-fade" style="--d: 1.3s" d="M491.0 200.0Q509.5 205.2 505.1 229.9M485.5 209.5Q490.3 228.2 466.7 236.6M474.5 209.5Q460.7 223.0 441.6 206.8M469.0 200.0Q450.5 194.8 454.9 170.1M474.5 190.5Q469.7 171.8 493.3 163.4M485.5 190.5Q499.3 177.0 518.4 193.2" /></g>
-      <circle class="art-ink art-body bp-draw" pathLength="1" style="--d: 1.2s" cx="480" cy="200" r="8" />
-      <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 1.3s" x="464" y="124" width="32" height="15" rx="2" />
-      <path class="art-quiet bp-fade" style="--d: 3.3s" d="M418 306V346M542 306V346M424 340H536" />
-      <path class="bp-arrow bp-fade" style="--d: 3.3s" d="M418 340l8-3v6zM542 340l-8-3v6z" />
-      <text class="art-tag bp-fade" style="--d: 3.4s" x="480" y="335" text-anchor="middle">Ø 124</text>
+    <%= render "paths/blueprint/power", tall: true %>
+    <%= render "paths/blueprint/control", tall: true %>
+    <g style="--d: 0.4s">
+      <path class="art-ink bp-paper bp-draw" pathLength="1" d="M22 328H118V348H22M338 328H242V348H338" />
+      <path class="art-quiet bp-fade" d="M22 325q4 6.5 0 13q-4 6.5 0 13M338 325q4 6.5 0 13q-4 6.5 0 13" />
+      <path class="art-dots bp-dots bp-dots--run bp-dots--water" d="M26 338H118M242 338H334" />
     </g>
-
-    <g data-part="pipes">
-      <path class="art-ink bp-draw" pathLength="1" style="--d: 1.5s" d="M419 190H290V300M419 210H310V300" />
-      <path class="art-ink bp-draw" pathLength="1" style="--d: 1.5s" d="M541 190H670V300M541 210H650V300" />
-      <path class="art-ink bp-draw" pathLength="1" style="--d: 1.7s" d="M402 183V217M407 183V217M553 183V217M558 183V217" />
-      <path class="art-dots bp-dots bp-dots--water" style="--d: 4.5s" d="M300 298V200H414" />
-      <path class="art-dots bp-dots bp-dots--water" style="--d: 5s" d="M546 200H660V298" />
-      <g class="bp-hit" data-action="click->plant#toggle" data-plant-key-param="valve">
-        <rect class="bp-target" x="326" y="158" width="48" height="64" />
-        <path class="art-ink bp-valve bp-draw" pathLength="1" style="--d: 1.9s" d="M334 184 366 216V184L334 216Z" />
-        <path class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.0s" d="M350 200V172M341 172A9 9 0 0 1 359 172Z" />
-      </g>
-      <path class="art-ink bp-draw" pathLength="1" style="--d: 2.0s" d="M610 181V190" />
-      <circle class="art-ink art-body bp-draw" pathLength="1" style="--d: 1.9s" cx="610" cy="168" r="13" />
-      <text class="bp-letters bp-fade" style="--d: 2.2s" x="610" y="172.5" text-anchor="middle">FT</text>
-    </g>
-
-    <g data-part="power">
-      <path class="art-wire bp-cable bp-cable--drive bp-draw" pathLength="1" style="--d: 2.7s" d="M210 150H250V96H472V124" />
-      <path class="art-dots bp-dots bp-dots--drive" style="--d: 4.1s" d="M210 150H250V96H472V124" />
-      <path class="art-wire art-wire--dashed bp-fade" style="--d: 2.9s" d="M210 168H342" />
-      <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 1.9s" x="110" y="124" width="100" height="176" rx="6" />
-      <rect class="art-ink bp-draw" pathLength="1" style="--d: 2.1s" x="122" y="142" width="76" height="56" rx="3" />
-      <g class="bp-hit" data-action="click->plant#toggle" data-plant-key-param="main">
-        <rect class="bp-target" x="126" y="126" width="22" height="68" />
-        <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.2s" x="128" y="150" width="18" height="40" rx="2" />
-        <rect class="bp-handle bp-handle--main" style="--d: 4.00s" x="132" y="155" width="10" height="14" rx="2" />
-        <circle class="bp-led bp-led--main" style="--d: 4.12s" cx="137" cy="133" r="3" />
-      </g>
-      <g class="bp-hit" data-action="click->plant#toggle" data-plant-key-param="drive">
-        <rect class="bp-target" x="149" y="126" width="22" height="68" />
-        <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.2s" x="151" y="150" width="18" height="40" rx="2" />
-        <rect class="bp-handle bp-handle--drive" style="--d: 4.22s" x="155" y="155" width="10" height="14" rx="2" />
-        <circle class="bp-led bp-led--drive" style="--d: 4.34s" cx="160" cy="133" r="3" />
-      </g>
-      <g class="bp-hit" data-action="click->plant#toggle" data-plant-key-param="control">
-        <rect class="bp-target" x="172" y="126" width="22" height="68" />
-        <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.2s" x="174" y="150" width="18" height="40" rx="2" />
-        <rect class="bp-handle bp-handle--control" style="--d: 4.44s" x="178" y="155" width="10" height="14" rx="2" />
-        <circle class="bp-led bp-led--control" style="--d: 4.56s" cx="183" cy="133" r="3" />
-      </g>
-      <rect class="art-quiet bp-draw" pathLength="1" style="--d: 2.4s" x="135" y="214" width="50" height="12" rx="1.5" />
-      <path class="art-far bp-fade" style="--d: 2.5s" d="M130 268H190M130 276H190M130 284H190" />
-      <text class="art-tag bp-fade" style="--d: 3.5s" x="400" y="89" text-anchor="middle"><%= t("volts", scope: scope) %></text>
-      <% if callouts[:power] %>
-        <path class="art-quiet bp-fade" style="--d: 3.6s" d="M160 124V76" />
-        <circle class="bp-balloon bp-fade" style="--d: 3.6s" cx="160" cy="64" r="12" />
-        <text class="bp-number bp-fade" style="--d: 3.6s" x="160" y="68.5" text-anchor="middle">1</text>
-      <% end %>
-    </g>
-
-    <g data-part="control">
-      <path class="art-wire bp-cable bp-cable--command bp-draw" pathLength="1" style="--d: 2.7s" d="M750 150H710V96H488V124" />
-      <path class="art-dots bp-dots bp-dots--command" style="--d: 4.4s" d="M750 150H710V96H488V124" />
-      <path class="art-wire art-wire--dashed bp-fade" style="--d: 2.9s" d="M623 168H750" />
-      <path class="art-dots bp-dots bp-dots--plc" style="--d: 5.4s" d="M623 168H750" />
-      <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 1.9s" x="750" y="124" width="100" height="176" rx="6" />
-      <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.2s" x="762" y="146" width="22" height="46" rx="2" />
-      <circle class="bp-led bp-led--plc" style="--d: 4.3s" cx="773" cy="155" r="3" />
-      <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.3s" x="789" y="146" width="13" height="46" rx="2" />
-      <circle class="bp-led bp-led--blue bp-led--plc" style="--d: 4.50s" cx="795.5" cy="155" r="2.5" />
-      <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.3s" x="806" y="146" width="13" height="46" rx="2" />
-      <circle class="bp-led bp-led--blue bp-led--plc" style="--d: 4.75s" cx="812.5" cy="155" r="2.5" />
-      <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.3s" x="823" y="146" width="13" height="46" rx="2" />
-      <circle class="bp-led bp-led--blue bp-led--plc" style="--d: 5.00s" cx="829.5" cy="155" r="2.5" />
-      <path class="art-quiet bp-draw" pathLength="1" style="--d: 2.5s" d="M762 214h76v12h-76zM773 214v12M784 214v12M795 214v12M806 214v12M817 214v12M828 214v12" />
-      <g class="bp-hit" data-action="click->plant#start">
-        <rect class="bp-target" x="784" y="232" width="32" height="30" />
-        <circle class="art-ink art-body bp-start bp-draw" pathLength="1" style="--d: 2.6s" cx="800" cy="246" r="9" />
-      </g>
-      <path class="art-far bp-fade" style="--d: 2.5s" d="M770 272H830M770 279H830M770 286H830" />
-      <text class="art-tag bp-fade" style="--d: 3.5s" x="560" y="89" text-anchor="middle"><%= t("control", scope: scope) %></text>
-      <text class="art-tag bp-fade" style="--d: 3.5s" x="686" y="186" text-anchor="middle"><%= t("signal", scope: scope) %></text>
-      <% if callouts[:control] %>
-        <path class="art-quiet bp-fade" style="--d: 3.7s" d="M800 124V76" />
-        <circle class="bp-balloon bp-fade" style="--d: 3.7s" cx="800" cy="64" r="12" />
-        <text class="bp-number bp-fade" style="--d: 3.7s" x="800" y="68.5" text-anchor="middle">2</text>
-      <% end %>
+    <%= render "paths/blueprint/valve" %>
+    <g class="bp-fade" style="--d: 0.9s"><path class="bp-dim" d="M96 348 88 376H52" /><text class="bp-tag" x="54" y="372.5">DN 50</text></g>
+    <%= render "paths/blueprint/meter" %>
+    <%= render "paths/blueprint/unit", id: "bp-tall" %>
+    <g class="bp-fade" style="--d: 0.8s">
+      <path class="art-quiet" d="M24 427H120M240 427H336" />
+      <path class="art-far" d="<%= ((30..114).step(12).to_a + (252..330).step(12).to_a).map { |x| "M#{x} 427l-6 7" }.join %>" />
     </g>
   </svg>
 
-  <%# A profession's name hangs on its balloon; on a phone the balloons are cropped away and the names sit under the sheet. %>
-  <% if callouts.any? %>
-    <ul class="blueprint__callouts" role="list">
-      <% callouts.each do |slot, path| %>
-        <li class="blueprint__callout blueprint__callout--<%= slot %>">
-          <%= link_to path_path(path), data: { chip: slot } do %>
-            <%= path.title %><%= icon_tag "arrow-right" %>
-          <% end %>
-        </li>
+  <svg class="blueprint__art blueprint__art--wide" viewBox="0 0 880 460" role="group" aria-label="<%= t("alt", scope: scope) %>">
+    <%= render "paths/blueprint/paper", id: "bp-wide", width: 880, height: 460 %>
+    <%= render "paths/blueprint/callouts", callouts: callouts, power: 132, control: 748, y: 27 %>
+    <g style="--d: 0.5s">
+      <path class="art-wire bp-cable bp-cable--drive bp-draw" pathLength="1" d="M204 196H230V100H424V171" />
+      <path class="art-wire bp-cable bp-cable--control bp-draw" pathLength="1" d="M204 186H216V80H664V130H676" />
+      <path class="art-wire bp-cable bp-cable--command bp-draw" pathLength="1" d="M676 150H456V171" />
+      <path class="art-wire art-wire--dashed bp-fade" d="M608 188V170H676" />
+      <path class="art-dots bp-dots bp-dots--drive" d="M204 196H230V100H424V171" />
+      <path class="art-dots bp-dots bp-dots--control" d="M204 186H216V80H664V130H676" />
+      <path class="art-dots bp-dots bp-dots--run" d="M676 150H456V171" />
+      <path class="art-dots bp-dots bp-dots--run" d="M608 188V170H676" />
+      <text class="bp-tag bp-fade" style="--d: 0.9s" x="327" y="115" text-anchor="middle"><%= t("volts", scope: scope) %></text>
+      <text class="bp-tag bp-fade" style="--d: 0.9s" x="648" y="186" text-anchor="middle"><%= t("signal", scope: scope) %></text>
+    </g>
+    <g transform="translate(44 -4)"><%= render "paths/blueprint/power", tall: false %></g>
+    <g transform="translate(476 -4)"><%= render "paths/blueprint/control", tall: false %></g>
+    <g style="--d: 0.4s">
+      <path class="art-ink bp-paper bp-draw" pathLength="1" d="M22 254H341V286H22M858 254H539V286H858" />
+      <path class="art-quiet bp-fade" d="M22 251q4 9.5 0 19q-4 9.5 0 19M858 251q4 9.5 0 19q-4 9.5 0 19" />
+      <path class="art-dots bp-dots bp-dots--run bp-dots--water" d="M28 270H341M539 270H852" />
+      <g class="bp-fade" style="--d: 0.9s"><path class="bp-dim" d="M176 286 184 304H216" /><text class="bp-tag" x="186" y="300.5">DN 50</text></g>
+      <% [ 132, 748 ].each do |x| %>
+        <g class="bp-fade" style="--d: 0.8s">
+          <path class="art-ink art-body" d="M<%= x - 5 %> 290h10v116h-10zM<%= x - 14 %> 406h28v6h-28z" />
+          <path class="art-ink" d="M<%= x - 20 %> 290h40M<%= x - 20 %> 290v-8M<%= x + 20 %> 290v-8" />
+        </g>
       <% end %>
-    </ul>
-  <% end %>
-  </div>
+    </g>
+    <%# The pump and its fittings are the subject: drawn 1.6× on the wide sheet. %>
+    <g class="bp-big" transform="translate(272 270) scale(1.6) translate(-64 -338)"><%= render "paths/blueprint/valve" %></g>
+    <g class="bp-big" transform="translate(608 270) scale(1.6) translate(-300 -338)"><%= render "paths/blueprint/meter" %></g>
+    <g class="bp-big" transform="translate(440 270) scale(1.6) translate(-180 -338)"><%= render "paths/blueprint/unit", id: "bp-wide" %></g>
+    <g class="bp-fade" style="--d: 0.8s">
+      <path class="art-quiet" d="M24 412H344M536 412H856" />
+      <path class="art-far" d="<%= ((30..336).step(12).to_a + (548..680).step(12).to_a).map { |x| "M#{x} 412l-6 7" }.join %>" />
+      <path class="art-quiet bp-paper" d="M693.5 425.5h180v28h-180zM693.5 439.5h180M823.5 425.5v14" />
+      <text class="bp-label" x="700" y="436"><%= t("stamp_title", scope: scope) %></text>
+      <text class="bp-label" x="830" y="436"><%= t("stamp_sheet", scope: scope) %></text>
+      <text class="bp-tag" x="700" y="450"><%= t("stamp_site", scope: scope) %></text>
+    </g>
+  </svg>
 
-  <div class="plant" data-plant-target="panel" hidden>
-    <p class="plant__status" data-plant-target="status" aria-live="polite"></p>
-    <div class="plant__controls">
-      <% %w[main drive control valve].each do |key| %>
-        <button type="button" class="plant__switch" aria-pressed="false" data-plant-target="switch"
-                data-action="plant#toggle" data-plant-key-param="<%= key %>">
-          <span class="plant__lamp"></span><%= t("paths.plant.#{key}") %>
-        </button>
+  <div class="plant">
+    <p class="plant__status" aria-live="polite">
+      <span class="plant__step" data-plant-target="step" hidden></span>
+      <span data-plant-target="status"><%= t("paths.plant.running") %></span>
+      <% lessons.each do |slot, href| %>
+        <%= link_to href, class: "plant__lesson", hidden: true, data: { plant_target: "lesson", slot: slot } do %><%= t("paths.plant.lesson", title: callouts[slot].title) %><%= icon_tag "arrow-right" %><% end %>
       <% end %>
-      <button type="button" class="plant__switch plant__switch--start" data-action="plant#start"><%= t("paths.plant.start") %></button>
-    </div>
+    </p>
     <p class="plant__done" data-plant-target="done" hidden>
-      <%= link_to "#catalog", class: "btn btn--small btn--reversed" do %><%= t("paths.plant.learn") %><%= icon_tag "arrow-right" %><% end %>
-      <span data-controller="copy-link" data-copy-link-url-value="<%= root_url %>" data-copy-link-goal-value="link_copied"
-            data-copy-link-label-value="<%= t("paths.plant.share") %>" data-copy-link-copied-value="<%= t("paths.plant.shared") %>">
-        <button type="button" class="btn btn--small" data-copy-link-target="button" data-action="copy-link#copy" hidden>
-          <span data-copy-link-target="label"><%= t("paths.plant.share") %></span>
-        </button>
-      </span>
-      <button type="button" class="btn btn--small" data-action="plant#reset"><%= t("paths.plant.again") %></button>
+      <%= link_to t("paths.plant.learn"), "#catalog", class: "plant__act" %>
+      <button type="button" class="plant__act" data-action="plant#share" data-plant-target="share"><%= t("paths.plant.share") %></button>
+      <button type="button" class="plant__act" data-action="plant#reset"><%= t("paths.plant.again") %></button>
     </p>
   </div>
 </figure>
