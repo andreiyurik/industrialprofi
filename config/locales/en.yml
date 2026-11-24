@@ -1152,7 +1152,7 @@ en:
     title: "Profession roadmaps"
     subtitle: "An open encyclopedia of professions: roadmaps are led by practitioners, and edits are reviewed by the community. Free, forever."
     hero:
-      title_html: "A hands-on trade — by the real standards, for free"
+      title_html: "A hands-on trade&nbsp;— by the real standards, for free"
       standards: "GOST · PUE · PTEEP · IEC 61131-3 · GOST 21.208"
       showcase_label: "Featured professions"
       open: "Open the roadmap: %{title}"

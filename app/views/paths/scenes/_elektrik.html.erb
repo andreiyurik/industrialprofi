@@ -4,7 +4,7 @@
 <% chapters = courses.reject(&:coming_soon?).index_by(&:slug) %>
 <% scope = "paths.scenes.elektrik" %>
 <figure class="scene scene--art scene--<%= mode %> scene-elektrik">
-  <svg class="scene__art" viewBox="0 22 480 264" role="img" aria-label="<%= t("alt", scope: scope) %>">
+  <svg class="scene__art" viewBox="<%= mode == :poster ? "50 44 320 176" : "0 22 480 264" %>" role="img" aria-label="<%= t("alt", scope: scope) %>">
     <defs>
       <radialGradient id="<%= uid %>-halo">
         <stop class="el-halo__core" offset="0" />
@@ -58,7 +58,7 @@
       <path class="art-ink" d="M106 262H134M111 268H129M116 274H124" />
       <path class="el-fault el-fault--wire" pathLength="1" d="M290 214H270V238H180V184H120" />
       <path class="el-fault el-fault--rod" pathLength="1" d="M120 188V262" />
-      <text class="art-tag" x="216" y="232">PE</text>
+      <text class="art-tag" x="194" y="232">PE</text>
     </g>
 
     <g data-part="four">

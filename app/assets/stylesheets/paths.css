@@ -152,8 +152,8 @@
   min-block-size: 6rem;
 }
 
-.path-card::before,
-.path-card::after {
+:is(.path-card, .showcase)::before,
+:is(.path-card, .showcase)::after {
   block-size: 0.85rem;
   border: 0 solid var(--color-subtle);
   content: "";
@@ -163,14 +163,14 @@
   transition: border-color 200ms ease;
 }
 
-.path-card::before {
+:is(.path-card, .showcase)::before {
   border-block-start-width: 1px;
   border-inline-start-width: 1px;
   inset-block-start: var(--block-space-half);
   inset-inline-start: 0.5rem;
 }
 
-.path-card::after {
+:is(.path-card, .showcase)::after {
   border-block-end-width: 1px;
   border-inline-end-width: 1px;
   inset-block-end: var(--block-space-half);
@@ -476,6 +476,7 @@
 
 /* Full width so its edges line up with the card grid above and the banner below. */
 .calc-group.home-calculators {
+  margin-block-start: 4rem;
   max-inline-size: none;
 }
 
