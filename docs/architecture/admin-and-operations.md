@@ -48,7 +48,9 @@ charting JS.
   ping is the whole story.
 - **Analytics**: Yandex Metrika only when `YANDEX_METRIKA_ID` is set (`shared/_metrika`),
   idle-loaded, a hit per `turbo:load`, Webvisor on. Webvisor records the DOM, so anything
-  identifying carries `ym-hide-content` (`webvisor_masked?` masks admin and account pages).
+  identifying carries `ym-hide-content`: `<main>` is masked on every page except public
+  teaching content (`WEBVISOR_VISIBLE`), and token pages (password reset, unsubscribe) skip
+  Metrika entirely (`metrika_allowed?`).
   Disclosed in `/privacy` — keep it truthful. GA rejected (152-ФЗ, no Google Ads in RU).
 - **Public pages**: `/contribute` (participation, the wanted-professions board from
   `ru.yml → contribute.wanted`), `/partners` (sponsors, independence firewall),

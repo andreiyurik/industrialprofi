@@ -7,8 +7,19 @@ module ApplicationHelper
     controller.is_a?(Admin::BaseController)
   end
 
+  WEBVISOR_VISIBLE = %w[
+    pages paths paths/theories paths/practices paths/libraries paths/glossaries
+    courses lessons calculators projects glossaries resources posts illustrations
+  ].freeze
+
+  # Masked unless public teaching content, so a new page can't leak a name by default.
   def webvisor_masked?
-    in_admin? || controller_path.start_with?("account")
+    WEBVISOR_VISIBLE.exclude?(controller_path)
+  end
+
+  # These URLs carry a secret token; Metrika would receive it with the hit.
+  def metrika_allowed?
+    site_config.metrika_id.present? && %w[passwords unsubscribes].exclude?(controller_path)
   end
 
   LOCALE_NAMES = { ru: "Рус", en: "Eng" }.freeze

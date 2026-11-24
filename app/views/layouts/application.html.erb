@@ -66,7 +66,7 @@
     <%= javascript_importmap_tags %>
     <%# Preload Stimulus's two boot files directly, or importmap's on-demand loading adds two round trips before anything can react. %>
     <%= javascript_module_preload_tag asset_path("controllers/index.js"), asset_path("controllers/application.js") %>
-    <%= render "shared/metrika" if site_config.metrika_id.present? %>
+    <%= render "shared/metrika" if metrika_allowed? %>
   </head>
 
   <body>
