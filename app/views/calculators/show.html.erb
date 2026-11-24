@@ -44,11 +44,11 @@
       <p><%= t("calculators.disclaimer") %></p>
     </div>
 
-    <% if @calculator.lesson %>
-      <a href="<%= lesson_path(@calculator.lesson) %>" class="panel panel--hover calc-lesson-link">
+    <% if (lesson = @calculator.lesson) %>
+      <a href="<%= lesson_path(lesson) %>" class="panel panel--hover calc-lesson-link">
         <span class="calc-lesson-link__eyebrow"><%= t("calculators.related_lesson") %></span>
         <span class="calc-lesson-link__title">
-          <%= @calculator.lesson.title %>
+          <%= lesson.title %>
           <%= icon_tag "arrow-right" %>
         </span>
       </a>

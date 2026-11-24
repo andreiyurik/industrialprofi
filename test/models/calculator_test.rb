@@ -42,4 +42,14 @@ class CalculatorTest < ActiveSupport::TestCase
       assert_includes Calculator::CATEGORIES, calculator.category
     end
   end
+
+  test "the related lesson is looked up fresh, not cached on the shared calculator" do
+    calculator = Calculator.find("ohms-law")
+    Lesson.where(slug: calculator.lesson_slug).delete_all
+    assert_nil calculator.lesson
+
+    lesson = lessons(:pteep)
+    lesson.update_columns(slug: calculator.lesson_slug)
+    assert_equal lesson, calculator.lesson
+  end
 end
