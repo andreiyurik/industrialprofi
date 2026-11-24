@@ -1765,6 +1765,8 @@ en:
             d: "Clears everything else off the screen — just you and the article."
           - t: "Light and dark themes"
             d: "Warm paper for long daytime reading and graphite for the evening; follows your system by default, with a switch at the bottom of the page."
+          - t: "Profession overview as a landing page"
+            d: "A live drawing of the job on the first screen, skills as tiles, tab entrances with counts and the chapter route — you see what's inside before the first lesson."
           - t: "Account settings"
             d: "Name, password, email change with confirmation, and account deletion — your data stays under your control."
           - t: "Community experts"
