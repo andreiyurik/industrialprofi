@@ -122,39 +122,83 @@
   text-align: end;
 }
 
+/* Three equal cells and a thumb that slides under the checked one. */
 .theme-switch {
+  --switch-cell: 2rem;
+  --switch-pad: 3px;
+
   align-self: end;
+  background-color: var(--color-subtle-light);
   border: 1px solid var(--color-subtle);
   border-radius: 99rem;
-  display: inline-flex;
-  gap: 0.15rem;
-  margin: 0 0 0.2rem;
-  padding: 0.15rem;
+  display: grid;
+  grid-template-columns: repeat(3, var(--switch-cell));
+  margin: 0 0 0.25rem;
+  min-inline-size: 0;
+  padding: var(--switch-pad);
+  position: relative;
+
+  &::before {
+    background-color: var(--color-bg);
+    border-radius: 99rem;
+    box-shadow:
+      0 0 0 1px var(--color-subtle),
+      0 1px 3px oklch(var(--lch-always-black) / 0.18);
+    content: "";
+    inline-size: var(--switch-cell);
+    inset-block: var(--switch-pad);
+    inset-inline-start: var(--switch-pad);
+    position: absolute;
+  }
+
+  &:has([value="light"]:checked)::before { translate: 100%; }
+  &:has([value="dark"]:checked)::before { translate: 200%; }
+
+  @media (any-pointer: coarse) {
+    --switch-cell: 2.75rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &::before {
+      transition: translate 220ms cubic-bezier(0.3, 0.7, 0.4, 1);
+    }
+  }
 }
 
 .theme-switch__option {
+  --icon-size: 1rem;
+
+  align-items: center;
+  block-size: 1.75rem;
   border-radius: 99rem;
   color: var(--color-subtle-dark);
   cursor: pointer;
-  display: inline-flex;
-  padding: 0.3rem 0.45rem;
+  display: flex;
+  justify-content: center;
   position: relative;
-  transition: background-color 150ms ease-out, color 150ms ease-out;
+  transition: color 150ms ease-out;
 
   &:has(:checked) {
-    background-color: var(--color-subtle);
     color: var(--color-ink);
   }
 
   &:has(:focus-visible) {
-    outline: 2px solid var(--color-selected-dark);
-    outline-offset: 1px;
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    scale: 0.92;
   }
 
   @media (any-hover: hover) {
     &:hover {
       color: var(--color-ink);
     }
+  }
+
+  @media (any-pointer: coarse) {
+    block-size: 2.25rem;
   }
 }
 
