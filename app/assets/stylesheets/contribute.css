@@ -136,7 +136,7 @@
   font-size: clamp(2rem, 8vw, 2.75rem);
   font-variant-numeric: tabular-nums;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.005em;
   line-height: 0.95;
   opacity: 0.28;
 }
