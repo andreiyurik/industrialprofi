@@ -17,6 +17,7 @@ class SeoHelperTest < ActionView::TestCase
     assert_equal lesson.title, data["headline"]
     assert data["@id"].end_with?("/lessons/#{lesson.slug}#lesson-article")
     assert_equal [ lesson.path.title, lesson.course.title ], data["about"].pluck("name")
+    assert_equal [ "Organization" ], data["author"].pluck("@type")
   end
 
   test "course_json_ld returns valid JSON-LD for path" do

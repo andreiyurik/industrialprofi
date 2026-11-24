@@ -58,11 +58,10 @@ module SeoHelper
     data.to_json
   end
 
-  # Metrika's content analytics reads only Article-like types; without `text` it measures the element the @id fragment names.
+  # For Metrika content analytics; without `text` it measures the element the @id fragment names.
   def article_json_ld(lesson)
     url = "#{site_url}/#{I18n.locale}/lessons/#{lesson.slug}"
-    curators = lesson.path.curators.to_a
-    {
+    data = {
       "@context": "https://schema.org",
       "@type": "Article",
       "@id": "#{url}##{LESSON_ARTICLE_ID}",
@@ -72,9 +71,12 @@ module SeoHelper
       inLanguage: I18n.locale.to_s,
       datePublished: lesson.created_at.iso8601,
       dateModified: lesson.updated_at.iso8601,
-      author: curators.any? ? curators.map { |curator| { "@type": "Person", name: curator.name } } : [ { "@type": "Organization", name: SITE_NAME } ],
+      author: [ { "@type": "Organization", name: SITE_NAME } ],
       about: [ { "@type": "Thing", name: lesson.path.title }, { "@type": "Thing", name: lesson.course.title } ]
-    }.to_json
+    }
+    curators = lesson.path.curators.to_a
+    data[:reviewedBy] = curators.map { |curator| { "@type": "Person", name: curator.name } } if curators.any?
+    data.to_json
   end
 
   def course_json_ld(path)
