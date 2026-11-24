@@ -65,19 +65,23 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
 
   test "index opens with one call to choose a profession" do
     get paths_path
-    assert_match I18n.t("paths.hero.title_html"), response.body
+    assert_select "h1.hero__title[aria-label=?]", I18n.t("paths.hero.title_html").gsub("&nbsp;", " ")
+    assert_select "h1.hero__title .typed__char", I18n.t("paths.hero.title_html").gsub("&nbsp;", "_").delete(" ").size
+    assert_select ".hero .hero__subtitle", false
     assert_select ".hero__actions a", count: 1
-    assert_select ".hero__actions a.btn--reversed[href='#catalog']", text: /#{I18n.t("paths.hero.start")}/
+    assert_select ".hero__actions a.hero__cta[href='#catalog']", text: /#{I18n.t("paths.hero.start")}/
     assert_select "#catalog"
   end
 
   test "index draws the sheet and hangs the professions on it as callouts" do
     get paths_path
-    assert_select ".blueprint svg[role=img][aria-label]"
-    assert_select ".blueprint__callout--power a[href=?]", path_path(paths(:electrician)), text: /#{paths(:electrician).title}/
-    assert_select ".blueprint__callout", 1, "a profession without a place on the drawing lives in the catalog only"
-    assert_select ".blueprint [data-part=control] .bp-balloon", false, "no balloon without its profession"
-    assert_select ".blueprint[data-controller=plant] .plant[hidden] .plant__switch", 5, "the desk waits for JS to hand it over"
+    assert_select ".blueprint svg.blueprint__art[aria-label]", 2, "one sheet for phones, one for wide screens"
+    assert_select ".blueprint__art--tall a.bp-callout[data-chip=power][href=?]", path_path(paths(:electrician)), text: /#{paths(:electrician).title}/
+    assert_select ".blueprint__art--tall a.bp-callout", 1, "a profession without a place on the drawing lives in the catalog only"
+    assert_select ".blueprint__art--tall [role=button][data-step]", 5, "the breakers, the valve and the start button are the controls"
+    assert_select ".blueprint__art--wide [role=button][data-step]", 5
+    assert_select ".blueprint[data-controller=plant] .plant__status", text: /#{I18n.t("paths.plant.running")}/
+    assert_select ".plant__lesson[hidden][data-slot=power][href=?]", path_path(paths(:electrician))
     assert_select ".path-card .path-card__poster .scene--poster svg", 1
     assert_select ".path-card__poster--emblem", minimum: 1
 

@@ -1,0 +1,23 @@
+<%# locals: (id:) -%>
+<%# The pump, drawn around (180, 338) in the phone sheet's coordinates. %>
+<g data-part="pump" style="--d: 0.3s">
+  <path class="art-ink art-body bp-fade" style="--d: 0.6s" d="M118 320h5v36h-5zM124 320h5v36h-5zM231 320h5v36h-5zM237 320h5v36h-5zM162 276h36v15h-36zM160 380 152 398H208L200 380"></path>
+  <circle class="art-ink art-body bp-casing bp-draw" pathLength="1" cx="180" cy="338" r="48"></circle>
+  <g class="bp-fade" style="--d: 0.7s">
+    <% [ [ 218.8, 354.1 ], [ 196.1, 376.8 ], [ 163.9, 376.8 ], [ 141.2, 354.1 ], [ 141.2, 321.9 ], [ 163.9, 299.2 ], [ 196.1, 299.2 ], [ 218.8, 321.9 ] ].each do |x, y| %><circle class="bp-bolt" cx="<%= x %>" cy="<%= y %>" r="2.2"></circle><% end %>
+    <circle class="art-quiet" cx="180" cy="338" r="33"></circle>
+    <%# The unseen circle centres the group's box on the shaft, so it spins in place. %>
+    <g class="bp-rotor"><circle cx="180" cy="338" r="31" fill="none"></circle><path class="art-ink" d="M188.5 338.0Q202.8 342.0 199.4 361.1M184.3 345.4Q188.0 359.8 169.7 366.3M175.7 345.4Q165.1 355.8 150.3 343.3M171.5 338.0Q157.2 334.0 160.6 314.9M175.7 330.6Q172.0 316.2 190.3 309.7M184.3 330.6Q194.9 320.2 209.7 332.7"></path></g>
+    <circle class="art-ink art-body" cx="180" cy="338" r="6"></circle>
+    <rect class="art-ink" x="120" y="405" width="120" height="22" fill="url(#<%= id %>-hatch)"></rect>
+    <rect class="art-ink art-body" x="136" y="398" width="88" height="7"></rect>
+    <path class="art-ink" d="M146 392V412M214 392V412"></path>
+    <path class="art-ink art-body" d="M142 393h8v5h-8zM210 393h8v5h-8z"></path>
+  </g>
+  <circle class="bp-wave" cx="180" cy="338" r="48"></circle>
+  <g class="bp-fade" style="--d: 0.9s">
+    <path class="bp-dim" d="M120 431V451M240 431V451M120 447H240"></path>
+    <path class="bp-arrow" d="M120 447l7-2.5v5zM240 447l-7-2.5v5z"></path>
+    <text class="bp-tag" x="180" y="443" text-anchor="middle">800</text>
+  </g>
+</g>

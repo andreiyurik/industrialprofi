@@ -7,16 +7,16 @@
 
 <section class="hero<%= " hero--sheet" if @paths.any? %>">
   <div class="container hero__inner">
-    <h1 class="hero__title"><%= t("paths.hero.title_html") %></h1>
-    <p class="hero__subtitle"><%= t("paths.hero.subtitle_html") %></p>
-    <%# Hover effect: Magic UI Shiny Button, MIT. %>
-    <p class="hero__actions">
-      <%= link_to "#catalog", class: "btn btn--reversed hero__action hero__action--primary" do %>
-        <span class="hero__shine"><%= icon_tag "graduation-cap" %><%= t("paths.hero.start") %><%= icon_tag "arrow-right" %></span>
-      <% end %>
-    </p>
     <% if @paths.any? %>
+      <h1 class="hero__title typed" aria-label="<%= t("paths.hero.title_html").gsub("&nbsp;", " ") %>" data-controller="typed" data-typed-done-class="typed--done"><%= typed_heading(t("paths.hero.title_html")) %></h1>
+      <p class="hero__actions">
+        <%= link_to "#catalog", class: "hero__cta" do %><%= t("paths.hero.start") %><%= icon_tag "arrow-right" %><% end %>
+      </p>
+      <p class="hero__free"><%= t("paths.hero.free") %></p>
       <%= render "paths/blueprint", callouts: blueprint_callouts(@paths) %>
+    <% else %>
+      <h1 class="hero__title"><%= t("paths.hero.title_html") %></h1>
+      <p class="hero__subtitle"><%= t("paths.hero.subtitle_html") %></p>
     <% end %>
   </div>
 </section>
@@ -38,6 +38,7 @@
     <% end %>
 
     <% if @paths.any? %>
+      <h2 class="home-catalog__title"><%= t("paths.catalog_title") %></h2>
       <div class="catalog-grid" id="catalog">
         <% @paths.each do |path| %>
           <%= render "path_card", path: path,

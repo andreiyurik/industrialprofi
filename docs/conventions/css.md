@@ -35,7 +35,8 @@ domain files. Reference: `tmp/references/writebook/app/assets/stylesheets/`.
   (auto follows the OS); the footer switch stores the choice in `localStorage`.
   Body text ≥7:1, muted ≥4.5:1, control borders ≥3:1 in both themes.
 - A component never assumes dark: glows use `--color-glow`, «важно» uses
-  `--color-signal`; `--lch-always-*` only for shadows and scrims.
+  `--color-signal` (and the home sheet's «start here» marker and caret, the one other
+  use); `--lch-always-*` only for shadows and scrims.
 - Monochrome + blue `--color-link` is the default. Colour is allowed where it helps
   scan or signal state (resource-type badges: norm=red, book=teal, video=purple,
   article=yellow, tool=green in `badges.css`) — reuse `.badge--*`, never a one-off hue.
