@@ -16,6 +16,7 @@ export default class extends Controller {
     if (!document.startViewTransition || still) return apply()
 
     const transition = document.startViewTransition(apply)
+    transition.ready.catch(() => {})
     transition.finished.catch(() => {})
   }
 
