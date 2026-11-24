@@ -215,14 +215,14 @@
 
           <% if signed_in? %>
             <%# Everything personal lives behind one name button — native popover, light-dismiss, zero JS. %>
-            <button type="button" class="account-menu-button" popovertarget="account-menu">
+            <button type="button" class="account-menu-button ym-hide-content" popovertarget="account-menu">
               <%= avatar_tag(Current.user) %>
               <span class="account-menu-button__name"><%= Current.user.name %></span>
               <%= icon_tag "caret-down" %>
               <% if unseen_outcomes %><span class="notify-dot notify-dot--corner"></span><% end %>
             </button>
 
-            <div id="account-menu" class="account-menu" popover>
+            <div id="account-menu" class="account-menu ym-hide-content" popover>
               <%= render "shared/account_identity" %>
               <%= render "shared/account_links", unseen_outcomes: unseen_outcomes %>
             </div>
@@ -241,7 +241,7 @@
     <% end %>
     <%= render "shared/editor_welcome_letter" if signed_in? && Current.user.needs_editor_welcome? %>
 
-    <main id="main-content" class="<%= @layout_class %>">
+    <main id="main-content" class="<%= class_names(@layout_class, "ym-hide-content": webvisor_masked?) %>">
       <% if in_admin? %>
         <div class="admin-layout">
           <%= render "admin/shared/nav" %>
