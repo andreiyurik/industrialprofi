@@ -1,10 +1,11 @@
-<%# locals: (path:, progress:, curators:, tab:) -%>
-<%# One identity block + one tab row on every page of a profession, so the reader never
-    leaves it to reach practice or reference. Pairs with the catalog card in paths/_path_card. %>
-<header class="hub">
-  <%# Identity centred at every width, matching the catalog card's centred poster style. %>
+<%# locals: (path:, progress:, tab:) -%>
+<%# The overview carries the full pitch; the other tabs keep one title row so their content starts on the first screen. %>
+<% overview = tab == :overview %>
+<% inventory = path.inventory %>
+<header class="hub<%= " hub--compact" unless overview %>">
+  <%# view-transition-name pairs with the catalog card in paths/_path_card. %>
   <div class="hub__identity" style="view-transition-name: path-<%= path.slug %>">
-    <% ring = progress.started? && path.lessons_count.positive? %>
+    <% ring = overview && progress.started? && path.lessons_count.positive? %>
     <div class="topic-hero-icon<%= " topic-hero-icon--ring" if ring %>">
       <% if ring %>
         <%= render layout: "shared/progress_ring", locals: { completed: progress.completed_count, total: path.lessons_count } do %>
@@ -14,33 +15,30 @@
         <%= render "shared/topic_badge", token: path.emblem %>
       <% end %>
     </div>
-    <h1 class="path__title"><%= path.title %></h1>
-    <p class="hub__description"><%= path.description %></p>
-    <p class="hub__facts"><%= hub_facts(path) %></p>
+    <h1 class="path__title"><%= link_to_unless overview, path.title, path_path(path), class: "hub__home" %></h1>
+    <% if overview %>
+      <p class="hub__description"><%= path.description %></p>
+    <% end %>
   </div>
 
+  <% if overview %>
+    <%= render "shared/continue_cta", continue_lesson: progress.next_lesson, completed_ids: progress.completed_ids %>
+    <ul class="hub-stats" role="list">
+      <%= hub_stat t("common.course", count: inventory.chapters) %>
+      <%= hub_stat t("courses.lessons_count", count: inventory.lessons) %>
+      <%= hub_stat t("projects.tasks", count: inventory.tasks) if inventory.tasks.positive? %>
+    </ul>
+  <% end %>
+
   <%= render "paths/unlisted_notice", path: path %>
-
-  <%= render "paths/hub_people", path: path, curators: curators %>
-
-  <nav class="hub-tabs" aria-label="<%= t("paths.hub.tabs_label") %>">
-    <%= link_to path_path(path), class: "hub-tabs__link", aria: { current: ("page" if tab == :overview) } do %>
-      <%= icon_tag "info" %><span><%= t("paths.overview") %></span>
-    <% end %>
-    <%= link_to path_theory_path(path), class: "hub-tabs__link", aria: { current: ("page" if tab == :theory) } do %>
-      <%= icon_tag "graduation-cap" %><span><%= t("paths.hub.theory") %></span>
-    <% end %>
-    <%= link_to path_practice_path(path), class: "hub-tabs__link", aria: { current: ("page" if tab == :practice) } do %>
-      <%= icon_tag "wrench" %><span><%= t("paths.hub.practice") %></span>
-    <% end %>
-    <%= link_to path_library_path(path), class: "hub-tabs__link", aria: { current: ("page" if tab == :library) } do %>
-      <%= icon_tag "book-open" %><span><%= t("paths.hub.library") %></span>
-    <% end %>
-    <%# Optional and therefore last: only professions with abbreviations get this tab. %>
-    <% if path.has_glossary? %>
-      <%= link_to path_glossary_path(path), class: "hub-tabs__link", aria: { current: ("page" if tab == :glossary) } do %>
-        <%= icon_tag "text-aa" %><span><%= t("paths.hub.glossary") %></span>
-      <% end %>
-    <% end %>
-  </nav>
 </header>
+
+<nav class="hub-tabs" aria-label="<%= t("paths.hub.tabs_label") %>">
+  <%= hub_tab t("paths.overview"), path_path(path), icon: "info", current: overview %>
+  <%= hub_tab t("paths.hub.theory"), path_theory_path(path), icon: "graduation-cap", current: tab == :theory, count: inventory.lessons %>
+  <%= hub_tab t("paths.hub.practice"), path_practice_path(path), icon: "wrench", current: tab == :practice, count: inventory.tasks %>
+  <%= hub_tab t("paths.hub.library"), path_library_path(path), icon: "book-open", current: tab == :library, count: inventory.documents + inventory.calculators %>
+  <% if path.has_glossary? %>
+    <%= hub_tab t("paths.hub.glossary"), path_glossary_path(path), icon: "text-aa", current: tab == :glossary, count: inventory.terms %>
+  <% end %>
+</nav>

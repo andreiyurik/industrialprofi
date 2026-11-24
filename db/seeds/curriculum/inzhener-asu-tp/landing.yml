@@ -42,3 +42,13 @@ faq: |
 
   ### Чем АСУ ТП отличается от КИПиА?
   КИПиА — полевой уровень: приборы, их монтаж, поверка, калибровка. АСУ ТП — система целиком, включая контроллер, сети и SCADA. Первая глава карты — как раз КИПиА: без неё не понять, откуда берутся сигналы.
+scene:
+  caption: "Контур управления — то, что инженер АСУ ТП проектирует, программирует и запускает. Узел открывает свою главу."
+  steps:
+    - { name: "Датчик", does: "измеряет", icon: "gauge-light", course: "asutp-osnovy-i-kipia" }
+    - { name: "ПЛК", does: "решает", icon: "cpu-light", course: "asutp-plk-i-regulirovanie" }
+    - { name: "Механизм", does: "действует", icon: "engine-light", course: "asutp-osnovy-i-kipia" }
+    - { name: "Процесс", does: "уровень, давление", icon: "pipe-light" }
+  links: ["4–20 мА", "команда", "воздействие", "параметр"]
+  top: { name: "SCADA", does: "показывает оператору", icon: "monitor-light", course: "asutp-scada" }
+  top_link: "Modbus, OPC UA"

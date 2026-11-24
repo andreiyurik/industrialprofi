@@ -1,0 +1,38 @@
+<%# locals: (prefix:, title:, node:, courses:, link_name: nil, link: nil, link_label: nil) -%>
+<fieldset class="scene-editor__node">
+  <legend class="scene-editor__title"><%= title %></legend>
+  <div class="scene-editor__row">
+    <label class="scene-editor__cell">
+      <span><%= t("admin.landing.scene.name") %></span>
+      <%= text_field_tag "#{prefix}[name]", node.name, class: "input", maxlength: Path::Scene::LIMITS["name"], id: nil %>
+    </label>
+    <label class="scene-editor__cell">
+      <span><%= t("admin.landing.scene.does") %></span>
+      <%= text_field_tag "#{prefix}[does]", node.does, class: "input", maxlength: Path::Scene::LIMITS["does"], id: nil %>
+    </label>
+    <label class="scene-editor__cell">
+      <span><%= t("admin.landing.scene.chapter") %></span>
+      <%= select_tag "#{prefix}[course]",
+            options_for_select([ [ t("admin.landing.scene.no_chapter"), "" ] ] + courses.map { |course| [ course.title, course.slug ] } +
+                               (node.course.present? && courses.none? { |course| course.slug == node.course } ? [ node.course ] : []), node.course),
+            class: "input", id: nil %>
+    </label>
+    <% if link_name %>
+      <label class="scene-editor__cell">
+        <span><%= link_label %></span>
+        <%= text_field_tag link_name, link, class: "input", maxlength: Path::Scene::LIMITS["link"], id: nil %>
+      </label>
+    <% end %>
+  </div>
+  <details class="scene-editor__icons">
+    <summary><%= icon_tag node.emblem %> <%= t("admin.landing.scene.icon") %></summary>
+    <div class="icon-picker">
+      <% Icon.emblems.each do |name| %>
+        <label class="icon-picker__option" title="<%= name %>">
+          <%= radio_button_tag "#{prefix}[icon]", name, node.emblem == name, id: nil %>
+          <%= icon_tag name %>
+        </label>
+      <% end %>
+    </div>
+  </details>
+</fieldset>

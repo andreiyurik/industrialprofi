@@ -208,7 +208,7 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
 
   test "show renders the landing slots an author filled, then the chapter outline" do
     get path_path(paths(:electrician))
-    assert_select ".landing", false, "an empty landing renders nothing"
+    assert_select ".landing__prose", false, "an empty landing renders no story"
     assert_select ".outline__item", 3
     assert_select "a.outline__title[href=?]", course_path(courses(:el_basics))
     assert_select ".outline__item--soon", text: /#{courses(:el_relay_soon).title}/
@@ -228,15 +228,59 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_operator response.body.index("landing__prose"), :<, response.body.index("outline__list"), "the story comes before the outline"
   end
 
-  test "the header says the catalog sentence on every tab" do
-    sentence = paths(:electrician).description
-
+  test "a long story shows its first paragraph and folds the rest" do
+    paths(:electrician).update!(about: "Первый абзац.\r\n\r\nВторой абзац.") # a textarea submits CRLF
     get path_path(paths(:electrician))
-    assert_select ".hub__description", text: sentence
-    get path_theory_path(paths(:electrician))
-    assert_select ".hub__description", text: sentence
-    get path_practice_path(paths(:electrician))
-    assert_select ".hub__description", text: sentence
+    assert_select ".landing__body > .landing__prose", text: /Первый абзац/
+    assert_select "details.landing__more .landing__prose", text: /Второй абзац/
+  end
+
+  test "a highlight with a bold lead becomes a titled tile" do
+    paths(:electrician).update!(highlights_text: "**Читает схемы:** по ГОСТ\nПросто строка")
+    get path_path(paths(:electrician))
+    assert_select ".landing__highlight .landing__tile-title", text: "Читает схемы"
+    assert_select ".landing__highlight .landing__tile-text", text: "по ГОСТ"
+    assert_select ".landing__highlight .landing__tile-text", text: "Просто строка"
+  end
+
+  test "a filled scene draws the loop; a node opens its published chapter" do
+    path = paths(:electrician)
+    get path_path(path)
+    assert_select ".scene", false
+
+    path.update!(scene: { steps: [ { name: "Ввод", course: courses(:el_basics).slug }, { name: "Щит", course: courses(:el_relay_soon).slug },
+                                   { name: "Потребитель" }, { name: "Заземление" } ],
+                          links: [ "230 В" ], top: { name: "Измерения" }, caption: "Цепь электрика" })
+    get path_path(path)
+    assert_select ".scene__node", 5
+    assert_select "a.scene__node--first[href=?]", course_path(courses(:el_basics)), text: /Ввод/
+    assert_select "div.scene__node--second", text: /Щит/
+    assert_select ".scene__wire .scene__label", text: "230 В"
+    assert_select ".scene__caption", text: "Цепь электрика"
+  end
+
+  test "the overview counts what is inside and opens a door to every tab" do
+    path = paths(:electrician)
+    get path_path(path)
+    assert_select ".hub-stats__item", text: /#{path.inventory.lessons}/
+    assert_select ".hub-tabs__link[href=?] .hub-tabs__count", path_theory_path(path), text: path.inventory.lessons.to_s
+    [ path_theory_path(path), path_practice_path(path), path_library_path(path), path_glossary_path(path) ].each do |door|
+      assert_select "a.door[href=?]", door
+    end
+    assert_select ".path__start .btn", 2, "the call to start opens and closes the page"
+  end
+
+  test "the overview carries the pitch; a tab keeps one title row that leads back to it" do
+    path = paths(:electrician)
+
+    get path_path(path)
+    assert_select ".hub__description", text: path.description
+    assert_select ".hub-people"
+
+    get path_practice_path(path)
+    assert_select ".hub--compact h1 a[href=?]", path_path(path), text: path.title
+    assert_select ".hub__description", false
+    assert_select ".hub-people", false
   end
 
   test "a cover becomes the page's share image and renders with its credit" do

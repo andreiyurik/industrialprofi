@@ -3,12 +3,37 @@ module PathsHelper
     markdown(text).to_str.sub(%r{\A\s*<p>(.*)</p>\s*\z}m, '\1').html_safe
   end
 
-  def hub_facts(path)
-    kinds = path.lessons.group(:kind).count
-    facts = [ t("common.course", count: path.courses.published.count),
-              t("courses.lessons_count", count: kinds["lesson"].to_i) ]
-    facts << t("projects.tasks", count: kinds["practice"]) if kinds["practice"].to_i.positive?
-    safe_join(facts, " · ")
+  # «43 статьи» → the number and its noun apart, so the plural rules stay in one key.
+  def hub_stat(text)
+    number, label = text.split(" ", 2)
+    tag.li(class: "hub-stats__item") { tag.strong(number, class: "hub-stats__number") + tag.span(label, class: "hub-stats__label") }
+  end
+
+  def hub_tab(name, url, icon:, current:, count: nil)
+    link_to url, class: "hub-tabs__link", aria: { current: ("page" if current) } do
+      safe_join([ icon_tag(icon), tag.span(name), (tag.span(count, class: "hub-tabs__count") if count.to_i.positive?) ])
+    end
+  end
+
+  # A highlight written as «**Навык:** пояснение» splits into a tile's title and its small print.
+  def landing_tile(text)
+    lead, rest = text.to_s.match(/\A\*\*(.+?):?\*\*:?\s*(.*)\z/m)&.captures
+    lead ? [ lead, rest.sub(/\A[,—–-]\s*/, "") ] : [ nil, text ]
+  end
+
+  def scene_node(node, place, chapters)
+    body = safe_join([ tag.span(icon_tag(node.emblem), class: "scene__icon"),
+                       tag.strong(node.name, class: "scene__name"),
+                       (tag.span(node.does, class: "scene__does") if node.does.present?) ])
+    css = "scene__node scene__node--#{place}"
+    course = chapters[node.course]
+    course ? link_to(body, course_path(course), class: css, title: course.title) : tag.div(body, class: css)
+  end
+
+  def scene_wire(area, direction, label = nil)
+    tag.span(class: "scene__wire scene__wire--#{direction}", style: "grid-area: #{area}", aria: { hidden: label.blank? || nil }) do
+      tag.span(label, class: "scene__label") if label.present?
+    end
   end
 
   # Arc geometry for an inline SVG gauge; the needle angle rides out as a CSS variable.

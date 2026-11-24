@@ -19,13 +19,16 @@
 
 <section class="section">
   <div class="container container--reading">
-    <%= render "paths/hub_header", path: @path, progress: @progress, curators: @path.hub_curators.to_a, tab: :overview %>
+    <%= render "paths/hub_header", path: @path, progress: @progress, tab: :overview %>
+
+    <%= render "paths/landing", path: @path, courses: @courses, kind_counts: @kind_counts, progress: @progress %>
 
     <%= render "shared/continue_cta", continue_lesson: @progress.next_lesson, completed_ids: @progress.completed_ids %>
 
-    <%# The story (author-filled slots, nothing when none), then the chapter outline; the programme is the «Теория» tab. %>
-    <%= render "paths/landing", path: @path %>
-    <%= render "paths/outline", path: @path, courses: @courses, kind_counts: @kind_counts %>
+    <footer class="hub-credits">
+      <%= render "paths/hub_people", path: @path, curators: @path.hub_curators.to_a %>
+      <%= render "maps/version_button", path: @path %>
+    </footer>
 
     <%= render "paths/improve" %>
   </div>

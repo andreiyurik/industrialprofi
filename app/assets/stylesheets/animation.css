@@ -127,3 +127,16 @@
   from { --shine-x: 100%; }
   to { --shine-x: -100%; }
 }
+
+/* The profession scene (scene.css): wires march one dash per cycle. */
+@keyframes scene-flow-down {
+  to {
+    background-position: 0 var(--scene-dash);
+  }
+}
+
+@keyframes scene-flow-right {
+  to {
+    background-position: var(--scene-dash) 0;
+  }
+}
