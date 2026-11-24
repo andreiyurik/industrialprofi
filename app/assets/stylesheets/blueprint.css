@@ -150,63 +150,6 @@
   }
 }
 
-/* The sheet's title block: the catalog's numbers where a drawing keeps its own. */
-.blueprint__stamp {
-  border: 1px solid var(--sheet-rule);
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin: 0;
-
-  @media (min-width: 40em) {
-    border-block-start: 0;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 2.4fr);
-  }
-}
-
-.blueprint__cell {
-  border-inline-end: 1px solid var(--sheet-rule);
-  display: grid;
-  gap: 0.2rem;
-  padding: 0.6rem 0.9rem 0.7rem;
-  text-align: start;
-
-  &:last-child {
-    border-inline-end: 0;
-  }
-
-  dt {
-    color: var(--color-subtle-dark);
-    font-family: var(--font-technical);
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-
-  dd {
-    font-family: var(--font-technical);
-    font-size: 1.25rem;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.1;
-    margin: 0;
-  }
-}
-
-.blueprint__cell--wide dd {
-  font-size: 1rem;
-  line-height: 1.375;
-}
-
-@media (max-width: 40em) {
-  .blueprint__cell:nth-child(3) {
-    border-inline-end: 0;
-  }
-
-  .blueprint__cell--wide {
-    border-block-start: 1px solid var(--sheet-rule);
-    grid-column: 1 / -1;
-  }
-}
-
 /* The control desk (plant controller). Its data attributes on the figure are the whole state:
    main, drive, control, valve, run, the derived drive-live / control-live, and trip while the
    protection flashes. Everything below is off until its attribute appears. */

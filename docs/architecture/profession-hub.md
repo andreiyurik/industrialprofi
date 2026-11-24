@@ -55,8 +55,7 @@ flowchart TB
 - **Home sheet** (`paths/_blueprint`, `blueprint.css`): the home page opens with one drawing
   that belongs to no single profession — an installation that draws itself once, then
   switches on. Professions hang on it as callouts (`PathsHelper::BLUEPRINT_SLOTS` maps a
-  slug to its place; one without a place lives in the catalog only), and the catalog's
-  numbers fill the sheet's title block.
+  slug to its place; one without a place lives in the catalog only).
 - **The sheet is a control desk** (`plant` Stimulus controller): the visitor powers the
   installation up — supply, motor and control breakers, the valve, «Пуск» — by the desk's
   keys or by clicking the parts on the drawing. The controller keeps the state as data

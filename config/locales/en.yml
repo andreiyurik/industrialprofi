@@ -1185,8 +1185,6 @@ en:
       volts: "380 V"
       control: "24 V"
       signal: "4–20 mA"
-      standards_label: "Standards"
-      standards: "GOST · PUE · PTEEP · IEC 61131-3 · GOST 21.208"
     hero:
       title_html: "A hands-on trade&nbsp;— by the real standards, for free"
       subtitle_html: "Articles built on official standards, hands-on tasks and calculators. No sign-up needed."

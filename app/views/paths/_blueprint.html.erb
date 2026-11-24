@@ -1,4 +1,4 @@
-<%# locals: (callouts:, stamp:) -%>
+<%# locals: (callouts:) -%>
 <%# The home page's drawing sheet: one installation every profession has a hand in. It draws itself
     once (each part waits --d seconds), then switches on and keeps running; the motion is in
     blueprint.css. The art is hand-placed in a 960×400 box; phones see its middle (slice). %>
@@ -144,12 +144,4 @@
       <button type="button" class="btn btn--small" data-action="plant#reset"><%= t("paths.plant.again") %></button>
     </p>
   </div>
-
-  <dl class="blueprint__stamp">
-    <% stamp.each do |text| %>
-      <% number, label = text.split(" ", 2) %>
-      <div class="blueprint__cell"><dt><%= label %></dt><dd><%= number %></dd></div>
-    <% end %>
-    <div class="blueprint__cell blueprint__cell--wide"><dt><%= t("standards_label", scope: scope) %></dt><dd><%= t("standards", scope: scope) %></dd></div>
-  </dl>
 </figure>

@@ -16,10 +16,7 @@
       <% end %>
     </p>
     <% if @paths.any? %>
-      <%= render "paths/blueprint", callouts: blueprint_callouts(@paths),
-            stamp: [ t("courses.lessons_count", count: @paths.sum(&:lessons_count)),
-                     t("paths.doors.sources", count: @paths.sum { |path| path.inventory.documents }),
-                     t("paths.doors.calculators", count: Calculator::ALL.size) ] %>
+      <%= render "paths/blueprint", callouts: blueprint_callouts(@paths) %>
     <% end %>
   </div>
 </section>
