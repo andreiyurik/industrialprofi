@@ -243,20 +243,14 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".landing__highlight .landing__tile-text", text: "Просто строка"
   end
 
-  test "a filled scene draws the loop; a node opens its published chapter" do
-    path = paths(:electrician)
-    get path_path(path)
-    assert_select ".scene", false
-
-    path.update!(scene: { steps: [ { name: "Ввод", course: courses(:el_basics).slug }, { name: "Щит", course: courses(:el_relay_soon).slug },
-                                   { name: "Потребитель" }, { name: "Заземление" } ],
-                          links: [ "230 В" ], top: { name: "Измерения" }, caption: "Цепь электрика" })
-    get path_path(path)
+  test "a profession with a scene partial draws the loop; one without draws none" do
+    get path_path(paths(:electrician))
     assert_select ".scene__node", 5
-    assert_select "a.scene__node--first[href=?]", course_path(courses(:el_basics)), text: /Ввод/
-    assert_select "div.scene__node--second", text: /Щит/
-    assert_select ".scene__wire .scene__label", text: "230 В"
-    assert_select ".scene__caption", text: "Цепь электрика"
+    assert_select ".scene__wire", 5
+    assert_select ".scene__caption"
+
+    get path_path(paths(:welder))
+    assert_select ".scene", false
   end
 
   test "the overview counts what is inside and opens a door to every tab" do

@@ -21,19 +21,24 @@ module PathsHelper
     lead ? [ lead, rest.sub(/\A[,—–-]\s*/, "") ] : [ nil, text ]
   end
 
-  def scene_node(node, place, chapters)
-    body = safe_join([ tag.span(icon_tag(node.emblem), class: "scene__icon"),
-                       tag.strong(node.name, class: "scene__name"),
-                       (tag.span(node.does, class: "scene__does") if node.does.present?) ])
-    css = "scene__node scene__node--#{place}"
-    course = chapters[node.course]
-    course ? link_to(body, course_path(course), class: css, title: course.title) : tag.div(body, class: css)
+  # A profession's scene is a partial named after its slug; most professions have none.
+  def path_scene(path)
+    name = "paths/scenes/#{path.slug.underscore}"
+    name if lookup_context.exists?(name, [], true)
   end
 
-  def scene_wire(area, direction, label = nil)
-    tag.span(class: "scene__wire scene__wire--#{direction}", style: "grid-area: #{area}", aria: { hidden: label.blank? || nil }) do
-      tag.span(label, class: "scene__label") if label.present?
-    end
+  # `scope` holds the node's two words: «<key>» and «<key>_does».
+  def scene_node(place, key, step:, scope:, icon:, course: nil, look: nil)
+    body = safe_join([ tag.span(icon_tag(icon), class: "scene__icon"),
+                       tag.strong(t(key, scope: scope), class: "scene__name"),
+                       tag.span(t("#{key}_does", scope: scope), class: "scene__does") ])
+    options = { class: class_names("scene__node", "scene__node--#{place}", "scene__node--#{look}": look), style: "--step: #{step}" }
+    course ? link_to(body, course_path(course), title: course.title, **options) : tag.div(body, **options)
+  end
+
+  def scene_wire(area, direction, label, step:)
+    tag.span(tag.span(label, class: "scene__label"), class: "scene__wire scene__wire--#{direction}",
+             style: "grid-area: #{area}; --step: #{step}")
   end
 
   # Arc geometry for an inline SVG gauge; the needle angle rides out as a CSS variable.

@@ -125,29 +125,6 @@ class Admin::PathsControllerTest < ActionDispatch::IntegrationTest
     assert_not paths(:electrician).reload.cover.attached?
   end
 
-  test "the scene is edited in the profession form, field by field" do
-    path = paths(:electrician)
-    names = %w[Ввод Щит Потребитель Заземление]
-    patch admin_path_path(path), params: { path: { scene: {
-      steps: names.each_with_index.to_h { |name, index| [ index.to_s, { name: name, icon: "lightning-light", course: "" } ] },
-      links: { "0" => "230 В", "1" => "", "2" => "", "3" => "" },
-      top: { name: "", does: "" }, top_link: "", caption: "Цепь"
-    } } }
-    assert_redirected_to edit_admin_path_path(path)
-    assert_equal names, path.reload.scene.steps.map(&:name)
-    assert_equal "230 В", path.scene.links.first
-
-    get edit_admin_path_path(path)
-    assert_select "#scene-editor input[name='path[scene][steps][1][name]'][value=?]", "Щит"
-    assert_select "#scene-editor input[name='path[scene][steps][0][icon]'][value='lightning-light'][checked]"
-    assert_select "#scene-editor select[name='path[scene][top][course]'] option", minimum: 2
-
-    patch admin_path_path(path), params: { path: { scene: { steps: { "0" => { name: "Ввод" }, "1" => { name: "" } } } } }
-    assert_response :unprocessable_entity
-    assert_select "#scene-editor input[name='path[scene][steps][0][name]'][value=?]", "Ввод"
-    assert_equal names, path.reload.scene.steps.map(&:name), "the saved scene survives a rejected edit"
-  end
-
   test "update with invalid data re-renders edit" do
     patch admin_path_path(paths(:electrician)),
       params: { path: { title: "" } }

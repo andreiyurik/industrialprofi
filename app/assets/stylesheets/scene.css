@@ -1,5 +1,5 @@
-/* A profession's loop diagram (paths/_scene, Path::Scene): HTML nodes on a grid, so labels stay
-   real text at phone width; the wires are dashed gradients that march in the flow's direction. */
+/* A profession's scene (paths/scenes/_<slug>): HTML nodes on a grid, so labels stay real text at
+   phone width. One pulse runs the loop in four beats; --step on a part is the beat that lights it. */
 .scene {
   margin: 0 0 1.75rem;
   /* The prose column's width, so the diagram and the paragraph under it share a right edge. */
@@ -7,6 +7,8 @@
   --scene-wire: var(--color-link);
   --scene-dash: 14px;
   --scene-gap: 2.75rem;
+  --scene-beat: 0.8s;
+  --scene-lap: calc(var(--scene-beat) * 4);
 }
 
 .scene__loop {
@@ -35,6 +37,8 @@
   position: relative;
   text-align: center;
   text-decoration: none;
+  animation: scene-light var(--scene-lap) ease-out infinite;
+  animation-delay: calc(var(--step) * var(--scene-beat));
   transition: border-color 150ms ease-out;
 }
 
@@ -53,6 +57,7 @@
   column-gap: 0.6rem;
   display: flex;
   flex-wrap: wrap;
+  animation: none;
   grid-area: top;
   justify-content: center;
   padding-block: 0.7rem;
@@ -71,6 +76,33 @@
 }
 
 .scene__node--second { grid-area: second; }
+
+/* Looks a scene may give a node: status LEDs, an icon that lights on its beat. */
+.scene__node--live {
+  &::before,
+  &::after {
+    animation: pulse 1.2s ease-in-out infinite;
+    background-color: var(--color-positive);
+    block-size: 0.4rem;
+    border-radius: 50%;
+    content: "";
+    inline-size: 0.4rem;
+    inset-block-start: 0.6rem;
+    inset-inline-end: 0.6rem;
+    position: absolute;
+  }
+
+  &::after {
+    animation-delay: 0.6s;
+    background-color: var(--scene-wire);
+    inset-inline-end: 1.25rem;
+  }
+}
+
+.scene__node--glow .scene__icon {
+  animation: scene-glow var(--scene-lap) ease-out infinite;
+  animation-delay: calc(var(--step) * var(--scene-beat));
+}
 
 .scene__icon {
   color: var(--scene-wire);
@@ -102,6 +134,24 @@
   justify-self: center;
   position: relative;
 
+  /* The pulse: a bright dot that crosses the wire on its beat and hides for the rest of the lap. */
+  &::before {
+    animation: scene-run-down var(--scene-lap) linear infinite;
+    animation-delay: calc(var(--step) * var(--scene-beat));
+    background-color: var(--scene-wire);
+    block-size: 0.5rem;
+    border-radius: 50%;
+    box-shadow: 0 0 0.6rem 0.2rem var(--scene-wire);
+    content: "";
+    inline-size: 0.5rem;
+    inset-block-start: 0;
+    inset-inline-start: 50%;
+    opacity: 0;
+    position: absolute;
+    translate: -50% -50%;
+    z-index: 1;
+  }
+
   &::after {
     border: 5px solid transparent;
     border-block-start: 7px solid var(--scene-wire);
@@ -117,6 +167,10 @@
 .scene__wire--up {
   animation-direction: reverse;
 
+  &::before {
+    animation-name: scene-run-up;
+  }
+
   &::after {
     inset-block: 0 auto;
     rotate: 180deg;
@@ -131,6 +185,12 @@
   block-size: 2px;
   inline-size: 100%;
 
+  &::before {
+    animation-name: scene-run-right;
+    inset-block-start: 50%;
+    inset-inline-start: 0;
+  }
+
   &::after {
     inset-block: 50% auto;
     inset-inline: auto 0;
@@ -141,6 +201,10 @@
 
 .scene__wire--left {
   animation-direction: reverse;
+
+  &::before {
+    animation-name: scene-run-left;
+  }
 
   &::after {
     inset-inline: 0 auto;
@@ -158,6 +222,11 @@
   position: absolute;
   translate: 0 -50%;
   white-space: nowrap;
+}
+
+/* The right-hand wire's label hangs on its inner side, or a long word leaves the phone screen. */
+.scene__wire--down .scene__label {
+  inset-inline: auto 0.85rem;
 }
 
 :is(.scene__wire--right, .scene__wire--left) .scene__label {

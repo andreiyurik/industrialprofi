@@ -42,13 +42,3 @@ faq: |
 
   ### Сколько зарабатывает электрик?
   Цифры зависят от региона, группы и объекта и устаревают за год, поэтому мы их не публикуем. Смотри свежие вакансии по своему городу с фильтром по группе допуска — это честнее любого среднего.
-scene:
-  caption: "Цепь, которую электрик рассчитывает, монтирует и проверяет. Узел открывает свою главу."
-  steps:
-    - { name: "Ввод", does: "питает", icon: "lightning-light", course: "elektrik-osnovy-elektrotekhniki" }
-    - { name: "Щит", does: "защищает", icon: "sliders-light", course: "elektrik-pue-i-ustroystvo" }
-    - { name: "Потребитель", does: "работает", icon: "house-light", course: "elektrik-montazh" }
-    - { name: "Заземление", does: "уводит ток утечки", icon: "shield-check-light", course: "elektrik-bezopasnost-i-ohrana-truda" }
-  links: ["230/400 В", "кабель", "PE", "к нейтрали"]
-  top: { name: "Измерения", does: "подтверждают", icon: "gauge-light", course: "elektrik-izmerniya-i-ispytaniya" }
-  top_link: "замеры"

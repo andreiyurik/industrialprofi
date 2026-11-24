@@ -1,0 +1,19 @@
+<%# locals: (courses:) -%>
+<%# `step` is the beat on which the pulse reaches a node or leaves along a wire: 0…3 round the loop. %>
+<% chapters = courses.reject(&:coming_soon?).index_by(&:slug) %>
+<% scope = "paths.scenes.elektrik" %>
+<figure class="scene">
+  <div class="scene__loop">
+    <%= scene_node :top, :tests, step: 2, scope: scope, icon: "gauge-light", course: chapters["elektrik-izmerniya-i-ispytaniya"] %>
+    <%= scene_wire :rise, :up, t("readings", scope: scope), step: 1 %>
+    <%= scene_node :second, :panel, step: 1, scope: scope, icon: "sliders-light", course: chapters["elektrik-pue-i-ustroystvo"], look: :live %>
+    <%= scene_wire :across, :right, t("cable", scope: scope), step: 1 %>
+    <%= scene_node :third, :load, step: 2, scope: scope, icon: "house-light", course: chapters["elektrik-montazh"], look: :glow %>
+    <%= scene_wire :climb, :up, t("supply", scope: scope), step: 0 %>
+    <%= scene_wire :drop, :down, t("pe", scope: scope), step: 2 %>
+    <%= scene_node :first, :intake, step: 0, scope: scope, icon: "lightning-light", course: chapters["elektrik-osnovy-elektrotekhniki"] %>
+    <%= scene_wire :back, :left, t("neutral", scope: scope), step: 3 %>
+    <%= scene_node :fourth, :earth, step: 3, scope: scope, icon: "shield-check-light", course: chapters["elektrik-bezopasnost-i-ohrana-truda"] %>
+  </div>
+  <figcaption class="scene__caption"><%= t("caption", scope: scope) %></figcaption>
+</figure>

@@ -14,7 +14,6 @@ module Path::Landing
     before_validation :normalize_landing
     validate :acceptable_cover
     validate :landing_lists_within_bounds
-    validate :scene_complete
   end
 
   LIST_SLOTS.each do |slot|
@@ -24,15 +23,7 @@ module Path::Landing
     end
   end
 
-  def landing_present? = SLOTS.any? { |slot| public_send(slot).present? } || scene.present?
-
-  # The draft is what the form just sent — kept so a half-filled scene comes back for fixing.
-  def scene = Path::Scene.new(@scene_draft || landing["scene"])
-
-  def scene=(data)
-    @scene_draft = Path::Scene.shape(data)
-    self.landing = landing.merge("scene" => Path::Scene.normalize(data))
-  end
+  def landing_present? = SLOTS.any? { |slot| public_send(slot).present? }
 
   # Fills only an EMPTY landing — a landing with any human text stays as is.
   def fill_landing(data)
@@ -54,7 +45,7 @@ module Path::Landing
       data = data.to_h.stringify_keys
       TEXT_SLOTS.to_h { |slot| [ slot.to_s, data[slot.to_s].to_s.strip.presence ] }
         .merge(LIST_SLOTS.to_h { |slot| [ slot.to_s, Array(data[slot.to_s]).map { |item| item.to_s.strip }.compact_blank.presence ] })
-        .merge("cover_credit" => data["cover_credit"].to_s.strip.presence, "scene" => Path::Scene.normalize(data["scene"]))
+        .merge("cover_credit" => data["cover_credit"].to_s.strip.presence)
         .compact
     end
   end
@@ -69,10 +60,6 @@ module Path::Landing
       return if LessonImageUpload.permits?(content_type: cover.content_type, byte_size: cover.byte_size)
 
       errors.add(:cover, :invalid)
-    end
-
-    def scene_complete
-      errors.add(:scene, :incomplete) if @scene_draft && Path::Scene.new(@scene_draft).partial?
     end
 
     def landing_lists_within_bounds
