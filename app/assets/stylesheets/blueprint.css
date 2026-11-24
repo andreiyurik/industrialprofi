@@ -16,7 +16,8 @@
     animation: bp-draw 1.1s ease-out var(--d, 0s) backwards, bp-energize 1.4s ease-out 4s;
   }
 
-  .bp-solid { fill: var(--color-ink); }
+  .bp-target { fill: none; }
+  .bp-valve { fill: var(--color-bg); }
 
   .bp-fade {
     animation: appear 0.6s ease-out var(--d, 0s) backwards;
@@ -204,6 +205,213 @@
     border-block-start: 1px solid var(--sheet-rule);
     grid-column: 1 / -1;
   }
+}
+
+/* The control desk (plant controller). Its data attributes on the figure are the whole state:
+   main, drive, control, valve, run, the derived drive-live / control-live, and trip while the
+   protection flashes. Everything below is off until its attribute appears. */
+.blueprint[data-plant] {
+  :is(.bp-draw, .bp-fade) {
+    animation-delay: calc(var(--d, 0s) * 0.4);
+    animation-duration: 0.8s;
+  }
+
+  .bp-cable {
+    animation: bp-draw 0.8s ease-out calc(var(--d, 0s) * 0.4) backwards;
+    transition: stroke 300ms ease-out;
+  }
+
+  .bp-hit {
+    cursor: pointer;
+  }
+
+  .bp-target {
+    fill: transparent;
+    pointer-events: all;
+  }
+
+  .bp-handle {
+    animation: appear 0.3s ease-out 1s backwards;
+    transition: translate 160ms ease-out;
+    translate: 0 16px;
+  }
+
+  .bp-led {
+    animation: appear 0.3s ease-out 1.2s backwards;
+    opacity: 0.2;
+    transition: opacity 200ms ease-out;
+  }
+
+  .art-dots.bp-dots {
+    animation: scene-march 0.7s linear infinite;
+    opacity: 0;
+    transition: opacity 400ms ease-out;
+  }
+
+  .bp-rotor {
+    animation: none;
+  }
+
+  .bp-valve {
+    fill: var(--color-ink);
+    transition: fill-opacity 200ms ease-out;
+  }
+
+  .bp-start {
+    transition: fill 200ms ease-out;
+  }
+
+  .bp-casing {
+    transition: stroke 200ms ease-out;
+  }
+
+  &[data-main] .bp-handle--main,
+  &[data-drive] .bp-handle--drive,
+  &[data-control] .bp-handle--control {
+    translate: 0 0;
+  }
+
+  &[data-main] .bp-led--main,
+  &[data-drive-live] .bp-led--drive,
+  &[data-control-live] :is(.bp-led--control, .bp-led--plc) {
+    opacity: 1;
+  }
+
+  &[data-control-live] .bp-led--plc {
+    animation: bp-glow 1.6s ease-in-out infinite;
+  }
+
+  &[data-drive-live] .bp-cable--drive,
+  &[data-control-live] .bp-cable--command {
+    stroke: var(--color-link);
+  }
+
+  &[data-drive-live] .bp-dots--drive,
+  &[data-control-live] :is(.bp-dots--command, .bp-dots--plc),
+  &[data-run] .bp-dots--water {
+    opacity: 1;
+  }
+
+  &[data-valve] .bp-valve {
+    fill-opacity: 0;
+  }
+
+  &[data-run] .bp-rotor {
+    animation: bp-spin-up 1.6s cubic-bezier(0.55, 0, 1, 0.45), bp-spin 1.1s linear 1.6s infinite;
+  }
+
+  &[data-run] .bp-start {
+    fill: var(--color-positive);
+  }
+
+  &[data-trip] :is(.bp-casing, .bp-start) {
+    animation: bp-alarm 0.4s steps(2) 6;
+    stroke: var(--color-negative);
+  }
+}
+
+.plant {
+  border: 1px solid var(--sheet-rule);
+  border-block-start: 0;
+  display: grid;
+  gap: 0.9rem;
+  padding: 0.9rem 1rem 1rem;
+  text-align: start;
+
+  @media (min-width: 64em) {
+    align-items: center;
+    column-gap: 1.5rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+.plant__status {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin: 0;
+  min-block-size: 2.8em;
+
+  &[data-tone="alarm"] { color: var(--color-negative); }
+  &[data-tone="ok"] { color: var(--color-positive); }
+}
+
+.plant__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* A desk key: the lamp is its state, pressed keys keep their frame lit. */
+.plant__switch {
+  align-items: center;
+  background: none;
+  border: 1px solid var(--color-border-interactive);
+  border-radius: 0.25rem;
+  color: var(--color-ink);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--font-technical);
+  font-size: 0.95rem;
+  gap: 0.5em;
+  padding: 0.5rem 0.75rem;
+  transition: border-color 150ms ease-out, background-color 150ms ease-out;
+
+  &[aria-pressed="true"] {
+    border-color: var(--color-ink);
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: var(--color-subtle-light);
+    }
+  }
+}
+
+.plant__lamp {
+  background-color: var(--color-subtle);
+  block-size: 0.5rem;
+  border-radius: 50%;
+  inline-size: 0.5rem;
+  transition: background-color 150ms ease-out;
+}
+
+.plant__switch[aria-pressed="true"] .plant__lamp {
+  background-color: var(--color-positive);
+}
+
+.plant__switch--start {
+  background-color: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-ink-reversed);
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: var(--color-ink);
+      opacity: 0.85;
+    }
+  }
+}
+
+.plant__done {
+  align-items: center;
+  animation: appear 400ms ease-out;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  grid-column: 1 / -1;
+  margin: 0;
+
+  &[hidden] {
+    display: none;
+  }
+
+  .icon {
+    --icon-size: 0.9em;
+  }
+}
+
+@keyframes bp-alarm {
+  50% { opacity: 0.35; }
 }
 
 @keyframes bp-draw {

@@ -3,7 +3,8 @@
     once (each part waits --d seconds), then switches on and keeps running; the motion is in
     blueprint.css. The art is hand-placed in a 960×400 box; phones see its middle (slice). %>
 <% scope = "paths.blueprint" %>
-<figure class="blueprint scene--art">
+<%# Without JS the sheet runs by itself; the plant controller switches it off and hands the visitor the panel. %>
+<figure class="blueprint scene--art" data-controller="plant" data-plant-messages-value="<%= t("paths.plant.messages").to_json %>">
   <div class="blueprint__sheet">
   <svg class="blueprint__art" viewBox="0 0 960 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="<%= t("alt", scope: scope) %>">
     <g>
@@ -17,7 +18,7 @@
       <path class="art-far bp-fade" style="--d: 1.4s" d="M380 300l-8 8M398 300l-8 8M416 300l-8 8M434 300l-8 8M452 300l-8 8M470 300l-8 8M488 300l-8 8M506 300l-8 8M524 300l-8 8M542 300l-8 8M560 300l-8 8M578 300l-8 8" />
       <path class="art-ink bp-draw" pathLength="1" style="--d: 1.1s" d="M434 272V300M526 272V300" />
       <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 1.0s" x="416" y="262" width="128" height="10" rx="2" />
-      <circle class="art-ink art-body bp-draw" pathLength="1" style="--d: 0.6s" cx="480" cy="200" r="62" />
+      <circle class="art-ink art-body bp-casing bp-draw" pathLength="1" style="--d: 0.6s" cx="480" cy="200" r="62" />
       <circle class="art-quiet bp-draw" pathLength="1" style="--d: 0.9s" cx="480" cy="200" r="42" />
       <g class="bp-rotor"><path class="art-ink bp-fade" style="--d: 1.3s" d="M491.0 200.0Q509.5 205.2 505.1 229.9M485.5 209.5Q490.3 228.2 466.7 236.6M474.5 209.5Q460.7 223.0 441.6 206.8M469.0 200.0Q450.5 194.8 454.9 170.1M474.5 190.5Q469.7 171.8 493.3 163.4M485.5 190.5Q499.3 177.0 518.4 193.2" /></g>
       <circle class="art-ink art-body bp-draw" pathLength="1" style="--d: 1.2s" cx="480" cy="200" r="8" />
@@ -31,30 +32,42 @@
       <path class="art-ink bp-draw" pathLength="1" style="--d: 1.5s" d="M419 190H290V300M419 210H310V300" />
       <path class="art-ink bp-draw" pathLength="1" style="--d: 1.5s" d="M541 190H670V300M541 210H650V300" />
       <path class="art-ink bp-draw" pathLength="1" style="--d: 1.7s" d="M402 183V217M407 183V217M553 183V217M558 183V217" />
-      <path class="art-dots bp-dots" style="--d: 4.5s" d="M300 298V200H414" />
-      <path class="art-dots bp-dots" style="--d: 5s" d="M546 200H660V298" />
-      <path class="art-ink bp-solid bp-draw" pathLength="1" style="--d: 1.9s" d="M334 184 366 216V184L334 216Z" />
-      <path class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.0s" d="M350 200V172M341 172A9 9 0 0 1 359 172Z" />
+      <path class="art-dots bp-dots bp-dots--water" style="--d: 4.5s" d="M300 298V200H414" />
+      <path class="art-dots bp-dots bp-dots--water" style="--d: 5s" d="M546 200H660V298" />
+      <g class="bp-hit" data-action="click->plant#toggle" data-plant-key-param="valve">
+        <rect class="bp-target" x="326" y="158" width="48" height="64" />
+        <path class="art-ink bp-valve bp-draw" pathLength="1" style="--d: 1.9s" d="M334 184 366 216V184L334 216Z" />
+        <path class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.0s" d="M350 200V172M341 172A9 9 0 0 1 359 172Z" />
+      </g>
       <path class="art-ink bp-draw" pathLength="1" style="--d: 2.0s" d="M610 181V190" />
       <circle class="art-ink art-body bp-draw" pathLength="1" style="--d: 1.9s" cx="610" cy="168" r="13" />
       <text class="bp-letters bp-fade" style="--d: 2.2s" x="610" y="172.5" text-anchor="middle">FT</text>
     </g>
 
     <g data-part="power">
-      <path class="art-wire bp-cable bp-draw" pathLength="1" style="--d: 2.7s" d="M210 150H250V96H472V124" />
-      <path class="art-dots bp-dots" style="--d: 4.1s" d="M210 150H250V96H472V124" />
+      <path class="art-wire bp-cable bp-cable--drive bp-draw" pathLength="1" style="--d: 2.7s" d="M210 150H250V96H472V124" />
+      <path class="art-dots bp-dots bp-dots--drive" style="--d: 4.1s" d="M210 150H250V96H472V124" />
       <path class="art-wire art-wire--dashed bp-fade" style="--d: 2.9s" d="M210 168H342" />
       <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 1.9s" x="110" y="124" width="100" height="176" rx="6" />
       <rect class="art-ink bp-draw" pathLength="1" style="--d: 2.1s" x="122" y="142" width="76" height="56" rx="3" />
-      <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.2s" x="128" y="150" width="18" height="40" rx="2" />
-      <rect class="bp-handle" style="--d: 4.00s" x="132" y="155" width="10" height="14" rx="2" />
-      <circle class="bp-led" style="--d: 4.12s" cx="137" cy="133" r="3" />
-      <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.2s" x="151" y="150" width="18" height="40" rx="2" />
-      <rect class="bp-handle" style="--d: 4.22s" x="155" y="155" width="10" height="14" rx="2" />
-      <circle class="bp-led" style="--d: 4.34s" cx="160" cy="133" r="3" />
-      <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.2s" x="174" y="150" width="18" height="40" rx="2" />
-      <rect class="bp-handle" style="--d: 4.44s" x="178" y="155" width="10" height="14" rx="2" />
-      <circle class="bp-led" style="--d: 4.56s" cx="183" cy="133" r="3" />
+      <g class="bp-hit" data-action="click->plant#toggle" data-plant-key-param="main">
+        <rect class="bp-target" x="126" y="126" width="22" height="68" />
+        <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.2s" x="128" y="150" width="18" height="40" rx="2" />
+        <rect class="bp-handle bp-handle--main" style="--d: 4.00s" x="132" y="155" width="10" height="14" rx="2" />
+        <circle class="bp-led bp-led--main" style="--d: 4.12s" cx="137" cy="133" r="3" />
+      </g>
+      <g class="bp-hit" data-action="click->plant#toggle" data-plant-key-param="drive">
+        <rect class="bp-target" x="149" y="126" width="22" height="68" />
+        <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.2s" x="151" y="150" width="18" height="40" rx="2" />
+        <rect class="bp-handle bp-handle--drive" style="--d: 4.22s" x="155" y="155" width="10" height="14" rx="2" />
+        <circle class="bp-led bp-led--drive" style="--d: 4.34s" cx="160" cy="133" r="3" />
+      </g>
+      <g class="bp-hit" data-action="click->plant#toggle" data-plant-key-param="control">
+        <rect class="bp-target" x="172" y="126" width="22" height="68" />
+        <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.2s" x="174" y="150" width="18" height="40" rx="2" />
+        <rect class="bp-handle bp-handle--control" style="--d: 4.44s" x="178" y="155" width="10" height="14" rx="2" />
+        <circle class="bp-led bp-led--control" style="--d: 4.56s" cx="183" cy="133" r="3" />
+      </g>
       <rect class="art-quiet bp-draw" pathLength="1" style="--d: 2.4s" x="135" y="214" width="50" height="12" rx="1.5" />
       <path class="art-far bp-fade" style="--d: 2.5s" d="M130 268H190M130 276H190M130 284H190" />
       <text class="art-tag bp-fade" style="--d: 3.5s" x="400" y="89" text-anchor="middle"><%= t("volts", scope: scope) %></text>
@@ -66,21 +79,25 @@
     </g>
 
     <g data-part="control">
-      <path class="art-wire bp-cable bp-draw" pathLength="1" style="--d: 2.7s" d="M750 150H710V96H488V124" />
-      <path class="art-dots bp-dots" style="--d: 4.4s" d="M750 150H710V96H488V124" />
+      <path class="art-wire bp-cable bp-cable--command bp-draw" pathLength="1" style="--d: 2.7s" d="M750 150H710V96H488V124" />
+      <path class="art-dots bp-dots bp-dots--command" style="--d: 4.4s" d="M750 150H710V96H488V124" />
       <path class="art-wire art-wire--dashed bp-fade" style="--d: 2.9s" d="M623 168H750" />
-      <path class="art-dots bp-dots" style="--d: 5.4s" d="M623 168H750" />
+      <path class="art-dots bp-dots bp-dots--plc" style="--d: 5.4s" d="M623 168H750" />
       <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 1.9s" x="750" y="124" width="100" height="176" rx="6" />
       <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.2s" x="762" y="146" width="22" height="46" rx="2" />
-      <circle class="bp-led" style="--d: 4.3s" cx="773" cy="155" r="3" />
+      <circle class="bp-led bp-led--plc" style="--d: 4.3s" cx="773" cy="155" r="3" />
       <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.3s" x="789" y="146" width="13" height="46" rx="2" />
-      <circle class="bp-led bp-led--blue" style="--d: 4.50s" cx="795.5" cy="155" r="2.5" />
+      <circle class="bp-led bp-led--blue bp-led--plc" style="--d: 4.50s" cx="795.5" cy="155" r="2.5" />
       <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.3s" x="806" y="146" width="13" height="46" rx="2" />
-      <circle class="bp-led bp-led--blue" style="--d: 4.75s" cx="812.5" cy="155" r="2.5" />
+      <circle class="bp-led bp-led--blue bp-led--plc" style="--d: 4.75s" cx="812.5" cy="155" r="2.5" />
       <rect class="art-ink art-body bp-draw" pathLength="1" style="--d: 2.3s" x="823" y="146" width="13" height="46" rx="2" />
-      <circle class="bp-led bp-led--blue" style="--d: 5.00s" cx="829.5" cy="155" r="2.5" />
+      <circle class="bp-led bp-led--blue bp-led--plc" style="--d: 5.00s" cx="829.5" cy="155" r="2.5" />
       <path class="art-quiet bp-draw" pathLength="1" style="--d: 2.5s" d="M762 214h76v12h-76zM773 214v12M784 214v12M795 214v12M806 214v12M817 214v12M828 214v12" />
-      <path class="art-far bp-fade" style="--d: 2.5s" d="M770 268H830M770 276H830M770 284H830" />
+      <g class="bp-hit" data-action="click->plant#start">
+        <rect class="bp-target" x="784" y="232" width="32" height="30" />
+        <circle class="art-ink art-body bp-start bp-draw" pathLength="1" style="--d: 2.6s" cx="800" cy="246" r="9" />
+      </g>
+      <path class="art-far bp-fade" style="--d: 2.5s" d="M770 272H830M770 279H830M770 286H830" />
       <text class="art-tag bp-fade" style="--d: 3.5s" x="560" y="89" text-anchor="middle"><%= t("control", scope: scope) %></text>
       <text class="art-tag bp-fade" style="--d: 3.5s" x="686" y="186" text-anchor="middle"><%= t("signal", scope: scope) %></text>
       <% if callouts[:control] %>
@@ -103,6 +120,29 @@
       <% end %>
     </ul>
   <% end %>
+  </div>
+
+  <div class="plant" data-plant-target="panel" hidden>
+    <p class="plant__status" data-plant-target="status" aria-live="polite"></p>
+    <div class="plant__controls">
+      <% %w[main drive control valve].each do |key| %>
+        <button type="button" class="plant__switch" aria-pressed="false" data-plant-target="switch"
+                data-action="plant#toggle" data-plant-key-param="<%= key %>">
+          <span class="plant__lamp"></span><%= t("paths.plant.#{key}") %>
+        </button>
+      <% end %>
+      <button type="button" class="plant__switch plant__switch--start" data-action="plant#start"><%= t("paths.plant.start") %></button>
+    </div>
+    <p class="plant__done" data-plant-target="done" hidden>
+      <%= link_to "#catalog", class: "btn btn--small btn--reversed" do %><%= t("paths.plant.learn") %><%= icon_tag "arrow-right" %><% end %>
+      <span data-controller="copy-link" data-copy-link-url-value="<%= root_url %>" data-copy-link-goal-value="link_copied"
+            data-copy-link-label-value="<%= t("paths.plant.share") %>" data-copy-link-copied-value="<%= t("paths.plant.shared") %>">
+        <button type="button" class="btn btn--small" data-copy-link-target="button" data-action="copy-link#copy" hidden>
+          <span data-copy-link-target="label"><%= t("paths.plant.share") %></span>
+        </button>
+      </span>
+      <button type="button" class="btn btn--small" data-action="plant#reset"><%= t("paths.plant.again") %></button>
+    </p>
   </div>
 
   <dl class="blueprint__stamp">
