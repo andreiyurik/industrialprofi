@@ -11,7 +11,9 @@ export default class extends Controller {
 
   select({ target: { value } }) {
     try { localStorage.setItem("theme", value) } catch {}
-    window.dispatchEvent(new Event("theme:change"))
+    const apply = () => window.dispatchEvent(new Event("theme:change"))
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    document.startViewTransition && !still ? document.startViewTransition(apply) : apply()
   }
 
   sync() {
