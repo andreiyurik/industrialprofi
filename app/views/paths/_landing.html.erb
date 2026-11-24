@@ -3,13 +3,13 @@
 <% about, history = path.about, path.history %>
 <% highlights, pros, cons = Array(path.highlights), Array(path.pros), Array(path.cons) %>
 <% faq_entries = path.faq_entries %>
-<% scene = path.scene %>
+<% scene = path_scene(path) %>
 <div class="landing">
-  <% if about.present? || path.cover.attached? || scene.present? %>
+  <% if about.present? || path.cover.attached? || scene %>
     <section class="landing__section">
       <h2 class="landing__title"><%= t("paths.landing.about") %></h2>
       <div class="landing__body">
-        <%= render "paths/scene", scene: scene, courses: courses if scene.present? %>
+        <%= render scene, courses: courses if scene %>
         <% if path.cover.attached? %>
           <figure class="landing__cover">
             <% if ApplicationHelper.variant_processing_available? %>

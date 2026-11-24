@@ -1,0 +1,19 @@
+<%# locals: (courses:) -%>
+<%# `step` is the beat on which the pulse reaches a node or leaves along a wire: 0…3 round the loop. %>
+<% chapters = courses.reject(&:coming_soon?).index_by(&:slug) %>
+<% scope = "paths.scenes.inzhener_asu_tp" %>
+<figure class="scene">
+  <div class="scene__loop">
+    <%= scene_node :top, :scada, step: 2, scope: scope, icon: "monitor-light", course: chapters["asutp-scada"] %>
+    <%= scene_wire :rise, :up, t("net", scope: scope), step: 1 %>
+    <%= scene_node :second, :plc, step: 1, scope: scope, icon: "cpu-light", course: chapters["asutp-plk-i-regulirovanie"], look: :live %>
+    <%= scene_wire :across, :right, t("command", scope: scope), step: 1 %>
+    <%= scene_node :third, :actuator, step: 2, scope: scope, icon: "engine-light", course: chapters["asutp-osnovy-i-kipia"] %>
+    <%= scene_wire :climb, :up, t("signal", scope: scope), step: 0 %>
+    <%= scene_wire :drop, :down, t("effect", scope: scope), step: 2 %>
+    <%= scene_node :first, :sensor, step: 0, scope: scope, icon: "gauge-light", course: chapters["asutp-osnovy-i-kipia"] %>
+    <%= scene_wire :back, :left, t("value", scope: scope), step: 3 %>
+    <%= scene_node :fourth, :process, step: 3, scope: scope, icon: "pipe-light" %>
+  </div>
+  <figcaption class="scene__caption"><%= t("caption", scope: scope) %></figcaption>
+</figure>

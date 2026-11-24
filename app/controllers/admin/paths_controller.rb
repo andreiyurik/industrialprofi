@@ -78,7 +78,7 @@ module Admin
                     :cover, :cover_credit, :about, :history, :faq, :highlights_text, :pros_text, :cons_text ]
       permitted << :slug unless slug_locked?(@path)
       permitted << :listed if Current.user.can_administer?
-      params.require(:path).permit(*permitted, scene: {})
+      params.require(:path).permit(*permitted)
     end
   end
 end

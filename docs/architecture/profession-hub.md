@@ -11,7 +11,6 @@ paths:
   - "app/models/path/landing.rb"
   - "app/models/path/maturity.rb"
   - "app/models/path/inventory.rb"
-  - "app/models/path/scene.rb"
   - "app/models/path/contributors.rb"
   - "app/models/glossary_term.rb"
   - "app/models/resource_library.rb"
@@ -40,14 +39,15 @@ flowchart TB
   small print) → doors into the tabs → the chapter route → pros/cons → FAQ → history → the
   start button again → credits (curators, contributors, maturity). The doors and the route
   render for every profession; the slots only when filled.
-- **Scene** (`Path::Scene`, `paths/_scene`, `scene.css`): the animated loop that opens the
-  overview — four steps round a circuit plus a watcher above. It is data in
-  `paths.landing["scene"]`, edited in the profession form (`admin/paths/_scene_node`) and
-  carried by `landing.yml`; there is no per-profession template. HTML nodes on a CSS grid
-  keep text readable on a phone, motion is CSS only. A node links to its chapter by course
-  slug and is a plain card when the chapter is missing or unpublished. One geometry on
-  purpose: a second layout becomes code only when a profession cannot be told as a loop.
-- **Landing «О профессии»** (`Path::Landing`): six slots and the scene in one JSON column
+- **Scene** (`paths/scenes/_<slug>`, `scene.css`): the animated loop that opens the
+  overview. Drawn by a developer, one partial per profession, from shared parts —
+  `scene_node` / `scene_wire` on a five-area grid, a pulse that runs the loop in four
+  beats (`step:` is the beat that lights a part), and `look:` accents (`live` LEDs, `glow`). Words live in `paths.scenes.<slug>`; a node links to its chapter by course slug
+  and is a plain card when the chapter is missing. A profession without a partial has no
+  scene. Not editable in the admin on purpose: a form would cap every scene at what one
+  generic layout can show, and pasted markup would be stored script on a public page.
+  The brief for drawing one is `tools/PROFESSION_SCENE.md`.
+- **Landing «О профессии»** (`Path::Landing`): six slots in one JSON column
   (`paths.landing`: about/history/faq markdown; highlights/pros/cons line lists) +
   `has_one_attached :cover` (also the og:image). Carried by packs as `landing.yml` +
   `cover.*`; frozen by an expert's edit, but an empty landing is filled even on a

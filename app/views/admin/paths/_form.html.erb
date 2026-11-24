@@ -26,7 +26,7 @@
     </div>
   <% end %>
 
-  <%# The slots match Path::Landing's landing.yml; the placeholder text is the manual. %>
+  <%# Six slots match Path::Landing's landing.yml; the placeholder text is the manual. %>
   <fieldset class="admin-form__group" id="landing-editor">
     <legend class="admin-form__group-title"><%= t("admin.landing.heading") %></legend>
     <p class="admin-form__hint"><%= t("admin.landing.hint") %></p>
@@ -51,27 +51,6 @@
       <label><%= t("admin.landing.about") %></label>
       <%= f.text_area :about, rows: 8, class: "input input--textarea", placeholder: t("admin.landing.about_placeholder") %>
       <p class="admin-form__hint"><%= t("admin.landing.markdown_hint") %></p>
-    </div>
-
-    <%# The loop diagram (Path::Scene): four steps clockwise from the bottom-left corner, plus the watcher above. %>
-    <% scene = path.scene %>
-    <% courses = path.persisted? ? path.courses.listable.ordered.to_a : [] %>
-    <div class="admin-form__field admin-form__field--lg scene-editor" id="scene-editor">
-      <label><%= t("admin.landing.scene.heading") %></label>
-      <p class="admin-form__hint"><%= t("admin.landing.scene.hint") %></p>
-      <% scene.steps.each_with_index do |node, index| %>
-        <%= render "admin/paths/scene_node", prefix: "path[scene][steps][#{index}]", node: node, courses: courses,
-              title: t("admin.landing.scene.step_#{index + 1}"),
-              link_name: "path[scene][links][#{index}]", link: scene.links[index],
-              link_label: t("admin.landing.scene.link", to: index == Path::Scene::STEPS - 1 ? 1 : index + 2) %>
-      <% end %>
-      <%= render "admin/paths/scene_node", prefix: "path[scene][top]", node: scene.top, courses: courses,
-            title: t("admin.landing.scene.top"),
-            link_name: "path[scene][top_link]", link: scene.top_link, link_label: t("admin.landing.scene.top_link") %>
-      <label class="scene-editor__cell">
-        <span><%= t("admin.landing.scene.caption") %></span>
-        <%= text_field_tag "path[scene][caption]", scene.caption, class: "input", maxlength: Path::Scene::LIMITS["caption"], id: nil %>
-      </label>
     </div>
 
     <div class="admin-form__field">
