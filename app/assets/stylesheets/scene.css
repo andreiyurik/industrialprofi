@@ -144,3 +144,23 @@
     border-color: var(--color-ink);
   }
 }
+
+/* A poster is the same drawing frozen at its telling moment (--poster seconds into the lap). */
+.scene--poster {
+  margin: 0;
+  max-inline-size: none;
+
+  :is(*, *::before, *::after) {
+    animation-delay: calc(var(--poster, 3s) * -1) !important;
+    animation-play-state: paused !important;
+  }
+}
+
+.scene--stage {
+  margin: 0;
+  max-inline-size: none;
+
+  .scene__phases {
+    margin-block-end: 0;
+  }
+}

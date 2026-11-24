@@ -72,6 +72,20 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_select "#catalog"
   end
 
+  test "index stages the professions that have a scene and posters every card" do
+    get paths_path
+    assert_select ".showcase[data-controller=showcase] .showcase__tab", text: paths(:electrician).title
+    assert_select ".showcase__slide .scene--stage svg"
+    assert_select ".showcase__slide .scene__legend", false, "the stage shows the drawing, not the chapter legend"
+    assert_select ".showcase__open[href=?]", path_path(paths(:electrician))
+    assert_select ".path-card .path-card__poster .scene--poster svg", 1
+    assert_select ".path-card__poster--emblem", minimum: 1
+    assert_select ".hero__stats .hub-stats__item", 3
+
+    ids = css_select("[id]").map { |node| node["id"] }
+    assert_equal ids.uniq, ids, "a scene drawn twice on one page keeps its SVG ids apart"
+  end
+
   test "index features the most-used calculators below the catalog" do
     get paths_path
     Calculator.featured.each do |calculator|

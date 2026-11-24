@@ -36,13 +36,6 @@
   }
 }
 
-/* For the typed hero title; step-end elsewhere gives a hard on/off, not a fade. */
-@keyframes caret-blink {
-  50% {
-    opacity: 0;
-  }
-}
-
 /* Pair with per-child animation-delay for a light stagger. */
 @keyframes rise-in {
   from {
@@ -131,4 +124,8 @@
 /* The marching dots every profession scene shares (scene.css). */
 @keyframes scene-march {
   to { stroke-dashoffset: -14.1; }
+}
+
+@keyframes showcase-lap {
+  to { scale: 1 1; }
 }

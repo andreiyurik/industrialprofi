@@ -1152,8 +1152,10 @@ en:
     title: "Profession roadmaps"
     subtitle: "An open encyclopedia of professions: roadmaps are led by practitioners, and edits are reviewed by the community. Free, forever."
     hero:
-      # The <span> gets a hand-drawn Rough Notation underline on load (rough_annotation_controller.js).
-      title_html: 'Learn to be a <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">process-control engineer or an electrician</span> with open career maps'
+      title_html: "A hands-on trade — by the real standards, for free"
+      standards: "GOST · PUE · PTEEP · IEC 61131-3 · GOST 21.208"
+      showcase_label: "Featured professions"
+      open: "Open the roadmap: %{title}"
       subtitle_html: "Lessons built on official standards, hands-on tasks and engineering calculators. Reading needs no account — sign up only to mark lessons done."
       start: "Choose a profession"
       calculators: "Calculators"

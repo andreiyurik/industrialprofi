@@ -1,16 +1,16 @@
-<%# locals: (courses:) -%>
+<%# locals: (courses: [], mode: :full, uid: "scene") -%>
 <%# One story on a ten-second lap: breakers on, the line goes live, the lamp lights, a leak, the RCD trips.
     Geometry is hand-placed in a 480-wide box; the motion is in scene-elektrik.css. %>
 <% chapters = courses.reject(&:coming_soon?).index_by(&:slug) %>
 <% scope = "paths.scenes.elektrik" %>
-<figure class="scene scene--art scene-elektrik">
+<figure class="scene scene--art scene--<%= mode %> scene-elektrik">
   <svg class="scene__art" viewBox="0 22 480 264" role="img" aria-label="<%= t("alt", scope: scope) %>">
     <defs>
-      <radialGradient id="el-halo">
+      <radialGradient id="<%= uid %>-halo">
         <stop class="el-halo__core" offset="0" />
         <stop class="el-halo__edge" offset="1" />
       </radialGradient>
-      <clipPath id="el-room"><rect x="228" y="96" width="218" height="160" /></clipPath>
+      <clipPath id="<%= uid %>-room"><rect x="228" y="96" width="218" height="160" /></clipPath>
     </defs>
 
     <rect class="el-wash" x="228" y="96" width="218" height="160" />
@@ -62,7 +62,7 @@
     </g>
 
     <g data-part="four">
-      <g clip-path="url(#el-room)"><circle class="el-halo" cx="337" cy="132" r="66" /></g>
+      <g clip-path="url(#<%= uid %>-room)"><circle class="el-halo" cx="337" cy="132" r="66" fill="url(#<%= uid %>-halo)" /></g>
       <g class="el-lamp">
         <path class="el-rays" d="M337 151V159M318 132H310M356 132H364M323.6 145.4 317.9 151.1M350.4 145.4 356.1 151.1M323.6 118.6 317.9 112.9M350.4 118.6 356.1 112.9" />
         <circle class="el-bulb" cx="337" cy="132" r="13" />
@@ -94,18 +94,22 @@
     </g>
   </svg>
 
-  <p class="scene__phases">
-    <span class="art-phase el-phase el-phase--on"><%= t("phase_on", scope: scope) %></span>
-    <span class="art-phase el-phase el-phase--lit"><%= t("phase_lit", scope: scope) %></span>
-    <span class="art-phase el-phase el-phase--trip"><%= t("phase_trip", scope: scope) %></span>
-  </p>
+  <% unless mode == :poster %>
+    <p class="scene__phases">
+      <span class="art-phase el-phase el-phase--on"><%= t("phase_on", scope: scope) %></span>
+      <span class="art-phase el-phase el-phase--lit"><%= t("phase_lit", scope: scope) %></span>
+      <span class="art-phase el-phase el-phase--trip"><%= t("phase_trip", scope: scope) %></span>
+    </p>
+  <% end %>
 
-  <ol class="scene__legend">
-    <%= scene_chip :intake, :one, scope: scope, course: chapters["elektrik-osnovy-elektrotekhniki"] %>
-    <%= scene_chip :panel, :two, scope: scope, course: chapters["elektrik-pue-i-ustroystvo"] %>
-    <%= scene_chip :line, :three, scope: scope, course: chapters["elektrik-montazh"] %>
-    <%= scene_chip :load, :four, scope: scope, course: chapters["elektrik-bytovoy"] %>
-    <%= scene_chip :earth, :five, scope: scope, course: chapters["elektrik-bezopasnost-i-ohrana-truda"] %>
-    <%= scene_chip :tests, :six, scope: scope, course: chapters["elektrik-izmerniya-i-ispytaniya"] %>
-  </ol>
+  <% if mode == :full %>
+    <ol class="scene__legend">
+      <%= scene_chip :intake, :one, scope: scope, course: chapters["elektrik-osnovy-elektrotekhniki"] %>
+      <%= scene_chip :panel, :two, scope: scope, course: chapters["elektrik-pue-i-ustroystvo"] %>
+      <%= scene_chip :line, :three, scope: scope, course: chapters["elektrik-montazh"] %>
+      <%= scene_chip :load, :four, scope: scope, course: chapters["elektrik-bytovoy"] %>
+      <%= scene_chip :earth, :five, scope: scope, course: chapters["elektrik-bezopasnost-i-ohrana-truda"] %>
+      <%= scene_chip :tests, :six, scope: scope, course: chapters["elektrik-izmerniya-i-ispytaniya"] %>
+    </ol>
+  <% end %>
 </figure>

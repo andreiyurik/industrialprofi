@@ -191,6 +191,28 @@
   }
 }
 
+/* The drawing bleeds to the card's edges; the corner ticks stay above it. */
+.path-card__poster {
+  border-block-end: 1px solid var(--color-subtle);
+  margin: calc(-1 * var(--panel-padding)) calc(-1 * var(--panel-padding)) 0;
+  padding: 1rem 1.25rem 0.5rem;
+}
+
+.path-card__poster--emblem {
+  align-items: center;
+  aspect-ratio: 480 / 258;
+  color: var(--color-subtle-dark);
+  display: flex;
+  justify-content: center;
+  --icon-size: 4.5rem;
+}
+
+@media (any-hover: hover) {
+  .path-card:hover .scene--poster :is(*, *::before, *::after) {
+    animation-play-state: running !important;
+  }
+}
+
 .path-card__title {
   font-family: var(--font-technical);
   /* Large enough for the monoline drafting face to read as a drawing, not a broken monospace. */

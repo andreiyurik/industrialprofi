@@ -6,7 +6,6 @@
   }
 }
 
-/* Content column — static, no entrance animation. */
 .hero__inner {
   text-align: center;
 }
@@ -27,33 +26,6 @@
   margin-inline: auto;
   max-inline-size: 32ch;
   text-wrap: balance;
-}
-
-.hero__title.is-caret::after {
-  content: "";
-  display: inline-block;
-  inline-size: 0.1em;
-  block-size: 0.86em;
-  margin-inline-start: 0.14em;
-  /* Subtitle-gray, not link-blue — the caret must not compete with the annotation underline for the blue accent. */
-  background-color: var(--color-subtle-dark);
-  border-radius: 0.03em;
-  vertical-align: -0.06em;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .hero__title.is-caret::after {
-    animation: caret-blink 1.05s step-end infinite;
-  }
-}
-
-/* One continuous underline where it fits; on narrow phones it wraps and the multiline annotation follows each line. */
-.hero__mark {
-  white-space: nowrap;
-
-  @media (max-width: 430px) {
-    white-space: normal;
-  }
 }
 
 .hero__subtitle {
@@ -151,3 +123,144 @@
 }
 
 /* Emblem-card styling lives in paths.css, which owns .path-card and loads after this file. */
+
+/* With a stage the hero splits: the pitch on the left, the scene on the right. */
+.hero--showcase {
+  padding-block: 2.5rem 2rem;
+
+  .hero__inner {
+    align-items: center;
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .hero__title {
+    font-size: clamp(2rem, 4.6vw, 3.5rem);
+    letter-spacing: -0.03em;
+    line-height: 1.04;
+    max-inline-size: 16ch;
+  }
+
+  .hero__subtitle {
+    font-size: 1.05rem;
+    max-inline-size: 34rem;
+  }
+}
+
+@media (min-width: 64em) {
+  .hero--showcase {
+    padding-block: 4.5rem 3.5rem;
+
+    .hero__inner {
+      column-gap: 4rem;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      text-align: start;
+    }
+
+    :is(.hero__title, .hero__subtitle) {
+      margin-inline: 0;
+    }
+
+    :is(.hero__actions, .hero__stats) {
+      justify-content: flex-start;
+    }
+  }
+}
+
+.hero__stats {
+  margin-block-start: 2.25rem;
+}
+
+.hero__standards {
+  color: var(--color-subtle-dark);
+  font-family: var(--font-technical);
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  margin-block: 1rem 0;
+}
+
+.showcase {
+  border: 1px solid var(--color-subtle);
+  border-radius: 1.25rem;
+  min-inline-size: 0;
+  padding: 1rem clamp(1rem, 3vw, 1.75rem) 1.25rem;
+  text-align: center;
+}
+
+.showcase__tabs {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+  margin-block-end: 0.75rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+/* The profession's name in its GOST face is the tab; the bar under it runs for one lap of the scene. */
+.showcase__tab {
+  background: none;
+  border: 0;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: var(--font-technical);
+  font-size: clamp(1rem, 2.4vw, 1.3rem);
+  padding: 0.4rem 0.75rem 0.6rem;
+  position: relative;
+  transition: color 150ms ease-out;
+
+  &::after {
+    background-color: var(--color-ink);
+    block-size: 2px;
+    content: "";
+    inline-size: calc(100% - 1.5rem);
+    inset-block-end: 0;
+    inset-inline-start: 0.75rem;
+    position: absolute;
+    scale: 0 1;
+    transform-origin: left;
+  }
+
+  &[aria-selected="true"] {
+    color: var(--color-ink);
+  }
+
+  &[aria-selected="true"]::after {
+    animation: showcase-lap var(--showcase-lap, 10s) linear forwards;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+.showcase__slide {
+  animation: appear 400ms ease-out;
+}
+
+.showcase__open {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  display: inline-flex;
+  font-size: 0.9rem;
+  gap: 0.4em;
+  margin-block-start: 0.5rem;
+  text-decoration: none;
+
+  .icon {
+    transition: transform 150ms ease-out;
+    --icon-size: 0.9em;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+
+      .icon {
+        transform: translateX(0.2em);
+      }
+    }
+  }
+}

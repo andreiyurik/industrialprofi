@@ -3,6 +3,12 @@
 <%# view-transition-name must stay on this box (matching _hub_header's), never on the text inside — renaming either side kills the morph. %>
 <a href="<%= path_path(path) %>" class="panel panel--hover path-card"
    style="view-transition-name: path-<%= path.slug %>">
+  <%# The scene frozen at its telling moment; a profession without one shows its emblem. %>
+  <% if (scene = path_scene(path)) %>
+    <div class="path-card__poster"><%= render scene, mode: :poster, uid: "card-#{path.id}" %></div>
+  <% else %>
+    <div class="path-card__poster path-card__poster--emblem"><%= icon_tag path.emblem %></div>
+  <% end %>
   <h2 class="path-card__title"><%= path.title %></h2>
   <% if path.description.present? %>
     <p class="path-card__desc"><%= path.description %></p>

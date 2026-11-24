@@ -48,6 +48,12 @@ flowchart TB
   Not editable in the admin on purpose: a form would cap every scene at one generic
   layout, and pasted markup would be stored script on a public page. The brief for
   drawing one is `tools/PROFESSION_SCENE.md`.
+- **One scene, three places**: the partial takes `mode:` — `:full` on the overview (drawing,
+  phases, legend), `:stage` on the home page's showcase (drawing and phases; `showcase`
+  Stimulus controller plays each profession for one lap of its `--lap`, then the next),
+  `:poster` on the catalog card (the drawing frozen `--poster` seconds into its lap, running
+  on hover). `uid:` keeps SVG ids apart when a scene is drawn twice on a page. A profession
+  without a scene gets an emblem poster and stays off the stage.
 - **Landing «О профессии»** (`Path::Landing`): six slots in one JSON column
   (`paths.landing`: about/history/faq markdown; highlights/pros/cons line lists) +
   `has_one_attached :cover` (also the og:image). Carried by packs as `landing.yml` +
