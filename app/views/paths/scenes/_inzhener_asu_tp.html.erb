@@ -5,7 +5,7 @@
 <% chapters = courses.reject(&:coming_soon?).index_by(&:slug) %>
 <% scope = "paths.scenes.inzhener_asu_tp" %>
 <figure class="scene scene--art scene--<%= mode %> scene-asu">
-  <svg class="scene__art" viewBox="<%= mode == :poster ? "10 56 330 181.5" : "0 14 480 258" %>" role="img" aria-label="<%= t("alt", scope: scope) %>">
+  <svg class="scene__art" viewBox="<%= mode == :poster ? "10 56 330 181.5" : "0 14 480 258" %>" <%= tag.attributes(mode == :poster ? { aria: { hidden: true } } : { role: "img", aria: { label: t("alt", scope: scope) } }) %>>
     <defs>
       <clipPath id="<%= uid %>-tank"><rect x="41" y="97" width="82" height="138" rx="9" /></clipPath>
       <clipPath id="<%= uid %>-mimic"><rect x="421" y="55" width="16" height="44" rx="2" /></clipPath>
