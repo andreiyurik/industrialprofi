@@ -243,11 +243,11 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".landing__highlight .landing__tile-text", text: "Просто строка"
   end
 
-  test "a profession with a scene partial draws the loop; one without draws none" do
+  test "a profession with a scene partial draws it; one without draws none" do
     get path_path(paths(:electrician))
-    assert_select ".scene__node", 5
-    assert_select ".scene__wire", 5
-    assert_select ".scene__caption"
+    assert_select ".scene svg[role=img][aria-label]"
+    assert_select ".scene__legend .scene__chip", 6
+    assert_select ".scene__phases span", 3
 
     get path_path(paths(:welder))
     assert_select ".scene", false

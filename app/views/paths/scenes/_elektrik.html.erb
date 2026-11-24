@@ -1,19 +1,111 @@
 <%# locals: (courses:) -%>
-<%# `step` is the beat on which the pulse reaches a node or leaves along a wire: 0…3 round the loop. %>
+<%# One story on a ten-second lap: breakers on, the line goes live, the lamp lights, a leak, the RCD trips.
+    Geometry is hand-placed in a 480-wide box; the motion is in scene-elektrik.css. %>
 <% chapters = courses.reject(&:coming_soon?).index_by(&:slug) %>
 <% scope = "paths.scenes.elektrik" %>
-<figure class="scene">
-  <div class="scene__loop">
-    <%= scene_node :top, :tests, step: 2, scope: scope, icon: "gauge-light", course: chapters["elektrik-izmerniya-i-ispytaniya"] %>
-    <%= scene_wire :rise, :up, t("readings", scope: scope), step: 1 %>
-    <%= scene_node :second, :panel, step: 1, scope: scope, icon: "sliders-light", course: chapters["elektrik-pue-i-ustroystvo"], look: :live %>
-    <%= scene_wire :across, :right, t("cable", scope: scope), step: 1 %>
-    <%= scene_node :third, :load, step: 2, scope: scope, icon: "house-light", course: chapters["elektrik-montazh"], look: :glow %>
-    <%= scene_wire :climb, :up, t("supply", scope: scope), step: 0 %>
-    <%= scene_wire :drop, :down, t("pe", scope: scope), step: 2 %>
-    <%= scene_node :first, :intake, step: 0, scope: scope, icon: "lightning-light", course: chapters["elektrik-osnovy-elektrotekhniki"] %>
-    <%= scene_wire :back, :left, t("neutral", scope: scope), step: 3 %>
-    <%= scene_node :fourth, :earth, step: 3, scope: scope, icon: "shield-check-light", course: chapters["elektrik-bezopasnost-i-ohrana-truda"] %>
-  </div>
-  <figcaption class="scene__caption"><%= t("caption", scope: scope) %></figcaption>
+<figure class="scene scene--art scene-elektrik">
+  <svg class="scene__art" viewBox="0 22 480 264" role="img" aria-label="<%= t("alt", scope: scope) %>">
+    <defs>
+      <radialGradient id="el-halo">
+        <stop class="el-halo__core" offset="0" />
+        <stop class="el-halo__edge" offset="1" />
+      </radialGradient>
+      <clipPath id="el-room"><rect x="228" y="96" width="218" height="160" /></clipPath>
+    </defs>
+
+    <rect class="el-wash" x="228" y="96" width="218" height="160" />
+    <g class="art-far">
+      <path d="M0 256H228M446 256H480" />
+      <path d="M214 96 337 30 460 96" />
+      <path d="M228 89V256H446V89M228 96H446" />
+      <path d="M84 212V256M156 212V256" />
+    </g>
+
+    <g data-part="one">
+      <path class="art-wire" d="M0 118H70" />
+      <path class="art-dots" d="M0 118H70" />
+      <text class="art-tag" x="8" y="138"><%= t("volts", scope: scope) %></text>
+    </g>
+
+    <g data-part="three">
+      <path class="art-wire" d="M170 104H337V112" />
+      <path class="art-wire" d="M170 134H212V206H290" />
+      <path class="el-live el-live--lamp" pathLength="1" d="M170 104H337V112" />
+      <path class="el-live el-live--socket" pathLength="1" d="M170 134H212V206H290" />
+      <path class="art-dots el-dots--lamp" d="M170 104H337V112" />
+      <path class="art-dots el-dots--socket" d="M170 134H212V206H290" />
+    </g>
+
+    <g data-part="two">
+      <rect class="art-ink art-body" x="70" y="62" width="100" height="150" rx="8" />
+      <rect class="art-ink" x="80" y="90" width="80" height="60" rx="4" />
+      <% [ [ :main, 85 ], [ :rcd, 110 ], [ :branch, 135 ] ].each do |name, x| %>
+        <g class="el-breaker el-breaker--<%= name %>">
+          <rect class="art-ink art-body" x="<%= x %>" y="98" width="20" height="44" rx="3" />
+          <rect class="el-handle" x="<%= x + 6 %>" y="103" width="8" height="12" rx="2" />
+          <circle class="el-led" cx="<%= x + 10 %>" cy="137" r="2.5" />
+        </g>
+      <% end %>
+      <circle class="el-led el-led--trip" cx="120" cy="137" r="2.5" />
+      <text class="art-tag el-tag--trip" x="120" y="168" text-anchor="middle"><%= t("rcd", scope: scope) %></text>
+    </g>
+
+    <g data-part="five">
+      <path class="art-wire art-wire--dashed" d="M290 214H270V238H180V184H152" />
+      <path class="art-wire art-wire--dashed" d="M120 188V262" />
+      <rect class="art-ink art-body" x="88" y="180" width="64" height="8" rx="2" />
+      <path class="art-ink" d="M98 184h.01M109 184h.01M120 184h.01M131 184h.01M142 184h.01" stroke-width="2.5" />
+      <path class="art-ink" d="M106 262H134M111 268H129M116 274H124" />
+      <path class="el-fault el-fault--wire" pathLength="1" d="M290 214H270V238H180V184H120" />
+      <path class="el-fault el-fault--rod" pathLength="1" d="M120 188V262" />
+      <text class="art-tag" x="216" y="232">PE</text>
+    </g>
+
+    <g data-part="four">
+      <g clip-path="url(#el-room)"><circle class="el-halo" cx="337" cy="132" r="66" /></g>
+      <g class="el-lamp">
+        <path class="el-rays" d="M337 151V159M318 132H310M356 132H364M323.6 145.4 317.9 151.1M350.4 145.4 356.1 151.1M323.6 118.6 317.9 112.9M350.4 118.6 356.1 112.9" />
+        <circle class="el-bulb" cx="337" cy="132" r="13" />
+      </g>
+      <rect class="art-ink art-body" x="331" y="112" width="12" height="8" rx="1.5" />
+      <circle class="art-ink" cx="337" cy="132" r="13" />
+      <path class="art-ink" d="M331.5 135q2.75-7 5.5 0q2.75-7 5.5 0" />
+      <rect class="art-ink art-body" x="290" y="192" width="28" height="28" rx="5" />
+      <circle class="art-ink" cx="304" cy="206" r="9" />
+      <path class="art-ink" d="M300 206h.01M308 206h.01" stroke-width="3" />
+      <path class="el-spark" d="M304 190 307 202 319 206 307 210 304 222 301 210 289 206 301 202Z" />
+    </g>
+
+    <g data-part="six">
+      <path class="art-quiet" d="M386 240C378 268 316 262 300 209M402 240C398 278 324 274 308 209" />
+      <rect class="art-ink art-body" x="372" y="176" width="44" height="64" rx="6" />
+      <rect class="art-ink" x="378" y="183" width="32" height="20" rx="2" />
+      <path class="art-quiet" d="M383 198A12 12 0 0 1 405 198" />
+      <path class="el-needle" d="M394 201V188" />
+      <circle class="art-ink" cx="394" cy="222" r="7" />
+      <path class="art-ink" d="M394 222V217" />
+    </g>
+
+    <g class="art-marks" aria-hidden="true">
+      <% [ [ 34, 98 ], [ 120, 76 ], [ 196, 88 ], [ 362, 80 ], [ 90, 272 ], [ 394, 162 ] ].each_with_index do |(x, y), index| %>
+        <circle cx="<%= x %>" cy="<%= y %>" r="10" />
+        <text x="<%= x %>" y="<%= y + 4 %>" text-anchor="middle"><%= index + 1 %></text>
+      <% end %>
+    </g>
+  </svg>
+
+  <p class="scene__phases">
+    <span class="art-phase el-phase el-phase--on"><%= t("phase_on", scope: scope) %></span>
+    <span class="art-phase el-phase el-phase--lit"><%= t("phase_lit", scope: scope) %></span>
+    <span class="art-phase el-phase el-phase--trip"><%= t("phase_trip", scope: scope) %></span>
+  </p>
+
+  <ol class="scene__legend">
+    <%= scene_chip :intake, :one, scope: scope, course: chapters["elektrik-osnovy-elektrotekhniki"] %>
+    <%= scene_chip :panel, :two, scope: scope, course: chapters["elektrik-pue-i-ustroystvo"] %>
+    <%= scene_chip :line, :three, scope: scope, course: chapters["elektrik-montazh"] %>
+    <%= scene_chip :load, :four, scope: scope, course: chapters["elektrik-bytovoy"] %>
+    <%= scene_chip :earth, :five, scope: scope, course: chapters["elektrik-bezopasnost-i-ohrana-truda"] %>
+    <%= scene_chip :tests, :six, scope: scope, course: chapters["elektrik-izmerniya-i-ispytaniya"] %>
+  </ol>
 </figure>

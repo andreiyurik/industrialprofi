@@ -27,18 +27,11 @@ module PathsHelper
     name if lookup_context.exists?(name, [], true)
   end
 
-  # `scope` holds the node's two words: «<key>» and «<key>_does».
-  def scene_node(place, key, step:, scope:, icon:, course: nil, look: nil)
-    body = safe_join([ tag.span(icon_tag(icon), class: "scene__icon"),
-                       tag.strong(t(key, scope: scope), class: "scene__name"),
-                       tag.span(t("#{key}_does", scope: scope), class: "scene__does") ])
-    options = { class: class_names("scene__node", "scene__node--#{place}", "scene__node--#{look}": look), style: "--step: #{step}" }
-    course ? link_to(body, course_path(course), title: course.title, **options) : tag.div(body, **options)
-  end
-
-  def scene_wire(area, direction, label, step:)
-    tag.span(tag.span(label, class: "scene__label"), class: "scene__wire scene__wire--#{direction}",
-             style: "grid-area: #{area}; --step: #{step}")
+  # A scene's legend chip: `scope` holds «<key>» and «<key>_does»; `data-chip` pairs it with the drawing's `data-part`.
+  def scene_chip(key, part, scope:, course: nil)
+    body = safe_join([ tag.strong(t(key, scope: scope), class: "scene__name"), tag.span(t("#{key}_does", scope: scope), class: "scene__does") ])
+    options = { class: "scene__chip", data: { chip: part } }
+    tag.li(course ? link_to(body, course_path(course), title: course.title, **options) : tag.span(body, **options))
   end
 
   # Arc geometry for an inline SVG gauge; the needle angle rides out as a CSS variable.

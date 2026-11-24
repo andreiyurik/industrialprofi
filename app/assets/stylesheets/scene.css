@@ -1,113 +1,9 @@
-/* A profession's scene (paths/scenes/_<slug>): HTML nodes on a grid, so labels stay real text at
-   phone width. One pulse runs the loop in four beats; --step on a part is the beat that lights it. */
+/* A profession's scene (paths/scenes/_<slug>): one drawing, a line that narrates its phases and a
+   numbered legend whose chips open the chapters. Its choreography is in scene-<slug>.css. */
 .scene {
   margin: 0 0 1.75rem;
   /* The prose column's width, so the diagram and the paragraph under it share a right edge. */
   max-inline-size: 44rem;
-  --scene-wire: var(--color-link);
-  --scene-dash: 14px;
-  --scene-gap: 2.75rem;
-  --scene-beat: 0.8s;
-  --scene-lap: calc(var(--scene-beat) * 4);
-}
-
-.scene__loop {
-  display: grid;
-  grid-template-areas:
-    "top    top    top"
-    "rise   .      ."
-    "second across third"
-    "climb  .      drop"
-    "first  back   fourth";
-  grid-template-columns: minmax(0, 1fr) clamp(4.25rem, 22%, 7rem) minmax(0, 1fr);
-  /* The two card rows share one height, whichever wraps more. */
-  grid-template-rows: auto auto 1fr auto 1fr;
-}
-
-.scene__node {
-  align-content: center;
-  background-color: var(--color-subtle-light);
-  border: 1px solid var(--color-subtle);
-  border-radius: 0.75rem;
-  color: var(--color-ink);
-  display: grid;
-  gap: 0.15rem;
-  justify-items: center;
-  padding: 0.85rem 0.4rem 0.9rem;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  animation: scene-light var(--scene-lap) ease-out infinite;
-  animation-delay: calc(var(--step) * var(--scene-beat));
-  transition: border-color 150ms ease-out;
-}
-
-@media (any-hover: hover) {
-  a.scene__node:hover {
-    border-color: var(--color-ink);
-  }
-}
-
-.scene__node--first { grid-area: first; }
-.scene__node--third { grid-area: third; }
-
-/* The watcher spans the loop it watches: one flat row, not a fifth card. */
-.scene__node--top {
-  align-items: center;
-  column-gap: 0.6rem;
-  display: flex;
-  flex-wrap: wrap;
-  animation: none;
-  grid-area: top;
-  justify-content: center;
-  padding-block: 0.7rem;
-
-  .scene__icon {
-    --icon-size: 1.5rem;
-  }
-}
-
-/* The last step is what the loop closes through — the plant, the earth — not a device, hence the dashed outline. */
-.scene__node--fourth {
-  background-color: transparent;
-  border-style: dashed;
-  border-color: var(--color-subtle-dark);
-  grid-area: fourth;
-}
-
-.scene__node--second { grid-area: second; }
-
-/* Looks a scene may give a node: status LEDs, an icon that lights on its beat. */
-.scene__node--live {
-  &::before,
-  &::after {
-    animation: pulse 1.2s ease-in-out infinite;
-    background-color: var(--color-positive);
-    block-size: 0.4rem;
-    border-radius: 50%;
-    content: "";
-    inline-size: 0.4rem;
-    inset-block-start: 0.6rem;
-    inset-inline-end: 0.6rem;
-    position: absolute;
-  }
-
-  &::after {
-    animation-delay: 0.6s;
-    background-color: var(--scene-wire);
-    inset-inline-end: 1.25rem;
-  }
-}
-
-.scene__node--glow .scene__icon {
-  animation: scene-glow var(--scene-lap) ease-out infinite;
-  animation-delay: calc(var(--step) * var(--scene-beat));
-}
-
-.scene__icon {
-  color: var(--scene-wire);
-  display: inline-flex;
-  --icon-size: 2rem;
 }
 
 .scene__name {
@@ -125,121 +21,126 @@
   line-height: 1.3;
 }
 
-/* Vertical by default (--down); the arrowhead is the ::after triangle at the receiving end. */
-.scene__wire {
-  animation: scene-flow-down 0.9s linear infinite;
-  background-image: repeating-linear-gradient(180deg, var(--scene-wire) 0 6px, transparent 6px var(--scene-dash));
-  block-size: var(--scene-gap);
-  inline-size: 2px;
-  justify-self: center;
-  position: relative;
-
-  /* The pulse: a bright dot that crosses the wire on its beat and hides for the rest of the lap. */
-  &::before {
-    animation: scene-run-down var(--scene-lap) linear infinite;
-    animation-delay: calc(var(--step) * var(--scene-beat));
-    background-color: var(--scene-wire);
-    block-size: 0.5rem;
-    border-radius: 50%;
-    box-shadow: 0 0 0.6rem 0.2rem var(--scene-wire);
-    content: "";
-    inline-size: 0.5rem;
-    inset-block-start: 0;
-    inset-inline-start: 50%;
-    opacity: 0;
-    position: absolute;
-    translate: -50% -50%;
-    z-index: 1;
-  }
-
-  &::after {
-    border: 5px solid transparent;
-    border-block-start: 7px solid var(--scene-wire);
-    border-block-end-width: 0;
-    content: "";
-    inset-block-end: 0;
-    inset-inline-start: 50%;
-    position: absolute;
-    translate: -50% 0;
-  }
-}
-
-.scene__wire--up {
-  animation-direction: reverse;
-
-  &::before {
-    animation-name: scene-run-up;
-  }
-
-  &::after {
-    inset-block: 0 auto;
-    rotate: 180deg;
-  }
-}
-
-.scene__wire--right,
-.scene__wire--left {
-  align-self: center;
-  animation-name: scene-flow-right;
-  background-image: repeating-linear-gradient(90deg, var(--scene-wire) 0 6px, transparent 6px var(--scene-dash));
-  block-size: 2px;
+.scene__art {
+  block-size: auto;
+  display: block;
   inline-size: 100%;
+  overflow: visible;
+}
 
-  &::before {
-    animation-name: scene-run-right;
-    inset-block-start: 50%;
-    inset-inline-start: 0;
+/* The shared pen every drawing uses, so professions differ in subject, not in hand. */
+.scene--art {
+  :is(.art-ink, .art-quiet, .art-far, .art-wire, .art-dots) {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
-  &::after {
-    inset-block: 50% auto;
-    inset-inline: auto 0;
-    rotate: -90deg;
-    translate: 1px -50%;
+  /* Three distances: the subject in ink, its fittings quieter, the setting faint. */
+  .art-ink { stroke: var(--color-ink); stroke-width: 1.5; }
+  .art-quiet { stroke: var(--color-subtle-dark); stroke-width: 1.25; }
+  .art-far { opacity: 0.5; stroke: var(--color-subtle-dark); stroke-width: 1; }
+  .art-body { fill: var(--color-subtle-light); }
+  .art-wire { stroke: var(--color-subtle-dark); stroke-width: 2; }
+  .art-wire--dashed { stroke-dasharray: 5 4; }
+
+  .art-dots {
+    animation: scene-march 0.7s linear infinite;
+    stroke: var(--color-link);
+    stroke-dasharray: 0.1 14;
+    stroke-width: 3;
+  }
+
+  .art-tag {
+    fill: var(--color-subtle-dark);
+    font-family: var(--font-technical);
+    font-size: 13px;
+  }
+
+  .art-marks {
+    circle { fill: var(--color-bg); stroke: var(--color-subtle-dark); }
+    text { fill: var(--color-ink); font-size: 11.5px; font-weight: 700; }
+  }
+
+  .art-phase {
+    grid-area: 1 / 1;
+  }
+
+  [data-part] {
+    transition: filter 150ms ease-out;
   }
 }
 
-.scene__wire--left {
-  animation-direction: reverse;
-
-  &::before {
-    animation-name: scene-run-left;
-  }
-
-  &::after {
-    inset-inline: 0 auto;
-    rotate: 90deg;
-    translate: -1px -50%;
-  }
+/* Pointing at a legend chip lights its part of the drawing. */
+.scene--art:has([data-chip="one"]:is(:hover, :focus-visible)) [data-part="one"],
+.scene--art:has([data-chip="two"]:is(:hover, :focus-visible)) [data-part="two"],
+.scene--art:has([data-chip="three"]:is(:hover, :focus-visible)) [data-part="three"],
+.scene--art:has([data-chip="four"]:is(:hover, :focus-visible)) [data-part="four"],
+.scene--art:has([data-chip="five"]:is(:hover, :focus-visible)) [data-part="five"],
+.scene--art:has([data-chip="six"]:is(:hover, :focus-visible)) [data-part="six"] {
+  filter: drop-shadow(0 0 6px var(--color-link));
 }
 
-.scene__label {
+.scene__phases {
   color: var(--color-ink);
-  font-family: var(--font-technical);
-  font-size: 0.9rem;
-  inset-block-start: 50%;
-  inset-inline-start: 0.85rem;
-  position: absolute;
-  translate: 0 -50%;
-  white-space: nowrap;
-}
-
-/* The right-hand wire's label hangs on its inner side, or a long word leaves the phone screen. */
-.scene__wire--down .scene__label {
-  inset-inline: auto 0.85rem;
-}
-
-:is(.scene__wire--right, .scene__wire--left) .scene__label {
-  inset-block: auto 0.5rem;
-  inset-inline-start: 50%;
-  translate: -50% 0;
-}
-
-.scene__caption {
-  color: var(--color-subtle-dark);
-  font-size: 0.85rem;
-  line-height: 1.45;
-  margin-block-start: 0.9rem;
+  align-items: center;
+  display: grid;
+  font-size: 1rem;
+  font-weight: 600;
+  justify-items: center;
+  line-height: 1.35;
+  margin: 0.75rem 0 1rem;
+  min-block-size: 2.7em;
   text-align: center;
   text-wrap: balance;
+}
+
+.scene__legend {
+  counter-reset: chip;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @media (min-width: 40em) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.scene__chip {
+  align-items: baseline;
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.6rem;
+  block-size: 100%;
+  color: var(--color-ink);
+  column-gap: 0.5rem;
+  counter-increment: chip;
+  display: grid;
+  font-size: 0.9rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  line-height: 1.3;
+  padding: 0.55rem 0.7rem 0.6rem;
+  text-decoration: none;
+  transition: border-color 150ms ease-out;
+
+  &::before {
+    color: var(--color-subtle-dark);
+    content: counter(chip);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    grid-row: span 2;
+  }
+
+  .scene__does {
+    font-size: 0.8rem;
+  }
+}
+
+@media (any-hover: hover) {
+  a.scene__chip:hover {
+    border-color: var(--color-ink);
+  }
 }

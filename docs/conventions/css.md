@@ -68,7 +68,8 @@ not raw rem/px. Three sizes only — near-miss literals (container gutters, the
 
 ## Motion (Fizzy idiom)
 
-- Named keyframes live in `animation.css`. Top-layer enter/exit uses
+- Named keyframes live in `animation.css`; a profession scene's own choreography stays in
+  its `scene-<slug>.css`, on one shared lap. Top-layer enter/exit uses
   `@starting-style` + `transition-behavior: allow-discrete`.
 - Explicit `transition-property` lists (never `all`), `ease-out`, ~100–300ms.
 - Busy state: `form[aria-busy]` hides button children and overlays a masked
