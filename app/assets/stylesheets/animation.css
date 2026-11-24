@@ -128,54 +128,7 @@
   to { --shine-x: -100%; }
 }
 
-/* The profession scene (scene.css). A lap is four beats; each of these acts in the first beat
-   (0–25%) and rests, so a part's --step delay places it in the lap. */
-@keyframes scene-flow-down {
-  to {
-    background-position: 0 var(--scene-dash);
-  }
-}
-
-@keyframes scene-flow-right {
-  to {
-    background-position: var(--scene-dash) 0;
-  }
-}
-
-@keyframes scene-run-down {
-  0% { inset-block-start: 0; opacity: 0; }
-  3%, 20% { opacity: 1; }
-  25% { inset-block-start: 100%; opacity: 0; }
-  100% { inset-block-start: 100%; opacity: 0; }
-}
-
-@keyframes scene-run-up {
-  0% { inset-block-start: 100%; opacity: 0; }
-  3%, 20% { opacity: 1; }
-  25% { inset-block-start: 0; opacity: 0; }
-  100% { inset-block-start: 0; opacity: 0; }
-}
-
-@keyframes scene-run-right {
-  0% { inset-inline-start: 0; opacity: 0; }
-  3%, 20% { opacity: 1; }
-  25% { inset-inline-start: 100%; opacity: 0; }
-  100% { inset-inline-start: 100%; opacity: 0; }
-}
-
-@keyframes scene-run-left {
-  0% { inset-inline-start: 100%; opacity: 0; }
-  3%, 20% { opacity: 1; }
-  25% { inset-inline-start: 0; opacity: 0; }
-  100% { inset-inline-start: 0; opacity: 0; }
-}
-
-@keyframes scene-light {
-  0% { box-shadow: 0 0 0 1px var(--scene-wire), 0 0 1.25rem -0.25rem var(--scene-wire); }
-  35%, 100% { box-shadow: 0 0 0 1px transparent, 0 0 1.25rem -0.25rem transparent; }
-}
-
-@keyframes scene-glow {
-  0% { filter: drop-shadow(0 0 0.5rem var(--scene-wire)); scale: 1.2; }
-  40%, 100% { filter: drop-shadow(0 0 0.5rem transparent); scale: 1; }
+/* The marching dots every profession scene shares (scene.css). */
+@keyframes scene-march {
+  to { stroke-dashoffset: -14.1; }
 }

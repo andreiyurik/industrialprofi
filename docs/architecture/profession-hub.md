@@ -39,14 +39,15 @@ flowchart TB
   small print) → doors into the tabs → the chapter route → pros/cons → FAQ → history → the
   start button again → credits (curators, contributors, maturity). The doors and the route
   render for every profession; the slots only when filled.
-- **Scene** (`paths/scenes/_<slug>`, `scene.css`): the animated loop that opens the
-  overview. Drawn by a developer, one partial per profession, from shared parts —
-  `scene_node` / `scene_wire` on a five-area grid, a pulse that runs the loop in four
-  beats (`step:` is the beat that lights a part), and `look:` accents (`live` LEDs, `glow`). Words live in `paths.scenes.<slug>`; a node links to its chapter by course slug
-  and is a plain card when the chapter is missing. A profession without a partial has no
-  scene. Not editable in the admin on purpose: a form would cap every scene at what one
-  generic layout can show, and pasted markup would be stored script on a public page.
-  The brief for drawing one is `tools/PROFESSION_SCENE.md`.
+- **Scene** (`paths/scenes/_<slug>`, `scene-<slug>.css`, shared `scene.css`): the animated
+  drawing that opens the overview — an inline SVG telling one working situation on a
+  10–12 s lap, a line that narrates its three phases, and six legend chips that open the
+  chapters and light their part of the drawing on hover. Drawn by a developer, one partial
+  and one stylesheet per profession; the shared pen (`art-*` classes) keeps them in one
+  hand. Words live in `paths.scenes.<slug>`. A profession without a partial has no scene.
+  Not editable in the admin on purpose: a form would cap every scene at one generic
+  layout, and pasted markup would be stored script on a public page. The brief for
+  drawing one is `tools/PROFESSION_SCENE.md`.
 - **Landing «О профессии»** (`Path::Landing`): six slots in one JSON column
   (`paths.landing`: about/history/faq markdown; highlights/pros/cons line lists) +
   `has_one_attached :cover` (also the og:image). Carried by packs as `landing.yml` +

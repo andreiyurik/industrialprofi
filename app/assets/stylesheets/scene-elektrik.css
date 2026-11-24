@@ -1,0 +1,244 @@
+/* The electrician's scene (paths/scenes/_elektrik). Every part animates on one 10s lap, so the
+   percentages below are one shared timeline; the un-animated styles are the lit, healthy state,
+   which is what reduced motion shows. Keyframes stay here: they are this drawing's choreography. */
+.scene-elektrik {
+  --lap: 9s;
+  --lamp: oklch(var(--lch-amber));
+
+  :is(.el-live, .el-fault, .el-needle, .el-rays) {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .el-live {
+    opacity: 0.35;
+    stroke: var(--color-link);
+    stroke-dasharray: 1 1;
+    stroke-width: 3;
+  }
+
+  .el-live--lamp { animation: el-draw-lamp var(--lap) linear infinite; }
+  .el-live--socket { animation: el-draw-socket var(--lap) linear infinite; }
+  .el-dots--lamp { animation: scene-march 0.7s linear infinite, el-flow-lamp var(--lap) linear infinite; }
+  .el-dots--socket { animation: scene-march 0.7s linear infinite, el-flow-socket var(--lap) linear infinite; }
+
+  .el-handle {
+    animation: el-switch-main var(--lap) ease-in-out infinite;
+    fill: var(--color-ink);
+  }
+
+  .el-breaker--rcd .el-handle { animation-name: el-switch-rcd; }
+  .el-breaker--branch .el-handle { animation-name: el-switch-branch; }
+
+  .el-led {
+    animation: el-led-main var(--lap) linear infinite;
+    fill: var(--color-positive);
+  }
+
+  .el-breaker--rcd .el-led { animation-name: el-led-rcd; }
+  .el-breaker--branch .el-led { animation-name: el-led-branch; }
+
+  .el-led--trip {
+    animation-name: el-trip;
+    fill: var(--color-negative);
+    opacity: 0;
+  }
+
+  .el-tag--trip {
+    animation: el-trip var(--lap) linear infinite;
+    fill: var(--color-negative);
+    opacity: 0;
+  }
+
+  .el-halo__core { stop-color: var(--lamp); stop-opacity: 0.5; }
+  .el-halo__edge { stop-color: var(--lamp); stop-opacity: 0; }
+
+  .el-halo {
+    animation: el-lamp var(--lap) linear infinite, el-breathe 2.4s ease-in-out infinite alternate;
+    fill: url("#el-halo");
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .el-wash {
+    animation: el-lamp var(--lap) linear infinite;
+    fill: var(--lamp);
+    fill-opacity: 0.07;
+  }
+
+  .el-lamp {
+    animation: el-lamp-on var(--lap) ease-out infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .el-bulb { fill: var(--lamp); }
+  .el-rays { stroke: var(--lamp); stroke-width: 2.5; }
+
+  .el-needle {
+    animation: el-needle var(--lap) ease-in-out infinite;
+    rotate: 20deg;
+    stroke: var(--color-negative);
+    stroke-width: 1.5;
+    transform-box: view-box;
+    transform-origin: 394px 201px;
+  }
+
+  .el-spark {
+    animation: el-spark var(--lap) linear infinite;
+    fill: var(--color-negative);
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .el-fault {
+    opacity: 0;
+    stroke: var(--color-negative);
+    stroke-dasharray: 1 1;
+    stroke-width: 3;
+  }
+
+  .el-fault--wire { animation: el-fault-wire var(--lap) ease-out infinite; }
+  .el-fault--rod { animation: el-fault-rod var(--lap) ease-out infinite; }
+
+  .el-phase { animation: el-phase-lit var(--lap) linear infinite; }
+  .el-phase--on { animation-name: el-phase-on; opacity: 0; }
+  .el-phase--trip { animation-name: el-phase-trip; color: var(--color-negative); opacity: 0; }
+}
+
+/* Lap: breakers 6–13%, the line goes live 13–30%, lit 30–62%, fault 62–67%, tripped 67–96%. */
+@keyframes el-breathe {
+  from { scale: 0.94; }
+  to { scale: 1.06; }
+}
+
+@keyframes el-switch-main {
+  0%, 5% { translate: 0 16px; }
+  6.5% { translate: 0 -2px; }
+  7.5%, 96% { translate: 0 0; }
+  99%, 100% { translate: 0 16px; }
+}
+
+@keyframes el-switch-rcd {
+  0%, 8% { translate: 0 16px; }
+  9.5% { translate: 0 -2px; }
+  10.5%, 66.5% { translate: 0 0; }
+  67.5% { translate: 0 18px; }
+  68.5%, 100% { translate: 0 16px; }
+}
+
+@keyframes el-switch-branch {
+  0%, 11% { translate: 0 16px; }
+  12.5% { translate: 0 -2px; }
+  13.5%, 96% { translate: 0 0; }
+  99%, 100% { translate: 0 16px; }
+}
+
+@keyframes el-led-main {
+  0%, 6% { opacity: 0.35; }
+  7%, 97% { opacity: 1; }
+  99%, 100% { opacity: 0.35; }
+}
+
+@keyframes el-led-rcd {
+  0%, 9% { opacity: 0.35; }
+  10%, 67% { opacity: 1; }
+  68%, 97% { opacity: 0; }
+  100% { opacity: 0.35; }
+}
+
+@keyframes el-led-branch {
+  0%, 12% { opacity: 0.35; }
+  13%, 67% { opacity: 1; }
+  68%, 100% { opacity: 0.35; }
+}
+
+@keyframes el-trip {
+  0%, 67% { opacity: 0; }
+  68%, 96% { opacity: 1; }
+  98%, 100% { opacity: 0; }
+}
+
+@keyframes el-draw-lamp {
+  0%, 13% { opacity: 0.35; stroke-dashoffset: 1; }
+  28%, 67% { opacity: 0.35; stroke-dashoffset: 0; }
+  68.5%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+
+@keyframes el-draw-socket {
+  0%, 16% { opacity: 0.35; stroke-dashoffset: 1; }
+  30%, 67% { opacity: 0.35; stroke-dashoffset: 0; }
+  68.5%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+
+@keyframes el-flow-lamp {
+  0%, 27% { opacity: 0; }
+  29%, 67% { opacity: 1; }
+  68.5%, 100% { opacity: 0; }
+}
+
+@keyframes el-flow-socket {
+  0%, 29% { opacity: 0; }
+  31%, 67% { opacity: 1; }
+  68.5%, 100% { opacity: 0; }
+}
+
+@keyframes el-lamp {
+  0%, 28.5% { opacity: 0; }
+  31%, 67% { opacity: 1; }
+  68.5%, 100% { opacity: 0; }
+}
+
+@keyframes el-lamp-on {
+  0%, 28.5% { opacity: 0; scale: 0.6; }
+  30% { opacity: 1; scale: 1.18; }
+  32.5%, 67% { opacity: 1; scale: 1; }
+  68.5%, 100% { opacity: 0; scale: 1; }
+}
+
+@keyframes el-needle {
+  0%, 33% { rotate: -40deg; }
+  38% { rotate: 30deg; }
+  41%, 67.5% { rotate: 20deg; }
+  72%, 100% { rotate: -40deg; }
+}
+
+@keyframes el-spark {
+  0%, 61.5% { opacity: 0; scale: 0.3; }
+  62.5% { opacity: 1; scale: 0.8; }
+  64% { opacity: 0.5; scale: 0.55; }
+  65.5% { opacity: 1; scale: 0.7; }
+  68%, 100% { opacity: 0; scale: 0.3; }
+}
+
+@keyframes el-fault-wire {
+  0%, 62% { opacity: 1; stroke-dashoffset: 1; }
+  66%, 68% { opacity: 1; stroke-dashoffset: 0; }
+  70%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+
+@keyframes el-fault-rod {
+  0%, 65.5% { opacity: 1; stroke-dashoffset: 1; }
+  67.5%, 68.5% { opacity: 1; stroke-dashoffset: 0; }
+  70.5%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+
+@keyframes el-phase-on {
+  0%, 2% { opacity: 0; }
+  4%, 29% { opacity: 1; }
+  31%, 100% { opacity: 0; }
+}
+
+@keyframes el-phase-lit {
+  0%, 29% { opacity: 0; }
+  31%, 60% { opacity: 1; }
+  61.5%, 100% { opacity: 0; }
+}
+
+@keyframes el-phase-trip {
+  0%, 67% { opacity: 0; }
+  68.5%, 96% { opacity: 1; }
+  98%, 100% { opacity: 0; }
+}

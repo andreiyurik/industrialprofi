@@ -1,19 +1,113 @@
 <%# locals: (courses:) -%>
-<%# `step` is the beat on which the pulse reaches a node or leaves along a wire: 0…3 round the loop. %>
+<%# One story on a twelve-second lap: the tank fills, the level reaches the setpoint, the PLC shuts the
+    valve and starts the pump, the operator's screen mirrors it. Geometry is hand-placed in a 480-wide
+    box; the motion is in scene-inzhener-asu-tp.css. %>
 <% chapters = courses.reject(&:coming_soon?).index_by(&:slug) %>
 <% scope = "paths.scenes.inzhener_asu_tp" %>
-<figure class="scene">
-  <div class="scene__loop">
-    <%= scene_node :top, :scada, step: 2, scope: scope, icon: "monitor-light", course: chapters["asutp-scada"] %>
-    <%= scene_wire :rise, :up, t("net", scope: scope), step: 1 %>
-    <%= scene_node :second, :plc, step: 1, scope: scope, icon: "cpu-light", course: chapters["asutp-plk-i-regulirovanie"], look: :live %>
-    <%= scene_wire :across, :right, t("command", scope: scope), step: 1 %>
-    <%= scene_node :third, :actuator, step: 2, scope: scope, icon: "engine-light", course: chapters["asutp-osnovy-i-kipia"] %>
-    <%= scene_wire :climb, :up, t("signal", scope: scope), step: 0 %>
-    <%= scene_wire :drop, :down, t("effect", scope: scope), step: 2 %>
-    <%= scene_node :first, :sensor, step: 0, scope: scope, icon: "gauge-light", course: chapters["asutp-osnovy-i-kipia"] %>
-    <%= scene_wire :back, :left, t("value", scope: scope), step: 3 %>
-    <%= scene_node :fourth, :process, step: 3, scope: scope, icon: "pipe-light" %>
-  </div>
-  <figcaption class="scene__caption"><%= t("caption", scope: scope) %></figcaption>
+<figure class="scene scene--art scene-asu">
+  <svg class="scene__art" viewBox="0 14 480 258" role="img" aria-label="<%= t("alt", scope: scope) %>">
+    <defs>
+      <clipPath id="asu-tank"><rect x="41" y="97" width="82" height="138" rx="9" /></clipPath>
+      <clipPath id="asu-mimic"><rect x="421" y="55" width="16" height="44" rx="2" /></clipPath>
+    </defs>
+
+    <path class="art-far" d="M0 262H480" />
+
+    <g data-part="six">
+      <path class="art-quiet" d="M330 262V196L356 210V196L382 210V196L408 210V196H470V262" />
+      <path class="art-far" d="M444 196V150H458V196M344 232h12v14h-12zM370 232h12v14h-12zM396 232h12v14h-12z" />
+      <circle class="asu-smoke asu-smoke--1" cx="451" cy="140" r="5" />
+      <circle class="asu-smoke asu-smoke--2" cx="451" cy="140" r="6" />
+      <circle class="asu-smoke asu-smoke--3" cx="451" cy="140" r="7" />
+    </g>
+
+    <g data-part="one">
+      <path class="asu-pipe" d="M0 76H70V96" />
+      <path class="art-dots asu-flow asu-flow--in" d="M0 76H70V96" />
+      <path class="asu-pipe" d="M124 222H171M197 222H330" />
+      <path class="art-dots asu-flow asu-flow--out" d="M124 222H171M197 222H330" />
+
+      <g clip-path="url(#asu-tank)">
+        <rect class="asu-liquid" x="41" y="97" width="82" height="138" />
+      </g>
+      <rect class="art-ink" x="40" y="96" width="84" height="140" rx="10" />
+      <path class="art-ink" d="M52 236V262M112 236V262" />
+      <path class="art-quiet art-wire--dashed" d="M46 139H118" />
+      <text class="art-tag" x="98" y="134">SP</text>
+
+      <path class="art-ink asu-valve" d="M28 69 44 83V69L28 83Z" />
+      <path class="art-ink art-body" d="M36 76V64M29 64A7 7 0 0 1 43 64Z" />
+
+      <circle class="art-ink art-body" cx="184" cy="222" r="13" />
+      <circle class="asu-running" cx="184" cy="222" r="13" />
+      <path class="asu-rotor" d="M184 222 184 212M184 222 192.7 227M184 222 175.3 227" />
+
+      <path class="art-ink" d="M124 120H136" />
+      <circle class="art-ink art-body" cx="148" cy="120" r="12" />
+      <text class="asu-letters" x="148" y="124" text-anchor="middle">LT</text>
+    </g>
+
+    <g data-part="two">
+      <path class="art-wire art-wire--dashed" d="M160 120H214" />
+      <path class="art-dots" d="M160 120H214" />
+      <text class="art-tag" x="188" y="111" text-anchor="middle"><%= t("signal", scope: scope) %></text>
+      <path class="art-wire" d="M240 92V40H36V57" />
+      <path class="asu-command asu-command--valve" pathLength="1" d="M240 92V40H36V57" />
+      <path class="art-wire" d="M214 196H184V209" />
+      <path class="asu-command asu-command--pump" pathLength="1" d="M214 196H184V209" />
+      <rect class="art-ink art-body" x="214" y="92" width="92" height="120" rx="6" />
+      <path class="art-ink" d="M224 186H296M230 180v12M242 180v12M254 180v12M266 180v12M278 180v12M290 180v12" />
+    </g>
+
+    <g data-part="three">
+      <path class="art-quiet" d="M222 130H298" />
+      <rect class="art-ink art-body" x="224" y="108" width="22" height="44" rx="2" />
+      <circle class="asu-led asu-led--cpu" cx="235" cy="116" r="2.5" />
+      <path class="art-quiet" d="M229 138h12M229 144h12" />
+      <% [ 250, 266, 282 ].each_with_index do |x, index| %>
+        <rect class="art-ink art-body" x="<%= x %>" y="108" width="14" height="44" rx="2" />
+        <circle class="asu-led asu-led--<%= index + 1 %>" cx="<%= x + 7 %>" cy="116" r="2" />
+        <circle class="asu-led asu-led--<%= (index + 2) % 3 + 1 %>" cx="<%= x + 7 %>" cy="124" r="2" />
+      <% end %>
+    </g>
+
+    <g data-part="four">
+      <path class="art-wire art-wire--dashed" d="M306 110H324V78H340" />
+      <path class="art-dots" d="M306 110H324V78H340" />
+    </g>
+
+    <g data-part="five">
+      <path class="art-ink" d="M395 114V126M377 126H413" />
+      <rect class="art-ink art-body" x="340" y="40" width="110" height="74" rx="6" />
+      <rect class="asu-screen" x="346" y="46" width="98" height="62" rx="3" />
+      <path class="art-quiet art-wire--dashed" d="M352 61H412" />
+      <path class="asu-trend" pathLength="1" d="M352 96 376 66H388L412 96" />
+      <g clip-path="url(#asu-mimic)">
+        <rect class="asu-liquid asu-liquid--mimic" x="421" y="55" width="16" height="44" />
+      </g>
+      <rect class="art-quiet" fill="none" x="420" y="54" width="18" height="46" rx="3" />
+    </g>
+
+    <g class="art-marks" aria-hidden="true">
+      <% [ [ 148, 148 ], [ 322, 160 ], [ 260, 166 ], [ 310, 58 ], [ 464, 30 ], [ 426, 240 ] ].each_with_index do |(x, y), index| %>
+        <circle cx="<%= x %>" cy="<%= y %>" r="10" />
+        <text x="<%= x %>" y="<%= y + 4 %>" text-anchor="middle"><%= index + 1 %></text>
+      <% end %>
+    </g>
+  </svg>
+
+  <p class="scene__phases">
+    <span class="art-phase asu-phase asu-phase--fill"><%= t("phase_fill", scope: scope) %></span>
+    <span class="art-phase asu-phase asu-phase--act"><%= t("phase_act", scope: scope) %></span>
+    <span class="art-phase asu-phase asu-phase--watch"><%= t("phase_watch", scope: scope) %></span>
+  </p>
+
+  <ol class="scene__legend">
+    <%= scene_chip :field, :one, scope: scope, course: chapters["asutp-osnovy-i-kipia"] %>
+    <%= scene_chip :cabinet, :two, scope: scope, course: chapters["asutp-elektricheskie-shemy"] %>
+    <%= scene_chip :plc, :three, scope: scope, course: chapters["asutp-plk-i-regulirovanie"] %>
+    <%= scene_chip :net, :four, scope: scope, course: chapters["asutp-promyshlennye-seti"] %>
+    <%= scene_chip :scada, :five, scope: scope, course: chapters["asutp-scada"] %>
+    <%= scene_chip :plant, :six, scope: scope, course: chapters["asutp-proektirovanie-pnr"] %>
+  </ol>
 </figure>
