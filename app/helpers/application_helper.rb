@@ -7,6 +7,10 @@ module ApplicationHelper
     controller.is_a?(Admin::BaseController)
   end
 
+  def webvisor_masked?
+    in_admin? || controller_path.start_with?("account")
+  end
+
   LOCALE_NAMES = { ru: "Рус", en: "Eng" }.freeze
 
   def native_locale_name(locale)

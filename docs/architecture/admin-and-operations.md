@@ -47,8 +47,9 @@ charting JS.
   unhandled exceptions, throttled via Solid Cache. No Sentry — this plus an external `/up`
   ping is the whole story.
 - **Analytics**: Yandex Metrika only when `YANDEX_METRIKA_ID` is set (`shared/_metrika`),
-  idle-loaded, a hit per `turbo:load`. Disclosed in `/privacy` — keep it truthful. GA
-  rejected (152-ФЗ, no Google Ads in RU).
+  idle-loaded, a hit per `turbo:load`, Webvisor on. Webvisor records the DOM, so anything
+  identifying carries `ym-hide-content` (`webvisor_masked?` masks admin and account pages).
+  Disclosed in `/privacy` — keep it truthful. GA rejected (152-ФЗ, no Google Ads in RU).
 - **Public pages**: `/contribute` (participation, the wanted-professions board from
   `ru.yml → contribute.wanted`), `/partners` (sponsors, independence firewall),
   `/business` (a B2B demand sensor: pitch + inquiry form → tagged guest `Feedback`; the
