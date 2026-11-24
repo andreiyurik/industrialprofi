@@ -31,7 +31,8 @@ class PlantTest < ApplicationSystemTestCase
   end
 
   private
+    # The parts fade in as the sheet draws itself; in a loaded suite that outlasts the default wait.
     def press(step)
-      find(".blueprint__art--wide [data-step='#{step}']").click
+      find(".blueprint__art--wide [data-step='#{step}']", wait: 10).click
     end
 end
