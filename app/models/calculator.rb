@@ -176,9 +176,8 @@ class Calculator
   def title = I18n.t("calculators.#{slug}.title")
   def tagline = I18n.t("calculators.#{slug}.tagline")
 
+  # No memo: calculators are process-wide constants, so a cached lesson would outlive its row.
   def lesson
-    return nil if lesson_slug.blank?
-    return @lesson if defined?(@lesson)
-    @lesson = Lesson.find_by(slug: lesson_slug)
+    Lesson.find_by(slug: lesson_slug) if lesson_slug.present?
   end
 end
