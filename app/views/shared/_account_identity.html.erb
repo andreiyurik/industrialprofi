@@ -1,6 +1,6 @@
 <%# locals: (extra_class: nil) -%>
 <%# Rendered by both the drawer and the popover so they can't drift apart; `extra_class` is the drawer's show/hide hook. %>
-<p class="account-menu__header <%= extra_class %>">
+<p class="account-menu__header ym-hide-content <%= extra_class %>">
   <%= avatar_tag(Current.user) %>
   <span class="account-menu__identity">
     <span class="account-menu__name">
