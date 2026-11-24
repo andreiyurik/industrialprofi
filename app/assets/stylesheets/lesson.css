@@ -68,7 +68,7 @@
   scroll-margin-block-start: 5rem;
 }
 
-/* Inter Tight, not GOST — this heading is the most-read, often safety-critical; clarity wins over the "engineered" identity. */
+/* Golos, not GOST — this heading is the most-read, often safety-critical; clarity wins over the "engineered" identity. */
 .lesson__title {
   /* Capped at 2.1rem so long multi-word technical titles read as a landmark, not a wall. */
   font-size: clamp(1.75rem, 4.5vw, 2.1rem);

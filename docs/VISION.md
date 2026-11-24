@@ -211,7 +211,7 @@ Course progress = count of completed lessons / total lessons. Displayed as a pro
 | The Odin Project | Path → Course → Lesson structure | Proven hierarchy for learning content |
 | The Odin Project | Binary progress (done/not done) | Simplicity, no status management overhead |
 | The Odin Project | Full pages with own URLs | SEO, bookmarking, mobile-friendly |
-| Basecamp/DHH | Design system (black-first dark, monochrome + blue, Inter) | Calm, proven, Cyrillic-ready |
+| Basecamp/DHH | Design system (black-first dark, monochrome + blue, one sans) | Calm, proven, Cyrillic-ready |
 | Basecamp/DHH | ERB + Turbo Frames, no React | Simple, fast, one-person maintainable |
 
 ### International Support — Multi-Country Resources
