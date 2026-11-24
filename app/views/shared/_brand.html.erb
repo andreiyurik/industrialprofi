@@ -1,4 +1,5 @@
 <%# Screen readers concatenate the two text spans into the full name; the mark image stays decorative (empty alt). %>
 <span class="brand__text"><%= t("site.name_head") %></span>
-<%= image_tag "logo-mark-duo.svg", alt: "", class: "brand__mark", width: 486, height: 707, aria: { hidden: "true" } %>
+<%= image_tag "logo-mark-duo.svg", alt: "", class: "brand__mark only-dark", width: 486, height: 707, aria: { hidden: "true" } %>
+<%= image_tag "logo-mark-duo-light.svg", alt: "", class: "brand__mark only-light", width: 486, height: 707, aria: { hidden: "true" } %>
 <span class="brand__text"><%= t("site.name_tail") %></span>

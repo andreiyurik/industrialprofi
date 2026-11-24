@@ -48,7 +48,7 @@ When convenience conflicts with these, they win:
   ~70k and ~50k tokens: find keys with grep and read only that range, never the whole file.
 - Minitest + fixtures (no RSpec, no FactoryBot). Test critical paths, not Rails.
 - Plain CSS: no Tailwind, Sass features, `@layer` or `@import`; colours only from the OKLCH
-  tokens in `colors.css`; one dark theme.
+  tokens in `colors.css`; light and dark themes, both from the same tokens.
 
 ## Comments
 

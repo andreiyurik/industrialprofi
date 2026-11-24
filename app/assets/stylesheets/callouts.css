@@ -36,7 +36,7 @@
 }
 
 .callout--danger    { --callout-accent: oklch(var(--lch-red)); }
-.callout--important { --callout-accent: oklch(var(--lch-yellow)); }
+.callout--important { --callout-accent: var(--color-signal); }
 .callout--tip       { --callout-accent: oklch(var(--lch-blue)); }
 .callout--example   { --callout-accent: oklch(var(--lch-gray-dark)); }
 .callout--check     { --callout-accent: oklch(var(--lch-green)); }

@@ -1,4 +1,5 @@
 <%# No wordmark — the alt carries the site name for screen readers. %>
 <%= link_to root_path, class: "auth__brand" do %>
-  <%= image_tag "logo-mark.svg", alt: t("site.name"), class: "auth__brand-mark", width: 486, height: 707 %>
+  <%= image_tag "logo-mark.svg", alt: t("site.name"), class: "auth__brand-mark only-dark", width: 486, height: 707 %>
+  <%= image_tag "logo-mark-light.svg", alt: t("site.name"), class: "auth__brand-mark only-light", width: 486, height: 707 %>
 <% end %>

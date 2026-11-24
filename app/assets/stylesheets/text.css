@@ -168,7 +168,7 @@ hr {
   --divider-gap: 1em;    /* half-gap each side of centre — clears the mark */
 
   background-image:
-    url("logo-mark.svg"),
+    var(--divider-mark, url("logo-mark.svg")),
     linear-gradient(to right,
       transparent 0,
       var(--color-subtle-dark) 25%,
@@ -282,11 +282,12 @@ ins {
 
 /* Long-form prose (rendered lesson content) — tuned for comfortable long reading. */
 .prose {
-  font-size: 1rem;
-  line-height: 1.7;
+  font-size: 1.0625rem;
+  line-height: 1.65;
 
   /* Short phone lines don't need book leading — denser wins for long reading. */
   @media (max-width: 640px) {
+    font-size: 1rem;
     line-height: 1.6;
   }
 

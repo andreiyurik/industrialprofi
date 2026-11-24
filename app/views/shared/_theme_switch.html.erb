@@ -1,0 +1,11 @@
+<%# Permanent, or a morph refresh restores `hidden` without reconnecting the controller. %>
+<fieldset id="theme-switch" class="theme-switch" data-controller="theme" data-turbo-permanent hidden>
+  <legend class="for-screen-reader"><%= t("footer.theme.label") %></legend>
+  <% { "auto" => "monitor", "light" => "sun", "dark" => "moon" }.each do |theme, icon| %>
+    <label class="theme-switch__option" title="<%= t("footer.theme.#{theme}") %>">
+      <input type="radio" name="theme" value="<%= theme %>" class="for-screen-reader" data-theme-target="option" data-action="theme#select">
+      <%= icon_tag icon %>
+      <span class="for-screen-reader"><%= t("footer.theme.#{theme}") %></span>
+    </label>
+  <% end %>
+</fieldset>

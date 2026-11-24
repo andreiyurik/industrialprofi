@@ -28,9 +28,14 @@ domain files. Reference: `tmp/references/writebook/app/assets/stylesheets/`.
 - OKLCH primitives in `:root` of `colors.css` (`--lch-*`); semantic tokens reference
   them via `oklch(var(--lch-*))` (`--color-bg`, `--color-ink`, `--color-link`,
   `--color-positive`/`-negative`…). **No raw hex/rgb/hsl anywhere.**
-- A new colour is added as a primitive first. Historical names hold dark values
-  (`--lch-black` = near-white ink, `--lch-white` = near-black bg — never literal 0%).
-- Single dark theme, `color-scheme: dark`; no light mode, no theme switch.
+- A new colour is added as a primitive first, with a value in both themes. Historical
+  names: `--lch-black` is the ink and `--lch-white` the page in either theme.
+- Two themes: dark graphite in `:root`, warm paper in `:root[data-theme="light"]`,
+  which overrides primitives only. `shared/_theme` always sets `data-theme`
+  (auto follows the OS); the footer switch stores the choice in `localStorage`.
+  Body text ≥7:1, muted ≥4.5:1, control borders ≥3:1 in both themes.
+- A component never assumes dark: glows use `--color-glow`, «важно» uses
+  `--color-signal`; `--lch-always-*` only for shadows and scrims.
 - Monochrome + blue `--color-link` is the default. Colour is allowed where it helps
   scan or signal state (resource-type badges: norm=red, book=teal, video=purple,
   article=yellow, tool=green in `badges.css`) — reuse `.badge--*`, never a one-off hue.

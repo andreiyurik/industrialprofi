@@ -1,0 +1,19 @@
+<%# Before the stylesheet, so a stored light choice never flashes dark. Meta colours mirror --lch-white. %>
+<%= javascript_tag nonce: true do %>
+  (function () {
+    var root = document.documentElement;
+    var light = window.matchMedia("(prefers-color-scheme: light)");
+    function apply() {
+      var stored;
+      try { stored = localStorage.getItem("theme"); } catch (error) {}
+      var theme = stored === "light" || stored === "dark" ? stored : (light.matches ? "light" : "dark");
+      root.dataset.theme = theme;
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.content = theme === "light" ? "#faf6ee" : "#111417";
+    }
+    window.addEventListener("theme:change", apply);
+    window.addEventListener("storage", function (event) { if (event.key === "theme") apply(); });
+    light.addEventListener ? light.addEventListener("change", apply) : light.addListener(apply);
+    apply();
+  })();
+<% end %>

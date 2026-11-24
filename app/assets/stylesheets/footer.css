@@ -122,6 +122,42 @@
   text-align: end;
 }
 
+.theme-switch {
+  align-self: end;
+  border: 1px solid var(--color-subtle);
+  border-radius: 99rem;
+  display: inline-flex;
+  gap: 0.15rem;
+  margin: 0 0 0.2rem;
+  padding: 0.15rem;
+}
+
+.theme-switch__option {
+  border-radius: 99rem;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  display: inline-flex;
+  padding: 0.3rem 0.45rem;
+  position: relative;
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+
+  &:has(:checked) {
+    background-color: var(--color-subtle);
+    color: var(--color-ink);
+  }
+
+  &:has(:focus-visible) {
+    outline: 2px solid var(--color-selected-dark);
+    outline-offset: 1px;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
 .footer__made-with {
   align-items: center;
   color: var(--color-subtle-dark);
@@ -146,5 +182,9 @@
   .footer__colophon {
     align-items: center;
     text-align: center;
+  }
+
+  .theme-switch {
+    align-self: center;
   }
 }

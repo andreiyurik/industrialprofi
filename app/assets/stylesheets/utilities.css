@@ -12,6 +12,10 @@
 
 [hidden] { display: none; }
 
+/* Images can't read data-theme, so a themed mark ships in both colours. */
+:root[data-theme="light"] .only-dark,
+:root:not([data-theme="light"]) .only-light { display: none; }
+
 .for-screen-reader {
   block-size: 1px;
   clip-path: inset(50%);

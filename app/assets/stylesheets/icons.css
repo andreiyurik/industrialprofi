@@ -65,6 +65,8 @@
 .icon--map-trifold { --svg: url("icons/map-trifold.svg"); }
 .icon--minus { --svg: url("icons/minus.svg"); }
 .icon--minus-circle { --svg: url("icons/minus-circle.svg"); }
+.icon--monitor { --svg: url("icons/monitor.svg"); }
+.icon--moon { --svg: url("icons/moon.svg"); }
 .icon--newspaper { --svg: url("icons/newspaper.svg"); }
 .icon--paper-plane-tilt { --svg: url("icons/paper-plane-tilt.svg"); }
 .icon--pencil-simple { --svg: url("icons/pencil-simple.svg"); }

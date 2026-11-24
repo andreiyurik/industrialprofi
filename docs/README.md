@@ -60,6 +60,7 @@ Settled — don't re-propose without the listed trigger.
 - [2026-10-02 Node for dev tools only](decisions/2026-10-02-node-for-dev-tools-only.md) — Herb's linter in CI; nothing Node ships to production.
 - [2026-10-13 Community doors](decisions/2026-10-13-community-doors.md) — every gap public, one link is a contribution; no new roles, models or uploads.
 - [2026-11-01 Focus on two professions](decisions/2026-11-01-focus-two-professions.md) — АСУ ТП and Электрик listed; the rest unlisted but reachable; calculators in the header.
+- [2026-11-24 Light and dark themes](decisions/2026-11-24-light-and-dark-themes.md) — warm paper and graphite from one token set; OS default, footer switch.
 
 ## Operations
 
