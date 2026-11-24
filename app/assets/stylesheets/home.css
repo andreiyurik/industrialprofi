@@ -47,7 +47,7 @@
   }
 }
 
-/* nowrap keeps the phrase on one line so rough_annotation_controller.js's underline spans it continuously. */
+/* One continuous underline where it fits; on narrow phones it wraps and the multiline annotation follows each line. */
 .hero__mark {
   white-space: nowrap;
 

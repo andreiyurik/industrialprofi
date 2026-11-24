@@ -45,7 +45,7 @@ export default class extends Controller {
 
   // Private
 
-  // Draw only after web fonts are ready: the async font (Inter Tight) reflows the
+  // Draw only after web fonts are ready: the async web font reflows the
   // box, so drawing earlier mislays the stroke against fallback metrics.
   #draw(instant) {
     const show = () => {
