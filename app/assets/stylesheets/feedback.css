@@ -25,7 +25,7 @@ main.main--centered {
 .feedback__title {
   font-size: clamp(1.9rem, 5vw, 2.6rem);
   font-weight: 800;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
   line-height: 1.05;
   margin-block: 0 var(--block-space-half);
   text-transform: uppercase;

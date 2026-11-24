@@ -325,7 +325,7 @@
 .path__title--course {
   font-family: var(--font-display);
   font-weight: 800;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.005em;
   line-height: 1.02;
   text-transform: uppercase;
 }
