@@ -31,6 +31,9 @@ class WebvisorMaskTest < ActionDispatch::IntegrationTest
     get edit_password_path(users(:member).password_reset_token)
     assert_no_match "mc.yandex.ru", response.body
 
+    get unsubscribe_path(users(:member).generate_token_for(:email_unsubscribe))
+    assert_no_match "mc.yandex.ru", response.body
+
     get paths_path
     assert_match "mc.yandex.ru", response.body
   end
