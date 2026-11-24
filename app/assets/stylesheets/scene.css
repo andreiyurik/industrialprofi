@@ -153,6 +153,11 @@
   margin: 0;
   max-inline-size: none;
 
+  /* A poster is a crop: what lies outside its viewBox must not spill over the card. */
+  .scene__art {
+    overflow: hidden;
+  }
+
   :is(*, *::before, *::after) {
     animation-delay: calc(var(--delay, 0s) - var(--poster, 3s)) !important;
     animation-play-state: paused !important;
