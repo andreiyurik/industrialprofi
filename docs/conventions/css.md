@@ -43,8 +43,9 @@ domain files. Reference: `tmp/references/writebook/app/assets/stylesheets/`.
 ## Type
 
 - Self-hosted only (`app/assets/fonts/`, `@font-face` in `_fonts.css`); no CDN.
-- `--font-sans` (Inter) for body/UI, `--font-display` (Inter Tight) for headings,
-  declared in `base.css`. Largest titles: `font-weight: 800` + uppercase.
+- One family, Golos Text (400/600/700/800, latin + cyrillic subsets): `--font-sans` for
+  body/UI and `--font-display`, its alias for headings, declared in `base.css`. Largest
+  titles: `font-weight: 800` + uppercase.
 - Two scoped exceptions, not precedents: GOST type B for normative table/diagram
   labels; IBM Plex Mono for the lesson table-of-contents rail.
 
