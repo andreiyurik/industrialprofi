@@ -21,16 +21,14 @@
         <%= t("paths.authored_by") %> <%= person_link(author) %>
       </p>
     <% end %>
-    <div class="hub-people__line hub-people__meta">
-      <% if people.any? %>
+    <% if people.any? %>
+      <div class="hub-people__line hub-people__meta">
         <button type="button" class="hub-people__button" popovertarget="path-people">
           <%= t("paths.hub.contributors", count: people.count) %>
           <%= icon_tag "caret-down" %>
         </button>
-        <span class="hub-people__dot" aria-hidden="true">·</span>
-      <% end %>
-      <%= render "paths/maturity", path: path, curators: curators %>
-    </div>
+      </div>
+    <% end %>
   </div>
 
   <% if people.any? %>

@@ -27,4 +27,9 @@ class Paths::TheoriesControllerTest < ActionDispatch::IntegrationTest
     get "/en/paths/#{paths(:electrician).slug}/theory"
     assert_redirected_to "/ru/paths/#{paths(:electrician).slug}/theory"
   end
+
+  test "the maturity chip rides in the header on every tab" do
+    get path_theory_path(paths(:electrician))
+    assert_select ".hub .maturity__line"
+  end
 end
