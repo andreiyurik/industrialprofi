@@ -5,18 +5,15 @@
   margin-block: 2.5rem 3rem;
 }
 
-/* Static on purpose — a heading that follows the scroll is a flourish these short sections don't need. */
 .landing__section {
   display: grid;
-  gap: 1rem;
+  gap: 1.5rem;
+  text-align: start;
 }
 
-@media (min-width: 48em) {
-  .landing__section {
-    align-items: start;
-    column-gap: 3rem;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 9fr);
-  }
+/* The closing call repeats the hero's, so a reader at the bottom doesn't scroll back for it. */
+.landing + .path__start {
+  margin-block-end: 0;
 }
 
 .landing__title {
@@ -36,8 +33,168 @@
   margin-block: 0 0.75rem;
 }
 
-.landing__subtitle + .landing__checks + .landing__subtitle {
-  margin-block-start: 1.5rem;
+.landing__balance {
+  display: grid;
+  gap: 2rem 3rem;
+
+  @media (min-width: 48em) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.landing__points {
+  font-size: 1rem;
+}
+
+.landing__tiles {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* The mark keeps the first column; title and small print stack in the second. */
+.landing__highlight {
+  align-content: start;
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75rem;
+  column-gap: 0.75rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  padding: 1rem 1.1rem 1.1rem;
+  row-gap: 0.3rem;
+
+  .landing__mark {
+    grid-row: span 2;
+  }
+}
+
+.landing__tile-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.landing__tile-text {
+  color: var(--color-subtle-dark);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+/* A tile without a bold lead is all title: its one line stays in ink. */
+.landing__mark + .landing__tile-text {
+  color: var(--color-ink);
+  font-size: 1rem;
+}
+
+.landing__more {
+  margin-block-start: 0.9rem;
+}
+
+.landing__more-toggle {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.9rem;
+  gap: 0.3em;
+  list-style: none;
+  margin-block-end: 0.9rem;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  .icon {
+    transition: transform 150ms ease-out;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-ink);
+    }
+  }
+}
+
+.landing__more[open] .landing__more-toggle .icon {
+  transform: rotate(180deg);
+}
+
+.doors {
+  display: grid;
+  gap: 0.75rem;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.door {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle);
+  border-radius: 0.75rem;
+  block-size: 100%;
+  color: var(--color-ink);
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+  padding: 1.1rem 1.2rem 1.2rem;
+  text-decoration: none;
+  transition: border-color 150ms ease-out;
+
+  @media (any-hover: hover) {
+    &:hover {
+      border-color: var(--color-subtle-dark);
+
+      .door__title .icon {
+        transform: translateX(0.2em);
+      }
+    }
+  }
+}
+
+.door__icon {
+  color: var(--color-link);
+  margin-block-end: 0.4rem;
+  --icon-size: 1.6rem;
+}
+
+.door__title {
+  align-items: center;
+  display: flex;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  gap: 0.4em;
+
+  .icon {
+    transition: transform 150ms ease-out;
+    --icon-size: 0.85em;
+  }
+}
+
+.door__count {
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.door__count-item {
+  white-space: nowrap;
+}
+
+.door__text {
+  color: var(--color-subtle-dark);
+  font-size: 0.85rem;
+  line-height: 1.4;
+
+  @media (max-width: 30em) {
+    display: none;
+  }
 }
 
 /* Big, readable text — the body of a landing is not the body of an article. */
@@ -96,7 +253,7 @@
 }
 
 .landing__cover {
-  margin: 1.5rem 0 0;
+  margin: 0 0 1.5rem;
 }
 
 .landing__cover-image {
@@ -113,30 +270,76 @@
   margin-block-start: 0.5rem;
 }
 
-/* «Что внутри» outline — the full cards live on the «Теория» tab. */
+/* The chapter route: numbered stations on one line; the full cards live on the «Теория» tab. */
 .outline__list {
+  counter-reset: station;
   display: grid;
-  gap: 0.6rem;
+  list-style: none;
   margin: 0;
-  padding-inline-start: 1.5rem;
+  padding: 0;
 }
 
 .outline__item {
-  line-height: 1.45;
+  counter-increment: station;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1rem 0.75rem;
+  align-items: baseline;
+  line-height: 1.4;
+  padding-block: 0 1.4rem;
+  padding-inline-start: 3rem;
+  position: relative;
+
+  &::before {
+    background-color: var(--color-bg);
+    block-size: 2rem;
+    border: 1px solid var(--color-subtle-dark);
+    border-radius: 50%;
+    content: counter(station);
+    display: grid;
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    inline-size: 2rem;
+    inset-block-start: -0.25rem;
+    inset-inline-start: 0;
+    place-items: center;
+    position: absolute;
+    z-index: 1;
+  }
+
+  &:not(:last-child)::after {
+    background-color: var(--color-subtle);
+    content: "";
+    inline-size: 1px;
+    inset-block: 0 0;
+    inset-inline-start: 1rem;
+    position: absolute;
+  }
+}
+
+.outline__item--done::before {
+  background-color: var(--color-positive);
+  border-color: var(--color-positive);
+  color: var(--color-bg);
 }
 
 .outline__item--soon {
   color: var(--color-subtle-dark);
+
+  &::before {
+    border-style: dashed;
+  }
 }
 
 .outline__title {
+  font-size: 1.1rem;
   font-weight: 600;
 }
 
 a.outline__title {
   color: var(--color-ink);
   text-decoration: none;
-  text-decoration-color: var(--color-subtle);
 
   @media (any-hover: hover) {
     &:hover {
@@ -148,19 +351,10 @@ a.outline__title {
 .outline__meta {
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
-  margin-inline-start: 0.5rem;
   white-space: nowrap;
 }
 
 .outline__all {
   font-size: 0.9rem;
-  margin-block: var(--block-space) 0;
-}
-
-.outline__own {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--inline-space);
-  margin-block: var(--block-space) 0;
+  margin: 0;
 }

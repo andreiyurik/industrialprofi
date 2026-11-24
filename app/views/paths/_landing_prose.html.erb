@@ -1,0 +1,10 @@
+<%# locals: (text:) -%>
+<%# The first paragraph carries the section; the rest waits behind «Читать дальше». %>
+<% lead, rest = text.to_s.strip.split(/(?:\r?\n){2,}/, 2) %>
+<div class="prose landing__prose"><%= markdown(lead) %></div>
+<% if rest.present? %>
+  <details class="landing__more">
+    <summary class="landing__more-toggle"><%= t("paths.landing.read_more") %> <%= icon_tag "caret-down" %></summary>
+    <div class="prose landing__prose"><%= markdown(rest) %></div>
+  </details>
+<% end %>

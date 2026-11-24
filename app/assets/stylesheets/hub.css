@@ -25,16 +25,115 @@
   font-size: 1.05rem;
   line-height: 1.5;
   margin: 0 auto;
+  hyphens: none;
   max-inline-size: 44ch;
   text-wrap: balance;
 }
 
-/* The inventory line: «3 главы · 24 статьи · 6 заданий». */
-.hub__facts {
+.hub .path__start {
+  margin-block: 1.5rem 0;
+}
+
+.hub-stats {
+  display: flex;
+  gap: clamp(1.25rem, 6vw, 2.5rem);
+  justify-content: center;
+  list-style: none;
+  margin: 1.75rem 0 0;
+  padding: 0;
+}
+
+.hub-stats__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.hub-stats__number {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.hub-stats__label {
   color: var(--color-subtle-dark);
   font-size: 0.85rem;
-  font-variant-numeric: tabular-nums;
-  margin: 0.15rem 0 0;
+}
+
+/* Tab pages: one title row, so the tab's own content starts on the first screen. */
+.hub--compact .hub__identity {
+  flex-direction: row;
+  gap: 0.75rem;
+  justify-content: center;
+
+  .topic-hero-icon {
+    block-size: 2.5rem;
+    border-width: 1px;
+    flex-shrink: 0;
+    inline-size: 2.5rem;
+    margin-block-end: 0;
+
+    .topic-badge > :is(.icon, img) {
+      block-size: 1.3rem;
+      inline-size: 1.3rem;
+    }
+  }
+
+  .path__title {
+    font-size: clamp(1.3rem, 3.5vw, 1.75rem);
+  }
+}
+
+.hub__home {
+  color: inherit;
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.15em;
+    }
+  }
+}
+
+.hub-credits {
+  align-items: center;
+  border-block-start: 1px solid var(--color-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-block-start: 3rem;
+  padding-block-start: 2rem;
+
+  .hub-people {
+    margin-block-start: 0;
+  }
+
+  .map-version {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* The overview's foot stays on the hero's centre axis; on the tabs the same block follows left-aligned content. */
+.hub-credits + .hub-improve {
+  text-align: center;
+
+  .hub-improve__text {
+    margin-inline: auto;
+  }
+
+  .hub-improve__links {
+    justify-content: center;
+  }
+}
+
+.section:has(.hub--compact) {
+  padding-block-start: 2rem;
 }
 
 /* Centred under the identity at every width — nothing hangs in a corner to collide with the emblem on narrow screens. */
@@ -224,12 +323,17 @@
 /* Weight never changes on the active tab (avoids jitter between pages); left-aligned on phones since
    a centred overflow row clips its own start. Icons drop below 30em so all five words fit 390px. */
 .hub-tabs {
+  background-color: var(--color-bg);
   border-block-end: 1px solid var(--color-subtle);
   display: flex;
   gap: 0.25rem;
+  inset-block-start: 0;
   margin-block: var(--block-space-double) var(--block-space-double);
   overflow-x: auto;
+  position: sticky;
   scrollbar-width: none;
+  /* Under the site header (40), which slides away once the page scrolls. */
+  z-index: 30;
 
   &::-webkit-scrollbar {
     display: none;
@@ -271,6 +375,13 @@
   color: var(--color-ink);
 }
 
+.hub-tabs__count {
+  color: var(--color-subtle-dark);
+  font-size: 0.8em;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
 /* After the base rule on purpose — same specificity, source order decides. */
 @media (max-width: 30em) {
   .hub-tabs {
@@ -281,7 +392,7 @@
     font-size: 0.8rem;
     padding-inline: 0.4rem;
 
-    .icon {
+    :is(.icon, .hub-tabs__count) {
       display: none;
     }
   }
@@ -358,7 +469,7 @@
 /* «Улучшить карту» — the door to participation at the foot of every tab. */
 .hub-improve {
   border-block-start: 1px solid var(--color-subtle);
-  margin-block-start: 3rem;
+  margin-block-start: 2rem;
   padding-block-start: 1.5rem;
   text-align: start;
 }

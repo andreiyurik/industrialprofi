@@ -63,7 +63,9 @@ class Path < ApplicationRecord
     icon.presence || Icon::DEFAULT_EMBLEM
   end
 
-  def has_glossary? = GlossaryTerm.for_path(self).exists?
+  def has_glossary? = inventory.terms.positive?
+
+  def inventory = @inventory ||= Inventory.new(self)
 
   def contributors = @contributors ||= Contributors.new(self)
 

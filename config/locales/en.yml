@@ -100,6 +100,7 @@ en:
         highlights: "What a master can do"
         pros: "Strong sides"
         cons: "Weak sides"
+        scene: "Profession diagram"
 
   errors:
     format: "%{attribute}: %{message}"
@@ -112,6 +113,7 @@ en:
       confirmation: "doesn't match %{attribute}"
       defined_elsewhere: "is already defined in the article “%{lesson}” — link to it instead of duplicating"
       too_long: "is too long a list (maximum %{count})"
+      incomplete: "name all four steps, or clear them to remove the diagram"
 
   site:
     name: "industrialprofi.com"
@@ -1230,8 +1232,21 @@ en:
       cons: "Weak sides"
       history: "From the history"
       faq: "Frequently asked questions"
-      outline: "What's inside"
+      outline: "The route by chapter"
       outline_all: "The whole programme by chapter →"
+      read_more: "Read more"
+    doors:
+      title: "How the roadmap is built"
+      theory: "Articles by chapter: from the basics up, each anchored in a standard."
+      practice: "Tasks at three levels — apprentice to master, with self-checks."
+      library: "Standards, books, videos and calculators the articles cite."
+      glossary: "The trade's abbreviations, spelled out and linked to an article."
+      sources:
+        one: "%{count} source"
+        other: "%{count} sources"
+      calculators:
+        one: "%{count} calculator"
+        other: "%{count} calculators"
     focus_banner_html: "You're studying %{title} — better to finish what you started before taking on something new."
     start_learning: "Start learning"
     continue_learning: "Continue learning"
@@ -1674,6 +1689,8 @@ en:
         items:
           - t: "Profession catalog and roadmaps"
             d: "A structured path through each profession — from the basics to a confident specialist."
+          - t: "Profession page: the gist on one screen"
+            d: "A diagram instead of paragraphs, what you'll be able to do, the route by chapter and clear doors into theory, practice, the library and the glossary. The tabs stay at hand as you scroll."
           - t: "A thought-out article format"
             d: "Why it matters → official documents → a practical task, plus self-check questions."
           - t: "Quality source links"
@@ -2555,6 +2572,22 @@ en:
       about: "About the profession"
       about_placeholder: "2–4 paragraphs: what the work is, where it happens, what one is responsible for, how one grows (grades/certifications where they exist), where it pays off. Honest, no salaries."
       markdown_hint: "Markdown."
+      scene:
+        heading: "Profession diagram"
+        hint: "The animated loop at the top of the page: four steps round a circuit (1 → 2 → 3 → 4 → back to 1) and a watcher above them. Step 4 is drawn dashed — it is what the loop closes through. Two or three words per field. The diagram appears once all four steps are named; clear the names to remove it."
+        step_1: "Step 1 — where it starts (bottom left)"
+        step_2: "Step 2 — what decides or protects (top left)"
+        step_3: "Step 3 — what acts (top right)"
+        step_4: "Step 4 — what the loop closes through (bottom right)"
+        top: "Watcher above the loop (optional)"
+        name: "Name"
+        does: "What it does"
+        chapter: "Opens chapter"
+        no_chapter: "— no link —"
+        icon: "Icon"
+        link: "Label on the arrow to step %{to}"
+        top_link: "Label on the arrow from step 2"
+        caption: "Caption under the diagram"
       highlights: "What a master can do"
       highlights_placeholder: "One skill per line, 4–6 lines:\n**Reads schematics** and assembles a panel from them\n**Finds a fault** from symptoms, not by trial and error"
       list_hint: "One item per line; mark the key phrase in **bold** — that is what gets read."

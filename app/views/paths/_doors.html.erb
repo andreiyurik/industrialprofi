@@ -1,0 +1,30 @@
+<%# locals: (path:) -%>
+<%# The tab row again, as cards that say what is behind each tab and how much of it. %>
+<% inventory = path.inventory %>
+<% doors = [
+     [ path_theory_path(path), "graduation-cap", t("paths.hub.theory"),
+       [ t("courses.lessons_count", count: inventory.lessons) ], t("paths.doors.theory") ],
+     ([ path_practice_path(path), "wrench", t("paths.hub.practice"),
+        [ t("projects.tasks", count: inventory.tasks) ], t("paths.doors.practice") ] if inventory.tasks.positive?),
+     [ path_library_path(path), "book-open", t("paths.hub.library"),
+       [ t("paths.doors.sources", count: inventory.documents),
+         (t("paths.doors.calculators", count: inventory.calculators) if inventory.calculators.positive?) ].compact,
+       t("paths.doors.library") ],
+     ([ path_glossary_path(path), "text-aa", t("paths.hub.glossary"),
+        [ t("paths.glossary.count", count: inventory.terms) ], t("paths.doors.glossary") ] if path.has_glossary?)
+   ].compact %>
+<section class="landing__section">
+  <h2 class="landing__title"><%= t("paths.doors.title") %></h2>
+  <ul class="doors" role="list">
+    <% doors.each do |url, icon, title, counts, text| %>
+      <li>
+        <%= link_to url, class: "door" do %>
+          <span class="door__icon"><%= icon_tag icon %></span>
+          <span class="door__title"><%= title %> <%= icon_tag "arrow-right" %></span>
+          <span class="door__count"><%= safe_join(counts.map { |count| tag.span(count, class: "door__count-item") }, " · ") %></span>
+          <span class="door__text"><%= text %></span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</section>
