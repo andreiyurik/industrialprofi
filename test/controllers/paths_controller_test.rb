@@ -63,27 +63,26 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".catalog-soon a.link-quiet[href=?]", contribute_path(anchor: "wanted")
   end
 
-  test "index shows the learner's hero: choose a profession or open the calculators" do
+  test "index opens with one call to choose a profession" do
     get paths_path
     assert_match I18n.t("paths.hero.title_html"), response.body
-    assert_select ".hero__actions a", count: 2
+    assert_select ".hero__actions a", count: 1
     assert_select ".hero__actions a.btn--reversed[href='#catalog']", text: /#{I18n.t("paths.hero.start")}/
-    assert_select ".hero__actions a.btn[href=?]", calculators_path, text: /#{I18n.t("paths.hero.calculators")}/
     assert_select "#catalog"
   end
 
-  test "index stages the professions that have a scene and posters every card" do
+  test "index draws the sheet: professions hang on it as callouts, the catalog's numbers fill its stamp" do
     get paths_path
-    assert_select ".showcase[data-controller=showcase] .showcase__tab", text: paths(:electrician).title
-    assert_select ".showcase__slide .scene--stage svg"
-    assert_select ".showcase__slide .scene__legend", false, "the stage shows the drawing, not the chapter legend"
-    assert_select ".showcase__open[href=?]", path_path(paths(:electrician))
+    assert_select ".blueprint svg[role=img][aria-label]"
+    assert_select ".blueprint__callout--power a[href=?]", path_path(paths(:electrician)), text: /#{paths(:electrician).title}/
+    assert_select ".blueprint__callout", 1, "a profession without a place on the drawing lives in the catalog only"
+    assert_select ".blueprint [data-part=control] .bp-balloon", false, "no balloon without its profession"
+    assert_select ".blueprint__stamp .blueprint__cell", 4
     assert_select ".path-card .path-card__poster .scene--poster svg", 1
     assert_select ".path-card__poster--emblem", minimum: 1
-    assert_select ".hero__stats .hub-stats__item", 3
 
     ids = css_select("[id]").map { |node| node["id"] }
-    assert_equal ids.uniq, ids, "a scene drawn twice on one page keeps its SVG ids apart"
+    assert_equal ids.uniq, ids
   end
 
   test "index features the most-used calculators below the catalog" do

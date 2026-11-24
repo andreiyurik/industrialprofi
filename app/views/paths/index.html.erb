@@ -5,51 +5,21 @@
   <%= json_ld_tag(organization_json_ld) %>
 <% end %>
 
-<%# The first few professions that have a scene take turns on the stage. %>
-<% showcase = @paths.select { |path| path_scene(path) }.first(5) %>
-<section class="hero<%= " hero--showcase" if showcase.any? %>">
+<section class="hero<%= " hero--sheet" if @paths.any? %>">
   <div class="container hero__inner">
-    <div class="hero__copy">
-      <h1 class="hero__title"><%= t("paths.hero.title_html") %></h1>
-      <p class="hero__subtitle"><%= t("paths.hero.subtitle_html") %></p>
-      <%# Only the primary keeps the arrow. Hover effects: Magic UI Shiny Button and Hover.css icons, both MIT. %>
-      <p class="hero__actions">
-        <%= link_to "#catalog", class: "btn btn--reversed hero__action hero__action--primary" do %>
-          <span class="hero__shine"><%= icon_tag "graduation-cap" %><%= t("paths.hero.start") %><%= icon_tag "arrow-right" %></span>
-        <% end %>
-        <%= link_to calculators_path, class: "btn hero__action hero__action--calculators" do %>
-          <%= icon_tag "calculator" %><%= t("paths.hero.calculators") %>
-        <% end %>
-      </p>
-      <% if @paths.any? %>
-        <ul class="hub-stats hero__stats" role="list">
-          <%= hub_stat t("courses.lessons_count", count: @paths.sum(&:lessons_count)) %>
-          <%= hub_stat t("paths.doors.sources", count: @paths.sum { |path| path.inventory.documents }) %>
-          <%= hub_stat t("paths.doors.calculators", count: Calculator::ALL.size) %>
-        </ul>
-        <p class="hero__standards"><%= t("paths.hero.standards") %></p>
+    <h1 class="hero__title"><%= t("paths.hero.title_html") %></h1>
+    <p class="hero__subtitle"><%= t("paths.hero.subtitle_html") %></p>
+    <%# Hover effect: Magic UI Shiny Button, MIT. %>
+    <p class="hero__actions">
+      <%= link_to "#catalog", class: "btn btn--reversed hero__action hero__action--primary" do %>
+        <span class="hero__shine"><%= icon_tag "graduation-cap" %><%= t("paths.hero.start") %><%= icon_tag "arrow-right" %></span>
       <% end %>
-    </div>
-
-    <% if showcase.any? %>
-      <div class="showcase" data-controller="showcase">
-        <div class="showcase__tabs" role="tablist" aria-label="<%= t("paths.hero.showcase_label") %>">
-          <% showcase.each_with_index do |path, index| %>
-            <button type="button" class="showcase__tab" role="tab" aria-selected="<%= index.zero? %>"
-                    data-showcase-target="tab" data-action="showcase#select" data-showcase-index-param="<%= index %>">
-              <%= path.title %>
-            </button>
-          <% end %>
-        </div>
-        <% showcase.each_with_index do |path, index| %>
-          <%= tag.div class: "showcase__slide", role: "tabpanel", hidden: !index.zero?, data: { showcase_target: "slide" } do %>
-            <%= render path_scene(path), mode: :stage, uid: "stage-#{path.id}" %>
-            <%= link_to path_path(path), class: "showcase__open" do %>
-              <%= t("paths.hero.open", title: path.title) %><%= icon_tag "arrow-right" %>
-            <% end %>
-          <% end %>
-        <% end %>
-      </div>
+    </p>
+    <% if @paths.any? %>
+      <%= render "paths/blueprint", callouts: blueprint_callouts(@paths),
+            stamp: [ t("courses.lessons_count", count: @paths.sum(&:lessons_count)),
+                     t("paths.doors.sources", count: @paths.sum { |path| path.inventory.documents }),
+                     t("paths.doors.calculators", count: Calculator::ALL.size) ] %>
     <% end %>
   </div>
 </section>

@@ -1151,14 +1151,17 @@ en:
     page_title: "Professions — industrialprofi.com"
     title: "Profession roadmaps"
     subtitle: "An open encyclopedia of professions: roadmaps are led by practitioners, and edits are reviewed by the community. Free, forever."
+    blueprint:
+      alt: "Drawing of an installation: a pump in the centre, a power panel with breakers on the left, a control cabinet with a PLC on the right; cables from both meet at the pump motor, with a valve and a flow meter on the pipe."
+      volts: "380 V"
+      control: "24 V"
+      signal: "4–20 mA"
+      standards_label: "Standards"
+      standards: "GOST · PUE · PTEEP · IEC 61131-3 · GOST 21.208"
     hero:
       title_html: "A hands-on trade&nbsp;— by the real standards, for free"
-      standards: "GOST · PUE · PTEEP · IEC 61131-3 · GOST 21.208"
-      showcase_label: "Featured professions"
-      open: "Open the roadmap: %{title}"
-      subtitle_html: "Lessons built on official standards, hands-on tasks and engineering calculators. Reading needs no account — sign up only to mark lessons done."
+      subtitle_html: "Articles built on official standards, hands-on tasks and calculators. No sign-up needed."
       start: "Choose a profession"
-      calculators: "Calculators"
     featured_calculators:
       title: "The most-used calculators"
       all: "All calculators"

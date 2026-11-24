@@ -164,16 +164,7 @@
   }
 }
 
-/* The numbers answer to the legend, and only the full scene has one. */
-:is(.scene--stage, .scene--poster) .art-marks {
+/* The numbers answer to the legend, and a poster has none. */
+.scene--poster .art-marks {
   display: none;
-}
-
-.scene--stage {
-  margin: 0;
-  max-inline-size: none;
-
-  .scene__phases {
-    margin-block-end: 0;
-  }
 }

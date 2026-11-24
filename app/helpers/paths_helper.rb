@@ -27,6 +27,13 @@ module PathsHelper
     name if lookup_context.exists?(name, [], true)
   end
 
+  # Where a profession's name hangs on the home page's drawing; one without a place lives in the catalog only.
+  BLUEPRINT_SLOTS = { "elektrik" => :power, "inzhener-asu-tp" => :control }.freeze
+
+  def blueprint_callouts(paths)
+    paths.filter_map { |path| [ BLUEPRINT_SLOTS[path.slug], path ] if BLUEPRINT_SLOTS.key?(path.slug) }.to_h
+  end
+
   # A scene's legend chip: `scope` holds «<key>» and «<key>_does»; `data-chip` pairs it with the drawing's `data-part`.
   def scene_chip(key, part, scope:, course: nil)
     body = safe_join([ tag.strong(t(key, scope: scope), class: "scene__name"), tag.span(t("#{key}_does", scope: scope), class: "scene__does") ])

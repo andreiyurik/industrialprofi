@@ -124,151 +124,28 @@
 
 /* Emblem-card styling lives in paths.css, which owns .path-card and loads after this file. */
 
-/* With a stage the hero splits: the pitch on the left, the scene on the right. */
-.hero--showcase {
-  padding-block: 2.5rem 2rem;
-
-  .hero__inner {
-    align-items: start;
-    display: grid;
-    gap: 2.5rem;
-  }
+/* With the drawing sheet the hero is one centred column: the pitch, one button, the sheet. */
+.hero--sheet {
+  padding-block: 3rem 2rem;
 
   .hero__title {
-    font-size: clamp(2rem, 3.4vw, 2.75rem);
+    font-size: clamp(1.9rem, 4vw, 3rem);
     letter-spacing: -0.03em;
     line-height: 1.08;
-    max-inline-size: 20ch;
+    max-inline-size: none;
   }
 
   .hero__subtitle {
     font-size: 1.05rem;
-    max-inline-size: 34rem;
-  }
-}
-
-@media (min-width: 64em) {
-  .hero--showcase {
-    padding-block: 4.5rem 3.5rem;
-
-    .hero__inner {
-      column-gap: 4rem;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      text-align: start;
-    }
-
-    :is(.hero__title, .hero__subtitle) {
-      margin-inline: 0;
-    }
-
-    :is(.hero__actions, .hero__stats) {
-      justify-content: flex-start;
-    }
-
-    .hero__action {
-      --btn-padding: 0.8em 1.1em;
-      white-space: nowrap;
-    }
-  }
-}
-
-.hero__stats {
-  margin-block-start: 2.25rem;
-}
-
-.hero__standards {
-  color: var(--color-subtle-dark);
-  font-family: var(--font-technical);
-  font-size: 0.9rem;
-  letter-spacing: 0.02em;
-  margin-block: 1rem 0;
-}
-
-/* A drawing sheet like the catalog cards: square corners and the same corner ticks (paths.css). */
-.showcase {
-  border: 1px solid var(--color-subtle);
-  border-radius: 0.25rem;
-  min-inline-size: 0;
-  padding: 0.75rem clamp(1rem, 3vw, 1.75rem) 1.25rem;
-  position: relative;
-  text-align: center;
-}
-
-/* The row's rule is the track the active tab's bar runs along. */
-.showcase__tabs {
-  border-block-end: 1px solid var(--color-subtle);
-  display: flex;
-  gap: 0.25rem;
-  margin-block-end: 1rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-/* The profession's name in its GOST face is the tab; the bar under it runs for one lap of the scene. */
-.showcase__tab {
-  background: none;
-  border: 0;
-  color: var(--color-subtle-dark);
-  cursor: pointer;
-  flex-shrink: 0;
-  font-family: var(--font-technical);
-  font-size: clamp(1rem, 2.4vw, 1.3rem);
-  padding: 0.4rem 0.75rem 0.6rem;
-  position: relative;
-  transition: color 150ms ease-out;
-
-  &::after {
-    background-color: var(--color-ink);
-    block-size: 2px;
-    content: "";
-    inline-size: calc(100% - 1.5rem);
-    inset-block-end: -1px;
-    inset-inline-start: 0.75rem;
-    position: absolute;
-    scale: 0 1;
-    transform-origin: left;
+    margin-block-start: 1.1rem;
+    max-inline-size: 52rem;
   }
 
-  &[aria-selected="true"] {
-    color: var(--color-ink);
+  .hero__actions {
+    margin-block-start: 1.5rem;
   }
 
-  &[aria-selected="true"]::after {
-    animation: showcase-lap var(--showcase-lap, 10s) linear forwards;
-  }
-
-  @media (any-hover: hover) {
-    &:hover {
-      color: var(--color-ink);
-    }
-  }
-}
-
-.showcase__slide {
-  animation: appear 400ms ease-out;
-}
-
-.showcase__open {
-  align-items: center;
-  color: var(--color-subtle-dark);
-  display: inline-flex;
-  font-size: 0.9rem;
-  gap: 0.4em;
-  margin-block-start: 0.5rem;
-  text-decoration: none;
-
-  .icon {
-    transition: transform 150ms ease-out;
-    --icon-size: 0.9em;
-  }
-
-  @media (any-hover: hover) {
-    &:hover {
-      color: var(--color-ink);
-
-      .icon {
-        transform: translateX(0.2em);
-      }
-    }
+  @media (min-width: 64em) {
+    padding-block: 3rem;
   }
 }
