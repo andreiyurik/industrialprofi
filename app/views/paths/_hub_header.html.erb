@@ -21,6 +21,9 @@
     <% end %>
   </div>
 
+  <%# On every tab: trust before the reader commits, and the way in to improving the map. %>
+  <%= render "paths/maturity", path: path, curators: path.curators.to_a %>
+
   <% if overview %>
     <%= render "shared/continue_cta", continue_lesson: progress.next_lesson, completed_ids: progress.completed_ids %>
     <ul class="hub-stats" role="list">

@@ -204,10 +204,6 @@
   justify-content: center;
 }
 
-.hub-people__dot {
-  color: var(--color-subtle-dark);
-}
-
 .hub-people__button {
   align-items: center;
   background: none;
