@@ -280,4 +280,12 @@ end
     assert_select ".lesson-attribution", text: /Админ и Эксперт|Эксперт и Админ/
     assert_no_match " and ", response.body.scan(/lesson-attribution.*?<\/p>/m).join
   end
+
+  test "the lesson carries Article markup anchored to its article element" do
+    get lesson_path(lessons(:pteep))
+
+    article = css_select("script[type='application/ld+json']").map { |tag| JSON.parse(tag.text) }.find { |data| data["@type"] == "Article" }
+    assert article
+    assert_select "article##{article["@id"].split("#").last}"
+  end
 end

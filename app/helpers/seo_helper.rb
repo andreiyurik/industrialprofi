@@ -1,5 +1,6 @@
 module SeoHelper
   SITE_NAME = "IndustrialProfi"
+  LESSON_ARTICLE_ID = "lesson-article"
 
   # og:locale wants a territory ("ru_RU"); fall back to the bare code if unmapped.
   OG_LOCALES = { ru: "ru_RU", en: "en_US", kk: "kk_KZ" }.freeze
@@ -55,6 +56,25 @@ module SeoHelper
       end
     end
     data.to_json
+  end
+
+  # Metrika's content analytics reads only Article-like types; without `text` it measures the element the @id fragment names.
+  def article_json_ld(lesson)
+    url = "#{site_url}/#{I18n.locale}/lessons/#{lesson.slug}"
+    curators = lesson.path.curators.to_a
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "@id": "#{url}##{LESSON_ARTICLE_ID}",
+      headline: lesson.title,
+      description: lesson.description.to_s.truncate(160),
+      url: url,
+      inLanguage: I18n.locale.to_s,
+      datePublished: lesson.created_at.iso8601,
+      dateModified: lesson.updated_at.iso8601,
+      author: curators.any? ? curators.map { |curator| { "@type": "Person", name: curator.name } } : [ { "@type": "Organization", name: SITE_NAME } ],
+      about: [ { "@type": "Thing", name: lesson.path.title }, { "@type": "Thing", name: lesson.course.title } ]
+    }.to_json
   end
 
   def course_json_ld(path)

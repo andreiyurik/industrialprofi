@@ -51,6 +51,8 @@ charting JS.
   identifying carries `ym-hide-content`: `<main>` is masked on every page except public
   teaching content (`WEBVISOR_VISIBLE`), and token pages (password reset, unsubscribe) skip
   Metrika entirely (`metrika_allowed?`).
+  Content analytics reads the lesson's `Article` JSON-LD (`article_json_ld`): its `@id`
+  fragment names `<article id="lesson-article">`, so the text isn't duplicated into JSON.
   Disclosed in `/privacy` — keep it truthful. GA rejected (152-ФЗ, no Google Ads in RU).
 - **Public pages**: `/contribute` (participation, the wanted-professions board from
   `ru.yml → contribute.wanted`), `/partners` (sponsors, independence firewall),
