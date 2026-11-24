@@ -4,7 +4,7 @@
      data-controller="element-removal"
      data-element-removal-delay-value="4000">
   <%# role="alert" interrupts a screen reader, "status" waits its turn. %>
-  <div class="flash__inner <%= "flash__inner--alert" if alert %>"
+  <div class="flash__inner ym-hide-content <%= "flash__inner--alert" if alert %>"
        role="<%= alert ? "alert" : "status" %>" aria-atomic="true">
     <%= message %>
   </div>

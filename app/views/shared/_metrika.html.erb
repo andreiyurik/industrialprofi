@@ -5,7 +5,10 @@
   window.ym.l = 1 * new Date();
 
   ym(<%= site_config.metrika_id.to_i.to_json %>, "init", { defer: true, clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true });
-  document.addEventListener("turbo:load", function () { ym(<%= site_config.metrika_id.to_i.to_json %>, "hit", location.href); });
+  document.addEventListener("turbo:load", function () {
+    if (/\/(passwords|unsubscribe)\//.test(location.pathname)) return;
+    ym(<%= site_config.metrika_id.to_i.to_json %>, "hit", location.href);
+  });
   window.reachGoal = function (name) { ym(<%= site_config.metrika_id.to_i.to_json %>, "reachGoal", name); };
 
   function loadMetrika() {
