@@ -78,6 +78,7 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".blueprint__callout", 1, "a profession without a place on the drawing lives in the catalog only"
     assert_select ".blueprint [data-part=control] .bp-balloon", false, "no balloon without its profession"
     assert_select ".blueprint__stamp .blueprint__cell", 4
+    assert_select ".blueprint[data-controller=plant] .plant[hidden] .plant__switch", 5, "the desk waits for JS to hand it over"
     assert_select ".path-card .path-card__poster .scene--poster svg", 1
     assert_select ".path-card__poster--emblem", minimum: 1
 

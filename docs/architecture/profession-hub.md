@@ -57,6 +57,12 @@ flowchart TB
   switches on. Professions hang on it as callouts (`PathsHelper::BLUEPRINT_SLOTS` maps a
   slug to its place; one without a place lives in the catalog only), and the catalog's
   numbers fill the sheet's title block.
+- **The sheet is a control desk** (`plant` Stimulus controller): the visitor powers the
+  installation up — supply, motor and control breakers, the valve, «Пуск» — by the desk's
+  keys or by clicking the parts on the drawing. The controller keeps the state as data
+  attributes on the figure and `blueprint.css` draws each one; a start with the valve shut
+  trips the dry-run protection and says why. Without JS the sheet simply runs. Metrika
+  goals: `plant_started`, `plant_launched`, `link_copied`.
 - **Landing «О профессии»** (`Path::Landing`): six slots in one JSON column
   (`paths.landing`: about/history/faq markdown; highlights/pros/cons line lists) +
   `has_one_attached :cover` (also the og:image). Carried by packs as `landing.yml` +
