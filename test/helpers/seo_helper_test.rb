@@ -9,6 +9,16 @@ class SeoHelperTest < ActionView::TestCase
     assert_includes result, "IndustrialProfi"
   end
 
+  test "article_json_ld points Metrika at the lesson article element" do
+    lesson = lessons(:pteep)
+    data = JSON.parse(article_json_ld(lesson))
+
+    assert_equal "Article", data["@type"]
+    assert_equal lesson.title, data["headline"]
+    assert data["@id"].end_with?("/lessons/#{lesson.slug}#lesson-article")
+    assert_equal [ lesson.path.title, lesson.course.title ], data["about"].pluck("name")
+  end
+
   test "course_json_ld returns valid JSON-LD for path" do
     path = paths(:electrician)
     result = course_json_ld(path)
