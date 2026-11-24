@@ -5,8 +5,7 @@ export default class extends Controller {
   static targets = ["option"]
 
   connect() {
-    const stored = this.#stored
-    this.optionTargets.forEach((option) => (option.checked = option.value === stored))
+    this.sync()
     this.element.hidden = false
   }
 
@@ -15,7 +14,14 @@ export default class extends Controller {
     window.dispatchEvent(new Event("theme:change"))
   }
 
+  sync() {
+    const stored = this.#stored
+    this.optionTargets.forEach((option) => (option.checked = option.value === stored))
+  }
+
   get #stored() {
-    try { return localStorage.getItem("theme") || "auto" } catch { return "auto" }
+    let value
+    try { value = localStorage.getItem("theme") } catch {}
+    return value === "light" || value === "dark" ? value : "auto"
   }
 }
