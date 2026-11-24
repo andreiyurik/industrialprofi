@@ -13,7 +13,10 @@ export default class extends Controller {
     try { localStorage.setItem("theme", value) } catch {}
     const apply = () => window.dispatchEvent(new Event("theme:change"))
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    document.startViewTransition && !still ? document.startViewTransition(apply) : apply()
+    if (!document.startViewTransition || still) return apply()
+
+    const transition = document.startViewTransition(apply)
+    transition.finished.catch(() => {})
   }
 
   sync() {

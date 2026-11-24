@@ -122,7 +122,6 @@
   text-align: end;
 }
 
-/* Three equal cells and a thumb that slides under the checked one. */
 .theme-switch {
   --switch-cell: 2rem;
   --switch-pad: 3px;
@@ -182,6 +181,11 @@
 
   &:has(:checked) {
     color: var(--color-ink);
+
+    /* Forced colours drop the thumb's fill and shadow. */
+    @media (forced-colors: active) {
+      outline: 2px solid Highlight;
+    }
   }
 
   &:has(:focus-visible) {

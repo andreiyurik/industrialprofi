@@ -6,7 +6,7 @@
   --lch-black: 90% 0.008 85;
   --lch-white: 19% 0.008 250;
   --lch-gray-light: 23.5% 0.009 250;  /* elevated surfaces: cards, panels, inputs */
-  --lch-raised: 30% 0.01 250;         /* a control lifted above an elevated surface */
+  --lch-raised: 30% 0.01 250;
   --lch-gray: 37% 0.01 250;           /* hairline borders + row hover fill */
   --lch-gray-mid: 61% 0.01 250;       /* disabled text and control borders, ≥3:1 */
   --lch-gray-dark: 72% 0.01 250;      /* muted / secondary text */
