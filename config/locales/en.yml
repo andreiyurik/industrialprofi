@@ -1153,7 +1153,7 @@ en:
     subtitle: "An open encyclopedia of professions: roadmaps are led by practitioners, and edits are reviewed by the community. Free, forever."
     hero:
       # The <span> gets a hand-drawn Rough Notation underline on load (rough_annotation_controller.js).
-      title_html: 'Learn to be a <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">process-control engineer or an electrician</span> for free'
+      title_html: 'Learn to be a <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">process-control engineer or an electrician</span> with open career maps'
       subtitle_html: "Lessons built on official standards, hands-on tasks and engineering calculators. Reading needs no account — sign up only to mark lessons done."
       start: "Choose a profession"
       calculators: "Calculators"
