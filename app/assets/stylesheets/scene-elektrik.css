@@ -3,6 +3,7 @@
    which is what reduced motion shows. Keyframes stay here: they are this drawing's choreography. */
 .scene-elektrik {
   --lap: 9s;
+  --poster: 4s;
   --lamp: oklch(var(--lch-amber));
 
   :is(.el-live, .el-fault, .el-needle, .el-rays) {
@@ -56,7 +57,6 @@
 
   .el-halo {
     animation: el-lamp var(--lap) linear infinite, el-breathe 2.4s ease-in-out infinite alternate;
-    fill: url("#el-halo");
     transform-box: fill-box;
     transform-origin: center;
   }

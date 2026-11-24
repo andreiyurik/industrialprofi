@@ -4,6 +4,7 @@
    motion shows. Keyframes stay here: they are this drawing's choreography. */
 .scene-asu {
   --lap: 12s;
+  --poster: 7.5s;
 
   .asu-pipe {
     fill: none;
