@@ -44,6 +44,9 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     options.add_argument("--disable-dev-shm-usage")
   end
 
+  # One browser serves the whole suite, so a width a test leaves behind leaks into whichever test the seed runs next.
+  teardown { page.driver.browser.manage.window.resize_to(*SCREEN_SIZE) }
+
   # Sign in through the real form. Waits on LEAVING the login page rather than on
   # the submit button disappearing: a negative assertion can match the old body
   # before Turbo swaps it in, which made this flake only in a full suite run. The
