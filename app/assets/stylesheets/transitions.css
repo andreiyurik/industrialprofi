@@ -6,11 +6,16 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
     animation-duration: 0.2s;
   }
 }
+
+/* The switch takes the new theme at once, so its thumb slides instead of cross-fading into a twin. */
+::view-transition-old(theme-switch) { display: none; }
+::view-transition-new(theme-switch) { animation: none; }
 
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),

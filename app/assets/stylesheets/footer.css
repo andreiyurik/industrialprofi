@@ -133,13 +133,14 @@
   border-radius: 99rem;
   display: grid;
   grid-template-columns: repeat(3, var(--switch-cell));
-  margin: 0 0 0.25rem;
+  margin: 0.25rem 0;
   min-inline-size: 0;
   padding: var(--switch-pad);
   position: relative;
+  view-transition-name: theme-switch;
 
   &::before {
-    background-color: var(--color-bg);
+    background-color: var(--color-raised);
     border-radius: 99rem;
     box-shadow:
       0 0 0 1px var(--color-subtle),
@@ -175,8 +176,9 @@
   cursor: pointer;
   display: flex;
   justify-content: center;
+  margin: 0;
   position: relative;
-  transition: color 150ms ease-out;
+  transition: background-color 150ms ease-out, color 150ms ease-out;
 
   &:has(:checked) {
     color: var(--color-ink);
@@ -184,16 +186,16 @@
 
   &:has(:focus-visible) {
     outline: 2px solid currentColor;
-    outline-offset: 2px;
-  }
-
-  &:active {
-    scale: 0.92;
+    outline-offset: 0;
   }
 
   @media (any-hover: hover) {
     &:hover {
       color: var(--color-ink);
+    }
+
+    &:not(:has(:checked)):hover {
+      background-color: oklch(var(--lch-gray) / 0.35);
     }
   }
 

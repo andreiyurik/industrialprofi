@@ -6,6 +6,7 @@
   --lch-black: 90% 0.008 85;
   --lch-white: 19% 0.008 250;
   --lch-gray-light: 23.5% 0.009 250;  /* elevated surfaces: cards, panels, inputs */
+  --lch-raised: 30% 0.01 250;         /* a control lifted above an elevated surface */
   --lch-gray: 37% 0.01 250;           /* hairline borders + row hover fill */
   --lch-gray-mid: 61% 0.01 250;       /* disabled text and control borders, ≥3:1 */
   --lch-gray-dark: 72% 0.01 250;      /* muted / secondary text */
@@ -46,6 +47,7 @@
   --color-marker: var(--color-ink);
   --color-highlight: oklch(var(--lch-amber) / 0.45);
   --color-subtle-light: oklch(var(--lch-gray-light));
+  --color-raised: oklch(var(--lch-raised));
   --color-subtle: oklch(var(--lch-gray));
   --color-disabled: oklch(var(--lch-gray-mid));
   --color-subtle-dark: oklch(var(--lch-gray-dark));
@@ -67,6 +69,7 @@
   --lch-black: 25% 0.012 250;
   --lch-white: 97.5% 0.012 85;
   --lch-gray-light: 94.5% 0.014 85;
+  --lch-raised: 99.5% 0.004 85;
   --lch-gray: 85% 0.014 85;
   --lch-gray-mid: 55% 0.01 250;
   --lch-gray-dark: 45% 0.012 250;
