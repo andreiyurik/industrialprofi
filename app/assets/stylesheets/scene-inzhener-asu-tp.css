@@ -75,8 +75,9 @@
     fill: var(--color-positive);
   }
 
-  .asu-led--2 { animation-delay: 0.4s; }
-  .asu-led--3 { animation-delay: 0.8s; fill: var(--color-link); }
+  /* --delay, not animation-delay: a poster subtracts its own moment from it (scene.css). */
+  .asu-led--2 { --delay: 0.4s; }
+  .asu-led--3 { --delay: 0.8s; fill: var(--color-link); }
 
   .asu-led--cpu {
     animation: asu-think var(--lap) ease-out infinite;
@@ -107,8 +108,10 @@
     transform-origin: center;
   }
 
-  .asu-smoke--2 { animation-delay: 1.5s; }
-  .asu-smoke--3 { animation-delay: 3s; }
+  .asu-smoke--2 { --delay: 1.5s; }
+  .asu-smoke--3 { --delay: 3s; }
+
+  :is(.asu-led, .asu-smoke) { animation-delay: var(--delay, 0s); }
 
   .asu-phase { animation: asu-phase-watch var(--lap) linear infinite; }
   .asu-phase--fill { animation-name: asu-phase-fill; opacity: 0; }
@@ -181,7 +184,7 @@
 @keyframes asu-smoke {
   0% { opacity: 0; scale: 0.6; translate: 0 0; }
   15% { opacity: 0.45; }
-  100% { opacity: 0; scale: 1.7; translate: 8px -34px; }
+  100% { opacity: 0; scale: 1.5; translate: 10px -22px; }
 }
 
 @keyframes asu-phase-fill {

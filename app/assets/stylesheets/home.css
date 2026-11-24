@@ -129,16 +129,16 @@
   padding-block: 2.5rem 2rem;
 
   .hero__inner {
-    align-items: center;
+    align-items: start;
     display: grid;
     gap: 2.5rem;
   }
 
   .hero__title {
-    font-size: clamp(2rem, 4.6vw, 3.5rem);
+    font-size: clamp(2rem, 3.9vw, 3rem);
     letter-spacing: -0.03em;
-    line-height: 1.04;
-    max-inline-size: 16ch;
+    line-height: 1.06;
+    max-inline-size: 20ch;
   }
 
   .hero__subtitle {
@@ -164,6 +164,14 @@
     :is(.hero__actions, .hero__stats) {
       justify-content: flex-start;
     }
+
+    .hero__actions {
+      flex-wrap: nowrap;
+    }
+
+    .hero__action {
+      --btn-padding: 0.8em 1.1em;
+    }
   }
 }
 
@@ -179,19 +187,22 @@
   margin-block: 1rem 0;
 }
 
+/* A drawing sheet like the catalog cards: square corners and the same corner ticks (paths.css). */
 .showcase {
   border: 1px solid var(--color-subtle);
-  border-radius: 1.25rem;
+  border-radius: 0.25rem;
   min-inline-size: 0;
-  padding: 1rem clamp(1rem, 3vw, 1.75rem) 1.25rem;
+  padding: 0.75rem clamp(1rem, 3vw, 1.75rem) 1.25rem;
+  position: relative;
   text-align: center;
 }
 
+/* The row's rule is the track the active tab's bar runs along. */
 .showcase__tabs {
+  border-block-end: 1px solid var(--color-subtle);
   display: flex;
   gap: 0.25rem;
-  justify-content: center;
-  margin-block-end: 0.75rem;
+  margin-block-end: 1rem;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -214,7 +225,7 @@
     block-size: 2px;
     content: "";
     inline-size: calc(100% - 1.5rem);
-    inset-block-end: 0;
+    inset-block-end: -1px;
     inset-inline-start: 0.75rem;
     position: absolute;
     scale: 0 1;
