@@ -4,8 +4,8 @@
     <title><%= content_for?(:title) ? content_for(:title) : "#{t('site.name')} — #{t('site.tagline')}" %></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="color-scheme" content="dark">
-    <meta name="theme-color" content="#000000">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#111417">
     <meta name="description" content="<%= content_for?(:description) ? content_for(:description) : t('site.description') %>">
     <meta name="application-name" content="<%= t('site.name') %>">
     <meta name="robots" content="<%= content_for?(:robots) ? content_for(:robots) : "index, follow" %>">
@@ -62,6 +62,7 @@
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%# One built stylesheet, not 64 <link> tags — each one blocks first paint. %>
+    <%= render "shared/theme" %>
     <%= stylesheet_link_tag "application", *vendor_stylesheets, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%# Preload Stimulus's two boot files directly, or importmap's on-demand loading adds two round trips before anything can react. %>
@@ -321,6 +322,7 @@
           </p>
         </div>
         <div class="footer__colophon">
+          <%= render "shared/theme_switch" %>
           <a href="<%= privacy_path %>" class="footer__link link-quiet"><%= t("nav.privacy") %></a>
           <p class="footer__made-with">
             <%= t("footer.made_with_html", heart: icon_tag("heart-fill", class: "footer__heart")) %>

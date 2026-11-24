@@ -1092,6 +1092,11 @@ en:
     nav_label: "Breadcrumbs"
 
   footer:
+    theme:
+      label: "Colour theme"
+      auto: "Match system"
+      light: "Light"
+      dark: "Dark"
     description: "Open career roadmaps built on skills and practice, maintained by the community."
     col_learning: "Learning"
     col_project: "Project"
@@ -1705,6 +1710,8 @@ en:
             d: "On desktop — a table of contents with checkmarks alongside the article, so you never lose your place."
           - t: "Focused reading mode"
             d: "Clears everything else off the screen — just you and the article."
+          - t: "Light and dark themes"
+            d: "Warm paper for long daytime reading and graphite for the evening; follows your system by default, with a switch at the bottom of the page."
           - t: "Account settings"
             d: "Name, password, email change with confirmation, and account deletion — your data stays under your control."
           - t: "Community experts"

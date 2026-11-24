@@ -1,62 +1,93 @@
+/* Dark graphite is the fallback; the head script always sets data-theme, resolving "auto" from the OS. */
 :root {
-  /* One theme, always dark — color-scheme makes native controls (selects, scrollbars) match. */
   color-scheme: dark;
 
-  /* Historical names (--lch-black / --lch-white) are kept so every semantic token keeps working;
-     their VALUES are now the dark palette: "black" = near-white ink, "white" = near-black bg. */
-  /* Background never touches 0% lightness — near-black crushes to unreliable grays on real screens.
-     Flat achromatic gray throughout; --lch-blue is the one and only hue in the palette. */
-  --lch-black: 92% 0 0;              /* primary ink — flat neutral off-white (#e3e3e3) */
-  --lch-white: 17% 0 0;              /* page background — flat neutral near-black (#0f0f0f) */
-  --lch-gray-light: 22% 0 0;         /* elevated surfaces: cards, panels, inputs */
-  --lch-gray: 38% 0 0;               /* hairline borders + row hover fill */
-  --lch-gray-mid: 55% 0 0;           /* dimmed/disabled text — quieter than muted, still legible */
-  --lch-gray-dark: 68% 0 0;          /* muted / secondary text */
-  --lch-blue: 66% 0.17 248;    /* the one accent — links / interactive only */
-  --lch-blue-light: 26% 0.06 248;
-  --lch-blue-dark: 44% 0.09 248;
-  --lch-red: 64% 0.21 27;
-  --lch-green: 70% 0.12 150;
-  /* Difficulty grades (/projects) — steel temperatures, not traffic lights; chroma near the monochrome floor. */
-  --lch-grade-green: 60% 0.04 165;
-  --lch-grade-yellow: 62% 0.04 75;
-  --lch-grade-red: 51% 0.10 27;
-  /* The one sanctioned set of category hues outside the monochrome+blue rule — lesson-resource type pills only, never general UI. */
-  --lch-purple: 70% 0.17 300;
+  /* Historical names: --lch-black is the ink and --lch-white the page, in either theme. */
+  --lch-black: 90% 0.008 85;
+  --lch-white: 19% 0.008 250;
+  --lch-gray-light: 23.5% 0.009 250;  /* elevated surfaces: cards, panels, inputs */
+  --lch-gray: 37% 0.01 250;           /* hairline borders + row hover fill */
+  --lch-gray-mid: 61% 0.01 250;       /* disabled text and control borders, ≥3:1 */
+  --lch-gray-dark: 72% 0.01 250;      /* muted / secondary text */
+  --lch-blue: 72% 0.13 245;
+  --lch-blue-light: 28% 0.05 248;
+  --lch-blue-dark: 45% 0.08 248;
+  --lch-red: 68% 0.19 27;
+  --lch-green: 72% 0.13 150;
+  /* Difficulty grades (/projects) — steel temperatures, not traffic lights. */
+  --lch-grade-green: 62% 0.04 165;
+  --lch-grade-yellow: 64% 0.05 75;
+  --lch-grade-red: 62% 0.10 27;
+  /* Category hues — resource-type pills, callouts and code only, never general UI. */
+  --lch-purple: 72% 0.15 300;
   --lch-yellow: 84% 0.14 95;
-  --lch-amber: 75% 0.15 80;          /* honey marker — hue 95 turns olive when translucent on black */
+  --lch-amber: 75% 0.15 80;
   --lch-teal: 78% 0.11 195;
-  --lch-cyan: 74% 0.12 225;    /* doc / datasheet badge */
-  --lch-pink: 74% 0.16 350;    /* software (ПО) badge */
-  /* Code syntax-highlighting accents (code.css only) — never general UI. */
-  --lch-orange: 76% 0.14 60;
+  --lch-cyan: 76% 0.11 225;
+  --lch-pink: 75% 0.14 350;
+  --lch-orange: 77% 0.14 60;
   --lch-rose: 72% 0.12 20;
-  --lch-telegram: 69% 0.135 237;    /* brand blue, only inside the official logo */
+  /* Safety orange (ГОСТ 12.4.026) — «важно» only. */
+  --lch-signal: 74% 0.16 55;
+  --lch-hivis: 88% 0.17 95;
+  --lch-glow: 100% 0 0;
+  --lch-telegram: 69% 0.135 237;
   --lch-always-black: 0% 0 0;
   --lch-always-white: 100% 0 0;
 
-  /* Semantic abstractions — unchanged names, so components stay theme-agnostic. */
   --color-bg: oklch(var(--lch-white));
   --color-ink: oklch(var(--lch-black));
   --color-ink-reversed: oklch(var(--lch-white));
   --color-link: oklch(var(--lch-blue));
   --color-negative: oklch(var(--lch-red));
   --color-positive: oklch(var(--lch-green));
-  --color-marker: var(--color-ink);   /* monochrome: no chromatic accent — emphasis is ink (brightness), not hue */
-  --color-highlight: oklch(var(--lch-amber) / 0.45);   /* rough-notation marker behind the trust-ladder phrase; translucent so near-white ink stays readable on the dark theme */
+  --color-signal: oklch(var(--lch-signal));
+  --color-glow: oklch(var(--lch-glow));
+  --color-marker: var(--color-ink);
+  --color-highlight: oklch(var(--lch-amber) / 0.45);
   --color-subtle-light: oklch(var(--lch-gray-light));
   --color-subtle: oklch(var(--lch-gray));
   --color-disabled: oklch(var(--lch-gray-mid));
   --color-subtle-dark: oklch(var(--lch-gray-dark));
-  /* --color-subtle only reaches 1.9:1, below WCAG 1.4.11's 3:1 floor for a control's own boundary —
-     this reuses --color-disabled's primitive (--lch-gray-mid) instead, named for its real job. */
+  /* --color-subtle is below WCAG 1.4.11's 3:1 for a control's own boundary. */
   --color-border-interactive: oklch(var(--lch-gray-mid));
   --color-selected: oklch(var(--lch-blue-light));
   --color-selected-dark: oklch(var(--lch-blue-dark));
-  /* Hi-vis safety-yellow + black ink — the industrial signal language, and the most legible pairing there is. */
-  --color-selection: oklch(var(--lch-yellow));
-  --color-selection-ink: var(--color-ink-reversed);
+  --color-selection: oklch(var(--lch-hivis));
+  --color-selection-ink: oklch(var(--lch-always-black));
   --color-always-black: oklch(var(--lch-always-black));
   --color-always-white: oklch(var(--lch-always-white));
   --color-telegram: oklch(var(--lch-telegram));
 }
+
+/* Warm paper and graphite ink, ~15:1 — positive polarity reads faster for long text. */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --lch-black: 25% 0.012 250;
+  --lch-white: 97.5% 0.012 85;
+  --lch-gray-light: 94.5% 0.014 85;
+  --lch-gray: 85% 0.014 85;
+  --lch-gray-mid: 55% 0.01 250;
+  --lch-gray-dark: 45% 0.012 250;
+  --lch-blue: 48% 0.15 252;
+  --lch-blue-light: 92% 0.035 248;
+  --lch-blue-dark: 60% 0.10 248;
+  --lch-red: 50% 0.18 27;
+  --lch-green: 48% 0.12 150;
+  --lch-grade-green: 48% 0.05 165;
+  --lch-grade-yellow: 52% 0.07 75;
+  --lch-grade-red: 48% 0.12 27;
+  --lch-purple: 48% 0.16 300;
+  --lch-yellow: 52% 0.11 80;
+  --lch-amber: 82% 0.15 85;
+  --lch-teal: 50% 0.08 195;
+  --lch-cyan: 50% 0.09 225;
+  --lch-pink: 52% 0.16 350;
+  --lch-orange: 55% 0.14 55;
+  --lch-rose: 52% 0.14 20;
+  --lch-signal: 50% 0.17 50;
+  --lch-glow: 12% 0.015 250;
+}
+
+:root[data-theme="light"] .prose hr { --divider-mark: url("logo-mark-light.svg"); }
