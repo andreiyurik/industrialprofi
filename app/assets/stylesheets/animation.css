@@ -125,7 +125,3 @@
 @keyframes scene-march {
   to { stroke-dashoffset: -14.1; }
 }
-
-@keyframes showcase-lap {
-  to { scale: 1 1; }
-}
