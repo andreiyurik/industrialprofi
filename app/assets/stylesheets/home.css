@@ -51,7 +51,7 @@
 .hero__mark {
   white-space: nowrap;
 
-  @media (max-width: 380px) {
+  @media (max-width: 430px) {
     white-space: normal;
   }
 }

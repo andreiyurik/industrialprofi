@@ -1186,7 +1186,7 @@ ru:
     subtitle: "Открытая энциклопедия профессий: карты ведут практики, а правки проверяет сообщество. Бесплатно и навсегда."
     hero:
       # The <span> gets a hand-drawn Rough Notation underline on load (rough_annotation_controller.js).
-      title_html: 'Учись на <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">инженера АСУ ТП и электрика</span> бесплатно'
+      title_html: 'Учись на <span class="hero__mark" data-controller="rough-annotation" data-rough-annotation-padding-value="2" data-rough-annotation-delay-value="300" data-rough-annotation-duration-value="700">инженера АСУ ТП и электрика</span> по открытым картам профессий'
       subtitle_html: "Уроки по официальным нормативам, практические задания и инженерные калькуляторы. Читать можно без регистрации — аккаунт нужен, только чтобы отмечать пройденное."
       start: "Выбрать профессию"
       calculators: "Калькуляторы"
