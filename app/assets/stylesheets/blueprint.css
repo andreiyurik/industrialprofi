@@ -330,6 +330,7 @@
 }
 
 .plant__done {
+  align-items: center;
   animation: appear 400ms ease-out;
   display: flex;
   flex-wrap: wrap;
@@ -341,6 +342,52 @@
 
   @media (min-width: 64em) {
     margin: 0;
+  }
+}
+
+/* The «Не включать! Работают люди» lockout tag, turned into an invitation. */
+.plant__placard {
+  align-items: center;
+  animation: placard-swing 1.4s ease-out;
+  background-color: var(--color-bg);
+  border: 2px solid var(--color-negative);
+  color: var(--color-negative);
+  display: inline-flex;
+  flex-direction: column;
+  font-family: var(--font-technical);
+  line-height: 1.1;
+  padding: 0.35rem 0.9rem 0.3rem;
+  position: relative;
+  rotate: -3deg;
+  text-decoration: none;
+  transform-origin: 50% -0.5rem;
+  transition: rotate 200ms ease-out;
+
+  &::before {
+    background-color: var(--color-bg);
+    block-size: 0.4rem;
+    border: 2px solid var(--color-negative);
+    border-radius: 50%;
+    content: "";
+    inline-size: 0.4rem;
+    inset-block-start: -0.55rem;
+    inset-inline-start: calc(50% - 0.2rem);
+    position: absolute;
+  }
+
+  strong {
+    font-size: 1.05rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  span {
+    font-size: 0.85rem;
+  }
+
+  @media (any-hover: hover) {
+    &:hover { rotate: 0deg; }
   }
 }
 
@@ -386,6 +433,13 @@
 
 @keyframes bp-blink {
   50% { opacity: 0.25; }
+}
+
+@keyframes placard-swing {
+  0% { rotate: -16deg; }
+  30% { rotate: 6deg; }
+  55% { rotate: -7deg; }
+  80% { rotate: -1deg; }
 }
 
 @keyframes bp-draw {

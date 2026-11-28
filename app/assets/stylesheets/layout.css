@@ -4,14 +4,14 @@ body {
   grid-template-columns: minmax(0, 1fr);
   /* Named areas, not child order: a script or extension injecting a body child would otherwise shift every row.
      The footer takes the slack, not main — a stretched main shows as a bare band above the footer's border. */
-  grid-template-areas: "banner" "header" "main" "footer";
+  grid-template-areas: "header" "main" "banner" "footer";
   grid-template-rows: auto auto auto 1fr;
   min-block-size: 100dvh;
 }
 
 /* These pages centre a form in main, so main takes the slack instead. */
 body:has(> .main--auth, > .main--centered) {
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto 1fr auto auto;
 }
 
 body > .feedback-banner { grid-area: banner; }
