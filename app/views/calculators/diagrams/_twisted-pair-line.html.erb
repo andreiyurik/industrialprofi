@@ -1,6 +1,6 @@
 <%# data-state is set at runtime by twisted_pair_line_controller, not static here. %>
 <figure class="calc-figure poe-scene scene--art">
-  <svg class="poe-line" viewBox="0 0 360 200" role="group" aria-labelledby="poe-line-title" data-diagram data-state="empty"
+  <svg class="poe-line" viewBox="0 0 360 200" role="group" aria-labelledby="poe-line-title" data-diagram data-state="empty" data-metres="<%= t("calculators.twisted-pair-line.diagram_metres") %>"
        data-action="pointerdown->calculators--twisted-pair-line#grab pointermove->calculators--twisted-pair-line#drag
                     pointerup->calculators--twisted-pair-line#release pointercancel->calculators--twisted-pair-line#release">
     <title id="poe-line-title"><%= t("calculators.twisted-pair-line.diagram_title") %></title>
@@ -19,7 +19,7 @@
     <text class="art-tag poe-scene__end" x="356" y="13"><%= t("calculators.twisted-pair-line.diagram_device") %></text>
     <text class="poe-scene__volts poe-scene__volts--device poe-scene__end" x="356" y="34" data-figure="device">—</text>
 
-    <rect class="poe-scene__beyond" x="271.7" y="46" width="84.3" height="114" rx="3" />
+    <rect class="poe-scene__beyond" x="271.7" y="46" width="84.3" height="114" rx="3" data-beyond />
 
     <path class="poe-scene__area" data-area />
     <line class="art-far art-wire--dashed" x1="50" y1="78" x2="356" y2="78" />
@@ -47,8 +47,8 @@
       <line class="art-quiet" x1="<%= x %>" y1="154" x2="<%= x %>" y2="162" />
       <text class="art-tag poe-scene__small poe-scene__middle" x="<%= x %>" y="174"><%= metres %></text>
     <% end %>
-    <line class="poe-scene__channel" x1="271.7" y1="96" x2="271.7" y2="161" />
-    <text class="art-tag poe-scene__small" x="266" y="192"><%= t("calculators.twisted-pair-line.diagram_channel") %></text>
+    <line class="poe-scene__channel" x1="271.7" y1="96" x2="271.7" y2="161" data-channel-line />
+    <text class="art-tag poe-scene__small" x="266" y="192" data-channel-label data-template="<%= t("calculators.twisted-pair-line.diagram_channel") %>"><%= t("calculators.twisted-pair-line.diagram_channel").sub("{channel}", "100") %></text>
 
     <g class="poe-scene__limit" data-limit data-state="off">
       <line x1="0" y1="140" x2="0" y2="162" data-limit-line />

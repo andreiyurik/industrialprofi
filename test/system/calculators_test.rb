@@ -242,4 +242,36 @@ class CalculatorsTest < ApplicationSystemTestCase
     assert_selector ".calc-verdict[data-status='warn']", text: I18n.t("calculators.modbus-rtu.verdict_warn")
     assert_equal "—", find("[data-output='ttrans']").text
   end
+
+  test "a plain click on the PoE device leaves the typed length alone" do
+    visit calculator_path("twisted-pair-line")
+    assert_selector ".poe-line[data-state='ok']"
+
+    find("[data-field='l']").set("150")
+    assert_selector "[data-figure='length']", text: "150 м"
+    find("[data-device] .poe-scene__led").click
+    assert_equal "150", find("[data-field='l']").value
+  end
+
+  test "a 0-20 mA signal at zero is not drawn as a broken loop" do
+    visit calculator_path("ma-scaling")
+    assert_selector ".loop-gauge[data-state='ok']"
+    assert_selector "[data-diagram]:not([data-broken])"
+
+    find("[data-field='ma']").set("0")
+    assert_selector "[data-diagram][data-broken]"
+
+    find("[data-field='smin']").set("0")
+    assert_selector "[data-diagram]:not([data-broken])"
+  end
+
+  test "the Modbus thinking chip does nothing while the device delay is zero" do
+    visit calculator_path("modbus-rtu")
+    assert_selector "[data-diagram][data-state='ok']"
+
+    find("[data-chip-phase='delay']").click
+    assert_selector "[data-diagram]:not([data-paused])"
+    find("[data-chip-phase='response']").click
+    assert_selector "[data-diagram][data-paused]"
+  end
 end

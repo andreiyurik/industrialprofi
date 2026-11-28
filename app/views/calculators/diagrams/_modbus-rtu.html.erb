@@ -2,7 +2,7 @@
 <% key = "calculators.modbus-rtu.scene" %>
 <%= tag.figure class: "calc-figure mbus scene--art", data: {
       diagram: true, state: "empty", phase: "request",
-      **%w[summary summary_one invalid slow clock bytes ms seconds cycle].to_h { [ "tpl_#{it}", t("#{key}.#{it}") ] },
+      **%w[summary summary_one invalid slow clock bytes ms seconds cycle address skipped].to_h { [ "tpl_#{it}", t("#{key}.#{it}") ] },
       **%w[request gap delay response].to_h { [ "tpl_say_#{it}", t("#{key}.say.#{it}") ] },
       **%w[request gap delay response].to_h { [ "tpl_most_#{it}", t("#{key}.most.#{it}") ] }
     } do %>

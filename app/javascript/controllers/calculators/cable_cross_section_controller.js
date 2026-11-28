@@ -43,8 +43,9 @@ export default class extends CalculatorController {
       allowed: this.num(result.allowed, 0),
       breaker: this.num(result.breaker, 0)
     })
+    if (result.section !== this.recommended) this.#pinned = null
     this.recommended = result.section
-    if (result.current == null || !result.rows.some(([size]) => size === this.#pinned)) this.#pinned = null
+    if (!(result.current > 0) || !result.rows.some(([size]) => size === this.#pinned)) this.#pinned = null
     this.#drawLadder(result)
     this.#drawScene(input, result)
   }
@@ -129,12 +130,14 @@ export default class extends CalculatorController {
     const diagram = this.element.querySelector("[data-diagram]")
     if (!diagram) return
 
-    diagram.dataset.state = current == null ? "empty" : "ok"
+    const live = current > 0
+    diagram.dataset.state = live ? "ok" : "empty"
 
-    const start = current == null ? 0 : this.#windowStart(rows.length, index)
+    const start = !live ? 0 : this.#windowStart(rows.length, index)
     const visible = rows.slice(start, start + STEPS)
+    if (!visible.some(([size]) => size === this.#pinned)) this.#pinned = null
     const ceiling = Math.max(...visible.map(([, amps]) => amps))
-    const viewed = this.#pinned ?? rows[index]?.[0]
+    const viewed = !live ? null : this.#pinned ?? rows[index]?.[0]
 
     const amperes = JSON.parse(this.element.querySelector(".cable-viz").dataset.texts).amps
     const withUnit = (value, digits) => amperes.replace("%{amps}", this.num(value, digits))
@@ -144,7 +147,7 @@ export default class extends CalculatorController {
       if (!step) continue
 
       const row = visible[slot]
-      step.dataset.state = row ? (start + slot === index ? "pick" : "plain") : "off"
+      step.dataset.state = row ? (live && start + slot === index ? "pick" : "plain") : "off"
       if (!row) continue
 
       step.dataset.size = String(row[0])
