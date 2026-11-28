@@ -7,16 +7,15 @@ theme ||= "dark"
 width = (width || 720).to_i
 # Manifest order, so the cascade matches the site's.
 sheets = Rails.root.join("app/assets/stylesheets/application.scss").read.scan(/^@use "([^"]+)"/).flatten
-css = sheets.select { (%w[_reset colors base utilities scene animation diagrams] << "diagram-#{slug}").include?(it) }
-  .map { Rails.root.join("app/assets/stylesheets/#{it}.css").read }.join("\n")
-body = ApplicationController.render(partial: "diagrams/#{slug.underscore}")
+wanted = %w[_reset colors base utilities scene animation diagrams] << "diagram-#{slug}"
+css = (sheets & wanted).map { Rails.root.join("app/assets/stylesheets/#{it}.css").read }.join("\n")
+doc = Nokogiri::HTML5.fragment(ApplicationController.render(partial: "diagrams/#{slug.underscore}"))
 checked.to_s.split(",").each do |id|
-  doc = Nokogiri::HTML5.fragment(body)
   input = doc.at_css("##{id}") or abort "no input ##{id}"
   doc.css("input[name='#{input["name"]}']").each { it.remove_attribute("checked") }
   input["checked"] = "checked"
-  body = doc.to_html
 end
+body = doc.to_html
 
 (times || "0,2,4,6,8").split(",").each do |time|
   freeze = ".diagram *, .diagram *::before, .diagram *::after { animation-delay: calc(var(--delay, 0s) - #{Float(time)}s) !important; animation-play-state: paused !important; }"

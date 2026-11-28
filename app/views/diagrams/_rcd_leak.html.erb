@@ -86,10 +86,7 @@
     </svg>
   </div>
   <p class="diagram__phases">
-    <% %w[normal fault touch sensed trip reset].each do |phase| %>
-      <span class="rl-phase rl-phase--<%= phase %>"><%= t("phases.#{phase}", scope: scope) %></span>
-    <% end %>
-    <% %w[short blind].each do |phase| %>
+    <% %w[normal fault touch sensed trip reset short blind].each do |phase| %>
       <span class="rl-phase rl-phase--<%= phase %>"><%= t("phases.#{phase}", scope: scope) %></span>
     <% end %>
   </p>

@@ -121,45 +121,7 @@ module ApplicationHelper
   end
 
   def render_diagrams(html)
-    return html unless html.include?(Lesson.encode_placeholder("diagram:"))
-
-    fragment = Nokogiri::HTML5.fragment(html)
-    figures = fragment.css("img[src]").filter_map do |image|
-      slug = Diagram.slug(Lesson.decode_placeholder(image["src"]))
-      [ image, slug ] if slug
-    end
-    markup = figures.map.with_index do |(image, slug), index|
-      block = diagram_block(image)
-      caption = take_diagram_caption(image, block)
-      marker = fragment.document.create_element("diagram-slot")
-      block.add_next_sibling(marker)
-      block == image || diagram_only?(block, image) ? block.remove : image.remove
-      [ marker.to_html, render("diagrams/#{slug.underscore}", caption: caption) ]
-    end
-    markup.reduce(fragment.to_html) { |result, (marker, figure)| result.sub(marker) { figure } }
-  end
-
-  # The outermost paragraph or attachment around the image: a figure can't live inside either.
-  def diagram_block(image)
-    image.ancestors.take_while { %w[p figure action-text-attachment].include?(it.name) }.last || image
-  end
-
-  def diagram_only?(block, image)
-    rest = block.dup
-    rest.css("img, em, figcaption, br").each(&:remove)
-    rest.text.strip.empty? && block.css("img") == [ image ]
-  end
-
-  def take_diagram_caption(image, block)
-    own = block.at_css("em, figcaption") unless block == image
-    following = block.next_element
-    own ||= following if following&.name == "p" && following.elements.map(&:name) == [ "em" ] &&
-      following.text.strip == following.at_css("em").text.strip
-    return unless own
-
-    caption = (own.at_css("em") || own).inner_html
-    own.remove
-    caption.html_safe
+    Diagram.embed(html) { |slug, caption| render("diagrams/#{slug.underscore}", caption: caption) }
   end
 
   def wrap_figures(html, fill_links_for: nil)

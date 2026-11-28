@@ -48,18 +48,18 @@
       <rect class="cl-pill" x="174" y="15" width="74" height="27" rx="13.5" />
       <rect class="cl-pill" x="140" y="182" width="74" height="27" rx="13.5" />
       <% readings.each do |current, percent| %>
+        <% level = t("percent", scope: scope, value: number_with_precision(percent || 75, precision: 1, strip_insignificant_zeros: true)) %>
         <g class="cl-v cl-v<%= current %> cl-anim">
           <text class="cl-current" x="211" y="34" text-anchor="middle"><%= t("current", scope: scope, value: current) %></text>
           <text class="cl-current" x="177" y="201" text-anchor="middle"><%= t("current", scope: scope, value: current) %></text>
           <% if percent %>
-            <text class="cl-percent" x="354" y="156" text-anchor="middle"><%= t("percent", scope: scope, value: number_with_precision(percent, precision: 1, strip_insignificant_zeros: true)) %></text>
+            <text class="cl-percent" x="354" y="156" text-anchor="middle"><%= level %></text>
             <text class="cl-status" x="354" y="182" text-anchor="middle"><%= t("ok", scope: scope) %></text>
-            <text class="cl-strong" x="52" y="216" text-anchor="middle"><%= t("percent", scope: scope, value: number_with_precision(percent, precision: 1, strip_insignificant_zeros: true)) %></text>
           <% else %>
             <text class="cl-percent cl-alarm-text" x="354" y="156" text-anchor="middle">—</text>
             <text class="cl-status cl-alarm-text" x="354" y="182" text-anchor="middle"><%= t("fault", scope: scope) %></text>
-            <text class="cl-strong" x="52" y="216" text-anchor="middle"><%= t("percent", scope: scope, value: 75) %></text>
           <% end %>
+          <text class="cl-strong" x="52" y="216" text-anchor="middle"><%= level %></text>
         </g>
       <% end %>
 
@@ -84,10 +84,9 @@
   </div>
 
   <p class="diagram__phases">
-    <% %w[ low rise high broken restored ].each do |phase| %>
+    <% %w[ low rise high broken restored normal ].each do |phase| %>
       <%= tag.span t("phases.#{phase}", scope: scope), class: [ "cl-say", "cl-say--#{phase}", "cl-anim" ] %>
     <% end %>
-    <span class="cl-say cl-say--normal cl-anim"><%= t("phases.normal", scope: scope) %></span>
   </p>
 
   <div class="diagram__controls" role="radiogroup" aria-label="<%= t("mode", scope: scope) %>">

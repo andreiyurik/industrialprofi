@@ -35,7 +35,6 @@
   :is(.fault-loop-area, .fault-loop-surge, .fault-loop-damage, .fault-loop-spark, .fault-loop-tripped, .fault-loop-read-fault, .fault-loop-read-off) { opacity: 0; }
   :is(.fault-loop-say-breakdown, .fault-loop-say-current, .fault-loop-say-result) { visibility: hidden; }
 
-  .diagram__phases span { grid-area: 1 / 1; }
   &:not(:has(#fault-loop-garage:checked)) .fault-loop-only-garage,
   &:has(#fault-loop-garage:checked) .fault-loop-only-room { display: none; }
 

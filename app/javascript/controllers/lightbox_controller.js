@@ -41,7 +41,7 @@ export default class extends Controller {
     const full = dialog.querySelector(".lightbox__img")
     full.src = image.currentSrc || image.src
     full.alt = image.alt || ""
-    full.style.setProperty("--ratio", image.naturalWidth / image.naturalHeight || 1.333)
+    full.style.setProperty("--ratio", image.naturalWidth / image.naturalHeight || "")
     dialog.classList.remove("lightbox--zoomed")
     dialog.showModal()
   }

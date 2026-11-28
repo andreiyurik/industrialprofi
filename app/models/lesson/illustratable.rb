@@ -34,7 +34,7 @@ module Lesson::Illustratable
     def placeholder_src?(src) = decode_placeholder(src).match?(PENDING_SRC)
 
     # Sanitizers would drop either as an unknown URI scheme.
-    def opaque_src?(src) = placeholder_src?(src) || Diagram.slug(decode_placeholder(src)).present?
+    def opaque_src?(src) = placeholder_src?(src) || Diagram.slug(src).present?
 
     def placeholder_node?(node) = node["sgid"].blank? && placeholder_src?(node["url"])
 
