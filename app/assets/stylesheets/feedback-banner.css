@@ -1,6 +1,6 @@
 .feedback-banner {
   background-color: var(--color-subtle-light);
-  border-block-end: 1px solid var(--color-subtle);
+  border-block-start: 1px solid var(--color-subtle);
   color: var(--color-subtle-dark);
   font-size: 0.875rem;
 }

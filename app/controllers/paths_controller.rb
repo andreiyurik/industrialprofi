@@ -13,6 +13,7 @@ class PathsController < ApplicationController
     @course_counts = Path.published_course_counts
     @completed_counts = signed_in? ? Current.user.lesson_completions.joins(:lesson).group("lessons.path_id").count : {}
     @pending_illustrations = IllustrationCensus.pending_total
+    @revisions_count = LessonRevision.in_catalog.count
 
     # Gives a mid-path learner a way back to their direction before anything new competes.
     if signed_in? && (@focus_path = Current.user.focus_path)

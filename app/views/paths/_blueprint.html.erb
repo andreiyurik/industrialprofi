@@ -1,4 +1,4 @@
-<%# locals: (callouts:) -%>
+<%# locals: (callouts:, revisions:) -%>
 <%# The same parts are laid out twice — a portrait sheet for phones, a landscape one from 64em.
     Without JS the installation runs by itself; the plant controller switches it off and hands it over. %>
 <% scope = "paths.blueprint" %>
@@ -75,10 +75,27 @@
     <g class="bp-fade" style="--d: 0.8s">
       <path class="art-quiet" d="M24 412H344M536 412H856" />
       <path class="art-far" d="<%= ((30..336).step(12).to_a + (548..680).step(12).to_a).map { |x| "M#{x} 412l-6 7" }.join %>" />
-      <path class="art-quiet bp-paper" d="M693.5 425.5h180v28h-180zM693.5 439.5h180M823.5 425.5v14" />
-      <text class="bp-label" x="700" y="436"><%= t("stamp_title", scope: scope) %></text>
-      <text class="bp-label" x="830" y="436"><%= t("stamp_sheet", scope: scope) %></text>
-      <text class="bp-tag" x="700" y="450"><%= t("stamp_site", scope: scope) %></text>
+      <%# The title block: who drew it, who checked it, and the vacancy. %>
+      <g class="bp-stamp">
+        <path class="art-quiet bp-paper" d="M545.5 425.5h328v28h-328zM545.5 439.5h328M587.5 425.5v14M645.5 425.5v14M677.5 425.5v14M725.5 425.5v14M775.5 425.5v14M633.5 439.5v14M691.5 439.5v14M737.5 439.5v14M783.5 439.5v14" />
+        <text class="bp-tag" x="550" y="436"><%= t("stamp_drawn", scope: scope) %></text>
+        <text class="bp-label" x="592" y="436"><%= t("stamp_drawn_by", scope: scope) %></text>
+        <text class="bp-tag" x="650" y="436"><%= t("stamp_checked", scope: scope) %></text>
+        <text class="bp-label" x="682" y="436"><%= t("stamp_checked_by", scope: scope) %></text>
+        <text class="bp-tag" x="730" y="436"><%= t("stamp_norm", scope: scope) %></text>
+        <%= link_to contribute_path, class: "bp-stamp__link" do %>
+          <rect class="bp-target" x="775.5" y="425.5" width="98" height="14"></rect>
+          <text x="780" y="436"><%= t("stamp_norm_by", scope: scope) %> →</text>
+        <% end %>
+        <text class="bp-label" x="550" y="450"><%= t("stamp_title", scope: scope) %></text>
+        <%= link_to changes_path, class: "bp-stamp__link" do %>
+          <rect class="bp-target" x="633.5" y="439.5" width="58" height="14"></rect>
+          <text x="638" y="450"><%= t("stamp_changes", scope: scope, count: revisions) %> →</text>
+        <% end %>
+        <text class="bp-label" x="696" y="450"><%= t("stamp_price", scope: scope) %></text>
+        <text class="bp-tag" x="742" y="450"><%= t("stamp_sheets", scope: scope) %></text>
+        <text class="bp-tag" x="788" y="450"><%= t("stamp_scale", scope: scope) %></text>
+      </g>
     </g>
   </svg>
 

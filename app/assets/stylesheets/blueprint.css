@@ -25,6 +25,16 @@
   .bp-tag { fill: var(--color-subtle-dark); font-size: 11px; }
   .bp-label { fill: var(--color-ink); font-size: 11px; }
 
+  .bp-stamp text { font-size: 9px; }
+
+  .bp-stamp__link {
+    text { fill: var(--color-link); font-family: var(--font-technical); }
+
+    @media (any-hover: hover) {
+      &:hover text { text-decoration: underline; }
+    }
+  }
+
   .bp-draw {
     animation: bp-draw 0.6s ease-out var(--d, 0s) backwards;
     stroke-dasharray: 1;

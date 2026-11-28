@@ -67,8 +67,11 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     get paths_path
     assert_select "h1.hero__title[aria-label=?]", I18n.t("paths.hero.title_html").gsub("&nbsp;", " ")
     assert_select "h1.hero__title .typed__char", I18n.t("paths.hero.title_html").gsub("&nbsp;", "_").delete(" ").size
-    assert_select ".hero .hero__subtitle", false
-    assert_select ".hero__actions a", count: 1
+    assert_select ".hero__subtitle del.pencil", text: I18n.t("paths.hero.struck")
+    assert_select ".hero__subtitle ins.pencil__fix", text: I18n.t("paths.hero.fix")
+    assert_select ".hero__actions a.hero__fix[href=?]", contribute_path
+    assert_select ".bp-stamp a[href=?]", changes_path, text: /#{LessonRevision.in_catalog.count}/
+    assert_select ".hero__actions a", count: 2
     assert_select ".hero__actions a.hero__cta[href='#catalog']", text: /#{I18n.t("paths.hero.start")}/
     assert_select "#catalog"
   end
