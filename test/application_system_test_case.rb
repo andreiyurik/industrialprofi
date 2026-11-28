@@ -1,5 +1,16 @@
 require "test_helper"
 
+# Chrome 158 rejects the wildcard origin Capybara 3.40 sends to Storage.clearDataForOrigin.
+Capybara::Selenium::Driver::ChromeDriver.prepend(Module.new do
+  private def execute_cdp(cmd, params = {})
+    return super unless cmd == "Storage.clearDataForOrigin" && params[:origin] == "*"
+
+    super("Network.clearBrowserCookies")
+    origin = Capybara.current_session.server&.base_url
+    super(cmd, params.merge(origin: origin)) if origin
+  end
+end)
+
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include BulletInstrumentation
 
