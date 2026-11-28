@@ -3,7 +3,7 @@ class DashboardController < ApplicationController
     @started_paths = Current.user.started_paths
     @focus_path = Current.user.focus_path
     @other_paths = @started_paths.reject { |path| path == @focus_path }
-    @completed_ids_by_path = @started_paths.index_with { |path| Current.user.completed_lesson_ids_for(path) }
+    @standing_by_path = standings
 
     @suggested_paths = @started_paths.any? ? [] : Path.in_catalog.official.industrial.localized.ordered.limit(3)
 
@@ -29,6 +29,18 @@ class DashboardController < ApplicationController
   end
 
   private
+
+  Standing = Struct.new(:done, :total, :next_lesson, :completed_ids)
+
+  def standings
+    visible = Lesson.publicly_visible.where(path_id: @started_paths.map(&:id)).ordered.group_by(&:path_id)
+    @started_paths.index_with do |path|
+      lessons = visible[path.id] || []
+      done_ids = Current.user.completed_lesson_ids_for(path)
+      Standing.new(lessons.count { |lesson| done_ids.include?(lesson.id) }, lessons.size,
+                   lessons.find { |lesson| done_ids.exclude?(lesson.id) }, done_ids)
+    end
+  end
 
   def trust_progress
     return unless Current.user.member? && @my_contributions.any?

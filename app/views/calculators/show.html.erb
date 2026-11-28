@@ -44,7 +44,8 @@
       <p><%= t("calculators.disclaimer") %></p>
     </div>
 
-    <% if (lesson = @calculator.lesson) %>
+    <% lesson = @calculator.lesson %>
+    <% if lesson && (lesson.publicly_visible? || Current.user&.can_edit_path?(lesson.path)) %>
       <a href="<%= lesson_path(lesson) %>" class="panel panel--hover calc-lesson-link">
         <span class="calc-lesson-link__eyebrow"><%= t("calculators.related_lesson") %></span>
         <span class="calc-lesson-link__title">

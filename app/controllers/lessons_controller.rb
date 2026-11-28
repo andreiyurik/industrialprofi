@@ -33,12 +33,12 @@ class LessonsController < ApplicationController
   end
 
   private
-    # Deliberately broad: any edit to the course/profession revalidates the lesson too.
+    # Deliberately broad: any edit to a chapter/profession revalidates the lesson too.
     def content_last_modified
       [
         @path.lessons.maximum(:updated_at),
         @lesson.resources.maximum(:updated_at),
-        @course.updated_at,
+        @path.courses.maximum(:updated_at),
         @path.updated_at
       ].compact.max
     end
