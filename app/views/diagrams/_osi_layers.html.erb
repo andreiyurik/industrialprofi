@@ -1,4 +1,4 @@
-<%# locals: (caption: nil) -%>
+<%# locals: (caption: nil, uid: "d") -%>
 <% scope = "diagrams.osi_layers" %>
 <% layers = [ 7, 4, 3, 2, 1 ] %>
 <% top = ->(layer) { 54 + layers.index(layer) * 46 } %>
@@ -100,7 +100,7 @@
   <div class="diagram__controls" role="radiogroup" aria-label="<%= t("choose", scope: scope) %>">
     <% [ "path", *faults.keys ].each do |mode| %>
       <label class="diagram__option">
-        <%= tag.input type: "radio", name: "osi-layers-mode", id: "osi-layers-#{mode}", checked: mode == "path" %>
+        <%= tag.input type: "radio", name: "osi-layers-mode-#{uid}", id: "osi-layers-#{mode}", checked: mode == "path" %>
         <%= t("options.#{mode}", scope: scope) %>
       </label>
     <% end %>

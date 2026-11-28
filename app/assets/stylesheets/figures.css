@@ -77,14 +77,14 @@
 }
 
 .lightbox__img {
-  --fit: min(95vw, 92dvh * var(--ratio, 1.333));
+  --fit: min(95vw, 92dvh * var(--ratio, 1.333), var(--natural, 95vw));
   inline-size: var(--fit);
   max-inline-size: none;
   cursor: zoom-in;
 }
 
 .lightbox--zoomed .lightbox__img {
-  inline-size: calc(var(--fit) * 2);
+  inline-size: max(var(--fit), min(var(--fit) * 2, var(--natural, 1000vw)));
   cursor: zoom-out;
 }
 

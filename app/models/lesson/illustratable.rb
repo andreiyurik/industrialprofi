@@ -19,7 +19,14 @@ module Lesson::Illustratable
       return html unless html.include?("<img")
 
       fragment = Nokogiri::HTML5.fragment(html)
-      fragment.css("img[src]").each { |img| img["src"] = encode_placeholder(img["src"]) if opaque_src?(img["src"]) }
+      fragment.css("img[src]").each do |img|
+        if opaque_src?(img["src"])
+          img["src"] = encode_placeholder(img["src"])
+        elsif img["src"].start_with?("diagram:")
+          img.parent.remove if img.parent.name == "p" && img.parent.children.one?
+          img.remove
+        end
+      end
       fragment.to_html
     end
 

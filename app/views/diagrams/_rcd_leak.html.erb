@@ -1,4 +1,4 @@
-<%# locals: (caption: nil) -%>
+<%# locals: (caption: nil, uid: "d") -%>
 <% scope = "diagrams.rcd_leak" %>
 <%= render layout: "diagrams/figure", locals: { slug: "rcd-leak", caption: caption } do %>
   <div class="diagram__stage">
@@ -93,7 +93,7 @@
   <div class="diagram__controls" role="radiogroup" aria-label="<%= t("choose", scope: scope) %>">
     <% %w[earth short].each do |mode| %>
       <label class="diagram__option">
-        <input type="radio" id="rcd-leak-<%= mode %>" name="rcd-leak-mode" <% if mode == "earth" %>checked<% end %>>
+        <input type="radio" id="rcd-leak-<%= mode %>" name="rcd-leak-mode-<%= uid %>" <% if mode == "earth" %>checked<% end %>>
         <%= t("modes.#{mode}", scope: scope) %>
       </label>
     <% end %>

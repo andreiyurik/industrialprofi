@@ -1,4 +1,4 @@
-<%# locals: (caption: nil) -%>
+<%# locals: (caption: nil, uid: "d") -%>
 <% scope = "diagrams.fault_loop" %>
 <% winding = "M52 205V175#{"a10 10 0 0 0 0-20" * 4}V70" %>
 <% load_loop = "#{winding}H390V140H220V205H52Z" %>
@@ -96,7 +96,7 @@
   <div class="diagram__controls" role="radiogroup" aria-label="<%= t("choose", scope: scope) %>">
     <% %w[ room garage ].each do |place| %>
       <label class="diagram__option">
-        <%= tag.input type: "radio", name: "fault-loop-place", id: "fault-loop-#{place}", checked: place == "room" %>
+        <%= tag.input type: "radio", name: "fault-loop-place-#{uid}", id: "fault-loop-#{place}", checked: place == "room" %>
         <%= t("options.#{place}", scope: scope) %>
       </label>
     <% end %>

@@ -1,4 +1,4 @@
-<%# locals: (caption: nil) -%>
+<%# locals: (caption: nil, uid: "d") -%>
 <% scope = "diagrams.current_loop" %>
 <%# Axis: x = 70 + 16.5 × mA, so the marker's translate in the CSS is 16.5px per milliamp. %>
 <% readings = { 0 => nil, 8 => 25, 10 => 37.5, 12 => 50, 14 => 62.5, 16 => 75 } %>
@@ -92,7 +92,7 @@
   <div class="diagram__controls" role="radiogroup" aria-label="<%= t("mode", scope: scope) %>">
     <% %w[ auto normal broken ].each do |mode| %>
       <label class="diagram__option">
-        <input type="radio" name="current-loop-mode" id="current-loop-<%= mode %>" <%= tag.attributes(checked: mode == "auto") %>>
+        <input type="radio" name="current-loop-mode-<%= uid %>" id="current-loop-<%= mode %>" <%= tag.attributes(checked: mode == "auto") %>>
         <%= t("modes.#{mode}", scope: scope) %>
       </label>
     <% end %>

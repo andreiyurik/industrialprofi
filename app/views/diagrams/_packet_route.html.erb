@@ -1,4 +1,4 @@
-<%# locals: (caption: nil) -%>
+<%# locals: (caption: nil, uid: "d") -%>
 <% scope = "diagrams.packet_route" %>
 <% stories = {
   "neighbor" => { target: "scada", net: "192.168.1", host: ".20", path: "M82 125V232", mark: [ 126, 222 ], label: [ 148, 228, "start" ], ok: true },
@@ -11,7 +11,7 @@
   <div class="diagram__controls" role="radiogroup" aria-label="<%= t("choose", scope: scope) %>">
     <% stories.each_key do |story| %>
       <label class="diagram__option">
-        <%= tag.input type: "radio", name: "packet-route-story", id: "packet-route-story-#{story}", checked: story == stories.keys.first %>
+        <%= tag.input type: "radio", name: "packet-route-story-#{uid}", id: "packet-route-story-#{story}", checked: story == stories.keys.first %>
         <%= t("stories.#{story}", scope: scope) %>
       </label>
     <% end %>

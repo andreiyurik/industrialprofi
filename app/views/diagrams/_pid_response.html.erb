@@ -1,4 +1,4 @@
-<%# locals: (caption: nil) -%>
+<%# locals: (caption: nil, uid: "d") -%>
 <%# Paths: K=1, T=60 s and 6 s, delay 2 s, Kp=17/3, Ti=70 s, Td=4 s (D on PV, N=8); x=66+2.5t, y=270-9(PV-58). %>
 <%
   k = "diagrams.pid_response"
@@ -13,7 +13,7 @@
     <svg class="diagram__art" viewBox="0 0 480 316" role="img" aria-label="<%= t("#{k}.aria") %>">
       <defs>
         <% curves.each_key do |name| %>
-          <clipPath id="pid-response-clip-<%= name %>">
+          <clipPath id="pid-response-clip-<%= name %>-<%= uid %>">
             <rect class="pid-wipe pid-wipe--<%= name %>" x="62" y="0" width="386" height="290" />
           </clipPath>
         <% end %>
@@ -37,7 +37,7 @@
       <text class="art-tag" x="10" y="19"><%= t("#{k}.y_axis") %></text>
       <text class="art-tag" x="253" y="307" text-anchor="middle"><%= t("#{k}.x_axis") %></text>
 
-      <path class="pid-area" clip-path="url(#pid-response-clip-pi)" d="<%= curves["pi"] %> L441 72 L66 72Z" />
+      <path class="pid-area" clip-path="url(#pid-response-clip-pi-<%= uid %>)" d="<%= curves["pi"] %> L441 72 L66 72Z" />
 
       <path class="pid-setpoint" d="M46 252H66V72H448" />
       <text class="pid-setpoint-name" x="448" y="23" text-anchor="end"><%= t("#{k}.setpoint") %></text>
@@ -46,7 +46,7 @@
 
       <% curves.each do |name, d| %>
         <g class="pid-curve pid-curve--<%= name %>">
-          <path class="pid-line" clip-path="url(#pid-response-clip-<%= name %>)" d="<%= d %>" />
+          <path class="pid-line" clip-path="url(#pid-response-clip-<%= name %>-<%= uid %>)" d="<%= d %>" />
         </g>
       <% end %>
 
@@ -85,7 +85,7 @@
   <div class="diagram__controls" role="radiogroup" aria-label="<%= t("#{k}.choose") %>">
     <% %w[all p pi pid].each do |name| %>
       <label class="diagram__option">
-        <input type="radio" id="pid-response-<%= name %>" name="pid-response-curve" <% if name == "all" %>checked<% end %>>
+        <input type="radio" id="pid-response-<%= name %>" name="pid-response-curve-<%= uid %>" <% if name == "all" %>checked<% end %>>
         <%= t("#{k}.names.#{name}") %>
       </label>
     <% end %>
