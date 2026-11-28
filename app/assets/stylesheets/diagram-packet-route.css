@@ -1,220 +1,232 @@
 .diagram.diagram-packet-route {
-  --lap: 8s;
+  --lap: 12s;
 
-  text { text-anchor: middle; }
-  .art-tag:not([text-anchor]) { text-anchor: start; }
+  .diagram__controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 8.5rem), 1fr));
+    margin-block: 0 var(--block-space-half);
+  }
+
+  .diagram__option { align-content: center; line-height: 1.25; text-align: center; }
+
+  .diagram__art { margin-inline: auto; max-inline-size: 30rem; }
+
+  text:not([text-anchor]) { text-anchor: middle; }
 
   .packet-route-zone { fill: var(--color-bg); fill-opacity: 0.45; stroke: var(--color-subtle-dark); stroke-dasharray: 4 5; stroke-opacity: 0.6; }
-  .packet-route-name, .packet-route-label, .packet-route-heading { fill: var(--color-ink); font-size: 15px; font-weight: 700; }
-  .packet-route-ip, .packet-route-octet { fill: var(--color-ink); font-family: var(--font-technical); font-size: 14px; }
-  .packet-route-note { fill: var(--color-subtle-dark); font-size: 13px; }
+  .packet-route-name { fill: var(--color-ink); font-size: 18px; font-weight: 700; }
+  .packet-route-ip { fill: var(--color-ink); font-family: var(--font-technical); font-size: 17px; }
+  .packet-route-note { fill: var(--color-subtle-dark); font-size: 14px; }
   text.packet-route-bad { fill: var(--color-negative); font-weight: 700; }
-  text.packet-route-label, text.packet-route-heading { text-anchor: start; }
-  .packet-route-label { font-size: 14px; }
-  .packet-route-plug { stroke: var(--color-negative); stroke-linecap: round; stroke-width: 4; }
+  [class*="packet-route-dim"] { transition: opacity 0.2s; }
 
-  .packet-route-netpart { fill: var(--color-link); fill-opacity: 0.1; stroke: var(--color-link); stroke-opacity: 0.5; }
-  .packet-route-hostpart { fill: none; stroke: var(--color-subtle-dark); stroke-dasharray: 4 4; stroke-opacity: 0.6; }
-  .packet-route-differs { fill: var(--color-signal); fill-opacity: 0.25; stroke: var(--color-signal); }
-  .packet-route-octet { font-size: 17px; font-weight: 700; }
-  .packet-route-mask { fill: var(--color-subtle-dark); }
-  .packet-route-same { fill: var(--color-link); font-size: 20px; }
-  .packet-route-diff { fill: var(--color-negative); font-size: 22px; }
-  .packet-route-verdict { fill: var(--color-ink); font-size: 17px; font-weight: 700; }
-  .packet-route-verdict--stuck { fill: var(--color-negative); }
-
-  .packet-route-trail { fill: none; opacity: 0.55; stroke: var(--color-link); stroke-dasharray: 100 100; stroke-linecap: round; stroke-linejoin: round; stroke-width: 6; }
+  .packet-route-target { fill: none; stroke: var(--color-link); stroke-width: 4; }
+  .packet-route-pill { fill: var(--color-link); }
+  .packet-route-goal { fill: var(--color-bg); font-size: 14px; font-weight: 700; }
+  .packet-route-trail { fill: none; opacity: 0.5; stroke: var(--color-link); stroke-dasharray: 100 100; stroke-linecap: round; stroke-linejoin: round; stroke-width: 9; }
   .packet-route-packet {
     rect { fill: var(--color-link); }
-    path { fill: none; stroke: var(--color-bg); stroke-linejoin: round; stroke-width: 2; }
+    path { fill: none; stroke: var(--color-bg); stroke-linejoin: round; stroke-width: 2.5; }
   }
-  .packet-route-mark {
+  .packet-route-result {
     circle { fill: var(--color-negative); }
-    path { fill: none; stroke: var(--color-bg); stroke-linecap: round; stroke-linejoin: round; stroke-width: 3; }
+    path { fill: none; stroke: var(--color-bg); stroke-linecap: round; stroke-linejoin: round; stroke-width: 4; }
+    text { fill: var(--color-negative); font-size: 17px; font-weight: 700; }
   }
-  .packet-route-run--ok .packet-route-mark circle { fill: var(--color-positive); }
+  .packet-route-run--ok .packet-route-result {
+    circle { fill: var(--color-positive); }
+    text { fill: var(--color-positive); }
+  }
 
-  :is(.packet-route-packet, .packet-route-trail, .packet-route-mark) {
+  .packet-route-steps {
+    counter-reset: packet-route;
+    display: grid;
+    gap: var(--block-space-half);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+    list-style: none;
+    margin: var(--block-space-half) 0 0;
+    padding: 0;
+  }
+
+  .packet-route-step {
+    --step-color: var(--color-link);
+    border: 2px solid var(--step-color);
+    border-radius: 0.75rem;
+    counter-increment: packet-route;
+    line-height: 1.35;
+    margin: 0;
+    padding: 0.6rem 0.75rem;
+
+    strong { display: block; font-size: 0.9rem; margin-block-end: 0.4rem; }
+    strong::before { content: counter(packet-route) ". "; }
+  }
+
+  .packet-route-step--send .packet-route-answer, .packet-route-step--result .packet-route-answer { font-size: 1.05rem; font-weight: 700; }
+  .packet-route-step--result { --step-color: var(--color-negative); }
+  .packet-route-step--result .packet-route-answer { color: var(--color-negative); }
+  .packet-route-steps--ok .packet-route-step--result { --step-color: var(--color-positive); }
+  .packet-route-steps--ok .packet-route-step--result .packet-route-answer { color: var(--color-positive); }
+
+  .packet-route-address {
+    align-items: center;
+    display: grid;
+    font-family: var(--font-technical);
+    font-size: 1.15rem;
+    font-weight: 700;
+    grid-template-columns: 3.5rem auto auto;
+    justify-content: start;
+    margin-block-end: 0.25rem;
+
+    > :first-child { font-family: var(--font-sans); font-size: 0.85rem; }
+  }
+  .packet-route-net { border: 2px solid var(--color-link); border-radius: 0.35rem; margin-inline-end: 0.2rem; padding-inline: 0.3rem; }
+  .packet-route-net--differs { background: var(--color-highlight); border-color: var(--color-negative); }
+  .packet-route-match { display: block; margin-block: 0.35rem; }
+  .packet-route-answer small { color: var(--color-subtle-dark); display: block; font-size: 0.8rem; }
+
+  :is(.packet-route-packet, .packet-route-trail, .packet-route-result, .packet-route-step, .packet-route-answer) {
     animation-duration: var(--lap);
     animation-delay: var(--delay, 0s);
     animation-iteration-count: infinite;
     animation-timing-function: linear;
   }
 
-  .packet-route-run--direct {
-    .packet-route-packet { animation-name: packet-route-direct; transform: translate(174px, 150px); }
-    .packet-route-mark { animation-name: packet-route-mark-direct; }
-    .packet-route-trail { animation-name: packet-route-trail-direct; }
+  .packet-route-result { animation-name: packet-route-answer-result; }
+  .packet-route-step--compare { animation-name: packet-route-step-compare; .packet-route-answer { animation-name: packet-route-answer-compare; } }
+  .packet-route-step--send { animation-name: packet-route-step-send; .packet-route-answer { animation-name: packet-route-answer-send; } }
+  .packet-route-step--result { animation-name: packet-route-step-result; .packet-route-answer { animation-name: packet-route-answer-result; } }
+
+  .packet-route-run--neighbor {
+    .packet-route-packet { animation-name: packet-route-neighbor; transform: translate(82px, 232px); }
+    .packet-route-trail { animation-name: packet-route-trail-neighbor; }
   }
 
-  .packet-route-run--lost {
-    .packet-route-packet { animation-name: packet-route-lost; transform: translate(218px, 84px); }
-    .packet-route-mark { animation-name: packet-route-mark-lost; }
-    .packet-route-trail { animation-name: packet-route-trail-lost; }
+  .packet-route-run--mes {
+    .packet-route-packet { animation-name: packet-route-mes; transform: translate(275px, 232px); }
+    .packet-route-trail { animation-name: packet-route-trail-mes; }
   }
 
-  .packet-route-run--cut {
-    .packet-route-packet { animation-name: packet-route-cut; transform: translate(174px, 112px); }
-    .packet-route-mark { animation-name: packet-route-mark-cut; }
-    .packet-route-trail { animation-name: packet-route-trail-cut; }
+  .packet-route-run--nogw {
+    .packet-route-packet { animation-name: packet-route-nogw; transform: translate(82px, 125px); }
   }
 
-  .packet-route-run--via {
-    .packet-route-packet { animation-name: packet-route-via; transform: translate(354px, 84px); }
-    .packet-route-mark { animation-name: packet-route-mark-via; }
-    .packet-route-trail { animation-name: packet-route-trail-via; }
+  .packet-route-run--wrong {
+    .packet-route-packet { animation-name: packet-route-wrong; transform: translate(176px, 170px); }
+    .packet-route-trail { animation-name: packet-route-trail-wrong; }
   }
 
-  .packet-route-run--stuck {
-    .packet-route-packet { animation-name: packet-route-stuck; transform: translate(134px, 84px); }
-    .packet-route-mark { animation-name: packet-route-mark-stuck; }
-  }
+  /* display, not visibility: a newly chosen story starts its lap from the beginning. */
+  &:not(:has(#packet-route-story-neighbor:checked)) .packet-route-on-neighbor,
+  &:not(:has(#packet-route-story-mes:checked)) .packet-route-on-mes,
+  &:not(:has(#packet-route-story-nogw:checked)) .packet-route-on-nogw,
+  &:not(:has(#packet-route-story-wrong:checked)) .packet-route-on-wrong,
+  &:has(#packet-route-story-nogw:checked) .packet-route-except-nogw,
+  &:has(#packet-route-story-wrong:checked) .packet-route-except-wrong { display: none; }
 
-  .packet-route-legend { align-self: center; color: var(--color-subtle-dark); font-size: 0.85rem; font-weight: 600; }
-
-  .packet-route-case { visibility: hidden; }
-  /* display, not visibility: a newly chosen run starts its lap from the beginning. */
-  .packet-route-run, .packet-route-broken, .packet-route-no-gw, .packet-route-wrong-ip { display: none; }
-
-  &:has(#packet-route-to-scada:checked):has(#packet-route-fault-none:checked) .packet-route-on-scada-none,
-  &:has(#packet-route-to-scada:checked):has(#packet-route-fault-nogw:checked) .packet-route-on-scada-nogw,
-  &:has(#packet-route-to-scada:checked):has(#packet-route-fault-wrong:checked) .packet-route-on-scada-wrong,
-  &:has(#packet-route-to-scada:checked):has(#packet-route-fault-cable:checked) .packet-route-on-scada-cable,
-  &:has(#packet-route-to-mes:checked):has(#packet-route-fault-none:checked) .packet-route-on-mes-none,
-  &:has(#packet-route-to-mes:checked):has(#packet-route-fault-nogw:checked) .packet-route-on-mes-nogw,
-  &:has(#packet-route-to-mes:checked):has(#packet-route-fault-wrong:checked) .packet-route-on-mes-wrong,
-  &:has(#packet-route-to-mes:checked):has(#packet-route-fault-cable:checked) .packet-route-on-mes-cable { display: inline; visibility: visible; }
-
-  &:has(#packet-route-fault-nogw:checked) {
-    .packet-route-has-gw { display: none; }
-    .packet-route-no-gw { display: inline; }
-  }
-
-  &:has(#packet-route-fault-wrong:checked) {
-    .packet-route-right-ip { display: none; }
-    .packet-route-wrong-ip { display: inline; }
-  }
-
-  &:has(#packet-route-fault-cable:checked) {
-    .packet-route-whole { display: none; }
-    .packet-route-broken { display: inline; }
-  }
-
-  &:has(#packet-route-to-scada:checked) .packet-route-target-scada,
-  &:has(#packet-route-to-mes:checked) .packet-route-target-mes { stroke: var(--color-link); stroke-width: 3; }
+  &:has(#packet-route-story-neighbor:checked) .packet-route-dim-neighbor,
+  &:has(#packet-route-story-mes:checked) .packet-route-dim-mes,
+  &:has(#packet-route-story-nogw:checked) .packet-route-dim-nogw,
+  &:has(#packet-route-story-wrong:checked) .packet-route-dim-wrong { opacity: 0.3; }
 }
 
-@keyframes packet-route-direct {
-  0% { opacity: 0; transform: translate(134px, 84px); }
-  4%, 10% { opacity: 1; transform: translate(134px, 84px); }
-  28% { opacity: 1; transform: translate(174px, 84px); }
-  55%, 94% { opacity: 1; transform: translate(174px, 150px); }
-  98% { opacity: 0; transform: translate(174px, 150px); }
-  98.1%, 100% { opacity: 0; transform: translate(134px, 84px); }
+@keyframes packet-route-neighbor {
+  0% { opacity: 0; transform: translate(82px, 125px); }
+  4%, 30% { opacity: 1; transform: translate(82px, 125px); }
+  70%, 95% { opacity: 1; transform: translate(82px, 232px); }
+  98% { opacity: 0; transform: translate(82px, 232px); }
+  98.1%, 100% { opacity: 0; transform: translate(82px, 125px); }
 }
 
-@keyframes packet-route-lost {
-  0% { opacity: 0; transform: translate(134px, 84px); }
-  4%, 10% { opacity: 1; transform: translate(134px, 84px); }
-  28% { opacity: 1; transform: translate(174px, 84px); }
-  48%, 94% { opacity: 1; transform: translate(218px, 84px); }
-  98% { opacity: 0; transform: translate(218px, 84px); }
-  98.1%, 100% { opacity: 0; transform: translate(134px, 84px); }
+@keyframes packet-route-mes {
+  0% { opacity: 0; transform: translate(82px, 125px); }
+  4%, 30% { opacity: 1; transform: translate(82px, 125px); }
+  36% { opacity: 1; transform: translate(82px, 170px); }
+  61.7% { opacity: 1; transform: translate(275px, 170px); }
+  70%, 95% { opacity: 1; transform: translate(275px, 232px); }
+  98% { opacity: 0; transform: translate(275px, 232px); }
+  98.1%, 100% { opacity: 0; transform: translate(82px, 125px); }
 }
 
-@keyframes packet-route-cut {
-  0% { opacity: 0; transform: translate(134px, 84px); }
-  4%, 10% { opacity: 1; transform: translate(134px, 84px); }
-  28% { opacity: 1; transform: translate(174px, 84px); }
-  45%, 94% { opacity: 1; transform: translate(174px, 112px); }
-  98% { opacity: 0; transform: translate(174px, 112px); }
-  98.1%, 100% { opacity: 0; transform: translate(134px, 84px); }
+@keyframes packet-route-wrong {
+  0% { opacity: 0; transform: translate(82px, 125px); }
+  4%, 30% { opacity: 1; transform: translate(82px, 125px); }
+  43% { opacity: 1; transform: translate(82px, 170px); }
+  70%, 95% { opacity: 1; transform: translate(176px, 170px); }
+  98% { opacity: 0; transform: translate(176px, 170px); }
+  98.1%, 100% { opacity: 0; transform: translate(82px, 125px); }
 }
 
-@keyframes packet-route-via {
-  0% { opacity: 0; transform: translate(134px, 84px); }
-  4%, 10% { opacity: 1; transform: translate(134px, 84px); }
-  20% { opacity: 1; transform: translate(174px, 84px); }
-  38%, 48% { opacity: 1; transform: translate(277px, 84px); }
-  62%, 94% { opacity: 1; transform: translate(354px, 84px); }
-  98% { opacity: 0; transform: translate(354px, 84px); }
-  98.1%, 100% { opacity: 0; transform: translate(134px, 84px); }
+@keyframes packet-route-nogw {
+  0% { opacity: 0; transform: translate(82px, 125px); }
+  4%, 30% { opacity: 1; transform: translate(82px, 125px); }
+  38% { opacity: 1; transform: translate(82px, 143px); }
+  44% { opacity: 1; transform: translate(82px, 122px); }
+  52% { opacity: 1; transform: translate(82px, 139px); }
+  58% { opacity: 1; transform: translate(82px, 122px); }
+  64% { opacity: 1; transform: translate(82px, 132px); }
+  70%, 95% { opacity: 1; transform: translate(82px, 125px); }
+  98%, 100% { opacity: 0; transform: translate(82px, 125px); }
 }
 
-@keyframes packet-route-stuck {
-  0% { opacity: 0; transform: translate(134px, 84px); }
-  4%, 14% { opacity: 1; transform: translate(134px, 84px); }
-  20% { opacity: 1; transform: translate(145px, 84px); }
-  25% { opacity: 1; transform: translate(130px, 84px); }
-  30% { opacity: 1; transform: translate(142px, 84px); }
-  35%, 94% { opacity: 1; transform: translate(134px, 84px); }
-  98%, 100% { opacity: 0; transform: translate(134px, 84px); }
-}
-
-@keyframes packet-route-trail-direct {
-  0%, 10% { stroke-dashoffset: 100; opacity: 0.55; }
-  28% { stroke-dashoffset: 62; opacity: 0.55; }
-  55%, 94% { stroke-dashoffset: 0; opacity: 0.55; }
+@keyframes packet-route-trail-neighbor {
+  0%, 30% { stroke-dashoffset: 100; opacity: 0.5; }
+  70%, 95% { stroke-dashoffset: 0; opacity: 0.5; }
   98% { stroke-dashoffset: 0; opacity: 0; }
   100% { stroke-dashoffset: 100; opacity: 0; }
 }
 
-@keyframes packet-route-trail-lost {
-  0%, 10% { stroke-dashoffset: 100; opacity: 0.55; }
-  28% { stroke-dashoffset: 52; opacity: 0.55; }
-  48%, 94% { stroke-dashoffset: 0; opacity: 0.55; }
+@keyframes packet-route-trail-mes {
+  0%, 30% { stroke-dashoffset: 100; opacity: 0.5; }
+  36% { stroke-dashoffset: 85; opacity: 0.5; }
+  61.7% { stroke-dashoffset: 21; opacity: 0.5; }
+  70%, 95% { stroke-dashoffset: 0; opacity: 0.5; }
   98% { stroke-dashoffset: 0; opacity: 0; }
   100% { stroke-dashoffset: 100; opacity: 0; }
 }
 
-@keyframes packet-route-trail-cut {
-  0%, 10% { stroke-dashoffset: 100; opacity: 0.55; }
-  28% { stroke-dashoffset: 44; opacity: 0.55; }
-  45%, 94% { stroke-dashoffset: 0; opacity: 0.55; }
+@keyframes packet-route-trail-wrong {
+  0%, 30% { stroke-dashoffset: 100; opacity: 0.5; }
+  43% { stroke-dashoffset: 68; opacity: 0.5; }
+  70%, 95% { stroke-dashoffset: 0; opacity: 0.5; }
   98% { stroke-dashoffset: 0; opacity: 0; }
   100% { stroke-dashoffset: 100; opacity: 0; }
 }
 
-@keyframes packet-route-trail-via {
-  0%, 10% { stroke-dashoffset: 100; opacity: 0.55; }
-  20% { stroke-dashoffset: 82; opacity: 0.55; }
-  38%, 48% { stroke-dashoffset: 35; opacity: 0.55; }
-  62%, 94% { stroke-dashoffset: 0; opacity: 0.55; }
-  98% { stroke-dashoffset: 0; opacity: 0; }
-  100% { stroke-dashoffset: 100; opacity: 0; }
+@keyframes packet-route-step-compare {
+  0%, 4% { border-color: var(--color-subtle); box-shadow: none; opacity: 0.5; }
+  7% { border-color: var(--step-color); box-shadow: 0 0 0 4px var(--color-selected); opacity: 1; }
+  16%, 95% { border-color: var(--step-color); box-shadow: none; opacity: 1; }
+  98%, 100% { border-color: var(--color-subtle); box-shadow: none; opacity: 0.5; }
 }
 
-@keyframes packet-route-mark-direct {
-  0%, 54% { opacity: 0; transform: scale(0.3); }
-  58% { opacity: 1; transform: scale(1.35); }
-  62%, 94% { opacity: 1; transform: scale(1); }
-  98%, 100% { opacity: 0; transform: scale(1); }
+@keyframes packet-route-answer-compare {
+  0%, 4% { opacity: 0; }
+  7%, 95% { opacity: 1; }
+  98%, 100% { opacity: 0; }
 }
 
-@keyframes packet-route-mark-lost {
-  0%, 47% { opacity: 0; transform: scale(0.3); }
-  51% { opacity: 1; transform: scale(1.35); }
-  55%, 94% { opacity: 1; transform: scale(1); }
-  98%, 100% { opacity: 0; transform: scale(1); }
+@keyframes packet-route-step-send {
+  0%, 20% { border-color: var(--color-subtle); box-shadow: none; opacity: 0.5; }
+  23% { border-color: var(--step-color); box-shadow: 0 0 0 4px var(--color-selected); opacity: 1; }
+  32%, 95% { border-color: var(--step-color); box-shadow: none; opacity: 1; }
+  98%, 100% { border-color: var(--color-subtle); box-shadow: none; opacity: 0.5; }
 }
 
-@keyframes packet-route-mark-cut {
-  0%, 44% { opacity: 0; transform: scale(0.3); }
-  48% { opacity: 1; transform: scale(1.35); }
-  52%, 94% { opacity: 1; transform: scale(1); }
-  98%, 100% { opacity: 0; transform: scale(1); }
+@keyframes packet-route-answer-send {
+  0%, 20% { opacity: 0; }
+  23%, 95% { opacity: 1; }
+  98%, 100% { opacity: 0; }
 }
 
-@keyframes packet-route-mark-via {
-  0%, 61% { opacity: 0; transform: scale(0.3); }
-  65% { opacity: 1; transform: scale(1.35); }
-  69%, 94% { opacity: 1; transform: scale(1); }
-  98%, 100% { opacity: 0; transform: scale(1); }
+@keyframes packet-route-step-result {
+  0%, 70% { border-color: var(--color-subtle); box-shadow: none; opacity: 0.5; }
+  73% { border-color: var(--step-color); box-shadow: 0 0 0 4px var(--color-selected); opacity: 1; }
+  82%, 95% { border-color: var(--step-color); box-shadow: none; opacity: 1; }
+  98%, 100% { border-color: var(--color-subtle); box-shadow: none; opacity: 0.5; }
 }
 
-@keyframes packet-route-mark-stuck {
-  0%, 34% { opacity: 0; transform: scale(0.3); }
-  38% { opacity: 1; transform: scale(1.35); }
-  42%, 94% { opacity: 1; transform: scale(1); }
-  98%, 100% { opacity: 0; transform: scale(1); }
+@keyframes packet-route-answer-result {
+  0%, 70% { opacity: 0; }
+  73%, 95% { opacity: 1; }
+  98%, 100% { opacity: 0; }
 }

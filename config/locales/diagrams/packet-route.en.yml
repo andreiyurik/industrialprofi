@@ -1,47 +1,45 @@
 en:
   diagrams:
     packet_route:
-      alt: "A packet's path from the PLC to the SCADA station through a switch or to the MES server through a gateway, with the addresses compared under a /24 mask"
-      zone:
-        own: "PLC network: 192.168.1.0/24"
-        other: "other network"
+      alt: "The PLC sends a packet: to a neighbour on its own network through a switch, to another network through a gateway"
+      choose: "What happens"
+      stories:
+        neighbor: "Neighbour: to SCADA"
+        mes: "Other network: to MES"
+        nogw: "Gateway forgotten"
+        wrong: "SCADA in wrong subnet"
+      network: "network"
       plc: "PLC"
       switch: "switch"
       gateway: "Gateway"
       scada: "SCADA PC"
       mes: "MES server"
-      gw_set: "gateway .1.1"
+      short:
+        plc: "PLC"
+        scada: "SCADA"
+        mes: "MES"
+      gw_set: "gateway set"
       gw_unset: "no gateway"
-      pulled: "unplugged"
-      compare:
-        title: "Own network or another?"
-        mask: "Mask /24"
-        network: "network part: compared"
-        host: "host"
-      verdict:
-        own: "Own network → send directly"
-        other: "Other network → send to gateway"
-        stuck: "Other network, no gateway → stop"
-      say:
-        scada:
-          none: "SCADA is on the same network: the packet goes directly through the switch and arrives."
-          nogw: "The packet arrives: a neighbour on the same network needs no gateway."
-          wrong: "The PLC hands the packet to the gateway, which has no route to 192.168.0.0/24: the packet is lost."
-          cable: "SCADA does not answer the PLC's request: its cable is out, so the packet never reaches it."
-        mes:
-          none: "MES is on another network: the packet goes to the gateway, which passes it to the server."
-          nogw: "The packet never leaves the PLC: the network is different and no gateway address is set."
-          wrong: "The packet arrives: the wrong SCADA address does not affect the path to MES."
-          cable: "The packet arrives: the SCADA cable is not on the path to MES."
-      choose:
-        to: "To"
-        fault: "Fault"
-      options:
-        to:
-          scada: "SCADA"
-          mes: "MES"
-        fault:
-          none: "none"
-          nogw: "no gateway set"
-          wrong: "SCADA in wrong subnet"
-          cable: "SCADA cable pulled"
+      goal: "goal"
+      mark:
+        neighbor: "arrived"
+        mes: "arrived"
+        nogw: "never left"
+        wrong: "no route"
+      steps:
+        compare: "PLC compares the address start"
+        send: "Hand it to"
+        result: "Result"
+      same: "match → own network"
+      differs: "no match → another network"
+      mask: "mask /24: the first three numbers are the network"
+      send:
+        neighbor: "directly"
+        mes: "gateway 192.168.1.1"
+        nogw: "the gateway, but its address is not set"
+        wrong: "gateway 192.168.1.1"
+      result:
+        neighbor: "SCADA got the packet, no gateway needed"
+        mes: "The gateway passed the packet to the MES network"
+        nogw: "MES gets nothing until a gateway is set in the PLC"
+        wrong: "The gateway does not know network 192.168.0. Use address 192.168.1.20"
