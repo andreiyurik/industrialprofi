@@ -10,7 +10,7 @@ class LessonsController < ApplicationController
       return redirect_to lesson_path(@lesson, locale: @path.locale), status: :moved_permanently
     end
 
-    @preview = !publicly_visible?(@lesson)
+    @preview = !@lesson.publicly_visible?
     raise ActiveRecord::RecordNotFound if @preview && !Current.user&.can_edit_path?(@path)
 
     # Signed-out only: a signed-in page carries completion state last_modified can't capture.
@@ -33,10 +33,6 @@ class LessonsController < ApplicationController
   end
 
   private
-    def publicly_visible?(lesson)
-      lesson.course&.status == "published" && lesson.path&.status == "published"
-    end
-
     # Deliberately broad: any edit to the course/profession revalidates the lesson too.
     def content_last_modified
       [
