@@ -1,0 +1,10 @@
+<%# locals: (slug:, caption: nil) -%>
+<figure class="diagram scene--art diagram-<%= slug %>">
+  <%= yield %>
+  <label class="diagram__pause">
+    <input type="checkbox"> <%= t("diagrams.pause") %>
+  </label>
+  <% if caption.present? %>
+    <figcaption class="prose-figure__caption"><%= caption %></figcaption>
+  <% end %>
+</figure>

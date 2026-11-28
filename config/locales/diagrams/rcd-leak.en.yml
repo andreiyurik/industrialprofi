@@ -1,0 +1,29 @@
+en:
+  diagrams:
+    rcd_leak:
+      alt: "RCD diagram: the L and N wires pass through a toroidal core to an appliance. After an insulation fault to the case, part of the current flows through a person to earth, the difference reaches the threshold and the RCD opens both wires. With a short between L and N the currents are equal and the RCD does not trip. Current bars are not to scale."
+      rcd: "RCD 30 mA"
+      relay: "relay"
+      case: "metal case"
+      earth: "earth"
+      bypass: "leak bypasses N"
+      tripped: "TRIPPED"
+      short_tag: "L–N short"
+      through_l: "in L"
+      through_n: "in N"
+      difference: "differ."
+      threshold: "30 mA limit"
+      zero: "is zero"
+      choose: "What happened"
+      modes:
+        earth: "Leak to earth"
+        short: "L–N short circuit"
+      phases:
+        normal: "Normal: as much current returns through N as left through L. No difference."
+        fault: "Insulation fails: the unearthed case is live. A person reaches for it."
+        touch: "Touch: part of the current goes through the person to earth, bypassing N. I(L) > I(N)."
+        sensed: "The difference reaches the limit: the sensing winding picks it up and signals a trip."
+        trip: "The RCD opened L and N. The shock happened but was cut within a fraction of a second (slowed here)."
+        reset: "The fault is repaired and the RCD is switched on by hand."
+        short: "A short between L and N: the current is far above normal."
+        blind: "Yet it is equal in L and N, so the RCD does not trip. A circuit breaker is needed."

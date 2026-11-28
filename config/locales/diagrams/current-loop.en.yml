@@ -1,0 +1,29 @@
+en:
+  diagrams:
+    current_loop:
+      alt: "Two-wire current loop: a 24 V supply, level transmitter LT and the controller's AI input in series. The level sets a current from 4 to 20 mA and the PLC converts it to percent; a broken wire gives 0 mA"
+      level: "Level"
+      sensor: "sensor"
+      two_wire: "2-wire"
+      supply: "24 V DC"
+      input: "PLC · AI"
+      current: "%{value} mA"
+      percent: "%{value}%"
+      ok: "OK"
+      fault: "FAULT"
+      break: "break"
+      live_zero: "4 mA — “live zero”"
+      axis_current: "mA"
+      axis_level: "%"
+      mode: "Diagram mode"
+      modes:
+        auto: "Demo"
+        normal: "Normal"
+        broken: "Wire break"
+      phases:
+        low: "The sensor sets the current by level: 25% is 8 mA"
+        rise: "Higher level, more current. The PLC converts mA to percent"
+        high: "The current is the same all round the loop: 16 mA is 75%"
+        broken: "Wire break: 0 mA, not 4. The PLC sees a fault, not an empty tank"
+        restored: "Wire repaired: the PLC reads the level from the current again"
+        normal: "Loop intact: 12 mA at every point, the PLC reads 50%"

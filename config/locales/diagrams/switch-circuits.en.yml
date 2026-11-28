@@ -1,0 +1,32 @@
+en:
+  diagrams:
+    switch_circuits:
+      alt: "Lighting control schematic: phase L runs through the switches to the lamp, neutral N connects to the lamp directly"
+      mode: "Circuit"
+      modes:
+        single: "Single switch"
+        two: "Two-way"
+        cross: "With crossover"
+      traveller: "traveller %{number}"
+      crossover: "crossover"
+      panel: "panel"
+      lamp: "lamp"
+      hint: "Flip the keys and watch how far the phase gets"
+      states:
+        "off": "open"
+        "on": "closed"
+        one: "COM — 1"
+        two: "COM — 2"
+        straight: "straight"
+        crossed: "crossed"
+      phases:
+        single_on: "Contact closed: current runs L → switch → lamp → N. The lamp is lit."
+        single_off: "The phase is broken: it only reaches the switch. Neutral runs straight to the lamp."
+        two_on: "Both switches on the same traveller: the circuit is closed, the lamp is lit. Flip either to turn it off."
+        two_off: "Switches on different travellers: the phase reaches SW2 and stops. Flip either to light the lamp."
+        cross_on: "The path from L to the lamp is closed. Flip any of the three switches and the lamp goes out."
+        cross_off: "The phase reaches SW2 on the terminal COM is not connected to. Flip any of the three to light the lamp."
+      legend:
+        flow: "current flows"
+        volt: "live, no current"
+        dead: "no phase applied"

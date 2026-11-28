@@ -1,0 +1,20 @@
+en:
+  diagrams:
+    ld_ton:
+      alt: "Ladder diagram: pump start and stop with a seal-in contact, a TON timer with a 3 second preset opens a valve; a timing diagram of the signals below"
+      start: "Start"
+      stop_nc: "Stop (NC)"
+      pump: "Pump"
+      valve: "Valve"
+      input: "input = %{value}"
+      hold: "seal-in"
+      flow: "power flow"
+      second: " s"
+      reset: "reset"
+      phase_1: "Idle: STOP is not pressed, so its input = 1. START is open, the pump is off."
+      phase_2: "START pressed: the pump turns on, its contact closes, TON starts timing."
+      phase_3: "START released: the pump's own contact holds the rung. ET rises."
+      phase_4: "STOP before PT: the rung breaks, ET resets to 0, Q never turned on."
+      phase_5: "START again: the pump is sealed in, TON counts from zero."
+      phase_6: "ET reached PT: Q = 1, the valve opens. ET stays equal to PT."
+      phase_7: "STOP: the pump is off, IN = 0, so Q and ET reset at once."

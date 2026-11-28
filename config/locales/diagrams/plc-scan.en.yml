@@ -1,0 +1,30 @@
+en:
+  diagrams:
+    plc_scan:
+      alt: "PLC scan cycle: inputs are read into the image table, the program runs, outputs are written. A short pulse between two reads is missed; a pulse longer than a scan is read and lights the lamp"
+      read: "read"
+      program: "program"
+      write: "write"
+      again: "and round again"
+      plc: "PLC"
+      sensor: "input"
+      lamp: "lamp"
+      image_cell: "image I"
+      out_cell: "image Q"
+      rows:
+        input: "Input"
+        scan: "Scan"
+        image: "Image"
+        output: "Output"
+      missed: "missed"
+      caught: "caught"
+      period: "1 scan"
+      time: "time"
+      phases:
+        p1: "Inputs are read: the input is 0, so the image holds 0"
+        p2: "A short pulse arrives while the PLC isn't reading inputs"
+        p3: "The next read sees 0 again: the short pulse was missed"
+        p4: "A read lands on the long pulse: image is 1, the program computes Q"
+        p5: "The lamp lit only after the output write — with a delay"
+        p6: "Input is 0 again: the program clears Q, the write will turn the lamp off"
+        p7: "A pulse shorter than a scan can be missed; a longer one gets read"

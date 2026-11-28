@@ -1,0 +1,104 @@
+<%# locals: (caption: nil) -%>
+<% scope = "diagrams.rcd_leak" %>
+<%= render layout: "diagrams/figure", locals: { slug: "rcd-leak", caption: caption } do %>
+  <div class="diagram__stage">
+    <svg class="diagram__art" viewBox="0 0 480 356" role="img" aria-label="<%= t("alt", scope: scope) %>">
+      <g class="art-far">
+        <path d="M6 232H474" />
+        <path d="M12 238H36M17 243H31M22 248H26" />
+      </g>
+      <text class="art-tag" x="330" y="251" text-anchor="middle"><%= t("earth", scope: scope) %></text>
+
+      <rect class="rl-box art-ink" x="52" y="36" width="140" height="170" rx="10" />
+      <text class="rl-title" x="122" y="24" text-anchor="middle"><%= t("rcd", scope: scope) %></text>
+
+      <path class="art-quiet" d="M24 125V232" />
+      <path class="rl-core rl-core--back" d="M150 48A20 52 0 0 0 150 152" />
+      <path class="art-wire" d="M24 88V75H66M24 112V125H66M24 88V112" />
+      <path class="art-wire" d="M94 75H330V86M330 114V125H94" />
+      <path class="rl-core" d="M150 48A20 52 0 0 1 150 152" />
+      <circle class="art-ink art-body" cx="24" cy="100" r="13" />
+      <path class="art-ink" d="M17 100q3.5-8 7 0q3.5 8 7 0" />
+      <text class="art-tag" x="234" y="66">L</text>
+      <text class="art-tag" x="234" y="147">N</text>
+
+      <path class="rl-link" d="M80 162V75" />
+      <path class="rl-blade" d="M66 75H94" />
+      <path class="rl-blade rl-blade--n" d="M66 125H94" />
+      <path class="art-ink rl-contacts" d="M66 75h.01M94 75h.01M66 125h.01M94 125h.01" />
+
+      <g class="rl-coil">
+        <% [ 141, 150, 159 ].each do |x| %>
+          <ellipse cx="<%= x %>" cy="151" rx="3.5" ry="10" />
+        <% end %>
+        <path d="M141 161V174H112M159 161V184H112" />
+      </g>
+      <rect class="art-ink art-body" x="60" y="162" width="52" height="30" rx="4" />
+      <rect class="rl-relay-lit" x="60" y="162" width="52" height="30" rx="4" />
+      <text class="art-tag rl-relay-name" x="86" y="182" text-anchor="middle"><%= t("relay", scope: scope) %></text>
+      <text class="rl-alarm rl-off" x="122" y="224" text-anchor="middle"><%= t("tripped", scope: scope) %></text>
+
+      <rect class="art-ink rl-case" x="292" y="48" width="92" height="104" rx="8" />
+      <rect class="art-ink art-body" x="320" y="86" width="20" height="28" rx="3" />
+      <text class="art-tag" x="352" y="172" text-anchor="middle"><%= t("case", scope: scope) %></text>
+
+      <g class="rl-normal-flow">
+        <path class="art-dots rl-dots rl-dots--l" d="M24 88V75H330V86" />
+        <path class="art-dots rl-dots rl-dots--n" d="M330 114V125H24V112" />
+      </g>
+
+      <g class="rl-leak">
+        <rect class="rl-case-live" x="292" y="48" width="92" height="104" rx="8" />
+        <path class="rl-spark" d="M330 75 342 68 337 62 352 48" />
+        <g class="rl-person">
+          <circle class="art-ink art-body" cx="440" cy="82" r="13" />
+          <path class="art-ink rl-body" d="M440 95V165L426 232M440 165L454 232M440 108L462 150" />
+          <path class="art-ink rl-body rl-arm" d="M440 108 386 100" />
+        </g>
+        <g class="rl-path">
+          <path class="rl-glow" d="M330 75 342 68 337 62 352 48H384V100L440 108V165L454 232H24V125" />
+          <path class="art-dots rl-leak-dots" d="M330 75 342 68 337 62 352 48H384V100L440 108V165L454 232H24V125" />
+        </g>
+        <text class="rl-alarm rl-return" x="168" y="251" text-anchor="middle"><%= t("bypass", scope: scope) %></text>
+      </g>
+
+      <g class="rl-short">
+        <path class="rl-jumper" d="M262 75V125" />
+        <path class="art-dots rl-short-dots" d="M24 88V75H262V125H24V112" />
+        <path class="rl-burst" d="M262 86 267 95 278 91 271 100 281 107 269 107 268 118 262 109 253 115 256 104 245 99 257 96 254 87Z" />
+        <text class="rl-alarm" x="242" y="42" text-anchor="middle"><%= t("short_tag", scope: scope) %></text>
+      </g>
+
+      <g class="rl-meter">
+        <path class="art-far" d="M6 262H474" />
+        <text class="rl-label" x="8" y="286"><%= t("through_l", scope: scope) %></text>
+        <text class="rl-label" x="8" y="312"><%= t("through_n", scope: scope) %></text>
+        <text class="rl-label" x="8" y="343"><%= t("difference", scope: scope) %></text>
+        <path class="rl-track" d="M96 281H462M96 307H462M96 338H340" />
+        <rect class="rl-bar rl-bar--l" x="96" y="274" width="290" height="14" rx="3" />
+        <rect class="rl-missing" x="326" y="300" width="60" height="14" rx="3" />
+        <rect class="rl-bar rl-bar--n" x="96" y="300" width="290" height="14" rx="3" />
+        <rect class="rl-bar rl-bar--diff" x="96" y="331" width="60" height="14" rx="3" />
+        <path class="rl-limit" d="M156 323V353" />
+        <text class="art-tag" x="166" y="343"><%= t("threshold", scope: scope) %></text>
+        <text class="rl-zero" x="462" y="343" text-anchor="end"><%= t("zero", scope: scope) %></text>
+      </g>
+    </svg>
+  </div>
+  <p class="diagram__phases">
+    <% %w[normal fault touch sensed trip reset].each do |phase| %>
+      <span class="rl-phase rl-phase--<%= phase %>"><%= t("phases.#{phase}", scope: scope) %></span>
+    <% end %>
+    <% %w[short blind].each do |phase| %>
+      <span class="rl-phase rl-phase--<%= phase %>"><%= t("phases.#{phase}", scope: scope) %></span>
+    <% end %>
+  </p>
+  <div class="diagram__controls" role="radiogroup" aria-label="<%= t("choose", scope: scope) %>">
+    <% %w[earth short].each do |mode| %>
+      <label class="diagram__option">
+        <input type="radio" id="rcd-leak-<%= mode %>" name="rcd-leak-mode" <% if mode == "earth" %>checked<% end %>>
+        <%= t("modes.#{mode}", scope: scope) %>
+      </label>
+    <% end %>
+  </div>
+<% end %>

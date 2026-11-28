@@ -1,0 +1,121 @@
+/* One 12s lap: normal to 30%, fault 30%, touch 44%, threshold 60%, trip 68%, reset 93%. */
+.diagram.diagram-rcd-leak {
+  --lap: 12s;
+
+  .rl-box { stroke-dasharray: 6 4; }
+
+  .rl-title, .rl-label, .rl-alarm, .rl-zero {
+    fill: var(--color-ink);
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  .rl-title { font-size: 19px; }
+  .rl-alarm { fill: var(--color-negative); }
+  .rl-zero { fill: var(--color-positive); }
+  .art-tag { font-size: 16px; }
+
+  :is(.rl-core, .rl-coil, .rl-link, .rl-blade, .rl-spark, .rl-glow, .rl-jumper, .rl-limit, .rl-track) {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .rl-core { stroke: var(--color-subtle-dark); stroke-width: 9; }
+  .rl-core--back { opacity: 0.5; }
+  .rl-coil { stroke: var(--color-ink); stroke-width: 1.75; }
+  .rl-link { stroke: var(--color-subtle-dark); stroke-dasharray: 3 4; stroke-width: 1.5; }
+  .rl-blade { stroke: var(--color-ink); stroke-width: 3.5; transform-box: view-box; transform-origin: 66px 75px; }
+  .rl-blade--n { transform-origin: 66px 125px; }
+  .art-ink.rl-contacts { stroke-width: 6; }
+  .rl-relay-lit { fill: var(--color-negative); fill-opacity: 0.25; opacity: 0; stroke: var(--color-negative); stroke-width: 2; }
+  .rl-relay-name { fill: var(--color-ink); }
+  .art-ink.rl-body { stroke-width: 4; }
+  .rl-arm { rotate: -62deg; transform-box: view-box; transform-origin: 440px 108px; }
+  .rl-dots { stroke-width: 5; }
+
+  .rl-case-live { fill: var(--color-negative); fill-opacity: 0.12; stroke: var(--color-negative); stroke-width: 2.5; }
+  .rl-spark { stroke: var(--color-negative); stroke-width: 3; }
+  .rl-glow { opacity: 0.35; stroke: var(--color-negative); stroke-width: 9; }
+  .art-dots.rl-leak-dots { stroke: var(--color-negative); stroke-width: 5; }
+  :is(.rl-case-live, .rl-spark, .rl-path, .rl-return, .rl-off, .rl-missing, .rl-bar--diff) { opacity: 0; }
+
+  .rl-track { stroke: var(--color-subtle); stroke-width: 2; }
+  .rl-bar { fill: var(--color-link); transform-box: fill-box; transform-origin: left; }
+  .rl-bar--diff { fill: var(--color-negative); scale: 0 1; }
+  .rl-missing { fill: var(--color-negative); fill-opacity: 0.2; stroke: var(--color-negative); stroke-dasharray: 4 3; }
+  .rl-limit { stroke: var(--color-signal); stroke-width: 3; }
+
+  .rl-short { display: none; }
+  .rl-jumper { stroke: var(--color-negative); stroke-width: 5; }
+  .art-dots.rl-short-dots { animation-duration: 0.25s; stroke-width: 7; }
+  .rl-burst { fill: var(--color-negative); fill-opacity: 0.55; transform-box: fill-box; transform-origin: center; animation: rl-burst 0.6s ease-in-out infinite alternate; }
+
+  .rl-phase { opacity: 0; }
+  .rl-phase--normal { opacity: 1; animation: rl-p-normal var(--lap) linear infinite; }
+  .rl-phase--fault { animation: rl-p-fault var(--lap) linear infinite; }
+  .rl-phase--touch { animation: rl-p-touch var(--lap) linear infinite; }
+  .rl-phase--sensed { animation: rl-p-sensed var(--lap) linear infinite; }
+  .rl-phase--trip { animation: rl-p-trip var(--lap) linear infinite; color: var(--color-negative); }
+  .rl-phase--reset { animation: rl-p-reset var(--lap) linear infinite; }
+
+  .rl-normal-flow { animation: rl-live var(--lap) linear infinite; }
+  .rl-blade { animation: rl-open var(--lap) ease-out infinite; }
+  .rl-off { animation: rl-tripped var(--lap) linear infinite; }
+  :is(.rl-case-live, .rl-spark) { animation: rl-faulted var(--lap) linear infinite; }
+  .rl-arm { animation: rl-reach var(--lap) ease-in-out infinite; }
+  :is(.rl-path, .rl-return) { animation: rl-leaking var(--lap) linear infinite; }
+  .rl-missing { animation: rl-leaking var(--lap) linear infinite; }
+  .rl-bar--l { animation: rl-bar-l var(--lap) linear infinite; }
+  .rl-bar--n { animation: rl-bar-n var(--lap) linear infinite; }
+  .rl-bar--diff { animation: rl-bar-diff var(--lap) linear infinite; }
+  .rl-zero { animation: rl-zero var(--lap) linear infinite; }
+  .rl-coil { animation: rl-coil var(--lap) linear infinite; }
+  .rl-relay-lit { animation: rl-sensed var(--lap) linear infinite; }
+
+  &:has(#rcd-leak-short:checked) {
+    .rl-short { display: inline; }
+    :is(.rl-leak, .rl-normal-flow, .rl-missing, .rl-bar--diff) { display: none; }
+    :is(.rl-blade, .rl-off, .rl-coil, .rl-relay-lit, .rl-zero) { animation: none; }
+    .rl-bar:is(.rl-bar--l, .rl-bar--n) { animation: rl-surge 0.6s ease-in-out infinite alternate; scale: 1.26 1; }
+    .rl-phase { animation: none; opacity: 0; }
+    .rl-phase--short { animation: rl-p-short var(--lap) linear infinite; }
+    .rl-phase--blind { animation: rl-p-blind var(--lap) linear infinite; opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:has(#rcd-leak-earth:checked) {
+      :is(.rl-case-live, .rl-spark, .rl-path, .rl-return, .rl-missing, .rl-bar--diff, .rl-relay-lit, .rl-phase--sensed) { opacity: 1; }
+      :is(.rl-zero, .rl-phase--normal) { opacity: 0; }
+      .rl-arm { rotate: 0deg; }
+      .rl-bar--n { scale: 0.7931 1; }
+      .rl-bar--diff { scale: 1 1; }
+      .rl-coil { stroke: var(--color-negative); stroke-width: 3.5; }
+    }
+  }
+}
+
+@keyframes rl-burst { from { scale: 0.75; } to { scale: 1.1; } }
+@keyframes rl-surge { from { scale: 1.23 1; } to { scale: 1.26 1; } }
+
+@keyframes rl-p-normal { 0%, 29% { opacity: 1; } 30%, 99% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes rl-p-fault { 0%, 29.5% { opacity: 0; } 30.5%, 43% { opacity: 1; } 44%, 100% { opacity: 0; } }
+@keyframes rl-p-touch { 0%, 43.5% { opacity: 0; } 44.5%, 59% { opacity: 1; } 60%, 100% { opacity: 0; } }
+@keyframes rl-p-sensed { 0%, 59.5% { opacity: 0; } 60.5%, 68% { opacity: 1; } 69%, 100% { opacity: 0; } }
+@keyframes rl-p-trip { 0%, 68.5% { opacity: 0; } 69.5%, 91% { opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes rl-p-reset { 0%, 91.5% { opacity: 0; } 92.5%, 99% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes rl-p-short { 0%, 44% { opacity: 1; } 46%, 98% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes rl-p-blind { 0%, 44% { opacity: 0; } 46%, 98% { opacity: 1; } 100% { opacity: 0; } }
+
+@keyframes rl-live { 0%, 68% { opacity: 1; } 69%, 93% { opacity: 0; } 95%, 100% { opacity: 1; } }
+@keyframes rl-open { 0%, 67% { rotate: 0deg; } 69%, 92% { rotate: -34deg; } 94%, 100% { rotate: 0deg; } }
+@keyframes rl-tripped { 0%, 68% { opacity: 0; } 69%, 92% { opacity: 1; } 93%, 100% { opacity: 0; } }
+@keyframes rl-faulted { 0%, 30% { opacity: 0; } 31% { opacity: 1; } 32% { opacity: 0.3; } 33%, 68% { opacity: 1; } 69%, 100% { opacity: 0; } }
+@keyframes rl-reach { 0%, 33% { rotate: -62deg; } 44%, 72% { rotate: 0deg; } 78%, 100% { rotate: -62deg; } }
+@keyframes rl-leaking { 0%, 44% { opacity: 0; } 46%, 68% { opacity: 1; } 69%, 100% { opacity: 0; } }
+@keyframes rl-bar-l { 0%, 68% { scale: 1 1; } 70%, 93% { scale: 0 1; } 95%, 100% { scale: 1 1; } }
+@keyframes rl-bar-n { 0%, 44% { scale: 1 1; } 59%, 68% { scale: 0.7931 1; } 70%, 93% { scale: 0 1; } 95%, 100% { scale: 1 1; } }
+@keyframes rl-bar-diff { 0%, 44% { opacity: 1; scale: 0 1; } 59%, 68% { opacity: 1; scale: 1 1; } 70% { opacity: 1; scale: 0 1; } 71%, 100% { opacity: 0; scale: 0 1; } }
+@keyframes rl-zero { 0%, 44% { opacity: 1; } 45%, 94% { opacity: 0; } 96%, 100% { opacity: 1; } }
+@keyframes rl-coil { 0%, 59% { stroke: var(--color-ink); stroke-width: 1.75; } 61%, 68% { stroke: var(--color-negative); stroke-width: 3.5; } 70%, 100% { stroke: var(--color-ink); stroke-width: 1.75; } }
+@keyframes rl-sensed { 0%, 61% { opacity: 0; } 63%, 73% { opacity: 1; } 76%, 100% { opacity: 0; } }

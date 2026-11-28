@@ -19,7 +19,7 @@ module Lesson::Illustratable
       return html unless html.include?("<img")
 
       fragment = Nokogiri::HTML5.fragment(html)
-      fragment.css("img[src]").each { |img| img["src"] = encode_placeholder(img["src"]) if placeholder_src?(img["src"]) }
+      fragment.css("img[src]").each { |img| img["src"] = encode_placeholder(img["src"]) if opaque_src?(img["src"]) }
       fragment.to_html
     end
 
@@ -32,6 +32,9 @@ module Lesson::Illustratable
     end
 
     def placeholder_src?(src) = decode_placeholder(src).match?(PENDING_SRC)
+
+    # Sanitizers would drop either as an unknown URI scheme.
+    def opaque_src?(src) = placeholder_src?(src) || Diagram.slug(decode_placeholder(src)).present?
 
     def placeholder_node?(node) = node["sgid"].blank? && placeholder_src?(node["url"])
 

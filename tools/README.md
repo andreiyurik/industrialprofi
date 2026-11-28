@@ -15,6 +15,7 @@
 - [`AUTHOR_PROFESSION.md`](AUTHOR_PROFESSION.md) — спроектировать roadmap и написать
   статьи целой профессии. **Здесь канон формата и качества статьи.**
 - [`DEEPEN_LESSON.md`](DEEPEN_LESSON.md) — точечно углубить одну готовую статью.
+- [`LESSON_DIAGRAM.md`](LESSON_DIAGRAM.md) — анимированная схема в статье (SVG + CSS).
 - [`LESSON_IMAGES.md`](LESSON_IMAGES.md) — инфографика к статьям (Nano Banana,
   фиксированный стиль).
 - [`PROFESSION_SCENE.md`](PROFESSION_SCENE.md) — анимированная SVG-сцена на обзоре

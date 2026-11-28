@@ -1,0 +1,37 @@
+en:
+  diagrams:
+    fault_loop:
+      alt: "Phase–neutral fault loop in a TN-C-S system: a transformer winding with an earthed neutral, the line conductor through a C16 breaker to an appliance, PEN split into N and PE in the panel. When the line faults to the metal case, current returns through PE and PEN to the neutral."
+      transformer: "Transformer"
+      panel: "Panel"
+      case: "Metal case"
+      breakdown: "fault"
+      tripped: "tripped"
+      earthing: "neutral earthing"
+      split: "PEN split point"
+      amps: "%{value} A"
+      z:
+        name: "Zloop"
+        room: "0.82 Ω"
+        garage: "3.10 Ω"
+      readout:
+        load: "Load current — within 16 A"
+        room: "Isc = 220 V / 0.82 Ω ≈ 268 A"
+        garage: "Isc = 220 V / 3.10 Ω ≈ 71 A"
+        "off": "Circuit open: I = 0"
+      zone:
+        maybe: "C16 threshold"
+        sure: "instant for sure"
+      phases:
+        normal: "Normal: current flows along L through the load and returns via N and PEN. None in PE."
+        breakdown: "Insulation fails: line touches the case. The loop closes through PE and PEN."
+        room:
+          current: "≈ 268 A is above the whole C16 range: the magnetic release will act."
+          result: "The breaker opened within a fraction of a second (slowed here). The case is dead."
+        garage:
+          current: "≈ 71 A is below the 80 A threshold: the magnetic release will not act."
+          result: "Still closed, waiting for the thermal release. The case stays live all that time!"
+      choose: "Loop impedance"
+      options:
+        room: "Living room sockets: 0.82 Ω"
+        garage: "Garage, 50 m: 3.10 Ω"

@@ -1,0 +1,192 @@
+/* One 12s lap: 25% → 50% → 75%, wire break at 62%, repair at 88%, drain back to 25%. */
+.diagram.diagram-current-loop {
+  --lap: 12s;
+
+  .diagram__art { margin-inline: auto; max-inline-size: 40rem; }
+
+  text { fill: var(--color-ink); font-family: var(--font-technical); }
+  .cl-label { fill: var(--color-subtle-dark); font-size: 14px; }
+  .cl-tick { font-size: 15px; font-weight: 700; }
+  .cl-strong { font-size: 17px; font-weight: 700; }
+  .cl-letters { font-size: 16px; font-weight: 700; }
+  .cl-pole { fill: var(--color-subtle-dark); font-size: 15px; }
+  .cl-current { fill: var(--color-link); font-size: 17px; font-weight: 700; }
+  .cl-percent { font-size: 30px; font-weight: 700; }
+  .cl-status { fill: var(--color-positive); font-size: 15px; font-weight: 700; }
+  text.cl-alarm-text { fill: var(--color-negative); font-weight: 700; }
+  .cl-break text { font-size: 15px; }
+  .cl-v0 .cl-current { fill: var(--color-negative); }
+
+  .cl-liquid {
+    fill: var(--color-link);
+    opacity: 0.35;
+    scale: 1 0.5;
+    transform-box: fill-box;
+    transform-origin: center bottom;
+  }
+
+  .cl-glow {
+    fill: none;
+    opacity: 0.25;
+    stroke: var(--color-link);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 10;
+  }
+
+  .cl-arrow { fill: var(--color-link); }
+  .cl-terminal { fill: var(--color-ink); }
+  .cl-pill { fill: var(--color-bg); stroke: var(--color-subtle); }
+
+  .cl-break { visibility: hidden; }
+  .cl-break__ends { fill: none; stroke: var(--color-negative); stroke-linecap: round; stroke-width: 3; }
+  .cl-break__spark { fill: none; stroke: var(--color-negative); stroke-linecap: round; stroke-width: 2; }
+
+  .cl-alarm {
+    fill: var(--color-negative);
+    fill-opacity: 0.12;
+    stroke: var(--color-negative);
+    stroke-width: 3;
+    visibility: hidden;
+  }
+
+  .cl-v:not(.cl-v12) { visibility: hidden; }
+
+  .cl-zone { fill: var(--color-link); opacity: 0.35; }
+  .cl-zone--fault { fill: var(--color-negative); opacity: 0.6; }
+
+  .cl-marker {
+    fill: var(--color-link);
+    translate: 198px;
+
+    circle { stroke: var(--color-bg); stroke-width: 2.5; }
+  }
+
+  .cl-say:not(.cl-say--normal) { visibility: hidden; }
+
+  .cl-anim { animation: var(--lap) linear infinite; }
+  .cl-liquid { animation-name: cl-level; }
+  .cl-glow { animation-name: cl-glow; }
+  .cl-marker { animation-name: cl-marker; }
+  .cl-flow, .cl-bridge { animation-name: cl-live; }
+  .cl-break { animation-name: cl-broken; }
+  .cl-alarm { animation-name: cl-broken; }
+  .cl-say--normal { animation-name: cl-never; }
+  .cl-v8 { animation-name: cl-v8; }
+  .cl-v10 { animation-name: cl-v10; }
+  .cl-v12 { animation-name: cl-v12; }
+  .cl-v14 { animation-name: cl-v14; }
+  .cl-v16 { animation-name: cl-v16; }
+  .cl-v0 { animation-name: cl-v0; }
+  .cl-say--low { animation-name: cl-say-low; }
+  .cl-say--rise { animation-name: cl-say-rise; }
+  .cl-say--high { animation-name: cl-say-high; }
+  .cl-say--broken { animation-name: cl-say-broken; }
+  .cl-say--restored { animation-name: cl-say-restored; }
+
+  &:has(#current-loop-normal:checked, #current-loop-broken:checked) .cl-anim { animation: none; }
+
+  &:has(#current-loop-broken:checked) {
+    :is(.cl-flow, .cl-bridge, .cl-v12, .cl-say--normal) { visibility: hidden; }
+    :is(.cl-break, .cl-alarm, .cl-v0, .cl-say--broken) { visibility: visible; }
+    .cl-liquid { scale: 1 0.75; }
+    .cl-glow { opacity: 0; }
+    .cl-marker { fill: var(--color-negative); translate: 0; }
+  }
+}
+
+@keyframes cl-level {
+  0%, 18% { scale: 1 0.25; }
+  24%, 38% { scale: 1 0.5; }
+  44%, 90% { scale: 1 0.75; }
+  100% { scale: 1 0.25; }
+}
+
+@keyframes cl-glow {
+  0%, 18% { opacity: 0.16; stroke-width: 7; }
+  24%, 38% { opacity: 0.23; stroke-width: 9; }
+  44%, 61.99% { opacity: 0.3; stroke-width: 11; }
+  62%, 87.99% { opacity: 0; stroke-width: 11; }
+  88%, 90% { opacity: 0.3; stroke-width: 11; }
+  100% { opacity: 0.16; stroke-width: 7; }
+}
+
+@keyframes cl-marker {
+  0%, 18% { fill: var(--color-link); translate: 132px; }
+  24%, 38% { translate: 198px; }
+  44%, 61.99% { fill: var(--color-link); translate: 264px; }
+  62% { fill: var(--color-negative); translate: 264px; }
+  66%, 87.99% { fill: var(--color-negative); translate: 0; }
+  88% { fill: var(--color-link); translate: 0; }
+  89.5%, 90% { translate: 264px; }
+  100% { fill: var(--color-link); translate: 132px; }
+}
+
+@keyframes cl-v8 {
+  0%, 19.49%, 98.75%, 100% { visibility: visible; }
+  19.5%, 98.74% { visibility: hidden; }
+}
+
+@keyframes cl-v10 {
+  19.5%, 22.49%, 96.25%, 98.74% { visibility: visible; }
+  0%, 19.49%, 22.5%, 96.24%, 98.75%, 100% { visibility: hidden; }
+}
+
+@keyframes cl-v12 {
+  22.5%, 39.49%, 93.75%, 96.24% { visibility: visible; }
+  0%, 22.49%, 39.5%, 93.74%, 96.25%, 100% { visibility: hidden; }
+}
+
+@keyframes cl-v14 {
+  39.5%, 42.49%, 91.25%, 93.74% { visibility: visible; }
+  0%, 39.49%, 42.5%, 91.24%, 93.75%, 100% { visibility: hidden; }
+}
+
+@keyframes cl-v16 {
+  42.5%, 61.99%, 88%, 91.24% { visibility: visible; }
+  0%, 42.49%, 62%, 87.99%, 91.25%, 100% { visibility: hidden; }
+}
+
+@keyframes cl-v0 {
+  62%, 87.99% { visibility: visible; }
+  0%, 61.99%, 88%, 100% { visibility: hidden; }
+}
+
+@keyframes cl-say-low {
+  0%, 17.99% { visibility: visible; }
+  18%, 100% { visibility: hidden; }
+}
+
+@keyframes cl-say-rise {
+  18%, 43.99% { visibility: visible; }
+  0%, 17.99%, 44%, 100% { visibility: hidden; }
+}
+
+@keyframes cl-say-high {
+  44%, 61.99% { visibility: visible; }
+  0%, 43.99%, 62%, 100% { visibility: hidden; }
+}
+
+@keyframes cl-say-broken {
+  62%, 87.99% { visibility: visible; }
+  0%, 61.99%, 88%, 100% { visibility: hidden; }
+}
+
+@keyframes cl-say-restored {
+  88%, 100% { visibility: visible; }
+  0%, 87.99% { visibility: hidden; }
+}
+
+@keyframes cl-live {
+  0%, 61.99%, 88%, 100% { visibility: visible; }
+  62%, 87.99% { visibility: hidden; }
+}
+
+@keyframes cl-broken {
+  62%, 87.99% { visibility: visible; }
+  0%, 61.99%, 88%, 100% { visibility: hidden; }
+}
+
+@keyframes cl-never {
+  0%, 100% { visibility: hidden; }
+}

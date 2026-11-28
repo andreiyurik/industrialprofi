@@ -1,0 +1,100 @@
+<%# locals: (caption: nil) -%>
+<% scope = "diagrams.plc_scan" -%>
+<%# Timeline: one scan is 84 units wide from x=72; inputs are sampled 0.1 scan after each start. -%>
+<%= render layout: "diagrams/figure", locals: { slug: "plc-scan", caption: caption } do %>
+  <div class="diagram__stage">
+    <svg class="diagram__art" viewBox="0 0 420 372" role="img" aria-label="<%= t("alt", scope: scope) %>">
+      <defs>
+        <clipPath id="plc-scan-clip"><rect class="plc-scan-reveal" x="68" y="190" width="340" height="150" /></clipPath>
+      </defs>
+
+      <% [ [ "read", 1, 78 ], [ "program", 2, 210 ], [ "write", 3, 342 ] ].each do |step, number, x| %>
+        <text class="plc-scan-step" x="<%= x %>" y="20" text-anchor="middle"><%= number %> · <%= t(step, scope: scope) %></text>
+        <text class="plc-scan-step plc-scan-step--on plc-scan-on-<%= step %>" x="<%= x %>" y="20" text-anchor="middle"><%= number %> · <%= t(step, scope: scope) %></text>
+      <% end %>
+
+      <path class="art-far plc-scan-loop" d="M346 82V158H74V82M69 90L74 82L79 90" />
+      <rect class="plc-scan-gap" x="112" y="150" width="196" height="16" />
+      <text class="art-tag" x="210" y="163" text-anchor="middle"><%= t("again", scope: scope) %></text>
+
+      <rect class="art-ink art-body" x="96" y="34" width="228" height="108" rx="8" />
+      <text class="art-tag" x="210" y="135" text-anchor="middle"><%= t("plc", scope: scope) %></text>
+
+      <% { "read" => "M50 74H104M97 69L104 74L97 79", "program" => "M160 74H174M169 70L174 74L169 78M246 74H260M255 70L260 74L255 78", "write" => "M316 74H368M361 69L368 74L361 79" }.each do |step, d| %>
+        <path class="art-wire" d="<%= d %>" />
+        <g class="plc-scan-on plc-scan-on-<%= step %>">
+          <path class="plc-scan-glow" d="<%= d %>" />
+          <% if step != "program" %><path class="art-dots" d="<%= d[/\A[^M]*M[^M]*/] %>" /><% end %>
+        </g>
+      <% end %>
+
+      <circle class="art-ink art-body" cx="30" cy="74" r="19" />
+      <circle class="plc-scan-lit plc-scan-lit--input" cx="30" cy="74" r="12" />
+      <text class="plc-scan-label" x="30" y="114" text-anchor="middle"><%= t("sensor", scope: scope) %></text>
+
+      <% [ [ "image", 108 ], [ "out", 262 ] ].each do |cell, x| %>
+        <rect class="art-quiet plc-scan-cell" x="<%= x %>" y="50" width="50" height="48" rx="5" />
+        <rect class="plc-scan-one plc-scan-one--<%= cell %>" x="<%= x %>" y="50" width="50" height="48" rx="5" />
+        <text class="plc-scan-digit plc-scan-zero--<%= cell %>" x="<%= x + 25 %>" y="84" text-anchor="middle">0</text>
+        <text class="plc-scan-digit plc-scan-one--<%= cell %>" x="<%= x + 25 %>" y="84" text-anchor="middle">1</text>
+        <text class="art-tag" x="<%= x + 25 %>" y="116" text-anchor="middle"><%= t("#{cell}_cell", scope: scope) %></text>
+      <% end %>
+      <rect class="art-quiet plc-scan-cell" x="176" y="50" width="68" height="48" rx="5" />
+      <rect class="plc-scan-on plc-scan-on-program plc-scan-frame" x="176" y="50" width="68" height="48" rx="5" />
+      <text class="plc-scan-code" x="210" y="79" text-anchor="middle">Q := I</text>
+      <rect class="plc-scan-on plc-scan-on-read plc-scan-frame" x="108" y="50" width="50" height="48" rx="5" />
+
+      <circle class="art-ink art-body" cx="388" cy="74" r="19" />
+      <circle class="plc-scan-lit plc-scan-lit--lamp" cx="388" cy="74" r="17" />
+      <path class="art-quiet" d="M376 62L400 86M400 62L376 86" />
+      <text class="plc-scan-label" x="388" y="114" text-anchor="middle"><%= t("lamp", scope: scope) %></text>
+
+      <path class="art-far" d="M0 176H420" />
+
+      <% { "input" => 220, "scan" => 256, "image" => 292, "output" => 328 }.each do |row, y| %>
+        <text class="plc-scan-label" x="4" y="<%= y %>"><%= t("rows.#{row}", scope: scope) %></text>
+      <% end %>
+
+      <% 4.times do |k| %>
+        <% x = 72 + 84 * k %>
+        <rect class="plc-scan-seg" x="<%= x %>" y="240" width="16.8" height="22" />
+        <rect class="plc-scan-seg plc-scan-seg--program" x="<%= x + 16.8 %>" y="240" width="50.4" height="22" />
+        <rect class="plc-scan-seg" x="<%= x + 67.2 %>" y="240" width="16.8" height="22" />
+        <% [ [ 1, 8.4 ], [ 2, 42 ], [ 3, 75.6 ] ].each do |number, dx| %>
+          <text class="plc-scan-number" x="<%= x + dx %>" y="256" text-anchor="middle"><%= number %></text>
+        <% end %>
+        <path class="plc-scan-edge" d="M<%= x %> 237V265" />
+        <path class="plc-scan-sample" d="M<%= x + 8.4 %> 200V238M<%= x + 8.4 %> 264V298" />
+      <% end %>
+      <path class="plc-scan-edge" d="M408 237V265" />
+      <path class="art-far" d="M72 226H408M72 298H408M72 334H408" />
+
+      <g class="plc-scan-traces" clip-path="url(#plc-scan-clip)">
+        <rect class="plc-scan-pulse plc-scan-pulse--missed" x="105.6" y="204" width="33.6" height="22" />
+        <rect class="plc-scan-pulse plc-scan-pulse--caught" x="206.4" y="204" width="109.2" height="22" />
+        <path class="plc-scan-trace" d="M72 226H105.6V204H139.2V226H206.4V204H315.6V226H408" />
+        <path class="plc-scan-trace plc-scan-trace--image" d="M72 298H248.4V276H332.4V298H408" />
+        <path class="plc-scan-trace plc-scan-trace--output" d="M72 334H315.6V312H399.6V334H408" />
+        <% [ [ 80.4, 226 ], [ 164.4, 226 ], [ 248.4, 204 ], [ 332.4, 226 ] ].each do |x, y| %>
+          <circle class="plc-scan-dot" cx="<%= x %>" cy="<%= y %>" r="4.5" />
+        <% end %>
+      </g>
+
+      <text class="plc-scan-verdict plc-scan-verdict--missed" x="122.4" y="196" text-anchor="middle">✕ <%= t("missed", scope: scope) %></text>
+      <text class="plc-scan-verdict plc-scan-verdict--caught" x="261" y="196" text-anchor="middle">✓ <%= t("caught", scope: scope) %></text>
+
+      <g class="plc-scan-head">
+        <path d="M72 202V338" />
+      </g>
+
+      <path class="art-quiet" d="M72 344V352M72 348H156M156 344V352" />
+      <text class="art-tag" x="114" y="366" text-anchor="middle"><%= t("period", scope: scope) %></text>
+      <text class="art-tag" x="408" y="366" text-anchor="end"><%= t("time", scope: scope) %> →</text>
+    </svg>
+  </div>
+  <p class="diagram__phases">
+    <% 7.times do |i| %>
+      <span class="plc-scan-phase plc-scan-phase--<%= i + 1 %>"><%= t("phases.p#{i + 1}", scope: scope) %></span>
+    <% end %>
+  </p>
+<% end %>

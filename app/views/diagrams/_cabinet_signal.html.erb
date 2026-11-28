@@ -1,0 +1,128 @@
+<%# locals: (caption: nil) -%>
+<% scope = "diagrams.cabinet_signal" %>
+<%= render layout: "diagrams/figure", locals: { slug: "cabinet-signal", caption: caption } do %>
+  <div class="diagram__stage">
+    <svg class="diagram__art" viewBox="0 0 480 450" role="img" aria-label="<%= t("alt", scope: scope) %>">
+      <g aria-hidden="true">
+        <rect class="cs-zone" x="32" y="116" width="420" height="82" rx="8" />
+        <rect class="cs-zone" x="32" y="201" width="190" height="125" rx="8" />
+        <rect class="cs-zone" x="8" y="345" width="464" height="100" rx="8" />
+        <rect class="cs-focus cs-focus--dead" x="6" y="6" width="400" height="95" rx="8" />
+        <rect class="cs-focus cs-focus--input" x="32" y="116" width="420" height="82" rx="8" />
+        <rect class="cs-focus cs-focus--analog" x="32" y="201" width="190" height="125" rx="8" />
+        <rect class="cs-focus cs-focus--output" x="8" y="345" width="464" height="100" rx="8" />
+      </g>
+
+      <path class="art-wire" d="M30 40H105M135 40H320M30 70H320" />
+      <path class="art-wire" d="M340 88V108H22V232H165M280 108V122M22 165H66" />
+      <path class="art-wire" d="M400 55H462V334H280V318M426 165H462" />
+      <path class="art-wire" d="M96 165H230M330 165H372M408 165H426" />
+      <path class="art-wire" d="M354 165V140H384M396 140H426V165" />
+      <path class="art-wire" d="M165 232H190V258H80V263M80 295V304H230" />
+
+      <path class="art-dots cs-live" d="M30 40H320" />
+      <path class="art-dots cs-live" d="M340 88V108H22V165M280 108V122" />
+      <path class="art-dots cs-live" d="M280 318V334H462V55H400" />
+      <path class="art-dots cs-input" d="M22 165H230" />
+      <path class="art-dots cs-output" d="M330 165H372M408 165H462" />
+      <path class="art-dots cs-loop" d="M22 165V232H190V258H80V263M80 295V304H230" />
+
+      <g class="cs-nodes">
+        <circle cx="280" cy="108" r="3.5" />
+        <circle cx="22" cy="165" r="3.5" />
+        <circle cx="354" cy="165" r="3.5" />
+        <circle cx="426" cy="165" r="3.5" />
+        <circle cx="462" cy="165" r="3.5" />
+      </g>
+
+      <text class="cs-zone-name" x="185" y="25" text-anchor="middle"><%= t("zone_power", scope: scope) %></text>
+      <text class="art-tag" x="12" y="45">L</text>
+      <text class="art-tag" x="12" y="75">N</text>
+      <text class="art-tag" x="40" y="25">~220 <%= t("volt", scope: scope) %></text>
+      <path class="art-ink cs-breaker" d="M105 40H135" />
+      <path class="art-ink" d="M131 36l8 8M139 36l-8 8" />
+      <circle class="art-ink art-body" cx="105" cy="40" r="3" />
+      <text class="cs-name" x="120" y="62" text-anchor="middle">QF1</text>
+
+      <rect class="art-ink art-body" x="320" y="22" width="80" height="66" rx="6" />
+      <rect class="cs-glow cs-live" x="320" y="22" width="80" height="66" rx="6" />
+      <text class="cs-name" x="360" y="50" text-anchor="middle"><%= t("psu", scope: scope) %></text>
+      <text class="art-tag" x="360" y="72" text-anchor="middle">⎓24 <%= t("volt", scope: scope) %></text>
+      <text class="cs-rail cs-live" x="36" y="102">+24 <%= t("volt", scope: scope) %></text>
+      <text class="cs-rail" x="405" y="327" text-anchor="middle">0 <%= t("volt", scope: scope) %></text>
+      <text class="cs-dead" x="215" y="94" text-anchor="middle"><%= t("dead", scope: scope) %></text>
+
+      <text class="cs-zone-name" x="115" y="132"><%= t("zone_discrete", scope: scope) %></text>
+      <g class="cs-button">
+        <path class="art-ink" d="M81 143v8M72 143h18" />
+      </g>
+      <path class="art-ink cs-contact cs-contact--sb" d="M66 165H96" />
+      <circle class="art-ink art-body" cx="66" cy="165" r="3" />
+      <circle class="art-ink art-body" cx="96" cy="165" r="3" />
+      <text class="cs-name" x="81" y="189" text-anchor="middle">SB1</text>
+      <circle class="art-ink art-body" cx="165" cy="165" r="5" />
+      <text class="art-tag" x="165" y="188" text-anchor="middle">X1:5</text>
+      <text class="cs-bit cs-bit--zero" x="208" y="156" text-anchor="middle">0</text>
+      <text class="cs-bit cs-bit--one cs-input" x="208" y="156" text-anchor="middle">1</text>
+
+      <text class="cs-zone-name" x="40" y="219"><%= t("zone_analog", scope: scope) %></text>
+      <circle class="art-ink art-body" cx="165" cy="232" r="5" />
+      <text class="art-tag" x="165" y="250" text-anchor="middle">X2:1</text>
+      <circle class="art-ink art-body" cx="165" cy="304" r="5" />
+      <text class="art-tag" x="165" y="294" text-anchor="middle">X2:2</text>
+      <circle class="art-ink art-body" cx="80" cy="279" r="17" />
+      <text class="cs-name" x="80" y="284" text-anchor="middle">PT1</text>
+      <text class="art-tag" x="55" y="270" text-anchor="middle">+</text>
+      <text class="art-tag" x="55" y="298" text-anchor="middle">−</text>
+
+      <rect class="art-ink art-body" x="230" y="122" width="100" height="196" rx="8" />
+      <rect class="cs-glow cs-live" x="230" y="122" width="100" height="196" rx="8" />
+      <text class="cs-name" x="280" y="142" text-anchor="middle"><%= t("plc", scope: scope) %></text>
+      <text class="art-tag" x="236" y="170">DI0.0</text>
+      <text class="art-tag" x="324" y="170" text-anchor="end">DO</text>
+      <path class="art-quiet art-wire--dashed" d="M254 177V190M313 190V177" />
+      <path class="art-dots cs-input" d="M254 177V190" />
+      <path class="art-dots cs-output" d="M313 190V177" />
+      <rect class="art-quiet art-body" x="238" y="190" width="84" height="78" rx="5" />
+      <rect class="cs-held" x="238" y="190" width="84" height="78" rx="5" />
+      <text class="art-tag" x="280" y="209" text-anchor="middle"><%= t("program", scope: scope) %></text>
+      <path class="art-quiet cs-latch" d="M268 232a13 13 0 1 1 5 11M268 232l-5-4M268 232l5-5" />
+      <text class="cs-bit cs-state--off" x="280" y="261" text-anchor="middle"><%= t("out_off", scope: scope) %></text>
+      <text class="cs-bit cs-state--on cs-output" x="280" y="261" text-anchor="middle"><%= t("out_on", scope: scope) %></text>
+      <text class="art-tag" x="236" y="309">AI0</text>
+      <rect class="art-quiet art-body" x="270" y="297" width="52" height="14" rx="3" />
+      <rect class="cs-level" x="272" y="299" width="48" height="10" rx="2" />
+      <text class="art-tag" x="296" y="289" text-anchor="middle"><%= t("milliamp", scope: scope) %></text>
+
+      <rect class="art-ink art-body" x="372" y="153" width="36" height="24" rx="2" />
+      <rect class="cs-energized cs-output" x="372" y="153" width="36" height="24" rx="2" />
+      <path class="art-ink art-body" d="M396 133V147L384 140Z" />
+      <path class="art-ink" d="M384 133V147" />
+      <text class="cs-name" x="390" y="196" text-anchor="middle">KL1</text>
+
+      <text class="cs-zone-name" x="20" y="365">~220 <%= t("volt", scope: scope) %></text>
+      <path class="art-wire" d="M40 390H150M180 390H258M294 390H340" />
+      <path class="art-dots cs-motor" d="M40 390H258M294 390H340" />
+      <text class="art-tag" x="14" y="395">L</text>
+      <text class="art-tag" x="14" y="418"><%= t("after_breaker", scope: scope) %></text>
+      <text class="art-tag" x="346" y="395">N</text>
+      <path class="art-ink cs-contact cs-contact--kl" d="M150 390H180" />
+      <circle class="art-ink art-body" cx="150" cy="390" r="3" />
+      <circle class="art-ink art-body" cx="180" cy="390" r="3" />
+      <text class="cs-name" x="165" y="416" text-anchor="middle">KL1.1</text>
+      <rect class="art-ink art-body" x="258" y="378" width="36" height="24" rx="2" />
+      <rect class="cs-energized cs-motor" x="258" y="378" width="36" height="24" rx="2" />
+      <text class="cs-name" x="276" y="370" text-anchor="middle">KM1</text>
+      <path class="art-quiet art-wire--dashed" d="M276 402V422H388" />
+      <circle class="art-ink art-body" cx="410" cy="405" r="22" />
+      <circle class="cs-energized cs-motor" cx="410" cy="405" r="22" />
+      <path class="cs-rotor" d="M410 405V389M410 405l13.9 8M410 405l-13.9 8" />
+      <text class="cs-name" x="410" y="440" text-anchor="middle"><%= t("pump", scope: scope) %></text>
+    </svg>
+  </div>
+  <p class="diagram__phases">
+    <% %w[ready input output hold analog dead].each do |phase| %>
+      <%= tag.span t("phase_#{phase}", scope: scope), class: "cs-phase cs-phase--#{phase}" %>
+    <% end %>
+  </p>
+<% end %>
