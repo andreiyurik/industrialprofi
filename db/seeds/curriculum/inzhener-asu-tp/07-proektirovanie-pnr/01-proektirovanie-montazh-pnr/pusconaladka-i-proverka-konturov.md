@@ -37,7 +37,8 @@ terms:
 | **Проверка логики** | работают ли блокировки, защиты, режимы |
 | **Комплексное опробование** | пробный запуск процесса под наблюдением |
 
-![Калибратор токовой петли 4–20 мА у датчика](placeholder: фото калибратора или задатчика тока, подключённого к клеммам датчика 4–20 мА; тип: фото (искать: «4-20mA loop calibrator transmitter calibration», «калибратор токовой петли подключение»))
+![Настройка полевого преобразователя температуры с помощью калибратора процессов](/lesson-images/transmitter-calibration.webp)
+*Настройка полевого преобразователя температуры с помощью калибратора процессов. Фото: PEO ACWA, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0), [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pueblo%5FChemical%5FAgent-Destruction%5FPilot%5FPlant%5FTemperature%5FIndicating%5FTransmitter%5F%289091355831%29.jpg).*
 
 ## Задание 1. Чек-лист проверки контура
 
