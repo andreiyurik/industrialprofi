@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 const GRAVITY = 42
-const DAMPING = 0.9
+const DAMPING = 1.2
 const LIMIT = 1.25
 const REST = 0.003
 const DROP = 0.55
@@ -19,12 +19,14 @@ export default class extends Controller {
     this.onScroll = () => this.#sway()
     this.lastScroll = window.scrollY
     window.addEventListener("scroll", this.onScroll, { passive: true })
-    this.observer = new IntersectionObserver(([ entry ]) => entry.isIntersecting && this.#drop())
+    this.observer = new IntersectionObserver(([ entry ]) => this.#seen(entry.isIntersecting))
     this.observer.observe(this.element)
   }
 
   disconnect() {
     cancelAnimationFrame(this.frame)
+    this.running = false
+    this.held = null
     window.removeEventListener("scroll", this.onScroll)
     this.observer?.disconnect()
   }
@@ -32,45 +34,57 @@ export default class extends Controller {
   grab(event) {
     if (this.still || event.button > 0) return
     this.plateTarget.setPointerCapture(event.pointerId)
-    this.held = { offset: this.#pointerAngle(event) - this.angle, moved: false, time: event.timeStamp }
+    this.held = { offset: this.#pointerAngle(event) - this.angle, start: this.angle, moved: false, time: event.timeStamp }
+    this.dragged = false
     this.speed = 0
   }
 
   drag(event) {
-    if (!this.held) return
+    if (!this.held) return this.#brush(event)
+    if (event.buttons === 0) return this.release(event)
     const angle = this.#clamp(this.#pointerAngle(event) - this.held.offset, LIMIT)
     const elapsed = Math.max(event.timeStamp - this.held.time, 1) / 1000
     this.speed = this.#clamp((angle - this.angle) / elapsed, 12)
-    if (Math.abs(angle - this.angle) > 0.02) this.held.moved = true
+    if (Math.abs(angle - this.held.start) > 0.04) this.held.moved = true
     this.held.time = event.timeStamp
     this.angle = angle
     this.#draw()
   }
 
-  release() {
+  release(event) {
     if (!this.held) return
-    this.dragged = this.held.moved
+    this.dragged = this.held.moved && event.type === "pointerup"
+    if (event.timeStamp - this.held.time > 100) this.speed = 0
     this.held = null
     this.#run()
   }
 
   nudge(event) {
-    if (this.still || this.held || event.pointerType !== "mouse") return
-    this.speed -= this.#clamp(event.movementX, 40) * 0.07
-    this.#run()
+    this.entering = !this.still && event.pointerType === "mouse"
   }
 
-  // A drag that ends over the plate must not follow the link.
+  // A drag that ends over the plate must not follow the link; a keyboard click has no detail.
   go(event) {
-    if (this.dragged) event.preventDefault()
+    if (this.dragged && event.detail > 0) event.preventDefault()
     this.dragged = false
   }
 
   // Private
 
-  #drop() {
-    if (this.held || this.running) return
-    this.angle = DROP
+  #seen(visible) {
+    if (visible && !this.visible && !this.held) {
+      this.angle = DROP
+      this.speed = 0
+      this.#run()
+    }
+    this.visible = visible
+  }
+
+  // pointerenter carries no movement, so the push comes from the first move after it.
+  #brush(event) {
+    if (!this.entering) return
+    this.entering = false
+    this.speed -= this.#clamp(event.movementX || 0, 40) * 0.07
     this.#run()
   }
 
@@ -87,7 +101,7 @@ export default class extends Controller {
     this.running = true
     let last = performance.now()
     const step = now => {
-      const dt = Math.min((now - last) / 1000, 0.032)
+      const dt = Math.min(Math.max(now - last, 0) / 1000, 0.032)
       last = now
       if (!this.held) {
         this.speed += (-GRAVITY * Math.sin(this.angle) - DAMPING * this.speed) * dt

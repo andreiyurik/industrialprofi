@@ -369,19 +369,22 @@
   background-color: var(--color-bg);
   border: 2px solid var(--color-negative);
   color: var(--color-negative);
-  cursor: grab;
   display: inline-flex;
   flex-direction: column;
   line-height: 1.1;
   padding: 0.35rem 0.9rem 0.3rem;
   position: relative;
   text-decoration: none;
-  touch-action: pan-y;
-  transform-origin: 50% calc(-0.85rem - 2px);
-  user-select: none;
+  transform-origin: 50% -0.85rem;
   --string: var(--color-subtle-dark);
 
-  &:active { cursor: grabbing; }
+  @media (prefers-reduced-motion: no-preference) {
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+
+    &:active { cursor: grabbing; }
+  }
 
   &::before {
     background:
