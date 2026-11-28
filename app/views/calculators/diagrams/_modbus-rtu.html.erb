@@ -1,0 +1,91 @@
+<%# Координаты шины и слотов продублированы в modbus_rtu_controller. %>
+<% key = "calculators.modbus-rtu.scene" %>
+<%= tag.figure class: "calc-figure mbus scene--art", data: {
+      diagram: true, state: "empty", phase: "request",
+      **%w[summary summary_one invalid slow clock bytes ms seconds cycle].to_h { [ "tpl_#{it}", t("#{key}.#{it}") ] },
+      **%w[request gap delay response].to_h { [ "tpl_say_#{it}", t("#{key}.say.#{it}") ] },
+      **%w[request gap delay response].to_h { [ "tpl_most_#{it}", t("#{key}.most.#{it}") ] }
+    } do %>
+  <svg class="mbus__art" viewBox="0 0 400 172" role="img" aria-labelledby="mbus-title">
+    <title id="mbus-title"><%= t("#{key}.title") %></title>
+
+    <path class="art-far" d="M8 120H392" />
+    <path class="art-wire" d="M22 122H390" />
+    <path class="art-quiet art-body" d="M10 117h12v10H10zM386 117h10v10h-10z" />
+    <path class="mbus__live art-wire" data-wire d="" />
+    <path class="mbus__flow art-dots" data-flow d="" />
+
+    <g class="mbus__master" data-master>
+      <path class="art-quiet" d="M46 88V122" />
+      <rect class="mbus__box art-ink art-body" x="10" y="26" width="72" height="62" rx="8" />
+      <rect class="art-quiet mbus__screen" x="19" y="35" width="54" height="22" rx="3" />
+      <path class="mbus__trace" d="M23 50h8l5-9 7 11 6-7 4 5h16" />
+      <% 4.times do |i| %>
+        <circle class="mbus__led" cx="<%= 25 + i * 14 %>" cy="72" r="3" />
+      <% end %>
+      <text class="art-tag mbus__name" x="46" y="17"><%= t("#{key}.master") %></text>
+    </g>
+
+    <% 5.times do %>
+      <g class="mbus__slave" data-slot>
+        <path class="art-quiet" d="M0 88V122" />
+        <rect class="mbus__box art-ink art-body" x="-24" y="38" width="48" height="50" rx="8" />
+        <circle class="art-quiet mbus__dial" cx="0" cy="55" r="9" />
+        <path class="art-ink mbus__needle" d="M0 55l5-5" />
+        <text class="art-tag mbus__address" x="0" y="81" data-address></text>
+      </g>
+    <% end %>
+
+    <g class="mbus__think" data-think>
+      <circle cx="-11" cy="26" r="3.5" /><circle cx="0" cy="26" r="3.5" /><circle cx="11" cy="26" r="3.5" />
+    </g>
+
+    <g class="mbus__packet" data-packet>
+      <rect class="mbus__capsule" y="112" height="20" rx="6" data-capsule />
+      <path class="mbus__bits" data-bits d="" />
+      <text class="art-tag mbus__size" x="0" y="150" data-size></text>
+    </g>
+
+    <g class="mbus__quiet">
+      <path class="art-quiet" d="M178 140v16M186 140v16" />
+      <text class="art-tag" x="196" y="153"><%= t("#{key}.silence") %></text>
+    </g>
+  </svg>
+
+  <p class="mbus__say" data-say></p>
+
+  <div class="mbus__head">
+    <span class="mbus__label"><%= t("#{key}.one_poll") %></span>
+    <span class="mbus__clock" data-clock></span>
+  </div>
+  <div class="mbus__bar" aria-hidden="true">
+    <% %w[request gap delay response gap].each do |phase| %>
+      <span class="mbus__segment mbus__segment--<%= phase %>" data-segment></span>
+    <% end %>
+    <span class="mbus__playhead" data-playhead></span>
+  </div>
+
+  <div class="mbus__legend">
+    <% %w[request gap delay response].each do |phase| %>
+      <button type="button" class="mbus__chip mbus__chip--<%= phase %>" data-chip-phase="<%= phase %>"
+              data-action="calculators--modbus-rtu#seek" data-calculators--modbus-rtu-phase-param="<%= phase %>">
+        <span class="mbus__chip-name"><%= t("#{key}.phases.#{phase}") %></span>
+        <span class="mbus__chip-value"><b data-figure="<%= phase %>-ms">—</b> <span data-figure="<%= phase %>-share"></span></span>
+      </button>
+    <% end %>
+  </div>
+
+  <div class="mbus__head">
+    <span class="mbus__label"><%= t("#{key}.full_cycle") %></span>
+    <span class="mbus__clock" data-figure="cycle"></span>
+  </div>
+  <div class="mbus__round" aria-hidden="true"><span data-turn></span></div>
+
+  <p class="mbus__summary" data-summary aria-live="polite"></p>
+
+  <div class="mbus__controls">
+    <button type="button" class="btn btn--small" data-play data-action="calculators--modbus-rtu#toggle"
+            data-pause-label="<%= t("#{key}.pause") %>" data-play-label="<%= t("#{key}.play") %>"><%= t("#{key}.pause") %></button>
+    <span class="mbus__slow" data-slow></span>
+  </div>
+<% end %>

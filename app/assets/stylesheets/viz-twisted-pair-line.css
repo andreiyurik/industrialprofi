@@ -1,0 +1,179 @@
+/* The twisted-pair-line calculator's picture. */
+.poe-scene .poe-line {
+  --poe-accent: var(--color-subtle-dark);
+  cursor: ew-resize;
+  margin-inline: auto;
+  max-inline-size: 36rem;
+  overflow: visible;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.poe-scene .poe-line[data-state="ok"] { --poe-accent: var(--color-positive); }
+.poe-scene .poe-line[data-state="warn"] { --poe-accent: var(--color-negative); }
+
+.poe-scene .poe-scene__volts {
+  fill: var(--color-ink);
+  font-size: 19px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+.poe-scene .poe-scene__volts--lost { fill: var(--color-subtle-dark); text-anchor: middle; }
+.poe-scene .poe-scene__volts--device { fill: var(--poe-accent); }
+.poe-scene .poe-scene__middle { text-anchor: middle; }
+.poe-scene .poe-scene__end { text-anchor: end; }
+.poe-scene .poe-scene__small {
+  font-size: 11.5px;
+  paint-order: stroke;
+  stroke: var(--color-subtle-light);
+  stroke-width: 4;
+}
+
+.poe-scene .poe-scene__length {
+  fill: var(--color-ink);
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: var(--color-bg);
+  stroke-width: 4px;
+}
+
+.poe-scene stop { stop-color: var(--poe-accent); }
+.poe-scene .poe-scene__stretch { transform: scaleX(0); transform-origin: 50px 0; }
+
+.poe-scene .poe-scene__area {
+  fill: var(--poe-accent);
+  opacity: 0.14;
+}
+
+.poe-scene .poe-scene__profile {
+  stroke: var(--poe-accent);
+  stroke-linecap: round;
+  stroke-width: 2.5;
+}
+
+.poe-scene .poe-scene__point { fill: var(--poe-accent); }
+
+.poe-scene .poe-scene__current {
+  stroke: var(--color-ink);
+  stroke-width: 3.5;
+}
+
+.poe-scene .poe-line[data-state="warn"] .poe-scene__current { animation-duration: 2.4s; }
+.poe-scene .poe-line[data-state="empty"] .poe-scene__current { display: none; }
+
+.poe-scene .poe-scene__blink {
+  animation: poe-blink 1.2s ease-in-out calc(var(--blink) * -0.4s) infinite;
+  fill: var(--color-positive);
+}
+
+.poe-scene .poe-scene__beyond {
+  fill: var(--color-subtle);
+  opacity: 0.25;
+  transition: fill 200ms ease-out;
+}
+
+.poe-scene .poe-line[data-far] .poe-scene__beyond { fill: var(--color-negative); opacity: 0.16; }
+
+.poe-scene .poe-line[data-state="empty"] :is(.poe-scene__area, .poe-scene__profile, .poe-scene__point) { display: none; }
+
+.poe-scene .poe-scene__channel {
+  stroke: var(--color-ink);
+  stroke-dasharray: 4 3;
+  stroke-width: 1.5;
+}
+
+.poe-scene .poe-scene__limit {
+  line {
+    stroke: var(--color-negative);
+    stroke-width: 2.5;
+  }
+
+  text { fill: var(--color-negative); }
+}
+
+.poe-scene .poe-scene__limit[data-state="off"],
+.poe-scene .poe-line[data-state="empty"] .poe-scene__limit { display: none; }
+
+.poe-scene .poe-scene__device {
+  cursor: grab;
+  outline: none;
+}
+
+.poe-scene .poe-line[data-dragging],
+.poe-scene .poe-line[data-dragging] .poe-scene__device { cursor: grabbing; }
+
+.poe-scene .poe-scene__hit {
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 2;
+}
+
+.poe-scene .poe-scene__device:focus-visible .poe-scene__hit { stroke: var(--color-link); }
+
+.poe-scene .poe-scene__box {
+  stroke: var(--poe-accent);
+  stroke-width: 2.5;
+}
+
+.poe-scene .poe-scene__led {
+  fill: var(--poe-accent);
+  transition: fill 200ms ease-out;
+}
+
+.poe-scene .poe-line[data-state="ok"] .poe-scene__led { filter: drop-shadow(0 0 5px var(--color-positive)); }
+.poe-scene .poe-line[data-state="warn"] .poe-scene__led { animation: poe-falter 1.6s steps(1) infinite; }
+
+.poe-scene .poe-scene__waves,
+.poe-scene .poe-scene__off {
+  fill: none;
+  opacity: 0;
+  stroke: var(--poe-accent);
+  stroke-linecap: round;
+  stroke-width: 2.5;
+}
+
+.poe-scene .poe-line[data-state="ok"] .poe-scene__waves {
+  opacity: 1;
+
+  path { animation: poe-wave 1.5s ease-in-out infinite; }
+  path:nth-child(2) { animation-delay: 0.2s; }
+  path:nth-child(3) { animation-delay: 0.4s; }
+}
+
+.poe-scene .poe-line[data-state="warn"] .poe-scene__off { opacity: 1; }
+
+.poe-scene .poe-scene__says {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin: var(--block-space-half) auto;
+  max-inline-size: 36rem;
+  min-block-size: 4.2em;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.poe-scene .calc-figure__legend { text-align: center; }
+
+@media (max-width: 30em) {
+  .poe-scene .art-tag { font-size: 14px; }
+  .poe-scene .poe-scene__length { font-size: 15px; }
+}
+
+@keyframes poe-blink {
+  50% { opacity: 0.25; }
+}
+
+@keyframes poe-wave {
+  0%, 100% { opacity: 0.15; }
+  40% { opacity: 1; }
+}
+
+@keyframes poe-falter {
+  30%, 45%, 70% { opacity: 0.2; }
+  38%, 55% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poe-scene .poe-line * { animation: none !important; }
+}

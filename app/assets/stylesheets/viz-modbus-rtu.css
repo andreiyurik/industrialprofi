@@ -1,0 +1,244 @@
+/* The modbus-rtu calculator's picture. */
+.mbus {
+  --mbus-request: var(--color-link);
+  --mbus-response: var(--color-positive);
+  --mbus-delay: oklch(var(--lch-amber));
+  --mbus-gap: var(--color-disabled);
+  --mbus-phase: var(--mbus-request);
+
+  &[data-phase="gap"] { --mbus-phase: var(--mbus-gap); }
+  &[data-phase="delay"] { --mbus-phase: var(--mbus-delay); }
+  &[data-phase="response"] { --mbus-phase: var(--mbus-response); }
+
+  .mbus__art {
+    background: radial-gradient(ellipse at 50% 70%, oklch(var(--lch-blue) / 0.12), transparent 70%), var(--color-bg);
+    border: 1px solid var(--color-subtle);
+    border-radius: 0.8rem;
+    overflow: hidden;
+  }
+
+  .mbus__art .art-tag { font-size: 15px; }
+
+  .mbus__live {
+    stroke: var(--mbus-phase);
+    stroke-width: 3;
+  }
+
+  .mbus__flow {
+    stroke: var(--color-bg);
+    stroke-width: 1.5;
+  }
+
+  .mbus__box { transition: stroke 150ms ease-out, filter 150ms ease-out; }
+  .mbus__screen { fill: var(--color-bg); }
+  .mbus__name { fill: var(--color-ink); font-weight: 700; text-anchor: middle; }
+  .mbus__address { fill: var(--color-ink); text-anchor: middle; }
+  .mbus__dial { fill: var(--color-bg); }
+
+  .mbus__trace {
+    fill: none;
+    stroke: var(--mbus-phase);
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
+  .mbus__led { fill: var(--color-subtle); }
+  &[data-phase="request"] .mbus__led:nth-of-type(1) { fill: var(--mbus-request); }
+  &[data-phase="response"] .mbus__led:nth-of-type(2) { fill: var(--mbus-response); }
+
+  .mbus__slave[data-active] {
+    .mbus__box {
+      filter: drop-shadow(0 0 6px var(--mbus-phase));
+      stroke: var(--mbus-phase);
+      stroke-width: 2.5;
+    }
+  }
+
+  &[data-phase="request"] .mbus__master .mbus__box,
+  &[data-phase="response"] .mbus__master .mbus__box {
+    filter: drop-shadow(0 0 6px var(--mbus-phase));
+    stroke: var(--mbus-phase);
+  }
+
+  .mbus__think,
+  .mbus__packet,
+  .mbus__quiet { visibility: hidden; }
+
+  &[data-phase="gap"] .mbus__flow,
+  &[data-phase="delay"] .mbus__flow { visibility: hidden; }
+
+  &[data-phase="delay"] .mbus__think,
+  &[data-phase="request"] .mbus__packet,
+  &[data-phase="response"] .mbus__packet,
+  &[data-phase="gap"] .mbus__quiet { visibility: visible; }
+
+  .mbus__think circle {
+    animation: mbus-think 0.9s ease-in-out infinite;
+    fill: var(--mbus-delay);
+
+    &:nth-child(2) { animation-delay: 0.15s; }
+    &:nth-child(3) { animation-delay: 0.3s; }
+  }
+
+  .mbus__capsule {
+    fill: var(--mbus-phase);
+    filter: drop-shadow(0 0 7px var(--mbus-phase));
+  }
+
+  .mbus__bits { stroke: var(--color-bg); stroke-linecap: round; stroke-width: 2.5; }
+  .mbus__size { fill: var(--color-ink); font-weight: 700; text-anchor: middle; }
+
+  &[data-state="empty"] {
+    :is(.mbus__live, .mbus__flow, .mbus__packet, .mbus__think, .mbus__quiet, .mbus__playhead) { visibility: hidden; }
+    :is(.mbus__say, .mbus__clock, .mbus__slow) { visibility: hidden; }
+    :is(.mbus__bar, .mbus__round) { opacity: 0.35; }
+  }
+
+  .mbus__say {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 0.6rem 0 0.9rem;
+    min-block-size: 2.7em;
+    text-align: center;
+    text-wrap: balance;
+
+    @media (min-width: 40em) {
+      min-block-size: 1.35em;
+    }
+  }
+
+  .mbus__head {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--inline-space);
+    justify-content: space-between;
+    margin-block-end: 0.35rem;
+  }
+
+  .mbus__label { font-size: 0.85rem; font-weight: 700; }
+
+  .mbus__clock,
+  .mbus__slow {
+    color: var(--color-subtle-dark);
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mbus__bar {
+    block-size: 1.75rem;
+    display: flex;
+    position: relative;
+  }
+
+  .mbus__segment {
+    background: var(--mbus-colour);
+    flex-basis: 0;
+    min-inline-size: 0;
+    transition: flex-grow 300ms ease-out;
+
+    &:first-child { border-radius: 0.4rem 0 0 0.4rem; }
+    &:nth-last-child(2) { border-radius: 0 0.4rem 0.4rem 0; }
+  }
+
+  .mbus__segment--request, .mbus__chip--request { --mbus-colour: var(--mbus-request); }
+  .mbus__segment--response, .mbus__chip--response { --mbus-colour: var(--mbus-response); }
+  .mbus__segment--delay, .mbus__chip--delay { --mbus-colour: var(--mbus-delay); }
+
+  .mbus__segment--gap,
+  .mbus__chip--gap {
+    --mbus-colour: repeating-linear-gradient(135deg, var(--mbus-gap) 0 3px, var(--color-subtle) 3px 6px);
+  }
+
+  .mbus__playhead {
+    background: var(--color-ink);
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px var(--color-bg);
+    inline-size: 3px;
+    inset-block: -0.25rem;
+    position: absolute;
+    translate: -50%;
+  }
+
+  .mbus__legend {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+    margin-block: 0.75rem 1.1rem;
+  }
+
+  .mbus__chip {
+    background: var(--color-bg);
+    border: 1px solid var(--color-subtle);
+    border-radius: 0.6rem;
+    color: var(--color-ink);
+    cursor: pointer;
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.5rem 0.65rem;
+    text-align: start;
+    transition: border-color 150ms ease-out;
+
+    &[data-active] { border-color: var(--color-ink); }
+  }
+
+  .mbus__chip-name {
+    align-items: center;
+    display: flex;
+    font-size: 0.8rem;
+    gap: 0.4rem;
+    line-height: 1.2;
+
+    &::before {
+      background: var(--mbus-colour);
+      block-size: 0.7rem;
+      border-radius: 0.2rem;
+      content: "";
+      flex: none;
+      inline-size: 0.7rem;
+    }
+  }
+
+  .mbus__chip-value {
+    color: var(--color-subtle-dark);
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+
+    b { color: var(--color-ink); font-size: 1rem; }
+  }
+
+  .mbus__round {
+    background:
+      repeating-linear-gradient(90deg, transparent 0 calc(100% / var(--devices, 1) - 2px), var(--color-bg) 0 calc(100% / var(--devices, 1))),
+      var(--color-subtle);
+    block-size: 0.9rem;
+    border-radius: 0.3rem;
+    overflow: hidden;
+    position: relative;
+
+    span {
+      background: var(--color-link);
+      inset-block: 0;
+      position: absolute;
+    }
+  }
+
+  .mbus__summary {
+    font-size: 1.05rem;
+    line-height: 1.4;
+    margin-block: 0.9rem 0.75rem;
+    text-wrap: pretty;
+  }
+
+  .mbus__controls {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--inline-space);
+  }
+}
+
+@keyframes mbus-think {
+  50% { opacity: 0.25; }
+}

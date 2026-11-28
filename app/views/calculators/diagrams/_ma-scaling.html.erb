@@ -1,27 +1,84 @@
-<%# Координаты дорожки (x = 55, длина 290) продублированы в ma_scaling_controller. %>
-<figure class="calc-figure">
-  <svg class="loop-gauge" viewBox="0 0 400 130" role="img" aria-labelledby="loop-gauge-title" data-diagram data-state="empty">
-    <title id="loop-gauge-title"><%= t("calculators.ma-scaling.diagram_title") %></title>
+<% key = "calculators.ma-scaling.viz" %>
+<%= tag.figure class: "calc-figure ma-viz loop-gauge scene--art", data: { diagram: true, state: "empty", zone: "empty", unit: t("#{key}.unit"),
+      phrases: %i[ empty ok fault_low below above fault_high under over ].index_with { |name| t("#{key}.say.#{name}") }.to_json,
+      reverse_phrase: t("#{key}.reverse") } do %>
+  <svg class="ma-viz__art" viewBox="0 0 360 212" role="img" aria-labelledby="ma-viz-title">
+    <title id="ma-viz-title"><%= t("calculators.ma-scaling.diagram_title") %></title>
+    <clipPath id="ma-viz-tank"><rect x="14" y="40" width="76" height="136" rx="12" /></clipPath>
 
-    <text class="loop-gauge__caption loop-gauge__caption--start" x="4" y="14"><%= t("calculators.ma-scaling.diagram_caption") %></text>
+    <text class="art-tag" x="52" y="14" text-anchor="middle"><%= t("#{key}.process") %></text>
+    <text class="ma-viz__bound" x="52" y="32" data-figure="range-max">—</text>
+    <rect class="art-body" x="14" y="40" width="76" height="136" rx="12" />
+    <g clip-path="url(#ma-viz-tank)">
+      <g class="ma-viz__level" data-level>
+        <path class="ma-viz__liquid" d="M-62 40q19 -6 38 0t38 0t38 0t38 0t38 0t38 0V190H-62Z" />
+      </g>
+    </g>
+    <line class="ma-viz__target" x1="10" y1="0" x2="94" y2="0" data-target />
+    <path class="art-far" d="M80 74h10M84 108h6M80 142h10" />
+    <rect class="art-ink" x="14" y="40" width="76" height="136" rx="12" fill="none" />
+    <text class="ma-viz__percent" x="52" y="166" data-figure="percent">—</text>
+    <text class="ma-viz__bound" x="52" y="196" data-figure="range-min">—</text>
 
-    <rect class="loop-gauge__track" x="55" y="70" width="290" height="12" rx="6" />
-    <rect class="loop-gauge__fill" x="55" y="70" width="290" height="12" rx="6" data-track-fill />
+    <path class="art-wire" d="M90 108H116" />
+    <path class="art-wire ma-viz__loop" d="M140 52H306V168H140Z" />
+    <path class="art-dots ma-viz__dots" d="M140 52H306V168H140Z" data-dots />
 
-    <% [0, 0.25, 0.5, 0.75, 1].each do |share| %>
-      <line class="loop-gauge__tick" x1="<%= 55 + 290 * share %>" y1="84" x2="<%= 55 + 290 * share %>" y2="90" />
-    <% end %>
+    <circle class="ma-viz__device" cx="140" cy="108" r="24" />
+    <path class="art-quiet" d="M116 108h48" />
+    <text class="ma-viz__label" x="140" y="102"><%= t("#{key}.sensor_code") %></text>
+    <text class="art-tag" x="140" y="123" text-anchor="middle">4–20</text>
+    <text class="art-tag ma-viz__under" x="140" y="150"><%= t("#{key}.sensor") %></text>
 
-    <text class="loop-gauge__caption" x="55" y="104" data-figure="signal-min">—</text>
-    <text class="loop-gauge__caption" x="345" y="104" data-figure="signal-max">—</text>
-    <text class="loop-gauge__bound" x="55" y="120" data-figure="range-min">—</text>
-    <text class="loop-gauge__bound" x="345" y="120" data-figure="range-max">—</text>
+    <rect class="ma-viz__device" x="262" y="76" width="88" height="68" rx="8" />
+    <text class="art-tag" x="306" y="93" text-anchor="middle"><%= t("#{key}.plc") %></text>
+    <rect class="ma-viz__screen" x="268" y="101" width="76" height="34" rx="5" />
+    <text class="ma-viz__value" x="306" y="124" data-figure="value">—</text>
 
-    <g class="loop-gauge__marker" data-marker>
-      <text class="loop-gauge__value" x="0" y="20" data-figure="value">—</text>
-      <text class="loop-gauge__signal" x="0" y="38" data-figure="signal">—</text>
-      <line class="loop-gauge__needle" x1="0" y1="46" x2="0" y2="92" />
-      <circle class="loop-gauge__dot" cx="0" cy="76" r="5" />
+    <rect class="ma-viz__meter" x="181" y="36" width="84" height="32" rx="16" />
+    <text class="ma-viz__signal" x="223" y="58" data-figure="signal">—</text>
+    <text class="art-tag" x="223" y="26" text-anchor="middle"><%= t("#{key}.current") %></text>
+
+    <rect class="ma-viz__device" x="193" y="154" width="60" height="28" rx="6" />
+    <text class="ma-viz__label" x="223" y="173"><%= t("#{key}.supply") %></text>
+    <text class="art-tag" x="223" y="200" text-anchor="middle"><%= t("#{key}.supply_caption") %></text>
+
+    <g class="ma-viz__break">
+      <rect x="158" y="44" width="16" height="16" />
+      <path d="M158 52l6 -9M168 61l6 -9" />
     </g>
   </svg>
-</figure>
+
+  <p class="ma-viz__say" data-say aria-live="polite"></p>
+
+  <div class="ma-viz__scale" data-scale>
+    <div class="ma-viz__track">
+      <span class="ma-viz__zones" aria-hidden="true">
+        <% %w[ fault margin work margin fault ].each do |zone| %>
+          <span class="ma-viz__zone" data-band="<%= zone %>"></span>
+        <% end %>
+      </span>
+      <span class="ma-viz__ghost" data-ghost aria-hidden="true"></span>
+      <input type="range" class="ma-viz__range" autocomplete="off" data-range-for="ma" min="0" max="24" step="0.1" value="12"
+             aria-label="<%= t("#{key}.slider") %>">
+    </div>
+    <div class="ma-viz__ticks" aria-hidden="true">
+      <span data-tick="low">0</span>
+      <span data-tick="smin" data-figure="signal-min">—</span>
+      <span data-tick="smax" data-figure="signal-max">—</span>
+    </div>
+  </div>
+
+  <div class="ma-viz__presets" role="group" aria-label="<%= t("#{key}.presets_label") %>">
+    <% { break: 0, low: 4, middle: 12, high: 20, fault: 22 }.each do |name, ma| %>
+      <button type="button" class="ma-viz__preset" data-action="<%= calculator.stimulus_data[:controller] %>#preset" data-ma="<%= ma %>">
+        <strong><%= ma %></strong> <%= t("#{key}.presets.#{name}") %>
+      </button>
+    <% end %>
+  </div>
+
+  <figcaption class="ma-viz__notes">
+    <span data-reverse></span>
+    <span data-live-zero><%= t("#{key}.live_zero") %></span>
+  </figcaption>
+<% end %>

@@ -1,24 +1,106 @@
-<%# cable_cross_section_controller duplicates these track coordinates — keep both in sync if the layout changes. %>
-<figure class="calc-figure">
-  <svg class="section-ladder" viewBox="0 0 400 192" role="img" aria-labelledby="ladder-figure-title"
-       data-diagram data-state="empty">
-    <title id="ladder-figure-title"><%= t("calculators.cable-cross-section.diagram_title") %></title>
-
-    <% 5.times do |step| %>
-      <% x = 104 + step * 60 %>
-      <g class="section-ladder__step" data-step="<%= step %>" data-state="plain">
-        <rect class="section-ladder__bar" x="<%= x %>" y="22" width="46" height="128" rx="4" />
-        <text class="section-ladder__section" x="<%= x + 23 %>" y="167" data-figure="section-<%= step %>">—</text>
-        <text class="section-ladder__amps" x="<%= x + 23 %>" y="183" data-figure="amps-<%= step %>">—</text>
-      </g>
+<% scope = "calculators.cable-cross-section.viz" %>
+<%# cable_cross_section_controller duplicates the ladder's plot height and the scene's meter and radius sizes. %>
+<div class="cable-viz scene--art" data-state="empty" data-load="generic" data-material="cu"
+        data-texts="<%= t("#{scope}.texts").to_json %>">
+  <div class="cable-viz__presets" role="group" aria-label="<%= t("#{scope}.presets_label") %>">
+    <% [["kettle", 2, 1], ["washer", 2.2, 1], ["stove", 7, 1], ["motor", 11, 3]].each do |load, power, phase| %>
+      <button type="button" class="btn btn--small cable-viz__preset" aria-pressed="false"
+              data-action="<%= controller %>#preset" data-preset="<%= load %>" data-power="<%= power %>" data-phase="<%= phase %>">
+        <%= t("#{scope}.presets.#{load}") %>
+        <span><%= t("#{scope}.preset_note.phase_#{phase}", power: calculator_value(power)) %></span>
+      </button>
     <% end %>
+  </div>
 
-    <g class="section-ladder__current" data-current>
-      <line x1="100" y1="150" x2="392" y2="150" />
-      <text class="section-ladder__current-caption" x="94" y="145"><%= t("calculators.cable-cross-section.diagram_current") %></text>
-      <text class="section-ladder__current-value" x="94" y="163" data-figure="current">—</text>
+  <label class="cable-viz__power">
+    <span><%= t("#{scope}.power_slider") %></span>
+    <input type="range" data-range-for="p" min="0.5" max="30" step="0.1" value="10" autocomplete="off">
+  </label>
+
+  <svg class="cable-viz__scene" viewBox="0 0 360 232" aria-hidden="true">
+    <rect class="art-ink art-body" x="8" y="34" width="46" height="62" rx="6" />
+    <circle class="art-ink" cx="31" cy="58" r="12" />
+    <path class="art-ink" d="M26 54v8M36 54v8" />
+    <path class="art-quiet" d="M20 82h22" />
+    <text class="art-tag" x="8" y="116" data-figure="source"></text>
+
+    <path class="cable-viz__jacket" d="M54 66H280" />
+    <path class="cable-viz__core" d="M54 66H280" />
+    <path class="art-dots cable-viz__flow" d="M58 66H278" />
+    <g class="cable-viz__heat">
+      <% [96, 146, 196, 236].each_with_index do |x, i| %>
+        <path style="--i: <%= i %>" d="M<%= x %> 44c-7-7 7-12 0-19s7-12 0-19" />
+      <% end %>
+    </g>
+
+    <g class="cable-viz__load cable-viz__load--generic">
+      <rect class="art-ink art-body" x="280" y="36" width="68" height="60" rx="8" />
+      <path class="art-ink" d="M318 46l-14 22h11l-5 18 16-24h-11z" />
+    </g>
+    <g class="cable-viz__load cable-viz__load--kettle">
+      <path class="art-ink art-body" d="M296 90l6-42h32l6 42z" />
+      <path class="art-ink" d="M340 90h-50M302 55l-16-7 13 22M308 48c0-12 20-12 20 0" />
+      <path class="art-quiet cable-viz__steam" d="M284 40c-6-6 5-9 0-16M294 36c-6-6 5-9 0-16" />
+    </g>
+    <g class="cable-viz__load cable-viz__load--washer">
+      <rect class="art-ink art-body" x="284" y="30" width="58" height="66" rx="6" />
+      <path class="art-quiet" d="M284 44h58M292 37h14" />
+      <circle class="art-ink" cx="313" cy="70" r="18" />
+      <path class="art-quiet cable-viz__spin" d="M303 70a10 10 0 0 1 10-10M323 70a10 10 0 0 1-10 10" />
+    </g>
+    <g class="cable-viz__load cable-viz__load--stove">
+      <rect class="art-ink art-body" x="282" y="48" width="64" height="48" rx="5" />
+      <rect class="art-quiet" x="291" y="64" width="46" height="24" rx="3" />
+      <path class="art-quiet" d="M292 56h4M306 56h4M320 56h4M332 56h4" />
+      <path class="cable-viz__ring" d="M288 43h22M318 43h22" />
+    </g>
+    <g class="cable-viz__load cable-viz__load--motor">
+      <rect class="art-ink art-body" x="286" y="44" width="46" height="44" rx="8" />
+      <path class="art-ink" d="M332 66h14M292 96l4-8M326 96l-4-8M286 96h46" />
+      <path class="art-quiet" d="M297 50v32M309 50v32M321 50v32" />
+    </g>
+    <text class="art-tag cable-viz__load-tag" x="348" y="116" data-figure="load"></text>
+
+    <g class="cable-viz__section">
+      <path class="art-far" d="M150 74L50 135M170 74L112 148" />
+      <circle class="art-quiet art-body" cx="70" cy="178" r="50" />
+      <circle class="cable-viz__disc" cx="70" cy="178" r="0" />
+      <circle class="cable-viz__ghost" cx="70" cy="178" r="0" />
+
+      <text class="cable-viz__size" x="136" y="156" data-figure="viewed"></text>
+      <text class="art-tag" x="136" y="176" data-figure="flowing"></text>
+      <rect class="cable-viz__track" x="136" y="186" width="216" height="12" rx="6" />
+      <rect class="cable-viz__fill" x="136" y="186" width="216" height="12" rx="6" />
+      <path class="cable-viz__limit" d="M352 182v20" />
+      <text class="art-tag cable-viz__limit-tag" x="352" y="219" data-figure="limit"></text>
     </g>
   </svg>
 
-  <figcaption class="calc-figure__legend"><%= t("calculators.cable-cross-section.diagram_legend") %></figcaption>
-</figure>
+  <p class="cable-viz__say" role="status" data-say><%= t("#{scope}.texts.empty") %></p>
+
+  <figure class="calc-figure">
+    <svg class="section-ladder" viewBox="0 0 400 192" role="group" aria-labelledby="ladder-figure-title"
+         data-diagram data-state="empty">
+      <title id="ladder-figure-title"><%= t("calculators.cable-cross-section.diagram_title") %></title>
+
+      <% 5.times do |step| %>
+        <% x = 104 + step * 60 %>
+        <g class="section-ladder__step" data-step="<%= step %>" data-state="plain" role="button" tabindex="0" aria-pressed="false"
+           data-action="click-><%= controller %>#pin keydown.enter-><%= controller %>#pin keydown.space-><%= controller %>#pin:prevent">
+          <rect class="section-ladder__hit" x="<%= x - 6 %>" y="2" width="58" height="188" rx="8" />
+          <rect class="section-ladder__bar" x="<%= x %>" y="22" width="46" height="128" rx="4" />
+          <text class="section-ladder__section" x="<%= x + 23 %>" y="167" data-figure="section-<%= step %>">—</text>
+          <text class="section-ladder__amps" x="<%= x + 23 %>" y="183" data-figure="amps-<%= step %>">—</text>
+        </g>
+      <% end %>
+
+      <g class="section-ladder__current" data-current>
+        <line x1="100" y1="150" x2="392" y2="150" />
+        <text class="section-ladder__current-caption" x="94" y="145"><%= t("calculators.cable-cross-section.diagram_current") %></text>
+        <text class="section-ladder__current-value" x="94" y="163" data-figure="current">—</text>
+      </g>
+    </svg>
+
+    <figcaption class="calc-figure__legend"><%= t("calculators.cable-cross-section.diagram_legend") %></figcaption>
+  </figure>
+</div>

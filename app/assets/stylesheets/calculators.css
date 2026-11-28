@@ -329,15 +329,13 @@
   transition: stroke 200ms ease-out;
 }
 
-.drop-figure__caption,
-.loop-gauge__caption {
+.drop-figure__caption {
   fill: var(--color-subtle-dark);
   font-size: 12px;
   text-anchor: middle;
 }
 
-.drop-figure__caption--start,
-.loop-gauge__caption--start {
+.drop-figure__caption--start {
   text-anchor: start;
 }
 
@@ -362,16 +360,12 @@
   transition: fill 200ms ease-out;
 }
 
-.drop-figure__track,
-.loop-gauge__track,
-.poe-line__track {
+.drop-figure__track {
   fill: var(--color-bg);
 }
 
 /* scaleX, not a width attribute: transforms animate everywhere, SVG geometry properties do not. */
-.drop-figure__fill,
-.loop-gauge__fill,
-.poe-line__fill {
+.drop-figure__fill {
   transform: scaleX(0);
   transform-box: fill-box;
   transform-origin: left center;
@@ -388,71 +382,6 @@
   stroke: var(--color-negative);
   stroke-dasharray: 3 3;
   stroke-width: 1.5;
-}
-
-/* 4–20 mA gauge — the marker carries both the signal and engineering units in one glance. */
-.loop-gauge {
-  --gauge-accent: var(--color-link);
-  margin-inline: auto;
-  max-inline-size: 30rem;
-}
-
-.loop-gauge[data-state="empty"] {
-  --gauge-accent: var(--color-subtle-dark);
-}
-
-.loop-gauge[data-state="out"] {
-  --gauge-accent: var(--color-negative);
-}
-
-.loop-gauge__fill {
-  fill: var(--gauge-accent);
-}
-
-.loop-gauge__tick {
-  stroke: var(--color-subtle);
-  stroke-width: 1.5;
-}
-
-.loop-gauge__bound {
-  fill: var(--color-ink);
-  font-size: 15px;
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
-  text-anchor: middle;
-}
-
-.loop-gauge__marker {
-  transition: transform 150ms ease-out;
-}
-
-.loop-gauge__value {
-  fill: var(--color-ink);
-  font-size: 18px;
-  font-variant-numeric: tabular-nums;
-  font-weight: 700;
-  text-anchor: middle;
-}
-
-.loop-gauge__signal {
-  fill: var(--gauge-accent);
-  font-size: 13px;
-  font-variant-numeric: tabular-nums;
-  text-anchor: middle;
-  transition: fill 200ms ease-out;
-}
-
-.loop-gauge__needle {
-  stroke: var(--gauge-accent);
-  stroke-width: 1.5;
-  transition: stroke 200ms ease-out;
-}
-
-.loop-gauge__dot {
-  fill: var(--gauge-accent);
-  stroke: var(--color-subtle-light);
-  stroke-width: 2;
-  transition: fill 200ms ease-out;
 }
 
 /* Cable section — a ladder of standard sections; the answer is the first step to rise above the line. */
@@ -685,83 +614,6 @@
   text-anchor: end;
 }
 
-/* PoE line — switch to device up top, the 100 m channel below with the powering limit marked. */
-.poe-line {
-  --poe-accent: var(--color-subtle-dark);
-  margin-inline: auto;
-  max-inline-size: 30rem;
-}
-
-.poe-line[data-state="ok"] {
-  --poe-accent: var(--color-positive);
-}
-
-.poe-line[data-state="warn"] {
-  --poe-accent: var(--color-negative);
-}
-
-.poe-line__end rect {
-  fill: var(--color-bg);
-  stroke: var(--color-subtle);
-}
-
-.poe-line__cable {
-  stroke: var(--poe-accent);
-  stroke-linecap: round;
-  stroke-width: 8;
-  transition: stroke 200ms ease-out;
-}
-
-.poe-line__caption {
-  fill: var(--color-subtle-dark);
-  font-size: 12px;
-  text-anchor: middle;
-}
-
-.poe-line__caption--start {
-  text-anchor: start;
-}
-
-.poe-line__caption--end {
-  text-anchor: end;
-}
-
-.poe-line__reading {
-  fill: var(--color-ink);
-  font-size: 16px;
-  font-variant-numeric: tabular-nums;
-  font-weight: 700;
-  text-anchor: middle;
-}
-
-.poe-line__loss {
-  fill: var(--poe-accent);
-  font-size: 15px;
-  font-variant-numeric: tabular-nums;
-  font-weight: 700;
-  text-anchor: middle;
-  transition: fill 200ms ease-out;
-}
-
-.poe-line__fill {
-  fill: var(--color-subtle-dark);
-}
-
-.poe-line__limit {
-  transition: transform 150ms ease-out;
-
-  line {
-    stroke: var(--color-ink);
-    stroke-dasharray: 3 3;
-    stroke-width: 1.5;
-  }
-}
-
-.poe-line[data-state="empty"] .poe-line__limit,
-.poe-line__limit[data-state="off"] {
-  opacity: 0;
-}
-
 /* Grounding — the loop in a cut of soil: solid rods are driven, dashed ones are what the norm still asks for. */
 .ground-figure {
   margin-inline: auto;
@@ -885,8 +737,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .drop-figure__fill,
-  .loop-gauge__fill,
-  .loop-gauge__marker,
   .section-ladder__bar,
   .section-ladder__current,
   .bit-ruler__bit,
@@ -895,8 +745,6 @@
   .dof-band__zone,
   .dof-band__marker,
   .ground-figure [data-rods],
-  .poe-line__fill,
-  .poe-line__limit,
   .rtd-curve__point {
     transition-duration: 0s;
   }
