@@ -121,7 +121,10 @@ module ApplicationHelper
   end
 
   def render_diagrams(html)
-    Diagram.embed(html) { |slug, caption| render("diagrams/#{slug.underscore}", caption: caption) }
+    Diagram.embed(html) do |slug, caption|
+      locals = Diagram::STATIC.include?(slug) ? {} : { uid: SecureRandom.hex(3) }
+      render("diagrams/#{slug.underscore}", caption: caption, **locals)
+    end
   end
 
   def wrap_figures(html, fill_links_for: nil)

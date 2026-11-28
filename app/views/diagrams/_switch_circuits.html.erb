@@ -1,4 +1,4 @@
-<%# locals: (caption: nil) -%>
+<%# locals: (caption: nil, uid: "d") -%>
 <% scope = "diagrams.switch_circuits" %>
 <% y = [ 90, 150 ] %>
 <%= render layout: "diagrams/figure", locals: { slug: "switch-circuits", caption: caption } do %>
@@ -6,7 +6,7 @@
     <legend class="for-screen-reader"><%= t("mode", scope: scope) %></legend>
     <% %w[single two cross].each do |mode| %>
       <label class="diagram__option">
-        <input type="radio" name="switch-circuits-mode" id="switch-circuits-<%= mode %>" <%= tag.attributes(checked: mode == "two") %>>
+        <input type="radio" name="switch-circuits-mode-<%= uid %>" id="switch-circuits-<%= mode %>" <%= tag.attributes(checked: mode == "two") %>>
         <%= t("modes.#{mode}", scope: scope) %>
       </label>
     <% end %>
@@ -15,13 +15,13 @@
   <div class="diagram__stage">
     <svg class="diagram__art" viewBox="0 30 404 196" role="img" aria-label="<%= t("alt", scope: scope) %>">
       <defs>
-        <radialGradient id="switch-circuits-halo">
+        <radialGradient id="switch-circuits-halo-<%= uid %>">
           <stop class="sc-halo__core" offset="0.2" />
           <stop class="sc-halo__edge" offset="1" />
         </radialGradient>
       </defs>
 
-      <circle class="sc-halo" cx="360" cy="120" r="44" fill="url(#switch-circuits-halo)" />
+      <circle class="sc-halo" cx="360" cy="120" r="44" fill="url(#switch-circuits-halo-<%= uid %>)" />
 
       <g class="sc-single">
         <rect class="art-far art-body" x="142" y="72" width="104" height="82" rx="10" />

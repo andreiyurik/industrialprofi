@@ -1,4 +1,4 @@
-<%# locals: (caption: nil) -%>
+<%# locals: (caption: nil, uid: "d") -%>
 <% scope = "diagrams.ld_ton" %>
 <%# Seconds of the 12 s lap are the program's seconds; the same moments are the keyframes in the css. %>
 <% x = ->(time) { (96 + time * 370 / 12.0).round(1) } %>
@@ -16,7 +16,7 @@
   <div class="diagram__stage">
     <svg class="diagram__art" viewBox="0 0 480 474" role="img" aria-label="<%= t("alt", scope: scope) %>">
       <defs>
-        <clipPath id="ld-ton-past"><rect class="ld-ton-past" x="95" y="230" width="372" height="226" /></clipPath>
+        <clipPath id="ld-ton-past-<%= uid %>"><rect class="ld-ton-past" x="95" y="230" width="372" height="226" /></clipPath>
       </defs>
 
       <path class="art-ink ld-ton-rail" d="M14 8V214M466 8V214" />
@@ -93,7 +93,7 @@
         <text class="ld-ton-row" x="10" y="<%= key == "et" ? 440 : y %>"><%= label %></text>
         <path class="ld-ton-ghost" d="<%= path %>" />
       <% end %>
-      <g clip-path="url(#ld-ton-past)">
+      <g clip-path="url(#ld-ton-past-<%= uid %>)">
         <path class="ld-ton-area" d="M<%= x.(1) %> 446L<%= x.(3.2) %> 421.3V446ZM<%= x.(4.5) %> 446L<%= x.(7.5) %> 412H<%= x.(9.5) %>V446Z" />
         <% rows.each do |key, _, _, path| %>
           <path class="ld-ton-trace ld-ton-trace--<%= key %>" d="<%= path %>" />

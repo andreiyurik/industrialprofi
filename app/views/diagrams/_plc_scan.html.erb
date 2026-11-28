@@ -1,11 +1,11 @@
-<%# locals: (caption: nil) -%>
+<%# locals: (caption: nil, uid: "d") -%>
 <% scope = "diagrams.plc_scan" -%>
 <%# Timeline: one scan is 84 units wide from x=72; inputs are sampled 0.1 scan after each start. -%>
 <%= render layout: "diagrams/figure", locals: { slug: "plc-scan", caption: caption } do %>
   <div class="diagram__stage">
     <svg class="diagram__art" viewBox="0 0 420 372" role="img" aria-label="<%= t("alt", scope: scope) %>">
       <defs>
-        <clipPath id="plc-scan-clip"><rect class="plc-scan-reveal" x="68" y="190" width="340" height="150" /></clipPath>
+        <clipPath id="plc-scan-clip-<%= uid %>"><rect class="plc-scan-reveal" x="68" y="190" width="340" height="150" /></clipPath>
       </defs>
 
       <% [ [ "read", 1, 78 ], [ "program", 2, 210 ], [ "write", 3, 342 ] ].each do |step, number, x| %>
@@ -69,7 +69,7 @@
       <path class="plc-scan-edge" d="M408 237V265" />
       <path class="art-far" d="M72 226H408M72 298H408M72 334H408" />
 
-      <g class="plc-scan-traces" clip-path="url(#plc-scan-clip)">
+      <g class="plc-scan-traces" clip-path="url(#plc-scan-clip-<%= uid %>)">
         <rect class="plc-scan-pulse plc-scan-pulse--missed" x="105.6" y="204" width="33.6" height="22" />
         <rect class="plc-scan-pulse plc-scan-pulse--caught" x="206.4" y="204" width="109.2" height="22" />
         <path class="plc-scan-trace" d="M72 226H105.6V204H139.2V226H206.4V204H315.6V226H408" />
