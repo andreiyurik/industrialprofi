@@ -6,9 +6,11 @@ class IllustrationCensus
   Image = Data.define(:lesson, :section, :src, :alt, :blob) do
     def external? = src.to_s.match?(%r{\Ahttps?://}i)
 
+    def diagram? = Diagram.slug(src).present?
+
     # A purged blob's attachment is removed with it, so blob.nil? alone signals broken.
     def broken?
-      blob.nil? && !external? && !Diagram.slug(src) && !IllustrationCensus.public_file?(src)
+      blob.nil? && !external? && !diagram? && !IllustrationCensus.public_file?(src)
     end
   end
 

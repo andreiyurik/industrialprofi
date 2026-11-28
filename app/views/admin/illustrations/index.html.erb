@@ -104,6 +104,8 @@
                   <% else %>
                     <%= image_tag image.blob, alt: image.alt, loading: "lazy", class: "illustration-card__thumb" %>
                   <% end %>
+                <% elsif image.diagram? %>
+                  <code class="illustration-card__thumb"><%= image.src %></code>
                 <% else %>
                   <%= image_tag image.src, alt: image.alt, loading: "lazy", class: "illustration-card__thumb" %>
                 <% end %>

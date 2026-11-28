@@ -5,6 +5,15 @@ class Admin::IllustrationsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as users(:admin)
   end
 
+  test "the gallery lists a diagram without looking for its image file" do
+    lessons(:pteep).update!(body: "![a](diagram:plc-scan)")
+
+    get admin_illustrations_path(path: lessons(:pteep).path.slug)
+
+    assert_response :success
+    assert_select ".illustration-card code", "diagram:plc-scan"
+  end
+
   # Auth
 
   test "index without auth redirects to sign-in" do
