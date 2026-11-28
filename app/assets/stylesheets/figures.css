@@ -70,24 +70,21 @@
   inline-size: 100%;
   block-size: 100%;
   display: grid;
-  place-items: center;
+  place-content: safe center;
+  place-items: safe center;
   overflow: auto;
   padding: 1.5rem;
 }
 
 .lightbox__img {
-  max-inline-size: 95vw;
-  max-block-size: 95dvh;
+  --fit: min(95vw, 92dvh * var(--ratio, 1.333));
+  inline-size: var(--fit);
+  max-inline-size: none;
   cursor: zoom-in;
 }
 
-.lightbox--zoomed .lightbox__stage {
-  place-items: start;
-}
-
 .lightbox--zoomed .lightbox__img {
-  max-inline-size: none;
-  max-block-size: none;
+  inline-size: calc(var(--fit) * 2);
   cursor: zoom-out;
 }
 
