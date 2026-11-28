@@ -3,8 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 const ZOOM_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM10.5 7.5v6m3-3h-6"/></svg>`
 const CLOSE_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>`
 
-// Click a figure/zoom button for a fullscreen native <dialog>; click again to
-// toggle fit-to-screen vs full resolution.
+// Click a figure for a fullscreen <dialog>; click the picture to zoom into that spot.
 export default class extends Controller {
   connect() {
     this.element.querySelectorAll(".prose-figure").forEach((figure) => {
@@ -42,6 +41,7 @@ export default class extends Controller {
     const full = dialog.querySelector(".lightbox__img")
     full.src = image.currentSrc || image.src
     full.alt = image.alt || ""
+    full.style.setProperty("--ratio", image.naturalWidth / image.naturalHeight || 1.333)
     dialog.classList.remove("lightbox--zoomed")
     dialog.showModal()
   }
@@ -61,7 +61,12 @@ export default class extends Controller {
     })
     dialog.querySelector(".lightbox__img").addEventListener("click", (event) => {
       event.stopPropagation()
-      dialog.classList.toggle("lightbox--zoomed")
+      const { offsetX, offsetY, target } = event
+      const x = offsetX / target.clientWidth, y = offsetY / target.clientHeight
+      if (!dialog.classList.toggle("lightbox--zoomed")) return
+
+      const stage = target.parentElement
+      stage.scrollTo(x * stage.scrollWidth - stage.clientWidth / 2, y * stage.scrollHeight - stage.clientHeight / 2)
     })
 
     this.dialog = dialog
