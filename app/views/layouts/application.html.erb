@@ -251,7 +251,7 @@
     </main>
 
     <% unless in_admin? %>
-    <%= render "shared/feedback_banner" unless in_admin? || cookies[:feedback_banner_dismissed] %>
+    <%= render "shared/feedback_banner" unless cookies[:feedback_banner_dismissed] %>
 
     <footer class="footer">
       <div class="container footer__inner">

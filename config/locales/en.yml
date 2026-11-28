@@ -1162,6 +1162,8 @@ en:
       share: "Send to a colleague"
       shared: "Link copied"
       again: "Again"
+      placard_title: "Edits welcome"
+      placard_note: "people at work"
       running: "The installation is running — power on, valve open, the pump is pumping."
       lesson: "%{title}"
       share_text: "Started the pump installation in %{seconds} s, attempt %{attempt}. Try to beat it:"
