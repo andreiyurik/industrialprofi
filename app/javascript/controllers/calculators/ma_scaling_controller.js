@@ -47,11 +47,12 @@ export default class extends CalculatorController {
     diagram.dataset.state =
       fraction == null ? "empty" : fraction < 0 || fraction > 1 ? "out" : "ok"
     diagram.dataset.zone = zone
-    diagram.toggleAttribute("data-broken", input.ma != null && input.ma < BREAK_BELOW)
+    const broken = smin === 4 && smax === 20 && input.ma != null && input.ma < BREAK_BELOW
+    diagram.toggleAttribute("data-broken", broken)
 
     this.#drawTank(diagram, input, result)
     this.#drawScale(diagram, input.ma, result.ma, smin, smax)
-    this.#flow(diagram, input.ma)
+    this.#flow(diagram, input.ma, broken)
 
     const withUnit = (value) => `${this.num(value, 2)} ${diagram.dataset.unit}`
     this.label({
@@ -132,11 +133,11 @@ export default class extends CalculatorController {
   }
 
   // playbackRate, not animation-duration: changing the duration makes the dots jump.
-  #flow(diagram, ma) {
+  #flow(diagram, ma, broken) {
     const current = clamp(ma ?? 0, 0, SCALE_END)
     const dots = diagram.querySelector("[data-dots]")
     dots.style.strokeWidth = `${3 + current / 6}px`
-    dots.style.opacity = current < BREAK_BELOW ? "0" : "1"
+    dots.style.opacity = broken ? "0" : "1"
     dots.getAnimations().forEach((animation) => { animation.playbackRate = current / 10 })
   }
 

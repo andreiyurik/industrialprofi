@@ -42,7 +42,8 @@ export default class extends CalculatorController {
 
   seek({ params: { phase } }) {
     if (!this.#poll) return
-    const step = this.#poll.steps.find((it) => it.phase === phase)
+    const step = this.#poll.steps.find((it) => it.phase === phase && it.length > 0)
+    if (!step) return
     this.#elapsed = step.from + step.length * 0.55
     this.#paused = true
     this.#run()
@@ -52,7 +53,7 @@ export default class extends CalculatorController {
 
   #prepare(input) {
     const figure = this.#find("[data-diagram]")
-    const result = modbusRtu(input)
+    const result = modbusRtu({ ...input, delay: Math.max(0, input.delay ?? 0) })
     const total = result.transaction
 
     if (total == null || !(total > 0)) {
@@ -71,7 +72,7 @@ export default class extends CalculatorController {
     const request = REQUEST_BYTES * charMs
     const response = result.respBytes * charMs
     const delay = Math.max(0, input.delay ?? 0)
-    const gap = Math.max(0, total - request - response - (input.delay ?? 0)) / 2
+    const gap = Math.max(0, total - request - response - delay) / 2
     const lengths = { request, gap, delay, response }
 
     let from = 0
@@ -146,6 +147,7 @@ export default class extends CalculatorController {
 
   #run() {
     const button = this.#find("[data-play]")
+    this.#find("[data-diagram]").toggleAttribute("data-paused", this.#paused)
     button.textContent = this.#paused ? button.dataset.playLabel : button.dataset.pauseLabel
     if (!this.#poll) return
 
@@ -185,9 +187,10 @@ export default class extends CalculatorController {
 
     this.element.querySelectorAll("[data-slot]").forEach((el, i) => {
       el.toggleAttribute("data-active", i === slot)
-      let label = `№${i + 1}`
-      if (devices > SLOTS && i === SLOTS - 1) label = `№${devices}`
-      if (devices > SLOTS && i === SLOTS - 2) label = i === slot ? `№${address}` : "…"
+      const number = (n) => this.#fill(figure.dataset.tplAddress, { n })
+      let label = number(i + 1)
+      if (devices > SLOTS && i === SLOTS - 1) label = number(devices)
+      if (devices > SLOTS && i === SLOTS - 2) label = i === slot ? number(address) : figure.dataset.tplSkipped
       el.querySelector("[data-address]").textContent = label
     })
 

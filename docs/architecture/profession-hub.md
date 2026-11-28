@@ -106,6 +106,7 @@ flowchart TB
 - **Projects** (`/projects`): all `kind: practice` lessons across published paths with
   difficulty filters.
 - **Calculators** (`/calculators`): a code registry (no DB) + one Stimulus controller for
-  all the math.
+  all the math; calculators that draw add a scene controller
+  (`controllers/calculators/*_controller.js`) over `diagrams/_<slug>.html.erb` and a `viz-<slug>.css`.
 - **Resources** carry `country_code` (nil = universal) — one lesson, different documents
   per country.

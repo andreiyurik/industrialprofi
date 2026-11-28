@@ -14,6 +14,7 @@ const STEPS = { ArrowLeft: -1, ArrowDown: -1, ArrowRight: 1, ArrowUp: 1, PageDow
 
 export default class extends CalculatorController {
   #offset = null
+  #from = null
 
   paint(input) {
     const result = twistedPairLine(input, this.normsValue)
@@ -37,19 +38,25 @@ export default class extends CalculatorController {
     const onDevice = event.target.closest("[data-device]")
     if (!onDevice && y < SCENE_TOP) return
 
-    this.#offset = onDevice ? x - this.#x(this.#length) : 0
+    this.#offset = onDevice ? x - (START + this.#length / SCALE * SPAN) : 0
+    this.#from = onDevice ? x : null
     event.currentTarget.setPointerCapture(event.pointerId)
     event.currentTarget.dataset.dragging = ""
-    this.drag(event)
+    if (!onDevice) this.drag(event)
   }
 
   drag(event) {
     if (this.#offset == null) return
+    if (this.#from != null) {
+      if (Math.abs(this.#pointer(event).x - this.#from) < 2) return
+      this.#from = null
+    }
     this.#setLength((this.#pointer(event).x - this.#offset - START) / SPAN * SCALE)
   }
 
   release(event) {
     this.#offset = null
+    this.#from = null
     delete event.currentTarget.dataset.dragging
   }
 
@@ -97,6 +104,8 @@ export default class extends CalculatorController {
     diagram.dataset.state = result.atDevice == null ? "empty" : status
     diagram.toggleAttribute("data-far", far)
 
+    const template = diagram.dataset.metres
+    const metres = (value) => template.replace("{metres}", this.num(value, 0))
     const set = (selector, attributes) => {
       const node = diagram.querySelector(selector)
       for (const [name, value] of Object.entries(attributes)) node?.setAttribute(name, String(value))
@@ -106,9 +115,16 @@ export default class extends CalculatorController {
     set("[data-profile]", { x2: end, y2: y })
     set("[data-point]", { cx: end, cy: y })
     set("[data-area]", { d: `M${START} ${SOURCE_Y} L${end} ${y} V${FLOOR_Y} H${START} Z` })
-    set("[data-device]", { "aria-valuenow": Math.round(length), "aria-valuetext": `${this.num(length, 0)} м` })
+    set("[data-device]", { "aria-valuenow": Math.round(length), "aria-valuetext": metres(length) })
     diagram.querySelector("[data-device]").style.transform = `translateX(${end}px)`
     set("[data-figure='length']", { x: Math.max(START + 24, (START + end) / 2) })
+
+    const gate = this.#x(result.channel)
+    set("[data-beyond]", { x: gate, width: 356 - gate })
+    set("[data-channel-line]", { x1: gate, x2: gate })
+    set("[data-channel-label]", { x: gate - 5.7 })
+    const channelLabel = diagram.querySelector("[data-channel-label]")
+    if (channelLabel) channelLabel.textContent = channelLabel.dataset.template.replace("{channel}", this.num(result.channel, 0))
 
     // Отметку показываем только когда предел ставит питание, не канал.
     const powerLimits = result.maxLength != null && result.maxLength < result.channel
@@ -122,8 +138,9 @@ export default class extends CalculatorController {
       device: this.#volts(result.atDevice),
       drop: result.drop == null ? this.num(null) : `−${this.num(result.drop, 2)} В`,
       minimum: this.#volts(result.minDevice),
-      length: `${this.num(length, 0)} м`,
-      limit: result.maxLength == null ? this.num(null) : `${this.num(result.maxLength, 0)} м`
+      length: metres(length),
+      channel: this.num(result.channel, 0),
+      limit: result.maxLength == null ? this.num(null) : metres(result.maxLength)
     }
     this.label(figures)
     this.#explain(result.atDevice == null ? "empty" : status === "ok" && far ? "far" : status, figures)

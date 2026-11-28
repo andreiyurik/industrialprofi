@@ -88,6 +88,12 @@
   .mbus__bits { stroke: var(--color-bg); stroke-linecap: round; stroke-width: 2.5; }
   .mbus__size { fill: var(--color-ink); font-weight: 700; text-anchor: middle; }
 
+  &[data-paused] :is(.mbus__flow, .mbus__think circle) { animation-play-state: paused; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mbus__think circle { animation: none; }
+  }
+
   &[data-state="empty"] {
     :is(.mbus__live, .mbus__flow, .mbus__packet, .mbus__think, .mbus__quiet, .mbus__playhead) { visibility: hidden; }
     :is(.mbus__say, .mbus__clock, .mbus__slow) { visibility: hidden; }
