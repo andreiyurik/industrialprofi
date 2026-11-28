@@ -182,7 +182,7 @@ class User < ApplicationRecord
   end
 
   def next_lesson_in(path)
-    path.lessons.ordered.where.not(id: lesson_completions.select(:lesson_id)).first
+    path.lessons.publicly_visible.ordered.where.not(id: lesson_completions.select(:lesson_id)).first
   end
 
   REMINDER_AFTER = 7.days

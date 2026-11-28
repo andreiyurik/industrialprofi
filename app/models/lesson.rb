@@ -48,6 +48,8 @@ class Lesson < ApplicationRecord
 
   scope :ordered, -> { order(:position) }
   scope :practice, -> { where(kind: "practice") }
+  # What a guest can open; anything else 404s, so reader-facing lists must not link to it.
+  scope :publicly_visible, -> { where(course_id: Course.published.select(:id), path_id: Path.published.select(:id)) }
   scope :top_bookmarked, ->(count) {
     joins(:lesson_bookmarks)
       .select("lessons.*, COUNT(lesson_bookmarks.id) AS bookmarks_count")
@@ -86,11 +88,11 @@ class Lesson < ApplicationRecord
   end
 
   def prev_in_path
-    path.lessons.where("position < ?", position).ordered.last
+    path.lessons.publicly_visible.where("position < ?", position).ordered.last
   end
 
   def next_in_path
-    path.lessons.where("position > ?", position).ordered.first
+    path.lessons.publicly_visible.where("position > ?", position).ordered.first
   end
 
   def to_markdown

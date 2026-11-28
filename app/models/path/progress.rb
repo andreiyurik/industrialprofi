@@ -41,7 +41,7 @@ class Path::Progress
     def started? = false
     def completed_ids = Set.new
     def done_by_course = {}
-    def next_lesson = @next_lesson ||= path.lessons.ordered.first
+    def next_lesson = @next_lesson ||= path.lessons.publicly_visible.ordered.first
     def guest? = true
   end
 end
