@@ -293,18 +293,23 @@
 }
 
 .typed__char:last-child::after {
-  animation: typed-caret-rest 0.9s steps(1) calc(0.25s + var(--i) * 0.03s) 5 backwards;
+  animation: typed-caret-rest 0.9s steps(1) calc(0.25s + var(--i) * 0.03s) infinite backwards;
   opacity: 1;
 }
 
 .typed--done .typed__char,
-.typed--done .typed__char::after {
+.typed--done .typed__char:not(:last-child)::after {
   animation: none;
+}
+
+.typed--done .typed__char:last-child::after {
+  animation-delay: 0s;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .typed__char,
-  .typed__char::after {
+  .typed__char::after,
+  .typed__char:last-child::after {
     animation: none;
   }
 }
