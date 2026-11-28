@@ -1,124 +1,116 @@
 <%# locals: (caption: nil) -%>
 <% scope = "diagrams.packet_route" %>
-<% destinations = %w[ scada mes ] %>
-<% faults = %w[ none nogw wrong cable ] %>
-<%# Where each combination's packet ends up. %>
-<% routes = {
-  "direct" => { cases: %w[ scada-none scada-nogw ], path: "M134 84H174V150", mark: [ 202, 144 ], ok: true },
-  "lost" => { cases: %w[ scada-wrong ], path: "M134 84H218", mark: [ 213, 108 ] },
-  "cut" => { cases: %w[ scada-cable ], path: "M134 84H174V112", mark: [ 202, 112 ] },
-  "via" => { cases: %w[ mes-none mes-wrong mes-cable ], path: "M134 84H354", mark: [ 354, 46 ], ok: true },
-  "stuck" => { cases: %w[ mes-nogw ], mark: [ 142, 113 ] }
+<% stories = {
+  "neighbor" => { target: "scada", net: "192.168.1", host: ".20", path: "M82 125V232", mark: [ 126, 222 ], label: [ 148, 228, "start" ], ok: true },
+  "mes" => { target: "mes", net: "192.168.2", host: ".10", path: "M82 125V170H275V232", mark: [ 236, 222 ], label: [ 214, 228, "end" ], ok: true },
+  "nogw" => { target: "mes", net: "192.168.2", host: ".10", mark: [ 126, 124 ], label: [ 148, 129, "start" ] },
+  "wrong" => { target: "scada", net: "192.168.0", host: ".20", path: "M82 125V170H176", mark: [ 273, 114 ], label: [ 273, 90, "middle" ] }
 } %>
-<% columns = [ 168, 228, 288, 382 ] %>
+<% targets = { "scada" => [ 7, 250 ], "mes" => [ 200, 250 ] } %>
 <%= render layout: "diagrams/figure", locals: { slug: "packet-route", caption: caption } do %>
+  <div class="diagram__controls" role="radiogroup" aria-label="<%= t("choose", scope: scope) %>">
+    <% stories.each_key do |story| %>
+      <label class="diagram__option">
+        <%= tag.input type: "radio", name: "packet-route-story", id: "packet-route-story-#{story}", checked: story == stories.keys.first %>
+        <%= t("stories.#{story}", scope: scope) %>
+      </label>
+    <% end %>
+  </div>
   <div class="diagram__stage">
-    <svg class="diagram__art" viewBox="0 0 480 424" role="img" aria-label="<%= t("alt", scope: scope) %>">
-      <rect class="packet-route-zone" x="6" y="8" width="336" height="220" rx="10" />
-      <rect class="packet-route-zone" x="350" y="8" width="124" height="220" rx="10" />
-      <text class="art-tag" x="16" y="30"><%= t("zone.own", scope: scope) %></text>
-      <text class="art-tag" x="412" y="30" text-anchor="middle">192.168.2.0/24</text>
-      <text class="art-tag" x="412" y="148" text-anchor="middle"><%= t("zone.other", scope: scope) %></text>
+    <svg class="diagram__art" viewBox="0 0 360 340" role="img" aria-label="<%= t("alt", scope: scope) %>">
+      <path class="packet-route-zone" d="M2 2H174V126H358V214H174V338H2Z" />
+      <rect class="packet-route-zone" x="192" y="228" width="166" height="110" />
+      <text class="art-tag" x="12" y="21" text-anchor="start"><%= t("network", scope: scope) %> 192.168.1</text>
+      <text class="art-tag" x="275" y="333" text-anchor="middle"><%= t("network", scope: scope) %> 192.168.2</text>
 
-      <path class="art-wire" d="M130 84H150M198 84H224M330 84H358" />
-      <path class="art-wire packet-route-whole" d="M174 100V160" />
-      <g class="packet-route-broken">
-        <path class="art-wire" d="M174 100V124M174 160V146" />
-        <path class="packet-route-plug" d="M168 124H180M168 146H180" />
-        <text class="art-tag packet-route-bad" x="190" y="140"><%= t("pulled", scope: scope) %></text>
+      <path class="art-wire" d="M82 110V250" />
+      <g class="packet-route-dim-neighbor packet-route-dim-nogw">
+        <path class="art-wire" d="M82 170H198" />
+      </g>
+      <g class="packet-route-dim-neighbor packet-route-dim-nogw">
+        <path class="art-wire" d="M275 203V250" />
       </g>
 
-      <rect class="art-ink art-body" x="14" y="52" width="116" height="64" rx="8" />
-      <text class="packet-route-name" x="72" y="73"><%= t("plc", scope: scope) %></text>
-      <text class="packet-route-ip" x="72" y="91">192.168.1.10</text>
-      <text class="packet-route-ip packet-route-note packet-route-has-gw" x="72" y="108"><%= t("gw_set", scope: scope) %></text>
-      <text class="packet-route-ip packet-route-note packet-route-bad packet-route-no-gw" x="72" y="108"><%= t("gw_unset", scope: scope) %></text>
+      <rect class="art-ink art-body" x="7" y="32" width="150" height="78" rx="8" />
+      <text class="packet-route-name" x="82" y="55"><%= t("plc", scope: scope) %></text>
+      <text class="packet-route-ip" x="82" y="78">192.168.1.10</text>
+      <text class="packet-route-note packet-route-except-nogw" x="82" y="99"><%= t("gw_set", scope: scope) %></text>
+      <text class="packet-route-note packet-route-bad packet-route-on-nogw" x="82" y="99"><%= t("gw_unset", scope: scope) %></text>
 
-      <rect class="art-ink art-body" x="150" y="68" width="48" height="32" rx="5" />
-      <path class="art-quiet" d="M158 79H188L183 75M188 90H158L163 94" />
-      <text class="art-tag" x="174" y="58" text-anchor="middle"><%= t("switch", scope: scope) %></text>
+      <g class="packet-route-dim-nogw">
+        <rect class="art-ink art-body" x="55" y="155" width="54" height="30" rx="5" />
+        <path class="art-quiet" d="M65 165H99L94 161M99 175H65L70 179" />
+        <text class="art-tag" x="153" y="150"><%= t("switch", scope: scope) %></text>
+      </g>
 
-      <rect class="art-ink art-body" x="224" y="56" width="106" height="58" rx="8" />
-      <text class="packet-route-name" x="277" y="77"><%= t("gateway", scope: scope) %></text>
-      <text class="packet-route-ip" x="277" y="102">192.168.1.1</text>
+      <g class="packet-route-dim-neighbor packet-route-dim-nogw">
+        <rect class="art-ink art-body" x="198" y="137" width="152" height="66" rx="8" />
+        <text class="packet-route-name" x="274" y="164"><%= t("gateway", scope: scope) %></text>
+        <text class="packet-route-ip" x="274" y="189">192.168.1.1</text>
+      </g>
 
-      <rect class="art-ink art-body packet-route-target-mes" x="358" y="56" width="110" height="58" rx="8" />
-      <text class="packet-route-name" x="413" y="77"><%= t("mes", scope: scope) %></text>
-      <text class="packet-route-ip" x="413" y="102">192.168.2.10</text>
+      <g class="packet-route-dim-mes packet-route-dim-nogw">
+        <rect class="art-ink art-body" x="7" y="250" width="150" height="66" rx="8" />
+        <text class="packet-route-name" x="82" y="278"><%= t("scada", scope: scope) %></text>
+        <text class="packet-route-ip packet-route-except-wrong" x="82" y="302">192.168.1.20</text>
+        <text class="packet-route-ip packet-route-bad packet-route-on-wrong" x="82" y="302">192.168.0.20</text>
+      </g>
 
-      <rect class="art-ink art-body packet-route-target-scada" x="115" y="160" width="118" height="58" rx="8" />
-      <text class="packet-route-name" x="174" y="181"><%= t("scada", scope: scope) %></text>
-      <text class="packet-route-ip packet-route-right-ip" x="174" y="206">192.168.1.20</text>
-      <text class="packet-route-ip packet-route-bad packet-route-wrong-ip" x="174" y="206">192.168.0.20</text>
+      <g class="packet-route-dim-neighbor packet-route-dim-wrong">
+        <rect class="art-ink art-body" x="200" y="250" width="150" height="66" rx="8" />
+        <text class="packet-route-name" x="275" y="278"><%= t("mes", scope: scope) %></text>
+        <text class="packet-route-ip" x="275" y="302">192.168.2.10</text>
+      </g>
 
-      <% routes.each do |name, route| %>
-        <g class="packet-route-run packet-route-run--<%= name %> <%= "packet-route-run--ok" if route[:ok] %> <%= route[:cases].map { "packet-route-on-#{it}" }.join(" ") %>">
-          <% if route[:path] %>
-            <path class="packet-route-trail" d="<%= route[:path] %>" pathLength="100" />
+      <% stories.each do |name, story| %>
+        <% x, y = targets.fetch(story[:target]) %>
+        <g class="packet-route-run packet-route-run--<%= name %> <%= "packet-route-run--ok" if story[:ok] %> packet-route-on-<%= name %>">
+          <rect class="packet-route-target" x="<%= x %>" y="<%= y %>" width="150" height="66" rx="8" />
+          <rect class="packet-route-pill" x="<%= x + 100 %>" y="<%= y - 11 %>" width="46" height="21" rx="10" />
+          <text class="packet-route-goal" x="<%= x + 123 %>" y="<%= y + 4 %>"><%= t("goal", scope: scope) %></text>
+          <% if story[:path] %>
+            <path class="packet-route-trail" d="<%= story[:path] %>" pathLength="100" />
           <% end %>
           <g class="packet-route-packet">
-            <rect x="-13" y="-9" width="26" height="18" rx="3" />
-            <path d="M-12 -7 0 2 12 -7" />
+            <rect x="-19" y="-13" width="38" height="26" rx="4" />
+            <path d="M-17 -10 0 3 17 -10" />
           </g>
-          <g transform="translate(<%= route[:mark].join(" ") %>)">
-            <g class="packet-route-mark">
-              <circle r="12" />
-              <path d="<%= route[:ok] ? "M-6 0 -2 5 6 -5" : "M-5 -5 5 5M5 -5 -5 5" %>" />
+          <g class="packet-route-result">
+            <g transform="translate(<%= story[:mark].join(" ") %>)">
+              <circle r="15" />
+              <path d="<%= story[:ok] ? "M-8 0 -2 6 8 -6" : "M-6 -6 6 6M6 -6 -6 6" %>" />
             </g>
+            <text x="<%= story[:label][0] %>" y="<%= story[:label][1] %>" text-anchor="<%= story[:label][2] %>"><%= t("mark.#{name}", scope: scope) %></text>
           </g>
         </g>
-      <% end %>
-
-      <text class="packet-route-heading" x="14" y="256"><%= t("compare.title", scope: scope) %></text>
-      <rect class="packet-route-netpart" x="139" y="264" width="178" height="110" rx="8" />
-      <rect class="packet-route-hostpart" x="347" y="264" width="70" height="110" rx="8" />
-      <% %w[ scada-none scada-wrong mes-none ].zip([ %w[ 192 168 1 20 ], %w[ 192 168 0 20 ], %w[ 192 168 2 10 ] ]).each do |kind, octets| %>
-        <% cases = { "scada-none" => %w[ scada-none scada-nogw scada-cable ], "scada-wrong" => %w[ scada-wrong ], "mes-none" => faults.map { "mes-#{it}" } }[kind] %>
-        <g class="packet-route-case <%= cases.map { "packet-route-on-#{it}" }.join(" ") %>">
-          <% if kind != "scada-none" %>
-            <rect class="packet-route-differs" x="260" y="319" width="56" height="52" rx="6" />
-          <% end %>
-          <text class="packet-route-label" x="14" y="337"><%= t(kind.split("-").first, scope: scope) %></text>
-          <% octets.zip(columns).each_with_index do |(octet, x), index| %>
-            <text class="packet-route-octet" x="<%= x %>" y="337"><%= octet %></text>
-            <% if index < 3 %>
-              <% same = octet == %w[ 192 168 1 ][index] %>
-              <text class="packet-route-octet <%= same ? "packet-route-same" : "packet-route-diff" %>" x="<%= x %>" y="364"><%= same ? "=" : "≠" %></text>
-            <% end %>
-          <% end %>
-        </g>
-      <% end %>
-      <text class="packet-route-label" x="14" y="283"><%= t("compare.mask", scope: scope) %></text>
-      <text class="packet-route-label" x="14" y="310"><%= t("plc", scope: scope) %></text>
-      <% %w[ 255 255 255 0 ].zip(%w[ 192 168 1 10 ], columns).each do |mask, own, x| %>
-        <text class="packet-route-octet packet-route-mask" x="<%= x %>" y="283"><%= mask %></text>
-        <text class="packet-route-octet" x="<%= x %>" y="310"><%= own %></text>
-      <% end %>
-      <text class="packet-route-octet packet-route-mask" x="382" y="364">—</text>
-      <text class="art-tag" x="228" y="390" text-anchor="middle"><%= t("compare.network", scope: scope) %></text>
-      <text class="art-tag" x="382" y="390" text-anchor="middle"><%= t("compare.host", scope: scope) %></text>
-
-      <% { "own" => %w[ scada-none scada-nogw scada-cable ],
-           "other" => %w[ scada-wrong mes-none mes-wrong mes-cable ],
-           "stuck" => %w[ mes-nogw ] }.each do |verdict, cases| %>
-        <text class="packet-route-verdict packet-route-verdict--<%= verdict %> packet-route-case <%= cases.map { "packet-route-on-#{it}" }.join(" ") %>" x="240" y="415"><%= t("verdict.#{verdict}", scope: scope) %></text>
       <% end %>
     </svg>
   </div>
-  <p class="diagram__phases">
-    <% destinations.product(faults).each do |to, fault| %>
-      <span class="packet-route-case packet-route-on-<%= to %>-<%= fault %>"><%= t("say.#{to}.#{fault}", scope: scope) %></span>
-    <% end %>
-  </p>
-  <% { "to" => destinations, "fault" => faults }.each do |group, options| %>
-    <div class="diagram__controls" role="radiogroup" aria-label="<%= t("choose.#{group}", scope: scope) %>">
-      <span class="packet-route-legend" aria-hidden="true"><%= t("choose.#{group}", scope: scope) %></span>
-      <% options.each do |option| %>
-        <label class="diagram__option">
-          <%= tag.input type: "radio", name: "packet-route-#{group}", id: "packet-route-#{group}-#{option}", checked: option == options.first %>
-          <%= t("options.#{group}.#{option}", scope: scope) %>
-        </label>
-      <% end %>
-    </div>
+  <% stories.each do |name, story| %>
+    <% own = story[:net] == "192.168.1" %>
+    <ol class="packet-route-steps packet-route-on-<%= name %> <%= "packet-route-steps--ok" if story[:ok] %>">
+      <li class="packet-route-step packet-route-step--compare">
+        <strong><%= t("steps.compare", scope: scope) %></strong>
+        <div class="packet-route-answer">
+          <% [ [ "plc", "192.168.1", ".10" ], [ story[:target], story[:net], story[:host] ] ].each do |device, net, host| %>
+            <span class="packet-route-address">
+              <span><%= t("short.#{device}", scope: scope) %></span>
+              <span class="packet-route-net <%= "packet-route-net--differs" if net != "192.168.1" %>"><%= net %></span>
+              <span><%= host %></span>
+            </span>
+          <% end %>
+          <b class="packet-route-match"><%= t(own ? "same" : "differs", scope: scope) %></b>
+          <small><%= t("mask", scope: scope) %></small>
+        </div>
+      </li>
+      <li class="packet-route-step packet-route-step--send">
+        <strong><%= t("steps.send", scope: scope) %></strong>
+        <div class="packet-route-answer"><%= t("send.#{name}", scope: scope) %></div>
+      </li>
+      <li class="packet-route-step packet-route-step--result">
+        <strong><%= t("steps.result", scope: scope) %></strong>
+        <div class="packet-route-answer"><%= t("result.#{name}", scope: scope) %></div>
+      </li>
+    </ol>
   <% end %>
 <% end %>
