@@ -1,0 +1,205 @@
+.diagram.diagram-osi-layers {
+  --lap: 12s;
+
+  text { text-anchor: middle; }
+  .osi-device { fill: var(--color-ink); font-size: 17px; font-weight: 700; }
+  .osi-ip { fill: var(--color-subtle-dark); font-family: var(--font-technical); font-size: 15px; }
+  .osi-ip--wrong { fill: var(--color-negative); font-weight: 700; }
+  .osi-cable-name { font-size: 15px; text-anchor: middle; }
+  .osi-number { fill: var(--color-ink); font-size: 20px; font-weight: 800; }
+  .osi-name { fill: var(--color-ink); font-size: 14.5px; font-weight: 600; text-anchor: start; }
+
+  .osi-lit { fill: var(--color-link); fill-opacity: 0.28; filter: drop-shadow(0 0 5px var(--color-link)); opacity: 0; stroke: var(--color-link); stroke-width: 3; }
+  .osi-glow { fill: none; filter: blur(3px); stroke: var(--color-link); stroke-opacity: 0.55; stroke-width: 9; }
+  .osi-bits { stroke-width: 6; }
+  .osi-travel { opacity: 0; }
+
+  .osi-wrap rect, .osi-letter rect { fill: var(--color-link); fill-opacity: 0.08; stroke: var(--color-link); stroke-width: 1.75; }
+  .osi-wrap text, .osi-letter text { fill: var(--color-ink); font-size: 14px; font-weight: 600; }
+  .osi-letter rect { fill: var(--color-bg); fill-opacity: 1; stroke: var(--color-ink); }
+  .osi-letter .osi-letter-name { font-size: 18px; font-weight: 800; }
+
+  .osi-check rect { fill-opacity: 0.2; stroke-width: 2.5; }
+  .osi-check text { fill: var(--color-ink); font-size: 14px; font-weight: 700; }
+  .osi-check--pass rect { fill: var(--color-positive); stroke: var(--color-positive); }
+  .osi-check--fail rect { fill: var(--color-negative); fill-opacity: 0.3; stroke: var(--color-negative); stroke-width: 3.5; }
+  .osi-check--skip rect { fill: none; stroke: var(--color-disabled); stroke-dasharray: 5 4; stroke-width: 1.5; }
+  .osi-check--skip text { fill: var(--color-subtle-dark); font-weight: 400; }
+  .osi-break { fill: none; stroke: var(--color-negative); stroke-linecap: round; stroke-width: 5; }
+
+  .osi-say { visibility: hidden; }
+
+  &:not(:has(#osi-layers-cable:checked, #osi-layers-subnet:checked, #osi-layers-register:checked)) :is(.osi-only-cable, .osi-only-subnet, .osi-only-register),
+  &:has(#osi-layers-cable:checked) :is(.osi-only-path, .osi-only-subnet, .osi-only-register, .osi-hide-cable),
+  &:has(#osi-layers-subnet:checked) :is(.osi-only-path, .osi-only-cable, .osi-only-register, .osi-hide-subnet),
+  &:has(#osi-layers-register:checked) :is(.osi-only-path, .osi-only-cable, .osi-only-subnet) { display: none; }
+
+  :is(.osi-lit, .osi-travel, .osi-wrap, .osi-letter, .osi-check, .osi-say) {
+    animation-delay: var(--delay, 0s);
+    animation-duration: var(--lap);
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+  .osi-lit-0-7 { animation-name: osi-lit; }
+  .osi-lit-0-4 { animation-name: osi-lit; --delay: calc(var(--lap) * -0.9); }
+  .osi-lit-0-3 { animation-name: osi-lit; --delay: calc(var(--lap) * -0.82); }
+  .osi-lit-0-2 { animation-name: osi-lit; --delay: calc(var(--lap) * -0.74); }
+  .osi-lit-0-1 { animation-name: osi-lit; --delay: calc(var(--lap) * -0.66); }
+  .osi-lit-1-1 { animation-name: osi-lit; --delay: calc(var(--lap) * -0.48); }
+  .osi-lit-1-2 { animation-name: osi-lit; --delay: calc(var(--lap) * -0.4); }
+  .osi-lit-1-3 { animation-name: osi-lit; --delay: calc(var(--lap) * -0.32); }
+  .osi-lit-1-4 { animation-name: osi-lit; --delay: calc(var(--lap) * -0.24); }
+  .osi-lit-1-7 { animation-name: osi-lit-last; }
+
+  .osi-travel { animation-name: osi-travel; }
+  .osi-wrap-2 { animation-name: osi-wrap-2; }
+  .osi-wrap-3 { animation-name: osi-wrap-3; }
+  .osi-wrap-4 { animation-name: osi-wrap-4; }
+  .osi-letter { animation-name: osi-letter; }
+  .osi-step-0 { animation-name: osi-step-0; }
+  .osi-step-1 { animation-name: osi-step-1; }
+  .osi-step-2 { animation-name: osi-step-2; }
+  .osi-step-3 { animation-name: osi-step-3; }
+  .osi-step-4 { animation-name: osi-step-4; }
+  .osi-say-message { animation-name: osi-say-message; }
+  .osi-say-wrap { animation-name: osi-say-wrap; }
+  .osi-say-frame { animation-name: osi-say-frame; }
+  .osi-say-wire { animation-name: osi-say-wire; }
+  .osi-say-unwrap { animation-name: osi-say-unwrap; }
+  .osi-say-done { animation-name: osi-say-done; }
+  .osi-say-checking-1 { animation-name: osi-say-checking-1; }
+  .osi-say-result-1 { animation-name: osi-say-result-1; }
+  .osi-say-checking-3 { animation-name: osi-say-checking-3; }
+  .osi-say-result-3 { animation-name: osi-say-result-3; }
+  .osi-say-checking-7 { animation-name: osi-say-checking-7; }
+  .osi-say-result-7 { animation-name: osi-say-result-7; }
+
+  @media (max-width: 30em) {
+    .diagram__phases { min-block-size: 4.1em; }
+  }
+
+  /* Without motion: the fully wrapped message, or the finished check. */
+  @media (prefers-reduced-motion: reduce) {
+    :is(.osi-say-summary, .osi-say-result-1, .osi-say-result-3, .osi-say-result-7) { visibility: visible; }
+  }
+}
+
+@keyframes osi-lit {
+  10%, 100% { opacity: 0; }
+  0%, 9.5% { opacity: 1; }
+}
+
+@keyframes osi-lit-last {
+  0%, 83.5%, 97%, 100% { opacity: 0; }
+  84%, 96.5% { opacity: 1; }
+}
+
+@keyframes osi-travel {
+  0%, 39.5%, 54%, 100% { opacity: 0; }
+  40%, 53.5% { opacity: 1; }
+}
+
+@keyframes osi-wrap-2 {
+  0%, 25.5%, 64%, 100% { opacity: 0; }
+  26%, 63.5% { opacity: 1; }
+}
+
+@keyframes osi-wrap-3 {
+  0%, 17.5%, 72%, 100% { opacity: 0; }
+  18%, 71.5% { opacity: 1; }
+}
+
+@keyframes osi-wrap-4 {
+  0%, 9.5%, 80%, 100% { opacity: 0; }
+  10%, 79.5% { opacity: 1; }
+}
+
+@keyframes osi-letter {
+  97%, 100% { opacity: 0; }
+  0%, 96.5% { opacity: 1; }
+}
+
+@keyframes osi-step-0 {
+  0%, 7.5%, 96%, 100% { opacity: 0; }
+  8%, 95.5% { opacity: 1; }
+}
+
+@keyframes osi-step-1 {
+  0%, 19.5%, 96%, 100% { opacity: 0; }
+  20%, 95.5% { opacity: 1; }
+}
+
+@keyframes osi-step-2 {
+  0%, 31.5%, 96%, 100% { opacity: 0; }
+  32%, 95.5% { opacity: 1; }
+}
+
+@keyframes osi-step-3 {
+  0%, 43.5%, 96%, 100% { opacity: 0; }
+  44%, 95.5% { opacity: 1; }
+}
+
+@keyframes osi-step-4 {
+  0%, 55.5%, 96%, 100% { opacity: 0; }
+  56%, 95.5% { opacity: 1; }
+}
+
+@keyframes osi-say-message {
+  10%, 100% { visibility: hidden; }
+  0%, 9.5% { visibility: visible; }
+}
+
+@keyframes osi-say-wrap {
+  0%, 9.5%, 26%, 100% { visibility: hidden; }
+  10%, 25.5% { visibility: visible; }
+}
+
+@keyframes osi-say-frame {
+  0%, 25.5%, 40%, 100% { visibility: hidden; }
+  26%, 39.5% { visibility: visible; }
+}
+
+@keyframes osi-say-wire {
+  0%, 39.5%, 52%, 100% { visibility: hidden; }
+  40%, 51.5% { visibility: visible; }
+}
+
+@keyframes osi-say-unwrap {
+  0%, 51.5%, 84%, 100% { visibility: hidden; }
+  52%, 83.5% { visibility: visible; }
+}
+
+@keyframes osi-say-done {
+  0%, 83.5% { visibility: hidden; }
+  84%, 100% { visibility: visible; }
+}
+
+@keyframes osi-say-checking-1 {
+  8%, 100% { visibility: hidden; }
+  0%, 7.5% { visibility: visible; }
+}
+
+@keyframes osi-say-result-1 {
+  0%, 7.5% { visibility: hidden; }
+  8%, 100% { visibility: visible; }
+}
+
+@keyframes osi-say-checking-3 {
+  32%, 100% { visibility: hidden; }
+  0%, 31.5% { visibility: visible; }
+}
+
+@keyframes osi-say-result-3 {
+  0%, 31.5% { visibility: hidden; }
+  32%, 100% { visibility: visible; }
+}
+
+@keyframes osi-say-checking-7 {
+  56%, 100% { visibility: hidden; }
+  0%, 55.5% { visibility: visible; }
+}
+
+@keyframes osi-say-result-7 {
+  0%, 55.5% { visibility: hidden; }
+  56%, 100% { visibility: visible; }
+}

@@ -1,0 +1,47 @@
+en:
+  diagrams:
+    osi_layers:
+      alt: "Two OSI stacks — layers 7, 4, 3, 2 and 1 — on a SCADA workstation and a PLC joined by a cable. A Modbus request is wrapped in TCP, IP and Ethernet and unwrapped on the other side. On a fault the check climbs bottom-up to the failing layer."
+      devices:
+        scada: "SCADA PC"
+        plc: "PLC"
+      cable: "cable"
+      layers:
+        l7: "Application"
+        l4: "Transport"
+        l3: "Network"
+        l2: "Data link"
+        l1: "Physical"
+      wraps:
+        ip: "addresses"
+        read: "read a"
+        register: "register"
+      checks:
+        pass:
+          l1: "✓ link is up"
+          l2: "✓ MAC visible"
+          l3: "✓ ping passes"
+          l4: "✓ port 502 open"
+        fail:
+          l1: "✗ no link"
+          l3: "✗ no ping"
+          l7: "✗ exception 02"
+      skip: "not checked"
+      phases:
+        message: "The SCADA PC writes a Modbus “letter”: read a register."
+        wrap: "Down the stack: TCP and then IP put the letter in their envelopes, with the port and addresses."
+        frame: "Ethernet adds the outer envelope with MAC addresses."
+        wire: "The whole parcel travels down the cable as signals."
+        unwrap: "The PLC lifts the parcel up: each layer removes its own envelope."
+        done: "The PLC reads the very same Modbus request. The reply goes back the same way."
+        summary: "The sender wraps the Modbus request in TCP, IP and Ethernet envelopes; the receiver removes them one by one."
+        checking: "No data. Check bottom-up, starting at layer 1."
+        cable: "Layer 1: no link. Check the cable, connectors and power at both ends."
+        subnet: "Layer 3: with a /24 mask these are different subnets. Check IP address, mask and gateway."
+        register: "Layer 7: the PLC answers, but the address doesn’t exist. Check the register number against the Modbus map."
+      choose: "What happened to the network"
+      options:
+        path: "All healthy"
+        cable: "Broken cable"
+        subnet: "Wrong subnet"
+        register: "Wrong register"
