@@ -22,8 +22,8 @@
 
       <% @paths.each do |path| %>
         <%# Each profession's census reads every lesson body — cached until one of its lessons changes. %>
-        <% cache [ path, :illustration_queue, @touched_at[path.id], @lesson_counts[path.id] ] do %>
-          <% briefs = IllustrationCensus.new(path).briefs %>
+        <% cache [ path, :illustration_queue, @touched_at[path.id], @lesson_counts[path.id], @chapters_touched_at[path.id] ] do %>
+          <% briefs = IllustrationCensus.public_queue(path).briefs %>
           <% if briefs.any? %>
             <section class="contribute-block">
               <h2 class="contribute-block__title">

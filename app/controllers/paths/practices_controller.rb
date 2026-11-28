@@ -8,7 +8,7 @@ class Paths::PracticesController < ApplicationController
   def show
     @saved_only = signed_in? && params[:saved] == "1"
 
-    scope = @path.lessons.practice.ordered
+    scope = @path.lessons.practice.publicly_visible.ordered
     scope = scope.where(id: Current.user.lesson_bookmarks.select(:lesson_id)) if @saved_only
 
     # Anonymous pages carry no personal state, so crawlers revalidate instead
@@ -25,7 +25,7 @@ class Paths::PracticesController < ApplicationController
       tasks = lessons.select { |lesson| lesson.difficulty == difficulty }
       [ difficulty, tasks ] if tasks.any?
     end
-    @total_tasks = @path.lessons.practice.count
+    @total_tasks = @path.lessons.practice.publicly_visible.count
     @bookmarked_ids = signed_in? ? Current.user.lesson_bookmarks.pluck(:lesson_id).to_set : Set.new
   end
 end
