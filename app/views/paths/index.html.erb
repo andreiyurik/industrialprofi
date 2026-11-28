@@ -1,4 +1,6 @@
 <% canonical_url(root_url) %>
+<% meta_title(t("paths.hero.page_title")) %>
+<% meta_description(t("paths.hero.page_description")) %>
 
 <% content_for(:head) do %>
   <%= json_ld_tag(website_json_ld) %>
@@ -6,17 +8,19 @@
 <% end %>
 
 <section class="hero<%= " hero--sheet" if @paths.any? %>">
-  <div class="container hero__inner">
+  <div class="container hero__inner" data-controller="typed" data-typed-done-class="typed--done">
     <% if @paths.any? %>
-      <h1 class="hero__title typed" aria-label="<%= t("paths.hero.title_html").gsub("&nbsp;", " ") %>" data-controller="typed" data-typed-done-class="typed--done"><%= typed_heading(t("paths.hero.title_html")) %></h1>
+      <h1 class="hero__title typed" aria-label="<%= t("paths.hero.title_html").gsub("&nbsp;", " ") %>"><%= typed_heading(t("paths.hero.title_html")) %></h1>
+      <p class="hero__subtitle"><%= t("paths.hero.subtitle_html", pencil: pencil_fix(t("paths.hero.struck"), t("paths.hero.fix"))) %></p>
       <p class="hero__actions">
         <%= link_to "#catalog", class: "hero__cta" do %><%= t("paths.hero.start") %><%= icon_tag "arrow-right" %><% end %>
+        <%= link_to contribute_path, class: "hero__fix" do %><%= t("paths.hero.fix_map") %><%= icon_tag "arrow-right" %><% end %>
       </p>
+      <%= render "paths/blueprint", callouts: blueprint_callouts(@paths), revisions: @revisions_count %>
       <p class="hero__free"><%= t("paths.hero.free") %></p>
-      <%= render "paths/blueprint", callouts: blueprint_callouts(@paths) %>
     <% else %>
       <h1 class="hero__title"><%= t("paths.hero.title_html") %></h1>
-      <p class="hero__subtitle"><%= t("paths.hero.subtitle_html") %></p>
+      <p class="hero__subtitle"><%= t("paths.hero.subtitle_html", pencil: pencil_fix(t("paths.hero.struck"), t("paths.hero.fix"))) %></p>
     <% end %>
   </div>
 </section>
@@ -79,7 +83,7 @@
       </div>
     <% end %>
 
-    <%# Contributor doors live below the learner's path, not in the first screen. %>
+    <%# The work queues live below the learner's path; the first screen only names the door. %>
     <% if @pending_illustrations.positive? %>
       <div class="panel focus-banner home-illustrations">
         <span class="focus-banner__text"><%= t("paths.illustrations_call", count: @pending_illustrations) %></span>

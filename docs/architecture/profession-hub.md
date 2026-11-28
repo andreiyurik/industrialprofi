@@ -52,17 +52,23 @@ flowchart TB
   phases, legend) and `:poster` on the catalog card (a crop of the drawing frozen `--poster`
   seconds into its lap, running on hover). `uid:` keeps SVG ids apart when a scene is drawn
   twice on a page. A profession without a scene gets an emblem poster.
-- **Home hero** (`paths/index`, `home.css`): a heading, one button, the sheet, one status
-  line. The heading is set in the drawing's GOST face and types itself once per browser
-  session (`typed_heading` puts each letter in a span, CSS types them, the `typed`
-  controller remembers the session). A «Профессии» heading and breathing room separate
+- **Home hero** (`paths/index`, `home.css`): a heading, one line, a button and a quiet
+  link, the sheet, one status line. The heading is set in the drawing's GOST
+  face and types itself once per browser session (`typed_heading` puts each letter in a
+  span, CSS types them, the `typed` controller remembers the session). The line carries
+  a red-pencil correction (`pencil_fix`: a `<del>` under an inline SVG stroke, then an
+  `<ins>`; CSS draws it after the heading); the quiet link goes to `/contribute`
+  ([decision](../decisions/2026-11-28-hero-names-the-contributor-door.md)). A «Профессии» heading and breathing room separate
   the sheet from the catalog cards.
 - **Home sheet** (`paths/_blueprint`, `paths/blueprint/*`, `blueprint.css`): one drawing that
   belongs to no single profession — a power panel, a control cabinet and a pump on drawing
   paper. The parts are partials laid out twice: a portrait sheet for phones and a
   landscape one from 64em, where the pump is drawn 1.6× as the subject; CSS shows one.
   Professions hang on it as callouts (`PathsHelper::BLUEPRINT_SLOTS` maps a slug to its
-  place; one without a place lives in the catalog only).
+  place; one without a place lives in the catalog only). The landscape sheet's title
+  block credits the community, links its vacant «Н. контр.» cell to `/contribute` and
+  its revision count (`LessonRevision.in_catalog`) to `/changes`, and states the price —
+  below 64em, where there is no title block, a line under the sheet says it.
 - **The sheet is a game** (`plant` Stimulus controller): the visitor presses the parts
   themselves — the supply, control and motor breakers, the valve, «Пуск». An orange
   marker arrow (`data-next`) points at the next part; the controller keeps the state as

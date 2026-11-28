@@ -40,6 +40,13 @@ module PathsHelper
     safe_join(html.gsub("&nbsp;", " ").each_char.map { |char| char == " " ? char : tag.span(char, class: "typed__char", style: "--i: #{index += 1}") })
   end
 
+  # A red-pencil correction: the struck word stays readable, the fix follows it.
+  def pencil_fix(struck, fix)
+    stroke = tag.svg(tag.path(d: "M1 6.2C18 3.4 33 7.8 52 4.6S84 6.6 99 3.8", pathLength: 1),
+                     class: "pencil__stroke", viewBox: "0 0 100 10", preserveAspectRatio: "none", aria: { hidden: true })
+    safe_join([ tag.del(safe_join([ struck, stroke ]), class: "pencil"), "\u00A0", tag.ins(fix, class: "pencil__fix") ])
+  end
+
   # A scene's legend chip: `scope` holds «<key>» and «<key>_does»; `data-chip` pairs it with the drawing's `data-part`.
   def scene_chip(key, part, scope:, course: nil)
     body = safe_join([ tag.strong(t(key, scope: scope), class: "scene__name"), tag.span(t("#{key}_does", scope: scope), class: "scene__does") ])

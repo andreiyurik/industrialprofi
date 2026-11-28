@@ -39,6 +39,84 @@
   text-wrap: pretty;
 }
 
+.hero__fix {
+  align-items: center;
+  color: var(--color-ink);
+  display: inline-flex;
+  font-family: var(--font-technical);
+  font-size: 1.1rem;
+  gap: 0.5em;
+  min-block-size: 2.75rem;
+  text-decoration: underline;
+  text-decoration-color: var(--color-subtle-dark);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+
+  .icon {
+    transition: transform 200ms ease-out;
+    --icon-size: 0.8em;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration-color: currentColor;
+    }
+
+    &:hover .icon {
+      transform: translateX(0.25em);
+    }
+  }
+}
+
+.pencil {
+  background: none;
+  color: inherit;
+  padding: 0;
+  position: relative;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.pencil__stroke {
+  block-size: 100%;
+  inline-size: 100%;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+  position: absolute;
+
+  path {
+    animation: bp-draw 0.35s ease-out 1.5s backwards;
+    fill: none;
+    stroke: var(--color-negative);
+    stroke-dasharray: 1;
+    stroke-linecap: round;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+}
+
+.pencil__fix {
+  animation: appear 0.3s ease-out 1.9s backwards;
+  background: none;
+  color: var(--color-negative);
+  padding: 0;
+  display: inline-block;
+  rotate: -2deg;
+  text-decoration: none;
+}
+
+.typed--done :is(.pencil__stroke path, .pencil__fix) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pencil__stroke path,
+  .pencil__fix {
+    animation: none;
+  }
+}
+
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
@@ -126,15 +204,11 @@
 
 /* With the drawing sheet the hero speaks the drawing's language: its lettering, square corners. */
 .hero--sheet {
-  padding-block: 0.6rem 0;
-
-  @media (min-width: 64em) {
-    padding-block-start: 0.8rem;
-  }
+  padding-block: clamp(1.5rem, 4.5vw, 3.5rem) 0;
 
   .hero__title {
     font-family: var(--font-technical);
-    font-size: clamp(1.5rem, 7.4vw, 2.75rem);
+    font-size: clamp(1.6rem, 7.4vw, 3.5rem);
     font-weight: 400;
     letter-spacing: 0.01em;
     line-height: 1.12;
@@ -143,12 +217,18 @@
     -webkit-text-stroke: 0.018em currentColor;
   }
 
-  .hero__actions {
-    margin-block-start: 0.75rem;
+  .hero__subtitle {
+    font-family: var(--font-technical);
+    font-size: clamp(1.05rem, 2.8vw, 1.35rem);
+    line-height: 1.35;
+    margin-block-start: 0.7rem;
+    text-wrap: balance;
+  }
 
-    @media (min-width: 64em) {
-      margin-block-start: 1.1rem;
-    }
+  .hero__actions {
+    align-items: center;
+    column-gap: 1.75rem;
+    margin-block-start: clamp(1.25rem, 3vw, 2rem);
   }
 }
 
@@ -188,8 +268,9 @@
   font-size: 0.95rem;
   margin: 0.4rem 0 0;
 
+  /* From 64em the drawing's title block states the price. */
   @media (min-width: 64em) {
-    font-size: 1.05rem;
+    display: none;
   }
 }
 

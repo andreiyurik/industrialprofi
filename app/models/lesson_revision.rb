@@ -12,6 +12,7 @@ class LessonRevision < ApplicationRecord
   validates :source, inclusion: { in: SOURCES }
 
   scope :ordered, -> { order(version: :desc) }
+  scope :in_catalog, -> { joins(lesson: :path).merge(Path.in_catalog.localized) }
 
   # Immutable audit log — created and destroyed with the lesson, never edited.
   def readonly? = persisted?
