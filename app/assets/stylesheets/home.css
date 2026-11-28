@@ -204,7 +204,7 @@
 
 /* With the drawing sheet the hero speaks the drawing's language: its lettering, square corners. */
 .hero--sheet {
-  padding-block: clamp(1.5rem, 4.5vw, 3.5rem) 0;
+  padding-block: clamp(1.5rem, 4.5vw, 2.25rem) 0;
 
   .hero__title {
     font-family: var(--font-technical);

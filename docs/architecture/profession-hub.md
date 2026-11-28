@@ -75,7 +75,8 @@ flowchart TB
   data attributes on the figure and `blueprint.css` draws each one. A start with the valve
   shut, or shutting it on the run, trips the dry-run protection; every refusal says why
   and links to the profession that explains it. The result line gives the time and the
-  attempt, then «how it works», share (Web Share, else the clipboard) and «again».
+  attempt, then «how it works», share (Web Share, else the clipboard) and «again», next
+  to a lockout tag that reads «Править можно. Работают люди» and leads to `/contribute`.
   Without JS the sheet simply runs. Metrika goals: `plant_started`, `plant_launched`,
   `link_copied`.
 - **Landing «О профессии»** (`Path::Landing`): six slots in one JSON column

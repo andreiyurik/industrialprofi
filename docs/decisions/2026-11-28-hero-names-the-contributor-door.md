@@ -20,7 +20,9 @@ the two actions: the button «Учусь — выбрать профессию»
 («Н. контр. — это ты?»), counts accepted revisions with a link to `/changes` and states
 the price, «Цена 0 ₽». The hero is three things — heading, one line, actions — with
 red kept for the pencil alone; the «project is young, write to me» banner moved from
-above the header to above the footer on every page.
+above the header to above the footer on every page. Whoever starts the pump gets a
+lockout tag turned inside out — «Править можно. Работают люди» instead of «Не включать!
+Работают люди» — linking to `/contribute`.
 
 **Why.** The heading read like a training centre's, and nothing on the first screen
 said that the maps are written and corrected by people. «Рабочих» pulled a
