@@ -1,0 +1,290 @@
+.diagram.diagram-switch-circuits {
+  --lamp: oklch(var(--lch-amber));
+  --a: 0;
+  --b: 0;
+  --mid: 0;
+  --lit: 0;
+  --out: calc(var(--a) + var(--mid) - 2 * var(--a) * var(--mid));
+  --on-phrase: hidden;
+  --off-phrase: visible;
+
+  &:has(#switch-circuits-a:checked) { --a: 1; }
+  &:has(#switch-circuits-b:checked) { --b: 1; }
+  &:has(#switch-circuits-cross:checked):has(#switch-circuits-mid:checked) { --mid: 1; }
+
+  /* Lit means SW2 picks the traveller that carries the phase: an even count of flipped keys. */
+  &:has(#switch-circuits-single:checked):has(#switch-circuits-key:checked),
+  &:has(#switch-circuits-two:checked):not(:has(#switch-circuits-a:checked)):not(:has(#switch-circuits-b:checked)),
+  &:has(#switch-circuits-two:checked):has(#switch-circuits-a:checked):has(#switch-circuits-b:checked),
+  &:has(#switch-circuits-cross:checked):not(:has(#switch-circuits-a:checked)):not(:has(#switch-circuits-mid:checked)):not(:has(#switch-circuits-b:checked)),
+  &:has(#switch-circuits-cross:checked):has(#switch-circuits-a:checked):has(#switch-circuits-mid:checked):not(:has(#switch-circuits-b:checked)),
+  &:has(#switch-circuits-cross:checked):has(#switch-circuits-a:checked):not(:has(#switch-circuits-mid:checked)):has(#switch-circuits-b:checked),
+  &:has(#switch-circuits-cross:checked):not(:has(#switch-circuits-a:checked)):has(#switch-circuits-mid:checked):has(#switch-circuits-b:checked) {
+    --lit: 1;
+    --on-phrase: visible;
+    --off-phrase: hidden;
+  }
+
+  &:has(#switch-circuits-single:checked) :is(.sc-multi, .sc-two, .sc-cross, .sc-key--a, .sc-key--b, .sc-key--mid),
+  &:has(#switch-circuits-two:checked) :is(.sc-single, .sc-cross, .sc-key--key, .sc-key--mid),
+  &:has(#switch-circuits-two:checked) .sc-blade--single,
+  &:has(#switch-circuits-cross:checked) :is(.sc-single, .sc-two, .sc-key--key),
+  &:has(#switch-circuits-cross:checked) .sc-blade--single {
+    display: none;
+  }
+
+  .sc-modes {
+    border: 0;
+    margin: 0 0 var(--block-space-half);
+    padding: 0;
+  }
+
+  .sc-name,
+  .sc-pole {
+    fill: var(--color-ink);
+    font-weight: 700;
+    text-anchor: middle;
+  }
+
+  .art-tag { font-size: 14px; }
+  .sc-name { font-size: 16px; }
+  .sc-pole { font-size: 17px; }
+  .sc-com { text-anchor: middle; }
+
+  .sc-blade {
+    stroke: var(--color-ink);
+    stroke-linecap: round;
+    stroke-width: 4;
+    transition: rotate 250ms ease-out;
+  }
+
+  .sc-blade--single {
+    rotate: calc((1 - var(--lit)) * -32deg);
+    transform-origin: 164px 120px;
+  }
+
+  .sc-blade--a {
+    rotate: calc((var(--a) * 2 - 1) * 38.3deg);
+    transform-origin: 62px 120px;
+  }
+
+  .sc-blade--b {
+    rotate: calc((1 - var(--b) * 2) * 38.3deg);
+    transform-origin: 318px 120px;
+  }
+
+  .sc-contact {
+    fill: none;
+    stroke: var(--color-ink);
+    stroke-linecap: round;
+    stroke-width: 3;
+    transition: opacity 250ms;
+  }
+
+  .sc-contact--straight { opacity: calc(1 - var(--mid)); }
+  .sc-contact--crossed { opacity: var(--mid); }
+
+  :is(.sc-volt, .sc-glow, .sc-core) {
+    fill: none;
+    stroke: var(--color-link);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .sc-volt { stroke-width: 4; }
+  .sc-glow { opacity: 0.28; stroke-width: 13; }
+  .sc-core { stroke-width: 4; }
+  .sc-flow .art-dots { stroke: var(--color-bg); stroke-width: 3; }
+
+  .sc-a0 { --pa: 0; }
+  .sc-a1 { --pa: 1; }
+  .sc-out0 { --po: 0; }
+  .sc-out1 { --po: 1; }
+
+  .sc-route {
+    opacity: calc((1 - (var(--a) - var(--pa)) * (var(--a) - var(--pa))) * (1 - (var(--out) - var(--po)) * (var(--out) - var(--po))));
+    transition: opacity 200ms 120ms;
+  }
+
+  :is(.sc-match, .sc-single .sc-flow) {
+    opacity: var(--lit);
+    transition: opacity 200ms 120ms;
+  }
+
+  .sc-terminals circle {
+    fill: var(--color-bg);
+    stroke: var(--color-ink);
+    stroke-width: 2;
+  }
+
+  .sc-neutral { opacity: calc(1 - var(--lit)); }
+
+  .sc-halo__core { stop-color: var(--lamp); stop-opacity: 0.65; }
+  .sc-halo__edge { stop-color: var(--lamp); stop-opacity: 0; }
+
+  .sc-halo {
+    animation: sc-breathe 2.5s ease-in-out infinite alternate;
+    opacity: var(--lit);
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: opacity 250ms 120ms;
+  }
+
+  .sc-bulb {
+    fill: color-mix(in oklch, var(--lamp) calc(var(--lit) * 100%), var(--color-bg));
+    transition: fill 250ms 120ms;
+  }
+
+  .sc-lamp .art-ink { stroke-width: 2; }
+
+  /* The cross inside a lit bulb needs contrast against amber in both themes. */
+  .sc-lamp path.art-ink { stroke: color-mix(in oklch, var(--color-always-black) calc(var(--lit) * 100%), var(--color-ink)); }
+
+  .sc-rays {
+    fill: none;
+    opacity: var(--lit);
+    stroke: var(--lamp);
+    stroke-linecap: round;
+    stroke-width: 3;
+    transition: opacity 250ms 120ms;
+  }
+
+  .sc-keys {
+    display: flex;
+    gap: var(--inline-space-half);
+    justify-content: center;
+    margin-block-start: var(--block-space-half);
+  }
+
+  .sc-key {
+    align-items: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border-interactive);
+    border-radius: 0.6rem;
+    cursor: pointer;
+    display: flex;
+    flex: 0 1 11rem;
+    gap: 0.5rem;
+    min-inline-size: 0;
+    padding: 0.4rem 0.6rem;
+
+    input {
+      appearance: none;
+      position: absolute;
+    }
+
+    &:has(:focus-visible) { outline: 2px solid var(--color-link); outline-offset: 2px; }
+    &:has(:checked) .sc-key__off { visibility: hidden; }
+    &:not(:has(:checked)) .sc-key__on { visibility: hidden; }
+    &:has(:checked) .sc-key__rocker::after { translate: 0 0.9rem; }
+  }
+
+  .sc-key--key .sc-key__rocker::after { translate: 0 0.9rem; }
+  .sc-key--key:has(:checked) .sc-key__rocker::after { background: var(--color-ink); translate: 0 0; }
+
+  .sc-key__rocker {
+    border: 2px solid var(--color-ink);
+    border-radius: 0.3rem;
+    block-size: 2.1rem;
+    flex: none;
+    inline-size: 1.2rem;
+    position: relative;
+
+    &::after {
+      background: var(--color-ink);
+      border-radius: 0.1rem;
+      block-size: 0.7rem;
+      content: "";
+      inset: 0.1rem 0.1rem auto;
+      position: absolute;
+      transition: translate 150ms ease-out;
+    }
+  }
+
+  .sc-key__text {
+    display: grid;
+    font-size: 0.8rem;
+    line-height: 1.25;
+    min-inline-size: 0;
+  }
+
+  .sc-key__name { font-weight: 700; overflow-wrap: anywhere; }
+
+  .sc-key__state {
+    color: var(--color-subtle-dark);
+    display: grid;
+
+    > * { grid-area: 1 / 1; }
+  }
+
+  .sc-hint {
+    color: var(--color-subtle-dark);
+    font-size: 0.75rem;
+    margin-block-start: 0.35rem;
+    text-align: center;
+  }
+
+  .sc-phase { visibility: hidden; }
+  &:has(#switch-circuits-single:checked) .sc-phase--single,
+  &:has(#switch-circuits-two:checked) .sc-phase--two,
+  &:has(#switch-circuits-cross:checked) .sc-phase--cross {
+    &.sc-phase--on { visibility: var(--on-phrase); }
+    &.sc-phase--off { visibility: var(--off-phrase); }
+  }
+
+  .sc-legend {
+    color: var(--color-subtle-dark);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    gap: 0.25rem 1rem;
+    justify-content: center;
+    list-style: none;
+    margin: var(--block-space-half) 0 0;
+    padding: 0;
+
+    li {
+      align-items: center;
+      display: flex;
+      gap: 0.4rem;
+      margin: 0;
+    }
+
+    li::before {
+      block-size: 4px;
+      border-radius: 2px;
+      content: "";
+      inline-size: 1.6rem;
+    }
+  }
+
+  .sc-legend__flow::before {
+    background: repeating-linear-gradient(90deg, var(--color-link) 0 5px, var(--color-bg) 5px 8px);
+    box-shadow: 0 0 0 3px oklch(var(--lch-blue) / 0.28);
+  }
+
+  .sc-legend__volt::before { background: var(--color-link); }
+  .sc-legend__dead::before { background: var(--color-subtle-dark); }
+
+  @media (max-width: 40em) {
+    .diagram__stage { padding-inline: 0.25rem; }
+    .art-tag, .sc-name { font-size: 17px; }
+    .sc-pole { font-size: 19px; }
+    .sc-keys { gap: 0.25rem; }
+
+    .sc-key {
+      flex: 1 1 0;
+      flex-direction: column;
+      gap: 0.25rem;
+      max-inline-size: 11rem;
+      padding-inline: 0.15rem;
+      text-align: center;
+    }
+
+    .sc-key__text { font-size: 0.75rem; }
+  }
+}
+
+@keyframes sc-breathe {
+  to { scale: 1.08; }
+}

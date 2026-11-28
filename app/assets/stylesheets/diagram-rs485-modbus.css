@@ -1,0 +1,291 @@
+.diagram.diagram-rs485-modbus {
+  --lap: 12s;
+
+  .rs485-anim,
+  .rs485-lit {
+    animation: var(--lap) linear infinite;
+    animation-delay: var(--delay, 0s);
+  }
+
+  text { text-anchor: middle; }
+  .art-tag { text-anchor: start; }
+  .art-tag[text-anchor="middle"] { text-anchor: middle; }
+  .art-tag[text-anchor="end"] { text-anchor: end; }
+  .rs485-wire-name { font-weight: 700; text-anchor: middle; }
+  .rs485-node { fill: var(--color-ink); }
+
+  .rs485-title { fill: var(--color-ink); font-size: 15px; font-weight: 700; text-anchor: start; }
+  .rs485-title--alarm { fill: var(--color-negative); }
+  .rs485-byte { fill: var(--color-bg); stroke: var(--color-subtle-dark); stroke-width: 1.25; }
+  .rs485-byte--address { stroke: var(--color-link); stroke-width: 3; }
+  .rs485-byte--crc { stroke-dasharray: 5 3; }
+  .rs485-label { fill: var(--color-subtle-dark); font-size: 14px; }
+  .rs485-hex { fill: var(--color-ink); font-family: var(--font-technical); font-size: 18px; font-weight: 700; }
+  .rs485-meaning { fill: var(--color-ink); font-size: 15px; }
+  .rs485-wait { fill: none; stroke: var(--color-negative); stroke-dasharray: 6 4; stroke-width: 1.5; }
+  .rs485-expired { fill: var(--color-negative); font-weight: 700; }
+
+  .rs485-timer {
+    animation-name: rs485-timer;
+    fill: var(--color-negative);
+    opacity: 0.16;
+    transform-box: fill-box;
+    transform-origin: left;
+  }
+
+  .rs485-lit {
+    fill: none;
+    stroke: var(--color-link);
+    stroke-dasharray: 1 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 4;
+  }
+
+  .rs485-signal { filter: drop-shadow(0 0 4px var(--color-link)); }
+  .rs485-march { stroke: var(--color-bg); stroke-width: 2.5; }
+  .rs485-march--reverse { animation-direction: reverse; }
+
+  .rs485-name { fill: var(--color-ink); font-size: 15px; font-weight: 700; }
+  .rs485-role { fill: var(--color-subtle-dark); font-size: 14px; }
+  .rs485-status { fill: var(--color-ink); font-size: 14px; font-weight: 700; }
+  .rs485-status--other { fill: var(--color-subtle-dark); font-weight: 400; }
+  :is(.rs485-status--mine, .rs485-status--answering) { fill: var(--color-link); }
+  :is(.rs485-status--dumb, .rs485-status--timeout) { fill: var(--color-negative); }
+
+  .rs485-chosen {
+    animation-name: rs485-chosen;
+    fill: none;
+    filter: drop-shadow(0 0 6px var(--color-link));
+    stroke: var(--color-link);
+    stroke-width: 3;
+  }
+
+  .rs485-chosen--silent {
+    filter: drop-shadow(0 0 6px var(--color-negative));
+    stroke: var(--color-negative);
+  }
+  .rs485-frame--request { animation-name: rs485-frame-request; opacity: 0; }
+  .rs485-frame--reply { animation-name: rs485-frame-reply; }
+  .rs485-signal--request { animation-name: rs485-signal-request; opacity: 0; }
+  .rs485-signal--reply { animation-name: rs485-signal-reply; }
+  .rs485-dots--request { animation-name: rs485-dots-request; opacity: 0; }
+  .rs485-dots--reply { animation-name: rs485-dots-reply; }
+  .rs485-status--asking { animation-name: rs485-asking; opacity: 0; }
+  .rs485-status--waiting { animation-name: rs485-waiting; opacity: 0; }
+  .rs485-status--expecting { animation-name: rs485-expecting; opacity: 0; }
+  .rs485-status--value { animation-name: rs485-value; }
+  .rs485-status--timeout { animation-name: rs485-timeout; }
+  .rs485-status--mine { animation-name: rs485-mine; opacity: 0; }
+  .rs485-status--answering { animation-name: rs485-answering; }
+  .rs485-status--dumb { animation-name: rs485-dumb; }
+  .rs485-status--other { animation-name: rs485-other; }
+  .rs485-expired { animation-name: rs485-expired; }
+  .rs485-phase--request { animation-name: rs485-phase-request; opacity: 0; }
+  .rs485-phase--reply { animation-name: rs485-phase-reply; }
+  .rs485-lit--source { animation-name: rs485-source; }
+  .rs485-lit--stub { animation-name: rs485-stub; }
+  .rs485-lit--run { animation-name: rs485-run; }
+  .rs485-lit--tail { animation-name: rs485-tail; }
+  .rs485-lit--drop1 { animation-name: rs485-drop1; }
+  .rs485-lit--drop2 { animation-name: rs485-drop2; }
+  .rs485-lit--drop3 { animation-name: rs485-drop3; }
+  .rs485-lit--answer { animation-name: rs485-answer; }
+  .rs485-lit--home { animation-name: rs485-home; }
+  .rs485-lit--home-end { animation-name: rs485-home-end; }
+  .rs485-lit--away { animation-name: rs485-away; }
+  .rs485-lit--away-end { animation-name: rs485-away-end; }
+  .rs485-lit--heard { animation-name: rs485-heard; }
+
+  @media (prefers-reduced-motion: reduce) {
+    :is(.rs485-poll--2, .rs485-poll--3) { display: none; }
+  }
+}
+
+@keyframes rs485-frame-request {
+  0%, 17.92%, 100% { opacity: 0; }
+  1.25%, 16.67% { opacity: 1; }
+}
+
+@keyframes rs485-frame-reply {
+  0%, 17.92%, 32.92%, 100% { opacity: 0; }
+  19.17%, 31.67% { opacity: 1; }
+}
+
+@keyframes rs485-signal-request {
+  0%, 1.67%, 18.33%, 100% { opacity: 0; }
+  2.92%, 17.08% { opacity: 1; }
+}
+
+@keyframes rs485-signal-reply {
+  0%, 17.92%, 32.92%, 100% { opacity: 0; }
+  19.17%, 31.67% { opacity: 1; }
+}
+
+@keyframes rs485-dots-request {
+  0%, 11.25%, 18.33%, 100% { opacity: 0; }
+  12.50%, 17.08% { opacity: 1; }
+}
+
+@keyframes rs485-dots-reply {
+  0%, 24.17%, 32.92%, 100% { opacity: 0; }
+  25.42%, 31.67% { opacity: 1; }
+}
+
+@keyframes rs485-asking {
+  0%, 1.67%, 18.33%, 100% { opacity: 0; }
+  2.92%, 17.08% { opacity: 1; }
+}
+@keyframes rs485-waiting {
+  0%, 17.92%, 24.17%, 100% { opacity: 0; }
+  19.17%, 22.92% { opacity: 1; }
+}
+@keyframes rs485-expecting {
+  0%, 17.92%, 28.33%, 100% { opacity: 0; }
+  19.17%, 27.08% { opacity: 1; }
+}
+@keyframes rs485-value {
+  0%, 23.75%, 32.92%, 100% { opacity: 0; }
+  25%, 31.67% { opacity: 1; }
+}
+
+@keyframes rs485-timeout {
+  0%, 27.92%, 32.92%, 100% { opacity: 0; }
+  29.17%, 31.67% { opacity: 1; }
+}
+
+@keyframes rs485-mine {
+  0%, 11.67%, 18.33%, 100% { opacity: 0; }
+  12.92%, 17.08% { opacity: 1; }
+}
+
+@keyframes rs485-answering {
+  0%, 18.33%, 32.92%, 100% { opacity: 0; }
+  19.58%, 31.67% { opacity: 1; }
+}
+
+@keyframes rs485-dumb {
+  0%, 12.50%, 32.92%, 100% { opacity: 0; }
+  13.75%, 31.67% { opacity: 1; }
+}
+
+@keyframes rs485-other {
+  0%, 11.67%, 32.92%, 100% { opacity: 0; }
+  12.92%, 31.67% { opacity: 1; }
+}
+
+@keyframes rs485-expired {
+  0%, 27.92%, 32.92%, 100% { opacity: 0; }
+  29.17%, 31.67% { opacity: 1; }
+}
+
+@keyframes rs485-chosen {
+  0%, 11.67%, 32.92%, 100% { opacity: 0; }
+  12.92%, 31.67% { opacity: 1; }
+}
+
+@keyframes rs485-phase-request {
+  0%, 17.92%, 100% { opacity: 0; }
+  1.25%, 16.67% { opacity: 1; }
+}
+
+@keyframes rs485-phase-reply {
+  0%, 17.92%, 33.33%, 100% { opacity: 0; }
+  19.17%, 32.08% { opacity: 1; }
+}
+
+@keyframes rs485-source {
+  0%, 2.50% { opacity: 0; stroke-dashoffset: 1.01; }
+  2.58% { opacity: 1; }
+  4.17%, 33.33% { opacity: 1; stroke-dashoffset: 0; }
+  33.34%, 100% { opacity: 0; stroke-dashoffset: 1.01; }
+}
+
+@keyframes rs485-stub {
+  0%, 4.17% { opacity: 0; stroke-dashoffset: 1.01; }
+  4.25% { opacity: 1; }
+  5%, 33.33% { opacity: 1; stroke-dashoffset: 0; }
+  33.34%, 100% { opacity: 0; stroke-dashoffset: 1.01; }
+}
+
+@keyframes rs485-run {
+  0%, 4.17% { opacity: 0; stroke-dashoffset: 1.01; }
+  4.25% { opacity: 1; }
+  11.67%, 33.33% { opacity: 1; stroke-dashoffset: 0; }
+  33.34%, 100% { opacity: 0; stroke-dashoffset: 1.01; }
+}
+
+@keyframes rs485-tail {
+  0%, 11.67% { opacity: 0; stroke-dashoffset: 1.01; }
+  11.75% { opacity: 1; }
+  12.50%, 33.33% { opacity: 1; stroke-dashoffset: 0; }
+  33.34%, 100% { opacity: 0; stroke-dashoffset: 1.01; }
+}
+
+@keyframes rs485-drop1 {
+  0%, 6.91% { opacity: 0; stroke-dashoffset: 1.01; }
+  6.99% { opacity: 1; }
+  8.57%, 33.33% { opacity: 1; stroke-dashoffset: 0; }
+  33.34%, 100% { opacity: 0; stroke-dashoffset: 1.01; }
+}
+
+@keyframes rs485-drop2 {
+  0%, 9.26% { opacity: 0; stroke-dashoffset: 1.01; }
+  9.35% { opacity: 1; }
+  10.93%, 33.33% { opacity: 1; stroke-dashoffset: 0; }
+  33.34%, 100% { opacity: 0; stroke-dashoffset: 1.01; }
+}
+
+@keyframes rs485-drop3 {
+  0%, 11.67% { opacity: 0; stroke-dashoffset: 1.01; }
+  11.75% { opacity: 1; }
+  13.33%, 33.33% { opacity: 1; stroke-dashoffset: 0; }
+  33.34%, 100% { opacity: 0; stroke-dashoffset: 1.01; }
+}
+
+@keyframes rs485-answer {
+  0%, 18.33% { opacity: 0; stroke-dashoffset: 1.01; }
+  18.42% { opacity: 1; }
+  19.58%, 33.33% { opacity: 1; stroke-dashoffset: 0; }
+  33.34%, 100% { opacity: 0; stroke-dashoffset: 1.01; }
+}
+
+@keyframes rs485-home {
+  0%, 19.58% { opacity: 0; stroke-dashoffset: -1.01; }
+  19.67% { opacity: 1; }
+  23.75%, 33.33% { opacity: 1; stroke-dashoffset: 0; }
+  33.34%, 100% { opacity: 0; stroke-dashoffset: -1.01; }
+}
+
+@keyframes rs485-home-end {
+  0%, 23.75% { opacity: 0; stroke-dashoffset: 1.01; }
+  23.83% { opacity: 1; }
+  24.58%, 33.33% { opacity: 1; stroke-dashoffset: 0; }
+  33.34%, 100% { opacity: 0; stroke-dashoffset: 1.01; }
+}
+
+@keyframes rs485-away {
+  0%, 19.58% { opacity: 0; stroke-dashoffset: 1.01; }
+  19.67% { opacity: 1; }
+  23.75%, 33.33% { opacity: 1; stroke-dashoffset: 0; }
+  33.34%, 100% { opacity: 0; stroke-dashoffset: 1.01; }
+}
+
+@keyframes rs485-away-end {
+  0%, 23.75% { opacity: 0; stroke-dashoffset: 1.01; }
+  23.83% { opacity: 1; }
+  24.58%, 33.33% { opacity: 1; stroke-dashoffset: 0; }
+  33.34%, 100% { opacity: 0; stroke-dashoffset: 1.01; }
+}
+
+@keyframes rs485-heard {
+  0%, 23.75% { opacity: 0; stroke-dashoffset: 1.01; }
+  23.83% { opacity: 1; }
+  25.42%, 33.33% { opacity: 1; stroke-dashoffset: 0; }
+  33.34%, 100% { opacity: 0; stroke-dashoffset: 1.01; }
+}
+
+@keyframes rs485-timer {
+  0%, 17.92% { scale: 0 1; }
+  27.92%, 100% { scale: 1 1; }
+}

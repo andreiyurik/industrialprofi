@@ -8,7 +8,7 @@ class IllustrationCensus
 
     # A purged blob's attachment is removed with it, so blob.nil? alone signals broken.
     def broken?
-      blob.nil? && !external? && !IllustrationCensus.public_file?(src)
+      blob.nil? && !external? && !Diagram.slug(src) && !IllustrationCensus.public_file?(src)
     end
   end
 

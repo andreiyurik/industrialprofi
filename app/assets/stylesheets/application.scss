@@ -35,6 +35,16 @@
 @use "course-card";
 @use "curriculum";
 @use "dashboard";
+@use "diagram-cabinet-signal";
+@use "diagram-current-loop";
+@use "diagram-fault-loop";
+@use "diagram-ld-ton";
+@use "diagram-pid-response";
+@use "diagram-plc-scan";
+@use "diagram-rcd-leak";
+@use "diagram-rs485-modbus";
+@use "diagram-switch-circuits";
+@use "diagrams";
 @use "faq";
 @use "feedback";
 @use "feedback-banner";

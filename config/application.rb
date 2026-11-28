@@ -14,7 +14,7 @@ module IndustrialprofiDhh
     config.i18n.available_locales = %i[ru en]
     # Fallback keeps a stray missing-key gap readable instead of raising.
     config.i18n.fallbacks = true
-    config.i18n.fallbacks = true
+    config.i18n.load_path += Dir[root.join("config/locales/diagrams/*.yml")]
 
     # Moscow is the reference for displayed times and recurring-job firing; storage stays UTC.
     config.time_zone = "Moscow"

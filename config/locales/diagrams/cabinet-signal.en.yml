@@ -1,0 +1,23 @@
+en:
+  diagrams:
+    cabinet_signal:
+      alt: "Simplified principal schematic of an automation cabinet: QF1 and a 24 V power supply; button SB1 through terminal X1:5 to input DI0.0; transmitter PT1 in a current loop through terminals X2:1 and X2:2 to input AI0; PLC output DO to the coil of relay KL1, whose contact KL1.1 switches pump starter KM1"
+      zone_power: "power"
+      zone_discrete: "discrete"
+      zone_analog: "analog 4–20 mA"
+      volt: "V"
+      psu: "PSU"
+      plc: "PLC"
+      program: "program"
+      out_off: "out 0"
+      out_on: "out 1"
+      milliamp: "mA"
+      pump: "pump"
+      after_breaker: "after QF1"
+      dead: "no 24 V"
+      phase_ready: "Power is on: the PSU gives 24 V. Button released, input 0, PT1 loop current already flows"
+      phase_input: "SB1 pressed: +24 V reaches DI0.0 through X1:5 — the PLC reads 1"
+      phase_output: "The program sets the output: KL1 closes KL1.1, starter KM1 runs the pump"
+      phase_hold: "SB1 released, input back to 0, yet the pump runs: the latch lives in the program"
+      phase_analog: "Pressure rises, so does loop current: it flows through PT1 and AI0 in series"
+      phase_dead: "QF1 off: 24 V is gone and everything stops. Fault finding starts at the supply"

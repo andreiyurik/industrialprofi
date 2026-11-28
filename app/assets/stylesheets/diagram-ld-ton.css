@@ -1,0 +1,121 @@
+/* One 12 s lap is 12 s of program time: Start 1 and 4.5 s, Stop 3.2 and 9.5 s, PT 3 s. */
+.diagram.diagram-ld-ton {
+  --lap: 12s;
+
+  text { fill: var(--color-ink); }
+  .art-tag { fill: var(--color-subtle-dark); font-size: 14px; }
+
+  :is(.ld-ton-name, .ld-ton-center, .art-tag.ld-ton-center) { text-anchor: middle; }
+  .ld-ton-end { text-anchor: end; }
+  .ld-ton-name { font-size: 15px; font-weight: 700; }
+  .ld-ton-block { fill: var(--color-link); font-family: var(--font-technical); }
+  :is(.ld-ton-pin, .ld-ton-value, .ld-ton-row) { font-family: var(--font-technical); font-size: 14px; }
+  .ld-ton-value { font-weight: 700; }
+  .ld-ton-row { font-family: inherit; font-weight: 600; }
+  .ld-ton-zero { fill: var(--color-signal); font-family: var(--font-technical); font-size: 14px; font-weight: 700; }
+
+  .ld-ton-rail { stroke-width: 3; }
+  .ld-ton-symbol { stroke-width: 2.5; }
+
+  .ld-ton-live {
+    fill: none;
+    filter: drop-shadow(0 0 3px var(--color-link));
+    opacity: 0.5;
+    stroke: var(--color-link);
+    stroke-width: 4;
+  }
+
+  .ld-ton-live--q { filter: drop-shadow(0 0 3px var(--color-link)); }
+  .art-dots { stroke-width: 4; }
+
+  .ld-ton-true { fill: var(--color-link); }
+  .ld-ton-energized { fill: var(--color-positive); filter: drop-shadow(0 0 6px var(--color-positive)); }
+  .ld-ton-pressed { fill: none; stroke: var(--color-signal); stroke-width: 2; }
+  .ld-ton-done { fill: none; filter: drop-shadow(0 0 6px var(--color-positive)); stroke: var(--color-positive); stroke-width: 2.5; }
+  .ld-ton-track { fill: var(--color-subtle); }
+
+  .ld-ton-bar {
+    animation: ld-ton-bar var(--lap) linear infinite;
+    fill: var(--color-link);
+    transform-box: fill-box;
+    transform-origin: left;
+  }
+
+  :is(.ld-ton-guide, .ld-ton-level, .ld-ton-ghost, .ld-ton-trace, .ld-ton-bracket) { fill: none; }
+  .ld-ton-guide { stroke: var(--color-subtle); stroke-dasharray: 2 4; }
+  .ld-ton-level { stroke: var(--color-subtle-dark); stroke-dasharray: 5 4; }
+  .ld-ton-ghost { opacity: 0.22; stroke: var(--color-subtle-dark); stroke-width: 1.5; }
+  .ld-ton-trace { stroke: var(--color-link); stroke-linejoin: round; stroke-width: 2.5; }
+  .ld-ton-trace--stop { stroke: var(--color-ink); }
+  .ld-ton-trace--q { stroke: var(--color-positive); }
+  .ld-ton-area { fill: var(--color-link); opacity: 0.18; }
+  .ld-ton-bracket { stroke: var(--color-positive); stroke-width: 1.5; }
+  .ld-ton-delay { fill: var(--color-positive); font-size: 14px; font-weight: 700; }
+  .ld-ton-note--reset { animation: ld-ton-note-reset var(--lap) step-end infinite; }
+  .ld-ton-note--delay { animation: ld-ton-note-delay var(--lap) step-end infinite; }
+
+  .ld-ton-past {
+    animation: ld-ton-past var(--lap) linear infinite;
+    transform-box: view-box;
+    transform-origin: 96px 0;
+  }
+
+  .ld-ton-cursor {
+    animation: ld-ton-cursor var(--lap) linear infinite;
+    fill: var(--color-ink);
+    stroke: var(--color-ink);
+    stroke-width: 1.25;
+    translate: 262px 0;
+  }
+
+  .ld-ton-when-start { animation: ld-ton-start var(--lap) step-end infinite; opacity: 0; }
+  .ld-ton-when-stop { animation: ld-ton-stop var(--lap) step-end infinite; opacity: 1; }
+  .ld-ton-when-nstop { animation: ld-ton-nstop var(--lap) step-end infinite; opacity: 0; }
+  .ld-ton-when-pump { animation: ld-ton-pump var(--lap) step-end infinite; opacity: 1; }
+  .ld-ton-when-q { animation: ld-ton-q var(--lap) step-end infinite; opacity: 1; }
+  .ld-ton-et--0 { animation: ld-ton-et-0 var(--lap) step-end infinite; opacity: 0; }
+  .ld-ton-et--1 { animation: ld-ton-et-1 var(--lap) step-end infinite; opacity: 0; }
+  .ld-ton-et--2 { animation: ld-ton-et-2 var(--lap) step-end infinite; opacity: 0; }
+  .ld-ton-et--3 { animation: ld-ton-et-3 var(--lap) step-end infinite; opacity: 0; }
+  .ld-ton-et--4 { animation: ld-ton-et-4 var(--lap) step-end infinite; opacity: 0; }
+  .ld-ton-et--5 { animation: ld-ton-et-5 var(--lap) step-end infinite; opacity: 0; }
+  .ld-ton-et--6 { animation: ld-ton-et-6 var(--lap) step-end infinite; opacity: 1; }
+  .ld-ton-phase--1 { animation: ld-ton-phase-1 var(--lap) step-end infinite; opacity: 0; }
+  .ld-ton-phase--2 { animation: ld-ton-phase-2 var(--lap) step-end infinite; opacity: 0; }
+  .ld-ton-phase--3 { animation: ld-ton-phase-3 var(--lap) step-end infinite; opacity: 0; }
+  .ld-ton-phase--4 { animation: ld-ton-phase-4 var(--lap) step-end infinite; opacity: 0; }
+  .ld-ton-phase--5 { animation: ld-ton-phase-5 var(--lap) step-end infinite; opacity: 0; }
+  .ld-ton-phase--6 { animation: ld-ton-phase-6 var(--lap) step-end infinite; opacity: 1; }
+  .ld-ton-phase--7 { animation: ld-ton-phase-7 var(--lap) step-end infinite; opacity: 0; }
+}
+
+@keyframes ld-ton-past { 0% { transform: scaleX(0.0027); } 100% { transform: scaleX(1); } }
+@keyframes ld-ton-cursor { 0% { translate: 0 0; } 100% { translate: 370px 0; } }
+@keyframes ld-ton-bar {
+  0%, 8.333% { scale: 0 1; }
+  26.666% { scale: 0.733 1; }
+  26.667%, 37.5% { scale: 0 1; }
+  62.5%, 79.166% { scale: 1 1; }
+  79.167%, 100% { scale: 0 1; }
+}
+@keyframes ld-ton-start { 0.0% { opacity: 0; } 8.333% { opacity: 1; } 13.333% { opacity: 0; } 37.5% { opacity: 1; } 42.5% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-stop { 0.0% { opacity: 1; } 26.667% { opacity: 0; } 31.667% { opacity: 1; } 79.167% { opacity: 0; } 84.167% { opacity: 1; } 100% { opacity: 1; } }
+@keyframes ld-ton-nstop { 0.0% { opacity: 0; } 26.667% { opacity: 1; } 31.667% { opacity: 0; } 79.167% { opacity: 1; } 84.167% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-pump { 0.0% { opacity: 0; } 8.333% { opacity: 1; } 26.667% { opacity: 0; } 37.5% { opacity: 1; } 79.167% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-q { 0.0% { opacity: 0; } 62.5% { opacity: 1; } 79.167% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-et-0 { 0.0% { opacity: 1; } 12.5% { opacity: 0; } 26.667% { opacity: 1; } 41.667% { opacity: 0; } 79.167% { opacity: 1; } 100% { opacity: 1; } }
+@keyframes ld-ton-et-1 { 0.0% { opacity: 0; } 12.5% { opacity: 1; } 16.667% { opacity: 0; } 41.667% { opacity: 1; } 45.833% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-et-2 { 0.0% { opacity: 0; } 16.667% { opacity: 1; } 20.833% { opacity: 0; } 45.833% { opacity: 1; } 50.0% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-et-3 { 0.0% { opacity: 0; } 20.833% { opacity: 1; } 25.0% { opacity: 0; } 50.0% { opacity: 1; } 54.167% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-et-4 { 0.0% { opacity: 0; } 25.0% { opacity: 1; } 26.667% { opacity: 0; } 54.167% { opacity: 1; } 58.333% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-et-5 { 0.0% { opacity: 0; } 58.333% { opacity: 1; } 62.5% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-et-6 { 0.0% { opacity: 0; } 62.5% { opacity: 1; } 79.167% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-phase-1 { 0.0% { opacity: 1; } 8.333% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes ld-ton-phase-2 { 0.0% { opacity: 0; } 8.333% { opacity: 1; } 13.333% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-phase-3 { 0.0% { opacity: 0; } 13.333% { opacity: 1; } 26.667% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-phase-4 { 0.0% { opacity: 0; } 26.667% { opacity: 1; } 37.5% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-phase-5 { 0.0% { opacity: 0; } 37.5% { opacity: 1; } 62.5% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-phase-6 { 0.0% { opacity: 0; } 62.5% { opacity: 1; } 79.167% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes ld-ton-phase-7 { 0.0% { opacity: 0; } 79.167% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes ld-ton-note-reset { 0.0% { opacity: 0; } 26.667% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes ld-ton-note-delay { 0.0% { opacity: 0; } 62.5% { opacity: 1; } 100% { opacity: 0; } }

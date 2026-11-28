@@ -1,0 +1,101 @@
+<%# locals: (caption: nil) -%>
+<% scope = "diagrams.current_loop" %>
+<%# Axis: x = 70 + 16.5 × mA, so the marker's translate in the CSS is 16.5px per milliamp. %>
+<% readings = { 0 => nil, 8 => 25, 10 => 37.5, 12 => 50, 14 => 62.5, 16 => 75 } %>
+<%= render layout: "diagrams/figure", locals: { slug: "current-loop", caption: caption } do %>
+  <div class="diagram__stage">
+    <svg class="diagram__art" viewBox="0 0 420 322" role="img" aria-label="<%= t("alt", scope: scope) %>">
+      <text class="cl-label" x="52" y="24" text-anchor="middle"><%= t("level", scope: scope) %></text>
+      <rect class="cl-liquid cl-anim" x="15" y="39" width="74" height="142" rx="3" />
+      <rect class="art-ink" x="14" y="38" width="76" height="144" rx="8" />
+      <path class="art-quiet" d="M90 74H82M90 110H82M90 146H82M26 182V196M78 182V196M14 196H90" />
+      <path class="art-ink" d="M90 110H104" />
+
+      <path class="cl-glow cl-anim" d="M296 52H126V88M126 132V170H296M366 100V76" />
+      <path class="art-wire" d="M296 52H126V88M126 132V170H228M268 170H296M366 100V76" />
+      <path class="art-wire cl-bridge cl-anim" d="M228 170H268" />
+      <g class="cl-flow cl-anim">
+        <path class="art-dots" d="M296 52H126V88" />
+        <path class="art-dots" d="M126 132V170H296" />
+        <path class="art-dots" d="M366 100V76" />
+      </g>
+      <path class="cl-arrow cl-flow cl-anim" d="M161 46 149 52 161 58ZM277 164 289 170 277 176Z" />
+
+      <g class="cl-break cl-anim">
+        <path class="cl-break__ends" d="M228 170 238 160M268 170 258 181" />
+        <path class="cl-break__spark" d="M248 160V152M255 163 261 156M241 178 235 185M248 181V189" />
+        <text class="cl-alarm-text" x="248" y="208" text-anchor="middle"><%= t("break", scope: scope) %></text>
+      </g>
+
+      <circle class="art-ink art-body" cx="126" cy="110" r="22" />
+      <text class="cl-letters" x="126" y="115" text-anchor="middle">LT</text>
+      <text class="cl-label" x="154" y="106"><%= t("sensor", scope: scope) %></text>
+      <text class="cl-label" x="154" y="123"><%= t("two_wire", scope: scope) %></text>
+
+      <rect class="art-ink art-body" x="296" y="28" width="116" height="48" rx="6" />
+      <text class="cl-strong" x="354" y="58" text-anchor="middle"><%= t("supply", scope: scope) %></text>
+      <text class="cl-pole" x="305" y="45">+</text>
+      <text class="cl-pole" x="377" y="70">−</text>
+
+      <rect class="art-ink art-body" x="296" y="100" width="116" height="96" rx="6" />
+      <rect class="cl-alarm cl-anim" x="296" y="100" width="116" height="96" rx="6" />
+      <text class="cl-label" x="354" y="121" text-anchor="middle"><%= t("input", scope: scope) %></text>
+      <circle class="cl-terminal" cx="296" cy="52" r="3.5" />
+      <circle class="cl-terminal" cx="366" cy="76" r="3.5" />
+      <circle class="cl-terminal" cx="366" cy="100" r="3.5" />
+      <circle class="cl-terminal" cx="296" cy="170" r="3.5" />
+
+      <rect class="cl-pill" x="174" y="15" width="74" height="27" rx="13.5" />
+      <rect class="cl-pill" x="140" y="182" width="74" height="27" rx="13.5" />
+      <% readings.each do |current, percent| %>
+        <g class="cl-v cl-v<%= current %> cl-anim">
+          <text class="cl-current" x="211" y="34" text-anchor="middle"><%= t("current", scope: scope, value: current) %></text>
+          <text class="cl-current" x="177" y="201" text-anchor="middle"><%= t("current", scope: scope, value: current) %></text>
+          <% if percent %>
+            <text class="cl-percent" x="354" y="156" text-anchor="middle"><%= t("percent", scope: scope, value: number_with_precision(percent, precision: 1, strip_insignificant_zeros: true)) %></text>
+            <text class="cl-status" x="354" y="182" text-anchor="middle"><%= t("ok", scope: scope) %></text>
+            <text class="cl-strong" x="52" y="216" text-anchor="middle"><%= t("percent", scope: scope, value: number_with_precision(percent, precision: 1, strip_insignificant_zeros: true)) %></text>
+          <% else %>
+            <text class="cl-percent cl-alarm-text" x="354" y="156" text-anchor="middle">—</text>
+            <text class="cl-status cl-alarm-text" x="354" y="182" text-anchor="middle"><%= t("fault", scope: scope) %></text>
+            <text class="cl-strong" x="52" y="216" text-anchor="middle"><%= t("percent", scope: scope, value: 75) %></text>
+          <% end %>
+        </g>
+      <% end %>
+
+      <text class="cl-label" x="145" y="236"><%= t("live_zero", scope: scope) %></text>
+      <rect class="cl-zone cl-zone--fault" x="70" y="256" width="66" height="10" />
+      <rect class="cl-zone" x="136" y="256" width="264" height="10" />
+      <path class="art-ink" d="M70 253V269M136 249V269M202 253V269M268 253V269M334 253V269M400 253V269" />
+      <path class="art-quiet" d="M136 249V227" />
+      <% [ 0, 4, 8, 12, 16, 20 ].each do |current| %>
+        <text class="cl-tick" x="<%= 70 + current * 16.5 %>" y="287" text-anchor="middle"><%= current %></text>
+      <% end %>
+      <% [ 0, 25, 50, 75, 100 ].each_with_index do |percent, index| %>
+        <text class="cl-label" x="<%= 136 + index * 66 %>" y="310" text-anchor="middle"><%= percent %></text>
+      <% end %>
+      <text class="cl-label" x="48" y="287" text-anchor="end"><%= t("axis_current", scope: scope) %></text>
+      <text class="cl-label" x="104" y="310" text-anchor="end"><%= t("axis_level", scope: scope) %></text>
+      <g class="cl-marker cl-anim">
+        <path d="M62 239H78L70 253Z" />
+        <circle cx="70" cy="261" r="7" />
+      </g>
+    </svg>
+  </div>
+
+  <p class="diagram__phases">
+    <% %w[ low rise high broken restored ].each do |phase| %>
+      <%= tag.span t("phases.#{phase}", scope: scope), class: [ "cl-say", "cl-say--#{phase}", "cl-anim" ] %>
+    <% end %>
+    <span class="cl-say cl-say--normal cl-anim"><%= t("phases.normal", scope: scope) %></span>
+  </p>
+
+  <div class="diagram__controls" role="radiogroup" aria-label="<%= t("mode", scope: scope) %>">
+    <% %w[ auto normal broken ].each do |mode| %>
+      <label class="diagram__option">
+        <input type="radio" name="current-loop-mode" id="current-loop-<%= mode %>" <%= tag.attributes(checked: mode == "auto") %>>
+        <%= t("modes.#{mode}", scope: scope) %>
+      </label>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,143 @@
+<%# locals: (caption: nil) -%>
+<% k = ->(key, **options) { t("diagrams.rs485_modbus.#{key}", **options) } %>
+<% polls = [
+     { delay: "0s", request: %w[01 03 00\ 00 00\ 01 84\ 0A], reply: %w[01 03 02 00\ 34 B9\ 93] },
+     { delay: "-8s", request: %w[02 03 00\ 00 00\ 01 84\ 39], reply: %w[02 03 02 05\ AA 7F\ 6B] },
+     { delay: "-4s", request: %w[03 03 00\ 00 00\ 01 85\ E8], reply: nil }
+   ] %>
+<% boxes = [ [ 13, 70 ], [ 87, 86 ], [ 177, 92 ], [ 273, 92 ], [ 369, 98 ] ] %>
+<% centres = [ 58, 177, 295, 414 ] %>
+<%# Both wires swap levels twice between neighbouring taps, so A is on top at every tap. %>
+<% twisted = ->(from, to, level, other) do
+     turn = ->(x1, x2, y1, y2) { "C#{(x1 + x2) / 2.0} #{y1} #{(x1 + x2) / 2.0} #{y2} #{x2} #{y2}" }
+     (from...to).reduce("M#{centres[from]} #{level}") do |path, i|
+       left, right = centres[i] + 14, centres[i + 1] - 14
+       middle = (left + right) / 2.0
+       "#{path}H#{left}#{turn.(left, middle, level, other)}#{turn.(middle, right, other, level)}H#{centres[i + 1]}"
+     end
+   end %>
+<% bus = ->(from, to) { [ twisted.(from, to, 146, 180), twisted.(from, to, 180, 146) ] } %>
+<% left_end = [ "M58 146H20", "M58 180H20" ] %>
+<% right_end = [ "M414 146H458", "M414 180H458" ] %>
+<%# The A tap hops over wire B: they cross there without touching. %>
+<% drop = ->(i, up: false) do
+     a, b = centres[i] - 9, centres[i] + 9
+     up ? [ "M#{a} 208V186A6 6 0 0 0 #{a} 174V146", "M#{b} 208V180" ] : [ "M#{a} 146V174A6 6 0 0 1 #{a} 186V208", "M#{b} 180V208" ]
+   end %>
+<% lit = ->(paths, css) { safe_join(paths.map { |d| tag.path(d: d, pathLength: 1, class: [ "rs485-lit", css ]) }) } %>
+<% march = ->(paths, css, reverse: false) do
+     tag.g(safe_join(paths.map { |d| tag.path(d: d, class: [ "art-dots rs485-march", ("rs485-march--reverse" if reverse) ]) }), class: css)
+   end %>
+<%= render layout: "diagrams/figure", locals: { slug: "rs485-modbus", caption: caption } do %>
+  <div class="diagram__stage">
+    <svg class="diagram__art" viewBox="0 0 480 312" role="img" aria-label="<%= k.("alt") %>">
+      <% polls.each_with_index do |poll, index| %>
+        <g class="rs485-poll rs485-poll--<%= index + 1 %>" style="--delay: <%= poll[:delay] %>">
+          <% [ [ :request, poll[:request] ], [ :reply, poll[:reply] ] ].each do |kind, bytes| %>
+            <g class="rs485-anim rs485-frame rs485-frame--<%= kind %>">
+              <% if bytes %>
+                <text class="rs485-title" x="13" y="19"><%= k.("#{kind}_title", address: index + 1) %></text>
+                <% boxes.zip(bytes, k.("#{kind}_fields").values).each_with_index do |((x, width), byte, label), field| %>
+                  <rect class="rs485-byte<%= " rs485-byte--address" if field.zero? %><%= " rs485-byte--crc" if field == 4 %>" x="<%= x %>" y="28" width="<%= width %>" height="52" rx="6" />
+                  <text class="rs485-label" x="<%= x + width / 2 %>" y="46"><%= label %></text>
+                  <text class="rs485-hex" x="<%= x + width / 2 %>" y="70"><%= byte %></text>
+                <% end %>
+                <text class="rs485-meaning" x="240" y="102"><%= k.("#{kind}_#{index + 1}") %></text>
+              <% else %>
+                <text class="rs485-title rs485-title--alarm" x="13" y="19"><%= k.("silence_title") %></text>
+                <rect class="rs485-wait" x="13" y="28" width="454" height="52" rx="6" />
+                <rect class="rs485-anim rs485-timer" x="13" y="28" width="454" height="52" rx="6" />
+                <text class="rs485-meaning rs485-waiting" x="240" y="59"><%= k.("silence") %></text>
+                <text class="rs485-anim rs485-meaning rs485-expired" x="240" y="102"><%= k.("expired") %></text>
+              <% end %>
+            </g>
+          <% end %>
+        </g>
+      <% end %>
+
+      <g class="rs485-bus">
+        <% (bus.(0, 3) + left_end + right_end + (0..3).flat_map { drop.(it) }).each do |d| %>
+          <path class="art-wire" d="<%= d %>" />
+        <% end %>
+        <% [ 20, 458 ].each do |x| %>
+          <path class="art-wire" d="M<%= x %> 146V151M<%= x %> 175V180" />
+          <rect class="art-ink art-body" x="<%= x - 6 %>" y="151" width="12" height="24" rx="2" />
+        <% end %>
+        <% centres.each do |x| %>
+          <circle class="rs485-node" cx="<%= x - 9 %>" cy="146" r="3.5" />
+          <circle class="rs485-node" cx="<%= x + 9 %>" cy="180" r="3.5" />
+        <% end %>
+      </g>
+      <text class="art-tag" x="8" y="123"><%= k.("terminator") %></text>
+      <text class="art-tag" x="472" y="123" text-anchor="end"><%= k.("terminator") %></text>
+      <text class="art-tag" x="240" y="123" text-anchor="middle"><%= k.("pair") %></text>
+      <text class="art-tag rs485-wire-name" x="34" y="141">A</text>
+      <text class="art-tag rs485-wire-name" x="34" y="196">B</text>
+
+      <% polls.each_with_index do |poll, index| %>
+        <g class="rs485-poll rs485-poll--<%= index + 1 %>" style="--delay: <%= poll[:delay] %>">
+          <g class="rs485-anim rs485-signal rs485-signal--request">
+            <%= lit.(drop.(0, up: true), "rs485-lit--source") %>
+            <%= lit.(left_end, "rs485-lit--stub") %>
+            <%= lit.(bus.(0, 3), "rs485-lit--run") %>
+            <%= lit.(right_end, "rs485-lit--tail") %>
+            <% (1..3).each do |i| %><%= lit.(drop.(i), "rs485-lit--drop#{i}") %><% end %>
+            <%= march.(drop.(0, up: true) + bus.(0, 3) + right_end + (1..3).flat_map { drop.(it) }, "rs485-anim rs485-dots rs485-dots--request") %>
+            <%= march.(left_end, "rs485-anim rs485-dots rs485-dots--request") %>
+          </g>
+
+          <% if poll[:reply] %>
+            <% from = index + 1 %>
+            <g class="rs485-anim rs485-signal rs485-signal--reply">
+              <%= lit.(drop.(from, up: true), "rs485-lit--answer") %>
+              <%= lit.(bus.(0, from), "rs485-lit--home") %>
+              <%= lit.(left_end, "rs485-lit--home-end") %>
+              <%= lit.(bus.(from, 3), "rs485-lit--away") if from < 3 %>
+              <%= lit.(right_end, "rs485-lit--away-end") %>
+              <% ((0..3).to_a - [ from ]).each do |i| %><%= lit.(drop.(i), "rs485-lit--heard") %><% end %>
+              <%= march.(drop.(from, up: true) + bus.(from, 3) + right_end, "rs485-anim rs485-dots rs485-dots--reply") %>
+              <%= march.(bus.(0, from), "rs485-anim rs485-dots rs485-dots--reply", reverse: true) %>
+              <%= march.(left_end + drop.(0), "rs485-anim rs485-dots rs485-dots--reply") %>
+            </g>
+          <% end %>
+        </g>
+      <% end %>
+
+      <% centres.each_with_index do |x, i| %>
+        <rect class="art-ink art-body" x="<%= x - 48 %>" y="208" width="96" height="96" rx="8" />
+        <text class="rs485-name" x="<%= x %>" y="230"><%= i.zero? ? k.("master") : k.("address", address: i) %></text>
+        <text class="rs485-role" x="<%= x %>" y="250"><%= k.("devices").values[i] %></text>
+        <path class="art-far" d="M<%= x - 38 %> 264H<%= x + 38 %>" />
+      <% end %>
+
+      <% polls.each_with_index do |poll, index| %>
+        <g class="rs485-poll rs485-poll--<%= index + 1 %>" style="--delay: <%= poll[:delay] %>">
+          <text class="rs485-anim rs485-status rs485-status--asking" x="58" y="289"><%= k.("asking") %></text>
+          <text class="rs485-anim rs485-status <%= poll[:reply] ? "rs485-status--waiting" : "rs485-status--expecting" %>" x="58" y="289"><%= k.("waiting") %></text>
+          <text class="rs485-anim rs485-status <%= poll[:reply] ? "rs485-status--value" : "rs485-status--timeout" %>" x="58" y="289"><%= poll[:reply] ? k.("value_#{index + 1}") : k.("timeout") %></text>
+          <% (1..3).each do |i| %>
+            <% x = centres[i] %>
+            <% if i == index + 1 %>
+              <rect class="rs485-anim rs485-chosen<%= " rs485-chosen--silent" unless poll[:reply] %>" x="<%= x - 48 %>" y="208" width="96" height="96" rx="8" />
+              <% if poll[:reply] %>
+                <text class="rs485-anim rs485-status rs485-status--mine" x="<%= x %>" y="289"><%= k.("mine") %></text>
+                <text class="rs485-anim rs485-status rs485-status--answering" x="<%= x %>" y="289"><%= k.("answering") %></text>
+              <% else %>
+                <text class="rs485-anim rs485-status rs485-status--dumb" x="<%= x %>" y="289"><%= k.("dumb") %></text>
+              <% end %>
+            <% else %>
+              <text class="rs485-anim rs485-status rs485-status--other" x="<%= x %>" y="289"><%= k.("other") %></text>
+            <% end %>
+          <% end %>
+        </g>
+      <% end %>
+    </svg>
+  </div>
+  <p class="diagram__phases">
+    <% polls.each_with_index do |poll, index| %>
+      <% %w[request reply].each do |kind| %>
+        <span class="rs485-anim rs485-phase rs485-phase--<%= kind %> rs485-poll--<%= index + 1 %>" style="--delay: <%= poll[:delay] %>"><%= k.("phase_#{kind}_#{index + 1}") %></span>
+      <% end %>
+    <% end %>
+  </p>
+<% end %>

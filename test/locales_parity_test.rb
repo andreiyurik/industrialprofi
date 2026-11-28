@@ -15,6 +15,16 @@ class LocalesParityTest < ActiveSupport::TestCase
     assert_empty en - ru, "keys in en.yml that ru.yml doesn't have"
   end
 
+  test "every diagram speaks both languages" do
+    Diagram::SLUGS.each do |slug|
+      ru, en = %w[ru en].map do |locale|
+        leaf_keys(YAML.load_file(Rails.root.join("config/locales/diagrams/#{slug}.#{locale}.yml")).fetch(locale))
+      end
+
+      assert_equal ru.sort, en.sort, slug
+    end
+  end
+
   private
     def load_locale(locale)
       YAML.load_file(Rails.root.join("config/locales/#{locale}.yml")).fetch(locale)

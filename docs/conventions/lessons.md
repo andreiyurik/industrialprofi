@@ -40,6 +40,12 @@ in `PagesController::REFERENCE_LESSON_SLUGS`): `chtenie-shem-i-ugo`,
 - Callouts are a blockquote whose first line is a marker (`[!ВАЖНО]`, `[!ПРОВЕРЬ]`…);
   `ApplicationHelper#enrich_prose` upgrades them on render.
 
+## Animated schemes
+
+Where motion explains better than text (current, switching, signals over time), place
+`![what it shows](diagram:<slug>)` with an italic caption under it. Authoring rules and
+the screenshot check: [LESSON_DIAGRAM](../../tools/LESSON_DIAGRAM.md).
+
 ## Verify
 
 `bin/rails content:audit` and `bin/rails content:links` for the mechanical checks;

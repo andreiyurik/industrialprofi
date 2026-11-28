@@ -1,0 +1,204 @@
+.diagram.diagram-plc-scan {
+  --lap: 12s;
+
+  .diagram__stage { padding-inline: calc(var(--inline-space) / 2); }
+  .diagram__art { margin-inline: auto; max-inline-size: 38rem; }
+
+  .plc-scan-step, .plc-scan-label, .plc-scan-verdict { font-size: 14px; font-weight: 600; }
+  .plc-scan-step { fill: var(--color-subtle-dark); }
+  .plc-scan-step--on { fill: var(--color-link); opacity: 0; }
+  .plc-scan-label { fill: var(--color-ink); }
+  .art-tag { font-size: 14px; }
+  .plc-scan-gap { fill: var(--color-subtle-light); }
+  .plc-scan-loop { opacity: 0.8; }
+
+  .plc-scan-on, .plc-scan-lit, rect.plc-scan-one, text[class*="plc-scan-one"] { opacity: 0; }
+
+  .plc-scan-glow, .plc-scan-frame {
+    fill: none;
+    filter: drop-shadow(0 0 4px var(--color-link));
+    stroke: var(--color-link);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.5;
+  }
+
+  .art-dots { animation: scene-march 0.35s linear infinite; stroke-width: 6; }
+
+  .plc-scan-lit { fill: oklch(var(--lch-amber)); filter: drop-shadow(0 0 7px oklch(var(--lch-amber))); }
+  .plc-scan-cell { fill: var(--color-subtle-light); }
+  rect.plc-scan-one { fill: var(--color-selected); stroke: var(--color-link); stroke-width: 1.5; }
+
+  .plc-scan-digit {
+    fill: var(--color-ink);
+    font-family: var(--font-technical);
+    font-size: 30px;
+    font-weight: 700;
+  }
+
+  .plc-scan-code { fill: var(--color-ink); font-family: var(--font-technical); font-size: 15px; }
+
+  .plc-scan-seg { fill: var(--color-selected); }
+  .plc-scan-seg--program { fill: var(--color-bg); }
+  .plc-scan-number { fill: var(--color-ink); font-size: 13px; font-weight: 600; }
+  .plc-scan-edge { stroke: var(--color-subtle-dark); stroke-width: 1.5; }
+  .plc-scan-sample { stroke: var(--color-link); stroke-dasharray: 3 3; stroke-width: 1.25; }
+
+  .plc-scan-pulse { opacity: 0.25; }
+  .plc-scan-pulse--missed { fill: var(--color-negative); }
+  .plc-scan-pulse--caught { fill: var(--color-positive); }
+
+  .plc-scan-trace { fill: none; stroke: var(--color-ink); stroke-linejoin: round; stroke-width: 2.25; }
+  .plc-scan-trace--image { stroke: var(--color-link); }
+  .plc-scan-trace--output { stroke: var(--color-positive); }
+  .plc-scan-dot { fill: var(--color-link); stroke: var(--color-bg); stroke-width: 1.5; }
+
+  .plc-scan-verdict--missed { fill: var(--color-negative); }
+  .plc-scan-verdict--caught { fill: var(--color-positive); }
+
+  .plc-scan-head {
+    opacity: 0;
+
+    path { filter: drop-shadow(0 0 4px var(--color-link)); stroke: var(--color-link); stroke-width: 2; }
+  }
+
+  .plc-scan-phase:not(.plc-scan-phase--7) { opacity: 0; }
+
+  :is(.plc-scan-on-read, .plc-scan-on-program, .plc-scan-on-write, .plc-scan-lit--input, .plc-scan-one--image, .plc-scan-zero--image, .plc-scan-one--out, .plc-scan-zero--out, .plc-scan-lit--lamp, .plc-scan-verdict--missed, .plc-scan-verdict--caught, .plc-scan-phase--1, .plc-scan-phase--2, .plc-scan-phase--3, .plc-scan-phase--4, .plc-scan-phase--5, .plc-scan-phase--6, .plc-scan-phase--7) {
+    animation: var(--lap) step-end infinite;
+  }
+
+  .plc-scan-on-read { animation-name: plc-scan-read; }
+  .plc-scan-on-program { animation-name: plc-scan-program; }
+  .plc-scan-on-write { animation-name: plc-scan-write; }
+  .plc-scan-lit--input { animation-name: plc-scan-input; }
+  .plc-scan-one--image { animation-name: plc-scan-image; }
+  .plc-scan-zero--image { animation-name: plc-scan-image-zero; }
+  .plc-scan-one--out { animation-name: plc-scan-out; }
+  .plc-scan-zero--out { animation-name: plc-scan-out-zero; }
+  .plc-scan-lit--lamp { animation-name: plc-scan-lamp; }
+  .plc-scan-verdict--missed { animation-name: plc-scan-missed; }
+  .plc-scan-verdict--caught { animation-name: plc-scan-caught; }
+  .plc-scan-phase--1 { animation-name: plc-scan-phase-1; }
+  .plc-scan-phase--2 { animation-name: plc-scan-phase-2; }
+  .plc-scan-phase--3 { animation-name: plc-scan-phase-3; }
+  .plc-scan-phase--4 { animation-name: plc-scan-phase-4; }
+  .plc-scan-phase--5 { animation-name: plc-scan-phase-5; }
+  .plc-scan-phase--6 { animation-name: plc-scan-phase-6; }
+  .plc-scan-phase--7 { animation-name: plc-scan-phase-7; }
+
+  .plc-scan-reveal {
+    animation: plc-scan-reveal var(--lap) linear infinite;
+    transform-box: view-box;
+    transform-origin: 68px 0;
+  }
+
+  .plc-scan-traces { animation: plc-scan-fade var(--lap) linear infinite; }
+  .plc-scan-head { animation: plc-scan-head var(--lap) linear infinite; }
+}
+
+@keyframes plc-scan-read {
+  0%, 20%, 40%, 60%, 100% { opacity: 1; }
+  4%, 24%, 44%, 64% { opacity: 0; }
+}
+
+@keyframes plc-scan-program {
+  4%, 24%, 44%, 64% { opacity: 1; }
+  0%, 16%, 36%, 56%, 76%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-write {
+  16%, 36%, 56%, 76% { opacity: 1; }
+  0%, 20%, 40%, 60%, 80%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-input {
+  8%, 32% { opacity: 1; }
+  0%, 16%, 58%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-image {
+  42% { opacity: 1; }
+  0%, 62%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-image-zero {
+  42% { opacity: 0; }
+  0%, 62%, 100% { opacity: 1; }
+}
+
+@keyframes plc-scan-out {
+  50% { opacity: 1; }
+  0%, 70%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-out-zero {
+  50% { opacity: 0; }
+  0%, 70%, 100% { opacity: 1; }
+}
+
+@keyframes plc-scan-lamp {
+  58% { opacity: 1; }
+  0%, 78%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-missed {
+  22% { opacity: 1; }
+  0%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-caught {
+  42% { opacity: 1; }
+  0%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-phase-1 {
+  0%, 100% { opacity: 1; }
+  8% { opacity: 0; }
+}
+
+@keyframes plc-scan-phase-2 {
+  8% { opacity: 1; }
+  0%, 22%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-phase-3 {
+  22% { opacity: 1; }
+  0%, 42%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-phase-4 {
+  42% { opacity: 1; }
+  0%, 58%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-phase-5 {
+  58% { opacity: 1; }
+  0%, 70%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-phase-6 {
+  70% { opacity: 1; }
+  0%, 80%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-phase-7 {
+  80% { opacity: 1; }
+  0%, 100% { opacity: 0; }
+}
+
+@keyframes plc-scan-reveal {
+  0% { transform: scaleX(0.012); }
+  80%, 100% { transform: scaleX(1); }
+}
+
+@keyframes plc-scan-fade {
+  0%, 97% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes plc-scan-head {
+  0% { opacity: 1; transform: translateX(0); }
+  80% { opacity: 1; transform: translateX(336px); }
+  83%, 100% { opacity: 0; transform: translateX(336px); }
+}

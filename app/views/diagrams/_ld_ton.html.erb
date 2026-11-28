@@ -1,0 +1,125 @@
+<%# locals: (caption: nil) -%>
+<% scope = "diagrams.ld_ton" %>
+<%# Seconds of the 12 s lap are the program's seconds; the same moments are the keyframes in the css. %>
+<% x = ->(time) { (96 + time * 370 / 12.0).round(1) } %>
+<% wave = ->(high, low, spans, from = 0) { "M#{x.(from)} #{low}" + spans.map { |a, b| "H#{x.(a)}V#{high}H#{x.(b)}V#{low}" }.join + "H#{x.(12)}" } %>
+<% pump = [ [ 1, 3.2 ], [ 4.5, 9.5 ] ] %>
+<% rows = [
+  [ "start", t("start", scope: scope), 262, wave.(248, 266, [ [ 1, 1.6 ], [ 4.5, 5.1 ] ]) ],
+  [ "stop", t("stop_nc", scope: scope), 292, "M#{x.(0)} 278H#{x.(3.2)}V296H#{x.(3.8)}V278H#{x.(9.5)}V296H#{x.(10.1)}V278H#{x.(12)}" ],
+  [ "pump", t("pump", scope: scope), 322, wave.(308, 326, pump) ],
+  [ "in", "IN", 361, wave.(347, 365, pump) ],
+  [ "q", "Q", 391, wave.(377, 395, [ [ 7.5, 9.5 ] ]) ],
+  [ "et", "ET", 434, "M#{x.(0)} 446H#{x.(1)}L#{x.(3.2)} 421.3V446H#{x.(4.5)}L#{x.(7.5)} 412H#{x.(9.5)}V446H#{x.(12)}" ]
+] %>
+<%= render layout: "diagrams/figure", locals: { slug: "ld-ton", caption: caption } do %>
+  <div class="diagram__stage">
+    <svg class="diagram__art" viewBox="0 0 480 474" role="img" aria-label="<%= t("alt", scope: scope) %>">
+      <defs>
+        <clipPath id="ld-ton-past"><rect class="ld-ton-past" x="95" y="230" width="372" height="226" /></clipPath>
+      </defs>
+
+      <path class="art-ink ld-ton-rail" d="M14 8V214M466 8V214" />
+      <path class="art-wire" d="M14 44H72M88 44H202M218 44H408M432 44H466M14 94H72M88 94H140V44" />
+      <path class="art-wire" d="M14 150H72M88 150H190M310 150H408M432 150H466M174 186H190M310 186H326" />
+
+      <path class="ld-ton-live" d="M14 44H72M14 94H72M14 150H72" />
+      <g class="ld-ton-when-start">
+        <path class="ld-ton-live" d="M88 44H140" />
+        <path class="art-dots" d="M14 44H140" />
+      </g>
+      <g class="ld-ton-when-pump">
+        <path class="ld-ton-live" d="M88 44H202M88 94H140V44M218 44H408M432 44H466M88 150H190" />
+        <path class="art-dots" d="M14 94H140V44H408M432 44H466" />
+        <path class="art-dots" d="M14 150H190" />
+      </g>
+      <g class="ld-ton-when-q">
+        <path class="ld-ton-live ld-ton-live--q" d="M310 150H408M432 150H466" />
+        <path class="art-dots" d="M310 150H408M432 150H466" />
+      </g>
+
+      <rect class="ld-ton-pressed ld-ton-when-start" x="44" y="9" width="72" height="21" rx="10.5" />
+      <rect class="ld-ton-pressed ld-ton-when-nstop" x="166" y="9" width="88" height="21" rx="10.5" />
+
+      <% [ [ "start", 80, 44 ], [ "pump", 80, 94 ], [ "stop", 210, 44 ], [ "pump", 80, 150 ] ].each do |signal, cx, cy| %>
+        <rect class="ld-ton-true ld-ton-when-<%= signal %>" x="<%= cx - 6 %>" y="<%= cy - 9 %>" width="12" height="18" rx="2" />
+        <path class="art-ink ld-ton-symbol" d="M<%= cx - 8 %> <%= cy - 12 %>v24M<%= cx + 8 %> <%= cy - 12 %>v24" />
+      <% end %>
+
+      <text class="ld-ton-name" x="80" y="25"><%= t("start", scope: scope) %></text>
+      <text class="ld-ton-name" x="210" y="25"><%= t("stop_nc", scope: scope) %></text>
+      <text class="ld-ton-name" x="80" y="75"><%= t("pump", scope: scope) %></text>
+      <text class="ld-ton-name" x="80" y="131"><%= t("pump", scope: scope) %></text>
+      <text class="art-tag ld-ton-center ld-ton-when-stop" x="210" y="74"><%= t("input", scope: scope, value: 1) %></text>
+      <text class="ld-ton-center ld-ton-zero ld-ton-when-nstop" x="210" y="74"><%= t("input", scope: scope, value: 0) %></text>
+      <text class="art-tag" x="150" y="94"><%= t("hold", scope: scope) %></text>
+
+      <% [ [ "pump", 44, t("pump", scope: scope) ], [ "q", 150, t("valve", scope: scope) ] ].each do |signal, cy, name| %>
+        <circle class="ld-ton-energized ld-ton-when-<%= signal %>" cx="420" cy="<%= cy %>" r="13" />
+        <path class="art-ink ld-ton-symbol" d="M414 <%= cy - 13 %>Q401 <%= cy %> 414 <%= cy + 13 %>M426 <%= cy - 13 %>Q439 <%= cy %> 426 <%= cy + 13 %>" />
+        <text class="ld-ton-name" x="420" y="<%= cy - 20 %>"><%= name %></text>
+      <% end %>
+
+      <rect class="art-ink art-body" x="190" y="122" width="120" height="86" rx="6" />
+      <rect class="ld-ton-done ld-ton-when-q" x="190" y="122" width="120" height="86" rx="6" />
+      <text class="ld-ton-name" x="250" y="115">T1</text>
+      <text class="ld-ton-name ld-ton-block" x="250" y="143">TON</text>
+      <text class="ld-ton-pin" x="197" y="155">IN</text>
+      <text class="ld-ton-pin ld-ton-end" x="303" y="155">Q</text>
+      <text class="ld-ton-pin" x="197" y="191">PT</text>
+      <text class="ld-ton-pin ld-ton-end" x="303" y="191">ET</text>
+      <rect class="ld-ton-track" x="220" y="165" width="60" height="8" rx="4" />
+      <rect class="ld-ton-bar" x="220" y="165" width="60" height="8" rx="4" />
+      <text class="ld-ton-value ld-ton-end" x="170" y="191">T#3S</text>
+      <% %w[0 0.5 1 1.5 2 2.5 3].each_with_index do |value, index| %>
+        <text class="ld-ton-value ld-ton-et ld-ton-et--<%= index %>" x="332" y="191">T#<%= value %>S</text>
+      <% end %>
+
+      <g class="ld-ton-legend" aria-hidden="true">
+        <rect class="ld-ton-true" x="266" y="82" width="10" height="14" rx="2" />
+        <text class="art-tag" x="282" y="94">= 1</text>
+        <path class="ld-ton-live" d="M324 89H348" />
+        <text class="art-tag" x="356" y="94"><%= t("flow", scope: scope) %></text>
+      </g>
+
+      <path class="art-far" d="M8 228H472M8 336H472" />
+      <% [ 1, 3.2, 4.5, 7.5, 9.5 ].each do |time| %>
+        <path class="ld-ton-guide" d="M<%= x.(time) %> 240V452" />
+      <% end %>
+      <path class="ld-ton-level" d="M96 412H466" />
+      <text class="art-tag ld-ton-end" x="90" y="416">PT = 3<%= t("second", scope: scope) %></text>
+
+      <% rows.each do |key, label, y, path| %>
+        <text class="ld-ton-row" x="10" y="<%= key == "et" ? 440 : y %>"><%= label %></text>
+        <path class="ld-ton-ghost" d="<%= path %>" />
+      <% end %>
+      <g clip-path="url(#ld-ton-past)">
+        <path class="ld-ton-area" d="M<%= x.(1) %> 446L<%= x.(3.2) %> 421.3V446ZM<%= x.(4.5) %> 446L<%= x.(7.5) %> 412H<%= x.(9.5) %>V446Z" />
+        <% rows.each do |key, _, _, path| %>
+          <path class="ld-ton-trace ld-ton-trace--<%= key %>" d="<%= path %>" />
+        <% end %>
+      </g>
+
+      <g class="ld-ton-note ld-ton-note--reset">
+        <text class="art-tag ld-ton-center" x="<%= x.(3.2) %>" y="408"><%= t("reset", scope: scope) %></text>
+      </g>
+      <g class="ld-ton-note ld-ton-note--delay">
+        <path class="ld-ton-bracket" d="M<%= x.(4.5) %> 386H<%= x.(7.5) - 2 %>M<%= x.(4.5) %> 381v10M<%= x.(7.5) - 8 %> 382l6 4-6 4" />
+        <text class="ld-ton-delay ld-ton-center" x="<%= x.(6) %>" y="381">PT</text>
+      </g>
+
+      <g class="ld-ton-cursor">
+        <path d="M96 238V452" />
+        <circle cx="96" cy="238" r="3.5" />
+      </g>
+      <% [ 0, 3, 6, 9, 12 ].each do |time| %>
+        <text class="art-tag ld-ton-center" x="<%= [ x.(time), 460 ].min %>" y="468"><%= time %><%= t("second", scope: scope) if time == 12 %></text>
+      <% end %>
+    </svg>
+  </div>
+  <p class="diagram__phases">
+    <% 1.upto(7) do |index| %>
+      <span class="ld-ton-phase ld-ton-phase--<%= index %>"><%= t("phase_#{index}", scope: scope) %></span>
+    <% end %>
+  </p>
+<% end %>

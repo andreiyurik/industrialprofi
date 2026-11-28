@@ -1,0 +1,30 @@
+en:
+  diagrams:
+    pid_response:
+      aria: "Temperature after the setpoint is raised from 60 to 80 °C. The P controller stops at 77 °C. PI reaches 80 °C after peaking at 82.3 °C. PID reaches 80 °C after peaking at 80.6 °C."
+      y_axis: "PV, °C"
+      x_axis: "time, s"
+      setpoint: "setpoint SP: 60 → 80 °C"
+      offset: "3 °C error"
+      peak_pi: "82.3"
+      peak_pid: "80.6"
+      choose: "Which curve to show"
+      names:
+        all: "All"
+        p: "P"
+        pi: "PI"
+        pid: "PID"
+      keys:
+        p: "stuck at 77 °C"
+        pi: "80 °C, overshoot +2.3"
+        pid: "80 °C, overshoot +0.6"
+      phases:
+        rise: "Setpoint raised: 60 → 80 °C. P only: the larger the error, the more power"
+        offset: "P stalls at 77 °C: it needs an error to hold the extra power"
+        integral: "PI: I sums the error (shaded) and shifts power until the error is gone"
+        derivative: "PID: D sees the temperature rising fast and eases off early"
+        summary: "P falls short, I removes the remaining error, D trims the overshoot"
+        only_p: "P: quick response, but a 3 °C steady-state error remains"
+        only_pi: "PI: area below the setpoint grows I, area above shrinks it. Error → 0"
+        only_pid: "PID: less overshoot than PI with the same Kp and Ti"
+      model: "Simulated example: Kp is the same for all three, Ti for PI and PID is 70 s, Td is 4 s. Another process will give other numbers."

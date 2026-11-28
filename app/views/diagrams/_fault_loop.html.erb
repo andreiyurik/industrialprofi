@@ -1,0 +1,104 @@
+<%# locals: (caption: nil) -%>
+<% scope = "diagrams.fault_loop" %>
+<% winding = "M52 205V175#{"a10 10 0 0 0 0-20" * 4}V70" %>
+<% load_loop = "#{winding}H390V140H220V205H52Z" %>
+<% fault_loop = "#{winding}H390L408 64 420 76 434 64 444 74 456 70V170H420V205H52Z" %>
+<%# 0…300 A across 440 units. %>
+<% amps = ->(value) { (20 + value * 440 / 300.0).round(1) } %>
+<%= render layout: "diagrams/figure", locals: { slug: "fault-loop", caption: caption } do %>
+  <div class="diagram__stage">
+    <svg class="diagram__art" viewBox="0 0 480 368" role="img" aria-label="<%= t("alt", scope: scope) %>">
+      <path class="fault-loop-area" d="<%= fault_loop %>" />
+
+      <rect class="art-far" x="14" y="44" width="76" height="180" rx="8" />
+      <rect class="art-far" x="158" y="44" width="106" height="180" rx="8" />
+      <rect class="art-ink fault-loop-case" x="346" y="44" width="110" height="126" rx="8" />
+      <text class="art-tag" x="14" y="32"><%= t("transformer", scope: scope) %></text>
+      <text class="art-tag" x="211" y="32" text-anchor="middle"><%= t("panel", scope: scope) %></text>
+      <text class="art-tag" x="466" y="32" text-anchor="end"><%= t("case", scope: scope) %></text>
+
+      <path class="art-wire" d="<%= winding %>H195M227 70H390" />
+      <path class="art-wire" d="M390 70V86M390 126V140H220V205" />
+      <path class="art-wire fault-loop-pen" d="M52 205H220" />
+      <path class="art-wire art-wire--dashed" d="M220 205H420V170" />
+      <rect class="art-ink art-body" x="382" y="86" width="16" height="40" rx="3" />
+      <path class="art-ink" d="M52 205V236M36 236H68M42 243H62M48 250H56" />
+      <rect class="art-quiet" x="187" y="52" width="48" height="36" rx="5" />
+
+      <g class="fault-loop-load">
+        <path class="art-dots" d="<%= load_loop %>" />
+      </g>
+      <g class="fault-loop-surge">
+        <path class="fault-loop-glow" d="<%= fault_loop %>" />
+        <path class="fault-loop-hot" d="<%= fault_loop %>" />
+        <path class="art-dots fault-loop-rush" d="<%= fault_loop %>" />
+      </g>
+
+      <path class="art-ink fault-loop-contact" d="M195 70H227" />
+      <circle class="fault-loop-node" cx="195" cy="70" r="3.5" />
+      <circle class="fault-loop-node" cx="227" cy="70" r="3.5" />
+      <circle class="fault-loop-node" cx="220" cy="205" r="5" />
+      <circle class="fault-loop-node" cx="52" cy="205" r="4" />
+
+      <g class="fault-loop-damage">
+        <path class="fault-loop-bridge" d="M390 70 408 64 420 76 434 64 444 74 456 70" />
+        <text class="art-tag fault-loop-red" x="426" y="104" text-anchor="middle"><%= t("breakdown", scope: scope) %></text>
+      </g>
+      <path class="fault-loop-spark" d="M424 48 429 62 446 58 436 70 448 82 430 78 424 94 419 78 402 84 413 70 404 56 420 62Z" />
+
+      <text class="art-tag fault-loop-name" x="122" y="62" text-anchor="middle">L</text>
+      <text class="art-tag fault-loop-name" x="306" y="132" text-anchor="middle">N</text>
+      <text class="art-tag fault-loop-name" x="124" y="196" text-anchor="middle">PEN</text>
+      <text class="art-tag fault-loop-name" x="338" y="224" text-anchor="middle">PE</text>
+      <text class="art-tag fault-loop-name" x="211" y="108" text-anchor="middle">C16</text>
+      <text class="art-tag fault-loop-red fault-loop-tripped" x="211" y="127" text-anchor="middle"><%= t("tripped", scope: scope) %></text>
+      <text class="art-tag" x="76" y="247"><%= t("earthing", scope: scope) %></text>
+      <path class="art-far" d="M220 213V224L274 243" />
+      <text class="art-tag" x="278" y="248"><%= t("split", scope: scope) %></text>
+
+      <% %w[ room garage ].each do |place| %>
+        <text class="fault-loop-z fault-loop-only-<%= place %>" text-anchor="middle">
+          <tspan x="283" y="165"><%= t("z.name", scope: scope) %></tspan>
+          <tspan x="283" y="185"><%= t("z.#{place}", scope: scope) %></tspan>
+        </text>
+      <% end %>
+
+      <path class="art-far" d="M14 262H466" />
+      <text class="fault-loop-readout fault-loop-read-load" x="240" y="286" text-anchor="middle"><%= t("readout.load", scope: scope) %></text>
+      <% %w[ room garage ].each do |place| %>
+        <g class="fault-loop-only-<%= place %>">
+          <text class="fault-loop-readout fault-loop-red fault-loop-read-fault" x="240" y="286" text-anchor="middle"><%= t("readout.#{place}", scope: scope) %></text>
+        </g>
+      <% end %>
+      <text class="fault-loop-readout fault-loop-read-off" x="240" y="286" text-anchor="middle"><%= t("readout.off", scope: scope) %></text>
+
+      <rect class="fault-loop-track" x="20" y="298" width="440" height="18" rx="4" />
+      <rect class="fault-loop-maybe" x="<%= amps.(80) %>" y="298" width="<%= (amps.(160) - amps.(80)).round(1) %>" height="18" />
+      <rect class="fault-loop-sure" x="<%= amps.(160) %>" y="298" width="<%= (460 - amps.(160)).round(1) %>" height="18" />
+      <rect class="fault-loop-bar" x="20" y="302" width="440" height="10" rx="2" />
+      <path class="art-quiet" d="M<%= amps.(80) %> 294V322M<%= amps.(160) %> 294V322" />
+      <text class="art-tag" x="20" y="335">0</text>
+      <text class="art-tag" x="<%= amps.(80) %>" y="335" text-anchor="middle"><%= t("amps", scope: scope, value: 80) %></text>
+      <text class="art-tag" x="<%= amps.(160) %>" y="335" text-anchor="middle"><%= t("amps", scope: scope, value: 160) %></text>
+      <text class="art-tag" x="460" y="335" text-anchor="end"><%= t("amps", scope: scope, value: 300) %></text>
+      <text class="art-tag" x="<%= amps.(120) %>" y="356" text-anchor="middle"><%= t("zone.maybe", scope: scope) %></text>
+      <text class="art-tag" x="<%= amps.(230) %>" y="356" text-anchor="middle"><%= t("zone.sure", scope: scope) %></text>
+    </svg>
+  </div>
+  <p class="diagram__phases">
+    <span class="fault-loop-say-normal"><%= t("phases.normal", scope: scope) %></span>
+    <span class="fault-loop-say-breakdown"><%= t("phases.breakdown", scope: scope) %></span>
+    <% %w[ room garage ].each do |place| %>
+      <span class="fault-loop-only-<%= place %>"><span class="fault-loop-say-current"><%= t("phases.#{place}.current", scope: scope) %></span></span>
+      <span class="fault-loop-only-<%= place %>"><span class="fault-loop-say-result"><%= t("phases.#{place}.result", scope: scope) %></span></span>
+    <% end %>
+  </p>
+  <div class="diagram__controls" role="radiogroup" aria-label="<%= t("choose", scope: scope) %>">
+    <% %w[ room garage ].each do |place| %>
+      <label class="diagram__option">
+        <%= tag.input type: "radio", name: "fault-loop-place", id: "fault-loop-#{place}", checked: place == "room" %>
+        <%= t("options.#{place}", scope: scope) %>
+      </label>
+    <% end %>
+  </div>
+<% end %>

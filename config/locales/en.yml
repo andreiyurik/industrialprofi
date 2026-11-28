@@ -1,4 +1,6 @@
 en:
+  diagrams:
+    pause: "Pause"
   date:
     month_names:
       - ~
@@ -1882,6 +1884,8 @@ en:
         items:
           - t: "Live pictures in calculators"
             d: "4–20 mA, Modbus polling, PoE and cable section show the calculation in motion."
+          - t: "Animated schemes in lessons"
+            d: "Current loop, switches, RCD, the PLC scan and other processes shown in motion; some you can switch yourself."
           - t: "Profession catalog and roadmaps"
             d: "A structured path through each profession — from the basics to a confident specialist."
           - t: "The home page invites you to correct the maps"

@@ -1,0 +1,157 @@
+<%# locals: (caption: nil) -%>
+<% scope = "diagrams.switch_circuits" %>
+<% y = [ 90, 150 ] %>
+<%= render layout: "diagrams/figure", locals: { slug: "switch-circuits", caption: caption } do %>
+  <fieldset class="diagram__controls sc-modes">
+    <legend class="for-screen-reader"><%= t("mode", scope: scope) %></legend>
+    <% %w[single two cross].each do |mode| %>
+      <label class="diagram__option">
+        <input type="radio" name="switch-circuits-mode" id="switch-circuits-<%= mode %>" <%= tag.attributes(checked: mode == "two") %>>
+        <%= t("modes.#{mode}", scope: scope) %>
+      </label>
+    <% end %>
+  </fieldset>
+
+  <div class="diagram__stage">
+    <svg class="diagram__art" viewBox="0 30 404 196" role="img" aria-label="<%= t("alt", scope: scope) %>">
+      <defs>
+        <radialGradient id="switch-circuits-halo">
+          <stop class="sc-halo__core" offset="0.2" />
+          <stop class="sc-halo__edge" offset="1" />
+        </radialGradient>
+      </defs>
+
+      <circle class="sc-halo" cx="360" cy="120" r="44" fill="url(#switch-circuits-halo)" />
+
+      <g class="sc-single">
+        <rect class="art-far art-body" x="142" y="72" width="104" height="82" rx="10" />
+        <path class="art-wire" d="M18 120H164M224 120H343" />
+        <text class="art-tag sc-name" x="194" y="60">SW</text>
+      </g>
+
+      <g class="sc-multi">
+        <rect class="art-far art-body" x="48" y="68" width="66" height="104" rx="10" />
+        <rect class="art-far art-body" x="266" y="68" width="66" height="104" rx="10" />
+        <path class="art-wire" d="M18 120H62M318 120H343" />
+        <text class="art-tag sc-name" x="81" y="56">SW1</text>
+        <text class="art-tag sc-name" x="299" y="56">SW2</text>
+        <% [ 100, 280 ].each do |x| %>
+          <% y.each_with_index do |terminal, index| %>
+            <text class="art-tag" x="<%= x %>" y="<%= index.zero? ? terminal - 8 : terminal + 17 %>" text-anchor="middle"><%= index + 1 %></text>
+          <% end %>
+        <% end %>
+        <text class="art-tag sc-com" x="66" y="166">COM</text>
+        <text class="art-tag sc-com" x="314" y="166">COM</text>
+      </g>
+
+      <g class="sc-two">
+        <path class="art-wire" d="M100 90H280M100 150H280" />
+        <% y.each_with_index do |terminal, index| %>
+          <text class="art-tag" x="190" y="<%= index.zero? ? terminal - 9 : terminal + 19 %>" text-anchor="middle"><%= t("traveller", scope: scope, number: index + 1) %></text>
+        <% end %>
+      </g>
+
+      <g class="sc-cross">
+        <rect class="art-far art-body" x="148" y="68" width="84" height="104" rx="10" />
+        <path class="art-wire" d="M100 90H160M100 150H160M220 90H280M220 150H280" />
+        <path class="sc-contact sc-contact--straight" d="M160 90H220M160 150H220" />
+        <path class="sc-contact sc-contact--crossed" d="M160 90 220 150M160 150 220 90" />
+        <text class="art-tag sc-name" x="190" y="56"><%= t("crossover", scope: scope) %></text>
+      </g>
+
+      <line class="sc-blade sc-blade--single" x1="164" y1="120" x2="224" y2="120" />
+      <g class="sc-multi">
+        <line class="sc-blade sc-blade--a" x1="62" y1="120" x2="110.4" y2="120" />
+        <line class="sc-blade sc-blade--b" x1="318" y1="120" x2="269.6" y2="120" />
+      </g>
+
+      <g class="sc-single">
+        <path class="sc-volt" d="M18 120H164" />
+        <% d = "M18 120H343L360 137V208H18" %>
+        <g class="sc-flow">
+          <path class="sc-glow" d="<%= d %>" />
+          <path class="sc-core" d="<%= d %>" />
+          <path class="art-dots" d="<%= d %>" />
+        </g>
+      </g>
+
+      <% [ [ "two", [ [ 0, 0 ], [ 1, 1 ] ] ], [ "cross", [ [ 0, 0 ], [ 0, 1 ], [ 1, 0 ], [ 1, 1 ] ] ] ].each do |mode, routes| %>
+        <g class="sc-<%= mode %>">
+          <% routes.each do |a, out| %>
+            <% feed = "M18 120H62L100 #{y[a]}#{"H160L220 #{y[out]}" if mode == "cross"}H280" %>
+            <g class="sc-route sc-a<%= a %> sc-out<%= out %>">
+              <path class="sc-volt" d="<%= feed %>" />
+              <% d = "#{feed}L318 120H343L360 137V208H18" %>
+              <g class="sc-match">
+                <g class="sc-flow">
+                  <path class="sc-glow" d="<%= d %>" />
+                  <path class="sc-core" d="<%= d %>" />
+                  <path class="art-dots" d="<%= d %>" />
+                </g>
+              </g>
+            </g>
+          <% end %>
+        </g>
+      <% end %>
+
+      <path class="art-wire sc-neutral" d="M360 137V208H18" />
+      <g class="sc-terminals sc-single">
+        <circle cx="164" cy="120" r="4.5" /><circle cx="224" cy="120" r="4.5" />
+      </g>
+      <g class="sc-terminals sc-multi">
+        <circle cx="62" cy="120" r="4.5" /><circle cx="318" cy="120" r="4.5" />
+        <% [ 100, 280 ].product(y).each do |x, terminal| %>
+          <circle cx="<%= x %>" cy="<%= terminal %>" r="4.5" />
+        <% end %>
+      </g>
+      <g class="sc-terminals sc-cross">
+        <% [ 160, 220 ].product(y).each do |x, terminal| %>
+          <circle cx="<%= x %>" cy="<%= terminal %>" r="4.5" />
+        <% end %>
+      </g>
+
+      <g class="sc-lamp">
+        <circle class="sc-bulb" cx="360" cy="120" r="17" />
+        <path class="art-ink" d="M348 108 372 132M372 108 348 132" />
+        <circle class="art-ink" cx="360" cy="120" r="17" />
+        <path class="sc-rays" d="M360 95V86M377.7 102.3 384 96M385 120H394M342.3 102.3 336 96M377.7 137.7 384 144" />
+      </g>
+
+      <text class="art-tag sc-pole" x="14" y="109">L</text>
+      <text class="art-tag sc-pole" x="14" y="197">N</text>
+      <text class="art-tag" x="32" y="197"><%= t("panel", scope: scope) %></text>
+      <text class="art-tag" x="360" y="68" text-anchor="middle"><%= t("lamp", scope: scope) %></text>
+    </svg>
+
+    <div class="sc-keys">
+      <% [ [ "key", "SW", "off", "on" ], [ "a", "SW1", "one", "two" ], [ "mid", t("crossover", scope: scope), "straight", "crossed" ], [ "b", "SW2", "one", "two" ] ].each do |key, name, unchecked, checked| %>
+        <label class="sc-key sc-key--<%= key %>">
+          <input type="checkbox" id="switch-circuits-<%= key %>" name="switch-circuits-<%= key %>" <%= tag.attributes(checked: key == "key") %>>
+          <span class="sc-key__rocker" aria-hidden="true"></span>
+          <span class="sc-key__text">
+            <span class="sc-key__name"><%= name %></span>
+            <span class="sc-key__state">
+              <span class="sc-key__off"><%= t("states.#{unchecked}", scope: scope) %></span>
+              <span class="sc-key__on"><%= t("states.#{checked}", scope: scope) %></span>
+            </span>
+          </span>
+        </label>
+      <% end %>
+    </div>
+    <p class="sc-hint"><%= t("hint", scope: scope) %></p>
+  </div>
+
+  <p class="diagram__phases" aria-live="polite">
+    <% %w[single two cross].each do |mode| %>
+      <% %w[on off].each do |state| %>
+        <span class="sc-phase sc-phase--<%= mode %> sc-phase--<%= state %>"><%= t("phases.#{mode}_#{state}", scope: scope) %></span>
+      <% end %>
+    <% end %>
+  </p>
+
+  <ul class="sc-legend">
+    <li class="sc-legend__flow"><%= t("legend.flow", scope: scope) %></li>
+    <li class="sc-legend__volt"><%= t("legend.volt", scope: scope) %></li>
+    <li class="sc-legend__dead"><%= t("legend.dead", scope: scope) %></li>
+  </ul>
+<% end %>

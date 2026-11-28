@@ -1,0 +1,189 @@
+.diagram.diagram-fault-loop {
+  --lap: 10s;
+
+  .art-tag { font-size: 16px; }
+  .fault-loop-name { fill: var(--color-ink); font-weight: 700; }
+  .fault-loop-red { fill: var(--color-negative); font-weight: 700; }
+  .fault-loop-damage .art-tag { font-size: 15px; }
+  .fault-loop-pen { stroke-width: 3.5; }
+  .fault-loop-node { fill: var(--color-ink); }
+
+  .fault-loop-z, .fault-loop-readout {
+    fill: var(--color-ink);
+    font-family: var(--font-technical);
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .fault-loop-readout { font-size: 18px; }
+  .fault-loop-readout.fault-loop-red { fill: var(--color-negative); }
+
+  .fault-loop-area { fill: var(--color-negative); fill-opacity: 0.1; }
+  .fault-loop-glow, .fault-loop-hot, .fault-loop-bridge { fill: none; stroke: var(--color-negative); stroke-linecap: round; stroke-linejoin: round; }
+  .fault-loop-glow { filter: blur(4px); stroke-opacity: 0.5; stroke-width: 13; }
+  .fault-loop-hot { stroke-width: 3.5; }
+  .fault-loop-rush { animation-duration: 0.28s; stroke: var(--color-ink); stroke-width: 4.5; }
+  .fault-loop-bridge { stroke-width: 2.5; }
+  .fault-loop-spark { fill: var(--color-signal); transform-origin: 424px 70px; }
+  .fault-loop-contact { stroke-width: 3.5; transform-origin: 195px 70px; }
+
+  .fault-loop-track { fill: var(--color-bg); stroke: var(--color-subtle); }
+  .fault-loop-maybe { fill: var(--color-signal); fill-opacity: 0.28; }
+  .fault-loop-sure { fill: var(--color-positive); fill-opacity: 0.22; }
+  .fault-loop-bar { fill: var(--color-link); transform: scaleX(0.045); transform-origin: 20px 0; }
+
+  :is(.fault-loop-area, .fault-loop-surge, .fault-loop-damage, .fault-loop-spark, .fault-loop-tripped, .fault-loop-read-fault, .fault-loop-read-off) { opacity: 0; }
+  :is(.fault-loop-say-breakdown, .fault-loop-say-current, .fault-loop-say-result) { visibility: hidden; }
+
+  .diagram__phases span { grid-area: 1 / 1; }
+  &:not(:has(#fault-loop-garage:checked)) .fault-loop-only-garage,
+  &:has(#fault-loop-garage:checked) .fault-loop-only-room { display: none; }
+
+  .fault-loop-load { animation: fault-loop-load var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-read-load { animation: fault-loop-load var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-surge { animation: fault-loop-surge-room var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-area { animation: fault-loop-surge-room var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-damage { animation: fault-loop-damage var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-spark { animation: fault-loop-spark var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-tripped { animation: fault-loop-off var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-read-off { animation: fault-loop-off var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-case { animation: fault-loop-case-room var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-contact { animation: fault-loop-contact var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-bar { animation: fault-loop-bar-room var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-say-normal { animation: fault-loop-say-normal var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-say-breakdown { animation: fault-loop-say-breakdown var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-only-room .fault-loop-say-current { animation: fault-loop-say-current-room var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-only-room .fault-loop-say-result { animation: fault-loop-say-result-room var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-only-garage .fault-loop-say-current { animation: fault-loop-say-current-garage var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-only-garage .fault-loop-say-result { animation: fault-loop-say-result-garage var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-only-room .fault-loop-read-fault { animation: fault-loop-read-fault-room var(--lap) linear var(--delay, 0s) infinite; }
+  .fault-loop-only-garage .fault-loop-read-fault { animation: fault-loop-read-fault-garage var(--lap) linear var(--delay, 0s) infinite; }
+
+  /* Too little current to trip: the breaker stays shut and the case stays live. */
+  &:has(#fault-loop-garage:checked) {
+    :is(.fault-loop-surge, .fault-loop-area) { animation-name: fault-loop-surge-garage; }
+    .fault-loop-case { animation-name: fault-loop-case-garage; }
+    .fault-loop-bar { animation-name: fault-loop-bar-garage; }
+    :is(.fault-loop-contact, .fault-loop-tripped, .fault-loop-read-off) { animation-name: none; }
+    .fault-loop-rush { animation-duration: 0.5s; }
+  }
+
+  /* Without motion each option shows how its fault ends. */
+  @media (prefers-reduced-motion: reduce) {
+    :is(.fault-loop-load, .fault-loop-read-load) { opacity: 0; }
+    :is(.fault-loop-damage, .fault-loop-read-fault, .fault-loop-tripped) { opacity: 1; }
+    .fault-loop-say-normal { visibility: hidden; }
+    .fault-loop-say-result { visibility: visible; }
+    .fault-loop-contact { transform: rotate(-34deg); }
+    .fault-loop-bar { fill: var(--color-negative); transform: scaleX(0.893); }
+
+    &:has(#fault-loop-garage:checked) {
+      :is(.fault-loop-surge, .fault-loop-area) { opacity: 1; }
+      .fault-loop-tripped { opacity: 0; }
+      .fault-loop-case { stroke: var(--color-negative); stroke-width: 4; }
+      .fault-loop-contact { transform: none; }
+      .fault-loop-bar { transform: scaleX(0.2365); }
+    }
+  }
+}
+
+@keyframes fault-loop-load {
+  30.0%, 94.5% { opacity: 0; }
+  0%, 29.5%, 95%, 100% { opacity: 1; }
+}
+
+@keyframes fault-loop-surge-room {
+  0%, 29.5%, 62.5%, 100% { opacity: 0; }
+  30%, 62% { opacity: 1; }
+}
+
+@keyframes fault-loop-surge-garage {
+  0%, 29.5%, 95%, 100% { opacity: 0; }
+  30%, 94.5% { opacity: 1; }
+}
+
+@keyframes fault-loop-damage {
+  0%, 29.5%, 95%, 100% { opacity: 0; }
+  30%, 94.5% { opacity: 1; }
+}
+
+@keyframes fault-loop-off {
+  0%, 62%, 95%, 100% { opacity: 0; }
+  62.5%, 94.5% { opacity: 1; }
+}
+
+@keyframes fault-loop-case-room {
+  0%, 29.5%, 62.5%, 100% { stroke: var(--color-ink); stroke-width: 1.5; }
+  30%, 62% { stroke: var(--color-negative); stroke-width: 4; }
+}
+
+@keyframes fault-loop-case-garage {
+  0%, 29.5%, 95%, 100% { stroke: var(--color-ink); stroke-width: 1.5; }
+  30%, 94.5% { stroke: var(--color-negative); stroke-width: 4; }
+}
+
+@keyframes fault-loop-contact {
+  0%, 63%, 95%, 100% { transform: rotate(0deg); }
+  63.5%, 94.5% { transform: rotate(-34deg); }
+}
+
+@keyframes fault-loop-bar-room {
+  0%, 30% { fill: var(--color-link); transform: scaleX(0.045); }
+  36%, 62% { fill: var(--color-negative); transform: scaleX(0.893); }
+  64%, 94.5% { fill: var(--color-negative); transform: scaleX(0); }
+  95%, 100% { fill: var(--color-link); transform: scaleX(0.045); }
+}
+
+@keyframes fault-loop-bar-garage {
+  0%, 30% { fill: var(--color-link); transform: scaleX(0.045); }
+  36%, 94.5% { fill: var(--color-negative); transform: scaleX(0.2365); }
+  95%, 100% { fill: var(--color-link); transform: scaleX(0.045); }
+}
+
+@keyframes fault-loop-spark {
+  0%, 29.5% { opacity: 0; transform: scale(0.2); }
+  31% { opacity: 1; transform: scale(1.35); }
+  34% { opacity: 0.9; transform: scale(0.8); }
+  37% { opacity: 1; transform: scale(1.1); }
+  42%, 100% { opacity: 0; transform: scale(0.5); }
+}
+
+@keyframes fault-loop-say-normal {
+  30.0%, 94.5% { visibility: hidden; }
+  0%, 29.5%, 95%, 100% { visibility: visible; }
+}
+
+@keyframes fault-loop-say-breakdown {
+  0%, 29.5%, 44%, 100% { visibility: hidden; }
+  30%, 43.5% { visibility: visible; }
+}
+
+@keyframes fault-loop-say-current-room {
+  0%, 43.5%, 62.5%, 100% { visibility: hidden; }
+  44%, 62% { visibility: visible; }
+}
+
+@keyframes fault-loop-say-result-room {
+  0%, 62%, 95%, 100% { visibility: hidden; }
+  62.5%, 94.5% { visibility: visible; }
+}
+
+@keyframes fault-loop-say-current-garage {
+  0%, 43.5%, 70%, 100% { visibility: hidden; }
+  44%, 69.5% { visibility: visible; }
+}
+
+@keyframes fault-loop-say-result-garage {
+  0%, 69.5%, 95%, 100% { visibility: hidden; }
+  70%, 94.5% { visibility: visible; }
+}
+
+@keyframes fault-loop-read-fault-room {
+  0%, 29.5%, 62.5%, 100% { opacity: 0; }
+  30%, 62% { opacity: 1; }
+}
+
+@keyframes fault-loop-read-fault-garage {
+  0%, 29.5%, 95%, 100% { opacity: 0; }
+  30%, 94.5% { opacity: 1; }
+}

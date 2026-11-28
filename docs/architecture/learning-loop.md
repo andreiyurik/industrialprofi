@@ -43,3 +43,9 @@ flowchart LR
   **No more lifecycle emails without an explicit founder decision.**
 - **Milestone dialog**: finishing a course or profession opens a celebration `<dialog>`
   via the completion stream — the one honest share moment; a section keeps the quiet flash.
+
+## Lesson schemes
+
+`![alt](diagram:<slug>)` renders a curated inline SVG from `views/diagrams`, registered in
+`Diagram`; the helper swaps it in after sanitizing, for Markdown and rich bodies alike
+([decision](../decisions/2026-11-28-lesson-diagrams-are-code.md)).

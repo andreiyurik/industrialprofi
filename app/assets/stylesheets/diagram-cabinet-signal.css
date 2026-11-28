@@ -1,0 +1,241 @@
+/* One 12s lap: ready 0, SB1 16%, output 32%, release 50%, analog 66%, power off 83–97%. */
+.diagram.diagram-cabinet-signal {
+  --lap: 12s;
+
+  .cs-zone { fill: var(--color-subtle); opacity: 0.35; }
+
+  .cs-focus {
+    fill: none;
+    opacity: 0;
+    stroke: var(--color-link);
+    stroke-width: 1.5;
+  }
+
+  .cs-focus--input { animation: cs-say-input var(--lap) linear infinite; }
+  .cs-focus--output { animation: cs-say-output var(--lap) linear infinite; }
+  .cs-focus--analog { animation: cs-say-analog var(--lap) linear infinite; }
+  .cs-focus--dead { animation: cs-say-dead var(--lap) linear infinite; stroke: var(--color-negative); }
+
+  .cs-zone-name {
+    fill: var(--color-subtle-dark);
+    font-size: 13.5px;
+    font-weight: 700;
+  }
+
+  .cs-name {
+    fill: var(--color-ink);
+    font-family: var(--font-technical);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .cs-rail, .cs-bit {
+    fill: var(--color-link);
+    font-family: var(--font-technical);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .cs-nodes { fill: var(--color-subtle-dark); }
+
+  .art-dots { stroke-width: 4; }
+  .art-tag { font-size: 14px; }
+
+  .cs-glow {
+    fill: none;
+    stroke: var(--color-positive);
+    stroke-width: 2.5;
+  }
+
+  .cs-energized, .cs-held {
+    fill: var(--color-positive);
+    fill-opacity: 0.35;
+    stroke: var(--color-positive);
+    stroke-width: 2.5;
+  }
+
+  .cs-held { animation: cs-output var(--lap) linear infinite; fill-opacity: 0.15; }
+
+  .cs-live { animation: cs-live var(--lap) linear infinite; }
+  .cs-input { animation: cs-input var(--lap) linear infinite; opacity: 0; }
+  .cs-output { animation: cs-output var(--lap) linear infinite; }
+  .cs-motor { animation: cs-motor var(--lap) linear infinite; }
+  .cs-loop { animation: scene-march 1.4s linear infinite, cs-live var(--lap) linear infinite; }
+  .art-dots.cs-live { animation: scene-march 0.7s linear infinite, cs-live var(--lap) linear infinite; }
+  .art-dots.cs-input { animation: scene-march 0.7s linear infinite, cs-input var(--lap) linear infinite; }
+  .art-dots.cs-output { animation: scene-march 0.7s linear infinite, cs-output var(--lap) linear infinite; }
+  .art-dots.cs-motor { animation: scene-march 0.7s linear infinite, cs-motor var(--lap) linear infinite; }
+
+  .cs-bit--zero { animation: cs-zero var(--lap) linear infinite; fill: var(--color-subtle-dark); }
+  .cs-state--off { animation: cs-off var(--lap) linear infinite; fill: var(--color-subtle-dark); opacity: 0; }
+  .cs-state--on { fill: var(--color-ink); }
+
+  .cs-contact {
+    stroke-width: 2.5;
+    transform-box: view-box;
+  }
+
+  .cs-contact--sb {
+    animation: cs-contact-sb var(--lap) linear infinite;
+    rotate: -26deg;
+    transform-origin: 66px 165px;
+  }
+
+  .cs-button { animation: cs-button var(--lap) linear infinite; }
+
+  .cs-contact--kl {
+    animation: cs-contact-kl var(--lap) linear infinite;
+    transform-origin: 150px 390px;
+  }
+
+  .cs-breaker {
+    animation: cs-breaker var(--lap) linear infinite;
+    stroke-width: 2.5;
+    transform-box: view-box;
+    transform-origin: 105px 40px;
+  }
+
+  .cs-dead {
+    animation: cs-dead var(--lap) linear infinite;
+    fill: var(--color-negative);
+    font-size: 15px;
+    font-weight: 800;
+    opacity: 0;
+  }
+
+  .cs-latch {
+    animation: cs-latch var(--lap) linear infinite;
+    stroke: var(--color-positive);
+    stroke-width: 2.5;
+  }
+
+  .cs-level {
+    animation: cs-level var(--lap) linear infinite;
+    fill: var(--color-link);
+    scale: 0.75 1;
+    transform-box: fill-box;
+    transform-origin: left center;
+  }
+
+  .cs-rotor {
+    animation: cs-rotor var(--lap) linear infinite;
+    fill: none;
+    stroke: var(--color-ink);
+    stroke-linecap: round;
+    stroke-width: 2.5;
+    transform-box: view-box;
+    transform-origin: 410px 405px;
+  }
+
+  .cs-phase { opacity: 0; }
+  .cs-phase--ready { animation: cs-ready var(--lap) linear infinite; }
+  .cs-phase--input { animation: cs-say-input var(--lap) linear infinite; }
+  .cs-phase--output { animation: cs-say-output var(--lap) linear infinite; }
+  .cs-phase--hold { animation: cs-say-hold var(--lap) linear infinite; opacity: 1; }
+  .cs-phase--analog { animation: cs-say-analog var(--lap) linear infinite; }
+  .cs-phase--dead { animation: cs-say-dead var(--lap) linear infinite; color: var(--color-negative); }
+}
+
+@keyframes cs-live {
+  0%, 83%, 97%, 100% { opacity: 1; }
+  84%, 96% { opacity: 0; }
+}
+
+@keyframes cs-input {
+  0%, 16%, 50%, 100% { opacity: 0; }
+  17%, 49% { opacity: 1; }
+}
+
+@keyframes cs-zero {
+  0%, 16%, 50%, 83%, 97%, 100% { opacity: 1; }
+  17%, 49%, 84%, 96% { opacity: 0; }
+}
+
+@keyframes cs-output {
+  0%, 33%, 84%, 100% { opacity: 0; }
+  34%, 83% { opacity: 1; }
+}
+
+@keyframes cs-off {
+  0%, 33%, 97%, 100% { opacity: 1; }
+  34%, 96% { opacity: 0; }
+}
+
+@keyframes cs-motor {
+  0%, 38%, 84%, 100% { opacity: 0; }
+  39%, 83% { opacity: 1; }
+}
+
+@keyframes cs-contact-sb {
+  0%, 15%, 51%, 100% { rotate: -26deg; }
+  17%, 49% { rotate: 0deg; }
+}
+
+@keyframes cs-button {
+  0%, 15%, 51%, 100% { translate: 0 -4px; }
+  17%, 49% { translate: 0 9px; }
+}
+
+@keyframes cs-contact-kl {
+  0%, 35%, 85%, 100% { rotate: -26deg; }
+  38%, 83% { rotate: 0deg; }
+}
+
+@keyframes cs-breaker {
+  0%, 82%, 97%, 100% { rotate: 0deg; }
+  84%, 95% { rotate: -28deg; }
+}
+
+@keyframes cs-dead {
+  0%, 83%, 97%, 100% { opacity: 0; }
+  84%, 96% { opacity: 1; }
+}
+
+@keyframes cs-latch {
+  0%, 49%, 84%, 100% { opacity: 0; }
+  51%, 83% { opacity: 1; }
+}
+
+@keyframes cs-level {
+  0%, 41% { scale: 0.15 1; }
+  75%, 83% { scale: 0.75 1; }
+  84%, 96% { scale: 0 1; }
+  98%, 100% { scale: 0.15 1; }
+}
+
+@keyframes cs-rotor {
+  0%, 39% { rotate: 0deg; }
+  44% { rotate: 150deg; }
+  81% { rotate: 2700deg; }
+  86%, 100% { rotate: 2880deg; }
+}
+
+@keyframes cs-ready {
+  0%, 15%, 98%, 100% { opacity: 1; }
+  16%, 97% { opacity: 0; }
+}
+
+@keyframes cs-say-input {
+  0%, 15%, 33%, 100% { opacity: 0; }
+  16%, 32% { opacity: 1; }
+}
+
+@keyframes cs-say-output {
+  0%, 32%, 50%, 100% { opacity: 0; }
+  33%, 49% { opacity: 1; }
+}
+
+@keyframes cs-say-hold {
+  0%, 49%, 67%, 100% { opacity: 0; }
+  50%, 66% { opacity: 1; }
+}
+
+@keyframes cs-say-analog {
+  0%, 66%, 83%, 100% { opacity: 0; }
+  67%, 82% { opacity: 1; }
+}
+
+@keyframes cs-say-dead {
+  0%, 82%, 98%, 100% { opacity: 0; }
+  83%, 97% { opacity: 1; }
+}
