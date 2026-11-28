@@ -37,8 +37,8 @@ terms:
 | **Проверка логики** | работают ли блокировки, защиты, режимы |
 | **Комплексное опробование** | пробный запуск процесса под наблюдением |
 
-![Настройка полевого преобразователя температуры с помощью калибратора процессов](/lesson-images/transmitter-calibration.webp)
-*Настройка полевого преобразователя температуры с помощью калибратора процессов. Фото: PEO ACWA, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0), [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pueblo%5FChemical%5FAgent-Destruction%5FPilot%5FPlant%5FTemperature%5FIndicating%5FTransmitter%5F%289091355831%29.jpg).*
+![Проверка контура: калибраторы у преобразователя давления и клеммного шкафа, результаты записывают в бланк](/lesson-images/loop-check.webp)
+*Проверка контура вдвоём: справа калибратор подключают к преобразователю на манометровом блоке, слева у открытого клеммного шкафа сверяют сигнал и заполняют бланк. Фото: PEO ACWA, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0), [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pueblo%5FChemical%5FAgent-Destruction%5FPilot%5FPlant%5FAgent%5FProcessing%5FBuilding%5F%2810979636485%29.jpg).*
 
 ## Задание 1. Чек-лист проверки контура
 
