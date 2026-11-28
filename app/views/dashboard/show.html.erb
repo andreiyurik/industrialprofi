@@ -7,7 +7,7 @@
 
     <% if @focus_path %>
       <% completed_ids = @completed_ids_by_path[@focus_path] %>
-      <% next_lesson = @focus_path.lessons.detect { |lesson| !completed_ids.include?(lesson.id) } %>
+      <% next_lesson = Current.user.next_lesson_in(@focus_path) %>
 
       <section class="panel dashboard-hero">
         <div class="dashboard-hero__identity">
@@ -39,7 +39,7 @@
       <h2 class="dashboard__section-title"><%= t("dashboard.courses_title") %></h2>
       <p class="dashboard__section-hint"><%= t("dashboard.courses_hint") %></p>
       <section class="panel dashboard-courses">
-        <% @focus_path.courses.each_with_index do |course, index| %>
+        <% @focus_path.courses.listable.ordered.each_with_index do |course, index| %>
           <% if course.coming_soon? %>
             <div class="dashboard-course dashboard-course--soon">
               <span class="dashboard-course__ring dashboard-course__ring--soon"><%= icon_tag "lock" %></span>
@@ -100,7 +100,7 @@
         <div class="dashboard__others">
           <% @other_paths.each do |path| %>
             <% ids = @completed_ids_by_path[path] %>
-            <% nxt = path.lessons.detect { |lesson| !ids.include?(lesson.id) } %>
+            <% nxt = Current.user.next_lesson_in(path) %>
             <div class="panel dashboard-other">
               <span class="dashboard-other__icon"><%= icon_tag path.emblem %></span>
               <%= link_to path.title, path_path(path), class: "dashboard-other__title" %>

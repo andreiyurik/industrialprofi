@@ -54,6 +54,8 @@ class Path < ApplicationRecord
     Course.where(status: "published").group(:path_id).count
   end
 
+  def published? = status == "published"
+
   def to_param
     slug
   end

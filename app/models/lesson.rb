@@ -87,12 +87,14 @@ class Lesson < ApplicationRecord
     [ body.to_s, rich_body&.body.to_s ].join(" ").scan(INTERNAL_LINK_PATTERN).flatten.uniq - [ slug ]
   end
 
+  def publicly_visible? = !!(course&.published? && path&.published?)
+
   def prev_in_path
-    path.lessons.publicly_visible.where("position < ?", position).ordered.last
+    neighbours.where("position < ?", position).ordered.last
   end
 
   def next_in_path
-    path.lessons.publicly_visible.where("position > ?", position).ordered.first
+    neighbours.where("position > ?", position).ordered.first
   end
 
   def to_markdown
@@ -108,6 +110,9 @@ class Lesson < ApplicationRecord
   end
 
   private
+    # An editor previewing a hidden lesson walks the drafts too.
+    def neighbours = publicly_visible? ? path.lessons.publicly_visible : path.lessons
+
     def index_for_search = LessonSearch.index(self)
     def deindex_for_search = LessonSearch.remove(id)
 
@@ -116,7 +121,7 @@ class Lesson < ApplicationRecord
     end
 
     def indexnow_url
-      return unless course&.status == "published" && path&.status == "published"
+      return unless publicly_visible?
 
       "#{indexnow_site_url}/lessons/#{slug}"
     end
