@@ -39,6 +39,8 @@
 @use "diagram-current-loop";
 @use "diagram-fault-loop";
 @use "diagram-ld-ton";
+@use "diagram-osi-layers";
+@use "diagram-packet-route";
 @use "diagram-pid-response";
 @use "diagram-plc-scan";
 @use "diagram-rcd-leak";

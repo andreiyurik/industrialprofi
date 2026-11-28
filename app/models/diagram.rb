@@ -10,6 +10,8 @@ class Diagram
     pid-response
     rs485-modbus
     fault-loop
+    packet-route
+    osi-layers
   ].freeze
   SRC = /\Adiagram:(?<slug>[a-z0-9-]+)\z/
   SLOT = "diagram-slot"

@@ -1,0 +1,108 @@
+<%# locals: (caption: nil) -%>
+<% scope = "diagrams.osi_layers" %>
+<% layers = [ 7, 4, 3, 2, 1 ] %>
+<% top = ->(layer) { 54 + layers.index(layer) * 46 } %>
+<% cable = "M82 278V304H398V278" %>
+<% faults = { "cable" => 1, "subnet" => 3, "register" => 7 } %>
+<%= render layout: "diagrams/figure", locals: { slug: "osi-layers", caption: caption } do %>
+  <div class="diagram__stage">
+    <svg class="diagram__art" viewBox="0 0 480 336" role="img" aria-label="<%= t("alt", scope: scope) %>">
+      <% { "scada" => 82, "plc" => 398 }.each do |device, x| %>
+        <text class="osi-device" x="<%= x %>" y="22"><%= t("devices.#{device}", scope: scope) %></text>
+      <% end %>
+      <text class="osi-ip" x="82" y="43">192.168.1.20</text>
+      <text class="osi-ip osi-hide-subnet" x="398" y="43">192.168.1.10</text>
+      <text class="osi-ip osi-ip--wrong osi-only-subnet" x="398" y="43">192.168.2.10</text>
+
+      <path class="art-wire osi-hide-cable" d="<%= cable %>" />
+      <g class="osi-only-path">
+        <g class="osi-travel">
+          <path class="osi-glow" d="<%= cable %>" />
+          <path class="art-dots osi-bits" d="<%= cable %>" />
+        </g>
+      </g>
+      <g class="osi-only-cable">
+        <path class="art-wire" d="M82 278V304H226M254 304H398V278" />
+      </g>
+      <text class="art-tag osi-cable-name" x="240" y="329"><%= t("cable", scope: scope) %></text>
+
+      <% layers.each do |layer| %>
+        <% [ 8, 324 ].each do |x| %>
+          <rect class="art-ink art-body" x="<%= x %>" y="<%= top.(layer) %>" width="148" height="40" rx="7" />
+        <% end %>
+      <% end %>
+
+      <g class="osi-only-path">
+        <% [ 8, 324 ].each_with_index do |x, side| %>
+          <% layers.each do |layer| %>
+            <rect class="osi-lit osi-lit-<%= side %>-<%= layer %>" x="<%= x %>" y="<%= top.(layer) %>" width="148" height="40" rx="7" />
+          <% end %>
+        <% end %>
+
+        <g class="osi-wrap osi-wrap-2">
+          <rect x="164" y="54" width="152" height="224" rx="10" />
+          <text x="240" y="73">Ethernet · MAC</text>
+        </g>
+        <g class="osi-wrap osi-wrap-3">
+          <rect x="172" y="82" width="136" height="188" rx="9" />
+          <text x="240" y="101">IP · <%= t("wraps.ip", scope: scope) %></text>
+        </g>
+        <g class="osi-wrap osi-wrap-4">
+          <rect x="180" y="110" width="120" height="152" rx="8" />
+          <text x="240" y="130">TCP · 502</text>
+        </g>
+        <g class="osi-letter">
+          <rect x="188" y="140" width="104" height="114" rx="6" />
+          <text class="osi-letter-name" x="240" y="174">Modbus</text>
+          <text x="240" y="204"><%= t("wraps.read", scope: scope) %></text>
+          <text x="240" y="224"><%= t("wraps.register", scope: scope) %></text>
+        </g>
+      </g>
+
+      <% faults.each do |fault, broken| %>
+        <g class="osi-only-<%= fault %>">
+          <% layers.reverse.each_with_index do |layer, step| %>
+            <% state = if step < layers.reverse.index(broken) then "pass" elsif layer == broken then "fail" else "skip" end %>
+            <g class="osi-check osi-check--<%= state %> osi-step-<%= state == "skip" ? layers.reverse.index(broken) : step %>">
+              <% [ 8, 324 ].each do |x| %>
+                <rect x="<%= x %>" y="<%= top.(layer) %>" width="148" height="40" rx="7" />
+              <% end %>
+              <rect x="164" y="<%= top.(layer) + 4 %>" width="152" height="32" rx="16" />
+              <text x="240" y="<%= top.(layer) + 25 %>"><%= t(state == "skip" ? "skip" : "checks.#{state}.l#{layer}", scope: scope) %></text>
+            </g>
+          <% end %>
+        </g>
+      <% end %>
+
+      <% layers.each do |layer| %>
+        <% [ 8, 324 ].each do |x| %>
+          <text class="osi-number" x="<%= x + 17 %>" y="<%= top.(layer) + 27 %>"><%= layer %></text>
+          <text class="osi-name" x="<%= x + 34 %>" y="<%= top.(layer) + 25 %>"><%= t("layers.l#{layer}", scope: scope) %></text>
+        <% end %>
+      <% end %>
+
+      <g class="osi-only-cable">
+        <g class="osi-check osi-step-0">
+          <path class="osi-break" d="M231 295 249 313M249 295 231 313" />
+        </g>
+      </g>
+    </svg>
+  </div>
+  <p class="diagram__phases">
+    <% %w[ message wrap frame wire unwrap done summary ].each do |phase| %>
+      <span class="osi-only-path"><span class="osi-say osi-say-<%= phase %>"><%= t("phases.#{phase}", scope: scope) %></span></span>
+    <% end %>
+    <% faults.each do |fault, broken| %>
+      <span class="osi-only-<%= fault %>"><span class="osi-say osi-say-checking-<%= broken %>"><%= t("phases.checking", scope: scope) %></span></span>
+      <span class="osi-only-<%= fault %>"><span class="osi-say osi-say-result-<%= broken %>"><%= t("phases.#{fault}", scope: scope) %></span></span>
+    <% end %>
+  </p>
+  <div class="diagram__controls" role="radiogroup" aria-label="<%= t("choose", scope: scope) %>">
+    <% [ "path", *faults.keys ].each do |mode| %>
+      <label class="diagram__option">
+        <%= tag.input type: "radio", name: "osi-layers-mode", id: "osi-layers-#{mode}", checked: mode == "path" %>
+        <%= t("options.#{mode}", scope: scope) %>
+      </label>
+    <% end %>
+  </div>
+<% end %>
