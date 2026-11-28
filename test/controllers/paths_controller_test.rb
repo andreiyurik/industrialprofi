@@ -70,7 +70,7 @@ class PathsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".hero__subtitle del.pencil", text: I18n.t("paths.hero.struck")
     assert_select ".hero__subtitle ins.pencil__fix", text: I18n.t("paths.hero.fix")
     assert_select ".hero__actions a.hero__fix[href=?]", contribute_path
-    assert_select ".plant__done a.plant__placard[href=?]", contribute_path
+    assert_select ".plant__done .plant__placard a[href=?]", contribute_path
     assert_select ".bp-stamp a[href=?]", changes_path, text: /#{LessonRevision.in_catalog.count}/
     assert_select ".hero__actions a", count: 2
     assert_select ".hero__actions a.hero__cta[href='#catalog']", text: /#{I18n.t("paths.hero.start")}/

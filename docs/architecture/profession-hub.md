@@ -77,6 +77,8 @@ flowchart TB
   and links to the profession that explains it. The result line gives the time and the
   attempt, then «how it works», share (Web Share, else the clipboard) and «again», next
   to a lockout tag that reads «Править можно. Работают люди» and leads to `/contribute`.
+  The tag is a damped pendulum (`placard` controller): it drops in, and a pointer pass,
+  a drag or a page scroll sets it swinging; reduced motion leaves it a plain link.
   Without JS the sheet simply runs. Metrika goals: `plant_started`, `plant_launched`,
   `link_copied`.
 - **Landing «О профессии»** (`Path::Landing`): six slots in one JSON column

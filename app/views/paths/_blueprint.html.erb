@@ -108,10 +108,16 @@
       <% end %>
     </p>
     <p class="plant__done" data-plant-target="done" hidden>
-      <%= link_to contribute_path, class: "plant__placard" do %><strong><%= t("paths.plant.placard_title") %></strong><span><%= t("paths.plant.placard_note") %></span><% end %>
       <%= link_to t("paths.plant.learn"), "#catalog", class: "plant__act" %>
       <button type="button" class="plant__act" data-action="plant#share" data-plant-target="share"><%= t("paths.plant.share") %></button>
       <button type="button" class="plant__act" data-action="plant#reset"><%= t("paths.plant.again") %></button>
+      <span class="plant__placard" data-controller="placard">
+        <%= link_to contribute_path, class: "plant__plate", draggable: false,
+              data: { placard_target: "plate", action: "pointerdown->placard#grab pointermove->placard#drag pointerup->placard#release pointercancel->placard#release pointerenter->placard#nudge click->placard#go" } do %>
+          <strong><%= t("paths.plant.placard_title") %></strong>
+          <span><%= t("paths.plant.placard_note") %></span>
+        <% end %>
+      </span>
     </p>
   </div>
 </figure>

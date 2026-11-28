@@ -59,7 +59,7 @@ domain files. Reference: `tmp/references/writebook/app/assets/stylesheets/`.
   `--positive`, `--small`/`--large`), `.input` (`--mono`/`--textarea`), `.badge`.
   Hover/focus is centralized in `base.css`.
 - Containers: `.container` (72rem), `.container--reading` (56rem); `.section` /
-  `.section--divided`. Body is a grid of named areas (banner, header, main, footer); the footer row takes the slack.
+  `.section--divided`. Body is a grid of named areas (header, main, banner, footer); the footer row takes the slack.
 
 ## Spacing
 

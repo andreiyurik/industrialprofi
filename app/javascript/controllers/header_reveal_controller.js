@@ -18,9 +18,7 @@ export default class extends Controller {
   }
 
   update() {
-    // The feedback banner above scrolls away before the header even sticks.
-    const banner = document.querySelector(".feedback-banner")
-    const threshold = (this.element.offsetHeight || 64) + (banner?.offsetHeight || 0)
+    const threshold = this.element.offsetHeight || 64
     this.element.classList.toggle(this.hiddenClass, window.scrollY > threshold)
   }
 }

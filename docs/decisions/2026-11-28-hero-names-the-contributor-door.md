@@ -22,7 +22,9 @@ the price, «Цена 0 ₽». The hero is three things — heading, one line, a
 red kept for the pencil alone; the «project is young, write to me» banner moved from
 above the header to above the footer on every page. Whoever starts the pump gets a
 lockout tag turned inside out — «Править можно. Работают люди» instead of «Не включать!
-Работают люди» — linking to `/contribute`.
+Работают люди» — linking to `/contribute`. It hangs on a nail and has weight: it can be
+pushed, dragged and let go, and it sways when the page scrolls. It is red too, but it
+is not on the first screen until the game is won.
 
 **Why.** The heading read like a training centre's, and nothing on the first screen
 said that the maps are written and corrected by people. «Рабочих» pulled a
