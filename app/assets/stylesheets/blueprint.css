@@ -330,7 +330,7 @@
 }
 
 .plant__done {
-  align-items: center;
+  align-items: baseline;
   animation: appear 400ms ease-out;
   display: flex;
   flex-wrap: wrap;
@@ -345,33 +345,52 @@
   }
 }
 
-/* The «Не включать! Работают люди» lockout tag, turned into an invitation. */
+/* The «Не включать! Работают люди» lockout tag, turned into an invitation; the placard controller swings it on its nail. */
 .plant__placard {
+  display: inline-block;
+  padding-block-start: 1rem;
+  position: relative;
+
+  &::before {
+    background-color: var(--color-ink);
+    block-size: 0.3rem;
+    border-radius: 50%;
+    content: "";
+    inline-size: 0.3rem;
+    inset-block-start: 0;
+    inset-inline-start: calc(50% - 0.15rem);
+    position: absolute;
+    z-index: 1;
+  }
+}
+
+.plant__plate {
   align-items: center;
-  animation: placard-swing 1.4s ease-out;
   background-color: var(--color-bg);
   border: 2px solid var(--color-negative);
   color: var(--color-negative);
+  cursor: grab;
   display: inline-flex;
   flex-direction: column;
-  font-family: var(--font-technical);
   line-height: 1.1;
   padding: 0.35rem 0.9rem 0.3rem;
   position: relative;
-  rotate: -3deg;
   text-decoration: none;
-  transform-origin: 50% -0.5rem;
-  transition: rotate 200ms ease-out;
+  touch-action: pan-y;
+  transform-origin: 50% calc(-0.85rem - 2px);
+  user-select: none;
+  --string: var(--color-subtle-dark);
+
+  &:active { cursor: grabbing; }
 
   &::before {
-    background-color: var(--color-bg);
-    block-size: 0.4rem;
-    border: 2px solid var(--color-negative);
-    border-radius: 50%;
+    background:
+      linear-gradient(to top right, transparent calc(50% - 0.6px), var(--string) calc(50% - 0.6px) calc(50% + 0.6px), transparent calc(50% + 0.6px)) left / 50% 100% no-repeat,
+      linear-gradient(to top left, transparent calc(50% - 0.6px), var(--string) calc(50% - 0.6px) calc(50% + 0.6px), transparent calc(50% + 0.6px)) right / 50% 100% no-repeat;
+    block-size: 0.85rem;
     content: "";
-    inline-size: 0.4rem;
-    inset-block-start: -0.55rem;
-    inset-inline-start: calc(50% - 0.2rem);
+    inset-block-end: calc(100% + 2px);
+    inset-inline: 18%;
     position: absolute;
   }
 
@@ -384,10 +403,6 @@
 
   span {
     font-size: 0.85rem;
-  }
-
-  @media (any-hover: hover) {
-    &:hover { rotate: 0deg; }
   }
 }
 
@@ -433,13 +448,6 @@
 
 @keyframes bp-blink {
   50% { opacity: 0.25; }
-}
-
-@keyframes placard-swing {
-  0% { rotate: -16deg; }
-  30% { rotate: 6deg; }
-  55% { rotate: -7deg; }
-  80% { rotate: -1deg; }
 }
 
 @keyframes bp-draw {

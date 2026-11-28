@@ -1787,6 +1787,8 @@ en:
         items:
           - t: "Profession catalog and roadmaps"
             d: "A structured path through each profession — from the basics to a confident specialist."
+          - t: "The home page invites you to correct the maps"
+            d: "The first screen says who writes the maps; the drawing's title block leads to recent changes, and once the pump runs a tag swings on its nail: «Edits welcome. People at work»."
           - t: "Profession page: the gist on one screen"
             d: "A diagram instead of paragraphs, what you'll be able to do, the route by chapter and clear doors into theory, practice, the library and the glossary. The tabs stay at hand as you scroll."
           - t: "A thought-out article format"
