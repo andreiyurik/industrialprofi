@@ -14,7 +14,7 @@ class Paths::PracticesController < ApplicationController
     # Anonymous pages carry no personal state, so crawlers revalidate instead
     # of re-rendering — the /projects contract. The count guards deletions.
     if Current.user.nil?
-      last_change = [ scope.maximum(:updated_at), @path.updated_at ].compact.max
+      last_change = [ scope.maximum(:updated_at), @path.updated_at, @path.courses.maximum(:updated_at) ].compact.max
       fresh_when etag: [ scope.count, last_change ], last_modified: last_change
       return if performed?
     end

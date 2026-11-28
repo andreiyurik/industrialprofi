@@ -91,7 +91,7 @@ class User < ApplicationRecord
   def improved_lessons
     ids = lesson_suggestions.approved.select(:lesson_id)
     source_ids = resource_suggestions.approved.select(:lesson_id)
-    Lesson.where(id: ids).or(Lesson.where(id: source_ids)).ordered.includes(:path)
+    Lesson.publicly_visible.where(id: ids).or(Lesson.publicly_visible.where(id: source_ids)).ordered.includes(:path)
   end
 
   def can_administer? = administrator?
@@ -161,7 +161,9 @@ class User < ApplicationRecord
     path = lesson.path
     path_completed_ids = completed_lesson_ids_for(path)
 
-    if path.lessons.all? { |l| path_completed_ids.include?(l.id) }
+    visible_ids = path.lessons.publicly_visible.pluck(:id)
+
+    if visible_ids.any? && visible_ids.all? { |id| path_completed_ids.include?(id) }
       :path
     elsif course.lessons.all? { |l| completed_ids.include?(l.id) }
       :course

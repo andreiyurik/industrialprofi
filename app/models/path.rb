@@ -20,7 +20,7 @@ class Path < ApplicationRecord
   has_many :courses, -> { order(:position) }, dependent: :destroy, inverse_of: :path
   # NO dependent: :destroy — Course owns the lesson destroy chain; adding it back double-destroys.
   has_many :lessons, -> { order(:position) }
-  has_many :practice_lessons, -> { practice.ordered }, class_name: "Lesson"
+  has_many :practice_lessons, -> { practice.publicly_visible.ordered }, class_name: "Lesson"
   has_many :editorships, dependent: :destroy
   has_many :editors, through: :editorships, source: :user
   has_many :curators, -> { active.order(:name) }, through: :editorships, source: :user
@@ -44,7 +44,7 @@ class Path < ApplicationRecord
   scope :listed, -> { where(listed: true) }
   scope :in_catalog, -> { published.listed }
   scope :ordered, -> { order(:position) }
-  scope :with_practice_lessons, -> { where(id: Lesson.practice.select(:path_id)) }
+  scope :with_practice_lessons, -> { where(id: Lesson.practice.publicly_visible.select(:path_id)) }
   scope :editable_by, ->(user) {
     user.administrator? ? all : where(id: user.editorships.select(:path_id))
   }

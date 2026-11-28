@@ -6,8 +6,9 @@
     <h1 class="dashboard__greeting"><%= t("dashboard.greeting", name: Current.user.first_name) %></h1>
 
     <% if @focus_path %>
-      <% completed_ids = @completed_ids_by_path[@focus_path] %>
-      <% next_lesson = Current.user.next_lesson_in(@focus_path) %>
+      <% standing = @standing_by_path[@focus_path] %>
+      <% next_lesson = standing.next_lesson %>
+      <% completed_ids = standing.completed_ids %>
 
       <section class="panel dashboard-hero">
         <div class="dashboard-hero__identity">
@@ -15,7 +16,7 @@
           <div class="dashboard-hero__info">
             <p class="dashboard__eyebrow"><%= t("dashboard.focus_title") %></p>
             <h2 class="dashboard-hero__title"><%= link_to @focus_path.title, path_path(@focus_path), class: "dashboard-hero__title-link" %></h2>
-            <%= render "shared/progress_bar", completed: completed_ids.size, total: @focus_path.lessons_count %>
+            <%= render "shared/progress_bar", completed: standing.done, total: standing.total %>
             <%= render "learning_goal" %>
           </div>
         </div>
@@ -99,13 +100,13 @@
         <h2 class="dashboard__section-title"><%= t("dashboard.other_paths") %></h2>
         <div class="dashboard__others">
           <% @other_paths.each do |path| %>
-            <% ids = @completed_ids_by_path[path] %>
-            <% nxt = Current.user.next_lesson_in(path) %>
+            <% standing = @standing_by_path[path] %>
+            <% nxt = standing.next_lesson %>
             <div class="panel dashboard-other">
               <span class="dashboard-other__icon"><%= icon_tag path.emblem %></span>
               <%= link_to path.title, path_path(path), class: "dashboard-other__title" %>
               <div class="dashboard-other__progress">
-                <%= render "shared/progress_bar", completed: ids.size, total: path.lessons_count %>
+                <%= render "shared/progress_bar", completed: standing.done, total: standing.total %>
               </div>
               <% if nxt %>
                 <%= link_to t("dashboard.continue"), nxt, class: "dashboard-other__continue link-quiet" %>

@@ -21,7 +21,7 @@ class ProjectsController < ApplicationController
 
     # count guards the etag against deletions, which alone wouldn't move max(updated_at).
     if Current.user.nil?
-      last_change = [ scope.maximum(:updated_at), @paths.maximum(:updated_at) ].compact.max
+      last_change = [ scope.maximum(:updated_at), @paths.maximum(:updated_at), Course.where(path_id: @paths.select(:id)).maximum(:updated_at) ].compact.max
       fresh_when etag: [ scope.count, last_change ], last_modified: last_change
       return if performed?
     end

@@ -20,7 +20,7 @@
           <article class="panel journal-entry">
             <header class="journal-entry__meta">
               <time datetime="<%= entry.created_at.to_date %>"><%= l(entry.created_at.to_date) %></time>
-              <% if entry.lesson %>
+              <% if entry.lesson&.publicly_visible? %>
                 <%= link_to entry.lesson.title, lesson_path(entry.lesson), class: "journal-entry__lesson" %>
               <% end %>
               <span class="journal-entry__actions">

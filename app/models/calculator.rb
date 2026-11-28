@@ -178,6 +178,6 @@ class Calculator
 
   # No memo: calculators are process-wide constants, so a cached lesson would outlive its row.
   def lesson
-    Lesson.publicly_visible.find_by(slug: lesson_slug) if lesson_slug.present?
+    Lesson.find_by(slug: lesson_slug) if lesson_slug.present?
   end
 end
