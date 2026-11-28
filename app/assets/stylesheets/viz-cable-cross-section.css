@@ -1,0 +1,248 @@
+/* The cable-cross-section calculator's picture: appliance, current, cable and its section to scale. */
+.cable-viz {
+  --accent: var(--color-link);
+  --core: 8px;
+  --metal: oklch(var(--lch-orange));
+
+  &[data-material="al"] { --metal: var(--color-subtle-dark); }
+  &[data-state="over"] { --accent: var(--color-negative); }
+
+  .cable-viz__presets {
+    display: grid;
+    gap: var(--block-space-half);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    @media (min-width: 40em) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .cable-viz__preset {
+    display: grid;
+    justify-items: center;
+    line-height: 1.25;
+
+    span {
+      color: var(--color-subtle-dark);
+      font-size: 0.85em;
+      font-weight: 400;
+    }
+
+    &[aria-pressed="true"] {
+      background-color: var(--color-selected);
+      border-color: var(--color-link);
+
+      span { color: var(--color-ink); }
+    }
+  }
+
+  .cable-viz__power {
+    align-items: center;
+    color: var(--color-subtle-dark);
+    display: flex;
+    font-size: 0.85rem;
+    gap: var(--inline-space);
+    margin-block: var(--block-space-half);
+
+    input {
+      accent-color: var(--color-link);
+      block-size: 2rem;
+      flex: 1;
+      min-inline-size: 0;
+    }
+  }
+
+  .cable-viz__scene {
+    block-size: auto;
+    display: block;
+    inline-size: 100%;
+    margin-inline: auto;
+    max-inline-size: 36rem;
+    overflow: visible;
+  }
+
+  .art-tag { font-size: 15px; }
+
+  .cable-viz__jacket,
+  .cable-viz__core {
+    fill: none;
+    transition-duration: 300ms;
+    transition-property: stroke-width, stroke, filter;
+    transition-timing-function: ease-out;
+  }
+
+  .cable-viz__jacket {
+    stroke: var(--color-subtle);
+    stroke-width: calc(var(--core) + 10px);
+  }
+
+  .cable-viz__core {
+    stroke: var(--metal);
+    stroke-width: var(--core);
+  }
+
+  .cable-viz__flow {
+    animation-duration: var(--flow, 1s);
+    stroke: var(--color-ink);
+    stroke-width: 3.5;
+  }
+
+  &[data-state="over"] {
+    .cable-viz__core {
+      animation: cable-viz-glow 1.2s ease-in-out infinite alternate;
+      stroke: var(--color-negative);
+    }
+  }
+
+  .cable-viz__heat path {
+    animation: cable-viz-rise 1.6s ease-out infinite;
+    animation-delay: calc(var(--i) * -0.4s);
+    fill: none;
+    stroke: var(--color-negative);
+    stroke-linecap: round;
+    stroke-width: 2;
+  }
+
+  &:not([data-state="over"]) .cable-viz__heat,
+  &[data-state="empty"] :is(.cable-viz__flow, .cable-viz__section) {
+    display: none;
+  }
+
+  .cable-viz__load { display: none; }
+
+  &[data-load="generic"] .cable-viz__load--generic,
+  &[data-load="kettle"] .cable-viz__load--kettle,
+  &[data-load="washer"] .cable-viz__load--washer,
+  &[data-load="stove"] .cable-viz__load--stove,
+  &[data-load="motor"] .cable-viz__load--motor {
+    display: inline;
+  }
+
+  .cable-viz__steam {
+    animation: cable-viz-rise 2s ease-out infinite;
+  }
+
+  .cable-viz__spin {
+    animation: cable-viz-spin 1.2s linear infinite;
+    transform-origin: 313px 70px;
+  }
+
+  .cable-viz__ring {
+    stroke: var(--color-link);
+    stroke-linecap: round;
+    stroke-width: 4;
+  }
+
+  .cable-viz__load-tag,
+  .cable-viz__limit-tag {
+    text-anchor: end;
+  }
+
+  .cable-viz__disc,
+  .cable-viz__ghost,
+  .cable-viz__fill {
+    transition: r 300ms ease-out, fill 200ms ease-out, transform 300ms ease-out;
+  }
+
+  .cable-viz__disc {
+    fill: var(--metal);
+    stroke: var(--accent);
+    stroke-width: 3;
+  }
+
+  .cable-viz__ghost {
+    display: none;
+    fill: none;
+    stroke: var(--color-ink);
+    stroke-dasharray: 4 3;
+    stroke-width: 1.5;
+  }
+
+  &[data-compare="true"] .cable-viz__ghost { display: inline; }
+
+  .cable-viz__size {
+    fill: var(--accent);
+    font-size: 24px;
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+  }
+
+  .cable-viz__track { fill: var(--color-subtle); }
+
+  .cable-viz__fill {
+    fill: var(--accent);
+    transform: scaleX(var(--share, 0));
+    transform-box: fill-box;
+    transform-origin: left;
+  }
+
+  .cable-viz__limit {
+    stroke: var(--color-ink);
+    stroke-width: 2.5;
+  }
+
+  .cable-viz__say {
+    border-inline-start: 3px solid var(--accent);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-block: var(--block-space-half) var(--block-space);
+    min-block-size: 4.2em;
+    padding-inline-start: var(--inline-space);
+
+    @media (min-width: 40em) {
+      min-block-size: 2.8em;
+    }
+  }
+
+  .section-ladder__step {
+    cursor: pointer;
+    outline: none;
+
+    &[data-fits="false"] .section-ladder__bar {
+      stroke: var(--color-negative);
+      stroke-dasharray: 4 3;
+    }
+
+    &[aria-pressed="true"] .section-ladder__hit {
+      fill: var(--color-selected);
+    }
+
+    &:focus-visible .section-ladder__hit {
+      stroke: var(--color-link);
+      stroke-width: 2;
+    }
+  }
+
+  .section-ladder__hit {
+    fill: transparent;
+  }
+
+  @media (any-hover: hover) {
+    .section-ladder__step:hover .section-ladder__hit {
+      stroke: var(--color-border-interactive);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, & .cable-viz__core {
+      animation: none !important;
+      transition-duration: 0s !important;
+    }
+  }
+}
+
+@keyframes cable-viz-glow {
+  from { filter: drop-shadow(0 0 1px var(--color-negative)); }
+  to { filter: drop-shadow(0 0 9px var(--color-negative)); }
+}
+
+@keyframes cable-viz-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  40% { opacity: 1; }
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes cable-viz-spin {
+  to { transform: rotate(360deg); }
+}

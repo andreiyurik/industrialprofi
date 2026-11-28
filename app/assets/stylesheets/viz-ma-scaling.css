@@ -1,0 +1,239 @@
+/* The ma-scaling calculator's picture: a live current loop drawn with the scene pen. */
+.ma-viz.loop-gauge {
+  --ma-accent: var(--color-link);
+  --ma-thumb: 1.75rem;
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 auto;
+  max-inline-size: 36rem;
+  min-inline-size: 0;
+  inline-size: 100%;
+
+  &[data-zone="empty"] { --ma-accent: var(--color-subtle-dark); }
+
+  &:is([data-zone="fault_low"], [data-zone="fault_high"], [data-zone="below"], [data-zone="above"], [data-zone="under"], [data-zone="over"]) {
+    --ma-accent: var(--color-negative);
+  }
+
+  .ma-viz__art {
+    block-size: auto;
+    display: block;
+    inline-size: 100%;
+    overflow: visible;
+
+    text { text-anchor: middle; }
+  }
+
+  .ma-viz__liquid {
+    animation: ma-viz-wave 3s linear infinite;
+    fill: color-mix(in oklab, var(--ma-accent) 40%, var(--color-bg));
+    stroke: var(--ma-accent);
+    stroke-width: 2;
+    transition: fill 200ms ease-out, stroke 200ms ease-out;
+  }
+
+  .ma-viz__level,
+  .ma-viz__target {
+    transition: transform 250ms ease-out;
+  }
+
+  .ma-viz__target {
+    stroke: var(--color-ink);
+    stroke-dasharray: 5 4;
+    stroke-width: 1.5;
+  }
+
+  .ma-viz__target[data-hidden] { display: none; }
+
+  .ma-viz__bound,
+  .ma-viz__percent,
+  .ma-viz__label,
+  .ma-viz__value,
+  .ma-viz__signal {
+    fill: var(--color-ink);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+
+  .ma-viz__bound { font-size: 14px; }
+  .ma-viz__label { font-size: 13px; }
+  .ma-viz__value { font-size: 18px; }
+  .ma-viz__signal { font-size: 16px; }
+
+  .ma-viz__percent {
+    font-size: 17px;
+    paint-order: stroke;
+    stroke: var(--color-bg);
+    stroke-linejoin: round;
+    stroke-width: 4;
+  }
+
+  .ma-viz__dots {
+    stroke: var(--ma-accent);
+    transition: stroke 200ms ease-out;
+  }
+
+  .ma-viz__device {
+    fill: var(--color-bg);
+    stroke: var(--color-ink);
+    stroke-width: 1.5;
+  }
+
+  .ma-viz__screen {
+    fill: color-mix(in oklab, var(--ma-accent) 14%, var(--color-bg));
+    stroke: var(--ma-accent);
+  }
+
+  .ma-viz__meter {
+    fill: var(--color-bg);
+    filter: drop-shadow(0 0 6px color-mix(in oklab, var(--ma-accent) 60%, transparent));
+    stroke: var(--ma-accent);
+    stroke-width: 2;
+  }
+
+  .art-tag.ma-viz__under {
+    paint-order: stroke;
+    stroke: var(--color-subtle-light);
+    stroke-width: 7;
+    text-anchor: middle;
+  }
+
+  .ma-viz__break {
+    display: none;
+
+    rect { fill: var(--color-bg); }
+    path { stroke: var(--color-negative); stroke-linecap: round; stroke-width: 2.5; }
+  }
+
+  &[data-broken] .ma-viz__break { display: inline; }
+
+  .ma-viz__say {
+    border-inline-start: 3px solid var(--ma-accent);
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 0;
+    min-block-size: 2.7em;
+    padding-inline-start: 0.75rem;
+    text-wrap: pretty;
+  }
+
+  .ma-viz__track {
+    block-size: 2.5rem;
+    margin-inline: calc(var(--ma-thumb) / 2);
+    position: relative;
+  }
+
+  .ma-viz__zones {
+    border-radius: 0.4rem;
+    display: flex;
+    inset: 0.75rem 0;
+    overflow: hidden;
+    position: absolute;
+  }
+
+  .ma-viz__zone { flex-basis: 0; }
+  .ma-viz__zone[data-band="fault"] { background: repeating-linear-gradient(-45deg, color-mix(in oklab, var(--color-negative) 70%, var(--color-bg)) 0 4px, color-mix(in oklab, var(--color-negative) 30%, var(--color-bg)) 4px 8px); }
+  .ma-viz__zone[data-band="margin"] { background: var(--color-subtle); }
+  .ma-viz__zone[data-band="work"] { background: color-mix(in oklab, var(--color-link) 45%, var(--color-bg)); }
+
+  .ma-viz__ghost {
+    border: 2px dashed var(--color-ink);
+    border-radius: 0.25rem;
+    inline-size: 0.6rem;
+    inset-block: 0.35rem;
+    inset-inline-start: calc(var(--at, 0) * 100%);
+    position: absolute;
+    translate: -50%;
+  }
+
+  .ma-viz__range {
+    appearance: none;
+    background: transparent;
+    block-size: 100%;
+    cursor: grab;
+    inline-size: calc(100% + var(--ma-thumb));
+    inset-block-start: 0;
+    inset-inline-start: calc(var(--ma-thumb) / -2);
+    margin: 0;
+    position: absolute;
+    touch-action: pan-y;
+
+    &:active { cursor: grabbing; }
+    &::-webkit-slider-runnable-track { background: transparent; }
+
+    &::-webkit-slider-thumb {
+      appearance: none;
+      background: var(--color-bg);
+      block-size: var(--ma-thumb);
+      border: 0.45rem solid var(--ma-accent);
+      border-radius: 50%;
+      box-shadow: 0 1px 6px oklch(var(--lch-always-black) / 0.35);
+      inline-size: var(--ma-thumb);
+    }
+
+    &::-moz-range-thumb {
+      background: var(--color-bg);
+      block-size: var(--ma-thumb);
+      border: 0.45rem solid var(--ma-accent);
+      border-radius: 50%;
+      box-sizing: border-box;
+      inline-size: var(--ma-thumb);
+    }
+  }
+
+  .ma-viz__ticks {
+    block-size: 1.25rem;
+    color: var(--color-subtle-dark);
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+    margin-inline: calc(var(--ma-thumb) / 2);
+    position: relative;
+
+    span {
+      inset-inline-start: calc(var(--at, 0) * 100%);
+      position: absolute;
+      translate: -50%;
+    }
+  }
+
+  .ma-viz__presets {
+    display: grid;
+    gap: 0.35rem;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .ma-viz__preset {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border-interactive);
+    border-radius: 0.5rem;
+    color: var(--color-subtle-dark);
+    cursor: pointer;
+    display: grid;
+    font-size: 0.75rem;
+    line-height: 1.25;
+    padding: 0.35rem 0.1rem;
+
+    strong { color: var(--color-ink); font-size: 0.95rem; }
+  }
+
+  .ma-viz__notes {
+    color: var(--color-subtle-dark);
+    display: grid;
+    font-size: 0.8rem;
+    gap: 0.35rem;
+    line-height: 1.4;
+
+    [hidden] { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ma-viz__liquid,
+    .ma-viz__dots {
+      animation: none;
+    }
+  }
+}
+
+@keyframes ma-viz-wave {
+  to { transform: translateX(-76px); }
+}

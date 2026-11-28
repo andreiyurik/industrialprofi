@@ -80,7 +80,7 @@ class Calculator
 
   CUSTOM = %w[
     cable-cross-section ohms-law voltage-drop grounding ma-scaling resistance-thermometer
-    measurement-error subnet twisted-pair-line hyperfocal golden-hour
+    measurement-error subnet twisted-pair-line hyperfocal golden-hour modbus-rtu
   ].freeze
 
   # ПУЭ-7 гл. 1.3, табл. 1.3.4/1.3.6 (медь), 1.3.7/1.3.8 (алюминий) — ток, А, по сечению, мм².

@@ -1,38 +1,83 @@
 <%# data-state is set at runtime by twisted_pair_line_controller, not static here. %>
-<figure class="calc-figure">
-  <svg class="poe-line" viewBox="0 0 400 142" role="img" aria-labelledby="poe-line-title"
-       data-diagram data-state="empty">
+<figure class="calc-figure poe-scene scene--art">
+  <svg class="poe-line" viewBox="0 0 360 200" role="group" aria-labelledby="poe-line-title" data-diagram data-state="empty"
+       data-action="pointerdown->calculators--twisted-pair-line#grab pointermove->calculators--twisted-pair-line#drag
+                    pointerup->calculators--twisted-pair-line#release pointercancel->calculators--twisted-pair-line#release">
     <title id="poe-line-title"><%= t("calculators.twisted-pair-line.diagram_title") %></title>
+    <defs>
+      <linearGradient id="poe-fade">
+        <stop offset="0" />
+        <stop offset="1" data-fade />
+      </linearGradient>
+      <clipPath id="poe-reach"><rect class="poe-scene__stretch" x="50" y="112" width="266" height="20" data-stretch /></clipPath>
+    </defs>
 
-    <g class="poe-line__end">
-      <rect x="1" y="16" width="96" height="50" rx="7" />
-      <text class="poe-line__caption" x="49" y="35"><%= t("calculators.twisted-pair-line.diagram_source") %></text>
-      <text class="poe-line__reading" x="49" y="55" data-figure="source">—</text>
+    <text class="art-tag" x="4" y="13"><%= t("calculators.twisted-pair-line.diagram_source") %></text>
+    <text class="poe-scene__volts" x="4" y="34" data-figure="source">—</text>
+    <text class="art-tag poe-scene__middle" x="180" y="13"><%= t("calculators.twisted-pair-line.diagram_lost") %></text>
+    <text class="poe-scene__volts poe-scene__volts--lost" x="180" y="34" data-figure="drop">—</text>
+    <text class="art-tag poe-scene__end" x="356" y="13"><%= t("calculators.twisted-pair-line.diagram_device") %></text>
+    <text class="poe-scene__volts poe-scene__volts--device poe-scene__end" x="356" y="34" data-figure="device">—</text>
+
+    <rect class="poe-scene__beyond" x="271.7" y="46" width="84.3" height="114" rx="3" />
+
+    <path class="poe-scene__area" data-area />
+    <line class="art-far art-wire--dashed" x1="50" y1="78" x2="356" y2="78" />
+    <line class="poe-scene__profile" x1="50" y1="52" x2="50" y2="52" data-profile />
+    <circle class="poe-scene__point" cx="50" cy="52" r="3.5" data-point />
+    <text class="art-tag poe-scene__small" x="50" y="91">
+      <%= t("calculators.twisted-pair-line.diagram_minimum") %> <tspan data-figure="minimum">—</tspan>
+    </text>
+
+    <g>
+      <rect class="art-body art-ink" x="3" y="104" width="47" height="36" rx="5" />
+      <% 3.times do |port| %>
+        <rect class="art-quiet" x="<%= 10 + port * 12 %>" y="123" width="8" height="8" rx="1" />
+        <circle class="poe-scene__blink" cx="<%= 14 + port * 12 %>" cy="113" r="2" style="--blink: <%= port %>" />
+      <% end %>
     </g>
 
-    <line class="poe-line__cable" x1="101" y1="41" x2="299" y2="41" />
-    <text class="poe-line__caption" x="200" y="24" data-figure="length">—</text>
-    <text class="poe-line__loss" x="200" y="60" data-figure="drop">—</text>
+    <line class="art-far" x1="50" y1="122" x2="316" y2="122" />
+    <rect class="poe-scene__stretch poe-scene__cable" x="50" y="118" width="266" height="8" rx="2" fill="url(#poe-fade)" data-stretch />
+    <g clip-path="url(#poe-reach)"><line class="art-dots poe-scene__current" x1="52" y1="122" x2="316" y2="122" /></g>
 
-    <g class="poe-line__end">
-      <rect x="303" y="16" width="96" height="50" rx="7" />
-      <text class="poe-line__caption" x="351" y="35"><%= t("calculators.twisted-pair-line.diagram_device") %></text>
-      <text class="poe-line__reading" x="351" y="55" data-figure="device">—</text>
+    <line class="art-quiet" x1="50" y1="158" x2="316" y2="158" />
+    <% [ 0, 25, 50, 75, 100, 120 ].each do |metres| %>
+      <% x = (50 + metres * 266 / 120.0).round(1) %>
+      <line class="art-quiet" x1="<%= x %>" y1="154" x2="<%= x %>" y2="162" />
+      <text class="art-tag poe-scene__small poe-scene__middle" x="<%= x %>" y="174"><%= metres %></text>
+    <% end %>
+    <line class="poe-scene__channel" x1="271.7" y1="96" x2="271.7" y2="161" />
+    <text class="art-tag poe-scene__small" x="266" y="192"><%= t("calculators.twisted-pair-line.diagram_channel") %></text>
+
+    <g class="poe-scene__limit" data-limit data-state="off">
+      <line x1="0" y1="140" x2="0" y2="162" data-limit-line />
+      <text class="art-tag poe-scene__small poe-scene__end" x="256" y="192" data-limit-label>
+        <%= t("calculators.twisted-pair-line.diagram_power") %> <tspan data-figure="limit">—</tspan>
+      </text>
     </g>
 
-    <text class="poe-line__caption poe-line__caption--start" x="4" y="84"><%= t("calculators.twisted-pair-line.diagram_scale") %></text>
-
-    <rect class="poe-line__track" x="4" y="102" width="392" height="14" rx="7" />
-    <rect class="poe-line__fill" x="4" y="102" width="392" height="14" rx="7" data-length-fill />
-
-    <g class="poe-line__limit" data-limit data-state="off">
-      <line x1="0" y1="98" x2="0" y2="122" />
-      <text class="poe-line__caption" x="0" y="94" data-figure="limit">—</text>
+    <g class="poe-scene__device" data-device tabindex="0" role="slider" aria-label="<%= t("calculators.twisted-pair-line.diagram_scale") %>"
+       aria-valuemin="1" aria-valuemax="120" aria-valuenow="50" data-action="keydown->calculators--twisted-pair-line#step">
+      <rect class="poe-scene__hit" x="-6" y="92" width="52" height="56" rx="8" />
+      <g class="poe-scene__waves">
+        <path d="M15 108 Q20 104 25 108" />
+        <path d="M11 105 Q20 97 29 105" />
+        <path d="M7 102 Q20 90 33 102" />
+      </g>
+      <rect class="art-body art-ink poe-scene__box" x="0" y="110" width="40" height="24" rx="9" />
+      <circle class="poe-scene__led" cx="20" cy="122" r="4.5" />
+      <path class="poe-scene__off" d="M15 94 l10 10 M25 94 l-10 10" />
     </g>
 
-    <text class="poe-line__caption poe-line__caption--start" x="4" y="134">0</text>
-    <text class="poe-line__caption poe-line__caption--end" x="396" y="134" data-figure="channel">—</text>
+    <text class="art-tag poe-scene__length poe-scene__middle" x="100" y="148" data-figure="length">—</text>
   </svg>
+
+  <p class="poe-scene__says" aria-live="polite" data-says
+     data-says-ok="<%= t("calculators.twisted-pair-line.says_ok") %>"
+     data-says-warn="<%= t("calculators.twisted-pair-line.says_warn") %>"
+     data-says-far="<%= t("calculators.twisted-pair-line.says_far") %>"
+     data-says-empty="<%= t("calculators.twisted-pair-line.says_empty") %>"></p>
 
   <figcaption class="calc-figure__legend"><%= t("calculators.twisted-pair-line.diagram_legend") %></figcaption>
 </figure>

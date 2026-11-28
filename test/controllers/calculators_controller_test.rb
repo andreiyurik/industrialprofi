@@ -54,7 +54,7 @@ class CalculatorsControllerTest < ActionDispatch::IntegrationTest
   test "the calculators that draw render their figure" do
     %w[
       ohms-law voltage-drop ma-scaling cable-cross-section grounding
-      resistance-thermometer measurement-error subnet twisted-pair-line hyperfocal
+      resistance-thermometer measurement-error subnet twisted-pair-line hyperfocal modbus-rtu
     ].each do |slug|
       get calculator_path(slug)
       assert_select ".calc-figure svg", 1, "expected #{slug} to draw a figure"
